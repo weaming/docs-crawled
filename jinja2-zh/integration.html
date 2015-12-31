@@ -1,0 +1,174 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+  "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+
+
+<html xmlns="http://www.w3.org/1999/xhtml">
+  <head>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+    
+    <title>集成 &mdash; Jinja2 2.8 documentation</title>
+    
+    <link rel="stylesheet" href="_static/jinja.css" type="text/css" />
+    <link rel="stylesheet" href="_static/pygments.css" type="text/css" />
+    
+    <script type="text/javascript">
+      var DOCUMENTATION_OPTIONS = {
+        URL_ROOT:    './',
+        VERSION:     '2.8',
+        COLLAPSE_INDEX: false,
+        FILE_SUFFIX: '.html',
+        HAS_SOURCE:  true
+      };
+    </script>
+    <script type="text/javascript" src="_static/jquery.js"></script>
+    <script type="text/javascript" src="_static/underscore.js"></script>
+    <script type="text/javascript" src="_static/doctools.js"></script>
+    <link rel="top" title="Jinja2 2.8 documentation" href="index.html" />
+    <link rel="next" title="从其它的模板引擎切换" href="switching.html" />
+    <link rel="prev" title="扩展" href="extensions.html" /> 
+  </head>
+  <body role="document">
+    <div class="related" role="navigation" aria-label="related navigation">
+      <h3>Navigation</h3>
+      <ul>
+        <li class="right" style="margin-right: 10px">
+          <a href="genindex.html" title="General Index"
+             accesskey="I">index</a></li>
+        <li class="right" >
+          <a href="switching.html" title="从其它的模板引擎切换"
+             accesskey="N">next</a> |</li>
+        <li class="right" >
+          <a href="extensions.html" title="扩展"
+             accesskey="P">previous</a> |</li>
+        <li class="nav-item nav-item-0"><a href="index.html">Jinja2 2.8 documentation</a> &raquo;</li> 
+      </ul>
+    </div>  
+
+    <div class="document">
+      <div class="documentwrapper">
+        <div class="bodywrapper">
+          <div class="body" role="main">
+            
+  <div class="section" id="id1">
+<h1>集成<a class="headerlink" href="#id1" title="Permalink to this headline">¶</a></h1>
+<p>Jinja2 提供了一些代码来继承到其它工具，诸如框架、 <a class="reference external" href="http://babel.edgewall.org/">Babel</a> 库或你偏好的编辑器
+的奇特的代码高亮。这里是包含的这些的简要介绍。</p>
+<p>帮助继承的文件在 <a class="reference external" href="https://github.com/mitsuhiko/jinja2/master/ext">这里</a> 可
+用。</p>
+<div class="section" id="babel">
+<span id="babel-integration"></span><h2>Babel 集成<a class="headerlink" href="#babel" title="Permalink to this headline">¶</a></h2>
+<p>Jinja 提供了用 <a class="reference external" href="http://babel.edgewall.org/">Babel</a> 抽取器从模板中抽取 gettext 消息的支持，抽取器的接入点
+名为 <cite>jinja2.ext.babel_extract</cite> 。 Babel 支持的被作为 <a class="reference internal" href="extensions.html#i18n-extension"><span>i18n 扩展</span></a> 的
+一部分实现。</p>
+<p>Gettext 消息从 <cite>trans</cite> 标签和代码表达式中抽取。</p>
+<p>要从模板中抽取 gettext 消息，项目需要在它的 Babel 抽取方法 <a class="reference external" href="http://babel.edgewall.org/wiki/Documentation/messages.html#extraction-method-mapping-and-configuration">mapping file</a> 中
+有一个 Jinja2 节:</p>
+<div class="highlight-ini"><div class="highlight"><pre><span class="k">[jinja2: **/templates/**.html]</span>
+<span class="na">encoding</span> <span class="o">=</span> <span class="s">utf-8</span>
+</pre></div>
+</div>
+<p><code class="xref py py-class docutils literal"><span class="pre">Environment</span></code> 的语法相关选项也可作为 mapping file 的配置值。例如告知
+抽取器模板使用 <code class="docutils literal"><span class="pre">%</span></code> 作为 <cite>line_statement_prefix</cite> 你可以这样写:</p>
+<div class="highlight-ini"><div class="highlight"><pre><span class="k">[jinja2: **/templates/**.html]</span>
+<span class="na">encoding</span> <span class="o">=</span> <span class="s">utf-8</span>
+<span class="na">line_statement_prefix</span> <span class="o">=</span> <span class="s">%</span>
+</pre></div>
+</div>
+<p><a class="reference internal" href="extensions.html#jinja-extensions"><span>扩展</span></a> 可能也被定义为传递一个逗号分割的导入路径列表作为
+<cite>extensions</cite> 值。 i18n 扩展会被自动添加。</p>
+<div class="versionchanged">
+<p><span class="versionmodified">Changed in version 2.7: </span>直到 2.7 模板语法错误始终被忽略。因为许多人在模板文件夹中放置非模板的
+html 文件，而这会随机报错，所以如此设定。假定是无论如何测试套件会捕获
+模板中的语法错误。如果你不想要这个行为，你可以在设置中添加
+<code class="docutils literal"><span class="pre">slient=flase</span></code> ，异常会被传播。</p>
+</div>
+</div>
+<div class="section" id="pylons">
+<h2>Pylons<a class="headerlink" href="#pylons" title="Permalink to this headline">¶</a></h2>
+<p>从 <a class="reference external" href="http://www.pylonshq.com/">Pylons</a> 0.9.7 开始，集成 Jinja 到 Pylons 驱动的应用令人难以置信的简单。</p>
+<p>模板引擎在 <cite>config/environment.py</cite> 中配置。为 Jinja2 的配置看起来是这样:</p>
+<div class="highlight-python"><div class="highlight"><pre><span class="kn">from</span> <span class="nn">jinja2</span> <span class="kn">import</span> <span class="n">Environment</span><span class="p">,</span> <span class="n">PackageLoader</span>
+<span class="n">config</span><span class="p">[</span><span class="s">&#39;pylons.app_globals&#39;</span><span class="p">]</span><span class="o">.</span><span class="n">jinja_env</span> <span class="o">=</span> <span class="n">Environment</span><span class="p">(</span>
+    <span class="n">loader</span><span class="o">=</span><span class="n">PackageLoader</span><span class="p">(</span><span class="s">&#39;yourapplication&#39;</span><span class="p">,</span> <span class="s">&#39;templates&#39;</span><span class="p">)</span>
+<span class="p">)</span>
+</pre></div>
+</div>
+<p>之后，你可以用 <cite>pylons.templating</cite> 模块中的 <cite>render_jinja</cite> 函数渲染 Jinja 模板。</p>
+<p>此外，设置 Pylons 的 <cite>c</cite> 对象为严格模式是个好主意。按照默认，访问任何 <cite>c</cite> 对象
+上不存在的属性会返回一个空字符串而不是一个未定义对象。更改这个，只需要使用这个
+片段并添加到你的 <cite>config/environment.py</cite> 中:</p>
+<div class="highlight-python"><div class="highlight"><pre><span class="n">config</span><span class="p">[</span><span class="s">&#39;pylons.strict_c&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="bp">True</span>
+</pre></div>
+</div>
+</div>
+<div class="section" id="textmate">
+<h2>TextMate<a class="headerlink" href="#textmate" title="Permalink to this headline">¶</a></h2>
+<p>在 Jinja2 项目根目录的 <cite>ext</cite> 文件夹中，有一个 TextMate 的 bundle 来提供 Jinja1
+和 Jinja2 的基于文本的模板的语法高亮，同样也支持 HTML 。它也包含了一些常用的片
+段。</p>
+</div>
+<div class="section" id="vim">
+<h2>Vim<a class="headerlink" href="#vim" title="Permalink to this headline">¶</a></h2>
+<p>同样，在 Jinja2 项目的根目录下的 <cite>ext</cite> 文件夹中的 Vim-scripts 目录有一个 <a class="reference external" href="http://www.vim.org/">Vim</a>
+的语法插件。 <a class="reference external" href="http://www.vim.org/scripts/script.php?script_id=1856">这个脚本</a>
+支持 Jinja1 和 Jinja2 。安装后， <cite>jinja</cite> 和 <cite>htmljinja</cite> 两种文件类型可用。前者
+给基于文本的模板，后者给 HTML 模板。</p>
+<p>把这些文件复制到你的 <cite>syntax</cite> 文件夹。</p>
+</div>
+</div>
+
+
+          </div>
+        </div>
+      </div>
+      <div class="sphinxsidebar" role="navigation" aria-label="main navigation">
+        <div class="sphinxsidebarwrapper"><p class="logo"><a href="index.html">
+  <img class="logo" src="_static/jinja-small.png" alt="Logo"/>
+</a></p>
+  <h3><a href="index.html">Table Of Contents</a></h3>
+  <ul>
+<li><a class="reference internal" href="#">集成</a><ul>
+<li><a class="reference internal" href="#babel">Babel 集成</a></li>
+<li><a class="reference internal" href="#pylons">Pylons</a></li>
+<li><a class="reference internal" href="#textmate">TextMate</a></li>
+<li><a class="reference internal" href="#vim">Vim</a></li>
+</ul>
+</li>
+</ul>
+<h3>Related Topics</h3>
+<ul>
+  <li><a href="index.html">Documentation overview</a><ul>
+      <li>Previous: <a href="extensions.html" title="previous chapter">扩展</a></li>
+      <li>Next: <a href="switching.html" title="next chapter">从其它的模板引擎切换</a></li>
+  </ul></li>
+</ul>
+  <div role="note" aria-label="source link">
+    <h3>This Page</h3>
+    <ul class="this-page-menu">
+      <li><a href="_sources/integration.txt"
+            rel="nofollow">Show Source</a></li>
+    </ul>
+   </div>
+<div id="searchbox" style="display: none" role="search">
+  <h3>Quick search</h3>
+    <form class="search" action="search.html" method="get">
+      <input type="text" name="q" />
+      <input type="submit" value="Go" />
+      <input type="hidden" name="check_keywords" value="yes" />
+      <input type="hidden" name="area" value="default" />
+    </form>
+    <p class="searchtip" style="font-size: 90%">
+    Enter search terms or a module, class or function name.
+    </p>
+</div>
+<script type="text/javascript">$('#searchbox').show(0);</script>
+        </div>
+      </div>
+      <div class="clearer"></div>
+    </div>
+    <div class="footer">
+      &copy; Copyright 2008, Armin Ronacher.
+      Created using <a href="http://sphinx.pocoo.org/">Sphinx</a>.
+    </div>
+  </body>
+</html>
