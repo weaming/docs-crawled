@@ -1,0 +1,171 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+  "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+
+
+<html xmlns="http://www.w3.org/1999/xhtml">
+  <head>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+    
+    <title>实现 API 异常处理 &mdash; Flask 0.10 文档</title>
+    
+    <link rel="stylesheet" href="../_static/flasky.css" type="text/css" />
+    <link rel="stylesheet" href="../_static/pygments.css" type="text/css" />
+    
+    <script type="text/javascript">
+      var DOCUMENTATION_OPTIONS = {
+        URL_ROOT:    '../',
+        VERSION:     '0.10',
+        COLLAPSE_INDEX: false,
+        FILE_SUFFIX: '.html',
+        HAS_SOURCE:  true
+      };
+    </script>
+    <script type="text/javascript" src="../_static/jquery.js"></script>
+    <script type="text/javascript" src="../_static/underscore.js"></script>
+    <script type="text/javascript" src="../_static/doctools.js"></script>
+    <script type="text/javascript" src="../_static/translations.js"></script>
+    <link rel="top" title="Flask 0.10 文档" href="../index.html" />
+    <link rel="up" title="Flask 方案" href="index.html" />
+    <link rel="next" title="URL 处理器" href="urlprocessors.html" />
+    <link rel="prev" title="应用调度" href="appdispatch.html" />
+   
+  
+  <link rel="apple-touch-icon" href="../_static/touch-icon.png" />
+  
+  <link media="only screen and (max-device-width: 480px)" href="../_static/small_flask.css" type= "text/css" rel="stylesheet" />
+
+  </head>
+  <body role="document">
+    <div class="related" role="navigation" aria-label="related navigation">
+      <h3>导航</h3>
+      <ul>
+        <li class="right" style="margin-right: 10px">
+          <a href="../genindex.html" title="总目录"
+             accesskey="I">索引</a></li>
+        <li class="right" >
+          <a href="urlprocessors.html" title="URL 处理器"
+             accesskey="N">下一页</a> |</li>
+        <li class="right" >
+          <a href="appdispatch.html" title="应用调度"
+             accesskey="P">上一页</a> |</li>
+        <li class="nav-item nav-item-0"><a href="../index.html">Flask 0.10 文档</a> &raquo;</li>
+          <li class="nav-item nav-item-1"><a href="index.html" accesskey="U">Flask 方案</a> &raquo;</li> 
+      </ul>
+    </div>  
+
+    <div class="document">
+      <div class="documentwrapper">
+        <div class="bodywrapper">
+          <div class="body" role="main">
+            
+  <div class="section" id="api">
+<h1>实现 API 异常处理<a class="headerlink" href="#api" title="永久链接至标题">¶</a></h1>
+<p>在 Flask 上经常会执行 RESTful API 。开发者首先会遇到的问题之一是用于 API 的内建
+异常处理不给力，回馈的内容不是很有用。</p>
+<p>对于非法使用 API ，比使用 <code class="docutils literal"><span class="pre">abort</span></code> 更好的解决方式是实现你自己的异常处理类型，
+并安装相应句柄，输出符合用户格式要求的出错信息。</p>
+<div class="section" id="id1">
+<h2>简单的异常类<a class="headerlink" href="#id1" title="永久链接至标题">¶</a></h2>
+<p>基本的思路是引入一个新的异常，回馈一个合适的可读性高的信息、一个状态码和一些
+可选的负载，给错误提供更多的环境内容。</p>
+<p>以下是一个简单的示例:</p>
+<div class="highlight-python"><div class="highlight"><pre><span class="kn">from</span> <span class="nn">flask</span> <span class="kn">import</span> <span class="n">jsonify</span>
+
+<span class="k">class</span> <span class="nc">InvalidUsage</span><span class="p">(</span><span class="ne">Exception</span><span class="p">):</span>
+    <span class="n">status_code</span> <span class="o">=</span> <span class="mi">400</span>
+
+    <span class="k">def</span> <span class="nf">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">message</span><span class="p">,</span> <span class="n">status_code</span><span class="o">=</span><span class="bp">None</span><span class="p">,</span> <span class="n">payload</span><span class="o">=</span><span class="bp">None</span><span class="p">):</span>
+        <span class="ne">Exception</span><span class="o">.</span><span class="n">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">message</span> <span class="o">=</span> <span class="n">message</span>
+        <span class="k">if</span> <span class="n">status_code</span> <span class="ow">is</span> <span class="ow">not</span> <span class="bp">None</span><span class="p">:</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">status_code</span> <span class="o">=</span> <span class="n">status_code</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">payload</span> <span class="o">=</span> <span class="n">payload</span>
+
+    <span class="k">def</span> <span class="nf">to_dict</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="n">rv</span> <span class="o">=</span> <span class="nb">dict</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">payload</span> <span class="ow">or</span> <span class="p">())</span>
+        <span class="n">rv</span><span class="p">[</span><span class="s">&#39;message&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">message</span>
+        <span class="k">return</span> <span class="n">rv</span>
+</pre></div>
+</div>
+<p>这样一个视图就可以抛出带有出错信息的异常了。另外，还可以通过 <cite>payload</cite> 参数以
+字典的形式提供一些额外的负载。</p>
+</div>
+<div class="section" id="id2">
+<h2>注册一个错误处理句柄<a class="headerlink" href="#id2" title="永久链接至标题">¶</a></h2>
+<p>现在，视图可以抛出异常，但是会立即引发一个内部服务错误。这是因为没有为这个错误
+处理类注册句柄。句柄增加很容易，例如:</p>
+<div class="highlight-python"><div class="highlight"><pre><span class="nd">@app.errorhandler</span><span class="p">(</span><span class="n">InvalidAPIUsage</span><span class="p">)</span>
+<span class="k">def</span> <span class="nf">handle_invalid_usage</span><span class="p">(</span><span class="n">error</span><span class="p">):</span>
+    <span class="n">response</span> <span class="o">=</span> <span class="n">jsonify</span><span class="p">(</span><span class="n">error</span><span class="o">.</span><span class="n">to_dict</span><span class="p">())</span>
+    <span class="n">response</span><span class="o">.</span><span class="n">status_code</span> <span class="o">=</span> <span class="n">error</span><span class="o">.</span><span class="n">status_code</span>
+    <span class="k">return</span> <span class="n">response</span>
+</pre></div>
+</div>
+</div>
+<div class="section" id="id3">
+<h2>在视图中的用法<a class="headerlink" href="#id3" title="永久链接至标题">¶</a></h2>
+<p>以下是如何在视图中使用该功能:</p>
+<div class="highlight-python"><div class="highlight"><pre><span class="nd">@app.route</span><span class="p">(</span><span class="s">&#39;/foo&#39;</span><span class="p">)</span>
+<span class="k">def</span> <span class="nf">get_foo</span><span class="p">():</span>
+    <span class="k">raise</span> <span class="n">InvalidUsage</span><span class="p">(</span><span class="s">&#39;This view is gone&#39;</span><span class="p">,</span> <span class="n">status_code</span><span class="o">=</span><span class="mi">410</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+</div>
+
+
+          </div>
+        </div>
+      </div>
+      <div class="sphinxsidebar" role="navigation" aria-label="main navigation">
+        <div class="sphinxsidebarwrapper"><p class="logo"><a href="../index.html">
+  <img class="logo" src="../_static/flask.png" alt="Logo"/>
+</a></p>
+  <h3><a href="../index.html">內容目录</a></h3>
+  <ul>
+<li><a class="reference internal" href="#">实现 API 异常处理</a><ul>
+<li><a class="reference internal" href="#id1">简单的异常类</a></li>
+<li><a class="reference internal" href="#id2">注册一个错误处理句柄</a></li>
+<li><a class="reference internal" href="#id3">在视图中的用法</a></li>
+</ul>
+</li>
+</ul>
+<h3>Related Topics</h3>
+<ul>
+  <li><a href="../index.html">Documentation overview</a><ul>
+  <li><a href="index.html">Flask 方案</a><ul>
+      <li>Previous: <a href="appdispatch.html" title="上一章">应用调度</a></li>
+      <li>Next: <a href="urlprocessors.html" title="下一章">URL 处理器</a></li>
+  </ul></li>
+  </ul></li>
+</ul>
+  <div role="note" aria-label="source link">
+    <h3>本页</h3>
+    <ul class="this-page-menu">
+      <li><a href="../_sources/patterns/apierrors.txt"
+            rel="nofollow">显示源代码</a></li>
+    </ul>
+   </div>
+<div id="searchbox" style="display: none" role="search">
+  <h3>快速搜索</h3>
+    <form class="search" action="../search.html" method="get">
+      <input type="text" name="q" />
+      <input type="submit" value="转向" />
+      <input type="hidden" name="check_keywords" value="yes" />
+      <input type="hidden" name="area" value="default" />
+    </form>
+    <p class="searchtip" style="font-size: 90%">
+    输入相关的术语，模块，类或者函数名称进行搜索
+    </p>
+</div>
+<script type="text/javascript">$('#searchbox').show(0);</script>
+        </div>
+      </div>
+      <div class="clearer"></div>
+    </div>
+    <div class="footer">
+      &copy; Copyright 2013, Armin Ronacher.
+      Created using <a href="http://sphinx.pocoo.org/">Sphinx</a>.
+    </div>
+  </body>
+</html>

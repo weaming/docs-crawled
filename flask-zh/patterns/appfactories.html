@@ -1,0 +1,192 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+  "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+
+
+<html xmlns="http://www.w3.org/1999/xhtml">
+  <head>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+    
+    <title>应用工厂 &mdash; Flask 0.10 文档</title>
+    
+    <link rel="stylesheet" href="../_static/flasky.css" type="text/css" />
+    <link rel="stylesheet" href="../_static/pygments.css" type="text/css" />
+    
+    <script type="text/javascript">
+      var DOCUMENTATION_OPTIONS = {
+        URL_ROOT:    '../',
+        VERSION:     '0.10',
+        COLLAPSE_INDEX: false,
+        FILE_SUFFIX: '.html',
+        HAS_SOURCE:  true
+      };
+    </script>
+    <script type="text/javascript" src="../_static/jquery.js"></script>
+    <script type="text/javascript" src="../_static/underscore.js"></script>
+    <script type="text/javascript" src="../_static/doctools.js"></script>
+    <script type="text/javascript" src="../_static/translations.js"></script>
+    <link rel="top" title="Flask 0.10 文档" href="../index.html" />
+    <link rel="up" title="Flask 方案" href="index.html" />
+    <link rel="next" title="应用调度" href="appdispatch.html" />
+    <link rel="prev" title="大型应用" href="packages.html" />
+   
+  
+  <link rel="apple-touch-icon" href="../_static/touch-icon.png" />
+  
+  <link media="only screen and (max-device-width: 480px)" href="../_static/small_flask.css" type= "text/css" rel="stylesheet" />
+
+  </head>
+  <body role="document">
+    <div class="related" role="navigation" aria-label="related navigation">
+      <h3>导航</h3>
+      <ul>
+        <li class="right" style="margin-right: 10px">
+          <a href="../genindex.html" title="总目录"
+             accesskey="I">索引</a></li>
+        <li class="right" >
+          <a href="appdispatch.html" title="应用调度"
+             accesskey="N">下一页</a> |</li>
+        <li class="right" >
+          <a href="packages.html" title="大型应用"
+             accesskey="P">上一页</a> |</li>
+        <li class="nav-item nav-item-0"><a href="../index.html">Flask 0.10 文档</a> &raquo;</li>
+          <li class="nav-item nav-item-1"><a href="index.html" accesskey="U">Flask 方案</a> &raquo;</li> 
+      </ul>
+    </div>  
+
+    <div class="document">
+      <div class="documentwrapper">
+        <div class="bodywrapper">
+          <div class="body" role="main">
+            
+  <div class="section" id="app-factories">
+<span id="id1"></span><h1>应用工厂<a class="headerlink" href="#app-factories" title="永久链接至标题">¶</a></h1>
+<p>如果你已经在应用中使用了包和蓝图（ <a class="reference internal" href="../blueprints.html#blueprints"><span>使用蓝图的模块化应用</span></a> ），那么还有许多方法可以更
+进一步地改进你的应用。常用的方案是导入蓝图后创建应用对象，但是如果在一个函数中
+创建对象，那么就可以创建多个实例。</p>
+<p>那么这样做有什么用呢？</p>
+<ol class="arabic simple">
+<li>用于测试。可以针对不同的情况使用不同的配置来测试应用。</li>
+<li>用于多实例，如果你需要运行同一个应用的不同版本的话。当然你可以在服务器上
+使用不同配置运行多个相同应用，但是如果使用应用工厂，那么你可以只使用一个
+应用进程而得到多个应用实例，这样更容易操控。</li>
+</ol>
+<p>那么如何做呢？</p>
+<div class="section" id="id2">
+<h2>基础工厂<a class="headerlink" href="#id2" title="永久链接至标题">¶</a></h2>
+<p>方法是在一个函数中设置应用，具体如下:</p>
+<div class="highlight-python"><div class="highlight"><pre><span class="k">def</span> <span class="nf">create_app</span><span class="p">(</span><span class="n">config_filename</span><span class="p">):</span>
+    <span class="n">app</span> <span class="o">=</span> <span class="n">Flask</span><span class="p">(</span><span class="n">__name__</span><span class="p">)</span>
+    <span class="n">app</span><span class="o">.</span><span class="n">config</span><span class="o">.</span><span class="n">from_pyfile</span><span class="p">(</span><span class="n">config_filename</span><span class="p">)</span>
+
+    <span class="kn">from</span> <span class="nn">yourapplication.model</span> <span class="kn">import</span> <span class="n">db</span>
+    <span class="n">db</span><span class="o">.</span><span class="n">init_app</span><span class="p">(</span><span class="n">app</span><span class="p">)</span>
+
+    <span class="kn">from</span> <span class="nn">yourapplication.views.admin</span> <span class="kn">import</span> <span class="n">admin</span>
+    <span class="kn">from</span> <span class="nn">yourapplication.views.frontend</span> <span class="kn">import</span> <span class="n">frontend</span>
+    <span class="n">app</span><span class="o">.</span><span class="n">register_blueprint</span><span class="p">(</span><span class="n">admin</span><span class="p">)</span>
+    <span class="n">app</span><span class="o">.</span><span class="n">register_blueprint</span><span class="p">(</span><span class="n">frontend</span><span class="p">)</span>
+
+    <span class="k">return</span> <span class="n">app</span>
+</pre></div>
+</div>
+<p>这个方法的缺点是在导入时无法在蓝图中使用应用对象。但是你可以在一个请求中使用它。
+如何通过配置来访问应用？使用 <a class="reference internal" href="../api.html#flask.current_app" title="flask.current_app"><code class="xref py py-data docutils literal"><span class="pre">current_app</span></code></a>:</p>
+<div class="highlight-python"><div class="highlight"><pre><span class="kn">from</span> <span class="nn">flask</span> <span class="kn">import</span> <span class="n">current_app</span><span class="p">,</span> <span class="n">Blueprint</span><span class="p">,</span> <span class="n">render_template</span>
+<span class="n">admin</span> <span class="o">=</span> <span class="n">Blueprint</span><span class="p">(</span><span class="s">&#39;admin&#39;</span><span class="p">,</span> <span class="n">__name__</span><span class="p">,</span> <span class="n">url_prefix</span><span class="o">=</span><span class="s">&#39;/admin&#39;</span><span class="p">)</span>
+
+<span class="nd">@admin.route</span><span class="p">(</span><span class="s">&#39;/&#39;</span><span class="p">)</span>
+<span class="k">def</span> <span class="nf">index</span><span class="p">():</span>
+    <span class="k">return</span> <span class="n">render_template</span><span class="p">(</span><span class="n">current_app</span><span class="o">.</span><span class="n">config</span><span class="p">[</span><span class="s">&#39;INDEX_TEMPLATE&#39;</span><span class="p">])</span>
+</pre></div>
+</div>
+<p>这里我们在配置中查找模板的名称。</p>
+<p>扩展对象初始化时不会绑定到一个应用，应用可以使用 <code class="docutils literal"><span class="pre">db.init_app</span></code> 来设置扩展。
+扩展对象中不会储存特定应用的状态，因此一个扩展可以被多个应用使用。关于扩展设计
+的更多信息请参阅 <a class="reference internal" href="../extensiondev.html"><em>Flask 扩展开发</em></a> 。</p>
+<p>当使用 <a class="reference external" href="http://pythonhosted.org/Flask-SQLAlchemy/">Flask-SQLAlchemy</a> 时，你的
+<cite>model.py</cite> 可能是这样的:</p>
+<div class="highlight-python"><div class="highlight"><pre><span class="kn">from</span> <span class="nn">flask.ext.sqlalchemy</span> <span class="kn">import</span> <span class="n">SQLAlchemy</span>
+<span class="c"># no app object passed! Instead we use use db.init_app in the factory.</span>
+<span class="n">db</span> <span class="o">=</span> <span class="n">SQLAlchemy</span><span class="p">()</span>
+
+<span class="c"># create some models</span>
+</pre></div>
+</div>
+</div>
+<div class="section" id="id3">
+<h2>使用应用<a class="headerlink" href="#id3" title="永久链接至标题">¶</a></h2>
+<p>因此，要使用这样的应用就必须先创建它。下面是一个运行应用的示例 <cite>run.py</cite> 文件:</p>
+<div class="highlight-python"><div class="highlight"><pre><span class="kn">from</span> <span class="nn">yourapplication</span> <span class="kn">import</span> <span class="n">create_app</span>
+<span class="n">app</span> <span class="o">=</span> <span class="n">create_app</span><span class="p">(</span><span class="s">&#39;/path/to/config.cfg&#39;</span><span class="p">)</span>
+<span class="n">app</span><span class="o">.</span><span class="n">run</span><span class="p">()</span>
+</pre></div>
+</div>
+</div>
+<div class="section" id="id4">
+<h2>改进工厂<a class="headerlink" href="#id4" title="永久链接至标题">¶</a></h2>
+<p>上面的工厂函数还不是足够好，可以改进的地方主要有以下几点：</p>
+<ol class="arabic simple">
+<li>为了单元测试，要想办法传入配置，这样就不必在文件系统中创建配置文件。</li>
+<li>当设置应用时从蓝图调用一个函数，这样就可以有机会修改属性（如挂接请求前/后
+处理器等）。</li>
+<li>如果有必要的话，当创建一个应用时增加一个 WSGI 中间件。</li>
+</ol>
+</div>
+</div>
+
+
+          </div>
+        </div>
+      </div>
+      <div class="sphinxsidebar" role="navigation" aria-label="main navigation">
+        <div class="sphinxsidebarwrapper"><p class="logo"><a href="../index.html">
+  <img class="logo" src="../_static/flask.png" alt="Logo"/>
+</a></p>
+  <h3><a href="../index.html">內容目录</a></h3>
+  <ul>
+<li><a class="reference internal" href="#">应用工厂</a><ul>
+<li><a class="reference internal" href="#id2">基础工厂</a></li>
+<li><a class="reference internal" href="#id3">使用应用</a></li>
+<li><a class="reference internal" href="#id4">改进工厂</a></li>
+</ul>
+</li>
+</ul>
+<h3>Related Topics</h3>
+<ul>
+  <li><a href="../index.html">Documentation overview</a><ul>
+  <li><a href="index.html">Flask 方案</a><ul>
+      <li>Previous: <a href="packages.html" title="上一章">大型应用</a></li>
+      <li>Next: <a href="appdispatch.html" title="下一章">应用调度</a></li>
+  </ul></li>
+  </ul></li>
+</ul>
+  <div role="note" aria-label="source link">
+    <h3>本页</h3>
+    <ul class="this-page-menu">
+      <li><a href="../_sources/patterns/appfactories.txt"
+            rel="nofollow">显示源代码</a></li>
+    </ul>
+   </div>
+<div id="searchbox" style="display: none" role="search">
+  <h3>快速搜索</h3>
+    <form class="search" action="../search.html" method="get">
+      <input type="text" name="q" />
+      <input type="submit" value="转向" />
+      <input type="hidden" name="check_keywords" value="yes" />
+      <input type="hidden" name="area" value="default" />
+    </form>
+    <p class="searchtip" style="font-size: 90%">
+    输入相关的术语，模块，类或者函数名称进行搜索
+    </p>
+</div>
+<script type="text/javascript">$('#searchbox').show(0);</script>
+        </div>
+      </div>
+      <div class="clearer"></div>
+    </div>
+    <div class="footer">
+      &copy; Copyright 2013, Armin Ronacher.
+      Created using <a href="http://sphinx.pocoo.org/">Sphinx</a>.
+    </div>
+  </body>
+</html>

@@ -1,0 +1,235 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+  "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+
+
+<html xmlns="http://www.w3.org/1999/xhtml">
+  <head>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+    
+    <title>Flask 的设计思路 &mdash; Flask 0.10 文档</title>
+    
+    <link rel="stylesheet" href="_static/flasky.css" type="text/css" />
+    <link rel="stylesheet" href="_static/pygments.css" type="text/css" />
+    
+    <script type="text/javascript">
+      var DOCUMENTATION_OPTIONS = {
+        URL_ROOT:    './',
+        VERSION:     '0.10',
+        COLLAPSE_INDEX: false,
+        FILE_SUFFIX: '.html',
+        HAS_SOURCE:  true
+      };
+    </script>
+    <script type="text/javascript" src="_static/jquery.js"></script>
+    <script type="text/javascript" src="_static/underscore.js"></script>
+    <script type="text/javascript" src="_static/doctools.js"></script>
+    <script type="text/javascript" src="_static/translations.js"></script>
+    <link rel="top" title="Flask 0.10 文档" href="index.html" />
+    <link rel="next" title="HTML/XHTML 常见问答" href="htmlfaq.html" />
+    <link rel="prev" title="API" href="api.html" />
+   
+  
+  <link rel="apple-touch-icon" href="_static/touch-icon.png" />
+  
+  <link media="only screen and (max-device-width: 480px)" href="_static/small_flask.css" type= "text/css" rel="stylesheet" />
+
+  </head>
+  <body role="document">
+    <div class="related" role="navigation" aria-label="related navigation">
+      <h3>导航</h3>
+      <ul>
+        <li class="right" style="margin-right: 10px">
+          <a href="genindex.html" title="总目录"
+             accesskey="I">索引</a></li>
+        <li class="right" >
+          <a href="htmlfaq.html" title="HTML/XHTML 常见问答"
+             accesskey="N">下一页</a> |</li>
+        <li class="right" >
+          <a href="api.html" title="API"
+             accesskey="P">上一页</a> |</li>
+        <li class="nav-item nav-item-0"><a href="index.html">Flask 0.10 文档</a> &raquo;</li> 
+      </ul>
+    </div>  
+
+    <div class="document">
+      <div class="documentwrapper">
+        <div class="bodywrapper">
+          <div class="body" role="main">
+            
+  <div class="section" id="flask">
+<span id="design"></span><h1>Flask 的设计思路<a class="headerlink" href="#flask" title="永久链接至标题">¶</a></h1>
+<p>为什么 Flask 要这样做，而不是那样做？如果你对这点好奇，那么本节可以满足
+你的好奇心。当与其他框架直接进行比较时， Flask 的设计思路乍看可能显得武断
+并且令人吃惊，下面我们就来看看为什么在设计的时候进行这样决策。</p>
+<div class="section" id="id1">
+<h2>显式的应用对象<a class="headerlink" href="#id1" title="永久链接至标题">¶</a></h2>
+<p>一个基于 WSGI 的 Python web 应用必须有一个实现实际的应用的中心调用对象。
+在 Flask 中，中心调用对象是一个 <a class="reference internal" href="api.html#flask.Flask" title="flask.Flask"><code class="xref py py-class docutils literal"><span class="pre">Flask</span></code></a> 类的实例。每个 Flask
+应用必须创建一个该类的实例，并且把模块的名称传递给该实例。但是为什么 Flask
+不自动把这些事都做好呢？</p>
+<p>下面的代码:</p>
+<div class="highlight-python"><div class="highlight"><pre><span class="kn">from</span> <span class="nn">flask</span> <span class="kn">import</span> <span class="n">Flask</span>
+<span class="n">app</span> <span class="o">=</span> <span class="n">Flask</span><span class="p">(</span><span class="n">__name__</span><span class="p">)</span>
+
+<span class="nd">@app.route</span><span class="p">(</span><span class="s">&#39;/&#39;</span><span class="p">)</span>
+<span class="k">def</span> <span class="nf">index</span><span class="p">():</span>
+    <span class="k">return</span> <span class="s">&#39;Hello World!&#39;</span>
+</pre></div>
+</div>
+<p>如果没有一个显式的应用对象，那么会是这样的:</p>
+<div class="highlight-python"><div class="highlight"><pre><span class="kn">from</span> <span class="nn">hypothetical_flask</span> <span class="kn">import</span> <span class="n">route</span>
+
+<span class="nd">@route</span><span class="p">(</span><span class="s">&#39;/&#39;</span><span class="p">)</span>
+<span class="k">def</span> <span class="nf">index</span><span class="p">():</span>
+    <span class="k">return</span> <span class="s">&#39;Hello World!&#39;</span>
+</pre></div>
+</div>
+<p>使用对象的主要有三个原因。最重要的一个原因是显式对象可以保证实例的唯一性。
+有很多方法可以用单个应用对象来冒充多应用，比如维护一个应用堆栈，但是这样
+将会导致一些问题，这里我就不展开了。现在的问题是：一个微框架何时会需要
+多应用？最好的回答是当进行单元测试的时候。在进行测试时，创建一个最小应用
+用于测试特定的功能，是非常有用的。当这个最小应用的应用对象被删除时，将会
+释放其占用的所有资源。</p>
+<p>另外当使用显式对象时，你可以继承基类（ <a class="reference internal" href="api.html#flask.Flask" title="flask.Flask"><code class="xref py py-class docutils literal"><span class="pre">Flask</span></code></a> ），
+以便于修改特定的功能。如果不使用显式对象，那么就无从下手了。</p>
+<p>第二个原因也很重要，那就是 Flask 需要包的名称。当你创建一个 Flask 实例时，
+通常会传递 <cite>__name__</cite> 作为包的名称。 Flask 根据包的名称来载入也模块相关
+的正确资源。通过 Python 杰出的反射功能，就可以找到模板和静态文件（参见
+<a class="reference internal" href="api.html#flask.Flask.open_resource" title="flask.Flask.open_resource"><code class="xref py py-meth docutils literal"><span class="pre">open_resource()</span></code></a> ）。很显然，有其他的框架不需要任何配置
+就可以载入与模块相关的模板。但其前提是必须使用当前工作目录，这是一个不可靠
+的实现方式。当前工作目录是进程级的，如果有多个应用使用同一个进程（ web
+服务器可能在你不知情的情况下这样做），那么当前工作目录就不可用了。还有更
+糟糕的情况：许多 web 服务器把文档根目录作为当前工作目录，如果你的应用所在
+的目录不是文档根目录，那么就会出错。</p>
+<p>第三个原因是“显式比隐式更好”。这个对象就是你的 WSGI 应用，你不必再记住其他
+东西。如果你要实现一个 WSGI 中间件，那么只要封装它就可以了（还有更好的
+方式，可以不丢失应用对象的引用，参见： <a class="reference internal" href="api.html#flask.Flask.wsgi_app" title="flask.Flask.wsgi_app"><code class="xref py py-meth docutils literal"><span class="pre">wsgi_app()</span></code></a> ）。</p>
+<p>再者，只有这样设计才能使用工厂函数来创建应用，方便单元测试和类似的工作
+（参见： <a class="reference internal" href="patterns/appfactories.html#app-factories"><span>应用工厂</span></a> ）。</p>
+</div>
+<div class="section" id="id2">
+<h2>路由系统<a class="headerlink" href="#id2" title="永久链接至标题">¶</a></h2>
+<p>Flask 使用 Werkzeug 路由系统，该系统是自动根据复杂度来为路由排序的。也就是
+说你可以以任意顺序来声明路由，路由系统仍然能够正常工作。为什么要实现这个
+功能？因为当应用被切分成多个模块时，基于路由的装饰器会以乱序触发，所以这个
+功能是必须的。</p>
+<p>另一点是 Werkzeug 路由系统必须确保 URL 是唯一的，并且会把模糊路由重定向到
+标准的 URL 。</p>
+</div>
+<div class="section" id="id3">
+<h2>唯一模板引擎<a class="headerlink" href="#id3" title="永久链接至标题">¶</a></h2>
+<p>Flask 原生只使用 Jinja2 模板引擎。为什么不设计一个可插拔的模板引擎接口？
+当然，你可以在 Flask 中使用其他模板引擎，但是当前 Flask 原生只会支持
+Jinja2 。将来也许 Flask 会使用其他引擎，但是永远只会绑定一个模板引擎。</p>
+<p>模板引擎与编程语言类似，每个引擎都有自己的一套工作方式。表面上它们都看
+上去差不多：你把一套变量丢给引擎，然后得到字符串形式的模板。</p>
+<p>但是相似之处也仅限于此。例如 Jinja2 有丰富的过滤系统、有一定的模板继承
+能力、支持从模板内或者 Python 代码内复用块（宏）、所有操作都使用
+Unicode 、支持迭代模板渲染以及可配置语法等等。而比如 Genshi 基于 XML 流
+赋值，其模板继承基于 XPath 的能力。再如 Mako 使用类似 Python 模块的方式
+来处理模板。</p>
+<p>当一个应用或者框架与一个模板引擎结合在一起的时候，事情就不只是渲染模板
+这么简单了。例如， Flask 使用了 Jinja2 的强大的自动转义功能。同时 Flask
+也为 Jinja2 提供了在模板中操作宏的途径。</p>
+<p>一个不失模板引擎独特性的模板抽象层本身就是一门学问，因此这不是一个 Flask
+之类的微框架应该考虑的事情。</p>
+<p>此外，只使用一个模板语言可以方便扩展。你可以使用你自己的模板语言，但扩展
+仍然使用 Jinja 。</p>
+</div>
+<div class="section" id="id4">
+<h2>我依赖所以我微<a class="headerlink" href="#id4" title="永久链接至标题">¶</a></h2>
+<p>为什么 Flask 依赖两个库（ Werkzeug 和 Jinja2 ），但还是自称是微框架？
+为什么不可以呢？如果我们看一看 Web 开发的另一大阵营 Ruby ，那么可以发现
+一个与 WSGI 十分相似的协议。这个协议被称为 Rack ，除了名称不同外，基本
+可以视作 Ruby 版的 WSGI 。但是几乎所有 Ruby 应用都不直接使用 Rack 协议，
+而是使用一个相同名字的库。在 Python 中，与 Rack 库等价的有 WebOb
+（前身是 Paste ）和 Werkzeug 两个库。 Paste 任然可用，但是个人认为正逐步
+被 WebOb 取代。WebOb 和 Werkzeug 的开发初衷都是：做一个 WSGI 协议的出色
+实现，让其他应用受益。</p>
+<p>正应为 Werkzeug 出色地实现了 WSGI 协议（有时候这是一个复杂的任务），使得
+依赖于 Werkzeug 的 Flask 受益良多。同时要感谢 Python 包管理的近期开发，
+包依赖问题已经解决，几乎没有理由不使用包依赖的方式。</p>
+</div>
+<div class="section" id="id5">
+<h2>线程本地对象<a class="headerlink" href="#id5" title="永久链接至标题">¶</a></h2>
+<p>是的，通常情况下使用线程局域变量不是一个明智的主意。它们在不基于线程概念的服务器上会导致问题，并且使得大型应用难以维护。但 Flask 不仅为大型应用或异步服务器设计。 Flask 想要使得编写一个传统 web 应用的过程快速而简单。</p>
+<p>一些关于基于 Flask 大型应用的灵感，见文档的 聚沙成塔 一节。</p>
+<p>Flask 使用线程本地对象（实际是环境本地对象，它们同意支持 greenlet 环境）
+来支持请求、会话和一个可以放置你自己的东西的额外对象（ <a class="reference internal" href="api.html#flask.g" title="flask.g"><code class="xref py py-data docutils literal"><span class="pre">g</span></code></a> ）。
+为什么要这样做？这不是一个坏主意吗？</p>
+<p>是的，通常情况下使用线程本地对象不是一个明智的选择，这会在不是基于线程理念的
+服务器上造成麻烦，并且加大大型应用的维护难度。但是 Flask 不仅是为大型应用或
+异步服务器设计的， Flask 还想简化和加速传统 web 应用的开发。</p>
+<p>一些关于基于 Flask 大型应用的灵感，见文档的 <a class="reference internal" href="becomingbig.html#becomingbig"><span>大型应用</span></a> 一节。</p>
+</div>
+<div class="section" id="id6">
+<h2>Flask 是什么，不是什么<a class="headerlink" href="#id6" title="永久链接至标题">¶</a></h2>
+<p>Flask 永远不会包含数据库层，也不会有表单库或是这个方面的其它东西。
+Flask 本身只是 Werkezug 和 Jinja2 的之间的桥梁，前者实现一个合适的
+WSGI 应用，后者处理模板。 当然， Flask 也绑定了一些通用的标准库包，比如
+logging 。 除此之外其它所有一切都交给扩展来实现。</p>
+<p>为什么呢？因为人们有不同的偏好和需求， Flask 不可能把所有的需求都囊括在
+核心里。大多数 web 应用会需要一个模板引擎。然而不是每个应用都需要一个
+SQL 数据库的。</p>
+<p>Flask 的理念是为所有应用建立一个良好的基础，其余的一切都取决于你自己或者
+扩展。</p>
+</div>
+</div>
+
+
+          </div>
+        </div>
+      </div>
+      <div class="sphinxsidebar" role="navigation" aria-label="main navigation">
+        <div class="sphinxsidebarwrapper"><p class="logo"><a href="index.html">
+  <img class="logo" src="_static/flask.png" alt="Logo"/>
+</a></p>
+  <h3><a href="index.html">內容目录</a></h3>
+  <ul>
+<li><a class="reference internal" href="#">Flask 的设计思路</a><ul>
+<li><a class="reference internal" href="#id1">显式的应用对象</a></li>
+<li><a class="reference internal" href="#id2">路由系统</a></li>
+<li><a class="reference internal" href="#id3">唯一模板引擎</a></li>
+<li><a class="reference internal" href="#id4">我依赖所以我微</a></li>
+<li><a class="reference internal" href="#id5">线程本地对象</a></li>
+<li><a class="reference internal" href="#id6">Flask 是什么，不是什么</a></li>
+</ul>
+</li>
+</ul>
+<h3>Related Topics</h3>
+<ul>
+  <li><a href="index.html">Documentation overview</a><ul>
+      <li>Previous: <a href="api.html" title="上一章">API</a></li>
+      <li>Next: <a href="htmlfaq.html" title="下一章">HTML/XHTML 常见问答</a></li>
+  </ul></li>
+</ul>
+  <div role="note" aria-label="source link">
+    <h3>本页</h3>
+    <ul class="this-page-menu">
+      <li><a href="_sources/design.txt"
+            rel="nofollow">显示源代码</a></li>
+    </ul>
+   </div>
+<div id="searchbox" style="display: none" role="search">
+  <h3>快速搜索</h3>
+    <form class="search" action="search.html" method="get">
+      <input type="text" name="q" />
+      <input type="submit" value="转向" />
+      <input type="hidden" name="check_keywords" value="yes" />
+      <input type="hidden" name="area" value="default" />
+    </form>
+    <p class="searchtip" style="font-size: 90%">
+    输入相关的术语，模块，类或者函数名称进行搜索
+    </p>
+</div>
+<script type="text/javascript">$('#searchbox').show(0);</script>
+        </div>
+      </div>
+      <div class="clearer"></div>
+    </div>
+    <div class="footer">
+      &copy; Copyright 2013, Armin Ronacher.
+      Created using <a href="http://sphinx.pocoo.org/">Sphinx</a>.
+    </div>
+  </body>
+</html>
