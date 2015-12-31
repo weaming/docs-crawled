@@ -1,0 +1,239 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+  "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+
+
+<html xmlns="http://www.w3.org/1999/xhtml">
+  <head>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+    
+    <title>Sphinx authors &mdash; Sphinx 1.4a0 documentation</title>
+    
+    <link rel="stylesheet" href="_static/sphinx13.css" type="text/css" />
+    <link rel="stylesheet" href="_static/pygments.css" type="text/css" />
+    
+    <script type="text/javascript">
+      var DOCUMENTATION_OPTIONS = {
+        URL_ROOT:    './',
+        VERSION:     '1.4a0',
+        COLLAPSE_INDEX: false,
+        FILE_SUFFIX: '.html',
+        HAS_SOURCE:  true
+      };
+    </script>
+    <script type="text/javascript" src="_static/jquery.js"></script>
+    <script type="text/javascript" src="_static/underscore.js"></script>
+    <script type="text/javascript" src="_static/doctools.js"></script>
+    <link rel="search" type="application/opensearchdescription+xml"
+          title="Search within Sphinx 1.4a0 documentation"
+          href="_static/opensearch.xml"/>
+    <link rel="top" title="Sphinx 1.4a0 documentation" href="contents.html" />
+    <link rel="prev" title="Projects using Sphinx" href="examples.html" />
+    <link href='http://fonts.googleapis.com/css?family=Open+Sans:300,400,700'
+          rel='stylesheet' type='text/css' />
+ 
+    <style type="text/css">
+      table.right { float: right; margin-left: 20px; }
+      table.right td { border: 1px solid #ccc; }
+      
+    </style>
+    <script type="text/javascript">
+      // intelligent scrolling of the sidebar content
+      $(window).scroll(function() {
+        var sb = $('.sphinxsidebarwrapper');
+        var win = $(window);
+        var sbh = sb.height();
+        var offset = $('.sphinxsidebar').position()['top'];
+        var wintop = win.scrollTop();
+        var winbot = wintop + win.innerHeight();
+        var curtop = sb.position()['top'];
+        var curbot = curtop + sbh;
+        // does sidebar fit in window?
+        if (sbh < win.innerHeight()) {
+          // yes: easy case -- always keep at the top
+          sb.css('top', $u.min([$u.max([0, wintop - offset - 10]),
+                                $(document).height() - sbh - 200]));
+        } else {
+          // no: only scroll if top/bottom edge of sidebar is at
+          // top/bottom edge of window
+          if (curtop > wintop && curbot > winbot) {
+            sb.css('top', $u.max([wintop - offset - 10, 0]));
+          } else if (curtop < wintop && curbot < winbot) {
+            sb.css('top', $u.min([winbot - sbh - offset - 20,
+                                  $(document).height() - sbh - 200]));
+          }
+        }
+      });
+    </script>
+
+  </head>
+  <body role="document">
+<div class="pageheader">
+  <ul>
+    <li><a href="index.html">Home</a></li>
+    <li><a href="install.html">Get it</a></li>
+    <li><a href="contents.html">Docs</a></li>
+    <li><a href="develop.html">Extend/Develop</a></li>
+  </ul>
+  <div>
+    <a href="index.html">
+      <img src="_static/sphinxheader.png" alt="SPHINX" />
+    </a>
+  </div>
+</div>
+
+    <div class="related" role="navigation" aria-label="related navigation">
+      <h3>Navigation</h3>
+      <ul>
+        <li class="right" style="margin-right: 10px">
+          <a href="genindex.html" title="General Index"
+             accesskey="I">index</a></li>
+        <li class="right" >
+          <a href="py-modindex.html" title="Python Module Index"
+             >modules</a> |</li>
+        <li class="right" >
+          <a href="examples.html" title="Projects using Sphinx"
+             accesskey="P">previous</a> |</li>
+        <li><a href="index.html">Sphinx home</a>&nbsp;|</li>
+        <li><a href="contents.html">Documentation</a> &raquo;</li>
+ 
+      </ul>
+    </div>
+      <div class="sphinxsidebar" role="navigation" aria-label="main navigation">
+        <div class="sphinxsidebarwrapper">
+  <h4>Previous topic</h4>
+  <p class="topless"><a href="examples.html"
+                        title="previous chapter">Projects using Sphinx</a></p>
+  <div role="note" aria-label="source link">
+    <h3>This Page</h3>
+    <ul class="this-page-menu">
+      <li><a href="_sources/authors.txt"
+            rel="nofollow">Show Source</a></li>
+    </ul>
+   </div>
+<div id="searchbox" style="display: none" role="search">
+  <h3>Quick search</h3>
+    <form class="search" action="search.html" method="get">
+      <input type="text" name="q" />
+      <input type="submit" value="Go" />
+      <input type="hidden" name="check_keywords" value="yes" />
+      <input type="hidden" name="area" value="default" />
+    </form>
+    <p class="searchtip" style="font-size: 90%">
+    Enter search terms or a module, class or function name.
+    </p>
+</div>
+<script type="text/javascript">$('#searchbox').show(0);</script>
+        </div>
+      </div>
+
+    <div class="document">
+      <div class="documentwrapper">
+        <div class="bodywrapper">
+          <div class="body" role="main">
+            
+  <div class="section" id="sphinx-authors">
+<span id="authors"></span><h1>Sphinx authors<a class="headerlink" href="#sphinx-authors" title="Permalink to this headline">¶</a></h1>
+<p>Sphinx is written and maintained by Georg Brandl &lt;<a class="reference external" href="mailto:georg&#37;&#52;&#48;python&#46;org">georg<span>&#64;</span>python<span>&#46;</span>org</a>&gt;.</p>
+<p>Substantial parts of the templates were written by Armin Ronacher
+&lt;<a class="reference external" href="mailto:armin&#46;ronacher&#37;&#52;&#48;active-4&#46;com">armin<span>&#46;</span>ronacher<span>&#64;</span>active-4<span>&#46;</span>com</a>&gt;.</p>
+<p>Other co-maintainers:</p>
+<ul class="simple">
+<li>Takayuki Shimizukawa &lt;<a class="reference external" href="mailto:shimizukawa&#37;&#52;&#48;gmail&#46;com">shimizukawa<span>&#64;</span>gmail<span>&#46;</span>com</a>&gt;</li>
+<li>Daniel Neuhäuser &lt;&#64;DasIch&gt;</li>
+<li>Jon Waltman &lt;&#64;jonwaltman&gt;</li>
+<li>Rob Ruana &lt;&#64;RobRuana&gt;</li>
+<li>Robert Lehmann &lt;&#64;lehmannro&gt;</li>
+<li>Roland Meister &lt;&#64;rolmei&gt;</li>
+</ul>
+<p>Other contributors, listed alphabetically, are:</p>
+<ul class="simple">
+<li>Alastair Houghton &#8211; Apple Help builder</li>
+<li>Andi Albrecht &#8211; agogo theme</li>
+<li>Jakob Lykke Andersen &#8211; Rewritten C++ domain</li>
+<li>Henrique Bastos &#8211; SVG support for graphviz extension</li>
+<li>Daniel Bültmann &#8211; todo extension</li>
+<li>Etienne Desautels &#8211; apidoc module</li>
+<li>Michael Droettboom &#8211; inheritance_diagram extension</li>
+<li>Charles Duffy &#8211; original graphviz extension</li>
+<li>Kevin Dunn &#8211; MathJax extension</li>
+<li>Josip Dzolonga &#8211; coverage builder</li>
+<li>Hernan Grecco &#8211; search improvements</li>
+<li>Horst Gutmann &#8211; internationalization support</li>
+<li>Martin Hans &#8211; autodoc improvements</li>
+<li>Doug Hellmann &#8211; graphviz improvements</li>
+<li>Timotheus Kampik - stop words language fix</li>
+<li>Takeshi Komiya &#8211; numref feature</li>
+<li>Dave Kuhlman &#8211; original LaTeX writer</li>
+<li>Blaise Laflamme &#8211; pyramid theme</li>
+<li>Thomas Lamb &#8211; linkcheck builder</li>
+<li>Łukasz Langa &#8211; partial support for autodoc</li>
+<li>Ian Lee &#8211; quickstart improvements</li>
+<li>Robert Lehmann &#8211; gettext builder (GSOC project)</li>
+<li>Dan MacKinlay &#8211; metadata fixes</li>
+<li>Martin Mahner &#8211; nature theme</li>
+<li>Will Maier &#8211; directory HTML builder</li>
+<li>Jacob Mason &#8211; websupport library (GSOC project)</li>
+<li>Roland Meister &#8211; epub builder</li>
+<li>Ezio Melotti &#8211; collapsible sidebar JavaScript</li>
+<li>Daniel Neuhäuser &#8211; JavaScript domain, Python 3 support (GSOC)</li>
+<li>Christopher Perkins &#8211; autosummary integration</li>
+<li>Benjamin Peterson &#8211; unittests</li>
+<li><ol class="first upperalpha" start="20">
+<li>Powers &#8211; HTML output improvements</li>
+</ol>
+</li>
+<li>Jeppe Pihl &#8211; literalinclude improvements</li>
+<li>Rob Ruana &#8211; napoleon extension</li>
+<li>Stefan Seefeld &#8211; toctree improvements</li>
+<li>Shibukawa Yoshiki &#8211; pluggable search API and Japanese search</li>
+<li>Antonio Valentino &#8211; qthelp builder</li>
+<li>Filip Vavera &#8211; napoleon todo directive</li>
+<li>Pauli Virtanen &#8211; autodoc improvements, autosummary extension</li>
+<li>Stefan van der Walt &#8211; autosummary extension</li>
+<li>Thomas Waldmann &#8211; apidoc module fixes</li>
+<li>John Waltman &#8211; Texinfo builder</li>
+<li>Barry Warsaw &#8211; setup command improvements</li>
+<li>Sebastian Wiesner &#8211; image handling, distutils support</li>
+<li>Michael Wilson &#8211; Intersphinx HTTP basic auth support</li>
+<li>Joel Wurtz &#8211; cellspanning support in LaTeX</li>
+</ul>
+<p>Many thanks for all contributions!</p>
+<p>There are also a few modules or functions incorporated from other
+authors and projects:</p>
+<ul class="simple">
+<li>sphinx.util.jsdump uses the basestring encoding from simplejson,
+written by Bob Ippolito, released under the MIT license</li>
+<li>sphinx.util.stemmer was written by Vivake Gupta, placed in the
+Public Domain</li>
+</ul>
+</div>
+
+
+          </div>
+        </div>
+      </div>
+      <div class="clearer"></div>
+    </div>
+    <div class="related" role="navigation" aria-label="related navigation">
+      <h3>Navigation</h3>
+      <ul>
+        <li class="right" style="margin-right: 10px">
+          <a href="genindex.html" title="General Index"
+             >index</a></li>
+        <li class="right" >
+          <a href="py-modindex.html" title="Python Module Index"
+             >modules</a> |</li>
+        <li class="right" >
+          <a href="examples.html" title="Projects using Sphinx"
+             >previous</a> |</li>
+        <li><a href="index.html">Sphinx home</a>&nbsp;|</li>
+        <li><a href="contents.html">Documentation</a> &raquo;</li>
+ 
+      </ul>
+    </div>
+    <div class="footer" role="contentinfo">
+        &copy; Copyright 2007-2015, Georg Brandl and the Sphinx team.
+      Created using <a href="http://sphinx-doc.org/">Sphinx</a> 1.4a0+/026fde4.
+    </div>
+  </body>
+</html>

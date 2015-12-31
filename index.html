@@ -9,21 +9,48 @@
     a:visited {color: #999999;} /* 已访问的链接 */
     a:hover {color: #EA4335;} /* 鼠标划过链接 */
     body{background-color:#222;color:#e0e0e0;}
+    #footer{float:right;}
+
     #title{margin-top:50px;margin-bottom:50px;}
+    #list{margin-left:-30px;}
+    li{padding-bottom:8px;}
+    .category{font-size:18px;margin-left:-30px;}
+    .ibox{margin-bottom:16px;padding:18px;padding-left:50px;border:1px #fff solid;border-radius:8px;}
 </style>
 </head>
 <body>
 <div id="main">
     <div id="title"><h2>My documentations</h2></div>
-    <ul>
+    <ul id="list">
+    <div class="ibox">
+        <p class="category">书籍</p>
         <li><a href="/python3cookbook">python3-cookbook</a> (zh)</li>
+        <li><a href="/IntroductionToTornado">IntroductionToTornado</a> (zh)</li>
+    </div>
+
+    <div class="ibox">
+        <p class="category">框架</p>
         <li><a href="/django">django</a> (en) - 著名的python web框架</li>
         <li><a href="/flask-zh">flask</a> (zh) - 微框架 </li>
+    </div>
+
+    <div class="ibox">
+        <p class="category">数据库</p>
+        <li><a href="/sqlalchemy">SQLAlchemy</a> (en) - 广为人知的强大ORM </li>
+        <li><a href="/peewee">peewee</a> (en) - 轻巧的ORM </li>
+    </div>
+
+    <div class="ibox">
+        <p class="category">模块</p>
+        <li><a href="/sphinx">sphinx</a> (en) - python中文档生成管理</li>
         <li><a href="/misaka">misaka</a> (en) - python中markdown处理模块</li>
+    </div>
     </ul>
 
     </br>
+<div id="footer">
     <p>Github: <a href="https://github.com/weaming">https://github.com/weaming</a></p>
+</div>
 </div>
 </body>
 </html>
