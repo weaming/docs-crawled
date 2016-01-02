@@ -79,10 +79,17 @@
     <div id="about">
         <p id="i"><a target="_blank" href="https://github.com/weaming">Github</a></p>
         <p id="i"><a target="_blank" href="https://twitter.com/ruanjiadeng">Twitter</a></p>
-        <p id="i"><a target="_blank" href="http://cnblogs.com/weaming">cnblogs</a></p>
+        <p id="i"><a target="_blank" href="http://www.cnblogs.com/weaming">cnblogs</a></p>
     </div>
 </div>
 <div id="footer">
+    <!--change to https-->
+    <script>
+        li = document.getElementsByTagName("li");
+        for(i=0;i<li.length;i++){
+            li[i].getElementsByTagName("a")[0].protocol="https:";
+        }
+    </script>
 </div>
 </div>
 </body>
