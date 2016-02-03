@@ -1,0 +1,123 @@
+<html lang="en">
+<head>
+<title>Search Paths for gnatbind - GNAT User's Guide for Native Platforms</title>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+<meta name="description" content="GNAT User's Guide for Native Platforms">
+<meta name="generator" content="makeinfo 4.13">
+<link title="Top" rel="start" href="index.html#Top">
+<link rel="up" href="Binding-with-gnatbind.html#Binding-with-gnatbind" title="Binding with gnatbind">
+<link rel="prev" href="Command_002dLine-Access.html#Command_002dLine-Access" title="Command-Line Access">
+<link rel="next" href="Examples-of-gnatbind-Usage.html#Examples-of-gnatbind-Usage" title="Examples of gnatbind Usage">
+<link href="http://www.gnu.org/software/texinfo/" rel="generator-home" title="Texinfo Homepage">
+<!--
+
+     GNAT User's Guide for Native Platforms , March 24, 2015
+
+     AdaCore
+
+     Copyright (C) 2008-2015, Free Software Foundation
+-->
+<meta http-equiv="Content-Style-Type" content="text/css">
+<style type="text/css"><!--
+  pre.display { font-family:inherit }
+  pre.format  { font-family:inherit }
+  pre.smalldisplay { font-family:inherit; font-size:smaller }
+  pre.smallformat  { font-family:inherit; font-size:smaller }
+  pre.smallexample { font-size:smaller }
+  pre.smalllisp    { font-size:smaller }
+  span.sc    { font-variant:small-caps }
+  span.roman { font-family:serif; font-weight:normal; } 
+  span.sansserif { font-family:sans-serif; font-weight:normal; } 
+--></style>
+</head>
+<body>
+<div class="node">
+<a name="Search-Paths-for-gnatbind"></a>
+<p>
+Next:&nbsp;<a rel="next" accesskey="n" href="Examples-of-gnatbind-Usage.html#Examples-of-gnatbind-Usage">Examples of gnatbind Usage</a>,
+Previous:&nbsp;<a rel="previous" accesskey="p" href="Command_002dLine-Access.html#Command_002dLine-Access">Command-Line Access</a>,
+Up:&nbsp;<a rel="up" accesskey="u" href="Binding-with-gnatbind.html#Binding-with-gnatbind">Binding with gnatbind</a>
+<hr>
+</div>
+
+<p><a name="gnat_005fugn_002fbuilding_005fexecutable_005fprograms_005fwith_005fgnat-search_002dpaths_002dfor_002dgnatbind"></a><a name="g_t91"></a><a name="gnat_005fugn_002fbuilding_005fexecutable_005fprograms_005fwith_005fgnat-id42"></a><a name="g_t134"></a>
+
+<h4 class="subsection">4.4.4 Search Paths for <cite>gnatbind</cite></h4>
+
+<p>The binder takes the name of an ALI file as its argument and needs to
+locate source files as well as other ALI files to verify object consistency.
+
+<p>For source files, it follows exactly the same search rules as `gcc'
+(see <a href="8e.html#g_t8e">Search Paths and the Run-Time Library (RTL)</a>). For ALI files the
+directories searched are:
+
+     <ul>
+<li>The directory containing the ALI file named in the command line, unless
+the switch `-I-' is specified.
+
+     <li>All directories specified by `-I'
+switches on the <cite>gnatbind</cite>
+command line, in the order given.
+
+     <p><a name="index-ADA_005fPRJ_005fOBJECTS_005fFILE-741"></a>
+<li>Each of the directories listed in the text file whose name is given
+by the
+<a name="index-ADA_005fPRJ_005fOBJECTS_005fFILE-742"></a><a name="index-environment-variable_003b-ADA_005fPRJ_005fOBJECTS_005fFILE-743"></a><code>ADA_PRJ_OBJECTS_FILE</code> environment variable.
+
+     <p><a name="index-ADA_005fPRJ_005fOBJECTS_005fFILE-744"></a><a name="index-environment-variable_003b-ADA_005fPRJ_005fOBJECTS_005fFILE-745"></a><code>ADA_PRJ_OBJECTS_FILE</code> is normally set by gnatmake or by the gnat
+driver when project files are used. It should not normally be set
+by other means.
+
+     <p><a name="index-ADA_005fOBJECTS_005fPATH-746"></a>
+<li>Each of the directories listed in the value of the
+<a name="index-ADA_005fOBJECTS_005fPATH-747"></a><a name="index-environment-variable_003b-ADA_005fOBJECTS_005fPATH-748"></a><code>ADA_OBJECTS_PATH</code> environment variable. 
+Construct this value
+exactly as the
+<a name="index-PATH-749"></a><a name="index-environment-variable_003b-PATH-750"></a><code>PATH</code> environment variable: a list of directory
+names separated by colons (semicolons when working with the NT version
+of GNAT).
+
+     <li>The content of the <code>ada_object_path</code> file which is part of the GNAT
+installation tree and is used to store standard libraries such as the
+GNAT Run Time Library (RTL) unless the switch `-nostdlib' is
+specified. See <a href="8b.html#g_t8b">Installing a library</a>
+</ul>
+
+<p><a name="index-g_t_002dI-_0028gnatbind_0029-751"></a>
+<a name="index-g_t_002daI-_0028gnatbind_0029-752"></a>
+<a name="index-g_t_002daO-_0028gnatbind_0029-753"></a>
+In the binder the switch `-I'
+is used to specify both source and
+library file paths. Use `-aI'
+instead if you want to specify
+source paths only, and `-aO'
+if you want to specify library paths
+only. This means that for the binder
+<code>-I`dir'</code> is equivalent to
+<code>-aI`dir'</code>
+<code>-aO``dir'</code>. 
+The binder generates the bind file (a C language source file) in the
+current working directory.
+
+<p><a name="index-Ada-754"></a>
+<a name="index-System-755"></a>
+<a name="index-Interfaces-756"></a>
+<a name="index-GNAT-757"></a>
+The packages <cite>Ada</cite>, <cite>System</cite>, and <cite>Interfaces</cite> and their
+children make up the GNAT Run-Time Library, together with the package
+GNAT and its children, which contain a set of useful additional
+library functions provided by GNAT. The sources for these units are
+needed by the compiler and are kept together in one directory. The ALI
+files and object files generated by compiling the RTL are needed by the
+binder and the linker and are kept together in one directory, typically
+different from the directory containing the sources. In a normal
+installation, you need not specify these directory names when compiling
+or binding. Either the environment variables or the built-in defaults
+cause these files to be found.
+
+<p>Besides simplifying access to the RTL, a major use of search paths is
+in compiling sources from multiple directories. This can make
+development environments much more flexible.
+
+</body></html>
+

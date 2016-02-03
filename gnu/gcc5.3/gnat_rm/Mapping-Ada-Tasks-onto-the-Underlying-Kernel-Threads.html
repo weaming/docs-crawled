@@ -1,0 +1,99 @@
+<html lang="en">
+<head>
+<title>Mapping Ada Tasks onto the Underlying Kernel Threads - GNAT Reference Manual</title>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+<meta name="description" content="GNAT Reference Manual">
+<meta name="generator" content="makeinfo 4.13">
+<link title="Top" rel="start" href="index.html#Top">
+<link rel="up" href="GNAT-Implementation-of-Tasking.html#GNAT-Implementation-of-Tasking" title="GNAT Implementation of Tasking">
+<link rel="next" href="Ensuring-Compliance-with-the-Real_002dTime-Annex.html#Ensuring-Compliance-with-the-Real_002dTime-Annex" title="Ensuring Compliance with the Real-Time Annex">
+<link href="http://www.gnu.org/software/texinfo/" rel="generator-home" title="Texinfo Homepage">
+<!--
+
+     GNAT Reference Manual , March 24, 2015
+
+     AdaCore
+
+     Copyright (C) 2008-2015, Free Software Foundation
+-->
+<meta http-equiv="Content-Style-Type" content="text/css">
+<style type="text/css"><!--
+  pre.display { font-family:inherit }
+  pre.format  { font-family:inherit }
+  pre.smalldisplay { font-family:inherit; font-size:smaller }
+  pre.smallformat  { font-family:inherit; font-size:smaller }
+  pre.smallexample { font-size:smaller }
+  pre.smalllisp    { font-size:smaller }
+  span.sc    { font-variant:small-caps }
+  span.roman { font-family:serif; font-weight:normal; } 
+  span.sansserif { font-family:sans-serif; font-weight:normal; } 
+--></style>
+</head>
+<body>
+<div class="node">
+<a name="Mapping-Ada-Tasks-onto-the-Underlying-Kernel-Threads"></a>
+<p>
+Next:&nbsp;<a rel="next" accesskey="n" href="Ensuring-Compliance-with-the-Real_002dTime-Annex.html#Ensuring-Compliance-with-the-Real_002dTime-Annex">Ensuring Compliance with the Real-Time Annex</a>,
+Up:&nbsp;<a rel="up" accesskey="u" href="GNAT-Implementation-of-Tasking.html#GNAT-Implementation-of-Tasking">GNAT Implementation of Tasking</a>
+<hr>
+</div>
+
+<p><a name="gnat_005frm_002fimplementation_005fof_005fspecific_005fada_005ffeatures-mapping_002dada_002dtasks_002donto_002dthe_002dunderlying_002dkernel_002dthreads"></a><a name="g_t3b1"></a><a name="gnat_005frm_002fimplementation_005fof_005fspecific_005fada_005ffeatures-id4"></a><a name="g_t3b2"></a>
+
+<h4 class="subsection">15.2.1 Mapping Ada Tasks onto the Underlying Kernel Threads</h4>
+
+<p>GNAT's run-time support comprises two layers:
+
+     <ul>
+<li>GNARL (GNAT Run-time Layer)
+
+     <li>GNULL (GNAT Low-level Library)
+</ul>
+
+<p>In GNAT, Ada's tasking services rely on a platform and OS independent
+layer known as GNARL.  This code is responsible for implementing the
+correct semantics of Ada's task creation, rendezvous, protected
+operations etc.
+
+<p>GNARL decomposes Ada's tasking semantics into simpler lower level
+operations such as create a thread, set the priority of a thread,
+yield, create a lock, lock/unlock, etc.  The spec for these low-level
+operations constitutes GNULLI, the GNULL Interface.  This interface is
+directly inspired from the POSIX real-time API.
+
+<p>If the underlying executive or OS implements the POSIX standard
+faithfully, the GNULL Interface maps as is to the services offered by
+the underlying kernel.  Otherwise, some target dependent glue code maps
+the services offered by the underlying kernel to the semantics expected
+by GNARL.
+
+<p>Whatever the underlying OS (VxWorks, UNIX, Windows, etc.) the
+key point is that each Ada task is mapped on a thread in the underlying
+kernel.  For example, in the case of VxWorks, one Ada task = one VxWorks task.
+
+<p>In addition Ada task priorities map onto the underlying thread priorities. 
+Mapping Ada tasks onto the underlying kernel threads has several advantages:
+
+     <ul>
+<li>The underlying scheduler is used to schedule the Ada tasks.  This
+makes Ada tasks as efficient as kernel threads from a scheduling
+standpoint.
+
+     <li>Interaction with code written in C containing threads is eased
+since at the lowest level Ada tasks and C threads map onto the same
+underlying kernel concept.
+
+     <li>When an Ada task is blocked during I/O the remaining Ada tasks are
+able to proceed.
+
+     <li>On multiprocessor systems Ada tasks can execute in parallel. 
+</ul>
+
+<p>Some threads libraries offer a mechanism to fork a new process, with the
+child process duplicating the threads from the parent. 
+GNAT does not
+support this functionality when the parent contains more than one task. 
+.. index:: Forking a new process
+
+</body></html>
+

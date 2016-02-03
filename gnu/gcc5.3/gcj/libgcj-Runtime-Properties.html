@@ -1,0 +1,139 @@
+<html lang="en">
+<head>
+<title>libgcj Runtime Properties - Guide to GNU gcj</title>
+<meta http-equiv="Content-Type" content="text/html">
+<meta name="description" content="Guide to GNU gcj">
+<meta name="generator" content="makeinfo 4.13">
+<link title="Top" rel="start" href="index.html#Top">
+<link rel="up" href="System-properties.html#System-properties" title="System properties">
+<link rel="prev" href="GNU-Classpath-Properties.html#GNU-Classpath-Properties" title="GNU Classpath Properties">
+<link href="http://www.gnu.org/software/texinfo/" rel="generator-home" title="Texinfo Homepage">
+<!--
+Copyright (C) 2001-2015 Free Software Foundation, Inc.
+
+Permission is granted to copy, distribute and/or modify this document
+under the terms of the GNU Free Documentation License, Version 1.3 or
+any later version published by the Free Software Foundation; with no
+Invariant Sections, the Front-Cover Texts being (a) (see below), and
+with the Back-Cover Texts being (b) (see below).
+A copy of the license is included in the
+section entitled ``GNU Free Documentation License''.
+
+
+(a) The FSF's Front-Cover Text is:
+
+     A GNU Manual
+
+(b) The FSF's Back-Cover Text is:
+
+     You have freedom to copy and modify this GNU Manual, like GNU
+     software.  Copies published by the Free Software Foundation raise
+     funds for GNU development.
+-->
+<meta http-equiv="Content-Style-Type" content="text/css">
+<style type="text/css"><!--
+  pre.display { font-family:inherit }
+  pre.format  { font-family:inherit }
+  pre.smalldisplay { font-family:inherit; font-size:smaller }
+  pre.smallformat  { font-family:inherit; font-size:smaller }
+  pre.smallexample { font-size:smaller }
+  pre.smalllisp    { font-size:smaller }
+  span.sc    { font-variant:small-caps }
+  span.roman { font-family:serif; font-weight:normal; } 
+  span.sansserif { font-family:sans-serif; font-weight:normal; } 
+--></style>
+</head>
+<body>
+<div class="node">
+<a name="libgcj-Runtime-Properties"></a>
+<p>
+Previous:&nbsp;<a rel="previous" accesskey="p" href="GNU-Classpath-Properties.html#GNU-Classpath-Properties">GNU Classpath Properties</a>,
+Up:&nbsp;<a rel="up" accesskey="u" href="System-properties.html#System-properties">System properties</a>
+<hr>
+</div>
+
+<h3 class="section">12.3 libgcj Runtime Properties</h3>
+
+<p>The following properties are specific to the <code>libgcj</code> runtime and will
+normally not be found in other core libraries for the java language.
+
+     <dl>
+<dt><code>java.fullversion</code><dd>The combination of <code>java.vm.name</code> and <code>java.vm.version</code>.
+
+     <br><dt><code>java.vm.info</code><dd>Same as <code>java.fullversion</code>.
+
+     <br><dt><code>impl.prefix</code><dd>Used by the <code>java.net.DatagramSocket</code> class when set to something else
+then the empty string.  When set all newly created <code>DatagramSocket</code>s will
+try to load a class <code>java.net.[impl.prefix]DatagramSocketImpl</code> instead of
+the normal <code>java.net.PlainDatagramSocketImpl</code>.
+
+     <br><dt><code>gnu.gcj.progname</code><dd>The class or binary name that was used to invoke the program. This will be
+the name of the "main" class in the case where the <code>gij</code> front end is
+used, or the program binary name in the case where an application is compiled
+to a native binary.
+
+     <br><dt><code>gnu.gcj.user.realname</code><dd>The real name of the user, as taken from the password file.  This may
+not always hold only the user's name (as some sites put extra
+information in this field).  Also, this property is not available on
+all platforms.
+
+     <br><dt><code>gnu.gcj.runtime.NameFinder.use_addr2line</code><dd>Whether an external process, <samp><span class="command">addr2line</span></samp>, should be used to determine
+line number information when tracing the stack. Setting this to <code>false</code>
+may suppress line numbers when printing stack traces and when using
+the java.util.logging infrastructure. However, performance may improve
+significantly for applications that print stack traces or make logging calls
+frequently.
+
+     <br><dt><code>gnu.gcj.runtime.NameFinder.show_raw</code><dd>Whether the address of a stack frame should be printed when the line
+number is unavailable. Setting this to <code>true</code> will cause the name
+of the object and the offset within that object to be printed when no
+line number is available.  This allows for off-line decoding of
+stack traces if necessary debug information is available.  The default
+is <code>false</code>, no raw addresses are printed.
+
+     <br><dt><code>gnu.gcj.runtime.NameFinder.remove_unknown</code><dd>Whether stack frames for non-java code should be included in a stack
+trace.  The default value is <code>true</code>, stack frames for non-java
+code are suppressed.  Setting this to <code>false</code> will cause any
+non-java stack frames to be printed in addition to frames for the java
+code.
+
+     <br><dt><code>gnu.gcj.runtime.VMClassLoader.library_control</code><dd>This controls how shared libraries are automatically loaded by the
+built-in class loader.  If this property is set to &lsquo;<samp><span class="samp">full</span></samp>&rsquo;, a full
+search is done for each requested class.  If this property is set to
+&lsquo;<samp><span class="samp">cache</span></samp>&rsquo;, then any failed lookups are cached and not tried again. 
+If this property is set to &lsquo;<samp><span class="samp">never</span></samp>&rsquo; (the default), then lookups
+are never done.  For more information, See <a href="Extensions.html#Extensions">Extensions</a>.
+
+     <br><dt><code>gnu.gcj.runtime.endorsed.dirs</code><dd>This is like the standard <code>java.endorsed.dirs</code>, property, but
+specifies some extra directories which are searched after the standard
+endorsed directories.  This is primarily useful for telling
+<code>libgcj</code> about additional libraries which are ordinarily
+incorporated into the JDK, and which should be loaded by the bootstrap
+class loader, but which are not yet part of <code>libgcj</code> itself for
+some reason.
+
+     <br><dt><code>gnu.gcj.jit.compiler</code><dd><!-- FIXME we should probably have a whole node on this... -->
+This is the full path to <samp><span class="command">gcj</span></samp> executable which should be
+used to compile classes just-in-time when
+<code>ClassLoader.defineClass</code> is called.  If not set, <samp><span class="command">gcj</span></samp>
+will not be invoked by the runtime; this can also be controlled via
+<code>Compiler.disable</code>.
+
+     <br><dt><code>gnu.gcj.jit.options</code><dd>This is a space-separated string of options which should be passed to
+<samp><span class="command">gcj</span></samp> when in JIT mode.  If not set, a sensible default is
+chosen.
+
+     <br><dt><code>gnu.gcj.jit.cachedir</code><dd>This is the directory where cached shared library files are
+stored.  If not set, JIT compilation is disabled.  This should never
+be set to a directory that is writable by any other user.
+
+     <br><dt><code>gnu.gcj.precompiled.db.path</code><dd>This is a sequence of file names, each referring to a file created by
+<samp><span class="command">gcj-dbtool</span></samp>.  These files will be used by <code>libgcj</code> to
+find shared libraries corresponding to classes that are loaded from
+bytecode.  <code>libgcj</code> often has a built-in default database; it
+can be queried using <code>gcj-dbtool -p</code>.
+
+   </dl>
+
+   </body></html>
+

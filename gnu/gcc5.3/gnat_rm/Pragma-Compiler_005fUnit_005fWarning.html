@@ -1,0 +1,60 @@
+<html lang="en">
+<head>
+<title>Pragma Compiler_Unit_Warning - GNAT Reference Manual</title>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+<meta name="description" content="GNAT Reference Manual">
+<meta name="generator" content="makeinfo 4.13">
+<link title="Top" rel="start" href="index.html#Top">
+<link rel="up" href="Implementation-Defined-Pragmas.html#Implementation-Defined-Pragmas" title="Implementation Defined Pragmas">
+<link rel="prev" href="Pragma-Compiler_005fUnit.html#Pragma-Compiler_005fUnit" title="Pragma Compiler_Unit">
+<link rel="next" href="Pragma-Complete_005fRepresentation.html#Pragma-Complete_005fRepresentation" title="Pragma Complete_Representation">
+<link href="http://www.gnu.org/software/texinfo/" rel="generator-home" title="Texinfo Homepage">
+<!--
+
+     GNAT Reference Manual , March 24, 2015
+
+     AdaCore
+
+     Copyright (C) 2008-2015, Free Software Foundation
+-->
+<meta http-equiv="Content-Style-Type" content="text/css">
+<style type="text/css"><!--
+  pre.display { font-family:inherit }
+  pre.format  { font-family:inherit }
+  pre.smalldisplay { font-family:inherit; font-size:smaller }
+  pre.smallformat  { font-family:inherit; font-size:smaller }
+  pre.smallexample { font-size:smaller }
+  pre.smalllisp    { font-size:smaller }
+  span.sc    { font-variant:small-caps }
+  span.roman { font-family:serif; font-weight:normal; } 
+  span.sansserif { font-family:sans-serif; font-weight:normal; } 
+--></style>
+</head>
+<body>
+<div class="node">
+<a name="Pragma-Compiler_Unit_Warning"></a>
+<a name="Pragma-Compiler_005fUnit_005fWarning"></a>
+<p>
+Next:&nbsp;<a rel="next" accesskey="n" href="Pragma-Complete_005fRepresentation.html#Pragma-Complete_005fRepresentation">Pragma Complete_Representation</a>,
+Previous:&nbsp;<a rel="previous" accesskey="p" href="Pragma-Compiler_005fUnit.html#Pragma-Compiler_005fUnit">Pragma Compiler_Unit</a>,
+Up:&nbsp;<a rel="up" accesskey="u" href="Implementation-Defined-Pragmas.html#Implementation-Defined-Pragmas">Implementation Defined Pragmas</a>
+<hr>
+</div>
+
+<p><a name="gnat_005frm_002fimplementation_005fdefined_005fpragmas-pragma_002dcompiler_002dunit_002dwarning"></a><a name="g_t38"></a>
+
+<h3 class="section">2.30 Pragma Compiler_Unit_Warning</h3>
+
+<p>Syntax:
+
+<pre class="example">    pragma Compiler_Unit_Warning;
+</pre>
+<p>This pragma is intended only for internal use in the GNAT run-time library. 
+It indicates that the unit is used as part of the compiler build. The effect
+is to generate warnings for the use of constructs (for example, conditional
+expressions) that would cause trouble when bootstrapping using an older
+version of GNAT. For the exact list of restrictions, see the compiler sources
+and references to Check_Compiler_Unit.
+
+</body></html>
+

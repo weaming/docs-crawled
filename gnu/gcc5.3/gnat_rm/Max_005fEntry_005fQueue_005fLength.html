@@ -1,0 +1,63 @@
+<html lang="en">
+<head>
+<title>Max_Entry_Queue_Length - GNAT Reference Manual</title>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+<meta name="description" content="GNAT Reference Manual">
+<meta name="generator" content="makeinfo 4.13">
+<link title="Top" rel="start" href="index.html#Top">
+<link rel="up" href="Partition_002dWide-Restrictions.html#Partition_002dWide-Restrictions" title="Partition-Wide Restrictions">
+<link rel="prev" href="Max_005fAsynchronous_005fSelect_005fNesting.html#Max_005fAsynchronous_005fSelect_005fNesting" title="Max_Asynchronous_Select_Nesting">
+<link rel="next" href="Max_005fProtected_005fEntries.html#Max_005fProtected_005fEntries" title="Max_Protected_Entries">
+<link href="http://www.gnu.org/software/texinfo/" rel="generator-home" title="Texinfo Homepage">
+<!--
+
+     GNAT Reference Manual , March 24, 2015
+
+     AdaCore
+
+     Copyright (C) 2008-2015, Free Software Foundation
+-->
+<meta http-equiv="Content-Style-Type" content="text/css">
+<style type="text/css"><!--
+  pre.display { font-family:inherit }
+  pre.format  { font-family:inherit }
+  pre.smalldisplay { font-family:inherit; font-size:smaller }
+  pre.smallformat  { font-family:inherit; font-size:smaller }
+  pre.smallexample { font-size:smaller }
+  pre.smalllisp    { font-size:smaller }
+  span.sc    { font-variant:small-caps }
+  span.roman { font-family:serif; font-weight:normal; } 
+  span.sansserif { font-family:sans-serif; font-weight:normal; } 
+--></style>
+</head>
+<body>
+<div class="node">
+<a name="Max_Entry_Queue_Length"></a>
+<a name="Max_005fEntry_005fQueue_005fLength"></a>
+<p>
+Next:&nbsp;<a rel="next" accesskey="n" href="Max_005fProtected_005fEntries.html#Max_005fProtected_005fEntries">Max_Protected_Entries</a>,
+Previous:&nbsp;<a rel="previous" accesskey="p" href="Max_005fAsynchronous_005fSelect_005fNesting.html#Max_005fAsynchronous_005fSelect_005fNesting">Max_Asynchronous_Select_Nesting</a>,
+Up:&nbsp;<a rel="up" accesskey="u" href="Partition_002dWide-Restrictions.html#Partition_002dWide-Restrictions">Partition-Wide Restrictions</a>
+<hr>
+</div>
+
+<p><a name="gnat_005frm_002fstandard_005fand_005fimplementation_005fdefined_005frestrictions-max_002dentry_002dqueue_002dlength"></a><a name="g_t169"></a>
+
+<h4 class="subsection">5.1.3 Max_Entry_Queue_Length</h4>
+
+<p><a name="index-Max_005fEntry_005fQueue_005fLength-287"></a>
+[RM D.7] This restriction is a declaration that any protected entry compiled in
+the scope of the restriction has at most the specified number of
+tasks waiting on the entry at any one time, and so no queue is required. 
+Note that this restriction is checked at run time. Violation of this
+restriction results in the raising of Program_Error exception at the point of
+the call.
+
+<p><a name="index-Max_005fEntry_005fQueue_005fDepth-288"></a>
+The restriction <cite>Max_Entry_Queue_Depth</cite> is recognized as a
+synonym for <cite>Max_Entry_Queue_Length</cite>. This is retained for historical
+compatibility purposes (and a warning will be generated for its use if
+warnings on obsolescent features are activated).
+
+</body></html>
+

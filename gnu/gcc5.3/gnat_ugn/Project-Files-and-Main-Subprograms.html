@@ -1,0 +1,119 @@
+<html lang="en">
+<head>
+<title>Project Files and Main Subprograms - GNAT User's Guide for Native Platforms</title>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+<meta name="description" content="GNAT User's Guide for Native Platforms">
+<meta name="generator" content="makeinfo 4.13">
+<link title="Top" rel="start" href="index.html#Top">
+<link rel="up" href="gnatmake-and-Project-Files.html#gnatmake-and-Project-Files" title="gnatmake and Project Files">
+<link rel="prev" href="Specifying-Configuration-Pragmas.html#Specifying-Configuration-Pragmas" title="Specifying Configuration Pragmas">
+<link rel="next" href="Library-Project-Files.html#Library-Project-Files" title="Library Project Files">
+<link href="http://www.gnu.org/software/texinfo/" rel="generator-home" title="Texinfo Homepage">
+<!--
+
+     GNAT User's Guide for Native Platforms , March 24, 2015
+
+     AdaCore
+
+     Copyright (C) 2008-2015, Free Software Foundation
+-->
+<meta http-equiv="Content-Style-Type" content="text/css">
+<style type="text/css"><!--
+  pre.display { font-family:inherit }
+  pre.format  { font-family:inherit }
+  pre.smalldisplay { font-family:inherit; font-size:smaller }
+  pre.smallformat  { font-family:inherit; font-size:smaller }
+  pre.smallexample { font-size:smaller }
+  pre.smalllisp    { font-size:smaller }
+  span.sc    { font-variant:small-caps }
+  span.roman { font-family:serif; font-weight:normal; } 
+  span.sansserif { font-family:sans-serif; font-weight:normal; } 
+--></style>
+</head>
+<body>
+<div class="node">
+<a name="Project-Files-and-Main-Subprograms"></a>
+<p>
+Next:&nbsp;<a rel="next" accesskey="n" href="Library-Project-Files.html#Library-Project-Files">Library Project Files</a>,
+Previous:&nbsp;<a rel="previous" accesskey="p" href="Specifying-Configuration-Pragmas.html#Specifying-Configuration-Pragmas">Specifying Configuration Pragmas</a>,
+Up:&nbsp;<a rel="up" accesskey="u" href="gnatmake-and-Project-Files.html#gnatmake-and-Project-Files">gnatmake and Project Files</a>
+<hr>
+</div>
+
+<p><a name="gnat_005fugn_002ftools_005fsupporting_005fproject_005ffiles-id6"></a><a name="g_t1c8"></a><a name="gnat_005fugn_002ftools_005fsupporting_005fproject_005ffiles-project_002dfiles_002dand_002dmain_002dsubprograms"></a><a name="e2"></a>
+
+<h4 class="subsection">6.1.4 Project Files and Main Subprograms</h4>
+
+<p>When using a project file, you can invoke `gnatmake'
+with one or several main subprograms, by specifying their source files on the
+command line.
+
+<blockquote>
+
+<pre class="example">    $ gnatmake -Pprj main1.adb main2.adb main3.adb
+</pre>
+</blockquote>
+
+<p>Each of these needs to be a source file of the same project, except
+when the switch <cite>-u</cite> is used.
+
+<p>When <cite>-u</cite> is not used, all the mains need to be sources of the
+same project, one of the project in the tree rooted at the project specified
+on the command line. The package <cite>Builder</cite> of this common project, the
+"main project" is the one that is considered by `gnatmake'.
+
+<p>When <cite>-u</cite> is used, the specified source files may be in projects
+imported directly or indirectly by the project specified on the command line. 
+Note that if such a source file is not part of the project specified on the
+command line, the switches found in package <cite>Builder</cite> of the
+project specified on the command line, if any, that are transmitted
+to the compiler will still be used, not those found in the project file of
+the source file.
+
+<p>When using a project file, you can also invoke `gnatmake' without
+explicitly specifying any main, and the effect depends on whether you have
+defined the <cite>Main</cite> attribute.  This attribute has a string list value,
+where each element in the list is the name of a source file (the file
+extension is optional) that contains a unit that can be a main subprogram.
+
+<p>If the <cite>Main</cite> attribute is defined in a project file as a non-empty
+string list and the switch `-u' is not used on the command
+line, then invoking `gnatmake' with this project file but without any
+main on the command line is equivalent to invoking `gnatmake' with all
+the file names in the <cite>Main</cite> attribute on the command line.
+
+<p>Example:
+
+<blockquote>
+
+<pre class="example">    project Prj is
+       for Main use ("main1.adb", "main2.adb", "main3.adb");
+    end Prj;
+</pre>
+</blockquote>
+
+<p>With this project file, <cite>"gnatmake -Pprj"</cite>
+is equivalent to
+<cite>"gnatmake -Pprj main1.adb main2.adb main3.adb"</cite>.
+
+<p>When the project attribute <cite>Main</cite> is not specified, or is specified
+as an empty string list, or when the switch `-u' is used on the command
+line, then invoking `gnatmake' with no main on the command line will
+result in all immediate sources of the project file being checked, and
+potentially recompiled. Depending on the presence of the switch `-u',
+sources from other project files on which the immediate sources of the main
+project file depend are also checked and potentially recompiled. In other
+words, the `-u' switch is applied to all of the immediate sources of the
+main project file.
+
+<p>When no main is specified on the command line and attribute <cite>Main</cite> exists
+and includes several mains, or when several mains are specified on the
+command line, the default switches in package <cite>Builder</cite> will
+be used for all mains, even if there are specific switches
+specified for one or several mains.
+
+<p>But the switches from package <cite>Binder</cite> or <cite>Linker</cite> will be
+the specific switches for each main, if they are specified.
+
+</body></html>
+

@@ -1,0 +1,78 @@
+<html lang="en">
+<head>
+<title>Attribute Valid_Scalars - GNAT Reference Manual</title>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+<meta name="description" content="GNAT Reference Manual">
+<meta name="generator" content="makeinfo 4.13">
+<link title="Top" rel="start" href="index.html#Top">
+<link rel="up" href="Implementation-Defined-Attributes.html#Implementation-Defined-Attributes" title="Implementation Defined Attributes">
+<link rel="prev" href="Attribute-Update.html#Attribute-Update" title="Attribute Update">
+<link rel="next" href="Attribute-VADS_005fSize.html#Attribute-VADS_005fSize" title="Attribute VADS_Size">
+<link href="http://www.gnu.org/software/texinfo/" rel="generator-home" title="Texinfo Homepage">
+<!--
+
+     GNAT Reference Manual , March 24, 2015
+
+     AdaCore
+
+     Copyright (C) 2008-2015, Free Software Foundation
+-->
+<meta http-equiv="Content-Style-Type" content="text/css">
+<style type="text/css"><!--
+  pre.display { font-family:inherit }
+  pre.format  { font-family:inherit }
+  pre.smalldisplay { font-family:inherit; font-size:smaller }
+  pre.smallformat  { font-family:inherit; font-size:smaller }
+  pre.smallexample { font-size:smaller }
+  pre.smalllisp    { font-size:smaller }
+  span.sc    { font-variant:small-caps }
+  span.roman { font-family:serif; font-weight:normal; } 
+  span.sansserif { font-family:sans-serif; font-weight:normal; } 
+--></style>
+</head>
+<body>
+<div class="node">
+<a name="Attribute-Valid_Scalars"></a>
+<a name="Attribute-Valid_005fScalars"></a>
+<p>
+Next:&nbsp;<a rel="next" accesskey="n" href="Attribute-VADS_005fSize.html#Attribute-VADS_005fSize">Attribute VADS_Size</a>,
+Previous:&nbsp;<a rel="previous" accesskey="p" href="Attribute-Update.html#Attribute-Update">Attribute Update</a>,
+Up:&nbsp;<a rel="up" accesskey="u" href="Implementation-Defined-Attributes.html#Implementation-Defined-Attributes">Implementation Defined Attributes</a>
+<hr>
+</div>
+
+<p><a name="gnat_005frm_002fimplementation_005fdefined_005fattributes-attribute_002dvalid_002dscalars"></a><a name="g_t15e"></a>
+
+<h3 class="section">4.70 Attribute Valid_Scalars</h3>
+
+<p><a name="index-Valid_005fScalars-276"></a>
+The <cite>'Valid_Scalars</cite> attribute is intended to make it easier to
+check the validity of scalar subcomponents of composite objects. It
+is defined for any prefix <cite>X</cite> that denotes an object. 
+The value of this attribute is of the predefined type Boolean. 
+<cite>X'Valid_Scalars</cite> yields True if and only if evaluation of
+<cite>P'Valid</cite> yields True for every scalar part P of X or if X has
+no scalar parts. It is not specified in what order the scalar parts
+are checked, nor whether any more are checked after any one of them
+is determined to be invalid. If the prefix <cite>X</cite> is of a class-wide
+type <cite>T'Class</cite> (where <cite>T</cite> is the associated specific type),
+or if the prefix <cite>X</cite> is of a specific tagged type <cite>T</cite>, then
+only the scalar parts of components of <cite>T</cite> are traversed; in other
+words, components of extensions of <cite>T</cite> are not traversed even if
+<cite>T'Class (X)'Tag /= T'Tag</cite> . The compiler will issue a warning if it can
+be determined at compile time that the prefix of the attribute has no
+scalar parts (e.g., if the prefix is of an access type, an interface type,
+an undiscriminated task type, or an undiscriminated protected type).
+
+<p>For scalar types, <cite>Valid_Scalars</cite> is equivalent to <cite>Valid</cite>. The use
+of this attribute is not permitted for <cite>Unchecked_Union</cite> types for which
+in general it is not possible to determine the values of the discriminants.
+
+<p>Note: <cite>Valid_Scalars</cite> can generate a lot of code, especially in the case
+of a large variant record. If the attribute is called in many places in the
+same program applied to objects of the same type, it can reduce program size
+to write a function with a single use of the attribute, and then call that
+function from multiple places.
+
+</body></html>
+

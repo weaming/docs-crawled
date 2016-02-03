@@ -1,0 +1,149 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
+<html>
+<!-- 
+Copyright (C) 1989, 1991, 1992, 1993, 1996-2005, 2007, 2009-2015 
+
+Free Software Foundation, Inc.
+
+
+
+This is Edition 4.1 of GAWK: Effective AWK Programming: A User's Guide for GNU Awk,
+for the 4.1.2 (or later) version of the GNU
+implementation of AWK.
+
+Permission is granted to copy, distribute and/or modify this document
+under the terms of the GNU Free Documentation License, Version 1.3 or
+any later version published by the Free Software Foundation; with the
+Invariant Sections being "GNU General Public License", with the
+Front-Cover Texts being "A GNU Manual", and with the Back-Cover Texts
+as in (a) below.
+A copy of the license is included in the section entitled
+"GNU Free Documentation License".
+
+a. The FSF's Back-Cover Text is: "You have the freedom to
+copy and modify this GNU manual." -->
+<!-- Created by GNU Texinfo 5.1, http://www.gnu.org/software/texinfo/ -->
+<head>
+<title>The GNU Awk User&rsquo;s Guide: Extension Sample Inplace</title>
+
+<meta name="description" content="The GNU Awk User&rsquo;s Guide: Extension Sample Inplace">
+<meta name="keywords" content="The GNU Awk User&rsquo;s Guide: Extension Sample Inplace">
+<meta name="resource-type" content="document">
+<meta name="distribution" content="global">
+<meta name="Generator" content="makeinfo">
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+<link href="index.html#Top" rel="start" title="Top">
+<link href="Index.html#Index" rel="index" title="Index">
+<link href="index.html#SEC_Contents" rel="contents" title="Table of Contents">
+<link href="Extension-Samples.html#Extension-Samples" rel="up" title="Extension Samples">
+<link href="Extension-Sample-Ord.html#Extension-Sample-Ord" rel="next" title="Extension Sample Ord">
+<link href="Extension-Sample-Fork.html#Extension-Sample-Fork" rel="previous" title="Extension Sample Fork">
+<style type="text/css">
+<!--
+a.summary-letter {text-decoration: none}
+blockquote.smallquotation {font-size: smaller}
+div.display {margin-left: 3.2em}
+div.example {margin-left: 3.2em}
+div.indentedblock {margin-left: 3.2em}
+div.lisp {margin-left: 3.2em}
+div.smalldisplay {margin-left: 3.2em}
+div.smallexample {margin-left: 3.2em}
+div.smallindentedblock {margin-left: 3.2em; font-size: smaller}
+div.smalllisp {margin-left: 3.2em}
+kbd {font-style:oblique}
+pre.display {font-family: inherit}
+pre.format {font-family: inherit}
+pre.menu-comment {font-family: serif}
+pre.menu-preformatted {font-family: serif}
+pre.smalldisplay {font-family: inherit; font-size: smaller}
+pre.smallexample {font-size: smaller}
+pre.smallformat {font-family: inherit; font-size: smaller}
+pre.smalllisp {font-size: smaller}
+span.nocodebreak {white-space:nowrap}
+span.nolinebreak {white-space:nowrap}
+span.roman {font-family:serif; font-weight:normal}
+span.sansserif {font-family:sans-serif; font-weight:normal}
+ul.no-bullet {list-style: none}
+-->
+</style>
+<link rel="stylesheet" type="text/css" href="/software/gnulib/manual.css">
+
+
+</head>
+
+<body lang="en" bgcolor="#FFFFFF" text="#000000" link="#0000FF" vlink="#800080" alink="#FF0000">
+<a name="Extension-Sample-Inplace"></a>
+<div class="header">
+<p>
+Next: <a href="Extension-Sample-Ord.html#Extension-Sample-Ord" accesskey="n" rel="next">Extension Sample Ord</a>, Previous: <a href="Extension-Sample-Fork.html#Extension-Sample-Fork" accesskey="p" rel="previous">Extension Sample Fork</a>, Up: <a href="Extension-Samples.html#Extension-Samples" accesskey="u" rel="up">Extension Samples</a> &nbsp; [<a href="index.html#SEC_Contents" title="Table of contents" rel="contents">Contents</a>][<a href="Index.html#Index" title="Index" rel="index">Index</a>]</p>
+</div>
+<hr>
+<a name="Enabling-In_002dPlace-File-Editing"></a>
+<h4 class="subsection">16.7.4 Enabling In-Place File Editing</h4>
+
+<a name="index-inplace-extension"></a>
+<p>The <code>inplace</code> extension emulates GNU <code>sed</code>&rsquo;s <samp>-i</samp> option,
+which performs &ldquo;in-place&rdquo; editing of each input file.
+It uses the bundled <samp>inplace.awk</samp> include file to invoke the extension
+properly:
+</p>
+<div class="example">
+<pre class="example"># inplace --- load and invoke the inplace extension.
+
+@load &quot;inplace&quot;
+
+# Please set INPLACE_SUFFIX to make a backup copy.  For example, you may
+# want to set INPLACE_SUFFIX to .bak on the command line or in a BEGIN rule.
+
+# N.B. We call inplace_end() in the BEGINFILE and END rules so that any
+# actions in an ENDFILE rule will be redirected as expected.
+
+BEGINFILE {
+    if (_inplace_filename != &quot;&quot;)
+        inplace_end(_inplace_filename, INPLACE_SUFFIX)
+    inplace_begin(_inplace_filename = FILENAME, INPLACE_SUFFIX)
+}
+
+END {
+    inplace_end(FILENAME, INPLACE_SUFFIX)
+}
+</pre></div>
+
+<p>For each regular file that is processed, the extension redirects
+standard output to a temporary file configured to have the same owner
+and permissions as the original.  After the file has been processed,
+the extension restores standard output to its original destination.
+If <code>INPLACE_SUFFIX</code> is not an empty string, the original file is
+linked to a backup file name created by appending that suffix.  Finally,
+the temporary file is renamed to the original file name.
+</p>
+<p>The <code>_inplace_filename</code> variable serves to keep track of the
+current filename so as to not invoke <code>inplace_end()</code> before
+processing the first file.
+</p>
+<p>If any error occurs, the extension issues a fatal error to terminate
+processing immediately without damaging the original file.
+</p>
+<p>Here are some simple examples:
+</p>
+<div class="example">
+<pre class="example">$ <kbd>gawk -i inplace '{ gsub(/foo/, &quot;bar&quot;) }; { print }' file1 file2 file3</kbd>
+</pre></div>
+
+<p>To keep a backup copy of the original files, try this:
+</p>
+<div class="example">
+<pre class="example">$ <kbd>gawk -i inplace -v INPLACE_SUFFIX=.bak '{ gsub(/foo/, &quot;bar&quot;) }</kbd>
+&gt; <kbd>{ print }' file1 file2 file3</kbd>
+</pre></div>
+
+<hr>
+<div class="header">
+<p>
+Next: <a href="Extension-Sample-Ord.html#Extension-Sample-Ord" accesskey="n" rel="next">Extension Sample Ord</a>, Previous: <a href="Extension-Sample-Fork.html#Extension-Sample-Fork" accesskey="p" rel="previous">Extension Sample Fork</a>, Up: <a href="Extension-Samples.html#Extension-Samples" accesskey="u" rel="up">Extension Samples</a> &nbsp; [<a href="index.html#SEC_Contents" title="Table of contents" rel="contents">Contents</a>][<a href="Index.html#Index" title="Index" rel="index">Index</a>]</p>
+</div>
+
+
+
+</body>
+</html>

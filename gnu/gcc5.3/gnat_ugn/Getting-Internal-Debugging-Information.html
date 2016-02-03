@@ -1,0 +1,69 @@
+<html lang="en">
+<head>
+<title>Getting Internal Debugging Information - GNAT User's Guide for Native Platforms</title>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+<meta name="description" content="GNAT User's Guide for Native Platforms">
+<meta name="generator" content="makeinfo 4.13">
+<link title="Top" rel="start" href="index.html#Top">
+<link rel="up" href="Running-and-Debugging-Ada-Programs.html#Running-and-Debugging-Ada-Programs" title="Running and Debugging Ada Programs">
+<link rel="prev" href="Naming-Conventions-for-GNAT-Source-Files.html#Naming-Conventions-for-GNAT-Source-Files" title="Naming Conventions for GNAT Source Files">
+<link rel="next" href="Stack-Traceback.html#Stack-Traceback" title="Stack Traceback">
+<link href="http://www.gnu.org/software/texinfo/" rel="generator-home" title="Texinfo Homepage">
+<!--
+
+     GNAT User's Guide for Native Platforms , March 24, 2015
+
+     AdaCore
+
+     Copyright (C) 2008-2015, Free Software Foundation
+-->
+<meta http-equiv="Content-Style-Type" content="text/css">
+<style type="text/css"><!--
+  pre.display { font-family:inherit }
+  pre.format  { font-family:inherit }
+  pre.smalldisplay { font-family:inherit; font-size:smaller }
+  pre.smallformat  { font-family:inherit; font-size:smaller }
+  pre.smallexample { font-size:smaller }
+  pre.smalllisp    { font-size:smaller }
+  span.sc    { font-variant:small-caps }
+  span.roman { font-family:serif; font-weight:normal; } 
+  span.sansserif { font-family:sans-serif; font-weight:normal; } 
+--></style>
+</head>
+<body>
+<div class="node">
+<a name="Getting-Internal-Debugging-Information"></a>
+<p>
+Next:&nbsp;<a rel="next" accesskey="n" href="Stack-Traceback.html#Stack-Traceback">Stack Traceback</a>,
+Previous:&nbsp;<a rel="previous" accesskey="p" href="Naming-Conventions-for-GNAT-Source-Files.html#Naming-Conventions-for-GNAT-Source-Files">Naming Conventions for GNAT Source Files</a>,
+Up:&nbsp;<a rel="up" accesskey="u" href="Running-and-Debugging-Ada-Programs.html#Running-and-Debugging-Ada-Programs">Running and Debugging Ada Programs</a>
+<hr>
+</div>
+
+<p><a name="gnat_005fugn_002fgnat_005fand_005fprogram_005fexecution-id15"></a><a name="g_t20f"></a><a name="gnat_005fugn_002fgnat_005fand_005fprogram_005fexecution-getting_002dinternal_002ddebugging_002dinformation"></a><a name="g_t210"></a>
+
+<h4 class="subsection">8.1.13 Getting Internal Debugging Information</h4>
+
+<p>Most compilers have internal debugging switches and modes. GNAT
+does also, except GNAT internal debugging switches and modes are not
+secret. A summary and full description of all the compiler and binder
+debug flags are in the file <code>debug.adb</code>. You must obtain the
+sources of the compiler to see the full detailed effects of these flags.
+
+<p>The switches that print the source of the program (reconstructed from
+the internal tree) are of general interest for user programs, as are the
+options to print
+the full internal tree, and the entity table (the symbol table
+information). The reconstructed source provides a readable version of the
+program after the front-end has completed analysis and  expansion,
+and is useful when studying the performance of specific constructs. 
+For example, constraint checks are indicated, complex aggregates
+are replaced with loops and assignments, and tasking primitives
+are replaced with run-time calls.
+
+<p><a name="index-traceback-966"></a>
+<a name="index-stack-traceback-967"></a>
+<a name="index-stack-unwinding-968"></a>
+
+</body></html>
+

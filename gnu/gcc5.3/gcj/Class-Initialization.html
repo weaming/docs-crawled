@@ -1,0 +1,102 @@
+<html lang="en">
+<head>
+<title>Class Initialization - Guide to GNU gcj</title>
+<meta http-equiv="Content-Type" content="text/html">
+<meta name="description" content="Guide to GNU gcj">
+<meta name="generator" content="makeinfo 4.13">
+<link title="Top" rel="start" href="index.html#Top">
+<link rel="up" href="About-CNI.html#About-CNI" title="About CNI">
+<link rel="prev" href="Objects-and-Classes.html#Objects-and-Classes" title="Objects and Classes">
+<link rel="next" href="Object-allocation.html#Object-allocation" title="Object allocation">
+<link href="http://www.gnu.org/software/texinfo/" rel="generator-home" title="Texinfo Homepage">
+<!--
+Copyright (C) 2001-2015 Free Software Foundation, Inc.
+
+Permission is granted to copy, distribute and/or modify this document
+under the terms of the GNU Free Documentation License, Version 1.3 or
+any later version published by the Free Software Foundation; with no
+Invariant Sections, the Front-Cover Texts being (a) (see below), and
+with the Back-Cover Texts being (b) (see below).
+A copy of the license is included in the
+section entitled ``GNU Free Documentation License''.
+
+
+(a) The FSF's Front-Cover Text is:
+
+     A GNU Manual
+
+(b) The FSF's Back-Cover Text is:
+
+     You have freedom to copy and modify this GNU Manual, like GNU
+     software.  Copies published by the Free Software Foundation raise
+     funds for GNU development.
+-->
+<meta http-equiv="Content-Style-Type" content="text/css">
+<style type="text/css"><!--
+  pre.display { font-family:inherit }
+  pre.format  { font-family:inherit }
+  pre.smalldisplay { font-family:inherit; font-size:smaller }
+  pre.smallformat  { font-family:inherit; font-size:smaller }
+  pre.smallexample { font-size:smaller }
+  pre.smalllisp    { font-size:smaller }
+  span.sc    { font-variant:small-caps }
+  span.roman { font-family:serif; font-weight:normal; } 
+  span.sansserif { font-family:sans-serif; font-weight:normal; } 
+--></style>
+</head>
+<body>
+<div class="node">
+<a name="Class-Initialization"></a>
+<p>
+Next:&nbsp;<a rel="next" accesskey="n" href="Object-allocation.html#Object-allocation">Object allocation</a>,
+Previous:&nbsp;<a rel="previous" accesskey="p" href="Objects-and-Classes.html#Objects-and-Classes">Objects and Classes</a>,
+Up:&nbsp;<a rel="up" accesskey="u" href="About-CNI.html#About-CNI">About CNI</a>
+<hr>
+</div>
+
+<h3 class="section">11.7 Class Initialization</h3>
+
+<p>Java requires that each class be automatically initialized at the time
+of the first active use.  Initializing a class involves
+initializing the static fields, running code in class initializer
+methods, and initializing base classes.  There may also be
+some implementation specific actions, such as allocating
+<code>String</code> objects corresponding to string literals in
+the code.
+
+   <p>The GCJ compiler inserts calls to <code>JvInitClass</code> at appropriate
+places to ensure that a class is initialized when required.  The C++
+compiler does not insert these calls automatically&mdash;it is the
+programmer's responsibility to make sure classes are initialized. 
+However, this is fairly painless because of the conventions assumed by
+the Java system.
+
+   <p>First, <code>libgcj</code> will make sure a class is initialized before an
+instance of that object is created.  This is one of the
+responsibilities of the <code>new</code> operation.  This is taken care of
+both in Java code, and in C++ code.  When G++ sees a <code>new</code> of a
+Java class, it will call a routine in <code>libgcj</code> to allocate the
+object, and that routine will take care of initializing the class. 
+Note however that this does not happen for Java arrays; you must
+allocate those using the appropriate CNI function.  It follows that
+you can access an instance field, or call an instance (non-static)
+method and be safe in the knowledge that the class and all of its base
+classes have been initialized.
+
+   <p>Invoking a static method is also safe.  This is because the
+Java compiler adds code to the start of a static method to make sure
+the class is initialized.  However, the C++ compiler does not
+add this extra code.  Hence, if you write a native static method
+using CNI, you are responsible for calling <code>JvInitClass</code>
+before doing anything else in the method (unless you are sure
+it is safe to leave it out).
+
+   <p>Accessing a static field also requires the class of the
+field to be initialized.  The Java compiler will generate code
+to call <code>JvInitClass</code> before getting or setting the field. 
+However, the C++ compiler will not generate this extra code,
+so it is your responsibility to make sure the class is
+initialized before you access a static field from C++.
+
+   </body></html>
+

@@ -1,0 +1,85 @@
+<html lang="en">
+<head>
+<title>Default Settings - GNAT User's Guide for Native Platforms</title>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+<meta name="description" content="GNAT User's Guide for Native Platforms">
+<meta name="generator" content="makeinfo 4.13">
+<link title="Top" rel="start" href="index.html#Top">
+<link rel="up" href="Overflow-Check-Handling-in-GNAT.html#Overflow-Check-Handling-in-GNAT" title="Overflow Check Handling in GNAT">
+<link rel="prev" href="Specifying-the-Desired-Mode.html#Specifying-the-Desired-Mode" title="Specifying the Desired Mode">
+<link rel="next" href="Implementation-Notes.html#Implementation-Notes" title="Implementation Notes">
+<link href="http://www.gnu.org/software/texinfo/" rel="generator-home" title="Texinfo Homepage">
+<!--
+
+     GNAT User's Guide for Native Platforms , March 24, 2015
+
+     AdaCore
+
+     Copyright (C) 2008-2015, Free Software Foundation
+-->
+<meta http-equiv="Content-Style-Type" content="text/css">
+<style type="text/css"><!--
+  pre.display { font-family:inherit }
+  pre.format  { font-family:inherit }
+  pre.smalldisplay { font-family:inherit; font-size:smaller }
+  pre.smallformat  { font-family:inherit; font-size:smaller }
+  pre.smallexample { font-size:smaller }
+  pre.smalllisp    { font-size:smaller }
+  span.sc    { font-variant:small-caps }
+  span.roman { font-family:serif; font-weight:normal; } 
+  span.sansserif { font-family:sans-serif; font-weight:normal; } 
+--></style>
+</head>
+<body>
+<div class="node">
+<a name="Default-Settings"></a>
+<p>
+Next:&nbsp;<a rel="next" accesskey="n" href="Implementation-Notes.html#Implementation-Notes">Implementation Notes</a>,
+Previous:&nbsp;<a rel="previous" accesskey="p" href="Specifying-the-Desired-Mode.html#Specifying-the-Desired-Mode">Specifying the Desired Mode</a>,
+Up:&nbsp;<a rel="up" accesskey="u" href="Overflow-Check-Handling-in-GNAT.html#Overflow-Check-Handling-in-GNAT">Overflow Check Handling in GNAT</a>
+<hr>
+</div>
+
+<p><a name="gnat_005fugn_002fgnat_005fand_005fprogram_005fexecution-id58"></a><a name="g_t24d"></a><a name="gnat_005fugn_002fgnat_005fand_005fprogram_005fexecution-default_002dsettings"></a><a name="g_t24e"></a>
+
+<h4 class="subsection">8.4.4 Default Settings</h4>
+
+<p>The default mode for overflow checks is
+
+<blockquote>
+
+<pre class="example">    General =&gt; Strict
+</pre>
+</blockquote>
+
+<p>which causes all computations both inside and outside assertions to use
+the base type. In addition overflow checks are suppressed.
+
+<p>This retains compatibility with previous versions of
+GNAT which suppressed overflow checks by default and always
+used the base type for computation of intermediate results.
+
+<p>The switch `-gnato' (with no digits following) is equivalent to
+.. index:: -gnato (gcc)
+
+<blockquote>
+
+<pre class="example">    General =&gt; Strict
+</pre>
+</blockquote>
+
+<p>which causes overflow checking of all intermediate overflows
+both inside and outside assertions against the base type. 
+This provides compatibility
+with this switch as implemented in previous versions of GNAT.
+
+<p>The pragma <cite>Suppress (Overflow_Check)</cite> disables overflow
+checking, but it has no effect on the method used for computing
+intermediate results.
+
+<p>The pragma <cite>Unsuppress (Overflow_Check)</cite> enables overflow
+checking, but it has no effect on the method used for computing
+intermediate results.
+
+</body></html>
+

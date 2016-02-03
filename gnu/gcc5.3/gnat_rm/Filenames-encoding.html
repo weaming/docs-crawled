@@ -1,0 +1,75 @@
+<html lang="en">
+<head>
+<title>Filenames encoding - GNAT Reference Manual</title>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+<meta name="description" content="GNAT Reference Manual">
+<meta name="generator" content="makeinfo 4.13">
+<link title="Top" rel="start" href="index.html#Top">
+<link rel="up" href="The-Implementation-of-Standard-I_002fO.html#The-Implementation-of-Standard-I_002fO" title="The Implementation of Standard I/O">
+<link rel="prev" href="Shared-Files.html#Shared-Files" title="Shared Files">
+<link rel="next" href="File-content-encoding.html#File-content-encoding" title="File content encoding">
+<link href="http://www.gnu.org/software/texinfo/" rel="generator-home" title="Texinfo Homepage">
+<!--
+
+     GNAT Reference Manual , March 24, 2015
+
+     AdaCore
+
+     Copyright (C) 2008-2015, Free Software Foundation
+-->
+<meta http-equiv="Content-Style-Type" content="text/css">
+<style type="text/css"><!--
+  pre.display { font-family:inherit }
+  pre.format  { font-family:inherit }
+  pre.smalldisplay { font-family:inherit; font-size:smaller }
+  pre.smallformat  { font-family:inherit; font-size:smaller }
+  pre.smallexample { font-size:smaller }
+  pre.smalllisp    { font-size:smaller }
+  span.sc    { font-variant:small-caps }
+  span.roman { font-family:serif; font-weight:normal; } 
+  span.sansserif { font-family:sans-serif; font-weight:normal; } 
+--></style>
+</head>
+<body>
+<div class="node">
+<a name="Filenames-encoding"></a>
+<p>
+Next:&nbsp;<a rel="next" accesskey="n" href="File-content-encoding.html#File-content-encoding">File content encoding</a>,
+Previous:&nbsp;<a rel="previous" accesskey="p" href="Shared-Files.html#Shared-Files">Shared Files</a>,
+Up:&nbsp;<a rel="up" accesskey="u" href="The-Implementation-of-Standard-I_002fO.html#The-Implementation-of-Standard-I_002fO">The Implementation of Standard I/O</a>
+<hr>
+</div>
+
+<p><a name="gnat_005frm_002fthe_005fimplementation_005fof_005fstandard_005fi_005fo-filenames_002dencoding"></a><a name="g_t26c"></a><a name="gnat_005frm_002fthe_005fimplementation_005fof_005fstandard_005fi_005fo-id22"></a><a name="g_t26d"></a>
+
+<h3 class="section">11.11 Filenames encoding</h3>
+
+<p>An encoding form parameter can be used to specify the filename
+encoding <code>encoding=xxx</code>.
+
+     <ul>
+<li>If the form parameter <code>encoding=utf8</code> appears in the form string, the
+filename must be encoded in UTF-8.
+
+     <li>If the form parameter <code>encoding=8bits</code> appears in the form
+string, the filename must be a standard 8bits string. 
+</ul>
+
+<p>In the absence of a <code>encoding=xxx</code> form parameter, the
+encoding is controlled by the <code>GNAT_CODE_PAGE</code> environment
+variable. And if not set <code>utf8</code> is assumed.
+
+     <dl>
+<dt>`CP_ACP'<dd>
+The current system Windows ANSI code page.
+
+     <br><dt>`CP_UTF8'<dd>
+UTF-8 encoding
+</dl>
+
+<p>This encoding form parameter is only supported on the Windows
+platform. On the other Operating Systems the run-time is supporting
+UTF-8 natively.
+
+</body></html>
+

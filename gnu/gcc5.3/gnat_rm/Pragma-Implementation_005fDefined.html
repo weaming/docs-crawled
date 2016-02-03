@@ -1,0 +1,67 @@
+<html lang="en">
+<head>
+<title>Pragma Implementation_Defined - GNAT Reference Manual</title>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+<meta name="description" content="GNAT Reference Manual">
+<meta name="generator" content="makeinfo 4.13">
+<link title="Top" rel="start" href="index.html#Top">
+<link rel="up" href="Implementation-Defined-Pragmas.html#Implementation-Defined-Pragmas" title="Implementation Defined Pragmas">
+<link rel="prev" href="Pragma-Ignore_005fPragma.html#Pragma-Ignore_005fPragma" title="Pragma Ignore_Pragma">
+<link rel="next" href="Pragma-Implemented.html#Pragma-Implemented" title="Pragma Implemented">
+<link href="http://www.gnu.org/software/texinfo/" rel="generator-home" title="Texinfo Homepage">
+<!--
+
+     GNAT Reference Manual , March 24, 2015
+
+     AdaCore
+
+     Copyright (C) 2008-2015, Free Software Foundation
+-->
+<meta http-equiv="Content-Style-Type" content="text/css">
+<style type="text/css"><!--
+  pre.display { font-family:inherit }
+  pre.format  { font-family:inherit }
+  pre.smalldisplay { font-family:inherit; font-size:smaller }
+  pre.smallformat  { font-family:inherit; font-size:smaller }
+  pre.smallexample { font-size:smaller }
+  pre.smalllisp    { font-size:smaller }
+  span.sc    { font-variant:small-caps }
+  span.roman { font-family:serif; font-weight:normal; } 
+  span.sansserif { font-family:sans-serif; font-weight:normal; } 
+--></style>
+</head>
+<body>
+<div class="node">
+<a name="Pragma-Implementation_Defined"></a>
+<a name="Pragma-Implementation_005fDefined"></a>
+<p>
+Next:&nbsp;<a rel="next" accesskey="n" href="Pragma-Implemented.html#Pragma-Implemented">Pragma Implemented</a>,
+Previous:&nbsp;<a rel="previous" accesskey="p" href="Pragma-Ignore_005fPragma.html#Pragma-Ignore_005fPragma">Pragma Ignore_Pragma</a>,
+Up:&nbsp;<a rel="up" accesskey="u" href="Implementation-Defined-Pragmas.html#Implementation-Defined-Pragmas">Implementation Defined Pragmas</a>
+<hr>
+</div>
+
+<p><a name="gnat_005frm_002fimplementation_005fdefined_005fpragmas-pragma_002dimplementation_002ddefined"></a><a name="g_t61"></a>
+
+<h3 class="section">2.70 Pragma Implementation_Defined</h3>
+
+<p>Syntax:
+
+<pre class="example">    pragma Implementation_Defined (local_NAME);
+</pre>
+<p>This pragma marks a previously declared entioty as implementation-defined. 
+For an overloaded entity, applies to the most recent homonym.
+
+<pre class="example">    pragma Implementation_Defined;
+</pre>
+<p>The form with no arguments appears anywhere within a scope, most
+typically a package spec, and indicates that all entities that are
+defined within the package spec are Implementation_Defined.
+
+<p>This pragma is used within the GNAT runtime library to identify
+implementation-defined entities introduced in language-defined units,
+for the purpose of implementing the No_Implementation_Identifiers
+restriction.
+
+</body></html>
+

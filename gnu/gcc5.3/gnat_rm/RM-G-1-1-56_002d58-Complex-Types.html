@@ -1,0 +1,106 @@
+<html lang="en">
+<head>
+<title>RM G 1 1 56-58 Complex Types - GNAT Reference Manual</title>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+<meta name="description" content="GNAT Reference Manual">
+<meta name="generator" content="makeinfo 4.13">
+<link title="Top" rel="start" href="index.html#Top">
+<link rel="up" href="Implementation-Advice.html#Implementation-Advice" title="Implementation Advice">
+<link rel="prev" href="RM-G-Numerics.html#RM-G-Numerics" title="RM G Numerics">
+<link rel="next" href="RM-G-1-2-49-Complex-Elementary-Functions.html#RM-G-1-2-49-Complex-Elementary-Functions" title="RM G 1 2 49 Complex Elementary Functions">
+<link href="http://www.gnu.org/software/texinfo/" rel="generator-home" title="Texinfo Homepage">
+<!--
+
+     GNAT Reference Manual , March 24, 2015
+
+     AdaCore
+
+     Copyright (C) 2008-2015, Free Software Foundation
+-->
+<meta http-equiv="Content-Style-Type" content="text/css">
+<style type="text/css"><!--
+  pre.display { font-family:inherit }
+  pre.format  { font-family:inherit }
+  pre.smalldisplay { font-family:inherit; font-size:smaller }
+  pre.smallformat  { font-family:inherit; font-size:smaller }
+  pre.smallexample { font-size:smaller }
+  pre.smalllisp    { font-size:smaller }
+  span.sc    { font-variant:small-caps }
+  span.roman { font-family:serif; font-weight:normal; } 
+  span.sansserif { font-family:sans-serif; font-weight:normal; } 
+--></style>
+</head>
+<body>
+<div class="node">
+<a name="RM-G-1-1-56-58-Complex-Types"></a>
+<a name="RM-G-1-1-56_002d58-Complex-Types"></a>
+<p>
+Next:&nbsp;<a rel="next" accesskey="n" href="RM-G-1-2-49-Complex-Elementary-Functions.html#RM-G-1-2-49-Complex-Elementary-Functions">RM G 1 2 49 Complex Elementary Functions</a>,
+Previous:&nbsp;<a rel="previous" accesskey="p" href="RM-G-Numerics.html#RM-G-Numerics">RM G Numerics</a>,
+Up:&nbsp;<a rel="up" accesskey="u" href="Implementation-Advice.html#Implementation-Advice">Implementation Advice</a>
+<hr>
+</div>
+
+<p><a name="gnat_005frm_002fimplementation_005fadvice-rm_002dg_002d1_002d1_002d56_002d58_002dcomplex_002dtypes"></a><a name="g_t1f8"></a>
+
+<h3 class="section">6.60 RM G.1.1(56-58): Complex Types</h3>
+
+<blockquote>
+
+<p>"Because the usual mathematical meaning of multiplication of a complex
+operand and a real operand is that of the scaling of both components of
+the former by the latter, an implementation should not perform this
+operation by first promoting the real operand to complex type and then
+performing a full complex multiplication.  In systems that, in the
+future, support an Ada binding to IEC 559:1989, the latter technique
+will not generate the required result when one of the components of the
+complex operand is infinite.  (Explicit multiplication of the infinite
+component by the zero component obtained during promotion yields a NaN
+that propagates into the final result.) Analogous advice applies in the
+case of multiplication of a complex operand and a pure-imaginary
+operand, and in the case of division of a complex operand by a real or
+pure-imaginary operand." 
+</blockquote>
+
+<p>Not followed.
+
+<blockquote>
+
+<p>"Similarly, because the usual mathematical meaning of addition of a
+complex operand and a real operand is that the imaginary operand remains
+unchanged, an implementation should not perform this operation by first
+promoting the real operand to complex type and then performing a full
+complex addition.  In implementations in which the <cite>Signed_Zeros</cite>
+attribute of the component type is <cite>True</cite> (and which therefore
+conform to IEC 559:1989 in regard to the handling of the sign of zero in
+predefined arithmetic operations), the latter technique will not
+generate the required result when the imaginary component of the complex
+operand is a negatively signed zero.  (Explicit addition of the negative
+zero to the zero obtained during promotion yields a positive zero.) 
+Analogous advice applies in the case of addition of a complex operand
+and a pure-imaginary operand, and in the case of subtraction of a
+complex operand and a real or pure-imaginary operand." 
+</blockquote>
+
+<p>Not followed.
+
+<blockquote>
+
+<p>"Implementations in which <cite>Real'Signed_Zeros</cite> is <cite>True</cite> should
+attempt to provide a rational treatment of the signs of zero results and
+result components.  As one example, the result of the <cite>Argument</cite>
+function should have the sign of the imaginary component of the
+parameter <cite>X</cite> when the point represented by that parameter lies on
+the positive real axis; as another, the sign of the imaginary component
+of the <cite>Compose_From_Polar</cite> function should be the same as
+(respectively, the opposite of) that of the <cite>Argument</cite> parameter when that
+parameter has a value of zero and the <cite>Modulus</cite> parameter has a
+nonnegative (respectively, negative) value." 
+</blockquote>
+
+<p>Followed.
+
+<p><a name="index-Complex-elementary-functions-452"></a>
+
+</body></html>
+

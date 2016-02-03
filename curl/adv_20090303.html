@@ -1,0 +1,143 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
+<HTML>
+<HEAD> <TITLE>cURL - Security Advisory (March 3, 2009)</TITLE>
+<meta content="text/html; charset=UTF-8" http-equiv="Content-Type">
+<link rel="stylesheet" type="text/css" href="http://curl.haxx.se/curl.css">
+<link rel="shortcut icon" href="http://curl.haxx.se/favicon.ico">
+<link rel="STYLESHEET" type="text/css" href="http://curl.haxx.se/manpage.css">
+</HEAD>
+<body bgcolor="#ffffff" text="#000000">
+<div class="main">
+<div class="menu">
+<a href="index.html" class="menuitem" title="Documentation main page">Docs Overview</a>
+</div>
+<div class="contents">
+<div class="where"><a href="http://curl.haxx.se/">cURL</a> / <a href="index.html">Docs</a> / <a href="security.html">Security</a> / <b>Advisory</b></div>
+<h1> Security Advisory March 3 2009 </h1>
+<div class="relatedbox">
+<b>Related:</b>
+<br><a href="http://curl.haxx.se/changes.html">Changelog</a>
+<br><a href="faq.html">FAQ</a>
+<br><a href="http://curl.haxx.se/dev/security.html">Security dev process</a>
+<br><a href="vulnerabilities.html">Vulnerabilities Table</a>
+</div>
+<pre>
+                        libcurl Arbitrary File Access
+                        =============================
+&nbsp;
+Project cURL Security Advisory, March 3rd 2009
+http://curl.haxx.se/docs/security.html
+&nbsp;
+1. VULNERABILITY
+&nbsp;
+  When told to follow a "redirect" automatically, libcurl does not question
+  the new target URL but will follow to any new URL that it understands. As
+  libcurl supports FILE:// URLs, a rogue server can thus "trick" a
+  libcurl-using application to read a local file instead of the remote one.
+&nbsp;
+  This is a problem, for example, when the application is running on a server
+  and is written to upload or to otherwise provide the transfered data to a
+  user, to another server or to another application etc, as it can be used to
+  expose local files it was not meant to.
+&nbsp;
+  The problem can also be exploited for uploading, if the rogue server
+  redirects the client to a local file and thus it would (over)write a local
+  file instead of sending it to the server.
+&nbsp;
+  libcurl compiled to support SCP can get tricked to get a file using embedded
+  semicolons, which can lead to execution of commands on the given
+  server. "Location: scp://name:passwd@host/a'``;date &gt;/tmp/test``;'".
+&nbsp;
+  Files on servers other than the one running libcurl are also accessible when
+  credentials for those servers are stored in the .netrc file of the user
+  running libcurl.  This is most common for FTP servers, but can occur with
+  any protocol supported by libcurl.  Files on remote SSH servers are also
+  accessible when the user has an unencrypted SSH key.
+&nbsp;
+  There is no known exploit at the time of this writing.
+&nbsp;
+  The Common Vulnerabilities and Exposures (CVE) project has assigned the name
+  CVE-2009-0037 to this issue.
+&nbsp;
+2. AFFECTED VERSIONS
+&nbsp;
+  Affected versions: curl and libcurl 5.11(!) to and including 7.19.3
+  Not affected versions: curl and libcurl 5.10 and earlier, 7.19.4 and later
+&nbsp;
+  Also note that (lib)curl is used by many applications, and not always
+  advertised as such.
+&nbsp;
+3. THE SOLUTION
+&nbsp;
+  libcurl 7.19.4 introduces a new option called CURLOPT_REDIR_PROTOCOLS, which
+  applications can use to tell libcurl what target protocols automatic
+  redirect followings are allowed to use. This will by default exclude FILE
+  and SCP URLs.
+&nbsp;
+4. RECOMMENDATIONS
+&nbsp;
+  We suggest you take one of the following actions immediately, in order of
+  preference:
+&nbsp;
+  A - Upgrade to curl and libcurl 7.19.4
+&nbsp;
+  B - Apply the suitable patch and rebuild
+&nbsp;
+    For current CVS HEAD:
+    http://curl.haxx.se/CVE-2009-0037/curl-CVSHEAD-CVE-2009-0037.patch
+&nbsp;
+    For curl 7.19.0:
+    http://curl.haxx.se/CVE-2009-0037/curl-7.19.0-CVE-2009-0037.patch
+&nbsp;
+    For curl 7.18.2:
+    http://curl.haxx.se/CVE-2009-0037/curl-7.18.2-CVE-2009-0037.patch
+&nbsp;
+    For curl 7.18.1:
+    http://curl.haxx.se/CVE-2009-0037/curl-7.18.1-CVE-2009-0037.patch
+&nbsp;
+    For curl 7.17.0:
+    http://curl.haxx.se/CVE-2009-0037/curl-7.17.0-CVE-2009-0037.patch
+&nbsp;
+    For curl 7.16.4:
+    http://curl.haxx.se/CVE-2009-0037/curl-7.16.4-CVE-2009-0037.patch
+&nbsp;
+    For curl 7.15.3:
+    http://curl.haxx.se/CVE-2009-0037/curl-7.15.3-CVE-2009-0037.patch
+&nbsp;
+    For curl 7.15.1:
+    http://curl.haxx.se/CVE-2009-0037/curl-7.15.1-CVE-2009-0037.patch
+&nbsp;
+    For curl 7.11.0:
+    http://curl.haxx.se/CVE-2009-0037/curl-7.11.0-CVE-2009-0037.patch
+&nbsp;
+  C - Disable automatic redirection following in your application and do the
+      logic "manually" instead.
+&nbsp;
+5. TIME LINE
+&nbsp;
+  We were notified by David Kierznowski on Feb 6th, 2009.
+&nbsp;
+  We discussed solutions and a first patch was written and tested on Feb 11th.
+&nbsp;
+  Vendor-sec was contacted on Feb 12, 2009.
+&nbsp;
+  We agreed on and coordinated the synchronous disclosure of this problem
+  together with the curl 7.19.4 release.
+&nbsp;
+  curl 7.19.4 was released on March 3 2009, just before this flaw was publicly
+  disclosed.
+&nbsp;
+6. CREDITS
+&nbsp;
+  Reported to us by David Kierznowski. Thanks a lot!
+&nbsp;
+  Daniel Fandrich researched the issue and helped with the fix.
+&nbsp;
+  Michal Marek brought the SCP side of this issue and did a bunch of the
+  patch backports.
+&nbsp;
+  Daniel Stenberg wrote the primary patch and this advisory.
+</pre>
+</div>
+</div>
+</body> </html>

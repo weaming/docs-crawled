@@ -1,0 +1,88 @@
+<html lang="en">
+<head>
+<title>Global Attributes - GNAT User's Guide for Native Platforms</title>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+<meta name="description" content="GNAT User's Guide for Native Platforms">
+<meta name="generator" content="makeinfo 4.13">
+<link title="Top" rel="start" href="index.html#Top">
+<link rel="up" href="Organizing-Projects-into-Subsystems.html#Organizing-Projects-into-Subsystems" title="Organizing Projects into Subsystems">
+<link rel="prev" href="Sharing-Between-Projects.html#Sharing-Between-Projects" title="Sharing Between Projects">
+<link href="http://www.gnu.org/software/texinfo/" rel="generator-home" title="Texinfo Homepage">
+<!--
+
+     GNAT User's Guide for Native Platforms , March 24, 2015
+
+     AdaCore
+
+     Copyright (C) 2008-2015, Free Software Foundation
+-->
+<meta http-equiv="Content-Style-Type" content="text/css">
+<style type="text/css"><!--
+  pre.display { font-family:inherit }
+  pre.format  { font-family:inherit }
+  pre.smalldisplay { font-family:inherit; font-size:smaller }
+  pre.smallformat  { font-family:inherit; font-size:smaller }
+  pre.smallexample { font-size:smaller }
+  pre.smalllisp    { font-size:smaller }
+  span.sc    { font-variant:small-caps }
+  span.roman { font-family:serif; font-weight:normal; } 
+  span.sansserif { font-family:sans-serif; font-weight:normal; } 
+--></style>
+</head>
+<body>
+<div class="node">
+<a name="Global-Attributes"></a>
+<p>
+Previous:&nbsp;<a rel="previous" accesskey="p" href="Sharing-Between-Projects.html#Sharing-Between-Projects">Sharing Between Projects</a>,
+Up:&nbsp;<a rel="up" accesskey="u" href="Organizing-Projects-into-Subsystems.html#Organizing-Projects-into-Subsystems">Organizing Projects into Subsystems</a>
+<hr>
+</div>
+
+<p><a name="gnat_005fugn_002fgnat_005fproject_005fmanager-global_002dattributes"></a><a name="g_t174"></a><a name="gnat_005fugn_002fgnat_005fproject_005fmanager-id18"></a><a name="g_t175"></a>
+
+<h4 class="subsection">5.3.4 Global Attributes</h4>
+
+<p>We have already seen many examples of attributes used to specify a special
+option of one of the tools involved in the build process. Most of those
+attributes are project specific. That it to say, they only affect the invocation
+of tools on the sources of the project where they are defined.
+
+<p>There are a few additional attributes that apply to all projects in a
+hierarchy as long as they are defined on the "main" project. 
+The main project is the project explicitly mentioned on the command-line. 
+The project hierarchy is the "with"-closure of the main project.
+
+<p>Here is a list of commonly used global attributes:
+
+<p><a name="index-Global_005fConfiguration_005fPragmas-_0028GNAT-Project-Manager_0029-824"></a>
+`Builder.Global_Configuration_Pragmas':
+
+<blockquote>
+
+<p>This attribute points to a file that contains configuration pragmas
+to use when building executables. These pragmas apply for all
+executables built from this project hierarchy. As we have seen before,
+additional pragmas can be specified on a per-project basis by setting the
+<cite>Compiler.Local_Configuration_Pragmas</cite> attribute. 
+</blockquote>
+
+<p><a name="index-Global_005fCompilation_005fSwitches-_0028GNAT-Project-Manager_0029-825"></a>
+`Builder.Global_Compilation_Switches':
+
+<blockquote>
+
+<p>This attribute is a list of compiler switches to use when compiling any
+source file in the project hierarchy. These switches are used in addition
+to the ones defined in the <cite>Compiler</cite> package, which only apply to
+the sources of the corresponding project. This attribute is indexed on
+the name of the language. 
+</blockquote>
+
+<p>Using such global capabilities is convenient. It can also lead to unexpected
+behavior. Especially when several subsystems are shared among different main
+projects and the different global attributes are not
+compatible. Note that using aggregate projects can be a safer and more powerful
+replacement to global attributes.
+
+</body></html>
+

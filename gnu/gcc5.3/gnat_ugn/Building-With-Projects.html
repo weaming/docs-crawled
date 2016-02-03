@@ -1,0 +1,155 @@
+<html lang="en">
+<head>
+<title>Building With Projects - GNAT User's Guide for Native Platforms</title>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+<meta name="description" content="GNAT User's Guide for Native Platforms">
+<meta name="generator" content="makeinfo 4.13">
+<link title="Top" rel="start" href="index.html#Top">
+<link rel="up" href="GNAT-Project-Manager.html#GNAT-Project-Manager" title="GNAT Project Manager">
+<link rel="prev" href="Introduction.html#Introduction" title="Introduction">
+<link rel="next" href="Organizing-Projects-into-Subsystems.html#Organizing-Projects-into-Subsystems" title="Organizing Projects into Subsystems">
+<link href="http://www.gnu.org/software/texinfo/" rel="generator-home" title="Texinfo Homepage">
+<!--
+
+     GNAT User's Guide for Native Platforms , March 24, 2015
+
+     AdaCore
+
+     Copyright (C) 2008-2015, Free Software Foundation
+-->
+<meta http-equiv="Content-Style-Type" content="text/css">
+<style type="text/css"><!--
+  pre.display { font-family:inherit }
+  pre.format  { font-family:inherit }
+  pre.smalldisplay { font-family:inherit; font-size:smaller }
+  pre.smallformat  { font-family:inherit; font-size:smaller }
+  pre.smallexample { font-size:smaller }
+  pre.smalllisp    { font-size:smaller }
+  span.sc    { font-variant:small-caps }
+  span.roman { font-family:serif; font-weight:normal; } 
+  span.sansserif { font-family:sans-serif; font-weight:normal; } 
+--></style>
+</head>
+<body>
+<div class="node">
+<a name="Building-With-Projects"></a>
+<p>
+Next:&nbsp;<a rel="next" accesskey="n" href="Organizing-Projects-into-Subsystems.html#Organizing-Projects-into-Subsystems">Organizing Projects into Subsystems</a>,
+Previous:&nbsp;<a rel="previous" accesskey="p" href="Introduction.html#Introduction">Introduction</a>,
+Up:&nbsp;<a rel="up" accesskey="u" href="GNAT-Project-Manager.html#GNAT-Project-Manager">GNAT Project Manager</a>
+<hr>
+</div>
+
+<p><a name="gnat_005fugn_002fgnat_005fproject_005fmanager-building_002dwith_002dprojects"></a><a name="g_t150"></a><a name="gnat_005fugn_002fgnat_005fproject_005fmanager-id2"></a><a name="g_t151"></a>
+
+<h3 class="section">5.2 Building With Projects</h3>
+
+<p>In its simplest form, a unique project is used to build a single executable. 
+This section concentrates on such a simple setup. Later sections will extend
+this basic model to more complex setups.
+
+<p>The following concepts are the foundation of project files, and will be further
+detailed later in this documentation. They are summarized here as a reference.
+
+     <dl>
+<dt>`Project file':<dd>
+A text file using an Ada-like syntax, generally using the <code>.gpr</code>
+extension. It defines build-related characteristics of an application. 
+The characteristics include the list of sources, the location of those
+sources, the location for the generated object files, the name of
+the main program, and the options for the various tools involved in the
+build process.
+
+     <br><dt>`Project attribute':<dd>
+A specific project characteristic is defined by an attribute clause. Its
+value is a string or a sequence of strings. All settings in a project
+are defined through a list of predefined attributes with precise
+semantics. See <a href="152.html#g_t152">Attributes</a>.
+
+     <br><dt>`Package in a project':<dd>
+Global attributes are defined at the top level of a project. 
+Attributes affecting specific tools are grouped in a
+package whose name is related to tool's function. The most common
+packages are <cite>Builder</cite>, <cite>Compiler</cite>, <cite>Binder</cite>,
+and <cite>Linker</cite>. See <a href="153.html#g_t153">Packages</a>.
+
+     <br><dt>`Project variables':<dd>
+In addition to attributes, a project can use variables to store intermediate
+values and avoid duplication in complex expressions. It can be initialized
+with a value coming from the environment. 
+A frequent use of variables is to define scenarios. 
+See <a href="154.html#g_t154">External Values</a>, <a href="14c.html#g_t14c">Scenarios in Projects</a>, and <a href="155.html#g_t155">Variables</a>.
+
+     <br><dt>`Source files' and `source directories':<dd>
+A source file is associated with a language through a naming convention. For
+instance, <cite>foo.c</cite> is typically the name of a C source file;
+<cite>bar.ads</cite> or <cite>bar.1.ada</cite> are two common naming conventions for a
+file containing an Ada spec. A compilation unit is often composed of a main
+source file and potentially several auxiliary ones, such as header files in C. 
+The naming conventions can be user defined <a href="14b.html#g_t14b">Naming Schemes</a>, and will
+drive the builder to call the appropriate compiler for the given source file. 
+Source files are searched for in the source directories associated with the
+project through the `Source_Dirs' attribute. By default, all the files (in
+these source directories) following the naming conventions associated with the
+declared languages are considered to be part of the project. It is also
+possible to limit the list of source files using the `Source_Files' or
+`Source_List_File' attributes. Note that those last two attributes only
+accept basenames with no directory information.
+
+     <br><dt>`Object files' and `object directory':<dd>
+An object file is an intermediate file produced by the compiler from a
+compilation unit. It is used by post-compilation tools to produce
+final executables or libraries. Object files produced in the context of
+a given project are stored in a single directory that can be specified by the
+`Object_Dir' attribute. In order to store objects in
+two or more object directories, the system must be split into
+distinct subsystems with their own project file. 
+</dl>
+
+<p>The following subsections introduce gradually all the attributes of interest
+for simple build needs. Here is the simple setup that will be used in the
+following examples.
+
+<p>The Ada source files <code>pack.ads</code>, <code>pack.adb</code>, and <code>proc.adb</code> are in
+the <code>common/</code> directory. The file <code>proc.adb</code> contains an Ada main
+subprogram <cite>Proc</cite> that `with's package <cite>Pack</cite>. We want to compile
+these source files with the switch
+`-O2', and put the resulting files in
+the directory <code>obj/</code>.
+
+<pre class="example">    common/
+      pack.ads
+      pack.adb
+      proc.adb
+    common/obj/
+      proc.ali, proc.o pack.ali, pack.o
+</pre>
+<p>Our project is to be called `Build'. The name of the
+file is the name of the project (case-insensitive) with the
+<code>.gpr</code> extension, therefore the project file name is <code>build.gpr</code>. This
+is not mandatory, but a warning is issued when this convention is not followed.
+
+<p>This is a very simple example, and as stated above, a single project
+file is enough for it. We will thus create a new file, that for now
+should contain the following code:
+
+<pre class="example">    project Build is
+    end Build;
+</pre>
+<ul class="menu">
+<li><a accesskey="1" href="Source-Files-and-Directories.html#Source-Files-and-Directories">Source Files and Directories</a>
+<li><a accesskey="2" href="Duplicate-Sources-in-Projects.html#Duplicate-Sources-in-Projects">Duplicate Sources in Projects</a>
+<li><a accesskey="3" href="Object-and-Exec-Directory.html#Object-and-Exec-Directory">Object and Exec Directory</a>
+<li><a accesskey="4" href="Main-Subprograms.html#Main-Subprograms">Main Subprograms</a>
+<li><a accesskey="5" href="Tools-Options-in-Project-Files.html#Tools-Options-in-Project-Files">Tools Options in Project Files</a>
+<li><a accesskey="6" href="Compiling-with-Project-Files.html#Compiling-with-Project-Files">Compiling with Project Files</a>
+<li><a accesskey="7" href="Executable-File-Names.html#Executable-File-Names">Executable File Names</a>
+<li><a accesskey="8" href="Avoid-Duplication-With-Variables.html#Avoid-Duplication-With-Variables">Avoid Duplication With Variables</a>
+<li><a accesskey="9" href="Naming-Schemes.html#Naming-Schemes">Naming Schemes</a>
+<li><a href="Installation.html#Installation">Installation</a>
+<li><a href="Distributed-support.html#Distributed-support">Distributed support</a>
+
+</ul>
+
+</body></html>
+

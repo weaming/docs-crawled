@@ -1,0 +1,84 @@
+<html lang="en">
+<head>
+<title>Reference types - Guide to GNU gcj</title>
+<meta http-equiv="Content-Type" content="text/html">
+<meta name="description" content="Guide to GNU gcj">
+<meta name="generator" content="makeinfo 4.13">
+<link title="Top" rel="start" href="index.html#Top">
+<link rel="up" href="About-CNI.html#About-CNI" title="About CNI">
+<link rel="prev" href="Primitive-types.html#Primitive-types" title="Primitive types">
+<link rel="next" href="Interfaces.html#Interfaces" title="Interfaces">
+<link href="http://www.gnu.org/software/texinfo/" rel="generator-home" title="Texinfo Homepage">
+<!--
+Copyright (C) 2001-2015 Free Software Foundation, Inc.
+
+Permission is granted to copy, distribute and/or modify this document
+under the terms of the GNU Free Documentation License, Version 1.3 or
+any later version published by the Free Software Foundation; with no
+Invariant Sections, the Front-Cover Texts being (a) (see below), and
+with the Back-Cover Texts being (b) (see below).
+A copy of the license is included in the
+section entitled ``GNU Free Documentation License''.
+
+
+(a) The FSF's Front-Cover Text is:
+
+     A GNU Manual
+
+(b) The FSF's Back-Cover Text is:
+
+     You have freedom to copy and modify this GNU Manual, like GNU
+     software.  Copies published by the Free Software Foundation raise
+     funds for GNU development.
+-->
+<meta http-equiv="Content-Style-Type" content="text/css">
+<style type="text/css"><!--
+  pre.display { font-family:inherit }
+  pre.format  { font-family:inherit }
+  pre.smalldisplay { font-family:inherit; font-size:smaller }
+  pre.smallformat  { font-family:inherit; font-size:smaller }
+  pre.smallexample { font-size:smaller }
+  pre.smalllisp    { font-size:smaller }
+  span.sc    { font-variant:small-caps }
+  span.roman { font-family:serif; font-weight:normal; } 
+  span.sansserif { font-family:sans-serif; font-weight:normal; } 
+--></style>
+</head>
+<body>
+<div class="node">
+<a name="Reference-types"></a>
+<p>
+Next:&nbsp;<a rel="next" accesskey="n" href="Interfaces.html#Interfaces">Interfaces</a>,
+Previous:&nbsp;<a rel="previous" accesskey="p" href="Primitive-types.html#Primitive-types">Primitive types</a>,
+Up:&nbsp;<a rel="up" accesskey="u" href="About-CNI.html#About-CNI">About CNI</a>
+<hr>
+</div>
+
+<h3 class="section">11.4 Reference types</h3>
+
+<p>A Java reference type is treated as a class in C++.  Classes and
+interfaces are handled this way.  A Java reference is translated to a
+C++ pointer, so for instance a Java <code>java.lang.String</code> becomes,
+in C++, <code>java::lang::String *</code>.
+
+   <p>CNI provides a few built-in typedefs for the most common classes:
+   <p><table summary=""><tr align="left"><td valign="top" width="30%"><strong>Java type</strong> </td><td valign="top" width="25%"><strong>C++ typename</strong> </td><td valign="top" width="60%"><strong>Description</strong>
+<br></td></tr><tr align="left"><td valign="top" width="30%"><code>java.lang.Object</code> </td><td valign="top" width="25%"><code>jobject</code> </td><td valign="top" width="60%">Object type
+<br></td></tr><tr align="left"><td valign="top" width="30%"><code>java.lang.String</code> </td><td valign="top" width="25%"><code>jstring</code> </td><td valign="top" width="60%">String type
+<br></td></tr><tr align="left"><td valign="top" width="30%"><code>java.lang.Class</code> </td><td valign="top" width="25%"><code>jclass</code> </td><td valign="top" width="60%">Class type
+   <br></td></tr></table>
+<a name="index-jobject-6"></a><a name="index-jstring-7"></a><a name="index-jclass-8"></a>
+Every Java class or interface has a corresponding <code>Class</code>
+instance.  These can be accessed in CNI via the static <code>class$</code>
+field of a class.  The <code>class$</code> field is of type <code>Class</code>
+(and not <code>Class *</code>), so you will typically take the address of
+it. 
+<a name="index-class_0024-9"></a>
+Here is how you can refer to the class of <code>String</code>, which in
+Java would be written <code>String.class</code>:
+
+<pre class="example">     using namespace java::lang;
+     doSomething (&amp;String::class$);
+</pre>
+   </body></html>
+

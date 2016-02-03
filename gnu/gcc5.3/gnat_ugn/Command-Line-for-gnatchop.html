@@ -1,0 +1,105 @@
+<html lang="en">
+<head>
+<title>Command Line for gnatchop - GNAT User's Guide for Native Platforms</title>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+<meta name="description" content="GNAT User's Guide for Native Platforms">
+<meta name="generator" content="makeinfo 4.13">
+<link title="Top" rel="start" href="index.html#Top">
+<link rel="up" href="Renaming-Files-with-gnatchop.html#Renaming-Files-with-gnatchop" title="Renaming Files with gnatchop">
+<link rel="prev" href="Operating-gnatchop-in-Compilation-Mode.html#Operating-gnatchop-in-Compilation-Mode" title="Operating gnatchop in Compilation Mode">
+<link rel="next" href="Switches-for-gnatchop.html#Switches-for-gnatchop" title="Switches for gnatchop">
+<link href="http://www.gnu.org/software/texinfo/" rel="generator-home" title="Texinfo Homepage">
+<!--
+
+     GNAT User's Guide for Native Platforms , March 24, 2015
+
+     AdaCore
+
+     Copyright (C) 2008-2015, Free Software Foundation
+-->
+<meta http-equiv="Content-Style-Type" content="text/css">
+<style type="text/css"><!--
+  pre.display { font-family:inherit }
+  pre.format  { font-family:inherit }
+  pre.smalldisplay { font-family:inherit; font-size:smaller }
+  pre.smallformat  { font-family:inherit; font-size:smaller }
+  pre.smallexample { font-size:smaller }
+  pre.smalllisp    { font-size:smaller }
+  span.sc    { font-variant:small-caps }
+  span.roman { font-family:serif; font-weight:normal; } 
+  span.sansserif { font-family:sans-serif; font-weight:normal; } 
+--></style>
+</head>
+<body>
+<div class="node">
+<a name="Command-Line-for-gnatchop"></a>
+<p>
+Next:&nbsp;<a rel="next" accesskey="n" href="Switches-for-gnatchop.html#Switches-for-gnatchop">Switches for gnatchop</a>,
+Previous:&nbsp;<a rel="previous" accesskey="p" href="Operating-gnatchop-in-Compilation-Mode.html#Operating-gnatchop-in-Compilation-Mode">Operating gnatchop in Compilation Mode</a>,
+Up:&nbsp;<a rel="up" accesskey="u" href="Renaming-Files-with-gnatchop.html#Renaming-Files-with-gnatchop">Renaming Files with gnatchop</a>
+<hr>
+</div>
+
+<p><a name="gnat_005fugn_002fthe_005fgnat_005fcompilation_005fmodel-id25"></a><a name="g_t73"></a><a name="gnat_005fugn_002fthe_005fgnat_005fcompilation_005fmodel-command_002dline_002dfor_002dgnatchop"></a><a name="g_t74"></a>
+
+<h5 class="subsubsection">3.3.6.3 Command Line for <cite>gnatchop</cite></h5>
+
+<p>The <cite>gnatchop</cite> command has the form:
+
+<pre class="example">    $ gnatchop switches file_name [file_name ...]
+          [directory]
+</pre>
+<p>The only required argument is the file name of the file to be chopped. 
+There are no restrictions on the form of this file name. The file itself
+contains one or more Ada units, in normal GNAT format, concatenated
+together. As shown, more than one file may be presented to be chopped.
+
+<p>When run in default mode, <cite>gnatchop</cite> generates one output file in
+the current directory for each unit in each of the files.
+
+<p><cite>directory</cite>, if specified, gives the name of the directory to which
+the output files will be written. If it is not specified, all files are
+written to the current directory.
+
+<p>For example, given a
+file called <code>hellofiles</code> containing
+
+<pre class="example">    procedure Hello;
+    
+    with Ada.Text_IO; use Ada.Text_IO;
+    procedure Hello is
+    begin
+       Put_Line ("Hello");
+    end Hello;
+</pre>
+<p>the command
+
+<pre class="example">    $ gnatchop hellofiles
+</pre>
+<p>generates two files in the current directory, one called
+<code>hello.ads</code> containing the single line that is the procedure spec,
+and the other called <code>hello.adb</code> containing the remaining text. The
+original file is not affected. The generated files can be compiled in
+the normal manner.
+
+<p>When gnatchop is invoked on a file that is empty or that contains only empty
+lines and/or comments, gnatchop will not fail, but will not produce any
+new sources.
+
+<p>For example, given a
+file called <code>toto.txt</code> containing
+
+<pre class="example">    --  Just a comment
+</pre>
+<p>the command
+
+<pre class="example">    $ gnatchop toto.txt
+</pre>
+<p>will not produce any new file and will result in the following warnings:
+
+<pre class="example">    toto.txt:1:01: warning: empty file, contains no compilation units
+    no compilation units found
+    no source files written
+</pre>
+</body></html>
+

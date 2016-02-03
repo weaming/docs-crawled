@@ -1,0 +1,81 @@
+<html lang="en">
+<head>
+<title>Changed semantics - GNAT Reference Manual</title>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+<meta name="description" content="GNAT Reference Manual">
+<meta name="generator" content="makeinfo 4.13">
+<link title="Top" rel="start" href="index.html#Top">
+<link rel="up" href="Compatibility-with-Ada-83.html#Compatibility-with-Ada-83" title="Compatibility with Ada 83">
+<link rel="prev" href="More-deterministic-semantics.html#More-deterministic-semantics" title="More deterministic semantics">
+<link rel="next" href="Other-language-compatibility-issues.html#Other-language-compatibility-issues" title="Other language compatibility issues">
+<link href="http://www.gnu.org/software/texinfo/" rel="generator-home" title="Texinfo Homepage">
+<!--
+
+     GNAT Reference Manual , March 24, 2015
+
+     AdaCore
+
+     Copyright (C) 2008-2015, Free Software Foundation
+-->
+<meta http-equiv="Content-Style-Type" content="text/css">
+<style type="text/css"><!--
+  pre.display { font-family:inherit }
+  pre.format  { font-family:inherit }
+  pre.smalldisplay { font-family:inherit; font-size:smaller }
+  pre.smallformat  { font-family:inherit; font-size:smaller }
+  pre.smallexample { font-size:smaller }
+  pre.smalllisp    { font-size:smaller }
+  span.sc    { font-variant:small-caps }
+  span.roman { font-family:serif; font-weight:normal; } 
+  span.sansserif { font-family:sans-serif; font-weight:normal; } 
+--></style>
+</head>
+<body>
+<div class="node">
+<a name="Changed-semantics"></a>
+<p>
+Next:&nbsp;<a rel="next" accesskey="n" href="Other-language-compatibility-issues.html#Other-language-compatibility-issues">Other language compatibility issues</a>,
+Previous:&nbsp;<a rel="previous" accesskey="p" href="More-deterministic-semantics.html#More-deterministic-semantics">More deterministic semantics</a>,
+Up:&nbsp;<a rel="up" accesskey="u" href="Compatibility-with-Ada-83.html#Compatibility-with-Ada-83">Compatibility with Ada 83</a>
+<hr>
+</div>
+
+<p><a name="gnat_005frm_002fcompatibility_005fand_005fporting_005fguide-id6"></a><a name="g_t3df"></a><a name="gnat_005frm_002fcompatibility_005fand_005fporting_005fguide-changed_002dsemantics"></a><a name="g_t3e0"></a>
+
+<h4 class="subsection">18.2.3 Changed semantics</h4>
+
+<p>The worst kind of incompatibility is one where a program that is legal in
+Ada 83 is also legal in Ada 95 but can have an effect in Ada 95 that was not
+possible in Ada 83.  Fortunately this is extremely rare, but the one
+situation that you should be alert to is the change in the predefined type
+<cite>Character</cite> from 7-bit ASCII to 8-bit Latin-1.
+
+<blockquote>
+
+<p><a name="index-Latin_002d1-1051"></a></blockquote>
+
+     <ul>
+<li>`Range of type `Character`'
+
+     <p>The range of <cite>Standard.Character</cite> is now the full 256 characters
+of Latin-1, whereas in most Ada 83 implementations it was restricted
+to 128 characters. Although some of the effects of
+this change will be manifest in compile-time rejection of legal
+Ada 83 programs it is possible for a working Ada 83 program to have
+a different effect in Ada 95, one that was not permitted in Ada 83. 
+As an example, the expression
+<cite>Character'Pos(Character'Last)</cite> returned <cite>127</cite> in Ada 83 and now
+delivers <cite>255</cite> as its value. 
+In general, you should look at the logic of any
+character-processing Ada 83 program and see whether it needs to be adapted
+to work correctly with Latin-1.  Note that the predefined Ada 95 API has a
+character handling package that may be relevant if code needs to be adapted
+to account for the additional Latin-1 elements. 
+The desirable fix is to
+modify the program to accommodate the full character set, but in some cases
+it may be convenient to define a subtype or derived type of Character that
+covers only the restricted range. 
+</ul>
+
+</body></html>
+

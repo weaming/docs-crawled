@@ -1,0 +1,182 @@
+<html lang="en">
+<head>
+<title>Code Generation - Guide to GNU gcj</title>
+<meta http-equiv="Content-Type" content="text/html">
+<meta name="description" content="Guide to GNU gcj">
+<meta name="generator" content="makeinfo 4.13">
+<link title="Top" rel="start" href="index.html#Top">
+<link rel="up" href="Invoking-gcj.html#Invoking-gcj" title="Invoking gcj">
+<link rel="prev" href="Linking.html#Linking" title="Linking">
+<link rel="next" href="Configure_002dtime-Options.html#Configure_002dtime-Options" title="Configure-time Options">
+<link href="http://www.gnu.org/software/texinfo/" rel="generator-home" title="Texinfo Homepage">
+<!--
+Copyright (C) 2001-2015 Free Software Foundation, Inc.
+
+Permission is granted to copy, distribute and/or modify this document
+under the terms of the GNU Free Documentation License, Version 1.3 or
+any later version published by the Free Software Foundation; with no
+Invariant Sections, the Front-Cover Texts being (a) (see below), and
+with the Back-Cover Texts being (b) (see below).
+A copy of the license is included in the
+section entitled ``GNU Free Documentation License''.
+
+
+(a) The FSF's Front-Cover Text is:
+
+     A GNU Manual
+
+(b) The FSF's Back-Cover Text is:
+
+     You have freedom to copy and modify this GNU Manual, like GNU
+     software.  Copies published by the Free Software Foundation raise
+     funds for GNU development.
+-->
+<meta http-equiv="Content-Style-Type" content="text/css">
+<style type="text/css"><!--
+  pre.display { font-family:inherit }
+  pre.format  { font-family:inherit }
+  pre.smalldisplay { font-family:inherit; font-size:smaller }
+  pre.smallformat  { font-family:inherit; font-size:smaller }
+  pre.smallexample { font-size:smaller }
+  pre.smalllisp    { font-size:smaller }
+  span.sc    { font-variant:small-caps }
+  span.roman { font-family:serif; font-weight:normal; } 
+  span.sansserif { font-family:sans-serif; font-weight:normal; } 
+--></style>
+</head>
+<body>
+<div class="node">
+<a name="Code-Generation"></a>
+<p>
+Next:&nbsp;<a rel="next" accesskey="n" href="Configure_002dtime-Options.html#Configure_002dtime-Options">Configure-time Options</a>,
+Previous:&nbsp;<a rel="previous" accesskey="p" href="Linking.html#Linking">Linking</a>,
+Up:&nbsp;<a rel="up" accesskey="u" href="Invoking-gcj.html#Invoking-gcj">Invoking gcj</a>
+<hr>
+</div>
+
+<h3 class="section">1.6 Code Generation</h3>
+
+<p>In addition to the many <samp><span class="command">gcc</span></samp> options controlling code generation,
+<samp><span class="command">gcj</span></samp> has several options specific to itself.
+
+     <dl>
+<dt><code>-C</code><dd>This option is used to tell <samp><span class="command">gcj</span></samp> to generate bytecode
+(<samp><span class="file">.class</span></samp> files) rather than object code.
+
+     <br><dt><code>--resource </code><var>resource-name</var><dd>This option is used to tell <samp><span class="command">gcj</span></samp> to compile the contents of a
+given file to object code so it may be accessed at runtime with the core
+protocol handler as &lsquo;<samp><span class="samp">core:/</span><var>resource-name</var></samp>&rsquo;.  Note that
+<var>resource-name</var> is the name of the resource as found at runtime; for
+instance, it could be used in a call to <code>ResourceBundle.getBundle</code>. 
+The actual file name to be compiled this way must be specified
+separately.
+
+     <br><dt><code>-ftarget=</code><var>VERSION</var><dd>This can be used with <samp><span class="option">-C</span></samp> to choose the version of bytecode
+emitted by <samp><span class="command">gcj</span></samp>.  The default is &lsquo;<samp><span class="samp">1.5</span></samp>&rsquo;.  When not
+generating bytecode, this option has no effect.
+
+     <br><dt><code>-d </code><var>directory</var><dd>When used with <code>-C</code>, this causes all generated <samp><span class="file">.class</span></samp> files
+to be put in the appropriate subdirectory of <var>directory</var>.  By
+default they will be put in subdirectories of the current working
+directory.
+
+     <br><dt><code>-fno-bounds-check</code><dd>By default, <samp><span class="command">gcj</span></samp> generates code which checks the bounds of all
+array indexing operations.  With this option, these checks are omitted, which
+can improve performance for code that uses arrays extensively.  Note that this
+can result in unpredictable behavior if the code in question actually does
+violate array bounds constraints.  It is safe to use this option if you are
+sure that your code will never throw an <code>ArrayIndexOutOfBoundsException</code>.
+
+     <br><dt><code>-fno-store-check</code><dd>Don't generate array store checks.  When storing objects into arrays, a runtime
+check is normally generated in order to ensure that the object is assignment
+compatible with the component type of the array (which may not be known
+at compile-time).  With this option, these checks are omitted.  This can
+improve performance for code which stores objects into arrays frequently. 
+It is safe to use this option if you are sure your code will never throw an
+<code>ArrayStoreException</code>.
+
+     <br><dt><code>-fjni</code><dd>With <samp><span class="command">gcj</span></samp> there are two options for writing native methods: CNI
+and JNI.  By default <samp><span class="command">gcj</span></samp> assumes you are using CNI.  If you are
+compiling a class with native methods, and these methods are implemented
+using JNI, then you must use <code>-fjni</code>.  This option causes
+<samp><span class="command">gcj</span></samp> to generate stubs which will invoke the underlying JNI
+methods.
+
+     <br><dt><code>-fno-assert</code><dd>Don't recognize the <code>assert</code> keyword.  This is for compatibility
+with older versions of the language specification.
+
+     <br><dt><code>-fno-optimize-static-class-initialization</code><dd>When the optimization level is greater or equal to <code>-O2</code>,
+<samp><span class="command">gcj</span></samp> will try to optimize the way calls into the runtime are made
+to initialize static classes upon their first use (this optimization
+isn't carried out if <code>-C</code> was specified.) When compiling to native
+code, <code>-fno-optimize-static-class-initialization</code> will turn this
+optimization off, regardless of the optimization level in use.
+
+     <br><dt><code>--disable-assertions[=</code><var>class-or-package</var><code>]</code><dd>Don't include code for checking assertions in the compiled code. 
+If <code>=</code><var>class-or-package</var> is missing disables assertion code
+generation for all classes, unless overridden by a more
+specific <code>--enable-assertions</code> flag. 
+If <var>class-or-package</var> is a class name, only disables generating
+assertion checks within the named class or its inner classes. 
+If <var>class-or-package</var> is a package name, disables generating
+assertion checks within the named package or a subpackage.
+
+     <p>By default, assertions are enabled when generating class files
+or when not optimizing, and disabled when generating optimized binaries.
+
+     <br><dt><code>--enable-assertions[=</code><var>class-or-package</var><code>]</code><dd>Generates code to check assertions.  The option is perhaps misnamed,
+as you still need to turn on assertion checking at run-time,
+and we don't support any easy way to do that. 
+So this flag isn't very useful yet, except to partially override
+<code>--disable-assertions</code>.
+
+     <br><dt><code>-findirect-dispatch</code><dd><samp><span class="command">gcj</span></samp> has a special binary compatibility ABI, which is enabled
+by the <code>-findirect-dispatch</code> option.  In this mode, the code
+generated by <samp><span class="command">gcj</span></samp> honors the binary compatibility guarantees
+in the Java Language Specification, and the resulting object files do
+not need to be directly linked against their dependencies.  Instead,
+all dependencies are looked up at runtime.  This allows free mixing of
+interpreted and compiled code.
+
+     <p>Note that, at present, <code>-findirect-dispatch</code> can only be used
+when compiling <samp><span class="file">.class</span></samp> files.  It will not work when compiling
+from source.  CNI also does not yet work with the binary compatibility
+ABI.  These restrictions will be lifted in some future release.
+
+     <p>However, if you compile CNI code with the standard ABI, you can call
+it from code built with the binary compatibility ABI.
+
+     <br><dt><code>-fbootstrap-classes</code><dd>This option can be use to tell <code>libgcj</code> that the compiled classes
+should be loaded by the bootstrap loader, not the system class loader. 
+By default, if you compile a class and link it into an executable, it
+will be treated as if it was loaded using the system class loader. 
+This is convenient, as it means that things like
+<code>Class.forName()</code> will search &lsquo;<samp><span class="samp">CLASSPATH</span></samp>&rsquo; to find the
+desired class.
+
+     <br><dt><code>-freduced-reflection</code><dd>This option causes the code generated by <samp><span class="command">gcj</span></samp> to contain a
+reduced amount of the class meta-data used to support runtime
+reflection. The cost of this savings is the loss of
+the ability to use certain reflection capabilities of the standard
+Java runtime environment. When set all meta-data except for that
+which is needed to obtain correct runtime semantics is eliminated.
+
+     <p>For code that does not use reflection (i.e. serialization, RMI, CORBA
+or call methods in the <code>java.lang.reflect</code> package),
+<code>-freduced-reflection</code> will result in proper operation with a
+savings in executable code size.
+
+     <p>JNI (<code>-fjni</code>) and the binary compatibility ABI
+(<code>-findirect-dispatch</code>) do not work properly without full
+reflection meta-data.  Because of this, it is an error to use these options
+with <code>-freduced-reflection</code>.
+
+     <p><strong>Caution:</strong> If there is no reflection meta-data, code that uses
+a <code>SecurityManager</code> may not work properly.  Also calling
+<code>Class.forName()</code> may fail if the calling method has no
+reflection meta-data.
+
+   </dl>
+
+   </body></html>
+

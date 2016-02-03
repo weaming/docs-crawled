@@ -1,0 +1,137 @@
+<html lang="en">
+<head>
+<title>Using gnatmake in a Makefile - GNAT User's Guide for Native Platforms</title>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+<meta name="description" content="GNAT User's Guide for Native Platforms">
+<meta name="generator" content="makeinfo 4.13">
+<link title="Top" rel="start" href="index.html#Top">
+<link rel="up" href="Using-the-GNU-make-Utility.html#Using-the-GNU-make-Utility" title="Using the GNU make Utility">
+<link rel="next" href="Automatically-Creating-a-List-of-Directories.html#Automatically-Creating-a-List-of-Directories" title="Automatically Creating a List of Directories">
+<link href="http://www.gnu.org/software/texinfo/" rel="generator-home" title="Texinfo Homepage">
+<!--
+
+     GNAT User's Guide for Native Platforms , March 24, 2015
+
+     AdaCore
+
+     Copyright (C) 2008-2015, Free Software Foundation
+-->
+<meta http-equiv="Content-Style-Type" content="text/css">
+<style type="text/css"><!--
+  pre.display { font-family:inherit }
+  pre.format  { font-family:inherit }
+  pre.smalldisplay { font-family:inherit; font-size:smaller }
+  pre.smallformat  { font-family:inherit; font-size:smaller }
+  pre.smallexample { font-size:smaller }
+  pre.smalllisp    { font-size:smaller }
+  span.sc    { font-variant:small-caps }
+  span.roman { font-family:serif; font-weight:normal; } 
+  span.sansserif { font-family:sans-serif; font-weight:normal; } 
+--></style>
+</head>
+<body>
+<div class="node">
+<a name="Using-gnatmake-in-a-Makefile"></a>
+<p>
+Next:&nbsp;<a rel="next" accesskey="n" href="Automatically-Creating-a-List-of-Directories.html#Automatically-Creating-a-List-of-Directories">Automatically Creating a List of Directories</a>,
+Up:&nbsp;<a rel="up" accesskey="u" href="Using-the-GNU-make-Utility.html#Using-the-GNU-make-Utility">Using the GNU make Utility</a>
+<hr>
+</div>
+
+<p><a name="gnat_005fugn_002fbuilding_005fexecutable_005fprograms_005fwith_005fgnat-using_002dgnatmake_002din_002da_002dmakefile"></a><a name="g_t13f"></a><a name="gnat_005fugn_002fbuilding_005fexecutable_005fprograms_005fwith_005fgnat-id48"></a><a name="g_t140"></a>
+
+<h4 class="subsection">4.6.1 Using gnatmake in a Makefile</h4>
+
+<!-- index makefile (GNU make) -->
+<p>Complex project organizations can be handled in a very powerful way by
+using GNU make combined with gnatmake. For instance, here is a Makefile
+which allows you to build each subsystem of a big project into a separate
+shared library. Such a makefile allows you to significantly reduce the link
+time of very big applications while maintaining full coherence at
+each step of the build process.
+
+<p>The list of dependencies are handled automatically by
+`gnatmake'. The Makefile is simply used to call gnatmake in each of
+the appropriate directories.
+
+<p>Note that you should also read the example on how to automatically
+create the list of directories
+(<a href="141.html#g_t141">Automatically Creating a List of Directories</a>)
+which might help you in case your project has a lot of subdirectories.
+
+<pre class="example">    ## This Makefile is intended to be used with the following directory
+    ## configuration:
+    ##  - The sources are split into a series of csc (computer software components)
+    ##    Each of these csc is put in its own directory.
+    ##    Their name are referenced by the directory names.
+    ##    They will be compiled into shared library (although this would also work
+    ##    with static libraries
+    ##  - The main program (and possibly other packages that do not belong to any
+    ##    csc is put in the top level directory (where the Makefile is).
+    ##       toplevel_dir __ first_csc  (sources) __ lib (will contain the library)
+    ##                    \\_ second_csc (sources) __ lib (will contain the library)
+    ##                    \\_ ...
+    ## Although this Makefile is build for shared library, it is easy to modify
+    ## to build partial link objects instead (modify the lines with -shared and
+    ## gnatlink below)
+    ##
+    ## With this makefile, you can change any file in the system or add any new
+    ## file, and everything will be recompiled correctly (only the relevant shared
+    ## objects will be recompiled, and the main program will be re-linked).
+    
+    # The list of computer software component for your project. This might be
+    # generated automatically.
+    CSC_LIST=aa bb cc
+    
+    # Name of the main program (no extension)
+    MAIN=main
+    
+    # If we need to build objects with -fPIC, uncomment the following line
+    #NEED_FPIC=-fPIC
+    
+    # The following variable should give the directory containing libgnat.so
+    # You can get this directory through 'gnatls -v'. This is usually the last
+    # directory in the Object_Path.
+    GLIB=...
+    
+    # The directories for the libraries
+    # (This macro expands the list of CSC to the list of shared libraries, you
+    # could simply use the expanded form:
+    # LIB_DIR=aa/lib/libaa.so bb/lib/libbb.so cc/lib/libcc.so
+    LIB_DIR=${foreach dir,${CSC_LIST},${dir}/lib/lib${dir}.so}
+    
+    ${MAIN}: objects ${LIB_DIR}
+        gnatbind ${MAIN} ${CSC_LIST:%=-aO%/lib} -shared
+        gnatlink ${MAIN} ${CSC_LIST:%=-l%}
+    
+    objects::
+        # recompile the sources
+        gnatmake -c -i ${MAIN}.adb ${NEED_FPIC} ${CSC_LIST:%=-I%}
+    
+    # Note: In a future version of GNAT, the following commands will be simplified
+    # by a new tool, gnatmlib
+    ${LIB_DIR}:
+        mkdir -p ${dir $@ }
+        cd ${dir $@ } &amp;&amp; gcc -shared -o ${notdir $@ } ../*.o -L${GLIB} -lgnat
+        cd ${dir $@ } &amp;&amp; cp -f ../*.ali .
+    
+    # The dependencies for the modules
+    # Note that we have to force the expansion of *.o, since in some cases
+    # make won't be able to do it itself.
+    aa/lib/libaa.so: ${wildcard aa/*.o}
+    bb/lib/libbb.so: ${wildcard bb/*.o}
+    cc/lib/libcc.so: ${wildcard cc/*.o}
+    
+    # Make sure all of the shared libraries are in the path before starting the
+    # program
+    run::
+        LD_LIBRARY_PATH=`pwd`/aa/lib:`pwd`/bb/lib:`pwd`/cc/lib ./${MAIN}
+    
+    clean::
+        ${RM} -rf ${CSC_LIST:%=%/lib}
+        ${RM} ${CSC_LIST:%=%/*.ali}
+        ${RM} ${CSC_LIST:%=%/*.o}
+        ${RM} *.o *.ali ${MAIN}
+</pre>
+</body></html>
+

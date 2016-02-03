@@ -1,0 +1,228 @@
+<html lang="en">
+<head>
+<title>Performing Dimensionality Analysis in GNAT - GNAT User's Guide for Native Platforms</title>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+<meta name="description" content="GNAT User's Guide for Native Platforms">
+<meta name="generator" content="makeinfo 4.13">
+<link title="Top" rel="start" href="index.html#Top">
+<link rel="up" href="GNAT-and-Program-Execution.html#GNAT-and-Program-Execution" title="GNAT and Program Execution">
+<link rel="prev" href="Overflow-Check-Handling-in-GNAT.html#Overflow-Check-Handling-in-GNAT" title="Overflow Check Handling in GNAT">
+<link rel="next" href="Stack-Related-Facilities.html#Stack-Related-Facilities" title="Stack Related Facilities">
+<link href="http://www.gnu.org/software/texinfo/" rel="generator-home" title="Texinfo Homepage">
+<!--
+
+     GNAT User's Guide for Native Platforms , March 24, 2015
+
+     AdaCore
+
+     Copyright (C) 2008-2015, Free Software Foundation
+-->
+<meta http-equiv="Content-Style-Type" content="text/css">
+<style type="text/css"><!--
+  pre.display { font-family:inherit }
+  pre.format  { font-family:inherit }
+  pre.smalldisplay { font-family:inherit; font-size:smaller }
+  pre.smallformat  { font-family:inherit; font-size:smaller }
+  pre.smallexample { font-size:smaller }
+  pre.smalllisp    { font-size:smaller }
+  span.sc    { font-variant:small-caps }
+  span.roman { font-family:serif; font-weight:normal; } 
+  span.sansserif { font-family:sans-serif; font-weight:normal; } 
+--></style>
+</head>
+<body>
+<div class="node">
+<a name="Performing-Dimensionality-Analysis-in-GNAT"></a>
+<p>
+Next:&nbsp;<a rel="next" accesskey="n" href="Stack-Related-Facilities.html#Stack-Related-Facilities">Stack Related Facilities</a>,
+Previous:&nbsp;<a rel="previous" accesskey="p" href="Overflow-Check-Handling-in-GNAT.html#Overflow-Check-Handling-in-GNAT">Overflow Check Handling in GNAT</a>,
+Up:&nbsp;<a rel="up" accesskey="u" href="GNAT-and-Program-Execution.html#GNAT-and-Program-Execution">GNAT and Program Execution</a>
+<hr>
+</div>
+
+<p><a name="gnat_005fugn_002fgnat_005fand_005fprogram_005fexecution-performing_002ddimensionality_002danalysis_002din_002dgnat"></a><a name="g_t2a"></a><a name="gnat_005fugn_002fgnat_005fand_005fprogram_005fexecution-id60"></a><a name="g_t1f4"></a>
+
+<h3 class="section">8.5 Performing Dimensionality Analysis in GNAT</h3>
+
+<p><a name="index-Dimensionality-analysis-1028"></a>
+The GNAT compiler supports dimensionality checking. The user can
+specify physical units for objects, and the compiler will verify that uses
+of these objects are compatible with their dimensions, in a fashion that is
+familiar to engineering practice. The dimensions of algebraic expressions
+(including powers with static exponents) are computed from their constituents.
+
+<p><a name="index-Dimension_005fSystem-aspect-1029"></a>
+<a name="index-Dimension-aspect-1030"></a>
+This feature depends on Ada 2012 aspect specifications, and is available from
+version 7.0.1 of GNAT onwards. 
+The GNAT-specific aspect <cite>Dimension_System</cite>
+allows you to define a system of units; the aspect <cite>Dimension</cite>
+then allows the user to declare dimensioned quantities within a given system. 
+(These aspects are described in the `Implementation Defined Aspects'
+chapter of the `GNAT Reference Manual').
+
+<p>The major advantage of this model is that it does not require the declaration of
+multiple operators for all possible combinations of types: it is only necessary
+to use the proper subtypes in object declarations.
+
+<p><a name="index-System_002eDim_002eMks-package-_0028GNAT-library_0029-1031"></a>
+<a name="index-MKS_005fType-type-1032"></a>
+The simplest way to impose dimensionality checking on a computation is to make
+use of the package <cite>System.Dim.Mks</cite>,
+which is part of the GNAT library. This
+package defines a floating-point type <cite>MKS_Type</cite>,
+for which a sequence of
+dimension names are specified, together with their conventional abbreviations. 
+The following should be read together with the full specification of the
+package, in file <code>s-dimmks.ads</code>.
+
+<blockquote>
+
+<p><a name="index-s_002ddimmks_002eads-file-1033"></a>
+<pre class="example">    type Mks_Type is new Long_Long_Float
+      with
+       Dimension_System =&gt; (
+         (Unit_Name =&gt; Meter,    Unit_Symbol =&gt; 'm',   Dim_Symbol =&gt; 'L'),
+         (Unit_Name =&gt; Kilogram, Unit_Symbol =&gt; "kg",  Dim_Symbol =&gt; 'M'),
+         (Unit_Name =&gt; Second,   Unit_Symbol =&gt; 's',   Dim_Symbol =&gt; 'T'),
+         (Unit_Name =&gt; Ampere,   Unit_Symbol =&gt; 'A',   Dim_Symbol =&gt; 'I'),
+         (Unit_Name =&gt; Kelvin,   Unit_Symbol =&gt; 'K',   Dim_Symbol =&gt; "Theta"),
+         (Unit_Name =&gt; Mole,     Unit_Symbol =&gt; "mol", Dim_Symbol =&gt; 'N'),
+         (Unit_Name =&gt; Candela,  Unit_Symbol =&gt; "cd",  Dim_Symbol =&gt; 'J'));
+</pre>
+</blockquote>
+
+<p>The package then defines a series of subtypes that correspond to these
+conventional units. For example:
+
+<blockquote>
+
+<pre class="example">    subtype Length is Mks_Type
+      with
+       Dimension =&gt; (Symbol =&gt; 'm', Meter  =&gt; 1, others =&gt; 0);
+</pre>
+</blockquote>
+
+<p>and similarly for <cite>Mass</cite>, <cite>Time</cite>, <cite>Electric_Current</cite>,
+<cite>Thermodynamic_Temperature</cite>, <cite>Amount_Of_Substance</cite>, and
+<cite>Luminous_Intensity</cite> (the standard set of units of the SI system).
+
+<p>The package also defines conventional names for values of each unit, for
+example:
+
+<blockquote>
+
+<!-- code-block":: ada -->
+<!-- m   : constant Length           := 1.0; -->
+<!-- kg  : constant Mass             := 1.0; -->
+<!-- s   : constant Time             := 1.0; -->
+<!-- A   : constant Electric_Current := 1.0; -->
+</blockquote>
+
+<p>as well as useful multiples of these units:
+
+<blockquote>
+
+<pre class="example">     cm  : constant Length := 1.0E-02;
+     g   : constant Mass   := 1.0E-03;
+     min : constant Time   := 60.0;
+     day : constant Time   := 60.0 * 24.0 * min;
+    ...
+</pre>
+</blockquote>
+
+<p>Using this package, you can then define a derived unit by
+providing the aspect that
+specifies its dimensions within the MKS system, as well as the string to
+be used for output of a value of that unit:
+
+<blockquote>
+
+<pre class="example">    subtype Acceleration is Mks_Type
+      with Dimension =&gt; ("m/sec^2",
+                         Meter =&gt; 1,
+                         Second =&gt; -2,
+                         others =&gt; 0);
+</pre>
+</blockquote>
+
+<p>Here is a complete example of use:
+
+<blockquote>
+
+<pre class="example">    with System.Dim.MKS; use System.Dim.Mks;
+    with System.Dim.Mks_IO; use System.Dim.Mks_IO;
+    with Text_IO; use Text_IO;
+    procedure Free_Fall is
+      subtype Acceleration is Mks_Type
+        with Dimension =&gt; ("m/sec^2", 1, 0, -2, others =&gt; 0);
+      G : constant acceleration := 9.81 * m / (s ** 2);
+      T : Time := 10.0*s;
+      Distance : Length;
+    
+    begin
+      Put ("Gravitational constant: ");
+      Put (G, Aft =&gt; 2, Exp =&gt; 0); Put_Line ("");
+      Distance := 0.5 * G * T ** 2;
+      Put ("distance travelled in 10 seconds of free fall ");
+      Put (Distance, Aft =&gt; 2, Exp =&gt; 0);
+      Put_Line ("");
+    end Free_Fall;
+</pre>
+</blockquote>
+
+<p>Execution of this program yields:
+
+<blockquote>
+
+<pre class="example">    Gravitational constant:  9.81 m/sec^2
+    distance travelled in 10 seconds of free fall 490.50 m
+</pre>
+</blockquote>
+
+<p>However, incorrect assignments such as:
+
+<blockquote>
+
+<pre class="example">    Distance := 5.0;
+    Distance := 5.0 * kg:
+</pre>
+</blockquote>
+
+<p>are rejected with the following diagnoses:
+
+<blockquote>
+
+<pre class="example">    Distance := 5.0;
+       &gt;&gt;&gt; dimensions mismatch in assignment
+       &gt;&gt;&gt; left-hand side has dimension [L]
+       &gt;&gt;&gt; right-hand side is dimensionless
+    
+    Distance := 5.0 * kg:
+       &gt;&gt;&gt; dimensions mismatch in assignment
+       &gt;&gt;&gt; left-hand side has dimension [L]
+       &gt;&gt;&gt; right-hand side has dimension [M]
+</pre>
+</blockquote>
+
+<p>The dimensions of an expression are properly displayed, even if there is
+no explicit subtype for it. If we add to the program:
+
+<blockquote>
+
+<pre class="example">    Put ("Final velocity: ");
+    Put (G * T, Aft =&gt;2, Exp =&gt;0);
+    Put_Line ("");
+</pre>
+</blockquote>
+
+<p>then the output includes:
+
+<blockquote>
+
+<pre class="example">    Final velocity: 98.10 m.s**(-1)
+</pre>
+</blockquote>
+
+</body></html>
+

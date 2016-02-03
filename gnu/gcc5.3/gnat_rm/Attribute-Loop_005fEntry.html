@@ -1,0 +1,71 @@
+<html lang="en">
+<head>
+<title>Attribute Loop_Entry - GNAT Reference Manual</title>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+<meta name="description" content="GNAT Reference Manual">
+<meta name="generator" content="makeinfo 4.13">
+<link title="Top" rel="start" href="index.html#Top">
+<link rel="up" href="Implementation-Defined-Attributes.html#Implementation-Defined-Attributes" title="Implementation Defined Attributes">
+<link rel="prev" href="Attribute-Lock_005fFree.html#Attribute-Lock_005fFree" title="Attribute Lock_Free">
+<link rel="next" href="Attribute-Machine_005fSize.html#Attribute-Machine_005fSize" title="Attribute Machine_Size">
+<link href="http://www.gnu.org/software/texinfo/" rel="generator-home" title="Texinfo Homepage">
+<!--
+
+     GNAT Reference Manual , March 24, 2015
+
+     AdaCore
+
+     Copyright (C) 2008-2015, Free Software Foundation
+-->
+<meta http-equiv="Content-Style-Type" content="text/css">
+<style type="text/css"><!--
+  pre.display { font-family:inherit }
+  pre.format  { font-family:inherit }
+  pre.smalldisplay { font-family:inherit; font-size:smaller }
+  pre.smallformat  { font-family:inherit; font-size:smaller }
+  pre.smallexample { font-size:smaller }
+  pre.smalllisp    { font-size:smaller }
+  span.sc    { font-variant:small-caps }
+  span.roman { font-family:serif; font-weight:normal; } 
+  span.sansserif { font-family:sans-serif; font-weight:normal; } 
+--></style>
+</head>
+<body>
+<div class="node">
+<a name="Attribute-Loop_Entry"></a>
+<a name="Attribute-Loop_005fEntry"></a>
+<p>
+Next:&nbsp;<a rel="next" accesskey="n" href="Attribute-Machine_005fSize.html#Attribute-Machine_005fSize">Attribute Machine_Size</a>,
+Previous:&nbsp;<a rel="previous" accesskey="p" href="Attribute-Lock_005fFree.html#Attribute-Lock_005fFree">Attribute Lock_Free</a>,
+Up:&nbsp;<a rel="up" accesskey="u" href="Implementation-Defined-Attributes.html#Implementation-Defined-Attributes">Implementation Defined Attributes</a>
+<hr>
+</div>
+
+<p><a name="gnat_005frm_002fimplementation_005fdefined_005fattributes-attribute_002dloop_002dentry"></a><a name="g_t13b"></a>
+
+<h3 class="section">4.36 Attribute Loop_Entry</h3>
+
+<p><a name="index-Loop_005fEntry-211"></a>
+Syntax:
+
+<pre class="example">    X'Loop_Entry [(loop_name)]
+</pre>
+<p>The <cite>Loop_Entry</cite> attribute is used to refer to the value that an
+expression had upon entry to a given loop in much the same way that the
+<cite>Old</cite> attribute in a subprogram postcondition can be used to refer
+to the value an expression had upon entry to the subprogram. The
+relevant loop is either identified by the given loop name, or it is the
+innermost enclosing loop when no loop name is given.
+
+<p>A <cite>Loop_Entry</cite> attribute can only occur within a
+<cite>Loop_Variant</cite> or <cite>Loop_Invariant</cite> pragma. A common use of
+<cite>Loop_Entry</cite> is to compare the current value of objects with their
+initial value at loop entry, in a <cite>Loop_Invariant</cite> pragma.
+
+<p>The effect of using <cite>X'Loop_Entry</cite> is the same as declaring
+a constant initialized with the initial value of <cite>X</cite> at loop
+entry. This copy is not performed if the loop is not entered, or if the
+corresponding pragmas are ignored or disabled.
+
+</body></html>
+

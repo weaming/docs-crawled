@@ -1,0 +1,105 @@
+<html lang="en">
+<head>
+<title>Compatibility between Ada 95 and Ada 2005 - GNAT Reference Manual</title>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+<meta name="description" content="GNAT Reference Manual">
+<meta name="generator" content="makeinfo 4.13">
+<link title="Top" rel="start" href="index.html#Top">
+<link rel="up" href="Compatibility-and-Porting-Guide.html#Compatibility-and-Porting-Guide" title="Compatibility and Porting Guide">
+<link rel="prev" href="Compatibility-with-Ada-83.html#Compatibility-with-Ada-83" title="Compatibility with Ada 83">
+<link rel="next" href="Implementation_002ddependent-characteristics.html#Implementation_002ddependent-characteristics" title="Implementation-dependent characteristics">
+<link href="http://www.gnu.org/software/texinfo/" rel="generator-home" title="Texinfo Homepage">
+<!--
+
+     GNAT Reference Manual , March 24, 2015
+
+     AdaCore
+
+     Copyright (C) 2008-2015, Free Software Foundation
+-->
+<meta http-equiv="Content-Style-Type" content="text/css">
+<style type="text/css"><!--
+  pre.display { font-family:inherit }
+  pre.format  { font-family:inherit }
+  pre.smalldisplay { font-family:inherit; font-size:smaller }
+  pre.smallformat  { font-family:inherit; font-size:smaller }
+  pre.smallexample { font-size:smaller }
+  pre.smalllisp    { font-size:smaller }
+  span.sc    { font-variant:small-caps }
+  span.roman { font-family:serif; font-weight:normal; } 
+  span.sansserif { font-family:sans-serif; font-weight:normal; } 
+--></style>
+</head>
+<body>
+<div class="node">
+<a name="Compatibility-between-Ada-95-and-Ada-2005"></a>
+<p>
+Next:&nbsp;<a rel="next" accesskey="n" href="Implementation_002ddependent-characteristics.html#Implementation_002ddependent-characteristics">Implementation-dependent characteristics</a>,
+Previous:&nbsp;<a rel="previous" accesskey="p" href="Compatibility-with-Ada-83.html#Compatibility-with-Ada-83">Compatibility with Ada 83</a>,
+Up:&nbsp;<a rel="up" accesskey="u" href="Compatibility-and-Porting-Guide.html#Compatibility-and-Porting-Guide">Compatibility and Porting Guide</a>
+<hr>
+</div>
+
+<p><a name="gnat_005frm_002fcompatibility_005fand_005fporting_005fguide-compatibility_002dbetween_002dada_002d95_002dand_002dada_002d2005"></a><a name="g_t3e3"></a><a name="gnat_005frm_002fcompatibility_005fand_005fporting_005fguide-id8"></a><a name="g_t3e4"></a>
+
+<h3 class="section">18.3 Compatibility between Ada 95 and Ada 2005</h3>
+
+<p><a name="index-Compatibility-between-Ada-95-and-Ada-2005-1052"></a>
+Although Ada 2005 was designed to be upwards compatible with Ada 95, there are
+a number of incompatibilities. Several are enumerated below;
+for a complete description please see the
+<cite>Annotated Ada 2005 Reference Manual</cite>, or section 9.1.1 in
+<cite>Rationale for Ada 2005</cite>.
+
+     <ul>
+<li>`New reserved words.'
+
+     <p>The words <cite>interface</cite>, <cite>overriding</cite> and <cite>synchronized</cite> are
+reserved in Ada 2005. 
+A pre-Ada 2005 program that uses any of these as an identifier will be
+illegal.
+
+     <li>`New declarations in predefined packages.'
+
+     <p>A number of packages in the predefined environment contain new declarations:
+<cite>Ada.Exceptions</cite>, <cite>Ada.Real_Time</cite>, <cite>Ada.Strings</cite>,
+<cite>Ada.Strings.Fixed</cite>, <cite>Ada.Strings.Bounded</cite>,
+<cite>Ada.Strings.Unbounded</cite>, <cite>Ada.Strings.Wide_Fixed</cite>,
+<cite>Ada.Strings.Wide_Bounded</cite>, <cite>Ada.Strings.Wide_Unbounded</cite>,
+<cite>Ada.Tags</cite>, <cite>Ada.Text_IO</cite>, and <cite>Interfaces.C</cite>. 
+If an Ada 95 program does a <cite>with</cite> and <cite>use</cite> of any of these
+packages, the new declarations may cause name clashes.
+
+     <li>`Access parameters.'
+
+     <p>A nondispatching subprogram with an access parameter cannot be renamed
+as a dispatching operation.  This was permitted in Ada 95.
+
+     <li>`Access types, discriminants, and constraints.'
+
+     <p>Rule changes in this area have led to some incompatibilities; for example,
+constrained subtypes of some access types are not permitted in Ada 2005.
+
+     <li>`Aggregates for limited types.'
+
+     <p>The allowance of aggregates for limited types in Ada 2005 raises the
+possibility of ambiguities in legal Ada 95 programs, since additional types
+now need to be considered in expression resolution.
+
+     <li>`Fixed-point multiplication and division.'
+
+     <p>Certain expressions involving '*' or '/' for a fixed-point type, which
+were legal in Ada 95 and invoked the predefined versions of these operations,
+are now ambiguous. 
+The ambiguity may be resolved either by applying a type conversion to the
+expression, or by explicitly invoking the operation from package
+<cite>Standard</cite>.
+
+     <li>`Return-by-reference types.'
+
+     <p>The Ada 95 return-by-reference mechanism has been removed.  Instead, the user
+can declare a function returning a value from an anonymous access type. 
+</ul>
+
+</body></html>
+

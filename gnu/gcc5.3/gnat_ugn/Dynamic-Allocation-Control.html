@@ -1,0 +1,65 @@
+<html lang="en">
+<head>
+<title>Dynamic Allocation Control - GNAT User's Guide for Native Platforms</title>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+<meta name="description" content="GNAT User's Guide for Native Platforms">
+<meta name="generator" content="makeinfo 4.13">
+<link title="Top" rel="start" href="index.html#Top">
+<link rel="up" href="Switches-for-gnatbind.html#Switches-for-gnatbind" title="Switches for gnatbind">
+<link rel="prev" href="Output-Control.html#Output-Control" title="Output Control">
+<link rel="next" href="Binding-with-Non_002dAda-Main-Programs.html#Binding-with-Non_002dAda-Main-Programs" title="Binding with Non-Ada Main Programs">
+<link href="http://www.gnu.org/software/texinfo/" rel="generator-home" title="Texinfo Homepage">
+<!--
+
+     GNAT User's Guide for Native Platforms , March 24, 2015
+
+     AdaCore
+
+     Copyright (C) 2008-2015, Free Software Foundation
+-->
+<meta http-equiv="Content-Style-Type" content="text/css">
+<style type="text/css"><!--
+  pre.display { font-family:inherit }
+  pre.format  { font-family:inherit }
+  pre.smalldisplay { font-family:inherit; font-size:smaller }
+  pre.smallformat  { font-family:inherit; font-size:smaller }
+  pre.smallexample { font-size:smaller }
+  pre.smalllisp    { font-size:smaller }
+  span.sc    { font-variant:small-caps }
+  span.roman { font-family:serif; font-weight:normal; } 
+  span.sansserif { font-family:sans-serif; font-weight:normal; } 
+--></style>
+</head>
+<body>
+<div class="node">
+<a name="Dynamic-Allocation-Control"></a>
+<p>
+Next:&nbsp;<a rel="next" accesskey="n" href="Binding-with-Non_002dAda-Main-Programs.html#Binding-with-Non_002dAda-Main-Programs">Binding with Non-Ada Main Programs</a>,
+Previous:&nbsp;<a rel="previous" accesskey="p" href="Output-Control.html#Output-Control">Output Control</a>,
+Up:&nbsp;<a rel="up" accesskey="u" href="Switches-for-gnatbind.html#Switches-for-gnatbind">Switches for gnatbind</a>
+<hr>
+</div>
+
+<p><a name="gnat_005fugn_002fbuilding_005fexecutable_005fprograms_005fwith_005fgnat-dynamic_002dallocation_002dcontrol"></a><a name="g_t124"></a><a name="gnat_005fugn_002fbuilding_005fexecutable_005fprograms_005fwith_005fgnat-id38"></a><a name="g_t12e"></a>
+
+<h5 class="subsubsection">4.4.2.5 Dynamic Allocation Control</h5>
+
+<p>The heap control switches &ndash; `-H32' and `-H64' &ndash;
+determine whether dynamic allocation uses 32-bit or 64-bit memory. 
+They only affect compiler-generated allocations via <cite>__gnat_malloc</cite>;
+explicit calls to <cite>malloc</cite> and related functions from the C
+run-time library are unaffected.
+
+     <dl>
+<dt><code>-H32</code><dd>
+Allocate memory on 32-bit heap
+
+     <br><dt><code>-H64</code><dd>
+Allocate memory on 64-bit heap.  This is the default
+unless explicitly overridden by a <cite>'Size</cite> clause on the access type. 
+</dl>
+
+<p>These switches are only effective on VMS platforms.
+
+</body></html>
+

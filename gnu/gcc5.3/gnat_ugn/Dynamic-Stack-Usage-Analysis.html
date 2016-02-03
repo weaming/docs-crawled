@@ -1,0 +1,99 @@
+<html lang="en">
+<head>
+<title>Dynamic Stack Usage Analysis - GNAT User's Guide for Native Platforms</title>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+<meta name="description" content="GNAT User's Guide for Native Platforms">
+<meta name="generator" content="makeinfo 4.13">
+<link title="Top" rel="start" href="index.html#Top">
+<link rel="up" href="Stack-Related-Facilities.html#Stack-Related-Facilities" title="Stack Related Facilities">
+<link rel="prev" href="Static-Stack-Usage-Analysis.html#Static-Stack-Usage-Analysis" title="Static Stack Usage Analysis">
+<link href="http://www.gnu.org/software/texinfo/" rel="generator-home" title="Texinfo Homepage">
+<!--
+
+     GNAT User's Guide for Native Platforms , March 24, 2015
+
+     AdaCore
+
+     Copyright (C) 2008-2015, Free Software Foundation
+-->
+<meta http-equiv="Content-Style-Type" content="text/css">
+<style type="text/css"><!--
+  pre.display { font-family:inherit }
+  pre.format  { font-family:inherit }
+  pre.smalldisplay { font-family:inherit; font-size:smaller }
+  pre.smallformat  { font-family:inherit; font-size:smaller }
+  pre.smallexample { font-size:smaller }
+  pre.smalllisp    { font-size:smaller }
+  span.sc    { font-variant:small-caps }
+  span.roman { font-family:serif; font-weight:normal; } 
+  span.sansserif { font-family:sans-serif; font-weight:normal; } 
+--></style>
+</head>
+<body>
+<div class="node">
+<a name="Dynamic-Stack-Usage-Analysis"></a>
+<p>
+Previous:&nbsp;<a rel="previous" accesskey="p" href="Static-Stack-Usage-Analysis.html#Static-Stack-Usage-Analysis">Static Stack Usage Analysis</a>,
+Up:&nbsp;<a rel="up" accesskey="u" href="Stack-Related-Facilities.html#Stack-Related-Facilities">Stack Related Facilities</a>
+<hr>
+</div>
+
+<p><a name="gnat_005fugn_002fgnat_005fand_005fprogram_005fexecution-id64"></a><a name="g_t253"></a><a name="gnat_005fugn_002fgnat_005fand_005fprogram_005fexecution-dynamic_002dstack_002dusage_002danalysis"></a><a name="g_t125"></a>
+
+<h4 class="subsection">8.6.3 Dynamic Stack Usage Analysis</h4>
+
+<p>It is possible to measure the maximum amount of stack used by a task, by
+adding a switch to `gnatbind', as:
+
+<blockquote>
+
+<pre class="example">    $ gnatbind -u0 file
+</pre>
+</blockquote>
+
+<p>With this option, at each task termination, its stack usage is  output on
+<code>stderr</code>. 
+It is not always convenient to output the stack usage when the program
+is still running. Hence, it is possible to delay this output until program
+termination. for a given number of tasks specified as the argument of the
+<code>-u</code> option. For instance:
+
+<blockquote>
+
+<pre class="example">    $ gnatbind -u100 file
+</pre>
+</blockquote>
+
+<p>will buffer the stack usage information of the first 100 tasks to terminate and
+output this info at program termination. Results are displayed in four
+columns:
+
+<blockquote>
+
+<pre class="example">    Index | Task Name | Stack Size | Stack Usage
+</pre>
+</blockquote>
+
+<p>where:
+
+     <ul>
+<li>`Index' is a number associated with each task.
+
+     <li>`Task Name' is the name of the task analyzed.
+
+     <li>`Stack Size' is the maximum size for the stack.
+
+     <li>`Stack Usage' is the measure done by the stack analyzer. 
+In order to prevent overflow, the stack
+is not entirely analyzed, and it's not possible to know exactly how
+much has actually been used. 
+</ul>
+
+<p>The environment task stack, e.g., the stack that contains the main unit, is
+only processed when the environment variable GNAT_STACK_LIMIT is set.
+
+<p>The package <cite>GNAT.Task_Stack_Usage</cite> provides facilities to get
+stack usage reports at run-time. See its body for the details.
+
+</body></html>
+

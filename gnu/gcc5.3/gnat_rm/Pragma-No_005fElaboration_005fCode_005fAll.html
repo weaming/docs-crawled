@@ -1,0 +1,61 @@
+<html lang="en">
+<head>
+<title>Pragma No_Elaboration_Code_All - GNAT Reference Manual</title>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+<meta name="description" content="GNAT Reference Manual">
+<meta name="generator" content="makeinfo 4.13">
+<link title="Top" rel="start" href="index.html#Top">
+<link rel="up" href="Implementation-Defined-Pragmas.html#Implementation-Defined-Pragmas" title="Implementation Defined Pragmas">
+<link rel="prev" href="Pragma-No_005fBody.html#Pragma-No_005fBody" title="Pragma No_Body">
+<link rel="next" href="Pragma-No_005fInline.html#Pragma-No_005fInline" title="Pragma No_Inline">
+<link href="http://www.gnu.org/software/texinfo/" rel="generator-home" title="Texinfo Homepage">
+<!--
+
+     GNAT Reference Manual , March 24, 2015
+
+     AdaCore
+
+     Copyright (C) 2008-2015, Free Software Foundation
+-->
+<meta http-equiv="Content-Style-Type" content="text/css">
+<style type="text/css"><!--
+  pre.display { font-family:inherit }
+  pre.format  { font-family:inherit }
+  pre.smalldisplay { font-family:inherit; font-size:smaller }
+  pre.smallformat  { font-family:inherit; font-size:smaller }
+  pre.smallexample { font-size:smaller }
+  pre.smalllisp    { font-size:smaller }
+  span.sc    { font-variant:small-caps }
+  span.roman { font-family:serif; font-weight:normal; } 
+  span.sansserif { font-family:sans-serif; font-weight:normal; } 
+--></style>
+</head>
+<body>
+<div class="node">
+<a name="Pragma-No_Elaboration_Code_All"></a>
+<a name="Pragma-No_005fElaboration_005fCode_005fAll"></a>
+<p>
+Next:&nbsp;<a rel="next" accesskey="n" href="Pragma-No_005fInline.html#Pragma-No_005fInline">Pragma No_Inline</a>,
+Previous:&nbsp;<a rel="previous" accesskey="p" href="Pragma-No_005fBody.html#Pragma-No_005fBody">Pragma No_Body</a>,
+Up:&nbsp;<a rel="up" accesskey="u" href="Implementation-Defined-Pragmas.html#Implementation-Defined-Pragmas">Implementation Defined Pragmas</a>
+<hr>
+</div>
+
+<p><a name="gnat_005frm_002fimplementation_005fdefined_005fpragmas-pragma_002dno_002delaboration_002dcode_002dall"></a><a name="g_t85"></a>
+
+<h3 class="section">2.106 Pragma No_Elaboration_Code_All</h3>
+
+<p>Syntax:
+
+<pre class="example">    pragma No_Elaboration_Code_All [(program_unit_NAME)];
+</pre>
+<p>This is a program unit pragma (there is also an equivalent aspect of the
+same name) that establishes the restriction <cite>No_Elaboration_Code</cite> for
+the current unit and any extended main source units (body and subunits. 
+It also has has the effect of enforcing a transitive application of this
+aspect, so that if any unit is implicitly or explicitly WITH'ed by the
+current unit, it must also have the No_Elaboration_Code_All aspect set. 
+It may be applied to package or subprogram specs or their generic versions.
+
+</body></html>
+

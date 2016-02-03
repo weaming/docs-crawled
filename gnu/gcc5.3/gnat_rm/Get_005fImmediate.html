@@ -1,0 +1,61 @@
+<html lang="en">
+<head>
+<title>Get_Immediate - GNAT Reference Manual</title>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+<meta name="description" content="GNAT Reference Manual">
+<meta name="generator" content="makeinfo 4.13">
+<link title="Top" rel="start" href="index.html#Top">
+<link rel="up" href="Text_005fIO.html#Text_005fIO" title="Text_IO">
+<link rel="prev" href="Reading-and-Writing-Non_002dRegular-Files.html#Reading-and-Writing-Non_002dRegular-Files" title="Reading and Writing Non-Regular Files">
+<link rel="next" href="Treating-Text_005fIO-Files-as-Streams.html#Treating-Text_005fIO-Files-as-Streams" title="Treating Text_IO Files as Streams">
+<link href="http://www.gnu.org/software/texinfo/" rel="generator-home" title="Texinfo Homepage">
+<!--
+
+     GNAT Reference Manual , March 24, 2015
+
+     AdaCore
+
+     Copyright (C) 2008-2015, Free Software Foundation
+-->
+<meta http-equiv="Content-Style-Type" content="text/css">
+<style type="text/css"><!--
+  pre.display { font-family:inherit }
+  pre.format  { font-family:inherit }
+  pre.smalldisplay { font-family:inherit; font-size:smaller }
+  pre.smallformat  { font-family:inherit; font-size:smaller }
+  pre.smallexample { font-size:smaller }
+  pre.smalllisp    { font-size:smaller }
+  span.sc    { font-variant:small-caps }
+  span.roman { font-family:serif; font-weight:normal; } 
+  span.sansserif { font-family:sans-serif; font-weight:normal; } 
+--></style>
+</head>
+<body>
+<div class="node">
+<a name="Get_Immediate"></a>
+<a name="Get_005fImmediate"></a>
+<p>
+Next:&nbsp;<a rel="next" accesskey="n" href="Treating-Text_005fIO-Files-as-Streams.html#Treating-Text_005fIO-Files-as-Streams">Treating Text_IO Files as Streams</a>,
+Previous:&nbsp;<a rel="previous" accesskey="p" href="Reading-and-Writing-Non_002dRegular-Files.html#Reading-and-Writing-Non_002dRegular-Files">Reading and Writing Non-Regular Files</a>,
+Up:&nbsp;<a rel="up" accesskey="u" href="Text_005fIO.html#Text_005fIO">Text_IO</a>
+<hr>
+</div>
+
+<p><a name="gnat_005frm_002fthe_005fimplementation_005fof_005fstandard_005fi_005fo-get_002dimmediate"></a><a name="g_t252"></a><a name="gnat_005frm_002fthe_005fimplementation_005fof_005fstandard_005fi_005fo-id9"></a><a name="g_t253"></a>
+
+<h4 class="subsection">11.5.3 Get_Immediate</h4>
+
+<p><a name="index-Get_005fImmediate-526"></a>
+Get_Immediate returns the next character (including control characters)
+from the input file.  In particular, Get_Immediate will return LF or FF
+characters used as line marks or page marks.  Such operations leave the
+file positioned past the control character, and it is thus not treated
+as having its normal function.  This means that page, line and column
+counts after this kind of Get_Immediate call are set as though the mark
+did not occur.  In the case where a Get_Immediate leaves the file
+positioned between the line mark and page mark (which is not normally
+possible), it is undefined whether the FF character will be treated as a
+page mark.
+
+</body></html>
+

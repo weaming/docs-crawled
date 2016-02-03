@@ -1,0 +1,135 @@
+<html lang="en">
+<head>
+<title>General Usage - GNAT User's Guide for Native Platforms</title>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+<meta name="description" content="GNAT User's Guide for Native Platforms">
+<meta name="generator" content="makeinfo 4.13">
+<link title="Top" rel="start" href="index.html#Top">
+<link rel="up" href="Examples-of-gnatxref-Usage.html#Examples-of-gnatxref-Usage" title="Examples of gnatxref Usage">
+<link rel="next" href="Using-gnatxref-with-vi.html#Using-gnatxref-with-vi" title="Using gnatxref with vi">
+<link href="http://www.gnu.org/software/texinfo/" rel="generator-home" title="Texinfo Homepage">
+<!--
+
+     GNAT User's Guide for Native Platforms , March 24, 2015
+
+     AdaCore
+
+     Copyright (C) 2008-2015, Free Software Foundation
+-->
+<meta http-equiv="Content-Style-Type" content="text/css">
+<style type="text/css"><!--
+  pre.display { font-family:inherit }
+  pre.format  { font-family:inherit }
+  pre.smalldisplay { font-family:inherit; font-size:smaller }
+  pre.smallformat  { font-family:inherit; font-size:smaller }
+  pre.smallexample { font-size:smaller }
+  pre.smalllisp    { font-size:smaller }
+  span.sc    { font-variant:small-caps }
+  span.roman { font-family:serif; font-weight:normal; } 
+  span.sansserif { font-family:sans-serif; font-weight:normal; } 
+--></style>
+</head>
+<body>
+<div class="node">
+<a name="General-Usage"></a>
+<p>
+Next:&nbsp;<a rel="next" accesskey="n" href="Using-gnatxref-with-vi.html#Using-gnatxref-with-vi">Using gnatxref with vi</a>,
+Up:&nbsp;<a rel="up" accesskey="u" href="Examples-of-gnatxref-Usage.html#Examples-of-gnatxref-Usage">Examples of gnatxref Usage</a>
+<hr>
+</div>
+
+<p><a name="gnat_005fugn_002fgnat_005futility_005fprograms-general_002dusage"></a><a name="g_t1e6"></a>
+
+<h5 class="subsubsection">7.3.5.1 General Usage</h5>
+
+<p>For the following examples, we will consider the following units:
+
+<blockquote>
+
+<pre class="example">    main.ads:
+    1: with Bar;
+    2: package Main is
+    3:     procedure Foo (B : in Integer);
+    4:     C : Integer;
+    5: private
+    6:     D : Integer;
+    7: end Main;
+    
+    main.adb:
+    1: package body Main is
+    2:     procedure Foo (B : in Integer) is
+    3:     begin
+    4:        C := B;
+    5:        D := B;
+    6:        Bar.Print (B);
+    7:        Bar.Print (C);
+    8:     end Foo;
+    9: end Main;
+    
+    bar.ads:
+    1: package Bar is
+    2:     procedure Print (B : Integer);
+    3: end bar;
+</pre>
+</blockquote>
+
+<p>The first thing to do is to recompile your application (for instance, in
+that case just by doing a <code>gnatmake main</code>, so that GNAT generates
+the cross-referencing information. 
+You can then issue any of the following commands:
+
+<blockquote>
+
+     <ul>
+<li><code>gnatxref main.adb</code>
+<cite>gnatxref</cite> generates cross-reference information for main.adb
+and every unit 'with'ed by main.adb.
+
+     <p>The output would be:
+
+     <blockquote>
+
+     <pre class="example">         B                                                      Type: Integer
+           Decl: bar.ads           2:22
+         B                                                      Type: Integer
+           Decl: main.ads          3:20
+           Body: main.adb          2:20
+           Ref:  main.adb          4:13     5:13     6:19
+         Bar                                                    Type: Unit
+           Decl: bar.ads           1:9
+           Ref:  main.adb          6:8      7:8
+                main.ads           1:6
+         C                                                      Type: Integer
+           Decl: main.ads          4:5
+           Modi: main.adb          4:8
+           Ref:  main.adb          7:19
+         D                                                      Type: Integer
+           Decl: main.ads          6:5
+           Modi: main.adb          5:8
+         Foo                                                    Type: Unit
+           Decl: main.ads          3:15
+           Body: main.adb          2:15
+         Main                                                    Type: Unit
+           Decl: main.ads          2:9
+           Body: main.adb          1:14
+         Print                                                   Type: Unit
+           Decl: bar.ads           2:15
+           Ref:  main.adb          6:12     7:12
+</pre>
+     </blockquote>
+
+     <p>This shows that the entity <cite>Main</cite> is declared in main.ads, line 2, column 9,
+its body is in main.adb, line 1, column 14 and is not referenced any where.
+
+     <p>The entity <cite>Print</cite> is declared in bar.ads, line 2, column 15 and it
+is referenced in main.adb, line 6 column 12 and line 7 column 12.
+
+     <li><code>gnatxref package1.adb package2.ads</code>
+<cite>gnatxref</cite> will generates cross-reference information for
+package1.adb, package2.ads and any other package 'with'ed by any
+of these. 
+</ul>
+</blockquote>
+
+</body></html>
+

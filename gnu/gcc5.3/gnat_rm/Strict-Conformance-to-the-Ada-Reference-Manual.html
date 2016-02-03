@@ -1,0 +1,70 @@
+<html lang="en">
+<head>
+<title>Strict Conformance to the Ada Reference Manual - GNAT Reference Manual</title>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+<meta name="description" content="GNAT Reference Manual">
+<meta name="generator" content="makeinfo 4.13">
+<link title="Top" rel="start" href="index.html#Top">
+<link rel="up" href="Implementation-of-Specific-Ada-Features.html#Implementation-of-Specific-Ada-Features" title="Implementation of Specific Ada Features">
+<link rel="prev" href="The-Size-of-Discriminated-Records-with-Default-Discriminants.html#The-Size-of-Discriminated-Records-with-Default-Discriminants" title="The Size of Discriminated Records with Default Discriminants">
+<link href="http://www.gnu.org/software/texinfo/" rel="generator-home" title="Texinfo Homepage">
+<!--
+
+     GNAT Reference Manual , March 24, 2015
+
+     AdaCore
+
+     Copyright (C) 2008-2015, Free Software Foundation
+-->
+<meta http-equiv="Content-Style-Type" content="text/css">
+<style type="text/css"><!--
+  pre.display { font-family:inherit }
+  pre.format  { font-family:inherit }
+  pre.smalldisplay { font-family:inherit; font-size:smaller }
+  pre.smallformat  { font-family:inherit; font-size:smaller }
+  pre.smallexample { font-size:smaller }
+  pre.smalllisp    { font-size:smaller }
+  span.sc    { font-variant:small-caps }
+  span.roman { font-family:serif; font-weight:normal; } 
+  span.sansserif { font-family:sans-serif; font-weight:normal; } 
+--></style>
+</head>
+<body>
+<div class="node">
+<a name="Strict-Conformance-to-the-Ada-Reference-Manual"></a>
+<p>
+Previous:&nbsp;<a rel="previous" accesskey="p" href="The-Size-of-Discriminated-Records-with-Default-Discriminants.html#The-Size-of-Discriminated-Records-with-Default-Discriminants">The Size of Discriminated Records with Default Discriminants</a>,
+Up:&nbsp;<a rel="up" accesskey="u" href="Implementation-of-Specific-Ada-Features.html#Implementation-of-Specific-Ada-Features">Implementation of Specific Ada Features</a>
+<hr>
+</div>
+
+<p><a name="gnat_005frm_002fimplementation_005fof_005fspecific_005fada_005ffeatures-strict_002dconformance_002dto_002dthe_002dada_002dreference_002dmanual"></a><a name="g_t3c5"></a><a name="gnat_005frm_002fimplementation_005fof_005fspecific_005fada_005ffeatures-id14"></a><a name="g_t3c6"></a>
+
+<h3 class="section">15.6 Strict Conformance to the Ada Reference Manual</h3>
+
+<p>The dynamic semantics defined by the Ada Reference Manual impose a set of
+run-time checks to be generated. By default, the GNAT compiler will insert many
+run-time checks into the compiled code, including most of those required by the
+Ada Reference Manual. However, there are three checks that are not enabled
+in the default mode for efficiency reasons: arithmetic overflow checking for
+integer operations (including division by zero), checks for access before
+elaboration on subprogram calls, and stack overflow checking (most operating
+systems do not perform this check by default).
+
+<p>Strict conformance to the Ada Reference Manual can be achieved by adding
+three compiler options for overflow checking for integer operations
+(`-gnato'), dynamic checks for access-before-elaboration on subprogram
+calls and generic instantiations (`-gnatE'), and stack overflow
+checking (`-fstack-check').
+
+<p>Note that the result of a floating point arithmetic operation in overflow and
+invalid situations, when the <cite>Machine_Overflows</cite> attribute of the result
+type is <cite>False</cite>, is to generate IEEE NaN and infinite values. This is the
+case for machines compliant with the IEEE floating-point standard, but on
+machines that are not fully compliant with this standard, such as Alpha, the
+`-mieee' compiler flag must be used for achieving IEEE confirming
+behavior (although at the cost of a significant performance penalty), so
+infinite and NaN values are properly generated.
+
+</body></html>
+

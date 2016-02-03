@@ -1,0 +1,188 @@
+<html lang="en">
+<head>
+<title>Tools Options in Project Files - GNAT User's Guide for Native Platforms</title>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+<meta name="description" content="GNAT User's Guide for Native Platforms">
+<meta name="generator" content="makeinfo 4.13">
+<link title="Top" rel="start" href="index.html#Top">
+<link rel="up" href="Building-With-Projects.html#Building-With-Projects" title="Building With Projects">
+<link rel="prev" href="Main-Subprograms.html#Main-Subprograms" title="Main Subprograms">
+<link rel="next" href="Compiling-with-Project-Files.html#Compiling-with-Project-Files" title="Compiling with Project Files">
+<link href="http://www.gnu.org/software/texinfo/" rel="generator-home" title="Texinfo Homepage">
+<!--
+
+     GNAT User's Guide for Native Platforms , March 24, 2015
+
+     AdaCore
+
+     Copyright (C) 2008-2015, Free Software Foundation
+-->
+<meta http-equiv="Content-Style-Type" content="text/css">
+<style type="text/css"><!--
+  pre.display { font-family:inherit }
+  pre.format  { font-family:inherit }
+  pre.smalldisplay { font-family:inherit; font-size:smaller }
+  pre.smallformat  { font-family:inherit; font-size:smaller }
+  pre.smallexample { font-size:smaller }
+  pre.smalllisp    { font-size:smaller }
+  span.sc    { font-variant:small-caps }
+  span.roman { font-family:serif; font-weight:normal; } 
+  span.sansserif { font-family:sans-serif; font-weight:normal; } 
+--></style>
+</head>
+<body>
+<div class="node">
+<a name="Tools-Options-in-Project-Files"></a>
+<p>
+Next:&nbsp;<a rel="next" accesskey="n" href="Compiling-with-Project-Files.html#Compiling-with-Project-Files">Compiling with Project Files</a>,
+Previous:&nbsp;<a rel="previous" accesskey="p" href="Main-Subprograms.html#Main-Subprograms">Main Subprograms</a>,
+Up:&nbsp;<a rel="up" accesskey="u" href="Building-With-Projects.html#Building-With-Projects">Building With Projects</a>
+<hr>
+</div>
+
+<p><a name="gnat_005fugn_002fgnat_005fproject_005fmanager-tools_002doptions_002din_002dproject_002dfiles"></a><a name="g_t15e"></a><a name="gnat_005fugn_002fgnat_005fproject_005fmanager-id7"></a><a name="g_t15f"></a>
+
+<h4 class="subsection">5.2.5 Tools Options in Project Files</h4>
+
+<p>We now have a project file that fully describes our environment, and can be
+used to build the application with a simple `gprbuild' command as seen
+in the previous section. In fact, the empty project we showed immediately at
+the beginning (with no attribute at all) could already fulfill that need if it
+was put in the <code>common</code> directory.
+
+<p>Of course, we might want more control. This section shows you how to specify
+the compilation switches that the various tools involved in the building of the
+executable should use.
+
+<p><a name="index-command-line-length-_0028GNAT-Project-Manager_0029-793"></a>
+Since source names and locations are described in the project file, it is not
+necessary to use switches on the command line for this purpose (switches such
+as -I for gcc). This removes a major source of command line length overflow. 
+Clearly, the builders will have to communicate this information one way or
+another to the underlying compilers and tools they call but they usually use
+response files for this and thus are not subject to command line overflows.
+
+<p>Several tools participate to the creation of an executable: the compiler
+produces object files from the source files; the binder (in the Ada case)
+creates a "source" file that takes care, among other things, of elaboration
+issues and global variable initialization; and the linker gathers everything
+into a single executable that users can execute. All these tools are known to
+the project manager and will be called with user defined switches from the
+project files. However, we need to introduce a new project file concept to
+express the switches to be used for any of the tools involved in the build.
+
+<p><a name="index-project-file-packages-_0028GNAT-Project-Manager_0029-794"></a>
+A project file is subdivided into zero or more `packages', each of which
+contains the attributes specific to one tool (or one set of tools). Project
+files use an Ada-like syntax for packages. Package names permitted in project
+files are restricted to a predefined set (see <a href="153.html#g_t153">Packages</a>), and the contents
+of packages are limited to a small set of constructs and attributes
+(see <a href="152.html#g_t152">Attributes</a>).
+
+<p>Our example project file can be extended with the following empty packages. At
+this stage, they could all be omitted since they are empty, but they show which
+packages would be involved in the build process.
+
+<!-- code-block: ada-project -->
+<!-- project Build is -->
+<!-- for Source_Dirs use ("common"); -->
+<!-- for Object_Dir use "obj"; -->
+<!-- for Exec_Dir use "."; -->
+<!-- for Main use ("proc.adb"); -->
+<!-- package Builder is  -<<<  for gnatmake and gprbuild -->
+<!-- end Builder; -->
+<!-- package Compiler is -<<<  for the compiler -->
+<!-- end Compiler; -->
+<!-- package Binder is   -<<<  for the binder -->
+<!-- end Binder; -->
+<!-- package Linker is   -<<<  for the linker -->
+<!-- end Linker; -->
+<!-- end Build; -->
+<p>Let's first examine the compiler switches. As stated in the initial description
+of the example, we want to compile all files with `-O2'. This is a
+compiler switch, although it is usual, on the command line, to pass it to the
+builder which then passes it to the compiler. It is recommended to use directly
+the right package, which will make the setup easier to understand for other
+people.
+
+<p>Several attributes can be used to specify the switches:
+
+<p><a name="index-Default_005fSwitches-_0028GNAT-Project-Manager_0029-795"></a>
+`Default_Switches':
+
+<blockquote>
+
+<p>This is the first mention in this manual of an `indexed attribute'. When
+this attribute is defined, one must supply an `index' in the form of a
+literal string. 
+In the case of `Default_Switches', the index is the name of the
+language to which the switches apply (since a different compiler will
+likely be used for each language, and each compiler has its own set of
+switches). The value of the attribute is a list of switches.
+
+<p>In this example, we want to compile all Ada source files with the switch
+`-O2', and the resulting project file is as follows
+(only the <cite>Compiler</cite> package is shown):
+
+<!-- code-block: ada-project -->
+<!-- package Compiler is -->
+<!-- for Default_Switches ("Ada") use ("-O2"); -->
+<!-- end Compiler; -->
+</blockquote>
+
+<p><a name="index-Switches-_0028GNAT-Project-Manager_0029-796"></a>
+`Switches':
+
+<blockquote>
+
+<p>In some cases, we might want to use specific switches
+for one or more files. For instance, compiling <code>proc.adb</code> might not be
+possible at high level of optimization because of a compiler issue. 
+In such a case, the `Switches'
+attribute (indexed on the file name) can be used and will override the
+switches defined by `Default_Switches'. Our project file would
+become:
+
+<!-- code-block: ada-project -->
+<!-- package Compiler is -->
+<!-- for Default_Switches ("Ada") -->
+<!-- use ("-O2"); -->
+<!-- for Switches ("proc.adb") -->
+<!-- use ("-O0"); -->
+<!-- end Compiler; -->
+<p><cite>Switches</cite> may take a pattern as an index, such as in:
+
+<!-- code-block: ada-project -->
+<!-- package Compiler is -->
+<!-- for Default_Switches ("Ada") -->
+<!-- use ("-O2"); -->
+<!-- for Switches ("pkg*") -->
+<!-- use ("-O0"); -->
+<!-- end Compiler; -->
+<p>Sources <code>pkg.adb</code> and <code>pkg-child.adb</code> would be compiled with -O0,
+not -O2.
+
+<p><cite>Switches</cite> can also be given a language name as index instead of a file
+name in which case it has the same semantics as `Default_Switches'. 
+However, indexes with wild cards are never valid for language name. 
+</blockquote>
+
+<p><a name="index-Local_005fConfiguration_005fPragmas-_0028GNAT-Project-Manager_0029-797"></a>
+`Local_Configuration_Pragmas':
+
+<blockquote>
+
+<p>This attribute may specify the path
+of a file containing configuration pragmas for use by the Ada compiler,
+such as <cite>pragma Restrictions (No_Tasking)</cite>. These pragmas will be
+used for all the sources of the project. 
+</blockquote>
+
+<p>The switches for the other tools are defined in a similar manner through the
+`Default_Switches' and `Switches' attributes, respectively in the
+`Builder' package (for `gnatmake' and `gprbuild'),
+the `Binder' package (binding Ada executables) and the `Linker'
+package (for linking executables).
+
+</body></html>
+

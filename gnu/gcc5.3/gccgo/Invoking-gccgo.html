@@ -1,0 +1,156 @@
+<html lang="en">
+<head>
+<title>Invoking gccgo - The GNU Go Compiler</title>
+<meta http-equiv="Content-Type" content="text/html">
+<meta name="description" content="The GNU Go Compiler">
+<meta name="generator" content="makeinfo 4.13">
+<link title="Top" rel="start" href="index.html#Top">
+<link rel="prev" href="GNU-Free-Documentation-License.html#GNU-Free-Documentation-License" title="GNU Free Documentation License">
+<link rel="next" href="Import-and-Export.html#Import-and-Export" title="Import and Export">
+<link href="http://www.gnu.org/software/texinfo/" rel="generator-home" title="Texinfo Homepage">
+<!--
+Copyright (C) 2010-2015 Free Software Foundation, Inc.
+
+Permission is granted to copy, distribute and/or modify this document
+under the terms of the GNU Free Documentation License, Version 1.3 or
+any later version published by the Free Software Foundation; with no
+Invariant Sections, the Front-Cover Texts being (a) (see below), and
+with the Back-Cover Texts being (b) (see below).
+A copy of the license is included in the
+section entitled ``GNU Free Documentation License''.
+
+
+(a) The FSF's Front-Cover Text is:
+
+     A GNU Manual
+
+(b) The FSF's Back-Cover Text is:
+
+     You have freedom to copy and modify this GNU Manual, like GNU
+     software.  Copies published by the Free Software Foundation raise
+     funds for GNU development.
+-->
+<meta http-equiv="Content-Style-Type" content="text/css">
+<style type="text/css"><!--
+  pre.display { font-family:inherit }
+  pre.format  { font-family:inherit }
+  pre.smalldisplay { font-family:inherit; font-size:smaller }
+  pre.smallformat  { font-family:inherit; font-size:smaller }
+  pre.smallexample { font-size:smaller }
+  pre.smalllisp    { font-size:smaller }
+  span.sc    { font-variant:small-caps }
+  span.roman { font-family:serif; font-weight:normal; } 
+  span.sansserif { font-family:sans-serif; font-weight:normal; } 
+--></style>
+</head>
+<body>
+<div class="node">
+<a name="Invoking-gccgo"></a>
+<p>
+Next:&nbsp;<a rel="next" accesskey="n" href="Import-and-Export.html#Import-and-Export">Import and Export</a>,
+Previous:&nbsp;<a rel="previous" accesskey="p" href="GNU-Free-Documentation-License.html#GNU-Free-Documentation-License">GNU Free Documentation License</a>,
+Up:&nbsp;<a rel="up" accesskey="u" href="index.html#Top">Top</a>
+<hr>
+</div>
+
+<h2 class="chapter">1 Invoking gccgo</h2>
+
+<!-- man title gccgo A GCC-based compiler for the Go language -->
+<!-- man begin DESCRIPTION gccgo -->
+<p>The <samp><span class="command">gccgo</span></samp> command is a frontend to <samp><span class="command">gcc</span></samp> and
+supports many of the same options.  See <a href="../gcc/Option-Summary.html#Option-Summary">Option Summary</a>.  This manual
+only documents the options specific to <samp><span class="command">gccgo</span></samp>.
+
+   <p>The <samp><span class="command">gccgo</span></samp> command may be used to compile Go source code into
+an object file, link a collection of object files together, or do both
+in sequence.
+
+   <p>Go source code is compiled as packages.  A package consists of one or
+more Go source files.  All the files in a single package must be
+compiled together, by passing all the files as arguments to
+<samp><span class="command">gccgo</span></samp>.  A single invocation of <samp><span class="command">gccgo</span></samp> may only
+compile a single package.
+
+   <p>One Go package may <code>import</code> a different Go package.  The imported
+package must have already been compiled; <samp><span class="command">gccgo</span></samp> will read
+the import data directly from the compiled package.  When this package
+is later linked, the compiled form of the package must be included in
+the link command.
+
+   <p>Go programs must generally be compiled with debugging information, and
+<samp><span class="option">-g1</span></samp> is the default as described below.  Stripping a Go
+program will generally cause it to misbehave or fail.
+
+<!-- man end -->
+<!-- man begin OPTIONS gccgo -->
+     <dl>
+<dt><code>-I</code><var>dir</var><dd><a name="index-g_t_0040option_007b_002dI_007d-2"></a>Specify a directory to use when searching for an import package at
+compile time.
+
+     <br><dt><code>-L</code><var>dir</var><dd><a name="index-g_t_0040option_007b_002dL_007d-3"></a>When linking, specify a library search directory, as with
+<samp><span class="command">gcc</span></samp>.
+
+     <br><dt><code>-fgo-pkgpath=</code><var>string</var><dd><a name="index-g_t_0040option_007b_002dfgo_002dpkgpath_007d-4"></a>Set the package path to use.  This sets the value returned by the
+PkgPath method of reflect.Type objects.  It is also used for the names
+of globally visible symbols.  The argument to this option should
+normally be the string that will be used to import this package after
+it has been installed; in other words, a pathname within the
+directories specified by the <samp><span class="option">-I</span></samp> option.
+
+     <br><dt><code>-fgo-prefix=</code><var>string</var><dd><a name="index-g_t_0040option_007b_002dfgo_002dprefix_007d-5"></a>An alternative to <samp><span class="option">-fgo-pkgpath</span></samp>.  The argument will be
+combined with the package name from the source file to produce the
+package path.  If <samp><span class="option">-fgo-pkgpath</span></samp> is used, <samp><span class="option">-fgo-prefix</span></samp>
+will be ignored.
+
+     <p>Go permits a single program to include more than one package with the
+same name in the <code>package</code> clause in the source file, though
+obviously the two packages must be imported using different pathnames. 
+In order for this to work with <samp><span class="command">gccgo</span></samp>, either
+<samp><span class="option">-fgo-pkgpath</span></samp> or <samp><span class="option">-fgo-prefix</span></samp> must be specified when
+compiling a package.
+
+     <p>Using either <samp><span class="option">-fgo-pkgpath</span></samp> or <samp><span class="option">-fgo-prefix</span></samp> disables
+the special treatment of the <code>main</code> package and permits that
+package to be imported like any other.
+
+     <br><dt><code>-fgo-relative-import-path=</code><var>dir</var><dd><a name="index-g_t_0040option_007b_002dfgo_002drelative_002dimport_002dpath_007d-6"></a>A relative import is an import that starts with <samp><span class="file">./</span></samp> or
+<samp><span class="file">../</span></samp>.  If this option is used, <samp><span class="command">gccgo</span></samp> will use
+<var>dir</var> as a prefix for the relative import when searching for it.
+
+     <br><dt><code>-frequire-return-statement</code><dt><code>-fno-require-return-statement</code><dd><a name="index-g_t_0040option_007b_002dfrequire_002dreturn_002dstatement_007d-7"></a><a name="index-g_t_0040option_007b_002dfno_002drequire_002dreturn_002dstatement_007d-8"></a>By default <samp><span class="command">gccgo</span></samp> will warn about functions which have one or
+more return parameters but lack an explicit <code>return</code> statement. 
+This warning may be disabled using
+<samp><span class="option">-fno-require-return-statement</span></samp>.
+
+     <br><dt><code>-fgo-check-divide-zero</code><dd><a name="index-g_t_0040option_007b_002dfgo_002dcheck_002ddivide_002dzero_007d-9"></a><a name="index-g_t_0040option_007b_002dfno_002dgo_002dcheck_002ddivide_002dzero_007d-10"></a>Add explicit checks for division by zero.  In Go a division (or
+modulos) by zero causes a panic.  On Unix systems this is detected in
+the runtime by catching the <code>SIGFPE</code> signal.  Some processors,
+such as PowerPC, do not generate a SIGFPE on division by zero.  Some
+runtimes do not generate a signal that can be caught.  On those
+systems, this option may be used.  Or the checks may be removed via
+<samp><span class="option">-fno-go-check-divide-zero</span></samp>.  This option is currently on by
+default, but in the future may be off by default on systems that do
+not require it.
+
+     <br><dt><code>-fgo-check-divide-overflow</code><dd><a name="index-g_t_0040option_007b_002dfgo_002dcheck_002ddivide_002doverflow_007d-11"></a><a name="index-g_t_0040option_007b_002dfno_002dgo_002dcheck_002ddivide_002doverflow_007d-12"></a>Add explicit checks for division overflow.  For example, division
+overflow occurs when computing <code>INT_MIN / -1</code>.  In Go this should
+be wrapped, to produce <code>INT_MIN</code>.  Some processors, such as x86,
+generate a trap on division overflow.  On those systems, this option
+may be used.  Or the checks may be removed via
+<samp><span class="option">-fno-go-check-divide-overflow</span></samp>.  This option is currently on
+by default, but in the future may be off by default on systems that do
+not require it.
+
+     <br><dt><code>-g</code><dd><a name="index-g_t_0040option_007b_002dg-for-gccgo_007d-13"></a>This is the standard <samp><span class="command">gcc</span></samp> option (see <a href="../gcc/Debugging-Options.html#Debugging-Options">Debugging Options</a>).  It
+is mentioned here because by default <samp><span class="command">gccgo</span></samp> turns on
+debugging information generation with the equivalent of the standard
+option <samp><span class="option">-g1</span></samp>.  This is because Go programs require debugging
+information to be available in order to get backtrace information.  An
+explicit <samp><span class="option">-g0</span></samp> may be used to disable the generation of
+debugging information, in which case certain standard library
+functions, such as <code>runtime.Callers</code>, will not operate correctly. 
+</dl>
+
+<!-- man end -->
+   </body></html>
+

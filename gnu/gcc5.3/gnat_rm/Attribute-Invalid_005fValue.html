@@ -1,0 +1,57 @@
+<html lang="en">
+<head>
+<title>Attribute Invalid_Value - GNAT Reference Manual</title>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+<meta name="description" content="GNAT Reference Manual">
+<meta name="generator" content="makeinfo 4.13">
+<link title="Top" rel="start" href="index.html#Top">
+<link rel="up" href="Implementation-Defined-Attributes.html#Implementation-Defined-Attributes" title="Implementation Defined Attributes">
+<link rel="prev" href="Attribute-Integer_005fValue.html#Attribute-Integer_005fValue" title="Attribute Integer_Value">
+<link rel="next" href="Attribute-Iterable.html#Attribute-Iterable" title="Attribute Iterable">
+<link href="http://www.gnu.org/software/texinfo/" rel="generator-home" title="Texinfo Homepage">
+<!--
+
+     GNAT Reference Manual , March 24, 2015
+
+     AdaCore
+
+     Copyright (C) 2008-2015, Free Software Foundation
+-->
+<meta http-equiv="Content-Style-Type" content="text/css">
+<style type="text/css"><!--
+  pre.display { font-family:inherit }
+  pre.format  { font-family:inherit }
+  pre.smalldisplay { font-family:inherit; font-size:smaller }
+  pre.smallformat  { font-family:inherit; font-size:smaller }
+  pre.smallexample { font-size:smaller }
+  pre.smalllisp    { font-size:smaller }
+  span.sc    { font-variant:small-caps }
+  span.roman { font-family:serif; font-weight:normal; } 
+  span.sansserif { font-family:sans-serif; font-weight:normal; } 
+--></style>
+</head>
+<body>
+<div class="node">
+<a name="Attribute-Invalid_Value"></a>
+<a name="Attribute-Invalid_005fValue"></a>
+<p>
+Next:&nbsp;<a rel="next" accesskey="n" href="Attribute-Iterable.html#Attribute-Iterable">Attribute Iterable</a>,
+Previous:&nbsp;<a rel="previous" accesskey="p" href="Attribute-Integer_005fValue.html#Attribute-Integer_005fValue">Attribute Integer_Value</a>,
+Up:&nbsp;<a rel="up" accesskey="u" href="Implementation-Defined-Attributes.html#Implementation-Defined-Attributes">Implementation Defined Attributes</a>
+<hr>
+</div>
+
+<p><a name="gnat_005frm_002fimplementation_005fdefined_005fattributes-attribute_002dinvalid_002dvalue"></a><a name="g_t136"></a>
+
+<h3 class="section">4.31 Attribute Invalid_Value</h3>
+
+<p><a name="index-Invalid_005fValue-205"></a>
+For every scalar type S, S'Invalid_Value returns an undefined value of the
+type. If possible this value is an invalid representation for the type. The
+value returned is identical to the value used to initialize an otherwise
+uninitialized value of the type if pragma Initialize_Scalars is used,
+including the ability to modify the value with the binder -Sxx flag and
+relevant environment variables at run time.
+
+</body></html>
+

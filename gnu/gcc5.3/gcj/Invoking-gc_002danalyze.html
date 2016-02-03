@@ -1,0 +1,116 @@
+<html lang="en">
+<head>
+<title>Invoking gc-analyze - Guide to GNU gcj</title>
+<meta http-equiv="Content-Type" content="text/html">
+<meta name="description" content="Guide to GNU gcj">
+<meta name="generator" content="makeinfo 4.13">
+<link title="Top" rel="start" href="index.html#Top">
+<link rel="prev" href="Invoking-grmic.html#Invoking-grmic" title="Invoking grmic">
+<link rel="next" href="Invoking-aot_002dcompile.html#Invoking-aot_002dcompile" title="Invoking aot-compile">
+<link href="http://www.gnu.org/software/texinfo/" rel="generator-home" title="Texinfo Homepage">
+<!--
+Copyright (C) 2001-2015 Free Software Foundation, Inc.
+
+Permission is granted to copy, distribute and/or modify this document
+under the terms of the GNU Free Documentation License, Version 1.3 or
+any later version published by the Free Software Foundation; with no
+Invariant Sections, the Front-Cover Texts being (a) (see below), and
+with the Back-Cover Texts being (b) (see below).
+A copy of the license is included in the
+section entitled ``GNU Free Documentation License''.
+
+
+(a) The FSF's Front-Cover Text is:
+
+     A GNU Manual
+
+(b) The FSF's Back-Cover Text is:
+
+     You have freedom to copy and modify this GNU Manual, like GNU
+     software.  Copies published by the Free Software Foundation raise
+     funds for GNU development.
+-->
+<meta http-equiv="Content-Style-Type" content="text/css">
+<style type="text/css"><!--
+  pre.display { font-family:inherit }
+  pre.format  { font-family:inherit }
+  pre.smalldisplay { font-family:inherit; font-size:smaller }
+  pre.smallformat  { font-family:inherit; font-size:smaller }
+  pre.smallexample { font-size:smaller }
+  pre.smalllisp    { font-size:smaller }
+  span.sc    { font-variant:small-caps }
+  span.roman { font-family:serif; font-weight:normal; } 
+  span.sansserif { font-family:sans-serif; font-weight:normal; } 
+--></style>
+</head>
+<body>
+<div class="node">
+<a name="Invoking-gc-analyze"></a>
+<a name="Invoking-gc_002danalyze"></a>
+<p>
+Next:&nbsp;<a rel="next" accesskey="n" href="Invoking-aot_002dcompile.html#Invoking-aot_002dcompile">Invoking aot-compile</a>,
+Previous:&nbsp;<a rel="previous" accesskey="p" href="Invoking-grmic.html#Invoking-grmic">Invoking grmic</a>,
+Up:&nbsp;<a rel="up" accesskey="u" href="index.html#Top">Top</a>
+<hr>
+</div>
+
+<h2 class="chapter">8 Invoking gc-analyze</h2>
+
+<!-- man title gc-analyze Analyze Garbage Collector (GC) memory dumps -->
+<!-- man begin SYNOPSIS gc-analyze -->
+<p><samp><span class="command">gc-analyze</span></samp> [<samp><span class="option">OPTION</span></samp>] <small class="dots">...</small> [<var>file</var>]
+<!-- man end -->
+
+<!-- man begin DESCRIPTION gc-analyze -->
+   <p><samp><span class="command">gc-analyze</span></samp> prints an analysis of a GC memory dump to
+standard out.
+
+   <p>The memory dumps may be created by calling
+<code>gnu.gcj.util.GCInfo.enumerate(String namePrefix)</code> from java
+code.  A memory dump will be created on an out of memory condition if
+<code>gnu.gcj.util.GCInfo.setOOMDump(String namePrefix)</code> is called
+before the out of memory occurs.
+
+   <p>Running this program will create two files: <samp><span class="file">TestDump001</span></samp> and
+<samp><span class="file">TestDump001.bytes</span></samp>.
+
+<pre class="example">     import gnu.gcj.util.*;
+     import java.util.*;
+     
+     public class GCDumpTest
+     {
+         static public void main(String args[])
+         {
+             ArrayList&lt;String&gt; l = new ArrayList&lt;String&gt;(1000);
+     
+             for (int i = 1; i &lt; 1500; i++) {
+                 l.add("This is string #" + i);
+             }
+             GCInfo.enumerate("TestDump");
+         }
+     }
+</pre>
+   <p>The memory dump may then be displayed by running:
+
+<pre class="example">     gc-analyze -v TestDump001
+</pre>
+   <!-- FIXME: Add real information here. -->
+<!-- This really isn't much more than the -help output. -->
+<!-- man end -->
+<!-- man begin OPTIONS gc-analyze -->
+     <dl>
+<dt><code>--verbose</code><dt><code>-v</code><dd>Verbose output.
+
+     <br><dt><code>-p </code><var>tool-prefix</var><dd>Prefix added to the names of the <samp><span class="command">nm</span></samp> and <samp><span class="command">readelf</span></samp> commands.
+
+     <br><dt><code>-d </code><var>directory</var><dd>Directory that contains the executable and shared libraries used when
+the dump was generated.
+
+     <br><dt><code>--help</code><dd>Print a help message, then exit.
+
+     <br><dt><code>--version</code><dd>Print version information, then exit. 
+</dl>
+
+<!-- man end -->
+   </body></html>
+

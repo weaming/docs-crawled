@@ -1,0 +1,173 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+  "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+
+
+<html xmlns="http://www.w3.org/1999/xhtml">
+  <head>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+    
+    <title>延迟的请求回调 &mdash; Flask 0.10 文档</title>
+    
+    <link rel="stylesheet" href="../_static/flasky.css" type="text/css" />
+    <link rel="stylesheet" href="../_static/pygments.css" type="text/css" />
+    
+    <script type="text/javascript">
+      var DOCUMENTATION_OPTIONS = {
+        URL_ROOT:    '../',
+        VERSION:     '0.10',
+        COLLAPSE_INDEX: false,
+        FILE_SUFFIX: '.html',
+        HAS_SOURCE:  true
+      };
+    </script>
+    <script type="text/javascript" src="../_static/jquery.js"></script>
+    <script type="text/javascript" src="../_static/underscore.js"></script>
+    <script type="text/javascript" src="../_static/doctools.js"></script>
+    <script type="text/javascript" src="../_static/translations.js"></script>
+    <link rel="top" title="Flask 0.10 文档" href="../index.html" />
+    <link rel="up" title="Flask 方案" href="index.html" />
+    <link rel="next" title="添加 HTTP 方法重载" href="methodoverrides.html" />
+    <link rel="prev" title="流内容" href="streaming.html" />
+   
+  
+  <link rel="apple-touch-icon" href="../_static/touch-icon.png" />
+  
+  <link media="only screen and (max-device-width: 480px)" href="../_static/small_flask.css" type= "text/css" rel="stylesheet" />
+
+  </head>
+  <body role="document">
+    <div class="related" role="navigation" aria-label="related navigation">
+      <h3>导航</h3>
+      <ul>
+        <li class="right" style="margin-right: 10px">
+          <a href="../genindex.html" title="总目录"
+             accesskey="I">索引</a></li>
+        <li class="right" >
+          <a href="methodoverrides.html" title="添加 HTTP 方法重载"
+             accesskey="N">下一页</a> |</li>
+        <li class="right" >
+          <a href="streaming.html" title="流内容"
+             accesskey="P">上一页</a> |</li>
+        <li class="nav-item nav-item-0"><a href="../index.html">Flask 0.10 文档</a> &raquo;</li>
+          <li class="nav-item nav-item-1"><a href="index.html" accesskey="U">Flask 方案</a> &raquo;</li> 
+      </ul>
+    </div>  
+
+    <div class="document">
+      <div class="documentwrapper">
+        <div class="bodywrapper">
+          <div class="body" role="main">
+            
+  <div class="section" id="deferred-callbacks">
+<span id="id1"></span><h1>延迟的请求回调<a class="headerlink" href="#deferred-callbacks" title="永久链接至标题">¶</a></h1>
+<p>Flask 的设计思路之一是：响应对象创建后被传递给一串回调函数，这些回调函数可以修改
+或替换响应对象。当请求处理开始的时候，响应对象还没有被创建。响应对象是由一个视图
+函数或者系统中的其他组件按需创建的。</p>
+<p>但是当响应对象还没有创建时，我们如何修改响应对象呢？比如在一个请求前函数中，我们
+需要根据响应对象设置一个 cookie 。</p>
+<p>通常我们选择避开这种情形。例如可以尝试把应用逻辑移动到请求后函数中。但是，有时候
+这个方法让人不爽，或者让代码变得很丑陋。</p>
+<p>变通的方法是把一堆回调函数贴到 <a class="reference internal" href="../api.html#flask.g" title="flask.g"><code class="xref py py-data docutils literal"><span class="pre">g</span></code></a> 对象上，并且在请求结束时调用这些
+回调函数。这样你就可以在应用的任意地方延迟回调函数的执行。</p>
+<div class="section" id="id2">
+<h2>装饰器<a class="headerlink" href="#id2" title="永久链接至标题">¶</a></h2>
+<p>下面的装饰器是一个关键，它在 <a class="reference internal" href="../api.html#flask.g" title="flask.g"><code class="xref py py-data docutils literal"><span class="pre">g</span></code></a> 对象上注册一个函数列表:</p>
+<div class="highlight-python"><div class="highlight"><pre><span class="kn">from</span> <span class="nn">flask</span> <span class="kn">import</span> <span class="n">g</span>
+
+<span class="k">def</span> <span class="nf">after_this_request</span><span class="p">(</span><span class="n">f</span><span class="p">):</span>
+    <span class="k">if</span> <span class="ow">not</span> <span class="nb">hasattr</span><span class="p">(</span><span class="n">g</span><span class="p">,</span> <span class="s">&#39;after_request_callbacks&#39;</span><span class="p">):</span>
+        <span class="n">g</span><span class="o">.</span><span class="n">after_request_callbacks</span> <span class="o">=</span> <span class="p">[]</span>
+    <span class="n">g</span><span class="o">.</span><span class="n">after_request_callbacks</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">f</span><span class="p">)</span>
+    <span class="k">return</span> <span class="n">f</span>
+</pre></div>
+</div>
+</div>
+<div class="section" id="id3">
+<h2>调用延迟的回调函数<a class="headerlink" href="#id3" title="永久链接至标题">¶</a></h2>
+<p>至此，通过使用 <cite>after_this_request</cite> 装饰器，使得函数在请求结束时可以被调用。现在
+我们来实现这个调用过程。我们把这些函数注册为
+<a class="reference internal" href="../api.html#flask.Flask.after_request" title="flask.Flask.after_request"><code class="xref py py-meth docutils literal"><span class="pre">after_request()</span></code></a> 回调函数:</p>
+<div class="highlight-python"><div class="highlight"><pre><span class="nd">@app.after_request</span>
+<span class="k">def</span> <span class="nf">call_after_request_callbacks</span><span class="p">(</span><span class="n">response</span><span class="p">):</span>
+    <span class="k">for</span> <span class="n">callback</span> <span class="ow">in</span> <span class="nb">getattr</span><span class="p">(</span><span class="n">g</span><span class="p">,</span> <span class="s">&#39;after_request_callbacks&#39;</span><span class="p">,</span> <span class="p">()):</span>
+        <span class="n">callback</span><span class="p">(</span><span class="n">response</span><span class="p">)</span>
+    <span class="k">return</span> <span class="n">response</span>
+</pre></div>
+</div>
+</div>
+<div class="section" id="id4">
+<h2>一个实例<a class="headerlink" href="#id4" title="永久链接至标题">¶</a></h2>
+<p>现在我们可以方便地随时随地为特定请求注册一个函数，让这个函数在请求结束时被调用。
+例如，你可以在请求前函数中把用户的当前语言记录到 cookie 中:</p>
+<div class="highlight-python"><div class="highlight"><pre><span class="kn">from</span> <span class="nn">flask</span> <span class="kn">import</span> <span class="n">request</span>
+
+<span class="nd">@app.before_request</span>
+<span class="k">def</span> <span class="nf">detect_user_language</span><span class="p">():</span>
+    <span class="n">language</span> <span class="o">=</span> <span class="n">request</span><span class="o">.</span><span class="n">cookies</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s">&#39;user_lang&#39;</span><span class="p">)</span>
+    <span class="k">if</span> <span class="n">language</span> <span class="ow">is</span> <span class="bp">None</span><span class="p">:</span>
+        <span class="n">language</span> <span class="o">=</span> <span class="n">guess_language_from_request</span><span class="p">()</span>
+        <span class="nd">@after_this_request</span>
+        <span class="k">def</span> <span class="nf">remember_language</span><span class="p">(</span><span class="n">response</span><span class="p">):</span>
+            <span class="n">response</span><span class="o">.</span><span class="n">set_cookie</span><span class="p">(</span><span class="s">&#39;user_lang&#39;</span><span class="p">,</span> <span class="n">language</span><span class="p">)</span>
+    <span class="n">g</span><span class="o">.</span><span class="n">language</span> <span class="o">=</span> <span class="n">language</span>
+</pre></div>
+</div>
+</div>
+</div>
+
+
+          </div>
+        </div>
+      </div>
+      <div class="sphinxsidebar" role="navigation" aria-label="main navigation">
+        <div class="sphinxsidebarwrapper"><p class="logo"><a href="../index.html">
+  <img class="logo" src="../_static/flask.png" alt="Logo"/>
+</a></p>
+  <h3><a href="../index.html">內容目录</a></h3>
+  <ul>
+<li><a class="reference internal" href="#">延迟的请求回调</a><ul>
+<li><a class="reference internal" href="#id2">装饰器</a></li>
+<li><a class="reference internal" href="#id3">调用延迟的回调函数</a></li>
+<li><a class="reference internal" href="#id4">一个实例</a></li>
+</ul>
+</li>
+</ul>
+<h3>Related Topics</h3>
+<ul>
+  <li><a href="../index.html">Documentation overview</a><ul>
+  <li><a href="index.html">Flask 方案</a><ul>
+      <li>Previous: <a href="streaming.html" title="上一章">流内容</a></li>
+      <li>Next: <a href="methodoverrides.html" title="下一章">添加 HTTP 方法重载</a></li>
+  </ul></li>
+  </ul></li>
+</ul>
+  <div role="note" aria-label="source link">
+    <h3>本页</h3>
+    <ul class="this-page-menu">
+      <li><a href="../_sources/patterns/deferredcallbacks.txt"
+            rel="nofollow">显示源代码</a></li>
+    </ul>
+   </div>
+<div id="searchbox" style="display: none" role="search">
+  <h3>快速搜索</h3>
+    <form class="search" action="../search.html" method="get">
+      <input type="text" name="q" />
+      <input type="submit" value="转向" />
+      <input type="hidden" name="check_keywords" value="yes" />
+      <input type="hidden" name="area" value="default" />
+    </form>
+    <p class="searchtip" style="font-size: 90%">
+    输入相关的术语，模块，类或者函数名称进行搜索
+    </p>
+</div>
+<script type="text/javascript">$('#searchbox').show(0);</script>
+        </div>
+      </div>
+      <div class="clearer"></div>
+    </div>
+    <div class="footer">
+      &copy; Copyright 2013, Armin Ronacher.
+      Created using <a href="http://sphinx.pocoo.org/">Sphinx</a>.
+    </div>
+  </body>
+</html>

@@ -1,0 +1,96 @@
+<html lang="en">
+<head>
+<title>Pragma Task_Name - GNAT Reference Manual</title>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+<meta name="description" content="GNAT Reference Manual">
+<meta name="generator" content="makeinfo 4.13">
+<link title="Top" rel="start" href="index.html#Top">
+<link rel="up" href="Implementation-Defined-Pragmas.html#Implementation-Defined-Pragmas" title="Implementation Defined Pragmas">
+<link rel="prev" href="Pragma-Suppress_005fInitialization.html#Pragma-Suppress_005fInitialization" title="Pragma Suppress_Initialization">
+<link rel="next" href="Pragma-Task_005fStorage.html#Pragma-Task_005fStorage" title="Pragma Task_Storage">
+<link href="http://www.gnu.org/software/texinfo/" rel="generator-home" title="Texinfo Homepage">
+<!--
+
+     GNAT Reference Manual , March 24, 2015
+
+     AdaCore
+
+     Copyright (C) 2008-2015, Free Software Foundation
+-->
+<meta http-equiv="Content-Style-Type" content="text/css">
+<style type="text/css"><!--
+  pre.display { font-family:inherit }
+  pre.format  { font-family:inherit }
+  pre.smalldisplay { font-family:inherit; font-size:smaller }
+  pre.smallformat  { font-family:inherit; font-size:smaller }
+  pre.smallexample { font-size:smaller }
+  pre.smalllisp    { font-size:smaller }
+  span.sc    { font-variant:small-caps }
+  span.roman { font-family:serif; font-weight:normal; } 
+  span.sansserif { font-family:sans-serif; font-weight:normal; } 
+--></style>
+</head>
+<body>
+<div class="node">
+<a name="Pragma-Task_Name"></a>
+<a name="Pragma-Task_005fName"></a>
+<p>
+Next:&nbsp;<a rel="next" accesskey="n" href="Pragma-Task_005fStorage.html#Pragma-Task_005fStorage">Pragma Task_Storage</a>,
+Previous:&nbsp;<a rel="previous" accesskey="p" href="Pragma-Suppress_005fInitialization.html#Pragma-Suppress_005fInitialization">Pragma Suppress_Initialization</a>,
+Up:&nbsp;<a rel="up" accesskey="u" href="Implementation-Defined-Pragmas.html#Implementation-Defined-Pragmas">Implementation Defined Pragmas</a>
+<hr>
+</div>
+
+<p><a name="gnat_005frm_002fimplementation_005fdefined_005fpragmas-pragma_002dtask_002dname"></a><a name="c7"></a>
+
+<h3 class="section">2.168 Pragma Task_Name</h3>
+
+<p>Syntax
+
+<pre class="example">    pragma Task_Name (string_EXPRESSION);
+</pre>
+<p>This pragma appears within a task definition (like pragma
+<cite>Priority</cite>) and applies to the task in which it appears.  The
+argument must be of type String, and provides a name to be used for
+the task instance when the task is created.  Note that this expression
+is not required to be static, and in particular, it can contain
+references to task discriminants.  This facility can be used to
+provide different names for different tasks as they are created,
+as illustrated in the example below.
+
+<p>The task name is recorded internally in the run-time structures
+and is accessible to tools like the debugger.  In addition the
+routine <cite>Ada.Task_Identification.Image</cite> will return this
+string, with a unique task address appended.
+
+<pre class="example">    --  Example of the use of pragma Task_Name
+    
+    with Ada.Task_Identification;
+    use Ada.Task_Identification;
+    with Text_IO; use Text_IO;
+    procedure t3 is
+    
+       type Astring is access String;
+    
+       task type Task_Typ (Name : access String) is
+          pragma Task_Name (Name.all);
+       end Task_Typ;
+    
+       task body Task_Typ is
+          Nam : constant String := Image (Current_Task);
+       begin
+          Put_Line ("--&gt;" &amp; Nam (1 .. 14) &amp; "&lt;--");
+       end Task_Typ;
+    
+       type Ptr_Task is access Task_Typ;
+       Task_Var : Ptr_Task;
+    
+    begin
+       Task_Var :=
+         new Task_Typ (new String'("This is task 1"));
+       Task_Var :=
+         new Task_Typ (new String'("This is task 2"));
+    end;
+</pre>
+</body></html>
+

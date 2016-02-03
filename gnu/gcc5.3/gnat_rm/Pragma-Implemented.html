@@ -1,0 +1,85 @@
+<html lang="en">
+<head>
+<title>Pragma Implemented - GNAT Reference Manual</title>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+<meta name="description" content="GNAT Reference Manual">
+<meta name="generator" content="makeinfo 4.13">
+<link title="Top" rel="start" href="index.html#Top">
+<link rel="up" href="Implementation-Defined-Pragmas.html#Implementation-Defined-Pragmas" title="Implementation Defined Pragmas">
+<link rel="prev" href="Pragma-Implementation_005fDefined.html#Pragma-Implementation_005fDefined" title="Pragma Implementation_Defined">
+<link rel="next" href="Pragma-Implicit_005fPacking.html#Pragma-Implicit_005fPacking" title="Pragma Implicit_Packing">
+<link href="http://www.gnu.org/software/texinfo/" rel="generator-home" title="Texinfo Homepage">
+<!--
+
+     GNAT Reference Manual , March 24, 2015
+
+     AdaCore
+
+     Copyright (C) 2008-2015, Free Software Foundation
+-->
+<meta http-equiv="Content-Style-Type" content="text/css">
+<style type="text/css"><!--
+  pre.display { font-family:inherit }
+  pre.format  { font-family:inherit }
+  pre.smalldisplay { font-family:inherit; font-size:smaller }
+  pre.smallformat  { font-family:inherit; font-size:smaller }
+  pre.smallexample { font-size:smaller }
+  pre.smalllisp    { font-size:smaller }
+  span.sc    { font-variant:small-caps }
+  span.roman { font-family:serif; font-weight:normal; } 
+  span.sansserif { font-family:sans-serif; font-weight:normal; } 
+--></style>
+</head>
+<body>
+<div class="node">
+<a name="Pragma-Implemented"></a>
+<p>
+Next:&nbsp;<a rel="next" accesskey="n" href="Pragma-Implicit_005fPacking.html#Pragma-Implicit_005fPacking">Pragma Implicit_Packing</a>,
+Previous:&nbsp;<a rel="previous" accesskey="p" href="Pragma-Implementation_005fDefined.html#Pragma-Implementation_005fDefined">Pragma Implementation_Defined</a>,
+Up:&nbsp;<a rel="up" accesskey="u" href="Implementation-Defined-Pragmas.html#Implementation-Defined-Pragmas">Implementation Defined Pragmas</a>
+<hr>
+</div>
+
+<p><a name="gnat_005frm_002fimplementation_005fdefined_005fpragmas-pragma_002dimplemented"></a><a name="g_t62"></a>
+
+<h3 class="section">2.71 Pragma Implemented</h3>
+
+<p>Syntax:
+
+<pre class="example">    pragma Implemented (procedure_LOCAL_NAME, implementation_kind);
+    
+    implementation_kind ::= By_Entry | By_Protected_Procedure | By_Any
+</pre>
+<p>This is an Ada 2012 representation pragma which applies to protected, task
+and synchronized interface primitives. The use of pragma Implemented provides
+a way to impose a static requirement on the overriding operation by adhering
+to one of the three implementation kinds: entry, protected procedure or any of
+the above. This pragma is available in all earlier versions of Ada as an
+implementation-defined pragma.
+
+<pre class="example">    type Synch_Iface is synchronized interface;
+    procedure Prim_Op (Obj : in out Iface) is abstract;
+    pragma Implemented (Prim_Op, By_Protected_Procedure);
+    
+    protected type Prot_1 is new Synch_Iface with
+       procedure Prim_Op;  --  Legal
+    end Prot_1;
+    
+    protected type Prot_2 is new Synch_Iface with
+       entry Prim_Op;      --  Illegal
+    end Prot_2;
+    
+    task type Task_Typ is new Synch_Iface with
+       entry Prim_Op;      --  Illegal
+    end Task_Typ;
+</pre>
+<p>When applied to the procedure_or_entry_NAME of a requeue statement, pragma
+Implemented determines the runtime behavior of the requeue. Implementation kind
+By_Entry guarantees that the action of requeueing will proceed from an entry to
+another entry. Implementation kind By_Protected_Procedure transforms the
+requeue into a dispatching call, thus eliminating the chance of blocking. Kind
+By_Any shares the behavior of By_Entry and By_Protected_Procedure depending on
+the target's overriding subprogram kind.
+
+</body></html>
+

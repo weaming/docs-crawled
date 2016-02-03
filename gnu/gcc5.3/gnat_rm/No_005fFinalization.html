@@ -1,0 +1,75 @@
+<html lang="en">
+<head>
+<title>No_Finalization - GNAT Reference Manual</title>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+<meta name="description" content="GNAT Reference Manual">
+<meta name="generator" content="makeinfo 4.13">
+<link title="Top" rel="start" href="index.html#Top">
+<link rel="up" href="Partition_002dWide-Restrictions.html#Partition_002dWide-Restrictions" title="Partition-Wide Restrictions">
+<link rel="prev" href="No_005fExceptions.html#No_005fExceptions" title="No_Exceptions">
+<link rel="next" href="No_005fFixed_005fPoint.html#No_005fFixed_005fPoint" title="No_Fixed_Point">
+<link href="http://www.gnu.org/software/texinfo/" rel="generator-home" title="Texinfo Homepage">
+<!--
+
+     GNAT Reference Manual , March 24, 2015
+
+     AdaCore
+
+     Copyright (C) 2008-2015, Free Software Foundation
+-->
+<meta http-equiv="Content-Style-Type" content="text/css">
+<style type="text/css"><!--
+  pre.display { font-family:inherit }
+  pre.format  { font-family:inherit }
+  pre.smalldisplay { font-family:inherit; font-size:smaller }
+  pre.smallformat  { font-family:inherit; font-size:smaller }
+  pre.smallexample { font-size:smaller }
+  pre.smalllisp    { font-size:smaller }
+  span.sc    { font-variant:small-caps }
+  span.roman { font-family:serif; font-weight:normal; } 
+  span.sansserif { font-family:sans-serif; font-weight:normal; } 
+--></style>
+</head>
+<body>
+<div class="node">
+<a name="No_Finalization"></a>
+<a name="No_005fFinalization"></a>
+<p>
+Next:&nbsp;<a rel="next" accesskey="n" href="No_005fFixed_005fPoint.html#No_005fFixed_005fPoint">No_Fixed_Point</a>,
+Previous:&nbsp;<a rel="previous" accesskey="p" href="No_005fExceptions.html#No_005fExceptions">No_Exceptions</a>,
+Up:&nbsp;<a rel="up" accesskey="u" href="Partition_002dWide-Restrictions.html#Partition_002dWide-Restrictions">Partition-Wide Restrictions</a>
+<hr>
+</div>
+
+<p><a name="gnat_005frm_002fstandard_005fand_005fimplementation_005fdefined_005frestrictions-no_002dfinalization"></a><a name="g_t184"></a>
+
+<h4 class="subsection">5.1.30 No_Finalization</h4>
+
+<p><a name="index-No_005fFinalization-316"></a>
+[GNAT] This restriction disables the language features described in
+chapter 7.6 of the Ada 2005 RM as well as all form of code generation
+performed by the compiler to support these features. The following types
+are no longer considered controlled when this restriction is in effect:
+
+     <ul>
+<li><cite>Ada.Finalization.Controlled</cite>
+
+     <li><cite>Ada.Finalization.Limited_Controlled</cite>
+
+     <li>Derivations from <cite>Controlled</cite> or <cite>Limited_Controlled</cite>
+
+     <li>Class-wide types
+
+     <li>Protected types
+
+     <li>Task types
+
+     <li>Array and record types with controlled components
+</ul>
+
+<p>The compiler no longer generates code to initialize, finalize or adjust an
+object or a nested component, either declared on the stack or on the heap. The
+deallocation of a controlled object no longer finalizes its contents.
+
+</body></html>
+

@@ -1,0 +1,75 @@
+<html lang="en">
+<head>
+<title>Aggregates in assignment statements - GNAT Reference Manual</title>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+<meta name="description" content="GNAT Reference Manual">
+<meta name="generator" content="makeinfo 4.13">
+<link title="Top" rel="start" href="index.html#Top">
+<link rel="up" href="Code-Generation-for-Array-Aggregates.html#Code-Generation-for-Array-Aggregates" title="Code Generation for Array Aggregates">
+<link rel="prev" href="Aggregates-with-non_002dstatic-bounds.html#Aggregates-with-non_002dstatic-bounds" title="Aggregates with non-static bounds">
+<link href="http://www.gnu.org/software/texinfo/" rel="generator-home" title="Texinfo Homepage">
+<!--
+
+     GNAT Reference Manual , March 24, 2015
+
+     AdaCore
+
+     Copyright (C) 2008-2015, Free Software Foundation
+-->
+<meta http-equiv="Content-Style-Type" content="text/css">
+<style type="text/css"><!--
+  pre.display { font-family:inherit }
+  pre.format  { font-family:inherit }
+  pre.smalldisplay { font-family:inherit; font-size:smaller }
+  pre.smallformat  { font-family:inherit; font-size:smaller }
+  pre.smallexample { font-size:smaller }
+  pre.smalllisp    { font-size:smaller }
+  span.sc    { font-variant:small-caps }
+  span.roman { font-family:serif; font-weight:normal; } 
+  span.sansserif { font-family:sans-serif; font-weight:normal; } 
+--></style>
+</head>
+<body>
+<div class="node">
+<a name="Aggregates-in-assignment-statements"></a>
+<p>
+Previous:&nbsp;<a rel="previous" accesskey="p" href="Aggregates-with-non_002dstatic-bounds.html#Aggregates-with-non_002dstatic-bounds">Aggregates with non-static bounds</a>,
+Up:&nbsp;<a rel="up" accesskey="u" href="Code-Generation-for-Array-Aggregates.html#Code-Generation-for-Array-Aggregates">Code Generation for Array Aggregates</a>
+<hr>
+</div>
+
+<p><a name="gnat_005frm_002fimplementation_005fof_005fspecific_005fada_005ffeatures-id12"></a><a name="g_t3c1"></a><a name="gnat_005frm_002fimplementation_005fof_005fspecific_005fada_005ffeatures-aggregates_002din_002dassignment_002dstatements"></a><a name="g_t3c2"></a>
+
+<h4 class="subsection">15.4.5 Aggregates in assignment statements</h4>
+
+<p>In general, aggregate assignment requires the construction of a temporary,
+and a copy from the temporary to the target of the assignment.  This is because
+it is not always possible to convert the assignment into a series of individual
+component assignments.  For example, consider the simple case:
+
+<pre class="example">    A := (A(2), A(1));
+</pre>
+<p>This cannot be converted into:
+
+<pre class="example">    A(1) := A(2);
+    A(2) := A(1);
+</pre>
+<p>So the aggregate has to be built first in a separate location, and then
+copied into the target.  GNAT recognizes simple cases where this intermediate
+step is not required, and the assignments can be performed in place, directly
+into the target.  The following sufficient criteria are applied:
+
+     <ul>
+<li>The bounds of the aggregate are static, and the associations are static.
+
+     <li>The components of the aggregate are static constants, names of
+simple variables that are not renamings, or expressions not involving
+indexed components whose operands obey these rules. 
+</ul>
+
+<p>If any of these conditions are violated, the aggregate will be built in
+a temporary (created either by the front-end or the code generator) and then
+that temporary will be copied onto the target.
+
+</body></html>
+

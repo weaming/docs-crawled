@@ -1,0 +1,110 @@
+<html lang="en">
+<head>
+<title>Effect of Convention on Representation - GNAT Reference Manual</title>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+<meta name="description" content="GNAT Reference Manual">
+<meta name="generator" content="makeinfo 4.13">
+<link title="Top" rel="start" href="index.html#Top">
+<link rel="up" href="Representation-Clauses-and-Pragmas.html#Representation-Clauses-and-Pragmas" title="Representation Clauses and Pragmas">
+<link rel="prev" href="Use-of-Address-Clauses-for-Memory_002dMapped-I_002fO.html#Use-of-Address-Clauses-for-Memory_002dMapped-I_002fO" title="Use of Address Clauses for Memory-Mapped I/O">
+<link rel="next" href="Conventions-and-Anonymous-Access-Types.html#Conventions-and-Anonymous-Access-Types" title="Conventions and Anonymous Access Types">
+<link href="http://www.gnu.org/software/texinfo/" rel="generator-home" title="Texinfo Homepage">
+<!--
+
+     GNAT Reference Manual , March 24, 2015
+
+     AdaCore
+
+     Copyright (C) 2008-2015, Free Software Foundation
+-->
+<meta http-equiv="Content-Style-Type" content="text/css">
+<style type="text/css"><!--
+  pre.display { font-family:inherit }
+  pre.format  { font-family:inherit }
+  pre.smalldisplay { font-family:inherit; font-size:smaller }
+  pre.smallformat  { font-family:inherit; font-size:smaller }
+  pre.smallexample { font-size:smaller }
+  pre.smalllisp    { font-size:smaller }
+  span.sc    { font-variant:small-caps }
+  span.roman { font-family:serif; font-weight:normal; } 
+  span.sansserif { font-family:sans-serif; font-weight:normal; } 
+--></style>
+</head>
+<body>
+<div class="node">
+<a name="Effect-of-Convention-on-Representation"></a>
+<p>
+Next:&nbsp;<a rel="next" accesskey="n" href="Conventions-and-Anonymous-Access-Types.html#Conventions-and-Anonymous-Access-Types">Conventions and Anonymous Access Types</a>,
+Previous:&nbsp;<a rel="previous" accesskey="p" href="Use-of-Address-Clauses-for-Memory_002dMapped-I_002fO.html#Use-of-Address-Clauses-for-Memory_002dMapped-I_002fO">Use of Address Clauses for Memory-Mapped I/O</a>,
+Up:&nbsp;<a rel="up" accesskey="u" href="Representation-Clauses-and-Pragmas.html#Representation-Clauses-and-Pragmas">Representation Clauses and Pragmas</a>
+<hr>
+</div>
+
+<p><a name="gnat_005frm_002frepresentation_005fclauses_005fand_005fpragmas-id18"></a><a name="g_t23a"></a><a name="gnat_005frm_002frepresentation_005fclauses_005fand_005fpragmas-effect_002dof_002dconvention_002don_002drepresentation"></a><a name="g_t23b"></a>
+
+<h3 class="section">9.17 Effect of Convention on Representation</h3>
+
+<p><a name="index-Convention-519"></a><a name="index-effect-on-representation-520"></a>
+Normally the specification of a foreign language convention for a type or
+an object has no effect on the chosen representation.  In particular, the
+representation chosen for data in GNAT generally meets the standard system
+conventions, and for example records are laid out in a manner that is
+consistent with C.  This means that specifying convention C (for example)
+has no effect.
+
+<p>There are four exceptions to this general rule:
+
+     <ul>
+<li>`Convention Fortran and array subtypes'.
+
+     <p>If pragma Convention Fortran is specified for an array subtype, then in
+accordance with the implementation advice in section 3.6.2(11) of the
+Ada Reference Manual, the array will be stored in a Fortran-compatible
+column-major manner, instead of the normal default row-major order.
+
+     <li>`Convention C and enumeration types'
+
+     <p>GNAT normally stores enumeration types in 8, 16, or 32 bits as required
+to accommodate all values of the type.  For example, for the enumeration
+type declared by:
+
+     <pre class="example">         type Color is (Red, Green, Blue);
+</pre>
+     <p>8 bits is sufficient to store all values of the type, so by default, objects
+of type <cite>Color</cite> will be represented using 8 bits.  However, normal C
+convention is to use 32 bits for all enum values in C, since enum values
+are essentially of type int.  If pragma <cite>Convention C</cite> is specified for an
+Ada enumeration type, then the size is modified as necessary (usually to
+32 bits) to be consistent with the C convention for enum values.
+
+     <p>Note that this treatment applies only to types. If Convention C is given for
+an enumeration object, where the enumeration type is not Convention C, then
+Object_Size bits are allocated. For example, for a normal enumeration type,
+with less than 256 elements, only 8 bits will be allocated for the object. 
+Since this may be a surprise in terms of what C expects, GNAT will issue a
+warning in this situation. The warning can be suppressed by giving an explicit
+size clause specifying the desired size.
+
+     <li>`Convention C/Fortran and Boolean types'
+
+     <p>In C, the usual convention for boolean values, that is values used for
+conditions, is that zero represents false, and nonzero values represent
+true.  In Ada, the normal convention is that two specific values, typically
+0/1, are used to represent false/true respectively.
+
+     <p>Fortran has a similar convention for <cite>LOGICAL</cite> values (any nonzero
+value represents true).
+
+     <p>To accommodate the Fortran and C conventions, if a pragma Convention specifies
+C or Fortran convention for a derived Boolean, as in the following example:
+
+     <pre class="example">         type C_Switch is new Boolean;
+         pragma Convention (C, C_Switch);
+</pre>
+     <p>then the GNAT generated code will treat any nonzero value as true.  For truth
+values generated by GNAT, the conventional value 1 will be used for True, but
+when one of these values is read, any nonzero value is treated as True. 
+</ul>
+
+</body></html>
+

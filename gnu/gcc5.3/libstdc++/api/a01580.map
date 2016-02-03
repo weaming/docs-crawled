@@ -1,0 +1,7 @@
+<map id="__gnu_cxx::annotate_base" name="__gnu_cxx::annotate_base">
+<area shape="rect" id="node2" href="$a00056.html" title="Allocator class with logging and exception generation control. Intended to be used as an allocator_ty..." alt="" coords="239,5,411,44"/>
+<area shape="rect" id="node3" href="$a00056.html" title="__gnu_cxx::throw_allocator\l_base\&lt; _Tp, limit_condition \&gt;" alt="" coords="234,68,417,107"/>
+<area shape="rect" id="node5" href="$a00056.html" title="__gnu_cxx::throw_allocator\l_base\&lt; _Tp, random_condition \&gt;" alt="" coords="224,131,427,169"/>
+<area shape="rect" id="node4" href="$a00057.html" title="Allocator throwing via limit condition. " alt="" coords="475,68,647,107"/>
+<area shape="rect" id="node6" href="$a00058.html" title="Allocator throwing via random condition. " alt="" coords="475,131,647,169"/>
+</map>

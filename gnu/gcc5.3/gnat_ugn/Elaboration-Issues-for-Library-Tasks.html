@@ -1,0 +1,380 @@
+<html lang="en">
+<head>
+<title>Elaboration Issues for Library Tasks - GNAT User's Guide for Native Platforms</title>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+<meta name="description" content="GNAT User's Guide for Native Platforms">
+<meta name="generator" content="makeinfo 4.13">
+<link title="Top" rel="start" href="index.html#Top">
+<link rel="up" href="Elaboration-Order-Handling-in-GNAT.html#Elaboration-Order-Handling-in-GNAT" title="Elaboration Order Handling in GNAT">
+<link rel="prev" href="Treatment-of-Pragma-Elaborate.html#Treatment-of-Pragma-Elaborate" title="Treatment of Pragma Elaborate">
+<link rel="next" href="Mixing-Elaboration-Models.html#Mixing-Elaboration-Models" title="Mixing Elaboration Models">
+<link href="http://www.gnu.org/software/texinfo/" rel="generator-home" title="Texinfo Homepage">
+<!--
+
+     GNAT User's Guide for Native Platforms , March 24, 2015
+
+     AdaCore
+
+     Copyright (C) 2008-2015, Free Software Foundation
+-->
+<meta http-equiv="Content-Style-Type" content="text/css">
+<style type="text/css"><!--
+  pre.display { font-family:inherit }
+  pre.format  { font-family:inherit }
+  pre.smalldisplay { font-family:inherit; font-size:smaller }
+  pre.smallformat  { font-family:inherit; font-size:smaller }
+  pre.smallexample { font-size:smaller }
+  pre.smalllisp    { font-size:smaller }
+  span.sc    { font-variant:small-caps }
+  span.roman { font-family:serif; font-weight:normal; } 
+  span.sansserif { font-family:sans-serif; font-weight:normal; } 
+--></style>
+</head>
+<body>
+<div class="node">
+<a name="Elaboration-Issues-for-Library-Tasks"></a>
+<p>
+Next:&nbsp;<a rel="next" accesskey="n" href="Mixing-Elaboration-Models.html#Mixing-Elaboration-Models">Mixing Elaboration Models</a>,
+Previous:&nbsp;<a rel="previous" accesskey="p" href="Treatment-of-Pragma-Elaborate.html#Treatment-of-Pragma-Elaborate">Treatment of Pragma Elaborate</a>,
+Up:&nbsp;<a rel="up" accesskey="u" href="Elaboration-Order-Handling-in-GNAT.html#Elaboration-Order-Handling-in-GNAT">Elaboration Order Handling in GNAT</a>
+<hr>
+</div>
+
+<p><a name="gnat_005fugn_002felaboration_005forder_005fhandling_005fin_005fgnat-elaboration_002dissues_002dfor_002dlibrary_002dtasks"></a><a name="g_t2bf"></a><a name="gnat_005fugn_002felaboration_005forder_005fhandling_005fin_005fgnat-id9"></a><a name="g_t2c0"></a>
+
+<h3 class="section">11.8 Elaboration Issues for Library Tasks</h3>
+
+<p><a name="index-Library-tasks-1150"></a><a name="index-elaboration-issues-1151"></a>
+<a name="index-Elaboration-of-library-tasks-1152"></a>
+In this section we examine special elaboration issues that arise for
+programs that declare library level tasks.
+
+<p>Generally the model of execution of an Ada program is that all units are
+elaborated, and then execution of the program starts. However, the
+declaration of library tasks definitely does not fit this model. The
+reason for this is that library tasks start as soon as they are declared
+(more precisely, as soon as the statement part of the enclosing package
+body is reached), that is to say before elaboration
+of the program is complete. This means that if such a task calls a
+subprogram, or an entry in another task, the callee may or may not be
+elaborated yet, and in the standard
+Reference Manual model of dynamic elaboration checks, you can even
+get timing dependent Program_Error exceptions, since there can be
+a race between the elaboration code and the task code.
+
+<p>The static model of elaboration in GNAT seeks to avoid all such
+dynamic behavior, by being conservative, and the conservative
+approach in this particular case is to assume that all the code
+in a task body is potentially executed at elaboration time if
+a task is declared at the library level.
+
+<p>This can definitely result in unexpected circularities. Consider
+the following example
+
+<pre class="example">    package Decls is
+      task Lib_Task is
+         entry Start;
+      end Lib_Task;
+    
+      type My_Int is new Integer;
+    
+      function Ident (M : My_Int) return My_Int;
+    end Decls;
+    
+    with Utils;
+    package body Decls is
+      task body Lib_Task is
+      begin
+         accept Start;
+         Utils.Put_Val (2);
+      end Lib_Task;
+    
+      function Ident (M : My_Int) return My_Int is
+      begin
+         return M;
+      end Ident;
+    end Decls;
+    
+    with Decls;
+    package Utils is
+      procedure Put_Val (Arg : Decls.My_Int);
+    end Utils;
+    
+    with Text_IO;
+    package body Utils is
+      procedure Put_Val (Arg : Decls.My_Int) is
+      begin
+         Text_IO.Put_Line (Decls.My_Int'Image (Decls.Ident (Arg)));
+      end Put_Val;
+    end Utils;
+    
+    with Decls;
+    procedure Main is
+    begin
+       Decls.Lib_Task.Start;
+    end;
+</pre>
+<p>If the above example is compiled in the default static elaboration
+mode, then a circularity occurs. The circularity comes from the call
+<cite>Utils.Put_Val</cite> in the task body of <cite>Decls.Lib_Task</cite>. Since
+this call occurs in elaboration code, we need an implicit pragma
+<cite>Elaborate_All</cite> for <cite>Utils</cite>. This means that not only must
+the spec and body of <cite>Utils</cite> be elaborated before the body
+of <cite>Decls</cite>, but also the spec and body of any unit that is
+`with'ed by the body of <cite>Utils</cite> must also be elaborated before
+the body of <cite>Decls</cite>. This is the transitive implication of
+pragma <cite>Elaborate_All</cite> and it makes sense, because in general
+the body of <cite>Put_Val</cite> might have a call to something in a
+`with'ed unit.
+
+<p>In this case, the body of Utils (actually its spec) `with's
+<cite>Decls</cite>. Unfortunately this means that the body of <cite>Decls</cite>
+must be elaborated before itself, in case there is a call from the
+body of <cite>Utils</cite>.
+
+<p>Here is the exact chain of events we are worrying about:
+
+     <ul>
+<li>In the body of <cite>Decls</cite> a call is made from within the body of a library
+task to a subprogram in the package <cite>Utils</cite>. Since this call may
+occur at elaboration time (given that the task is activated at elaboration
+time), we have to assume the worst, i.e., that the
+call does happen at elaboration time.
+
+     <li>This means that the body and spec of <cite>Util</cite> must be elaborated before
+the body of <cite>Decls</cite> so that this call does not cause an access before
+elaboration.
+
+     <li>Within the body of <cite>Util</cite>, specifically within the body of
+<cite>Util.Put_Val</cite> there may be calls to any unit `with'ed
+by this package.
+
+     <li>One such `with'ed package is package <cite>Decls</cite>, so there
+might be a call to a subprogram in <cite>Decls</cite> in <cite>Put_Val</cite>. 
+In fact there is such a call in this example, but we would have to
+assume that there was such a call even if it were not there, since
+we are not supposed to write the body of <cite>Decls</cite> knowing what
+is in the body of <cite>Utils</cite>; certainly in the case of the
+static elaboration model, the compiler does not know what is in
+other bodies and must assume the worst.
+
+     <li>This means that the spec and body of <cite>Decls</cite> must also be
+elaborated before we elaborate the unit containing the call, but
+that unit is <cite>Decls</cite>! This means that the body of <cite>Decls</cite>
+must be elaborated before itself, and that's a circularity. 
+</ul>
+
+<p>Indeed, if you add an explicit pragma <cite>Elaborate_All</cite> for <cite>Utils</cite> in
+the body of <cite>Decls</cite> you will get a true Ada Reference Manual
+circularity that makes the program illegal.
+
+<p>In practice, we have found that problems with the static model of
+elaboration in existing code often arise from library tasks, so
+we must address this particular situation.
+
+<p>Note that if we compile and run the program above, using the dynamic model of
+elaboration (that is to say use the `-gnatE' switch),
+then it compiles, binds,
+links, and runs, printing the expected result of 2. Therefore in some sense
+the circularity here is only apparent, and we need to capture
+the properties of this program that  distinguish it from other library-level
+tasks that have real elaboration problems.
+
+<p>We have four possible answers to this question:
+
+     <ul>
+<li>Use the dynamic model of elaboration.
+
+     <p>If we use the `-gnatE' switch, then as noted above, the program works. 
+Why is this? If we examine the task body, it is apparent that the task cannot
+proceed past the
+<cite>accept</cite> statement until after elaboration has been completed, because
+the corresponding entry call comes from the main program, not earlier. 
+This is why the dynamic model works here. But that's really giving
+up on a precise analysis, and we prefer to take this approach only if we cannot
+solve the
+problem in any other manner. So let us examine two ways to reorganize
+the program to avoid the potential elaboration problem.
+
+     <li>Split library tasks into separate packages.
+
+     <p>Write separate packages, so that library tasks are isolated from
+other declarations as much as possible. Let us look at a variation on
+the above program.
+
+     <pre class="example">         package Decls1 is
+           task Lib_Task is
+              entry Start;
+           end Lib_Task;
+         end Decls1;
+         
+         with Utils;
+         package body Decls1 is
+           task body Lib_Task is
+           begin
+              accept Start;
+              Utils.Put_Val (2);
+           end Lib_Task;
+         end Decls1;
+         
+         package Decls2 is
+           type My_Int is new Integer;
+           function Ident (M : My_Int) return My_Int;
+         end Decls2;
+         
+         with Utils;
+         package body Decls2 is
+           function Ident (M : My_Int) return My_Int is
+           begin
+              return M;
+           end Ident;
+         end Decls2;
+         
+         with Decls2;
+         package Utils is
+           procedure Put_Val (Arg : Decls2.My_Int);
+         end Utils;
+         
+         with Text_IO;
+         package body Utils is
+           procedure Put_Val (Arg : Decls2.My_Int) is
+           begin
+              Text_IO.Put_Line (Decls2.My_Int'Image (Decls2.Ident (Arg)));
+           end Put_Val;
+         end Utils;
+         
+         with Decls1;
+         procedure Main is
+         begin
+            Decls1.Lib_Task.Start;
+         end;
+</pre>
+     <p>All we have done is to split <cite>Decls</cite> into two packages, one
+containing the library task, and one containing everything else. Now
+there is no cycle, and the program compiles, binds, links and executes
+using the default static model of elaboration.
+
+     <li>Declare separate task types.
+
+     <p>A significant part of the problem arises because of the use of the
+single task declaration form. This means that the elaboration of
+the task type, and the elaboration of the task itself (i.e., the
+creation of the task) happen at the same time. A good rule
+of style in Ada is to always create explicit task types. By
+following the additional step of placing task objects in separate
+packages from the task type declaration, many elaboration problems
+are avoided. Here is another modified example of the example program:
+
+     <pre class="example">         package Decls is
+           task type Lib_Task_Type is
+              entry Start;
+           end Lib_Task_Type;
+         
+           type My_Int is new Integer;
+         
+           function Ident (M : My_Int) return My_Int;
+         end Decls;
+         
+         with Utils;
+         package body Decls is
+           task body Lib_Task_Type is
+           begin
+              accept Start;
+              Utils.Put_Val (2);
+           end Lib_Task_Type;
+         
+           function Ident (M : My_Int) return My_Int is
+           begin
+              return M;
+           end Ident;
+         end Decls;
+         
+         with Decls;
+         package Utils is
+           procedure Put_Val (Arg : Decls.My_Int);
+         end Utils;
+         
+         with Text_IO;
+         package body Utils is
+           procedure Put_Val (Arg : Decls.My_Int) is
+           begin
+              Text_IO.Put_Line (Decls.My_Int'Image (Decls.Ident (Arg)));
+           end Put_Val;
+         end Utils;
+         
+         with Decls;
+         package Declst is
+            Lib_Task : Decls.Lib_Task_Type;
+         end Declst;
+         
+         with Declst;
+         procedure Main is
+         begin
+            Declst.Lib_Task.Start;
+         end;
+</pre>
+     <p>What we have done here is to replace the <cite>task</cite> declaration in
+package <cite>Decls</cite> with a <cite>task type</cite> declaration. Then we
+introduce a separate package <cite>Declst</cite> to contain the actual
+task object. This separates the elaboration issues for
+the <cite>task type</cite>
+declaration, which causes no trouble, from the elaboration issues
+of the task object, which is also unproblematic, since it is now independent
+of the elaboration of  <cite>Utils</cite>. 
+This separation of concerns also corresponds to
+a generally sound engineering principle of separating declarations
+from instances. This version of the program also compiles, binds, links,
+and executes, generating the expected output. 
+</ul>
+
+<p><a name="index-No_005fEntry_005fCalls_005fIn_005fElaboration_005fCode-restriction-1153"></a>
+
+     <ul>
+<li>Use No_Entry_Calls_In_Elaboration_Code restriction.
+
+     <p>The previous two approaches described how a program can be restructured
+to avoid the special problems caused by library task bodies. in practice,
+however, such restructuring may be difficult to apply to existing legacy code,
+so we must consider solutions that do not require massive rewriting.
+
+     <p>Let us consider more carefully why our original sample program works
+under the dynamic model of elaboration. The reason is that the code
+in the task body blocks immediately on the <cite>accept</cite>
+statement. Now of course there is nothing to prohibit elaboration
+code from making entry calls (for example from another library level task),
+so we cannot tell in isolation that
+the task will not execute the accept statement  during elaboration.
+
+     <p>However, in practice it is very unusual to see elaboration code
+make any entry calls, and the pattern of tasks starting
+at elaboration time and then immediately blocking on <cite>accept</cite> or
+<cite>select</cite> statements is very common. What this means is that
+the compiler is being too pessimistic when it analyzes the
+whole package body as though it might be executed at elaboration
+time.
+
+     <p>If we know that the elaboration code contains no entry calls, (a very safe
+assumption most of the time, that could almost be made the default
+behavior), then we can compile all units of the program under control
+of the following configuration pragma:
+
+     <pre class="example">         pragma Restrictions (No_Entry_Calls_In_Elaboration_Code);
+</pre>
+     <p>This pragma can be placed in the <code>gnat.adc</code> file in the usual
+manner. If we take our original unmodified program and compile it
+in the presence of a <code>gnat.adc</code> containing the above pragma,
+then once again, we can compile, bind, link, and execute, obtaining
+the expected result. In the presence of this pragma, the compiler does
+not trace calls in a task body, that appear after the first <cite>accept</cite>
+or <cite>select</cite> statement, and therefore does not report a potential
+circularity in the original program.
+
+     <p>The compiler will check to the extent it can that the above
+restriction is not violated, but it is not always possible to do a
+complete check at compile time, so it is important to use this
+pragma only if the stated restriction is in fact met, that is to say
+no task receives an entry call before elaboration of all units is completed. 
+</ul>
+
+</body></html>
+

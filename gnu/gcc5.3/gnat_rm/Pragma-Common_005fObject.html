@@ -1,0 +1,74 @@
+<html lang="en">
+<head>
+<title>Pragma Common_Object - GNAT Reference Manual</title>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+<meta name="description" content="GNAT Reference Manual">
+<meta name="generator" content="makeinfo 4.13">
+<link title="Top" rel="start" href="index.html#Top">
+<link rel="up" href="Implementation-Defined-Pragmas.html#Implementation-Defined-Pragmas" title="Implementation Defined Pragmas">
+<link rel="prev" href="Pragma-Comment.html#Pragma-Comment" title="Pragma Comment">
+<link rel="next" href="Pragma-Compile_005fTime_005fError.html#Pragma-Compile_005fTime_005fError" title="Pragma Compile_Time_Error">
+<link href="http://www.gnu.org/software/texinfo/" rel="generator-home" title="Texinfo Homepage">
+<!--
+
+     GNAT Reference Manual , March 24, 2015
+
+     AdaCore
+
+     Copyright (C) 2008-2015, Free Software Foundation
+-->
+<meta http-equiv="Content-Style-Type" content="text/css">
+<style type="text/css"><!--
+  pre.display { font-family:inherit }
+  pre.format  { font-family:inherit }
+  pre.smalldisplay { font-family:inherit; font-size:smaller }
+  pre.smallformat  { font-family:inherit; font-size:smaller }
+  pre.smallexample { font-size:smaller }
+  pre.smalllisp    { font-size:smaller }
+  span.sc    { font-variant:small-caps }
+  span.roman { font-family:serif; font-weight:normal; } 
+  span.sansserif { font-family:sans-serif; font-weight:normal; } 
+--></style>
+</head>
+<body>
+<div class="node">
+<a name="Pragma-Common_Object"></a>
+<a name="Pragma-Common_005fObject"></a>
+<p>
+Next:&nbsp;<a rel="next" accesskey="n" href="Pragma-Compile_005fTime_005fError.html#Pragma-Compile_005fTime_005fError">Pragma Compile_Time_Error</a>,
+Previous:&nbsp;<a rel="previous" accesskey="p" href="Pragma-Comment.html#Pragma-Comment">Pragma Comment</a>,
+Up:&nbsp;<a rel="up" accesskey="u" href="Implementation-Defined-Pragmas.html#Implementation-Defined-Pragmas">Implementation Defined Pragmas</a>
+<hr>
+</div>
+
+<p><a name="gnat_005frm_002fimplementation_005fdefined_005fpragmas-pragma_002dcommon_002dobject"></a><a name="g_t34"></a>
+
+<h3 class="section">2.26 Pragma Common_Object</h3>
+
+<p>Syntax:
+
+<pre class="example">    pragma Common_Object (
+         [Internal =&gt;] LOCAL_NAME
+      [, [External =&gt;] EXTERNAL_SYMBOL]
+      [, [Size     =&gt;] EXTERNAL_SYMBOL] );
+    
+    EXTERNAL_SYMBOL ::=
+      IDENTIFIER
+    | static_string_EXPRESSION
+</pre>
+<p>This pragma enables the shared use of variables stored in overlaid
+linker areas corresponding to the use of <cite>COMMON</cite>
+in Fortran.  The single
+object <cite>LOCAL_NAME</cite> is assigned to the area designated by
+the <cite>External</cite> argument. 
+You may define a record to correspond to a series
+of fields.  The <cite>Size</cite> argument
+is syntax checked in GNAT, but otherwise ignored.
+
+<p><cite>Common_Object</cite> is not supported on all platforms.  If no
+support is available, then the code generator will issue a message
+indicating that the necessary attribute for implementation of this
+pragma is not available.
+
+</body></html>
+

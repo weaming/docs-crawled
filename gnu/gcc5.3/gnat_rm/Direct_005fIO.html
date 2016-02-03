@@ -1,0 +1,64 @@
+<html lang="en">
+<head>
+<title>Direct_IO - GNAT Reference Manual</title>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+<meta name="description" content="GNAT Reference Manual">
+<meta name="generator" content="makeinfo 4.13">
+<link title="Top" rel="start" href="index.html#Top">
+<link rel="up" href="The-Implementation-of-Standard-I_002fO.html#The-Implementation-of-Standard-I_002fO" title="The Implementation of Standard I/O">
+<link rel="prev" href="FORM-Strings.html#FORM-Strings" title="FORM Strings">
+<link rel="next" href="Sequential_005fIO.html#Sequential_005fIO" title="Sequential_IO">
+<link href="http://www.gnu.org/software/texinfo/" rel="generator-home" title="Texinfo Homepage">
+<!--
+
+     GNAT Reference Manual , March 24, 2015
+
+     AdaCore
+
+     Copyright (C) 2008-2015, Free Software Foundation
+-->
+<meta http-equiv="Content-Style-Type" content="text/css">
+<style type="text/css"><!--
+  pre.display { font-family:inherit }
+  pre.format  { font-family:inherit }
+  pre.smalldisplay { font-family:inherit; font-size:smaller }
+  pre.smallformat  { font-family:inherit; font-size:smaller }
+  pre.smallexample { font-size:smaller }
+  pre.smalllisp    { font-size:smaller }
+  span.sc    { font-variant:small-caps }
+  span.roman { font-family:serif; font-weight:normal; } 
+  span.sansserif { font-family:sans-serif; font-weight:normal; } 
+--></style>
+</head>
+<body>
+<div class="node">
+<a name="Direct_IO"></a>
+<a name="Direct_005fIO"></a>
+<p>
+Next:&nbsp;<a rel="next" accesskey="n" href="Sequential_005fIO.html#Sequential_005fIO">Sequential_IO</a>,
+Previous:&nbsp;<a rel="previous" accesskey="p" href="FORM-Strings.html#FORM-Strings">FORM Strings</a>,
+Up:&nbsp;<a rel="up" accesskey="u" href="The-Implementation-of-Standard-I_002fO.html#The-Implementation-of-Standard-I_002fO">The Implementation of Standard I/O</a>
+<hr>
+</div>
+
+<p><a name="gnat_005frm_002fthe_005fimplementation_005fof_005fstandard_005fi_005fo-direct_002dio"></a><a name="g_t248"></a><a name="gnat_005frm_002fthe_005fimplementation_005fof_005fstandard_005fi_005fo-id4"></a><a name="g_t249"></a>
+
+<h3 class="section">11.3 Direct_IO</h3>
+
+<p>Direct_IO can only be instantiated for definite types.  This is a
+restriction of the Ada language, which means that the records are fixed
+length (the length being determined by <code>type'Size</code>, rounded
+up to the next storage unit boundary if necessary).
+
+<p>The records of a Direct_IO file are simply written to the file in index
+sequence, with the first record starting at offset zero, and subsequent
+records following.  There is no control information of any kind.  For
+example, if 32-bit integers are being written, each record takes
+4-bytes, so the record at index <cite>K</cite> starts at offset
+(<cite>K</cite>-1)*4.
+
+<p>There is no limit on the size of Direct_IO files, they are expanded as
+necessary to accommodate whatever records are written to the file.
+
+</body></html>
+

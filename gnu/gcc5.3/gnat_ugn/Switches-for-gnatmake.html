@@ -1,0 +1,700 @@
+<html lang="en">
+<head>
+<title>Switches for gnatmake - GNAT User's Guide for Native Platforms</title>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+<meta name="description" content="GNAT User's Guide for Native Platforms">
+<meta name="generator" content="makeinfo 4.13">
+<link title="Top" rel="start" href="index.html#Top">
+<link rel="up" href="Building-with-gnatmake.html#Building-with-gnatmake" title="Building with gnatmake">
+<link rel="prev" href="Running-gnatmake.html#Running-gnatmake" title="Running gnatmake">
+<link rel="next" href="Mode-Switches-for-gnatmake.html#Mode-Switches-for-gnatmake" title="Mode Switches for gnatmake">
+<link href="http://www.gnu.org/software/texinfo/" rel="generator-home" title="Texinfo Homepage">
+<!--
+
+     GNAT User's Guide for Native Platforms , March 24, 2015
+
+     AdaCore
+
+     Copyright (C) 2008-2015, Free Software Foundation
+-->
+<meta http-equiv="Content-Style-Type" content="text/css">
+<style type="text/css"><!--
+  pre.display { font-family:inherit }
+  pre.format  { font-family:inherit }
+  pre.smalldisplay { font-family:inherit; font-size:smaller }
+  pre.smallformat  { font-family:inherit; font-size:smaller }
+  pre.smallexample { font-size:smaller }
+  pre.smalllisp    { font-size:smaller }
+  span.sc    { font-variant:small-caps }
+  span.roman { font-family:serif; font-weight:normal; } 
+  span.sansserif { font-family:sans-serif; font-weight:normal; } 
+--></style>
+</head>
+<body>
+<div class="node">
+<a name="Switches-for-gnatmake"></a>
+<p>
+Next:&nbsp;<a rel="next" accesskey="n" href="Mode-Switches-for-gnatmake.html#Mode-Switches-for-gnatmake">Mode Switches for gnatmake</a>,
+Previous:&nbsp;<a rel="previous" accesskey="p" href="Running-gnatmake.html#Running-gnatmake">Running gnatmake</a>,
+Up:&nbsp;<a rel="up" accesskey="u" href="Building-with-gnatmake.html#Building-with-gnatmake">Building with gnatmake</a>
+<hr>
+</div>
+
+<p><a name="gnat_005fugn_002fbuilding_005fexecutable_005fprograms_005fwith_005fgnat-switches_002dfor_002dgnatmake"></a><a name="df"></a><a name="gnat_005fugn_002fbuilding_005fexecutable_005fprograms_005fwith_005fgnat-id3"></a><a name="e0"></a>
+
+<h4 class="subsection">4.1.2 Switches for `gnatmake'</h4>
+
+<p>You may specify any of the following switches to `gnatmake':
+
+<p><a name="index-g_t_002d_002dversion-_0028gnatmake_0029-175"></a>
+
+     <dl>
+<dt><code>--version</code><dd>
+Display Copyright and version, then exit disregarding all other options. 
+</dl>
+
+<p><a name="index-g_t_002d_002dhelp-_0028gnatmake_0029-176"></a>
+
+     <dl>
+<dt><code>--help</code><dd>
+If <code>--version</code> was not used, display usage, then exit disregarding
+all other options. 
+</dl>
+
+<p><a name="index-g_t_002d_002dGCC_003dcompiler_005fname-_0028gnatmake_0029-177"></a>
+
+     <dl>
+<dt><code>--GCC=`compiler_name'</code><dd>
+Program used for compiling. The default is <code>gcc</code>. You need to use
+quotes around <cite>compiler_name</cite> if <cite>compiler_name</cite> contains
+spaces or other separator characters. 
+As an example <code>--GCC="foo -x  -y"</code>
+will instruct `gnatmake' to use <code>foo -x -y</code> as your
+compiler. A limitation of this syntax is that the name and path name of
+the executable itself must not include any embedded spaces. Note that
+switch <code>-c</code> is always inserted after your command name. Thus in the
+above example the compiler command that will be used by `gnatmake'
+will be <code>foo -c -x -y</code>. If several <code>--GCC=compiler_name</code> are
+used, only the last <cite>compiler_name</cite> is taken into account. However,
+all the additional switches are also taken into account. Thus,
+<code>--GCC="foo -x -y" --GCC="bar -z -t"</code> is equivalent to
+<code>--GCC="bar -x -y -z -t"</code>. 
+</dl>
+
+<p><a name="index-g_t_002d_002dGNATBIND_003dbinder_005fname-_0028gnatmake_0029-178"></a>
+
+     <dl>
+<dt><code>--GNATBIND=`binder_name'</code><dd>
+Program used for binding. The default is <code>gnatbind</code>. You need to
+use quotes around <cite>binder_name</cite> if <cite>binder_name</cite> contains spaces
+or other separator characters. 
+As an example <code>--GNATBIND="bar -x  -y"</code>
+will instruct `gnatmake' to use <cite>bar -x -y</cite> as your
+binder. Binder switches that are normally appended by `gnatmake'
+to <code>gnatbind</code> are now appended to the end of <cite>bar -x -y</cite>. 
+A limitation of this syntax is that the name and path name of the executable
+itself must not include any embedded spaces. 
+</dl>
+
+<p><a name="index-g_t_002d_002dGNATLINK_003dlinker_005fname-_0028gnatmake_0029-179"></a>
+
+     <dl>
+<dt><code>--GNATLINK=`linker_name'</code><dd>
+Program used for linking. The default is <code>gnatlink</code>. You need to
+use quotes around <cite>linker_name</cite> if <cite>linker_name</cite> contains spaces
+or other separator characters. 
+As an example <code>--GNATLINK="lan -x  -y"</code>
+will instruct `gnatmake' to use <code>lan -x -y</code> as your
+linker. Linker switches that are normally appended by <code>gnatmake</code> to
+<code>gnatlink</code> are now appended to the end of <code>lan -x -y</code>. 
+A limitation of this syntax is that the name and path name of the executable
+itself must not include any embedded spaces.
+
+     <br><dt><code>--create-map-file</code><dd>
+When linking an executable, create a map file. The name of the map file
+has the same name as the executable with extension ".map".
+
+     <br><dt><code>--create-map-file=`mapfile'</code><dd>
+When linking an executable, create a map file with the specified name. 
+</dl>
+
+<p><a name="index-g_t_002d_002dcreate_002dmissing_002ddirs-_0028gnatmake_0029-180"></a>
+
+     <dl>
+<dt><code>--create-missing-dirs</code><dd>
+When using project files (<code>-P`project'</code>), automatically create
+missing object directories, library directories and exec
+directories.
+
+     <br><dt><code>--single-compile-per-obj-dir</code><dd>
+Disallow simultaneous compilations in the same object directory when
+project files are used.
+
+     <br><dt><code>--subdirs=`subdir'</code><dd>
+Actual object directory of each project file is the subdirectory subdir of the
+object directory specified or defaulted in the project file.
+
+     <br><dt><code>--unchecked-shared-lib-imports</code><dd>
+By default, shared library projects are not allowed to import static library
+projects. When this switch is used on the command line, this restriction is
+relaxed.
+
+     <br><dt><code>--source-info=`source info file'</code><dd>
+Specify a source info file. This switch is active only when project files
+are used. If the source info file is specified as a relative path, then it is
+relative to the object directory of the main project. If the source info file
+does not exist, then after the Project Manager has successfully parsed and
+processed the project files and found the sources, it creates the source info
+file. If the source info file already exists and can be read successfully,
+then the Project Manager will get all the needed information about the sources
+from the source info file and will not look for them. This reduces the time
+to process the project files, especially when looking for sources that take a
+long time. If the source info file exists but cannot be parsed successfully,
+the Project Manager will attempt to recreate it. If the Project Manager fails
+to create the source info file, a message is issued, but gnatmake does not
+fail. `gnatmake' "trusts" the source info file. This means that
+if the source files have changed (addition, deletion, moving to a different
+source directory), then the source info file need to be deleted and recreated. 
+</dl>
+
+<p><a name="index-g_t_002da-_0028gnatmake_0029-181"></a>
+
+     <dl>
+<dt><code>-a</code><dd>
+Consider all files in the make process, even the GNAT internal system
+files (for example, the predefined Ada library files), as well as any
+locked files. Locked files are files whose ALI file is write-protected. 
+By default,
+`gnatmake' does not check these files,
+because the assumption is that the GNAT internal files are properly up
+to date, and also that any write protected ALI files have been properly
+installed. Note that if there is an installation problem, such that one
+of these files is not up to date, it will be properly caught by the
+binder. 
+You may have to specify this switch if you are working on GNAT
+itself. The switch <code>-a</code> is also useful
+in conjunction with <code>-f</code>
+if you need to recompile an entire application,
+including run-time files, using special configuration pragmas,
+such as a <cite>Normalize_Scalars</cite> pragma.
+
+     <p>By default
+<code>gnatmake -a</code> compiles all GNAT
+internal files with
+<code>gcc -c -gnatpg</code> rather than <code>gcc -c</code>. 
+</dl>
+
+<p><a name="index-g_t_002db-_0028gnatmake_0029-182"></a>
+
+     <dl>
+<dt><code>-b</code><dd>
+Bind only. Can be combined with `-c' to do
+compilation and binding, but no link. 
+Can be combined with `-l'
+to do binding and linking. When not combined with
+`-c'
+all the units in the closure of the main program must have been previously
+compiled and must be up to date. The root unit specified by <cite>file_name</cite>
+may be given without extension, with the source extension or, if no GNAT
+Project File is specified, with the ALI file extension. 
+</dl>
+
+<p><a name="index-g_t_002dc-_0028gnatmake_0029-183"></a>
+
+     <dl>
+<dt><code>-c</code><dd>
+Compile only. Do not perform binding, except when `-b'
+is also specified. Do not perform linking, except if both
+`-b' and
+`-l' are also specified. 
+If the root unit specified by <cite>file_name</cite> is not a main unit, this is the
+default. Otherwise `gnatmake' will attempt binding and linking
+unless all objects are up to date and the executable is more recent than
+the objects. 
+</dl>
+
+<p><a name="index-g_t_002dC-_0028gnatmake_0029-184"></a>
+
+     <dl>
+<dt><code>-C</code><dd>
+Use a temporary mapping file. A mapping file is a way to communicate
+to the compiler two mappings: from unit names to file names (without
+any directory information) and from file names to path names (with
+full directory information). A mapping file can make the compiler's
+file searches faster, especially if there are many source directories,
+or the sources are read over a slow network connection. If
+`-P' is used, a mapping file is always used, so
+`-C' is unnecessary; in this case the mapping file
+is initially populated based on the project file. If
+`-C' is used without
+`-P',
+the mapping file is initially empty. Each invocation of the compiler
+will add any newly accessed sources to the mapping file. 
+</dl>
+
+<p><a name="index-g_t_002dC_003d-_0028gnatmake_0029-185"></a>
+
+     <dl>
+<dt><code>-C=`file'</code><dd>
+Use a specific mapping file. The file, specified as a path name (absolute or
+relative) by this switch, should already exist, otherwise the switch is
+ineffective. The specified mapping file will be communicated to the compiler. 
+This switch is not compatible with a project file
+(-P`file`) or with multiple compiling processes
+(-jnnn, when nnn is greater than 1). 
+</dl>
+
+<p><a name="index-g_t_002dd-_0028gnatmake_0029-186"></a>
+
+     <dl>
+<dt><code>-d</code><dd>
+Display progress for each source, up to date or not, as a single line:
+
+     <pre class="example">         completed x out of y (zz%)
+</pre>
+     <p>If the file needs to be compiled this is displayed after the invocation of
+the compiler. These lines are displayed even in quiet output mode. 
+</dl>
+
+<p><a name="index-g_t_002dD-_0028gnatmake_0029-187"></a>
+
+     <dl>
+<dt><code>-D `dir'</code><dd>
+Put all object files and ALI file in directory <cite>dir</cite>. 
+If the `-D' switch is not used, all object files
+and ALI files go in the current working directory.
+
+     <p>This switch cannot be used when using a project file. 
+</dl>
+
+<p><a name="index-g_t_002deI-_0028gnatmake_0029-188"></a>
+
+     <dl>
+<dt><code>-eI`nnn'</code><dd>
+Indicates that the main source is a multi-unit source and the rank of the unit
+in the source file is nnn. nnn needs to be a positive number and a valid
+index in the source. This switch cannot be used when `gnatmake' is
+invoked for several mains. 
+</dl>
+
+<p><a name="index-g_t_002deL-_0028gnatmake_0029-189"></a>
+<a name="index-symbolic-links-190"></a>
+
+     <dl>
+<dt><code>-eL</code><dd>
+Follow all symbolic links when processing project files. 
+This should be used if your project uses symbolic links for files or
+directories, but is not needed in other cases.
+
+     <p><a name="index-naming-scheme-191"></a>
+This also assumes that no directory matches the naming scheme for files (for
+instance that you do not have a directory called "sources.ads" when using the
+default GNAT naming scheme).
+
+     <p>When you do not have to use this switch (i.e., by default), gnatmake is able to
+save a lot of system calls (several per source file and object file), which
+can result in a significant speed up to load and manipulate a project file,
+especially when using source files from a remote system. 
+</dl>
+
+<p><a name="index-g_t_002deS-_0028gnatmake_0029-192"></a>
+
+     <dl>
+<dt><code>-eS</code><dd>
+Output the commands for the compiler, the binder and the linker
+on standard output,
+instead of standard error. 
+</dl>
+
+<p><a name="index-g_t_002df-_0028gnatmake_0029-193"></a>
+
+     <dl>
+<dt><code>-f</code><dd>
+Force recompilations. Recompile all sources, even though some object
+files may be up to date, but don't recompile predefined or GNAT internal
+files or locked files (files with a write-protected ALI file),
+unless the `-a' switch is also specified. 
+</dl>
+
+<p><a name="index-g_t_002dF-_0028gnatmake_0029-194"></a>
+
+     <dl>
+<dt><code>-F</code><dd>
+When using project files, if some errors or warnings are detected during
+parsing and verbose mode is not in effect (no use of switch
+-v), then error lines start with the full path name of the project
+file, rather than its simple file name. 
+</dl>
+
+<p><a name="index-g_t_002dg-_0028gnatmake_0029-195"></a>
+
+     <dl>
+<dt><code>-g</code><dd>
+Enable debugging. This switch is simply passed to the compiler and to the
+linker. 
+</dl>
+
+<p><a name="index-g_t_002di-_0028gnatmake_0029-196"></a>
+
+     <dl>
+<dt><code>-i</code><dd>
+In normal mode, `gnatmake' compiles all object files and ALI files
+into the current directory. If the `-i' switch is used,
+then instead object files and ALI files that already exist are overwritten
+in place. This means that once a large project is organized into separate
+directories in the desired manner, then `gnatmake' will automatically
+maintain and update this organization. If no ALI files are found on the
+Ada object path (see <a href="8e.html#g_t8e">Search Paths and the Run-Time Library (RTL)</a>),
+the new object and ALI files are created in the
+directory containing the source being compiled. If another organization
+is desired, where objects and sources are kept in different directories,
+a useful technique is to create dummy ALI files in the desired directories. 
+When detecting such a dummy file, `gnatmake' will be forced to
+recompile the corresponding source file, and it will be put the resulting
+object and ALI files in the directory where it found the dummy file. 
+</dl>
+
+<p><a name="index-g_t_002dj-_0028gnatmake_0029-197"></a>
+<a name="index-Parallel-make-198"></a>
+
+     <dl>
+<dt><code>-j`n'</code><dd>
+Use <cite>n</cite> processes to carry out the (re)compilations. On a multiprocessor
+machine compilations will occur in parallel. If <cite>n</cite> is 0, then the
+maximum number of parallel compilations is the number of core processors
+on the platform. In the event of compilation errors, messages from various
+compilations might get interspersed (but `gnatmake' will give you the
+full ordered list of failing compiles at the end). If this is problematic,
+rerun the make process with n set to 1 to get a clean list of messages. 
+</dl>
+
+<p><a name="index-g_t_002dk-_0028gnatmake_0029-199"></a>
+
+     <dl>
+<dt><code>-k</code><dd>
+Keep going. Continue as much as possible after a compilation error. To
+ease the programmer's task in case of compilation errors, the list of
+sources for which the compile fails is given when `gnatmake'
+terminates.
+
+     <p>If `gnatmake' is invoked with several <code>file_names</code> and with this
+switch, if there are compilation errors when building an executable,
+`gnatmake' will not attempt to build the following executables. 
+</dl>
+
+<p><a name="index-g_t_002dl-_0028gnatmake_0029-200"></a>
+
+     <dl>
+<dt><code>-l</code><dd>
+Link only. Can be combined with `-b' to binding
+and linking. Linking will not be performed if combined with
+`-c'
+but not with `-b'. 
+When not combined with `-b'
+all the units in the closure of the main program must have been previously
+compiled and must be up to date, and the main program needs to have been bound. 
+The root unit specified by <cite>file_name</cite>
+may be given without extension, with the source extension or, if no GNAT
+Project File is specified, with the ALI file extension. 
+</dl>
+
+<p><a name="index-g_t_002dm-_0028gnatmake_0029-201"></a>
+
+     <dl>
+<dt><code>-m</code><dd>
+Specify that the minimum necessary amount of recompilations
+be performed. In this mode `gnatmake' ignores time
+stamp differences when the only
+modifications to a source file consist in adding/removing comments,
+empty lines, spaces or tabs. This means that if you have changed the
+comments in a source file or have simply reformatted it, using this
+switch will tell `gnatmake' not to recompile files that depend on it
+(provided other sources on which these files depend have undergone no
+semantic modifications). Note that the debugging information may be
+out of date with respect to the sources if the `-m' switch causes
+a compilation to be switched, so the use of this switch represents a
+trade-off between compilation time and accurate debugging information. 
+</dl>
+
+<p><a name="index-Dependencies-202"></a><a name="index-producing-list-203"></a>
+<a name="index-g_t_002dM-_0028gnatmake_0029-204"></a>
+
+     <dl>
+<dt><code>-M</code><dd>
+Check if all objects are up to date. If they are, output the object
+dependences to <code>stdout</code> in a form that can be directly exploited in
+a <code>Makefile</code>. By default, each source file is prefixed with its
+(relative or absolute) directory name. This name is whatever you
+specified in the various `-aI'
+and `-I' switches. If you use
+<cite>gnatmake -M</cite>  `-q'
+(see below), only the source file names,
+without relative paths, are output. If you just specify the  `-M'
+switch, dependencies of the GNAT internal system files are omitted. This
+is typically what you want. If you also specify
+the `-a' switch,
+dependencies of the GNAT internal files are also listed. Note that
+dependencies of the objects in external Ada libraries (see
+switch  <code>-aL`dir'</code> in the following list)
+are never reported. 
+</dl>
+
+<p><a name="index-g_t_002dn-_0028gnatmake_0029-205"></a>
+
+     <dl>
+<dt><code>-n</code><dd>
+Don't compile, bind, or link. Checks if all objects are up to date. 
+If they are not, the full name of the first file that needs to be
+recompiled is printed. 
+Repeated use of this option, followed by compiling the indicated source
+file, will eventually result in recompiling all required units. 
+</dl>
+
+<p><a name="index-g_t_002do-_0028gnatmake_0029-206"></a>
+
+     <dl>
+<dt><code>-o `exec_name'</code><dd>
+Output executable name. The name of the final executable program will be
+<cite>exec_name</cite>. If the `-o' switch is omitted the default
+name for the executable will be the name of the input file in appropriate form
+for an executable file on the host system.
+
+     <p>This switch cannot be used when invoking `gnatmake' with several
+<code>file_names</code>. 
+</dl>
+
+<p><a name="index-g_t_002dp-_0028gnatmake_0029-207"></a>
+
+     <dl>
+<dt><code>-p</code><dd>
+Same as <code>--create-missing-dirs</code>
+</dl>
+
+<p><a name="index-g_t_002dP-_0028gnatmake_0029-208"></a>
+
+     <dl>
+<dt><code>-P`project'</code><dd>
+Use project file <cite>project</cite>. Only one such switch can be used. 
+<a href="e1.html#e1">gnatmake and Project Files</a>. 
+</dl>
+
+<p><a name="index-g_t_002dq-_0028gnatmake_0029-209"></a>
+
+     <dl>
+<dt><code>-q</code><dd>
+Quiet. When this flag is not set, the commands carried out by
+`gnatmake' are displayed. 
+</dl>
+
+<p><a name="index-g_t_002ds-_0028gnatmake_0029-210"></a>
+
+     <dl>
+<dt><code>-s</code><dd>
+Recompile if compiler switches have changed since last compilation. 
+All compiler switches but -I and -o are taken into account in the
+following way:
+orders between different 'first letter' switches are ignored, but
+orders between same switches are taken into account. For example,
+`-O -O2' is different than `-O2 -O', but `-g -O'
+is equivalent to `-O -g'.
+
+     <p>This switch is recommended when Integrated Preprocessing is used. 
+</dl>
+
+<p><a name="index-g_t_002du-_0028gnatmake_0029-211"></a>
+
+     <dl>
+<dt><code>-u</code><dd>
+Unique. Recompile at most the main files. It implies -c. Combined with
+-f, it is equivalent to calling the compiler directly. Note that using
+-u with a project file and no main has a special meaning
+(<a href="e2.html#e2">Project Files and Main Subprograms</a>). 
+</dl>
+
+<p><a name="index-g_t_002dU-_0028gnatmake_0029-212"></a>
+
+     <dl>
+<dt><code>-U</code><dd>
+When used without a project file or with one or several mains on the command
+line, is equivalent to -u. When used with a project file and no main
+on the command line, all sources of all project files are checked and compiled
+if not up to date, and libraries are rebuilt, if necessary. 
+</dl>
+
+<p><a name="index-g_t_002dv-_0028gnatmake_0029-213"></a>
+
+     <dl>
+<dt><code>-v</code><dd>
+Verbose. Display the reason for all recompilations `gnatmake'
+decides are necessary, with the highest verbosity level. 
+</dl>
+
+<p><a name="index-g_t_002dvl-_0028gnatmake_0029-214"></a>
+
+     <dl>
+<dt><code>-vl</code><dd>
+Verbosity level Low. Display fewer lines than in verbosity Medium. 
+</dl>
+
+<p><a name="index-g_t_002dvm-_0028gnatmake_0029-215"></a>
+
+     <dl>
+<dt><code>-vm</code><dd>
+Verbosity level Medium. Potentially display fewer lines than in verbosity High. 
+</dl>
+
+<p><a name="index-g_t_002dvm-_0028gnatmake_0029-216"></a>
+
+     <dl>
+<dt><code>-vh</code><dd>
+Verbosity level High. Equivalent to -v.
+
+     <br><dt><code>-vP`x'</code><dd>
+Indicate the verbosity of the parsing of GNAT project files. 
+See <a href="e3.html#e3">Switches Related to Project Files</a>. 
+</dl>
+
+<p><a name="index-g_t_002dx-_0028gnatmake_0029-217"></a>
+
+     <dl>
+<dt><code>-x</code><dd>
+Indicate that sources that are not part of any Project File may be compiled. 
+Normally, when using Project Files, only sources that are part of a Project
+File may be compile. When this switch is used, a source outside of all Project
+Files may be compiled. The ALI file and the object file will be put in the
+object directory of the main Project. The compilation switches used will only
+be those specified on the command line. Even when
+`-x' is used, mains specified on the
+command line need to be sources of a project file.
+
+     <br><dt><code>-X`name'=`value'</code><dd>
+Indicate that external variable <cite>name</cite> has the value <cite>value</cite>. 
+The Project Manager will use this value for occurrences of
+<cite>external(name)</cite> when parsing the project file. 
+<a href="e3.html#e3">Switches Related to Project Files</a>. 
+</dl>
+
+<p><a name="index-g_t_002dz-_0028gnatmake_0029-218"></a>
+
+     <dl>
+<dt><code>-z</code><dd>
+No main subprogram. Bind and link the program even if the unit name
+given on the command line is a package name. The resulting executable
+will execute the elaboration routines of the package and its closure,
+then the finalization routines. 
+</dl>
+
+<h5 class="subsubheading">GCC switches</h5>
+
+<p>Any uppercase or multi-character switch that is not a `gnatmake' switch
+is passed to `gcc' (e.g., `-O', `-gnato,' etc.)
+
+<h5 class="subsubheading">Source and library search path switches</h5>
+
+<p><a name="index-g_t_002daI-_0028gnatmake_0029-219"></a>
+
+     <dl>
+<dt><code>-aI`dir'</code><dd>
+When looking for source files also look in directory <cite>dir</cite>. 
+The order in which source files search is undertaken is
+described in <a href="8e.html#g_t8e">Search Paths and the Run-Time Library (RTL)</a>. 
+</dl>
+
+<p><a name="index-g_t_002daL-_0028gnatmake_0029-220"></a>
+
+     <dl>
+<dt><code>-aL`dir'</code><dd>
+Consider <cite>dir</cite> as being an externally provided Ada library. 
+Instructs `gnatmake' to skip compilation units whose <code>.ALI</code>
+files have been located in directory <cite>dir</cite>. This allows you to have
+missing bodies for the units in <cite>dir</cite> and to ignore out of date bodies
+for the same units. You still need to specify
+the location of the specs for these units by using the switches
+<code>-aI`dir'</code>  or <code>-I`dir'</code>. 
+Note: this switch is provided for compatibility with previous versions
+of `gnatmake'. The easier method of causing standard libraries
+to be excluded from consideration is to write-protect the corresponding
+ALI files. 
+</dl>
+
+<p><a name="index-g_t_002daO-_0028gnatmake_0029-221"></a>
+
+     <dl>
+<dt><code>-aO`dir'</code><dd>
+When searching for library and object files, look in directory
+<cite>dir</cite>. The order in which library files are searched is described in
+<a href="91.html#g_t91">Search Paths for gnatbind</a>. 
+</dl>
+
+<p><a name="index-Search-paths-222"></a><a name="index-for-gnatmake-223"></a>
+<a name="index-g_t_002dA-_0028gnatmake_0029-224"></a>
+
+     <dl>
+<dt><code>-A`dir'</code><dd>
+Equivalent to <code>-aL`dir'</code> <code>-aI`dir'</code>.
+
+     <p><a name="index-g_t_002dI-_0028gnatmake_0029-225"></a>
+<br><dt><code>-I`dir'</code><dd>
+Equivalent to <code>-aO`dir' -aI`dir'</code>. 
+</dl>
+
+<p><a name="index-g_t_002dI_002d-_0028gnatmake_0029-226"></a>
+<a name="index-Source-files-227"></a><a name="index-suppressing-search-228"></a>
+
+     <dl>
+<dt><code>-I-</code><dd>
+Do not look for source files in the directory containing the source
+file named in the command line. 
+Do not look for ALI or object files in the directory
+where `gnatmake' was invoked. 
+</dl>
+
+<p><a name="index-g_t_002dL-_0028gnatmake_0029-229"></a>
+<a name="index-Linker-libraries-230"></a>
+
+     <dl>
+<dt><code>-L`dir'</code><dd>
+Add directory <cite>dir</cite> to the list of directories in which the linker
+will search for libraries. This is equivalent to
+<code>-largs</code> <code>-L`dir'</code>. 
+Furthermore, under Windows, the sources pointed to by the libraries path
+set in the registry are not searched for. 
+</dl>
+
+<p><a name="index-g_t_002dnostdinc-_0028gnatmake_0029-231"></a>
+
+     <dl>
+<dt><code>-nostdinc</code><dd>
+Do not look for source files in the system default directory. 
+</dl>
+
+<p><a name="index-g_t_002dnostdlib-_0028gnatmake_0029-232"></a>
+
+     <dl>
+<dt><code>-nostdlib</code><dd>
+Do not look for library files in the system default directory. 
+</dl>
+
+<p><a name="index-g_t_002d_002dRTS-_0028gnatmake_0029-233"></a>
+
+     <dl>
+<dt><code>--RTS=`rts-path'</code><dd>
+Specifies the default location of the runtime library. GNAT looks for the
+runtime
+in the following directories, and stops as soon as a valid runtime is found
+(<code>adainclude</code> or <code>ada_source_path</code>, and <code>adalib</code> or
+<code>ada_object_path</code> present):
+
+          <ul>
+<li>`&lt;current directory&gt;/$rts_path'
+
+          <li>`&lt;default-search-dir&gt;/$rts_path'
+
+          <li>`&lt;default-search-dir&gt;/rts-$rts_path'
+
+          <li>The selected path is handled like a normal RTS path. 
+</ul>
+     </dl>
+
+</body></html>
+

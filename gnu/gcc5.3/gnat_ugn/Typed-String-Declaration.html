@@ -1,0 +1,72 @@
+<html lang="en">
+<head>
+<title>Typed String Declaration - GNAT User's Guide for Native Platforms</title>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+<meta name="description" content="GNAT User's Guide for Native Platforms">
+<meta name="generator" content="makeinfo 4.13">
+<link title="Top" rel="start" href="index.html#Top">
+<link rel="up" href="Project-File-Reference.html#Project-File-Reference" title="Project File Reference">
+<link rel="prev" href="External-Values.html#External-Values" title="External Values">
+<link rel="next" href="Variables.html#Variables" title="Variables">
+<link href="http://www.gnu.org/software/texinfo/" rel="generator-home" title="Texinfo Homepage">
+<!--
+
+     GNAT User's Guide for Native Platforms , March 24, 2015
+
+     AdaCore
+
+     Copyright (C) 2008-2015, Free Software Foundation
+-->
+<meta http-equiv="Content-Style-Type" content="text/css">
+<style type="text/css"><!--
+  pre.display { font-family:inherit }
+  pre.format  { font-family:inherit }
+  pre.smalldisplay { font-family:inherit; font-size:smaller }
+  pre.smallformat  { font-family:inherit; font-size:smaller }
+  pre.smallexample { font-size:smaller }
+  pre.smalllisp    { font-size:smaller }
+  span.sc    { font-variant:small-caps }
+  span.roman { font-family:serif; font-weight:normal; } 
+  span.sansserif { font-family:sans-serif; font-weight:normal; } 
+--></style>
+</head>
+<body>
+<div class="node">
+<a name="Typed-String-Declaration"></a>
+<p>
+Next:&nbsp;<a rel="next" accesskey="n" href="Variables.html#Variables">Variables</a>,
+Previous:&nbsp;<a rel="previous" accesskey="p" href="External-Values.html#External-Values">External Values</a>,
+Up:&nbsp;<a rel="up" accesskey="u" href="Project-File-Reference.html#Project-File-Reference">Project File Reference</a>
+<hr>
+</div>
+
+<p><a name="gnat_005fugn_002fgnat_005fproject_005fmanager-id44"></a><a name="g_t19e"></a><a name="gnat_005fugn_002fgnat_005fproject_005fmanager-typed_002dstring_002ddeclaration"></a><a name="g_t19f"></a>
+
+<h4 class="subsection">5.9.7 Typed String Declaration</h4>
+
+<p>A `type declaration' introduces a discrete set of string literals. 
+If a string variable is declared to have this type, its value
+is restricted to the given set of literals. These are the only named
+types in project files. A string type may only be declared at the project
+level, not inside a package.
+
+<pre class="example">    typed_string_declaration ::=
+      *type* *&lt;typed_string_&gt;*_simple_name *is* ( string_literal {, string_literal} );
+</pre>
+<p>The string literals in the list are case sensitive and must all be different. 
+They may include any graphic characters allowed in Ada, including spaces. 
+Here is an example of a string type declaration:
+
+<pre class="example">    type OS is ("NT", "nt", "Unix", "GNU/Linux", "other OS");
+</pre>
+<p>Variables of a string type are called `typed variables'; all other
+variables are called `untyped variables'. Typed variables are
+particularly useful in <cite>case</cite> constructions, to support conditional
+attribute declarations. (See <a href="1a0.html#g_t1a0">Case Constructions</a>).
+
+<p>A string type may be referenced by its name if it has been declared in the same
+project file, or by an expanded name whose prefix is the name of the project
+in which it is declared.
+
+</body></html>
+

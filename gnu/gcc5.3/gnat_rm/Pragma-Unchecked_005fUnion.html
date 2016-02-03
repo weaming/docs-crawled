@@ -1,0 +1,61 @@
+<html lang="en">
+<head>
+<title>Pragma Unchecked_Union - GNAT Reference Manual</title>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+<meta name="description" content="GNAT Reference Manual">
+<meta name="generator" content="makeinfo 4.13">
+<link title="Top" rel="start" href="index.html#Top">
+<link rel="up" href="Implementation-Defined-Pragmas.html#Implementation-Defined-Pragmas" title="Implementation Defined Pragmas">
+<link rel="prev" href="Pragma-Type_005fInvariant_005fClass.html#Pragma-Type_005fInvariant_005fClass" title="Pragma Type_Invariant_Class">
+<link rel="next" href="Pragma-Unevaluated_005fUse_005fOf_005fOld.html#Pragma-Unevaluated_005fUse_005fOf_005fOld" title="Pragma Unevaluated_Use_Of_Old">
+<link href="http://www.gnu.org/software/texinfo/" rel="generator-home" title="Texinfo Homepage">
+<!--
+
+     GNAT Reference Manual , March 24, 2015
+
+     AdaCore
+
+     Copyright (C) 2008-2015, Free Software Foundation
+-->
+<meta http-equiv="Content-Style-Type" content="text/css">
+<style type="text/css"><!--
+  pre.display { font-family:inherit }
+  pre.format  { font-family:inherit }
+  pre.smalldisplay { font-family:inherit; font-size:smaller }
+  pre.smallformat  { font-family:inherit; font-size:smaller }
+  pre.smallexample { font-size:smaller }
+  pre.smalllisp    { font-size:smaller }
+  span.sc    { font-variant:small-caps }
+  span.roman { font-family:serif; font-weight:normal; } 
+  span.sansserif { font-family:sans-serif; font-weight:normal; } 
+--></style>
+</head>
+<body>
+<div class="node">
+<a name="Pragma-Unchecked_Union"></a>
+<a name="Pragma-Unchecked_005fUnion"></a>
+<p>
+Next:&nbsp;<a rel="next" accesskey="n" href="Pragma-Unevaluated_005fUse_005fOf_005fOld.html#Pragma-Unevaluated_005fUse_005fOf_005fOld">Pragma Unevaluated_Use_Of_Old</a>,
+Previous:&nbsp;<a rel="previous" accesskey="p" href="Pragma-Type_005fInvariant_005fClass.html#Pragma-Type_005fInvariant_005fClass">Pragma Type_Invariant_Class</a>,
+Up:&nbsp;<a rel="up" accesskey="u" href="Implementation-Defined-Pragmas.html#Implementation-Defined-Pragmas">Implementation Defined Pragmas</a>
+<hr>
+</div>
+
+<p><a name="gnat_005frm_002fimplementation_005fdefined_005fpragmas-pragma_002dunchecked_002dunion"></a><a name="cf"></a>
+
+<h3 class="section">2.176 Pragma Unchecked_Union</h3>
+
+<p><a name="index-Unions-in-C-96"></a>
+Syntax:
+
+<pre class="example">    pragma Unchecked_Union (first_subtype_LOCAL_NAME);
+</pre>
+<p>This pragma is used to specify a representation of a record type that is
+equivalent to a C union. It was introduced as a GNAT implementation defined
+pragma in the GNAT Ada 95 mode. Ada 2005 includes an extended version of this
+pragma, making it language defined, and GNAT fully implements this extended
+version in all language modes (Ada 83, Ada 95, and Ada 2005). For full
+details, consult the Ada 2012 Reference Manual, section B.3.3.
+
+</body></html>
+

@@ -1,0 +1,262 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+  "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+
+
+<html xmlns="http://www.w3.org/1999/xhtml">
+  <head>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+    
+    <title>Third Party Applications and Libraries &mdash; Supervisor 4.0.0.dev0 documentation</title>
+    
+    <link rel="stylesheet" href="_static/repoze.css" type="text/css" />
+    <link rel="stylesheet" href="_static/pygments.css" type="text/css" />
+    
+    <script type="text/javascript">
+      var DOCUMENTATION_OPTIONS = {
+        URL_ROOT:    './',
+        VERSION:     '4.0.0.dev0',
+        COLLAPSE_INDEX: false,
+        FILE_SUFFIX: '.html',
+        HAS_SOURCE:  true
+      };
+    </script>
+    <script type="text/javascript" src="_static/jquery.js"></script>
+    <script type="text/javascript" src="_static/underscore.js"></script>
+    <script type="text/javascript" src="_static/doctools.js"></script>
+    <link rel="top" title="Supervisor 4.0.0.dev0 documentation" href="index.html" />
+    <link rel="prev" title="XML-RPC API Documentation" href="api.html" />
+   
+  
+  <meta name="viewport" content="width=device-width, initial-scale=0.9, maximum-scale=0.9" />
+
+  </head>
+  <body role="document">  
+
+    <div class="document">
+      <div class="documentwrapper">
+        <div class="bodywrapper">
+          <div class="body" role="main">
+            
+  <div class="section" id="third-party-applications-and-libraries">
+<h1>Third Party Applications and Libraries<a class="headerlink" href="#third-party-applications-and-libraries" title="Permalink to this headline">¶</a></h1>
+<p>There are a number of third party applications that can be useful together
+with Supervisor. This list aims to summarize them and make them easier
+to find.</p>
+<p>See README.rst for information on how to contribute to this list.
+Obviously, you can always also send an e-mail to the Supervisor mailing
+list to inform about missing plugins or libraries for/using Supervisor.</p>
+<div class="section" id="dashboards-and-tools-for-multiple-supervisor-instances">
+<h2>Dashboards and Tools for Multiple Supervisor Instances<a class="headerlink" href="#dashboards-and-tools-for-multiple-supervisor-instances" title="Permalink to this headline">¶</a></h2>
+<p>These are tools that can monitor or control a number of Supervisor
+instances running on different servers.</p>
+<dl class="docutils">
+<dt><a class="reference external" href="https://github.com/Gamegos/cesi">cesi</a></dt>
+<dd>Web-based dashboard written in Python.</dd>
+<dt><a class="reference external" href="https://github.com/aleszoulek/django-dashvisor">Django-Dashvisor</a></dt>
+<dd>Web-based dashboard written in Python.  Requires Django 1.3 or 1.4.</dd>
+<dt><a class="reference external" href="https://github.com/TAKEALOT/nodervisor">Nodervisor</a></dt>
+<dd>Web-based dashboard written in Node.js.</dd>
+<dt><a class="reference external" href="https://github.com/mlazarov/supervisord-monitor">Supervisord-Monitor</a></dt>
+<dd>Web-based dashboard written in PHP.</dd>
+<dt><a class="reference external" href="https://github.com/luxbet/supervisorui">SupervisorUI</a></dt>
+<dd>Another Web-based dashboard written in PHP.</dd>
+<dt><a class="reference external" href="https://github.com/RobWin/supervisorclusterctl">supervisorclusterctl</a></dt>
+<dd>Command line tool for controlling multiple Supervisor instances
+using Ansible.</dd>
+<dt><a class="reference external" href="https://github.com/GambitResearch/suponoff">suponoff</a></dt>
+<dd>Web-based dashboard written in Python 3.  Requires Django 1.7 or later.</dd>
+</dl>
+</div>
+<div class="section" id="third-party-plugins-and-libraries-for-supervisor">
+<h2>Third Party Plugins and Libraries for Supervisor<a class="headerlink" href="#third-party-plugins-and-libraries-for-supervisor" title="Permalink to this headline">¶</a></h2>
+<p>These are plugins and libraries that add new functionality to Supervisor.
+These also includes various event listeners.</p>
+<dl class="docutils">
+<dt><a class="reference external" href="http://pypi.python.org/pypi/superlance">superlance</a></dt>
+<dd>Provides set of common eventlisteners that can be used to monitor
+and, for example, restart when it uses too much memory etc.</dd>
+<dt><a class="reference external" href="https://github.com/collective/mr.rubber">mr.rubber</a></dt>
+<dd>An event listener that makes it possible to scale the number of
+processes to the number of cores on the supervisor host.</dd>
+<dt><a class="reference external" href="https://github.com/aleszoulek/supervisor-wildcards">supervisor-wildcards</a></dt>
+<dd>Implements start/stop/restart commands with wildcard support for
+Supervisor.  These commands run in parallel and can be much faster
+than the built-in start/stop/restart commands.</dd>
+<dt><a class="reference external" href="https://github.com/fschulze/mr.laforge">mr.laforge</a></dt>
+<dd>Lets you easily make sure that <code class="docutils literal"><span class="pre">supervisord</span></code> and specific
+processes controlled by it are running from within shell and
+Python scripts. Also adds a <code class="docutils literal"><span class="pre">kill</span></code> command to supervisor that
+makes it possible to send arbitrary signals to child processes.</dd>
+<dt><a class="reference external" href="https://github.com/mnaberez/supervisor_cache">supervisor_cache</a></dt>
+<dd>An extension for Supervisor that provides the ability to cache
+arbitrary data directly inside a Supervisor instance as key/value
+pairs. Also serves as a reference for how to write Supervisor
+extensions.</dd>
+<dt><a class="reference external" href="https://github.com/mnaberez/supervisor_twiddler">supervisor_twiddler</a></dt>
+<dd>An RPC extension for Supervisor that allows Supervisor&#8217;s
+configuration and state to be manipulated in ways that are not
+normally possible at runtime.</dd>
+<dt><a class="reference external" href="https://github.com/coderanger/supervisor-stdout">supervisor-stdout</a></dt>
+<dd>An event listener that sends process output to supervisord&#8217;s stdout.</dd>
+<dt><a class="reference external" href="https://github.com/native2k/supervisor-serialrestart">supervisor-serialrestart</a></dt>
+<dd>Adds a <code class="docutils literal"><span class="pre">serialrestart</span></code> command to <code class="docutils literal"><span class="pre">supervisorctl</span></code> that restarts
+processes one after another rather than all at once.</dd>
+<dt><a class="reference external" href="http://lxyu.github.io/supervisor-quick/">supervisor-quick</a></dt>
+<dd>Adds <code class="docutils literal"><span class="pre">quickstart</span></code>, <code class="docutils literal"><span class="pre">quickstop</span></code>, and <code class="docutils literal"><span class="pre">quickrestart</span></code> commands to
+<code class="docutils literal"><span class="pre">supervisorctl</span></code> that can be faster than the built-in commands.  It
+works by using the non-blocking mode of the XML-RPC methods and then
+polling <code class="docutils literal"><span class="pre">supervisord</span></code>.  The built-in commands use the blocking mode,
+which can be slower due to <code class="docutils literal"><span class="pre">supervisord</span></code> implementation details.</dd>
+<dt><a class="reference external" href="https://github.com/infoxchange/supervisor-logging">supervisor-logging</a></dt>
+<dd>An event listener that sends process log events to an external
+Syslog instance (e.g. Logstash).</dd>
+<dt><a class="reference external" href="https://github.com/htch/supervisor_cgroups">supervisor_cgroups</a></dt>
+<dd>An event listener that enables tying Supervisor processes to a cgroup
+hierarchy.  It is intended to be used as a replacement for
+<a class="reference external" href="http://linux.die.net/man/5/cgrules.conf">cgrules.conf</a>.</dd>
+<dt><a class="reference external" href="https://github.com/vovanec/supervisor_checks">supervisor_checks</a></dt>
+<dd>Framework to build health checks for Supervisor-based services. Health
+check applications are supposed to run as event listeners in Supervisor
+environment. On check failure Supervisor will attempt to restart
+monitored process.</dd>
+</dl>
+</div>
+<div class="section" id="libraries-that-integrate-third-party-applications-with-supervisor">
+<h2>Libraries that integrate Third Party Applications with Supervisor<a class="headerlink" href="#libraries-that-integrate-third-party-applications-with-supervisor" title="Permalink to this headline">¶</a></h2>
+<p>These are libraries and plugins that makes it easier to use Supervisor
+with third party applications:</p>
+<dl class="docutils">
+<dt><a class="reference external" href="http://pypi.python.org/pypi/django-supervisor/">django-supervisor</a></dt>
+<dd>Easy integration between djangocl and supervisord.</dd>
+<dt><a class="reference external" href="http://pypi.python.org/pypi/collective.recipe.supervisor">collective.recipe.supervisor</a></dt>
+<dd>A buildout recipe to install supervisor.</dd>
+<dt><a class="reference external" href="https://github.com/plathrop/puppet-module-supervisor">puppet-module-supervisor</a></dt>
+<dd>Puppet module for configuring the supervisor daemon tool.</dd>
+<dt><a class="reference external" href="https://github.com/ajcrowe/puppet-supervisord">puppet-supervisord</a></dt>
+<dd>Puppet module to manage the supervisord process control system.</dd>
+<dt><a class="reference external" href="https://github.com/FRiCKLE/ngx_supervisord">ngx_supervisord</a></dt>
+<dd>An nginx module providing API to communicate with supervisord and
+manage (start/stop) backends on-demand.</dd>
+<dt><a class="reference external" href="https://github.com/Level-Up/Supervisord-Nagios-Plugin">Supervisord-Nagios-Plugin</a></dt>
+<dd>A Nagios/Icinga plugin written in Python to monitor individual supervisord processes.</dd>
+<dt><a class="reference external" href="https://github.com/blablacar/nagios-supervisord-processes">nagios-supervisord-processes</a></dt>
+<dd>A Nagios/Icinga plugin written in PHP to monitor individual supervisord processes.</dd>
+<dt><a class="reference external" href="https://github.com/3dna/supervisord-nagios">supervisord-nagios</a></dt>
+<dd>A plugin for supervisorctl to allow one to perform nagios-style checks
+against supervisord-managed processes.</dd>
+<dt><a class="reference external" href="https://github.com/mtdowling/php-supervisor-event">php-supervisor-event</a></dt>
+<dd>PHP classes for interacting with Supervisor event notifications.</dd>
+<dt><a class="reference external" href="https://github.com/yzalis/Supervisor">PHP5 Supervisor wrapper</a></dt>
+<dd>PHP 5 library to manage Supervisor instances as object.</dd>
+<dt><a class="reference external" href="https://github.com/yzalis/SupervisorBundle">Symfony2 SupervisorBundle</a></dt>
+<dd>Provide full integration of Supervisor multiple servers management into Symfony2 project.</dd>
+<dt><a class="reference external" href="https://github.com/robcowie/sd-supervisord">sd-supervisord</a></dt>
+<dd><a class="reference external" href="http://www.serverdensity.com">Server Density</a> plugin for
+supervisor.</dd>
+<dt><a class="reference external" href="https://github.com/crcn/node-supervisord">node-supervisord</a></dt>
+<dd>Node.js client for Supervisor&#8217;s XML-RPC interface.</dd>
+<dt><a class="reference external" href="https://github.com/sugendran/node-supervisord-eventlistener">node-supervisord-eventlistener</a></dt>
+<dd>Node.js implementation of an event listener for Supervisor.</dd>
+<dt><a class="reference external" href="https://github.com/schmurfy/ruby-supervisor">ruby-supervisor</a></dt>
+<dd>Ruby client library for Supervisor&#8217;s XML-RPC interface.</dd>
+<dt><a class="reference external" href="https://github.com/jib/sulphite">Sulphite</a></dt>
+<dd>Sends supervisord events to <a class="reference external" href="https://github.com/graphite-project/graphite-web">Graphite</a>.</dd>
+<dt><a class="reference external" href="https://github.com/countergram/supervisord.tmbundle">supervisord.tmbundle</a></dt>
+<dd><a class="reference external" href="http://macromates.com/">TextMate</a> bundle for supervisord.conf.</dd>
+<dt><a class="reference external" href="https://github.com/yyuu/capistrano-supervisord">capistrano-supervisord</a></dt>
+<dd><a class="reference external" href="https://github.com/capistrano/capistrano">Capistrano</a> recipe to deploy supervisord based services.</dd>
+<dt><a class="reference external" href="https://github.com/glooby/capistrano-supervisor">capistrano-supervisor</a></dt>
+<dd>Another package to control supervisord from <a class="reference external" href="https://github.com/capistrano/capistrano">Capistrano</a>.</dd>
+<dt><a class="reference external" href="https://github.com/opscode-cookbooks/supervisor">chef-supervisor</a></dt>
+<dd><a class="reference external" href="http://www.opscode.com/chef/">Chef</a> cookbook install and configure supervisord.</dd>
+<dt><a class="reference external" href="http://supervisorphp.com">SupervisorPHP</a></dt>
+<dd>Complete Supervisor suite in PHP: Client using XML-RPC interface, event listener and configuration builder implementation, console application and monitor UI.</dd>
+<dt><a class="reference external" href="http://search.cpan.org/~skaufman/Supervisord-Client">Supervisord-Client</a></dt>
+<dd>Perl client for the supervisord XML-RPC interface.</dd>
+<dt><a class="reference external" href="https://github.com/borntyping/supermann">Supermann</a></dt>
+<dd>Supermann monitors processes running under Supervisor and sends metrics
+to <a class="reference external" href="http://riemann.io/">Riemann</a>.</dd>
+<dt><a class="reference external" href="https://github.com/leny/gulp-supervisor">gulp-supervisor</a></dt>
+<dd>Run Supervisor as a <a class="reference external" href="http://gulpjs.com/">Gulp</a> task.</dd>
+<dt><a class="reference external" href="https://github.com/yeebase/Yeebase.Supervisor">Yeebase.Supervisor</a></dt>
+<dd>Control and monitor Supervisor from a TYPO3 Flow application.</dd>
+<dt><a class="reference external" href="https://github.com/statianzo/dokku-supervisord">dokku-supervisord</a></dt>
+<dd><a class="reference external" href="https://github.com/progrium/dokku">Dokku</a> plugin that injects <code class="docutils literal"><span class="pre">supervisord</span></code> to run
+applications.</dd>
+<dt><a class="reference external" href="https://github.com/sehrope/dokku-logging-supervisord">dokku-logging-supervisord</a></dt>
+<dd><a class="reference external" href="https://github.com/progrium/dokku">Dokku</a> plugin that injects <code class="docutils literal"><span class="pre">supervisord</span></code> to run
+applications.  It also redirects <code class="docutils literal"><span class="pre">stdout</span></code> and <code class="docutils literal"><span class="pre">stderr</span></code> from processes to log files
+(rather than the Docker default per-container JSON files).</dd>
+<dt><a class="reference external" href="https://github.com/MTSolutions/superslacker">superslacker</a></dt>
+<dd>Send Supervisor event notifications to <a class="reference external" href="https://slack.com">Slack</a>.</dd>
+</dl>
+</div>
+</div>
+
+
+          </div>
+        </div>
+      </div>
+      <div class="sphinxsidebar" role="navigation" aria-label="main navigation">
+        <div class="sphinxsidebarwrapper">
+            <p class="logo"><a href="index.html">
+              <img class="logo" src="_static/logo_hi.gif" alt="Logo"/>
+            </a></p>
+  <h3><a href="index.html">Table Of Contents</a></h3>
+  <ul>
+<li><a class="reference internal" href="#">Third Party Applications and Libraries</a><ul>
+<li><a class="reference internal" href="#dashboards-and-tools-for-multiple-supervisor-instances">Dashboards and Tools for Multiple Supervisor Instances</a></li>
+<li><a class="reference internal" href="#third-party-plugins-and-libraries-for-supervisor">Third Party Plugins and Libraries for Supervisor</a></li>
+<li><a class="reference internal" href="#libraries-that-integrate-third-party-applications-with-supervisor">Libraries that integrate Third Party Applications with Supervisor</a></li>
+</ul>
+</li>
+</ul>
+<div class="relations">
+<h3>Related Topics</h3>
+<ul>
+  <li><a href="index.html">Documentation overview</a><ul>
+      <li>Previous: <a href="api.html" title="previous chapter">XML-RPC API Documentation</a></li>
+  </ul></li>
+</ul>
+</div>
+  <div role="note" aria-label="source link">
+    <h3>This Page</h3>
+    <ul class="this-page-menu">
+      <li><a href="_sources/plugins.txt"
+            rel="nofollow">Show Source</a></li>
+    </ul>
+   </div>
+<div id="searchbox" style="display: none" role="search">
+  <h3>Quick search</h3>
+    <form class="search" action="search.html" method="get">
+      <input type="text" name="q" />
+      <input type="submit" value="Go" />
+      <input type="hidden" name="check_keywords" value="yes" />
+      <input type="hidden" name="area" value="default" />
+    </form>
+    <p class="searchtip" style="font-size: 90%">
+    Enter search terms or a module, class or function name.
+    </p>
+</div>
+<script type="text/javascript">$('#searchbox').show(0);</script>
+        </div>
+      </div>
+      <div class="clearer"></div>
+    </div>
+    <div class="footer">
+      &copy;2004-2016, Agendaless Consulting and Contributors.
+      
+      |
+      Powered by <a href="http://sphinx-doc.org/">Sphinx 1.3.3</a>
+      &amp; <a href="https://github.com/bitprophet/alabaster">Alabaster 0.7.7</a>
+      
+      |
+      <a href="_sources/plugins.txt"
+          rel="nofollow">Page source</a>
+    </div>
+
+    
+
+    
+  </body>
+</html>

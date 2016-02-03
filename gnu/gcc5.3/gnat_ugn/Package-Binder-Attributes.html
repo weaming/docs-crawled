@@ -1,0 +1,97 @@
+<html lang="en">
+<head>
+<title>Package Binder Attributes - GNAT User's Guide for Native Platforms</title>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+<meta name="description" content="GNAT User's Guide for Native Platforms">
+<meta name="generator" content="makeinfo 4.13">
+<link title="Top" rel="start" href="index.html#Top">
+<link rel="up" href="Attributes.html#Attributes" title="Attributes">
+<link rel="prev" href="Project-Level-Attributes.html#Project-Level-Attributes" title="Project Level Attributes">
+<link rel="next" href="Package-Builder-Attributes.html#Package-Builder-Attributes" title="Package Builder Attributes">
+<link href="http://www.gnu.org/software/texinfo/" rel="generator-home" title="Texinfo Homepage">
+<!--
+
+     GNAT User's Guide for Native Platforms , March 24, 2015
+
+     AdaCore
+
+     Copyright (C) 2008-2015, Free Software Foundation
+-->
+<meta http-equiv="Content-Style-Type" content="text/css">
+<style type="text/css"><!--
+  pre.display { font-family:inherit }
+  pre.format  { font-family:inherit }
+  pre.smalldisplay { font-family:inherit; font-size:smaller }
+  pre.smallformat  { font-family:inherit; font-size:smaller }
+  pre.smallexample { font-size:smaller }
+  pre.smalllisp    { font-size:smaller }
+  span.sc    { font-variant:small-caps }
+  span.roman { font-family:serif; font-weight:normal; } 
+  span.sansserif { font-family:sans-serif; font-weight:normal; } 
+--></style>
+</head>
+<body>
+<div class="node">
+<a name="Package-Binder-Attributes"></a>
+<p>
+Next:&nbsp;<a rel="next" accesskey="n" href="Package-Builder-Attributes.html#Package-Builder-Attributes">Package Builder Attributes</a>,
+Previous:&nbsp;<a rel="previous" accesskey="p" href="Project-Level-Attributes.html#Project-Level-Attributes">Project Level Attributes</a>,
+Up:&nbsp;<a rel="up" accesskey="u" href="Attributes.html#Attributes">Attributes</a>
+<hr>
+</div>
+
+<p><a name="gnat_005fugn_002fgnat_005fproject_005fmanager-package_002dbinder_002dattributes"></a><a name="g_t1a6"></a><a name="gnat_005fugn_002fgnat_005fproject_005fmanager-id49"></a><a name="g_t1a7"></a>
+
+<h5 class="subsubsection">5.9.10.2 Package Binder Attributes</h5>
+
+     <ul>
+<li>`General'
+
+          <ul>
+<li>`Default_Switches': list, indexed, case-insensitive index
+
+          <p>Index is a language name. Value is the list of switches to be used when binding
+code of the language, if there is no applicable attribute Switches.
+
+          <li>`Switches': list, optional index, indexed,
+case-insensitive index, others allowed
+
+          <p>Index is either a language name or a source file name. Value is the list of
+switches to be used when binding code. Index is either the source file name
+of the executable to be bound or the language name of the code to be bound. 
+</ul>
+
+     <li>`Configuration - Binding'
+
+          <ul>
+<li>`Driver': single, indexed, case-insensitive index
+
+          <p>Index is a language name. Value is the name of the application to be used when
+binding code of the language.
+
+          <li>`Required_Switches': list, indexed, case-insensitive index
+
+          <p>Index is a language name. Value is the list of the required switches to be
+used when binding code of the language.
+
+          <li>`Prefix': single, indexed, case-insensitive index
+
+          <p>Index is a language name. Value is a prefix to be used for the binder exchange
+file name for the language. Used to have different binder exchange file names
+when binding different languages.
+
+          <li>`Objects_Path': single,indexed, case-insensitive index
+
+          <p>Index is a language name. Value is the name of the environment variable that
+contains the path for the object directories.
+
+          <li>`Object_Path_File': single,indexed, case-insensitive index
+
+          <p>Index is a language name. Value is the name of the environment variable. The
+value of the environment variable is the path name of a text file that
+contains the list of object directories. 
+</ul>
+     </ul>
+
+</body></html>
+

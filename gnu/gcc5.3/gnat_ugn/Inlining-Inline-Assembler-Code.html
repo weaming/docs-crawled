@@ -1,0 +1,111 @@
+<html lang="en">
+<head>
+<title>Inlining Inline Assembler Code - GNAT User's Guide for Native Platforms</title>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+<meta name="description" content="GNAT User's Guide for Native Platforms">
+<meta name="generator" content="makeinfo 4.13">
+<link title="Top" rel="start" href="index.html#Top">
+<link rel="up" href="Inline-Assembler.html#Inline-Assembler" title="Inline Assembler">
+<link rel="prev" href="Input-Variables-in-Inline-Assembler.html#Input-Variables-in-Inline-Assembler" title="Input Variables in Inline Assembler">
+<link rel="next" href="Other-Asm-Functionality.html#Other-Asm-Functionality" title="Other Asm Functionality">
+<link href="http://www.gnu.org/software/texinfo/" rel="generator-home" title="Texinfo Homepage">
+<!--
+
+     GNAT User's Guide for Native Platforms , March 24, 2015
+
+     AdaCore
+
+     Copyright (C) 2008-2015, Free Software Foundation
+-->
+<meta http-equiv="Content-Style-Type" content="text/css">
+<style type="text/css"><!--
+  pre.display { font-family:inherit }
+  pre.format  { font-family:inherit }
+  pre.smalldisplay { font-family:inherit; font-size:smaller }
+  pre.smallformat  { font-family:inherit; font-size:smaller }
+  pre.smallexample { font-size:smaller }
+  pre.smalllisp    { font-size:smaller }
+  span.sc    { font-variant:small-caps }
+  span.roman { font-family:serif; font-weight:normal; } 
+  span.sansserif { font-family:sans-serif; font-weight:normal; } 
+--></style>
+</head>
+<body>
+<div class="node">
+<a name="Inlining-Inline-Assembler-Code"></a>
+<p>
+Next:&nbsp;<a rel="next" accesskey="n" href="Other-Asm-Functionality.html#Other-Asm-Functionality">Other Asm Functionality</a>,
+Previous:&nbsp;<a rel="previous" accesskey="p" href="Input-Variables-in-Inline-Assembler.html#Input-Variables-in-Inline-Assembler">Input Variables in Inline Assembler</a>,
+Up:&nbsp;<a rel="up" accesskey="u" href="Inline-Assembler.html#Inline-Assembler">Inline Assembler</a>
+<hr>
+</div>
+
+<p><a name="gnat_005fugn_002finline_005fassembler-id6"></a><a name="g_t2d6"></a><a name="gnat_005fugn_002finline_005fassembler-inlining_002dinline_002dassembler_002dcode"></a><a name="g_t2d7"></a>
+
+<h3 class="section">12.5 Inlining Inline Assembler Code</h3>
+
+<p>For a short subprogram such as the <cite>Incr</cite> function in the previous
+section, the overhead of the call and return (creating / deleting the stack
+frame) can be significant, compared to the amount of code in the subprogram
+body.  A solution is to apply Ada's <cite>Inline</cite> pragma to the subprogram,
+which directs the compiler to expand invocations of the subprogram at the
+point(s) of call, instead of setting up a stack frame for out-of-line calls. 
+Here is the resulting program:
+
+<blockquote>
+
+<pre class="example">    with Interfaces; use Interfaces;
+    with Ada.Text_IO; use Ada.Text_IO;
+    with System.Machine_Code; use System.Machine_Code;
+    procedure Increment_2 is
+    
+       function Incr (Value : Unsigned_32) return Unsigned_32 is
+          Result : Unsigned_32;
+       begin
+          Asm ("incl %0",
+               Outputs =&gt; Unsigned_32'Asm_Output ("=a", Result),
+               Inputs  =&gt; Unsigned_32'Asm_Input ("a", Value));
+          return Result;
+       end Incr;
+       pragma Inline (Increment);
+    
+       Value : Unsigned_32;
+    
+    begin
+       Value := 5;
+       Put_Line ("Value before is" &amp; Value'Img);
+       Value := Increment (Value);
+       Put_Line ("Value after is" &amp; Value'Img);
+    end Increment_2;
+</pre>
+</blockquote>
+
+<p>Compile the program with both optimization (`-O2') and inlining
+(`-gnatn') enabled.
+
+<p>The <cite>Incr</cite> function is still compiled as usual, but at the
+point in <cite>Increment</cite> where our function used to be called:
+
+<blockquote>
+
+<pre class="example">    pushl %edi
+    call _increment__incr.1
+</pre>
+</blockquote>
+
+<p>the code for the function body directly appears:
+
+<blockquote>
+
+<pre class="example">    movl %esi,%eax
+    #APP
+       incl %eax
+    #NO_APP
+       movl %eax,%edx
+</pre>
+</blockquote>
+
+<p>thus saving the overhead of stack frame setup and an out-of-line call.
+
+</body></html>
+

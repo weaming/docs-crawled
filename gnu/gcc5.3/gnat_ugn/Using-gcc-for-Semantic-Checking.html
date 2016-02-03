@@ -1,0 +1,82 @@
+<html lang="en">
+<head>
+<title>Using gcc for Semantic Checking - GNAT User's Guide for Native Platforms</title>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+<meta name="description" content="GNAT User's Guide for Native Platforms">
+<meta name="generator" content="makeinfo 4.13">
+<link title="Top" rel="start" href="index.html#Top">
+<link rel="up" href="Compiler-Switches.html#Compiler-Switches" title="Compiler Switches">
+<link rel="prev" href="Using-gcc-for-Syntax-Checking.html#Using-gcc-for-Syntax-Checking" title="Using gcc for Syntax Checking">
+<link rel="next" href="Compiling-Different-Versions-of-Ada.html#Compiling-Different-Versions-of-Ada" title="Compiling Different Versions of Ada">
+<link href="http://www.gnu.org/software/texinfo/" rel="generator-home" title="Texinfo Homepage">
+<!--
+
+     GNAT User's Guide for Native Platforms , March 24, 2015
+
+     AdaCore
+
+     Copyright (C) 2008-2015, Free Software Foundation
+-->
+<meta http-equiv="Content-Style-Type" content="text/css">
+<style type="text/css"><!--
+  pre.display { font-family:inherit }
+  pre.format  { font-family:inherit }
+  pre.smalldisplay { font-family:inherit; font-size:smaller }
+  pre.smallformat  { font-family:inherit; font-size:smaller }
+  pre.smallexample { font-size:smaller }
+  pre.smalllisp    { font-size:smaller }
+  span.sc    { font-variant:small-caps }
+  span.roman { font-family:serif; font-weight:normal; } 
+  span.sansserif { font-family:sans-serif; font-weight:normal; } 
+--></style>
+</head>
+<body>
+<div class="node">
+<a name="Using-gcc-for-Semantic-Checking"></a>
+<p>
+Next:&nbsp;<a rel="next" accesskey="n" href="Compiling-Different-Versions-of-Ada.html#Compiling-Different-Versions-of-Ada">Compiling Different Versions of Ada</a>,
+Previous:&nbsp;<a rel="previous" accesskey="p" href="Using-gcc-for-Syntax-Checking.html#Using-gcc-for-Syntax-Checking">Using gcc for Syntax Checking</a>,
+Up:&nbsp;<a rel="up" accesskey="u" href="Compiler-Switches.html#Compiler-Switches">Compiler Switches</a>
+<hr>
+</div>
+
+<p><a name="gnat_005fugn_002fbuilding_005fexecutable_005fprograms_005fwith_005fgnat-id21"></a><a name="g_t10c"></a><a name="gnat_005fugn_002fbuilding_005fexecutable_005fprograms_005fwith_005fgnat-using_002dgcc_002dfor_002dsemantic_002dchecking"></a><a name="g_t10d"></a>
+
+<h4 class="subsection">4.3.9 Using `gcc' for Semantic Checking</h4>
+
+<p><a name="index-g_t_002dgnatc-_0028gcc_0029-612"></a>
+
+     <dl>
+<dt><code>-gnatc</code><dd>
+The <cite>c</cite> stands for 'check'. 
+Causes the compiler to operate in semantic check mode,
+with full checking for all illegalities specified in the
+Ada Reference Manual, but without generation of any object code
+(no object file is generated).
+
+     <p>Because dependent files must be accessed, you must follow the GNAT
+semantic restrictions on file structuring to operate in this mode:
+
+          <ul>
+<li>The needed source files must be accessible
+(see <a href="8e.html#g_t8e">Search Paths and the Run-Time Library (RTL)</a>).
+
+          <li>Each file must contain only one compilation unit.
+
+          <li>The file name and unit name must match (<a href="54.html#g_t54">File Naming Rules</a>). 
+</ul>
+
+     <p>The output consists of error messages as appropriate. No object file is
+generated. An <code>ALI</code> file is generated for use in the context of
+cross-reference tools, but this file is marked as not being suitable
+for binding (since no object file is generated). 
+The checking corresponds exactly to the notion of
+legality in the Ada Reference Manual.
+
+     <p>Any unit can be compiled in semantics-checking-only mode, including
+units that would not normally be compiled (subunits,
+and specifications where a separate body is present). 
+</dl>
+
+</body></html>
+

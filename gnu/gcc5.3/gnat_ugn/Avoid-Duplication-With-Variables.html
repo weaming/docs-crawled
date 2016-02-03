@@ -1,0 +1,100 @@
+<html lang="en">
+<head>
+<title>Avoid Duplication With Variables - GNAT User's Guide for Native Platforms</title>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+<meta name="description" content="GNAT User's Guide for Native Platforms">
+<meta name="generator" content="makeinfo 4.13">
+<link title="Top" rel="start" href="index.html#Top">
+<link rel="up" href="Building-With-Projects.html#Building-With-Projects" title="Building With Projects">
+<link rel="prev" href="Executable-File-Names.html#Executable-File-Names" title="Executable File Names">
+<link rel="next" href="Naming-Schemes.html#Naming-Schemes" title="Naming Schemes">
+<link href="http://www.gnu.org/software/texinfo/" rel="generator-home" title="Texinfo Homepage">
+<!--
+
+     GNAT User's Guide for Native Platforms , March 24, 2015
+
+     AdaCore
+
+     Copyright (C) 2008-2015, Free Software Foundation
+-->
+<meta http-equiv="Content-Style-Type" content="text/css">
+<style type="text/css"><!--
+  pre.display { font-family:inherit }
+  pre.format  { font-family:inherit }
+  pre.smalldisplay { font-family:inherit; font-size:smaller }
+  pre.smallformat  { font-family:inherit; font-size:smaller }
+  pre.smallexample { font-size:smaller }
+  pre.smalllisp    { font-size:smaller }
+  span.sc    { font-variant:small-caps }
+  span.roman { font-family:serif; font-weight:normal; } 
+  span.sansserif { font-family:sans-serif; font-weight:normal; } 
+--></style>
+</head>
+<body>
+<div class="node">
+<a name="Avoid-Duplication-With-Variables"></a>
+<p>
+Next:&nbsp;<a rel="next" accesskey="n" href="Naming-Schemes.html#Naming-Schemes">Naming Schemes</a>,
+Previous:&nbsp;<a rel="previous" accesskey="p" href="Executable-File-Names.html#Executable-File-Names">Executable File Names</a>,
+Up:&nbsp;<a rel="up" accesskey="u" href="Building-With-Projects.html#Building-With-Projects">Building With Projects</a>
+<hr>
+</div>
+
+<p><a name="gnat_005fugn_002fgnat_005fproject_005fmanager-id10"></a><a name="g_t164"></a><a name="gnat_005fugn_002fgnat_005fproject_005fmanager-avoid_002dduplication_002dwith_002dvariables"></a><a name="g_t165"></a>
+
+<h4 class="subsection">5.2.8 Avoid Duplication With Variables</h4>
+
+<p>To illustrate some other project capabilities, here is a slightly more complex
+project using similar sources and a main program in C:
+
+<pre class="example">    project C_Main is
+       for Languages    use ("Ada", "C");
+       for Source_Dirs  use ("common");
+       for Object_Dir   use  "obj";
+       for Main         use ("main.c");
+       package Compiler is
+          C_Switches := ("-pedantic");
+          for Default_Switches ("C")   use C_Switches;
+          for Default_Switches ("Ada") use ("-gnaty");
+          for Switches ("main.c") use C_Switches &amp; ("-g");
+       end Compiler;
+    end C_Main;
+</pre>
+<p>This project has many similarities with the previous one. 
+As expected, its <cite>Main</cite> attribute now refers to a C source. 
+The attribute `Exec_Dir' is now omitted, thus the resulting
+executable will be put in the directory <code>obj</code>.
+
+<p>The most noticeable difference is the use of a variable in the
+`Compiler' package to store settings used in several attributes. 
+This avoids text duplication, and eases maintenance (a single place to
+modify if we want to add new switches for C files). We will revisit
+the use of variables in the context of scenarios (see <a href="14c.html#g_t14c">Scenarios in Projects</a>).
+
+<p>In this example, we see how the file <code>main.c</code> can be compiled with
+the switches used for all the other C files, plus `-g'. 
+In this specific situation the use of a variable could have been
+replaced by a reference to the <cite>Default_Switches</cite> attribute:
+
+<pre class="example">    for Switches ("c_main.c") use Compiler'Default_Switches ("C") &amp; ("-g");
+</pre>
+<p>Note the tick (`'') used to refer to attributes defined in a package.
+
+<p>Here is the output of the GPRbuild command using this project:
+
+<pre class="example">    $ gprbuild -Pc_main
+    gcc -c -pedantic -g main.c
+    gcc -c -gnaty proc.adb
+    gcc -c -gnaty pack.adb
+    gcc -c -pedantic utils.c
+    gprbind main.bexch
+    ...
+    gcc main.o -o main
+</pre>
+<p>The default switches for Ada sources,
+the default switches for C sources (in the compilation of <code>lib.c</code>),
+and the specific switches for <code>main.c</code> have all been taken into
+account.
+
+</body></html>
+

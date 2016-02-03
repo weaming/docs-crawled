@@ -1,0 +1,81 @@
+<html lang="en">
+<head>
+<title>Treatment of Pragma Elaborate - GNAT User's Guide for Native Platforms</title>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+<meta name="description" content="GNAT User's Guide for Native Platforms">
+<meta name="generator" content="makeinfo 4.13">
+<link title="Top" rel="start" href="index.html#Top">
+<link rel="up" href="Elaboration-Order-Handling-in-GNAT.html#Elaboration-Order-Handling-in-GNAT" title="Elaboration Order Handling in GNAT">
+<link rel="prev" href="Default-Behavior-in-GNAT-_002d-Ensuring-Safety.html#Default-Behavior-in-GNAT-_002d-Ensuring-Safety" title="Default Behavior in GNAT - Ensuring Safety">
+<link rel="next" href="Elaboration-Issues-for-Library-Tasks.html#Elaboration-Issues-for-Library-Tasks" title="Elaboration Issues for Library Tasks">
+<link href="http://www.gnu.org/software/texinfo/" rel="generator-home" title="Texinfo Homepage">
+<!--
+
+     GNAT User's Guide for Native Platforms , March 24, 2015
+
+     AdaCore
+
+     Copyright (C) 2008-2015, Free Software Foundation
+-->
+<meta http-equiv="Content-Style-Type" content="text/css">
+<style type="text/css"><!--
+  pre.display { font-family:inherit }
+  pre.format  { font-family:inherit }
+  pre.smalldisplay { font-family:inherit; font-size:smaller }
+  pre.smallformat  { font-family:inherit; font-size:smaller }
+  pre.smallexample { font-size:smaller }
+  pre.smalllisp    { font-size:smaller }
+  span.sc    { font-variant:small-caps }
+  span.roman { font-family:serif; font-weight:normal; } 
+  span.sansserif { font-family:sans-serif; font-weight:normal; } 
+--></style>
+</head>
+<body>
+<div class="node">
+<a name="Treatment-of-Pragma-Elaborate"></a>
+<p>
+Next:&nbsp;<a rel="next" accesskey="n" href="Elaboration-Issues-for-Library-Tasks.html#Elaboration-Issues-for-Library-Tasks">Elaboration Issues for Library Tasks</a>,
+Previous:&nbsp;<a rel="previous" accesskey="p" href="Default-Behavior-in-GNAT-_002d-Ensuring-Safety.html#Default-Behavior-in-GNAT-_002d-Ensuring-Safety">Default Behavior in GNAT - Ensuring Safety</a>,
+Up:&nbsp;<a rel="up" accesskey="u" href="Elaboration-Order-Handling-in-GNAT.html#Elaboration-Order-Handling-in-GNAT">Elaboration Order Handling in GNAT</a>
+<hr>
+</div>
+
+<p><a name="gnat_005fugn_002felaboration_005forder_005fhandling_005fin_005fgnat-treatment_002dof_002dpragma_002delaborate"></a><a name="g_t2bd"></a><a name="gnat_005fugn_002felaboration_005forder_005fhandling_005fin_005fgnat-id8"></a><a name="g_t2be"></a>
+
+<h3 class="section">11.7 Treatment of Pragma Elaborate</h3>
+
+<p><a name="index-Pragma-Elaborate-1149"></a>
+The use of <cite>pragma Elaborate</cite>
+should generally be avoided in Ada 95 and Ada 2005 programs,
+since there is no guarantee that transitive calls
+will be properly handled. Indeed at one point, this pragma was placed
+in Annex J (Obsolescent Features), on the grounds that it is never useful.
+
+<p>Now that's a bit restrictive. In practice, the case in which
+<cite>pragma Elaborate</cite> is useful is when the caller knows that there
+are no transitive calls, or that the called unit contains all necessary
+transitive <cite>pragma Elaborate</cite> statements, and legacy code often
+contains such uses.
+
+<p>Strictly speaking the static mode in GNAT should ignore such pragmas,
+since there is no assurance at compile time that the necessary safety
+conditions are met. In practice, this would cause GNAT to be incompatible
+with correctly written Ada 83 code that had all necessary
+<cite>pragma Elaborate</cite> statements in place. Consequently, we made the
+decision that GNAT in its default mode will believe that if it encounters
+a <cite>pragma Elaborate</cite> then the programmer knows what they are doing,
+and it will trust that no elaboration errors can occur.
+
+<p>The result of this decision is two-fold. First to be safe using the
+static mode, you should remove all <cite>pragma Elaborate</cite> statements. 
+Second, when fixing circularities in existing code, you can selectively
+use <cite>pragma Elaborate</cite> statements to convince the static mode of
+GNAT that it need not generate an implicit <cite>pragma Elaborate_All</cite>
+statement.
+
+<p>When using the static mode with `-gnatwl', any use of
+<cite>pragma Elaborate</cite> will generate a warning about possible
+problems.
+
+</body></html>
+

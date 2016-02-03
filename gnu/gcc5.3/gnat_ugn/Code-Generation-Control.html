@@ -1,0 +1,70 @@
+<html lang="en">
+<head>
+<title>Code Generation Control - GNAT User's Guide for Native Platforms</title>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+<meta name="description" content="GNAT User's Guide for Native Platforms">
+<meta name="generator" content="makeinfo 4.13">
+<link title="Top" rel="start" href="index.html#Top">
+<link rel="up" href="Compiler-Switches.html#Compiler-Switches" title="Compiler Switches">
+<link rel="prev" href="Units-to-Sources-Mapping-Files.html#Units-to-Sources-Mapping-Files" title="Units to Sources Mapping Files">
+<link href="http://www.gnu.org/software/texinfo/" rel="generator-home" title="Texinfo Homepage">
+<!--
+
+     GNAT User's Guide for Native Platforms , March 24, 2015
+
+     AdaCore
+
+     Copyright (C) 2008-2015, Free Software Foundation
+-->
+<meta http-equiv="Content-Style-Type" content="text/css">
+<style type="text/css"><!--
+  pre.display { font-family:inherit }
+  pre.format  { font-family:inherit }
+  pre.smalldisplay { font-family:inherit; font-size:smaller }
+  pre.smallformat  { font-family:inherit; font-size:smaller }
+  pre.smallexample { font-size:smaller }
+  pre.smalllisp    { font-size:smaller }
+  span.sc    { font-variant:small-caps }
+  span.roman { font-family:serif; font-weight:normal; } 
+  span.sansserif { font-family:sans-serif; font-weight:normal; } 
+--></style>
+</head>
+<body>
+<div class="node">
+<a name="Code-Generation-Control"></a>
+<p>
+Previous:&nbsp;<a rel="previous" accesskey="p" href="Units-to-Sources-Mapping-Files.html#Units-to-Sources-Mapping-Files">Units to Sources Mapping Files</a>,
+Up:&nbsp;<a rel="up" accesskey="u" href="Compiler-Switches.html#Compiler-Switches">Compiler Switches</a>
+<hr>
+</div>
+
+<p><a name="gnat_005fugn_002fbuilding_005fexecutable_005fprograms_005fwith_005fgnat-code_002dgeneration_002dcontrol"></a><a name="g_t11c"></a><a name="gnat_005fugn_002fbuilding_005fexecutable_005fprograms_005fwith_005fgnat-id30"></a><a name="g_t11d"></a>
+
+<h4 class="subsection">4.3.18 Code Generation Control</h4>
+
+<p>The GCC technology provides a wide range of target dependent
+<code>-m</code> switches for controlling
+details of code generation with respect to different versions of
+architectures. This includes variations in instruction sets (e.g.,
+different members of the power pc family), and different requirements
+for optimal arrangement of instructions (e.g., different members of
+the x86 family). The list of available `-m' switches may be
+found in the GCC documentation.
+
+<p>Use of these `-m' switches may in some cases result in improved
+code performance.
+
+<p>The GNAT technology is tested and qualified without any
+<code>-m</code> switches,
+so generally the most reliable approach is to avoid the use of these
+switches. However, we generally expect most of these switches to work
+successfully with GNAT, and many customers have reported successful
+use of these options.
+
+<p>Our general advice is to avoid the use of `-m' switches unless
+special needs lead to requirements in this area. In particular,
+there is no point in using `-m' switches to improve performance
+unless you actually see a performance improvement.
+
+</body></html>
+

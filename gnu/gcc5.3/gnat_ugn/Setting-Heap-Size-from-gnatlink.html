@@ -1,0 +1,66 @@
+<html lang="en">
+<head>
+<title>Setting Heap Size from gnatlink - GNAT User's Guide for Native Platforms</title>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+<meta name="description" content="GNAT User's Guide for Native Platforms">
+<meta name="generator" content="makeinfo 4.13">
+<link title="Top" rel="start" href="index.html#Top">
+<link rel="up" href="Mixed_002dLanguage-Programming-on-Windows.html#Mixed_002dLanguage-Programming-on-Windows" title="Mixed-Language Programming on Windows">
+<link rel="prev" href="Setting-Stack-Size-from-gnatlink.html#Setting-Stack-Size-from-gnatlink" title="Setting Stack Size from gnatlink">
+<link href="http://www.gnu.org/software/texinfo/" rel="generator-home" title="Texinfo Homepage">
+<!--
+
+     GNAT User's Guide for Native Platforms , March 24, 2015
+
+     AdaCore
+
+     Copyright (C) 2008-2015, Free Software Foundation
+-->
+<meta http-equiv="Content-Style-Type" content="text/css">
+<style type="text/css"><!--
+  pre.display { font-family:inherit }
+  pre.format  { font-family:inherit }
+  pre.smalldisplay { font-family:inherit; font-size:smaller }
+  pre.smallformat  { font-family:inherit; font-size:smaller }
+  pre.smallexample { font-size:smaller }
+  pre.smalllisp    { font-size:smaller }
+  span.sc    { font-variant:small-caps }
+  span.roman { font-family:serif; font-weight:normal; } 
+  span.sansserif { font-family:sans-serif; font-weight:normal; } 
+--></style>
+</head>
+<body>
+<div class="node">
+<a name="Setting-Heap-Size-from-gnatlink"></a>
+<p>
+Previous:&nbsp;<a rel="previous" accesskey="p" href="Setting-Stack-Size-from-gnatlink.html#Setting-Stack-Size-from-gnatlink">Setting Stack Size from gnatlink</a>,
+Up:&nbsp;<a rel="up" accesskey="u" href="Mixed_002dLanguage-Programming-on-Windows.html#Mixed_002dLanguage-Programming-on-Windows">Mixed-Language Programming on Windows</a>
+<hr>
+</div>
+
+<p><a name="gnat_005fugn_002fplatform_005fspecific_005finformation-setting_002dheap_002dsize_002dfrom_002dgnatlink"></a><a name="g_t13b"></a><a name="gnat_005fugn_002fplatform_005fspecific_005finformation-id41"></a><a name="g_t2a9"></a>
+
+<h5 class="subsubsection">9.3.5.28 Setting Heap Size from `gnatlink'</h5>
+
+<p>Under Windows systems, it is possible to specify the program heap size from
+`gnatlink' using either of the following:
+
+     <ul>
+<li>`-Xlinker' linker option
+
+     <pre class="example">         $ gnatlink hello -Xlinker --heap=0x10000,0x1000
+</pre>
+     <p>This sets the heap reserve size to 0x10000 bytes and the heap commit
+size to 0x1000 bytes.
+
+     <li>`-Wl' linker option
+
+     <pre class="example">         $ gnatlink hello -Wl,--heap=0x1000000
+</pre>
+     <p>This sets the heap reserve size to 0x1000000 bytes. Note that with
+`-Wl' option it is not possible to set the heap commit size
+because the coma is a separator for this option. 
+</ul>
+
+</body></html>
+

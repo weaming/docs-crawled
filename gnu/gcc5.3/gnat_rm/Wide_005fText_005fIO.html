@@ -1,0 +1,253 @@
+<html lang="en">
+<head>
+<title>Wide_Text_IO - GNAT Reference Manual</title>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+<meta name="description" content="GNAT Reference Manual">
+<meta name="generator" content="makeinfo 4.13">
+<link title="Top" rel="start" href="index.html#Top">
+<link rel="up" href="The-Implementation-of-Standard-I_002fO.html#The-Implementation-of-Standard-I_002fO" title="The Implementation of Standard I/O">
+<link rel="prev" href="Text_005fIO.html#Text_005fIO" title="Text_IO">
+<link rel="next" href="Wide_005fWide_005fText_005fIO.html#Wide_005fWide_005fText_005fIO" title="Wide_Wide_Text_IO">
+<link href="http://www.gnu.org/software/texinfo/" rel="generator-home" title="Texinfo Homepage">
+<!--
+
+     GNAT Reference Manual , March 24, 2015
+
+     AdaCore
+
+     Copyright (C) 2008-2015, Free Software Foundation
+-->
+<meta http-equiv="Content-Style-Type" content="text/css">
+<style type="text/css"><!--
+  pre.display { font-family:inherit }
+  pre.format  { font-family:inherit }
+  pre.smalldisplay { font-family:inherit; font-size:smaller }
+  pre.smallformat  { font-family:inherit; font-size:smaller }
+  pre.smallexample { font-size:smaller }
+  pre.smalllisp    { font-size:smaller }
+  span.sc    { font-variant:small-caps }
+  span.roman { font-family:serif; font-weight:normal; } 
+  span.sansserif { font-family:sans-serif; font-weight:normal; } 
+--></style>
+</head>
+<body>
+<div class="node">
+<a name="Wide_Text_IO"></a>
+<a name="Wide_005fText_005fIO"></a>
+<p>
+Next:&nbsp;<a rel="next" accesskey="n" href="Wide_005fWide_005fText_005fIO.html#Wide_005fWide_005fText_005fIO">Wide_Wide_Text_IO</a>,
+Previous:&nbsp;<a rel="previous" accesskey="p" href="Text_005fIO.html#Text_005fIO">Text_IO</a>,
+Up:&nbsp;<a rel="up" accesskey="u" href="The-Implementation-of-Standard-I_002fO.html#The-Implementation-of-Standard-I_002fO">The Implementation of Standard I/O</a>
+<hr>
+</div>
+
+<p><a name="gnat_005frm_002fthe_005fimplementation_005fof_005fstandard_005fi_005fo-wide_002dtext_002dio"></a><a name="g_t25a"></a><a name="gnat_005frm_002fthe_005fimplementation_005fof_005fstandard_005fi_005fo-id13"></a><a name="g_t25b"></a>
+
+<h3 class="section">11.6 Wide_Text_IO</h3>
+
+<p><cite>Wide_Text_IO</cite> is similar in most respects to Text_IO, except that
+both input and output files may contain special sequences that represent
+wide character values.  The encoding scheme for a given file may be
+specified using a FORM parameter:
+
+<pre class="example">    WCEM=`x`
+</pre>
+<p>as part of the FORM string (WCEM = wide character encoding method),
+where <cite>x</cite> is one of the following characters
+
+<p><table summary=""><tr align="left"><th valign="top">
+Character
+
+<p></th><th valign="top">
+
+<p>Encoding
+
+<p><br></th></tr><tr align="left"><td valign="top">
+`h'
+
+<p></td><td valign="top">
+
+<p>Hex ESC encoding
+
+<p><br></td></tr><tr align="left"><td valign="top">
+`u'
+
+<p></td><td valign="top">
+
+<p>Upper half encoding
+
+<p><br></td></tr><tr align="left"><td valign="top">
+`s'
+
+<p></td><td valign="top">
+
+<p>Shift-JIS encoding
+
+<p><br></td></tr><tr align="left"><td valign="top">
+`e'
+
+<p></td><td valign="top">
+
+<p>EUC Encoding
+
+<p><br></td></tr><tr align="left"><td valign="top">
+`8'
+
+<p></td><td valign="top">
+
+<p>UTF-8 encoding
+
+<p><br></td></tr><tr align="left"><td valign="top">
+`b'
+
+<p></td><td valign="top">
+
+<p>Brackets encoding
+
+<br></td></tr></table>
+
+<p>The encoding methods match those that
+can be used in a source
+program, but there is no requirement that the encoding method used for
+the source program be the same as the encoding method used for files,
+and different files may use different encoding methods.
+
+<p>The default encoding method for the standard files, and for opened files
+for which no WCEM parameter is given in the FORM string matches the
+wide character encoding specified for the main program (the default
+being brackets encoding if no coding method was specified with -gnatW).
+
+     <dl>
+<dt>`Hex Coding'<dd>
+In this encoding, a wide character is represented by a five character
+sequence:
+</dl>
+
+<pre class="example">    ESC a b c d
+</pre>
+<blockquote>
+
+<p>where <cite>a</cite>, <cite>b</cite>, <cite>c</cite>, <cite>d</cite> are the four hexadecimal
+characters (using upper case letters) of the wide character code.  For
+example, ESC A345 is used to represent the wide character with code
+16#A345#.  This scheme is compatible with use of the full
+<cite>Wide_Character</cite> set. 
+</blockquote>
+
+     <dl>
+<dt>`Upper Half Coding'<dd>
+The wide character with encoding 16#abcd#, where the upper bit is on
+(i.e., a is in the range 8-F) is represented as two bytes 16#ab# and
+16#cd#.  The second byte may never be a format control character, but is
+not required to be in the upper half.  This method can be also used for
+shift-JIS or EUC where the internal coding matches the external coding.
+
+     <br><dt>`Shift JIS Coding'<dd>
+A wide character is represented by a two character sequence 16#ab# and
+16#cd#, with the restrictions described for upper half encoding as
+described above.  The internal character code is the corresponding JIS
+character according to the standard algorithm for Shift-JIS
+conversion.  Only characters defined in the JIS code set table can be
+used with this encoding method.
+
+     <br><dt>`EUC Coding'<dd>
+A wide character is represented by a two character sequence 16#ab# and
+16#cd#, with both characters being in the upper half.  The internal
+character code is the corresponding JIS character according to the EUC
+encoding algorithm.  Only characters defined in the JIS code set table
+can be used with this encoding method.
+
+     <br><dt>`UTF-8 Coding'<dd>
+A wide character is represented using
+UCS Transformation Format 8 (UTF-8) as defined in Annex R of ISO
+10646-1/Am.2.  Depending on the character value, the representation
+is a one, two, or three byte sequence:
+</dl>
+
+<pre class="example">    16#0000#-16#007f#: 2#0xxxxxxx#
+    16#0080#-16#07ff#: 2#110xxxxx# 2#10xxxxxx#
+    16#0800#-16#ffff#: 2#1110xxxx# 2#10xxxxxx# 2#10xxxxxx#
+</pre>
+<blockquote>
+
+<p>where the <cite>xxx</cite> bits correspond to the left-padded bits of the
+16-bit character value.  Note that all lower half ASCII characters
+are represented as ASCII bytes and all upper half characters and
+other wide characters are represented as sequences of upper-half
+(The full UTF-8 scheme allows for encoding 31-bit characters as
+6-byte sequences, but in this implementation, all UTF-8 sequences
+of four or more bytes length will raise a Constraint_Error, as
+will all invalid UTF-8 sequences.) 
+</blockquote>
+
+     <dl>
+<dt>`Brackets Coding'<dd>
+In this encoding, a wide character is represented by the following eight
+character sequence:
+</dl>
+
+<pre class="example">    [ " a b c d " ]
+</pre>
+<blockquote>
+
+<p>where <cite>a</cite>, <cite>b</cite>, <cite>c</cite>, <cite>d</cite> are the four hexadecimal
+characters (using uppercase letters) of the wide character code.  For
+example, <cite>["A345"]</cite> is used to represent the wide character with code
+<cite>16#A345#</cite>. 
+This scheme is compatible with use of the full Wide_Character set. 
+On input, brackets coding can also be used for upper half characters,
+e.g., <cite>["C1"]</cite> for lower case a.  However, on output, brackets notation
+is only used for wide characters with a code greater than <cite>16#FF#</cite>.
+
+<p>Note that brackets coding is not normally used in the context of
+Wide_Text_IO or Wide_Wide_Text_IO, since it is really just designed as
+a portable way of encoding source files. In the context of Wide_Text_IO
+or Wide_Wide_Text_IO, it can only be used if the file does not contain
+any instance of the left bracket character other than to encode wide
+character values using the brackets encoding method. In practice it is
+expected that some standard wide character encoding method such
+as UTF-8 will be used for text input output.
+
+<p>If brackets notation is used, then any occurrence of a left bracket
+in the input file which is not the start of a valid wide character
+sequence will cause Constraint_Error to be raised. It is possible to
+encode a left bracket as ["5B"] and Wide_Text_IO and Wide_Wide_Text_IO
+input will interpret this as a left bracket.
+
+<p>However, when a left bracket is output, it will be output as a left bracket
+and not as ["5B"]. We make this decision because for normal use of
+Wide_Text_IO for outputting messages, it is unpleasant to clobber left
+brackets. For example, if we write:
+
+<pre class="example">    Put_Line ("Start of output [first run]");
+</pre>
+<p>we really do not want to have the left bracket in this message clobbered so
+that the output reads:
+</blockquote>
+
+<pre class="example">    Start of output ["5B"]first run]
+</pre>
+<blockquote>
+
+<p>In practice brackets encoding is reasonably useful for normal Put_Line use
+since we won't get confused between left brackets and wide character
+sequences in the output. But for input, or when files are written out
+and read back in, it really makes better sense to use one of the standard
+encoding methods such as UTF-8. 
+</blockquote>
+
+<p>For the coding schemes other than UTF-8, Hex, or Brackets encoding,
+not all wide character
+values can be represented.  An attempt to output a character that cannot
+be represented using the encoding scheme for the file causes
+Constraint_Error to be raised.  An invalid wide character sequence on
+input also causes Constraint_Error to be raised.
+
+<ul class="menu">
+<li><a accesskey="1" href="Stream-Pointer-Positioning_003c2_003e.html#Stream-Pointer-Positioning_003c2_003e">Stream Pointer Positioning</a>
+<li><a accesskey="2" href="Reading-and-Writing-Non_002dRegular-Files_003c2_003e.html#Reading-and-Writing-Non_002dRegular-Files_003c2_003e">Reading and Writing Non-Regular Files</a>
+
+</ul>
+
+</body></html>
+

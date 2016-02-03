@@ -1,0 +1,87 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
+<HTML>
+<HEAD> <TITLE>cURL - Security Advisory (July 10, 2007)</TITLE>
+<meta content="text/html; charset=UTF-8" http-equiv="Content-Type">
+<link rel="stylesheet" type="text/css" href="http://curl.haxx.se/curl.css">
+<link rel="shortcut icon" href="http://curl.haxx.se/favicon.ico">
+<link rel="STYLESHEET" type="text/css" href="http://curl.haxx.se/manpage.css">
+</HEAD>
+<body bgcolor="#ffffff" text="#000000">
+<div class="main">
+<div class="menu">
+<a href="index.html" class="menuitem" title="Documentation main page">Docs Overview</a>
+</div>
+<div class="contents">
+<div class="where"><a href="http://curl.haxx.se/">cURL</a> / <a href="index.html">Docs</a> / <a href="security.html">Security</a> / <b>Advisory</b></div>
+<h1> Security Advisory July 10 2007 </h1>
+<div class="relatedbox">
+<b>Related:</b>
+<br><a href="http://curl.haxx.se/changes.html">Changelog</a>
+<br><a href="faq.html">FAQ</a>
+<br><a href="http://curl.haxx.se/dev/security.html">Security dev process</a>
+<br><a href="vulnerabilities.html">Vulnerabilities Table</a>
+</div>
+<pre>
+         libcurl GnuTLS insufficient cert verification Vulnerability
+         ===========================================================
+&nbsp;
+Project cURL Security Advisory, July 10th 2007
+http://curl.haxx.se/docs/security.html
+&nbsp;
+1. VULNERABILITY
+&nbsp;
+libcurl (when built to use GnuTLS) fails to verify that a peer's certificate
+hasn't already expired or hasn't yet become valid. This allows malicious
+servers to present certificates to libcurl that won't be rejected properly.
+&nbsp;
+Notably, the cacert and common name checks are still in place which reduces
+the risk for random servers to take advantage of this flaw.
+&nbsp;
+There is no known exploit at the time of this writing.
+&nbsp;
+The Common Vulnerabilities and Exposures (CVE) project has assigned the name
+CVE-2007-3564 to this issue.
+&nbsp;
+2. AFFECTED VERSIONS
+&nbsp;
+Affected versions: curl and libcurl 7.14.0 to and including 7.16.3
+Not affected versions: curl and libcurl 7.13.2 and earlier, 7.16.4 and later
+&nbsp;
+Note that libcurl needs to be built to use GnuTLS for this flaw to be in
+effect.
+&nbsp;
+Also note that (lib)curl is used by many applications, and not always
+advertised as such.
+&nbsp;
+3. RECOMMENDATIONS
+&nbsp;
+We suggest you take one of the following actions immediately, in order of
+preference:
+&nbsp;
+ I - Upgrade to curl and libcurl 7.16.4
+&nbsp;
+ II - Apply the patch http://curl.haxx.se/libcurl-gnutlscert.patch to your
+      libcurl version and install this
+&nbsp;
+ III - Build curl with SSL provided by another library, like OpenSSL or NSS
+&nbsp;
+ IV  - Build curl with SSL disabled
+&nbsp;
+4. TIME LINE
+&nbsp;
+We were notified by Kees Cook on June 27th, 2007. His notification email
+contained a valid patch.
+&nbsp;
+We agreed on and coordinated the synchronous disclosure of this problem
+together with the curl 7.16.4 release.
+&nbsp;
+curl 7.16.4 was released on July 10 2007, just before this flaw was publicly
+disclosed.
+&nbsp;
+5. CREDITS
+&nbsp;
+Reported to us by Kees Cook. Thanks a lot!
+</pre>
+</div>
+</div>
+</body> </html>

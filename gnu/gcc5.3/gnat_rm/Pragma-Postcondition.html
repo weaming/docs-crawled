@@ -1,0 +1,195 @@
+<html lang="en">
+<head>
+<title>Pragma Postcondition - GNAT Reference Manual</title>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+<meta name="description" content="GNAT Reference Manual">
+<meta name="generator" content="makeinfo 4.13">
+<link title="Top" rel="start" href="index.html#Top">
+<link rel="up" href="Implementation-Defined-Pragmas.html#Implementation-Defined-Pragmas" title="Implementation Defined Pragmas">
+<link rel="prev" href="Pragma-Post.html#Pragma-Post" title="Pragma Post">
+<link rel="next" href="Pragma-Post_005fClass.html#Pragma-Post_005fClass" title="Pragma Post_Class">
+<link href="http://www.gnu.org/software/texinfo/" rel="generator-home" title="Texinfo Homepage">
+<!--
+
+     GNAT Reference Manual , March 24, 2015
+
+     AdaCore
+
+     Copyright (C) 2008-2015, Free Software Foundation
+-->
+<meta http-equiv="Content-Style-Type" content="text/css">
+<style type="text/css"><!--
+  pre.display { font-family:inherit }
+  pre.format  { font-family:inherit }
+  pre.smalldisplay { font-family:inherit; font-size:smaller }
+  pre.smallformat  { font-family:inherit; font-size:smaller }
+  pre.smallexample { font-size:smaller }
+  pre.smalllisp    { font-size:smaller }
+  span.sc    { font-variant:small-caps }
+  span.roman { font-family:serif; font-weight:normal; } 
+  span.sansserif { font-family:sans-serif; font-weight:normal; } 
+--></style>
+</head>
+<body>
+<div class="node">
+<a name="Pragma-Postcondition"></a>
+<p>
+Next:&nbsp;<a rel="next" accesskey="n" href="Pragma-Post_005fClass.html#Pragma-Post_005fClass">Pragma Post_Class</a>,
+Previous:&nbsp;<a rel="previous" accesskey="p" href="Pragma-Post.html#Pragma-Post">Pragma Post</a>,
+Up:&nbsp;<a rel="up" accesskey="u" href="Implementation-Defined-Pragmas.html#Implementation-Defined-Pragmas">Implementation Defined Pragmas</a>
+<hr>
+</div>
+
+<p><a name="gnat_005frm_002fimplementation_005fdefined_005fpragmas-pragma_002dpostcondition"></a><a name="g_t98"></a>
+
+<h3 class="section">2.124 Pragma Postcondition</h3>
+
+<p><a name="index-Postcondition-66"></a>
+<a name="index-Checks-67"></a><a name="index-postconditions-68"></a>
+Syntax:
+
+<pre class="example">    pragma Postcondition (
+       [Check   =&gt;] Boolean_Expression
+     [,[Message =&gt;] String_Expression]);
+</pre>
+<p>The <cite>Postcondition</cite> pragma allows specification of automatic
+postcondition checks for subprograms. These checks are similar to
+assertions, but are automatically inserted just prior to the return
+statements of the subprogram with which they are associated (including
+implicit returns at the end of procedure bodies and associated
+exception handlers).
+
+<p>In addition, the boolean expression which is the condition which
+must be true may contain references to function'Result in the case
+of a function to refer to the returned value.
+
+<p><cite>Postcondition</cite> pragmas may appear either immediately following the
+(separate) declaration of a subprogram, or at the start of the
+declarations of a subprogram body. Only other pragmas may intervene
+(that is appear between the subprogram declaration and its
+postconditions, or appear before the postcondition in the
+declaration sequence in a subprogram body). In the case of a
+postcondition appearing after a subprogram declaration, the
+formal arguments of the subprogram are visible, and can be
+referenced in the postcondition expressions.
+
+<p>The postconditions are collected and automatically tested just
+before any return (implicit or explicit) in the subprogram body. 
+A postcondition is only recognized if postconditions are active
+at the time the pragma is encountered. The compiler switch `gnata'
+turns on all postconditions by default, and pragma <cite>Check_Policy</cite>
+with an identifier of <cite>Postcondition</cite> can also be used to
+control whether postconditions are active.
+
+<p>The general approach is that postconditions are placed in the spec
+if they represent functional aspects which make sense to the client. 
+For example we might have:
+
+<pre class="example">    function Direction return Integer;
+    pragma Postcondition
+     (Direction'Result = +1
+        or else
+      Direction'Result = -1);
+</pre>
+<p>which serves to document that the result must be +1 or -1, and
+will test that this is the case at run time if postcondition
+checking is active.
+
+<p>Postconditions within the subprogram body can be used to
+check that some internal aspect of the implementation,
+not visible to the client, is operating as expected. 
+For instance if a square root routine keeps an internal
+counter of the number of times it is called, then we
+might have the following postcondition:
+
+<pre class="example">    Sqrt_Calls : Natural := 0;
+    
+    function Sqrt (Arg : Float) return Float is
+      pragma Postcondition
+        (Sqrt_Calls = Sqrt_Calls'Old + 1);
+      ...
+    end Sqrt
+</pre>
+<p>As this example, shows, the use of the <cite>Old</cite> attribute
+is often useful in postconditions to refer to the state on
+entry to the subprogram.
+
+<p>Note that postconditions are only checked on normal returns
+from the subprogram. If an abnormal return results from
+raising an exception, then the postconditions are not checked.
+
+<p>If a postcondition fails, then the exception
+<cite>System.Assertions.Assert_Failure</cite> is raised. If
+a message argument was supplied, then the given string
+will be used as the exception message. If no message
+argument was supplied, then the default message has
+the form "Postcondition failed at file_name:line". The
+exception is raised in the context of the subprogram
+body, so it is possible to catch postcondition failures
+within the subprogram body itself.
+
+<p>Within a package spec, normal visibility rules
+in Ada would prevent forward references within a
+postcondition pragma to functions defined later in
+the same package. This would introduce undesirable
+ordering constraints. To avoid this problem, all
+postcondition pragmas are analyzed at the end of
+the package spec, allowing forward references.
+
+<p>The following example shows that this even allows
+mutually recursive postconditions as in:
+
+<pre class="example">    package Parity_Functions is
+       function Odd  (X : Natural) return Boolean;
+       pragma Postcondition
+         (Odd'Result =
+            (x = 1
+              or else
+            (x /= 0 and then Even (X - 1))));
+    
+       function Even (X : Natural) return Boolean;
+       pragma Postcondition
+         (Even'Result =
+            (x = 0
+              or else
+            (x /= 1 and then Odd (X - 1))));
+    
+    end Parity_Functions;
+</pre>
+<p>There are no restrictions on the complexity or form of
+conditions used within <cite>Postcondition</cite> pragmas. 
+The following example shows that it is even possible
+to verify performance behavior.
+
+<pre class="example">    package Sort is
+    
+       Performance : constant Float;
+       --  Performance constant set by implementation
+       --  to match target architecture behavior.
+    
+       procedure Treesort (Arg : String);
+       --  Sorts characters of argument using N*logN sort
+       pragma Postcondition
+         (Float (Clock - Clock'Old) &lt;=
+            Float (Arg'Length) *
+            log (Float (Arg'Length)) *
+            Performance);
+    end Sort;
+</pre>
+<p>Note: postcondition pragmas associated with subprograms that are
+marked as Inline_Always, or those marked as Inline with front-end
+inlining (-gnatN option set) are accepted and legality-checked
+by the compiler, but are ignored at run-time even if postcondition
+checking is enabled.
+
+<p>Note that pragma <cite>Postcondition</cite> differs from the language-defined
+<cite>Post</cite> aspect (and corresponding <cite>Post</cite> pragma) in allowing
+multiple occurrences, allowing occurences in the body even if there
+is a separate spec, and allowing a second string parameter, and the
+use of the pragma identifier <cite>Check</cite>. Historically, pragma
+<cite>Postcondition</cite> was implemented prior to the development of
+Ada 2012, and has been retained in its original form for
+compatibility purposes.
+
+</body></html>
+

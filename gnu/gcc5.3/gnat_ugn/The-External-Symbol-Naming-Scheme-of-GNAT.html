@@ -1,0 +1,92 @@
+<html lang="en">
+<head>
+<title>The External Symbol Naming Scheme of GNAT - GNAT User's Guide for Native Platforms</title>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+<meta name="description" content="GNAT User's Guide for Native Platforms">
+<meta name="generator" content="makeinfo 4.13">
+<link title="Top" rel="start" href="index.html#Top">
+<link rel="up" href="Using-GNAT-Files-with-External-Tools.html#Using-GNAT-Files-with-External-Tools" title="Using GNAT Files with External Tools">
+<link rel="prev" href="Using-Other-Utility-Programs-with-GNAT.html#Using-Other-Utility-Programs-with-GNAT" title="Using Other Utility Programs with GNAT">
+<link href="http://www.gnu.org/software/texinfo/" rel="generator-home" title="Texinfo Homepage">
+<!--
+
+     GNAT User's Guide for Native Platforms , March 24, 2015
+
+     AdaCore
+
+     Copyright (C) 2008-2015, Free Software Foundation
+-->
+<meta http-equiv="Content-Style-Type" content="text/css">
+<style type="text/css"><!--
+  pre.display { font-family:inherit }
+  pre.format  { font-family:inherit }
+  pre.smalldisplay { font-family:inherit; font-size:smaller }
+  pre.smallformat  { font-family:inherit; font-size:smaller }
+  pre.smallexample { font-size:smaller }
+  pre.smalllisp    { font-size:smaller }
+  span.sc    { font-variant:small-caps }
+  span.roman { font-family:serif; font-weight:normal; } 
+  span.sansserif { font-family:sans-serif; font-weight:normal; } 
+--></style>
+</head>
+<body>
+<div class="node">
+<a name="The-External-Symbol-Naming-Scheme-of-GNAT"></a>
+<p>
+Previous:&nbsp;<a rel="previous" accesskey="p" href="Using-Other-Utility-Programs-with-GNAT.html#Using-Other-Utility-Programs-with-GNAT">Using Other Utility Programs with GNAT</a>,
+Up:&nbsp;<a rel="up" accesskey="u" href="Using-GNAT-Files-with-External-Tools.html#Using-GNAT-Files-with-External-Tools">Using GNAT Files with External Tools</a>
+<hr>
+</div>
+
+<p><a name="gnat_005fugn_002fthe_005fgnat_005fcompilation_005fmodel-the_002dexternal_002dsymbol_002dnaming_002dscheme_002dof_002dgnat"></a><a name="d8"></a><a name="gnat_005fugn_002fthe_005fgnat_005fcompilation_005fmodel-id78"></a><a name="d9"></a>
+
+<h4 class="subsection">3.13.2 The External Symbol Naming Scheme of GNAT</h4>
+
+<p>In order to interpret the output from GNAT, when using tools that are
+originally intended for use with other languages, it is useful to
+understand the conventions used to generate link names from the Ada
+entity names.
+
+<p>All link names are in all lowercase letters. With the exception of library
+procedure names, the mechanism used is simply to use the full expanded
+Ada name with dots replaced by double underscores. For example, suppose
+we have the following package spec:
+
+<pre class="example">    package QRS is
+       MN : Integer;
+    end QRS;
+</pre>
+<p><a name="index-pragma-Export-172"></a>
+The variable <cite>MN</cite> has a full expanded Ada name of <cite>QRS.MN</cite>, so
+the corresponding link name is <cite>qrs__mn</cite>. 
+Of course if a <cite>pragma Export</cite> is used this may be overridden:
+
+<pre class="example">    package Exports is
+       Var1 : Integer;
+       pragma Export (Var1, C, External_Name =&gt; "var1_name");
+       Var2 : Integer;
+       pragma Export (Var2, C, Link_Name =&gt; "var2_link_name");
+    end Exports;
+</pre>
+<p>In this case, the link name for <cite>Var1</cite> is whatever link name the
+C compiler would assign for the C function <cite>var1_name</cite>. This typically
+would be either <cite>var1_name</cite> or <cite>_var1_name</cite>, depending on operating
+system conventions, but other possibilities exist. The link name for
+<cite>Var2</cite> is <cite>var2_link_name</cite>, and this is not operating system
+dependent.
+
+<p>One exception occurs for library level procedures. A potential ambiguity
+arises between the required name <cite>_main</cite> for the C main program,
+and the name we would otherwise assign to an Ada library level procedure
+called <cite>Main</cite> (which might well not be the main program).
+
+<p>To avoid this ambiguity, we attach the prefix <cite>_ada_</cite> to such
+names. So if we have a library level procedure such as:
+
+<pre class="example">    procedure Hello (S : String);
+</pre>
+<p>the external name of this procedure will be <cite>_ada_hello</cite>.
+
+<!--  Example: A |withing| unit has a |with| clause, it |withs| a |withed| unit -->
+</body></html>
+

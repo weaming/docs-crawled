@@ -1,0 +1,77 @@
+<html lang="en">
+<head>
+<title>Use of Restrictions - GNAT User's Guide for Native Platforms</title>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+<meta name="description" content="GNAT User's Guide for Native Platforms">
+<meta name="generator" content="makeinfo 4.13">
+<link title="Top" rel="start" href="index.html#Top">
+<link rel="up" href="Performance-Considerations.html#Performance-Considerations" title="Performance Considerations">
+<link rel="prev" href="Controlling-Run_002dTime-Checks.html#Controlling-Run_002dTime-Checks" title="Controlling Run-Time Checks">
+<link rel="next" href="Optimization-Levels.html#Optimization-Levels" title="Optimization Levels">
+<link href="http://www.gnu.org/software/texinfo/" rel="generator-home" title="Texinfo Homepage">
+<!--
+
+     GNAT User's Guide for Native Platforms , March 24, 2015
+
+     AdaCore
+
+     Copyright (C) 2008-2015, Free Software Foundation
+-->
+<meta http-equiv="Content-Style-Type" content="text/css">
+<style type="text/css"><!--
+  pre.display { font-family:inherit }
+  pre.format  { font-family:inherit }
+  pre.smalldisplay { font-family:inherit; font-size:smaller }
+  pre.smallformat  { font-family:inherit; font-size:smaller }
+  pre.smallexample { font-size:smaller }
+  pre.smalllisp    { font-size:smaller }
+  span.sc    { font-variant:small-caps }
+  span.roman { font-family:serif; font-weight:normal; } 
+  span.sansserif { font-family:sans-serif; font-weight:normal; } 
+--></style>
+</head>
+<body>
+<div class="node">
+<a name="Use-of-Restrictions"></a>
+<p>
+Next:&nbsp;<a rel="next" accesskey="n" href="Optimization-Levels.html#Optimization-Levels">Optimization Levels</a>,
+Previous:&nbsp;<a rel="previous" accesskey="p" href="Controlling-Run_002dTime-Checks.html#Controlling-Run_002dTime-Checks">Controlling Run-Time Checks</a>,
+Up:&nbsp;<a rel="up" accesskey="u" href="Performance-Considerations.html#Performance-Considerations">Performance Considerations</a>
+<hr>
+</div>
+
+<p><a name="gnat_005fugn_002fgnat_005fand_005fprogram_005fexecution-use_002dof_002drestrictions"></a><a name="g_t22b"></a><a name="gnat_005fugn_002fgnat_005fand_005fprogram_005fexecution-id31"></a><a name="g_t22c"></a>
+
+<h5 class="subsubsection">8.3.1.2 Use of Restrictions</h5>
+
+<p>The use of pragma Restrictions allows you to control which features are
+permitted in your program. Apart from the obvious point that if you avoid
+relatively expensive features like finalization (enforceable by the use
+of pragma Restrictions (No_Finalization), the use of this pragma does not
+affect the generated code in most cases.
+
+<p>One notable exception to this rule is that the possibility of task abort
+results in some distributed overhead, particularly if finalization or
+exception handlers are used. The reason is that certain sections of code
+have to be marked as non-abortable.
+
+<p>If you use neither the <cite>abort</cite> statement, nor asynchronous transfer
+of control (<cite>select ... then abort</cite>), then this distributed overhead
+is removed, which may have a general positive effect in improving
+overall performance.  Especially code involving frequent use of tasking
+constructs and controlled types will show much improved performance. 
+The relevant restrictions pragmas are
+
+<blockquote>
+
+<pre class="example">    pragma Restrictions (No_Abort_Statements);
+    pragma Restrictions (Max_Asynchronous_Select_Nesting =&gt; 0);
+</pre>
+</blockquote>
+
+<p>It is recommended that these restriction pragmas be used if possible. Note
+that this also means that you can write code without worrying about the
+possibility of an immediate abort at any point.
+
+</body></html>
+

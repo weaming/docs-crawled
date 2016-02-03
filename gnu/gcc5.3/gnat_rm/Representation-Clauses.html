@@ -1,0 +1,129 @@
+<html lang="en">
+<head>
+<title>Representation Clauses - GNAT Reference Manual</title>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+<meta name="description" content="GNAT Reference Manual">
+<meta name="generator" content="makeinfo 4.13">
+<link title="Top" rel="start" href="index.html#Top">
+<link rel="up" href="Compatibility-and-Porting-Guide.html#Compatibility-and-Porting-Guide" title="Compatibility and Porting Guide">
+<link rel="prev" href="Compatibility-with-Other-Ada-Systems.html#Compatibility-with-Other-Ada-Systems" title="Compatibility with Other Ada Systems">
+<link rel="next" href="Compatibility-with-HP-Ada-83.html#Compatibility-with-HP-Ada-83" title="Compatibility with HP Ada 83">
+<link href="http://www.gnu.org/software/texinfo/" rel="generator-home" title="Texinfo Homepage">
+<!--
+
+     GNAT Reference Manual , March 24, 2015
+
+     AdaCore
+
+     Copyright (C) 2008-2015, Free Software Foundation
+-->
+<meta http-equiv="Content-Style-Type" content="text/css">
+<style type="text/css"><!--
+  pre.display { font-family:inherit }
+  pre.format  { font-family:inherit }
+  pre.smalldisplay { font-family:inherit; font-size:smaller }
+  pre.smallformat  { font-family:inherit; font-size:smaller }
+  pre.smallexample { font-size:smaller }
+  pre.smalllisp    { font-size:smaller }
+  span.sc    { font-variant:small-caps }
+  span.roman { font-family:serif; font-weight:normal; } 
+  span.sansserif { font-family:sans-serif; font-weight:normal; } 
+--></style>
+</head>
+<body>
+<div class="node">
+<a name="Representation-Clauses"></a>
+<p>
+Next:&nbsp;<a rel="next" accesskey="n" href="Compatibility-with-HP-Ada-83.html#Compatibility-with-HP-Ada-83">Compatibility with HP Ada 83</a>,
+Previous:&nbsp;<a rel="previous" accesskey="p" href="Compatibility-with-Other-Ada-Systems.html#Compatibility-with-Other-Ada-Systems">Compatibility with Other Ada Systems</a>,
+Up:&nbsp;<a rel="up" accesskey="u" href="Compatibility-and-Porting-Guide.html#Compatibility-and-Porting-Guide">Compatibility and Porting Guide</a>
+<hr>
+</div>
+
+<p><a name="gnat_005frm_002fcompatibility_005fand_005fporting_005fguide-representation_002dclauses"></a><a name="g_t3f1"></a><a name="gnat_005frm_002fcompatibility_005fand_005fporting_005fguide-id16"></a><a name="g_t3f4"></a>
+
+<h3 class="section">18.6 Representation Clauses</h3>
+
+<p>The Ada 83 reference manual was quite vague in describing both the minimal
+required implementation of representation clauses, and also their precise
+effects.  Ada 95 (and thus also Ada 2005) are much more explicit, but the
+minimal set of capabilities required is still quite limited.
+
+<p>GNAT implements the full required set of capabilities in
+Ada 95 and Ada 2005, but also goes much further, and in particular
+an effort has been made to be compatible with existing Ada 83 usage to the
+greatest extent possible.
+
+<p>A few cases exist in which Ada 83 compiler behavior is incompatible with
+the requirements in Ada 95 (and thus also Ada 2005).  These are instances of
+intentional or accidental dependence on specific implementation dependent
+characteristics of these Ada 83 compilers.  The following is a list of
+the cases most likely to arise in existing Ada 83 code.
+
+     <ul>
+<li>`Implicit Packing'
+
+     <p>Some Ada 83 compilers allowed a Size specification to cause implicit
+packing of an array or record.  This could cause expensive implicit
+conversions for change of representation in the presence of derived
+types, and the Ada design intends to avoid this possibility. 
+Subsequent AI's were issued to make it clear that such implicit
+change of representation in response to a Size clause is inadvisable,
+and this recommendation is represented explicitly in the Ada 95 (and Ada 2005)
+Reference Manuals as implementation advice that is followed by GNAT. 
+The problem will show up as an error
+message rejecting the size clause.  The fix is simply to provide
+the explicit pragma <cite>Pack</cite>, or for more fine tuned control, provide
+a Component_Size clause.
+
+     <li>`Meaning of Size Attribute'
+
+     <p>The Size attribute in Ada 95 (and Ada 2005) for discrete types is defined as
+the minimal number of bits required to hold values of the type.  For example,
+on a 32-bit machine, the size of <cite>Natural</cite> will typically be 31 and not
+32 (since no sign bit is required).  Some Ada 83 compilers gave 31, and
+some 32 in this situation.  This problem will usually show up as a compile
+time error, but not always.  It is a good idea to check all uses of the
+'Size attribute when porting Ada 83 code.  The GNAT specific attribute
+Object_Size can provide a useful way of duplicating the behavior of
+some Ada 83 compiler systems.
+
+     <li>`Size of Access Types'
+
+     <p>A common assumption in Ada 83 code is that an access type is in fact a pointer,
+and that therefore it will be the same size as a System.Address value.  This
+assumption is true for GNAT in most cases with one exception.  For the case of
+a pointer to an unconstrained array type (where the bounds may vary from one
+value of the access type to another), the default is to use a 'fat pointer',
+which is represented as two separate pointers, one to the bounds, and one to
+the array.  This representation has a number of advantages, including improved
+efficiency.  However, it may cause some difficulties in porting existing Ada 83
+code which makes the assumption that, for example, pointers fit in 32 bits on
+a machine with 32-bit addressing.
+
+     <p>To get around this problem, GNAT also permits the use of 'thin pointers' for
+access types in this case (where the designated type is an unconstrained array
+type).  These thin pointers are indeed the same size as a System.Address value. 
+To specify a thin pointer, use a size clause for the type, for example:
+
+     <pre class="example">         type X is access all String;
+         for X'Size use Standard'Address_Size;
+</pre>
+     <p>which will cause the type X to be represented using a single pointer. 
+When using this representation, the bounds are right behind the array. 
+This representation is slightly less efficient, and does not allow quite
+such flexibility in the use of foreign pointers or in using the
+Unrestricted_Access attribute to create pointers to non-aliased objects. 
+But for any standard portable use of the access type it will work in
+a functionally correct manner and allow porting of existing code. 
+Note that another way of forcing a thin pointer representation
+is to use a component size clause for the element size in an array,
+or a record representation clause for an access field in a record.
+
+     <p>See the documentation of Unrestricted_Access in the GNAT RM for a
+full discussion of possible problems using this attribute in conjunction
+with thin pointers. 
+</ul>
+
+</body></html>
+

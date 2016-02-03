@@ -1,0 +1,378 @@
+<html lang="en">
+<head>
+<title>Output Variables in Inline Assembler - GNAT User's Guide for Native Platforms</title>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+<meta name="description" content="GNAT User's Guide for Native Platforms">
+<meta name="generator" content="makeinfo 4.13">
+<link title="Top" rel="start" href="index.html#Top">
+<link rel="up" href="Inline-Assembler.html#Inline-Assembler" title="Inline Assembler">
+<link rel="prev" href="A-Simple-Example-of-Inline-Assembler.html#A-Simple-Example-of-Inline-Assembler" title="A Simple Example of Inline Assembler">
+<link rel="next" href="Input-Variables-in-Inline-Assembler.html#Input-Variables-in-Inline-Assembler" title="Input Variables in Inline Assembler">
+<link href="http://www.gnu.org/software/texinfo/" rel="generator-home" title="Texinfo Homepage">
+<!--
+
+     GNAT User's Guide for Native Platforms , March 24, 2015
+
+     AdaCore
+
+     Copyright (C) 2008-2015, Free Software Foundation
+-->
+<meta http-equiv="Content-Style-Type" content="text/css">
+<style type="text/css"><!--
+  pre.display { font-family:inherit }
+  pre.format  { font-family:inherit }
+  pre.smalldisplay { font-family:inherit; font-size:smaller }
+  pre.smallformat  { font-family:inherit; font-size:smaller }
+  pre.smallexample { font-size:smaller }
+  pre.smalllisp    { font-size:smaller }
+  span.sc    { font-variant:small-caps }
+  span.roman { font-family:serif; font-weight:normal; } 
+  span.sansserif { font-family:sans-serif; font-weight:normal; } 
+--></style>
+</head>
+<body>
+<div class="node">
+<a name="Output-Variables-in-Inline-Assembler"></a>
+<p>
+Next:&nbsp;<a rel="next" accesskey="n" href="Input-Variables-in-Inline-Assembler.html#Input-Variables-in-Inline-Assembler">Input Variables in Inline Assembler</a>,
+Previous:&nbsp;<a rel="previous" accesskey="p" href="A-Simple-Example-of-Inline-Assembler.html#A-Simple-Example-of-Inline-Assembler">A Simple Example of Inline Assembler</a>,
+Up:&nbsp;<a rel="up" accesskey="u" href="Inline-Assembler.html#Inline-Assembler">Inline Assembler</a>
+<hr>
+</div>
+
+<p><a name="gnat_005fugn_002finline_005fassembler-id4"></a><a name="g_t2d2"></a><a name="gnat_005fugn_002finline_005fassembler-output_002dvariables_002din_002dinline_002dassembler"></a><a name="g_t2d3"></a>
+
+<h3 class="section">12.3 Output Variables in Inline Assembler</h3>
+
+<p>The examples in this section, showing how to access the processor flags,
+illustrate how to specify the destination operands for assembly language
+statements.
+
+<blockquote>
+
+<pre class="example">    with Interfaces; use Interfaces;
+    with Ada.Text_IO; use Ada.Text_IO;
+    with System.Machine_Code; use System.Machine_Code;
+    procedure Get_Flags is
+       Flags : Unsigned_32;
+       use ASCII;
+    begin
+       Asm ("pushfl"          &amp; LF &amp; HT &amp; -- push flags on stack
+            "popl %%eax"      &amp; LF &amp; HT &amp; -- load eax with flags
+            "movl %%eax, %0",             -- store flags in variable
+            Outputs =&gt; Unsigned_32'Asm_Output ("=g", Flags));
+       Put_Line ("Flags register:" &amp; Flags'Img);
+    end Get_Flags;
+</pre>
+</blockquote>
+
+<p>In order to have a nicely aligned assembly listing, we have separated
+multiple assembler statements in the Asm template string with linefeed
+(ASCII.LF) and horizontal tab (ASCII.HT) characters. 
+The resulting section of the assembly output file is:
+
+<blockquote>
+
+<pre class="example">    #APP
+       pushfl
+       popl %eax
+       movl %eax, -40(%ebp)
+    #NO_APP
+</pre>
+</blockquote>
+
+<p>It would have been legal to write the Asm invocation as:
+
+<blockquote>
+
+<pre class="example">    Asm ("pushfl popl %%eax movl %%eax, %0")
+</pre>
+</blockquote>
+
+<p>but in the generated assembler file, this would come out as:
+
+<blockquote>
+
+<pre class="example">    #APP
+       pushfl popl %eax movl %eax, -40(%ebp)
+    #NO_APP
+</pre>
+</blockquote>
+
+<p>which is not so convenient for the human reader.
+
+<p>We use Ada comments
+at the end of each line to explain what the assembler instructions
+actually do.  This is a useful convention.
+
+<p>When writing Inline Assembler instructions, you need to precede each register
+and variable name with a percent sign.  Since the assembler already requires
+a percent sign at the beginning of a register name, you need two consecutive
+percent signs for such names in the Asm template string, thus <cite>%%eax</cite>. 
+In the generated assembly code, one of the percent signs will be stripped off.
+
+<p>Names such as <cite>%0</cite>, <cite>%1</cite>, <cite>%2</cite>, etc., denote input or output
+variables: operands you later define using <cite>Input</cite> or <cite>Output</cite>
+parameters to <cite>Asm</cite>. 
+An output variable is illustrated in
+the third statement in the Asm template string:
+
+<blockquote>
+
+<pre class="example">    movl %%eax, %0
+</pre>
+</blockquote>
+
+<p>The intent is to store the contents of the eax register in a variable that can
+be accessed in Ada.  Simply writing <cite>movl %%eax, Flags</cite> would not
+necessarily work, since the compiler might optimize by using a register
+to hold Flags, and the expansion of the <cite>movl</cite> instruction would not be
+aware of this optimization.  The solution is not to store the result directly
+but rather to advise the compiler to choose the correct operand form;
+that is the purpose of the <cite>%0</cite> output variable.
+
+<p>Information about the output variable is supplied in the <cite>Outputs</cite>
+parameter to <cite>Asm</cite>:
+
+<blockquote>
+
+<pre class="example">    Outputs =&gt; Unsigned_32'Asm_Output ("=g", Flags));
+</pre>
+</blockquote>
+
+<p>The output is defined by the <cite>Asm_Output</cite> attribute of the target type;
+the general format is
+
+<blockquote>
+
+<pre class="example">    Type'Asm_Output (constraint_string, variable_name)
+</pre>
+</blockquote>
+
+<p>The constraint string directs the compiler how
+to store/access the associated variable.  In the example
+
+<blockquote>
+
+<pre class="example">    Unsigned_32'Asm_Output ("=m", Flags);
+</pre>
+</blockquote>
+
+<p>the <cite>"m"</cite> (memory) constraint tells the compiler that the variable
+<cite>Flags</cite> should be stored in a memory variable, thus preventing
+the optimizer from keeping it in a register.  In contrast,
+
+<blockquote>
+
+<pre class="example">    Unsigned_32'Asm_Output ("=r", Flags);
+</pre>
+</blockquote>
+
+<p>uses the <cite>"r"</cite> (register) constraint, telling the compiler to
+store the variable in a register.
+
+<p>If the constraint is preceded by the equal character '=', it tells
+the compiler that the variable will be used to store data into it.
+
+<p>In the <cite>Get_Flags</cite> example, we used the <cite>"g"</cite> (global) constraint,
+allowing the optimizer to choose whatever it deems best.
+
+<p>There are a fairly large number of constraints, but the ones that are
+most useful (for the Intel x86 processor) are the following:
+
+<blockquote>
+
+<p><table summary=""><tr align="left"><td valign="top">
+`='
+
+<p></td><td valign="top">
+
+<p>output constraint
+
+<p><br></td></tr><tr align="left"><td valign="top">
+`g'
+
+<p></td><td valign="top">
+
+<p>global (i.e., can be stored anywhere)
+
+<p><br></td></tr><tr align="left"><td valign="top">
+`m'
+
+<p></td><td valign="top">
+
+<p>in memory
+
+<p><br></td></tr><tr align="left"><td valign="top">
+`I'
+
+<p></td><td valign="top">
+
+<p>a constant
+
+<p><br></td></tr><tr align="left"><td valign="top">
+`a'
+
+<p></td><td valign="top">
+
+<p>use eax
+
+<p><br></td></tr><tr align="left"><td valign="top">
+`b'
+
+<p></td><td valign="top">
+
+<p>use ebx
+
+<p><br></td></tr><tr align="left"><td valign="top">
+`c'
+
+<p></td><td valign="top">
+
+<p>use ecx
+
+<p><br></td></tr><tr align="left"><td valign="top">
+`d'
+
+<p></td><td valign="top">
+
+<p>use edx
+
+<p><br></td></tr><tr align="left"><td valign="top">
+`S'
+
+<p></td><td valign="top">
+
+<p>use esi
+
+<p><br></td></tr><tr align="left"><td valign="top">
+`D'
+
+<p></td><td valign="top">
+
+<p>use edi
+
+<p><br></td></tr><tr align="left"><td valign="top">
+`r'
+
+<p></td><td valign="top">
+
+<p>use one of eax, ebx, ecx or edx
+
+<p><br></td></tr><tr align="left"><td valign="top">
+`q'
+
+<p></td><td valign="top">
+
+<p>use one of eax, ebx, ecx, edx, esi or edi
+
+<br></td></tr></table>
+
+</blockquote>
+
+<p>The full set of constraints is described in the gcc and `as'
+documentation; note that it is possible to combine certain constraints
+in one constraint string.
+
+<p>You specify the association of an output variable with an assembler operand
+through the <code>%`n'</code> notation, where `n' is a non-negative
+integer.  Thus in
+
+<blockquote>
+
+<pre class="example">    Asm ("pushfl"          &amp; LF &amp; HT &amp; -- push flags on stack
+         "popl %%eax"      &amp; LF &amp; HT &amp; -- load eax with flags
+         "movl %%eax, %0",             -- store flags in variable
+         Outputs =&gt; Unsigned_32'Asm_Output ("=g", Flags));
+</pre>
+</blockquote>
+
+<p><cite>%0</cite> will be replaced in the expanded code by the appropriate operand,
+whatever
+the compiler decided for the <cite>Flags</cite> variable.
+
+<p>In general, you may have any number of output variables:
+
+     <ul>
+<li>Count the operands starting at 0; thus <cite>%0</cite>, <cite>%1</cite>, etc.
+
+     <li>Specify the <cite>Outputs</cite> parameter as a parenthesized comma-separated list
+of <cite>Asm_Output</cite> attributes
+</ul>
+
+<p>For example:
+
+<blockquote>
+
+<pre class="example">    Asm ("movl %%eax, %0" &amp; LF &amp; HT &amp;
+         "movl %%ebx, %1" &amp; LF &amp; HT &amp;
+         "movl %%ecx, %2",
+         Outputs =&gt; (Unsigned_32'Asm_Output ("=g", Var_A),   --  %0 = Var_A
+                     Unsigned_32'Asm_Output ("=g", Var_B),   --  %1 = Var_B
+                     Unsigned_32'Asm_Output ("=g", Var_C))); --  %2 = Var_C
+</pre>
+</blockquote>
+
+<p>where <cite>Var_A</cite>, <cite>Var_B</cite>, and <cite>Var_C</cite> are variables
+in the Ada program.
+
+<p>As a variation on the <cite>Get_Flags</cite> example, we can use the constraints
+string to direct the compiler to store the eax register into the <cite>Flags</cite>
+variable, instead of including the store instruction explicitly in the
+<cite>Asm</cite> template string:
+
+<blockquote>
+
+<pre class="example">    with Interfaces; use Interfaces;
+    with Ada.Text_IO; use Ada.Text_IO;
+    with System.Machine_Code; use System.Machine_Code;
+    procedure Get_Flags_2 is
+       Flags : Unsigned_32;
+       use ASCII;
+    begin
+       Asm ("pushfl"      &amp; LF &amp; HT &amp; -- push flags on stack
+            "popl %%eax",             -- save flags in eax
+            Outputs =&gt; Unsigned_32'Asm_Output ("=a", Flags));
+       Put_Line ("Flags register:" &amp; Flags'Img);
+    end Get_Flags_2;
+</pre>
+</blockquote>
+
+<p>The <cite>"a"</cite> constraint tells the compiler that the <cite>Flags</cite>
+variable will come from the eax register. Here is the resulting code:
+
+<blockquote>
+
+<pre class="example">    #APP
+       pushfl
+       popl %eax
+    #NO_APP
+       movl %eax,-40(%ebp)
+</pre>
+</blockquote>
+
+<p>The compiler generated the store of eax into Flags after
+expanding the assembler code.
+
+<p>Actually, there was no need to pop the flags into the eax register;
+more simply, we could just pop the flags directly into the program variable:
+
+<blockquote>
+
+<pre class="example">    with Interfaces; use Interfaces;
+    with Ada.Text_IO; use Ada.Text_IO;
+    with System.Machine_Code; use System.Machine_Code;
+    procedure Get_Flags_3 is
+       Flags : Unsigned_32;
+       use ASCII;
+    begin
+       Asm ("pushfl"  &amp; LF &amp; HT &amp; -- push flags on stack
+            "pop %0",             -- save flags in Flags
+            Outputs =&gt; Unsigned_32'Asm_Output ("=g", Flags));
+       Put_Line ("Flags register:" &amp; Flags'Img);
+    end Get_Flags_3;
+</pre>
+</blockquote>
+
+</body></html>
+

@@ -1,0 +1,117 @@
+<html lang="en">
+<head>
+<title>Pragma Pack for Records - GNAT Reference Manual</title>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+<meta name="description" content="GNAT Reference Manual">
+<meta name="generator" content="makeinfo 4.13">
+<link title="Top" rel="start" href="index.html#Top">
+<link rel="up" href="Representation-Clauses-and-Pragmas.html#Representation-Clauses-and-Pragmas" title="Representation Clauses and Pragmas">
+<link rel="prev" href="Pragma-Pack-for-Arrays.html#Pragma-Pack-for-Arrays" title="Pragma Pack for Arrays">
+<link rel="next" href="Record-Representation-Clauses.html#Record-Representation-Clauses" title="Record Representation Clauses">
+<link href="http://www.gnu.org/software/texinfo/" rel="generator-home" title="Texinfo Homepage">
+<!--
+
+     GNAT Reference Manual , March 24, 2015
+
+     AdaCore
+
+     Copyright (C) 2008-2015, Free Software Foundation
+-->
+<meta http-equiv="Content-Style-Type" content="text/css">
+<style type="text/css"><!--
+  pre.display { font-family:inherit }
+  pre.format  { font-family:inherit }
+  pre.smalldisplay { font-family:inherit; font-size:smaller }
+  pre.smallformat  { font-family:inherit; font-size:smaller }
+  pre.smallexample { font-size:smaller }
+  pre.smalllisp    { font-size:smaller }
+  span.sc    { font-variant:small-caps }
+  span.roman { font-family:serif; font-weight:normal; } 
+  span.sansserif { font-family:sans-serif; font-weight:normal; } 
+--></style>
+</head>
+<body>
+<div class="node">
+<a name="Pragma-Pack-for-Records"></a>
+<p>
+Next:&nbsp;<a rel="next" accesskey="n" href="Record-Representation-Clauses.html#Record-Representation-Clauses">Record Representation Clauses</a>,
+Previous:&nbsp;<a rel="previous" accesskey="p" href="Pragma-Pack-for-Arrays.html#Pragma-Pack-for-Arrays">Pragma Pack for Arrays</a>,
+Up:&nbsp;<a rel="up" accesskey="u" href="Representation-Clauses-and-Pragmas.html#Representation-Clauses-and-Pragmas">Representation Clauses and Pragmas</a>
+<hr>
+</div>
+
+<p><a name="gnat_005frm_002frepresentation_005fclauses_005fand_005fpragmas-pragma_002dpack_002dfor_002drecords"></a><a name="g_t22e"></a><a name="gnat_005frm_002frepresentation_005fclauses_005fand_005fpragmas-id12"></a><a name="g_t22f"></a>
+
+<h3 class="section">9.11 Pragma Pack for Records</h3>
+
+<p><a name="index-Pragma-Pack-_0028for-records_0029-508"></a>
+Pragma <cite>Pack</cite> applied to a record will pack the components to reduce
+wasted space from alignment gaps and by reducing the amount of space
+taken by components.  We distinguish between `packable' components and
+`non-packable' components. 
+Components of the following types are considered packable:
+
+     <ul>
+<li>Components of a primitive type are packable unless they are aliased
+or of an atomic type.
+
+     <li>Small packed arrays, whose size does not exceed 64 bits, and where the
+size is statically known at compile time, are represented internally
+as modular integers, and so they are also packable. 
+</ul>
+
+<p>All packable components occupy the exact number of bits corresponding to
+their <cite>Size</cite> value, and are packed with no padding bits, i.e., they
+can start on an arbitrary bit boundary.
+
+<p>All other types are non-packable, they occupy an integral number of
+storage units, and
+are placed at a boundary corresponding to their alignment requirements.
+
+<p>For example, consider the record
+
+<pre class="example">    type Rb1 is array (1 .. 13) of Boolean;
+    pragma Pack (Rb1);
+    
+    type Rb2 is array (1 .. 65) of Boolean;
+    pragma Pack (Rb2);
+    
+    type AF is new Float with Atomic;
+    
+    type X2 is record
+       L1 : Boolean;
+       L2 : Duration;
+       L3 : AF;
+       L4 : Boolean;
+       L5 : Rb1;
+       L6 : Rb2;
+    end record;
+    pragma Pack (X2);
+</pre>
+<p>The representation for the record X2 is as follows:
+
+<pre class="example">    for X2'Size use 224;
+    for X2 use record
+       L1 at  0 range  0 .. 0;
+       L2 at  0 range  1 .. 64;
+       L3 at 12 range  0 .. 31;
+       L4 at 16 range  0 .. 0;
+       L5 at 16 range  1 .. 13;
+       L6 at 18 range  0 .. 71;
+    end record;
+</pre>
+<p>Studying this example, we see that the packable fields <cite>L1</cite>
+and <cite>L2</cite> are
+of length equal to their sizes, and placed at specific bit boundaries (and
+not byte boundaries) to
+eliminate padding.  But <cite>L3</cite> is of a non-packable float type (because
+it is aliased), so it is on the next appropriate alignment boundary.
+
+<p>The next two fields are fully packable, so <cite>L4</cite> and <cite>L5</cite> are
+minimally packed with no gaps.  However, type <cite>Rb2</cite> is a packed
+array that is longer than 64 bits, so it is itself non-packable.  Thus
+the <cite>L6</cite> field is aligned to the next byte boundary, and takes an
+integral number of bytes, i.e., 72 bits.
+
+</body></html>
+

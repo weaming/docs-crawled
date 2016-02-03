@@ -1,0 +1,75 @@
+<html lang="en">
+<head>
+<title>Building a set of projects with a single command - GNAT User's Guide for Native Platforms</title>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+<meta name="description" content="GNAT User's Guide for Native Platforms">
+<meta name="generator" content="makeinfo 4.13">
+<link title="Top" rel="start" href="index.html#Top">
+<link rel="up" href="Aggregate-Projects.html#Aggregate-Projects" title="Aggregate Projects">
+<link rel="prev" href="Building-all-main-programs-from-a-single-project-tree.html#Building-all-main-programs-from-a-single-project-tree" title="Building all main programs from a single project tree">
+<link rel="next" href="Define-a-build-environment.html#Define-a-build-environment" title="Define a build environment">
+<link href="http://www.gnu.org/software/texinfo/" rel="generator-home" title="Texinfo Homepage">
+<!--
+
+     GNAT User's Guide for Native Platforms , March 24, 2015
+
+     AdaCore
+
+     Copyright (C) 2008-2015, Free Software Foundation
+-->
+<meta http-equiv="Content-Style-Type" content="text/css">
+<style type="text/css"><!--
+  pre.display { font-family:inherit }
+  pre.format  { font-family:inherit }
+  pre.smalldisplay { font-family:inherit; font-size:smaller }
+  pre.smallformat  { font-family:inherit; font-size:smaller }
+  pre.smallexample { font-size:smaller }
+  pre.smalllisp    { font-size:smaller }
+  span.sc    { font-variant:small-caps }
+  span.roman { font-family:serif; font-weight:normal; } 
+  span.sansserif { font-family:sans-serif; font-weight:normal; } 
+--></style>
+</head>
+<body>
+<div class="node">
+<a name="Building-a-set-of-projects-with-a-single-command"></a>
+<p>
+Next:&nbsp;<a rel="next" accesskey="n" href="Define-a-build-environment.html#Define-a-build-environment">Define a build environment</a>,
+Previous:&nbsp;<a rel="previous" accesskey="p" href="Building-all-main-programs-from-a-single-project-tree.html#Building-all-main-programs-from-a-single-project-tree">Building all main programs from a single project tree</a>,
+Up:&nbsp;<a rel="up" accesskey="u" href="Aggregate-Projects.html#Aggregate-Projects">Aggregate Projects</a>
+<hr>
+</div>
+
+<p><a name="gnat_005fugn_002fgnat_005fproject_005fmanager-building_002da_002dset_002dof_002dprojects_002dwith_002da_002dsingle_002dcommand"></a><a name="g_t184"></a><a name="gnat_005fugn_002fgnat_005fproject_005fmanager-id29"></a><a name="g_t185"></a>
+
+<h4 class="subsection">5.7.2 Building a set of projects with a single command</h4>
+
+<p>One other case is when you have multiple applications and libraries
+that are built independently from each other (but can be built in
+parallel). For instance, you have a project tree rooted at A, and
+another one (which might share some subprojects) rooted at B.
+
+<p>Using only `gprbuild', you could do
+
+<pre class="example">    gprbuild -PA.gpr
+    gprbuild -PB.gpr
+</pre>
+<p>to build both. But again, `gprbuild' has to do some duplicate work for
+those files that are shared between the two, and cannot truly build
+things in parallel efficiently.
+
+<p>If the two projects are really independent, share no sources other
+than through a common subproject, and have no source files with a
+common basename, you could create a project C that imports A and
+B. But these restrictions are often too strong, and one has to build
+them independently. An aggregate project does not have these
+limitations and can aggregate two project trees that have common
+sources.
+
+<p>This scenario is particularly useful in environments like VxWorks 653
+where the applications running in the multiple partitions can be built
+in parallel through a single `gprbuild' command. This also works nicely
+with Annex E.
+
+</body></html>
+

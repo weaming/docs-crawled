@@ -1,0 +1,186 @@
+<html lang="en">
+<head>
+<title>Determining the Representations chosen by GNAT - GNAT Reference Manual</title>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+<meta name="description" content="GNAT Reference Manual">
+<meta name="generator" content="makeinfo 4.13">
+<link title="Top" rel="start" href="index.html#Top">
+<link rel="up" href="Representation-Clauses-and-Pragmas.html#Representation-Clauses-and-Pragmas" title="Representation Clauses and Pragmas">
+<link rel="prev" href="Conventions-and-Anonymous-Access-Types.html#Conventions-and-Anonymous-Access-Types" title="Conventions and Anonymous Access Types">
+<link href="http://www.gnu.org/software/texinfo/" rel="generator-home" title="Texinfo Homepage">
+<!--
+
+     GNAT Reference Manual , March 24, 2015
+
+     AdaCore
+
+     Copyright (C) 2008-2015, Free Software Foundation
+-->
+<meta http-equiv="Content-Style-Type" content="text/css">
+<style type="text/css"><!--
+  pre.display { font-family:inherit }
+  pre.format  { font-family:inherit }
+  pre.smalldisplay { font-family:inherit; font-size:smaller }
+  pre.smallformat  { font-family:inherit; font-size:smaller }
+  pre.smallexample { font-size:smaller }
+  pre.smalllisp    { font-size:smaller }
+  span.sc    { font-variant:small-caps }
+  span.roman { font-family:serif; font-weight:normal; } 
+  span.sansserif { font-family:sans-serif; font-weight:normal; } 
+--></style>
+</head>
+<body>
+<div class="node">
+<a name="Determining-the-Representations-chosen-by-GNAT"></a>
+<p>
+Previous:&nbsp;<a rel="previous" accesskey="p" href="Conventions-and-Anonymous-Access-Types.html#Conventions-and-Anonymous-Access-Types">Conventions and Anonymous Access Types</a>,
+Up:&nbsp;<a rel="up" accesskey="u" href="Representation-Clauses-and-Pragmas.html#Representation-Clauses-and-Pragmas">Representation Clauses and Pragmas</a>
+<hr>
+</div>
+
+<p><a name="gnat_005frm_002frepresentation_005fclauses_005fand_005fpragmas-id20"></a><a name="g_t23e"></a><a name="gnat_005frm_002frepresentation_005fclauses_005fand_005fpragmas-determining_002dthe_002drepresentations_002dchosen_002dby_002dgnat"></a><a name="g_t23f"></a>
+
+<h3 class="section">9.19 Determining the Representations chosen by GNAT</h3>
+
+<p><a name="index-Representation-523"></a><a name="index-determination-of-524"></a>
+<a name="index-g_t_002dgnatR-_0028gcc_0029-525"></a>
+Although the descriptions in this section are intended to be complete, it is
+often easier to simply experiment to see what GNAT accepts and what the
+effect is on the layout of types and objects.
+
+<p>As required by the Ada RM, if a representation clause is not accepted, then
+it must be rejected as illegal by the compiler.  However, when a
+representation clause or pragma is accepted, there can still be questions
+of what the compiler actually does.  For example, if a partial record
+representation clause specifies the location of some components and not
+others, then where are the non-specified components placed? Or if pragma
+<cite>Pack</cite> is used on a record, then exactly where are the resulting
+fields placed? The section on pragma <cite>Pack</cite> in this chapter can be
+used to answer the second question, but it is often easier to just see
+what the compiler does.
+
+<p>For this purpose, GNAT provides the option `-gnatR'.  If you compile
+with this option, then the compiler will output information on the actual
+representations chosen, in a format similar to source representation
+clauses.  For example, if we compile the package:
+
+<pre class="example">    package q is
+       type r (x : boolean) is tagged record
+          case x is
+             when True =&gt; S : String (1 .. 100);
+             when False =&gt; null;
+          end case;
+       end record;
+    
+       type r2 is new r (false) with record
+          y2 : integer;
+       end record;
+    
+       for r2 use record
+          y2 at 16 range 0 .. 31;
+       end record;
+    
+       type x is record
+          y : character;
+       end record;
+    
+       type x1 is array (1 .. 10) of x;
+       for x1'component_size use 11;
+    
+       type ia is access integer;
+    
+       type Rb1 is array (1 .. 13) of Boolean;
+       pragma Pack (rb1);
+    
+       type Rb2 is array (1 .. 65) of Boolean;
+       pragma Pack (rb2);
+    
+       type x2 is record
+          l1 : Boolean;
+          l2 : Duration;
+          l3 : Float;
+          l4 : Boolean;
+          l5 : Rb1;
+          l6 : Rb2;
+       end record;
+       pragma Pack (x2);
+    end q;
+</pre>
+<p>using the switch `-gnatR' we obtain the following output:
+
+<pre class="example">    Representation information for unit q
+    -------------------------------------
+    
+    for r'Size use ??;
+    for r'Alignment use 4;
+    for r use record
+       x    at 4 range  0 .. 7;
+       _tag at 0 range  0 .. 31;
+       s    at 5 range  0 .. 799;
+    end record;
+    
+    for r2'Size use 160;
+    for r2'Alignment use 4;
+    for r2 use record
+       x       at  4 range  0 .. 7;
+       _tag    at  0 range  0 .. 31;
+       _parent at  0 range  0 .. 63;
+       y2      at 16 range  0 .. 31;
+    end record;
+    
+    for x'Size use 8;
+    for x'Alignment use 1;
+    for x use record
+       y at 0 range  0 .. 7;
+    end record;
+    
+    for x1'Size use 112;
+    for x1'Alignment use 1;
+    for x1'Component_Size use 11;
+    
+    for rb1'Size use 13;
+    for rb1'Alignment use 2;
+    for rb1'Component_Size use 1;
+    
+    for rb2'Size use 72;
+    for rb2'Alignment use 1;
+    for rb2'Component_Size use 1;
+    
+    for x2'Size use 224;
+    for x2'Alignment use 4;
+    for x2 use record
+       l1 at  0 range  0 .. 0;
+       l2 at  0 range  1 .. 64;
+       l3 at 12 range  0 .. 31;
+       l4 at 16 range  0 .. 0;
+       l5 at 16 range  1 .. 13;
+       l6 at 18 range  0 .. 71;
+    end record;
+</pre>
+<p>The Size values are actually the Object_Size, i.e., the default size that
+will be allocated for objects of the type. 
+The <code>??</code> size for type r indicates that we have a variant record, and the
+actual size of objects will depend on the discriminant value.
+
+<p>The Alignment values show the actual alignment chosen by the compiler
+for each record or array type.
+
+<p>The record representation clause for type r shows where all fields
+are placed, including the compiler generated tag field (whose location
+cannot be controlled by the programmer).
+
+<p>The record representation clause for the type extension r2 shows all the
+fields present, including the parent field, which is a copy of the fields
+of the parent type of r2, i.e., r1.
+
+<p>The component size and size clauses for types rb1 and rb2 show
+the exact effect of pragma <cite>Pack</cite> on these arrays, and the record
+representation clause for type x2 shows how pragma <cite>Pack</cite> affects
+this record type.
+
+<p>In some cases, it may be useful to cut and paste the representation clauses
+generated by the compiler into the original source to fix and guarantee
+the actual representation to be used.
+
+</body></html>
+

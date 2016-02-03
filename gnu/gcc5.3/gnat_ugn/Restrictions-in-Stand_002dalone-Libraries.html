@@ -1,0 +1,81 @@
+<html lang="en">
+<head>
+<title>Restrictions in Stand-alone Libraries - GNAT User's Guide for Native Platforms</title>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+<meta name="description" content="GNAT User's Guide for Native Platforms">
+<meta name="generator" content="makeinfo 4.13">
+<link title="Top" rel="start" href="index.html#Top">
+<link rel="up" href="Stand_002dalone-Ada-Libraries.html#Stand_002dalone-Ada-Libraries" title="Stand-alone Ada Libraries">
+<link rel="prev" href="Creating-a-Stand_002dalone-Library-to-be-used-in-a-non_002dAda-context.html#Creating-a-Stand_002dalone-Library-to-be-used-in-a-non_002dAda-context" title="Creating a Stand-alone Library to be used in a non-Ada context">
+<link href="http://www.gnu.org/software/texinfo/" rel="generator-home" title="Texinfo Homepage">
+<!--
+
+     GNAT User's Guide for Native Platforms , March 24, 2015
+
+     AdaCore
+
+     Copyright (C) 2008-2015, Free Software Foundation
+-->
+<meta http-equiv="Content-Style-Type" content="text/css">
+<style type="text/css"><!--
+  pre.display { font-family:inherit }
+  pre.format  { font-family:inherit }
+  pre.smalldisplay { font-family:inherit; font-size:smaller }
+  pre.smallformat  { font-family:inherit; font-size:smaller }
+  pre.smallexample { font-size:smaller }
+  pre.smalllisp    { font-size:smaller }
+  span.sc    { font-variant:small-caps }
+  span.roman { font-family:serif; font-weight:normal; } 
+  span.sansserif { font-family:sans-serif; font-weight:normal; } 
+--></style>
+</head>
+<body>
+<div class="node">
+<a name="Restrictions-in-Stand-alone-Libraries"></a>
+<a name="Restrictions-in-Stand_002dalone-Libraries"></a>
+<p>
+Previous:&nbsp;<a rel="previous" accesskey="p" href="Creating-a-Stand_002dalone-Library-to-be-used-in-a-non_002dAda-context.html#Creating-a-Stand_002dalone-Library-to-be-used-in-a-non_002dAda-context">Creating a Stand-alone Library to be used in a non-Ada context</a>,
+Up:&nbsp;<a rel="up" accesskey="u" href="Stand_002dalone-Ada-Libraries.html#Stand_002dalone-Ada-Libraries">Stand-alone Ada Libraries</a>
+<hr>
+</div>
+
+<p><a name="gnat_005fugn_002fthe_005fgnat_005fcompilation_005fmodel-id45"></a><a name="g_t9a"></a><a name="gnat_005fugn_002fthe_005fgnat_005fcompilation_005fmodel-restrictions_002din_002dstand_002dalone_002dlibraries"></a><a name="g_t9b"></a>
+
+<h5 class="subsubsection">3.9.3.4 Restrictions in Stand-alone Libraries</h5>
+
+<p>The pragmas listed below should be used with caution inside libraries,
+as they can create incompatibilities with other Ada libraries:
+
+     <ul>
+<li>pragma <cite>Locking_Policy</cite>
+
+     <li>pragma <cite>Partition_Elaboration_Policy</cite>
+
+     <li>pragma <cite>Queuing_Policy</cite>
+
+     <li>pragma <cite>Task_Dispatching_Policy</cite>
+
+     <li>pragma <cite>Unreserve_All_Interrupts</cite>
+</ul>
+
+<p>When using a library that contains such pragmas, the user must make sure
+that all libraries use the same pragmas with the same values. Otherwise,
+<cite>Program_Error</cite> will
+be raised during the elaboration of the conflicting
+libraries. The usage of these pragmas and its consequences for the user
+should therefore be well documented.
+
+<p>Similarly, the traceback in the exception occurrence mechanism should be
+enabled or disabled in a consistent manner across all libraries. 
+Otherwise, Program_Error will be raised during the elaboration of the
+conflicting libraries.
+
+<p>If the <cite>Version</cite> or <cite>Body_Version</cite>
+attributes are used inside a library, then you need to
+perform a <cite>gnatbind</cite> step that specifies all <code>ALI</code> files in all
+libraries, so that version identifiers can be properly computed. 
+In practice these attributes are rarely used, so this is unlikely
+to be a consideration.
+
+</body></html>
+

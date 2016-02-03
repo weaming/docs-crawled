@@ -1,0 +1,84 @@
+<html lang="en">
+<head>
+<title>C Calling Convention - GNAT User's Guide for Native Platforms</title>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+<meta name="description" content="GNAT User's Guide for Native Platforms">
+<meta name="generator" content="makeinfo 4.13">
+<link title="Top" rel="start" href="index.html#Top">
+<link rel="up" href="Windows-Calling-Conventions.html#Windows-Calling-Conventions" title="Windows Calling Conventions">
+<link rel="next" href="Stdcall-Calling-Convention.html#Stdcall-Calling-Convention" title="Stdcall Calling Convention">
+<link href="http://www.gnu.org/software/texinfo/" rel="generator-home" title="Texinfo Homepage">
+<!--
+
+     GNAT User's Guide for Native Platforms , March 24, 2015
+
+     AdaCore
+
+     Copyright (C) 2008-2015, Free Software Foundation
+-->
+<meta http-equiv="Content-Style-Type" content="text/css">
+<style type="text/css"><!--
+  pre.display { font-family:inherit }
+  pre.format  { font-family:inherit }
+  pre.smalldisplay { font-family:inherit; font-size:smaller }
+  pre.smallformat  { font-family:inherit; font-size:smaller }
+  pre.smallexample { font-size:smaller }
+  pre.smalllisp    { font-size:smaller }
+  span.sc    { font-variant:small-caps }
+  span.roman { font-family:serif; font-weight:normal; } 
+  span.sansserif { font-family:sans-serif; font-weight:normal; } 
+--></style>
+</head>
+<body>
+<div class="node">
+<a name="C-Calling-Convention"></a>
+<p>
+Next:&nbsp;<a rel="next" accesskey="n" href="Stdcall-Calling-Convention.html#Stdcall-Calling-Convention">Stdcall Calling Convention</a>,
+Up:&nbsp;<a rel="up" accesskey="u" href="Windows-Calling-Conventions.html#Windows-Calling-Conventions">Windows Calling Conventions</a>
+<hr>
+</div>
+
+<p><a name="gnat_005fugn_002fplatform_005fspecific_005finformation-c_002dcalling_002dconvention"></a><a name="g_t276"></a><a name="gnat_005fugn_002fplatform_005fspecific_005finformation-id16"></a><a name="g_t277"></a>
+
+<h5 class="subsubsection">9.3.5.2 <cite>C</cite> Calling Convention</h5>
+
+<p>This is the default calling convention used when interfacing to C/C++
+routines compiled with either `gcc' or Microsoft Visual C++.
+
+<p>In the <cite>C</cite> calling convention subprogram parameters are pushed on the
+stack by the caller from right to left. The caller itself is in charge of
+cleaning up the stack after the call. In addition, the name of a routine
+with <cite>C</cite> calling convention is mangled by adding a leading underscore.
+
+<p>The name to use on the Ada side when importing (or exporting) a routine
+with <cite>C</cite> calling convention is the name of the routine. For
+instance the C function:
+
+<blockquote>
+
+<pre class="example">    int get_val (long);
+</pre>
+</blockquote>
+
+<p>should be imported from Ada as follows:
+
+<blockquote>
+
+<pre class="example">    function Get_Val (V : Interfaces.C.long) return Interfaces.C.int;
+    pragma Import (C, Get_Val, External_Name =&gt; "get_val");
+</pre>
+</blockquote>
+
+<p>Note that in this particular case the <cite>External_Name</cite> parameter could
+have been omitted since, when missing, this parameter is taken to be the
+name of the Ada entity in lower case. When the <cite>Link_Name</cite> parameter
+is missing, as in the above example, this parameter is set to be the
+<cite>External_Name</cite> with a leading underscore.
+
+<p>When importing a variable defined in C, you should always use the <cite>C</cite>
+calling convention unless the object containing the variable is part of a
+DLL (in which case you should use the <cite>Stdcall</cite> calling
+convention, <a href="278.html#g_t278">Stdcall Calling Convention</a>).
+
+</body></html>
+

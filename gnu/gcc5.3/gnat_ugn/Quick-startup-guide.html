@@ -1,0 +1,92 @@
+<html lang="en">
+<head>
+<title>Quick startup guide - GNAT User's Guide for Native Platforms</title>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+<meta name="description" content="GNAT User's Guide for Native Platforms">
+<meta name="generator" content="makeinfo 4.13">
+<link title="Top" rel="start" href="index.html#Top">
+<link rel="up" href="Code-Coverage-of-Ada-Programs-with-gcov.html#Code-Coverage-of-Ada-Programs-with-gcov" title="Code Coverage of Ada Programs with gcov">
+<link rel="next" href="GNAT-specifics.html#GNAT-specifics" title="GNAT specifics">
+<link href="http://www.gnu.org/software/texinfo/" rel="generator-home" title="Texinfo Homepage">
+<!--
+
+     GNAT User's Guide for Native Platforms , March 24, 2015
+
+     AdaCore
+
+     Copyright (C) 2008-2015, Free Software Foundation
+-->
+<meta http-equiv="Content-Style-Type" content="text/css">
+<style type="text/css"><!--
+  pre.display { font-family:inherit }
+  pre.format  { font-family:inherit }
+  pre.smalldisplay { font-family:inherit; font-size:smaller }
+  pre.smallformat  { font-family:inherit; font-size:smaller }
+  pre.smallexample { font-size:smaller }
+  pre.smalllisp    { font-size:smaller }
+  span.sc    { font-variant:small-caps }
+  span.roman { font-family:serif; font-weight:normal; } 
+  span.sansserif { font-family:sans-serif; font-weight:normal; } 
+--></style>
+</head>
+<body>
+<div class="node">
+<a name="Quick-startup-guide"></a>
+<p>
+Next:&nbsp;<a rel="next" accesskey="n" href="GNAT-specifics.html#GNAT-specifics">GNAT specifics</a>,
+Up:&nbsp;<a rel="up" accesskey="u" href="Code-Coverage-of-Ada-Programs-with-gcov.html#Code-Coverage-of-Ada-Programs-with-gcov">Code Coverage of Ada Programs with gcov</a>
+<hr>
+</div>
+
+<p><a name="gnat_005fugn_002fgnat_005fand_005fprogram_005fexecution-id21"></a><a name="g_t219"></a><a name="gnat_005fugn_002fgnat_005fand_005fprogram_005fexecution-quick_002dstartup_002dguide"></a><a name="g_t21a"></a>
+
+<h5 class="subsubsection">8.2.1.1 Quick startup guide</h5>
+
+<p>In order to perform coverage analysis of a program using <cite>gcov</cite>, several
+steps are needed:
+
+     <ol type=1 start=1>
+
+     <li>Instrument the code during the compilation process,
+
+     <li>Execute the instrumented program, and
+
+     <li>Invoke the <cite>gcov</cite> tool to generate the coverage results.
+     </ol>
+
+<p><a name="index-g_t_002dfprofile_002darcs-_0028gcc_0029-976"></a>
+<a name="index-g_t_002dftest_002dcoverage-_0028gcc-977"></a>
+<a name="index-g_t_002dfprofile_002darcs-_0028gnatbind_0029-978"></a>
+The code instrumentation needed by gcov is created at the object level. 
+The source code is not modified in any way, because the instrumentation code is
+inserted by gcc during the compilation process. To compile your code with code
+coverage activated, you need to recompile your whole project using the
+switches
+<cite>-fprofile-arcs</cite> and <cite>-ftest-coverage</cite>, and link it using
+<cite>-fprofile-arcs</cite>.
+
+<blockquote>
+
+<pre class="example">    $ gnatmake -P my_project.gpr -f -cargs -fprofile-arcs -ftest-coverage \\
+       -largs -fprofile-arcs
+</pre>
+</blockquote>
+
+<p>This compilation process will create <code>.gcno</code> files together with
+the usual object files.
+
+<p>Once the program is compiled with coverage instrumentation, you can
+run it as many times as needed &ndash; on portions of a test suite for
+example. The first execution will produce <code>.gcda</code> files at the
+same location as the <code>.gcno</code> files.  Subsequent executions
+will update those files, so that a cumulative result of the covered
+portions of the program is generated.
+
+<p>Finally, you need to call the <cite>gcov</cite> tool. The different options of
+<cite>gcov</cite> are described in the GCC User's Guide, section 'Invoking gcov'.
+
+<p>This will create annotated source files with a <code>.gcov</code> extension:
+<code>my_main.adb</code> file will be analyzed in <code>my_main.adb.gcov</code>.
+
+</body></html>
+

@@ -1,0 +1,111 @@
+<html lang="en">
+<head>
+<title>Pragma Default_Scalar_Storage_Order - GNAT Reference Manual</title>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+<meta name="description" content="GNAT Reference Manual">
+<meta name="generator" content="makeinfo 4.13">
+<link title="Top" rel="start" href="index.html#Top">
+<link rel="up" href="Implementation-Defined-Pragmas.html#Implementation-Defined-Pragmas" title="Implementation Defined Pragmas">
+<link rel="prev" href="Pragma-Debug_005fPolicy.html#Pragma-Debug_005fPolicy" title="Pragma Debug_Policy">
+<link rel="next" href="Pragma-Default_005fStorage_005fPool.html#Pragma-Default_005fStorage_005fPool" title="Pragma Default_Storage_Pool">
+<link href="http://www.gnu.org/software/texinfo/" rel="generator-home" title="Texinfo Homepage">
+<!--
+
+     GNAT Reference Manual , March 24, 2015
+
+     AdaCore
+
+     Copyright (C) 2008-2015, Free Software Foundation
+-->
+<meta http-equiv="Content-Style-Type" content="text/css">
+<style type="text/css"><!--
+  pre.display { font-family:inherit }
+  pre.format  { font-family:inherit }
+  pre.smalldisplay { font-family:inherit; font-size:smaller }
+  pre.smallformat  { font-family:inherit; font-size:smaller }
+  pre.smallexample { font-size:smaller }
+  pre.smalllisp    { font-size:smaller }
+  span.sc    { font-variant:small-caps }
+  span.roman { font-family:serif; font-weight:normal; } 
+  span.sansserif { font-family:sans-serif; font-weight:normal; } 
+--></style>
+</head>
+<body>
+<div class="node">
+<a name="Pragma-Default_Scalar_Storage_Order"></a>
+<a name="Pragma-Default_005fScalar_005fStorage_005fOrder"></a>
+<p>
+Next:&nbsp;<a rel="next" accesskey="n" href="Pragma-Default_005fStorage_005fPool.html#Pragma-Default_005fStorage_005fPool">Pragma Default_Storage_Pool</a>,
+Previous:&nbsp;<a rel="previous" accesskey="p" href="Pragma-Debug_005fPolicy.html#Pragma-Debug_005fPolicy">Pragma Debug_Policy</a>,
+Up:&nbsp;<a rel="up" accesskey="u" href="Implementation-Defined-Pragmas.html#Implementation-Defined-Pragmas">Implementation Defined Pragmas</a>
+<hr>
+</div>
+
+<p><a name="gnat_005frm_002fimplementation_005fdefined_005fpragmas-pragma_002ddefault_002dscalar_002dstorage_002dorder"></a><a name="g_t46"></a>
+
+<h3 class="section">2.43 Pragma Default_Scalar_Storage_Order</h3>
+
+<p><a name="index-Default_005fScalar_005fStorage_005fOrder-35"></a>
+<a name="index-Scalar_005fStorage_005fOrder-36"></a>
+Syntax:
+
+<pre class="example">    pragma Default_Scalar_Storage_Order (High_Order_First | Low_Order_First);
+</pre>
+<p>Normally if no explicit <cite>Scalar_Storage_Order</cite> is given for a record
+type or array type, then the scalar storage order defaults to the ordinary
+default for the target. But this default may be overridden using this pragma. 
+The pragma may appear as a configuration pragma, or locally within a package
+spec or declarative part. In the latter case, it applies to all subsequent
+types declared within that package spec or declarative part.
+
+<p>The following example shows the use of this pragma:
+
+<pre class="example">    pragma Default_Scalar_Storage_Order (High_Order_First);
+    with System; use System;
+    package DSSO1 is
+       type H1 is record
+          a : Integer;
+       end record;
+    
+       type L2 is record
+          a : Integer;
+       end record;
+       for L2'Scalar_Storage_Order use Low_Order_First;
+    
+       type L2a is new L2;
+    
+       package Inner is
+          type H3 is record
+             a : Integer;
+          end record;
+    
+          pragma Default_Scalar_Storage_Order (Low_Order_First);
+    
+          type L4 is record
+             a : Integer;
+          end record;
+       end Inner;
+    
+       type H4a is new Inner.L4;
+    
+       type H5 is record
+          a : Integer;
+       end record;
+    end DSSO1;
+</pre>
+<p>In this example record types L.. have <cite>Low_Order_First</cite> scalar
+storage order, and record types H.. have <cite>High_Order_First</cite>. 
+Note that in the case of <cite>H4a</cite>, the order is not inherited
+from the parent type. Only an explicitly set <cite>Scalar_Storage_Order</cite>
+gets inherited on type derivation.
+
+<p>If this pragma is used as a configuration pragma which appears within a
+configuration pragma file (as opposed to appearing explicitly at the start
+of a single unit), then the binder will require that all units in a partition
+be compiled in a similar manner, other than run-time units, which are not
+affected by this pragma. Note that the use of this form is discouraged because
+it may significantly degrade the run-time performance of the software, instead
+the default scalar storage order ought to be changed only on a local basis.
+
+</body></html>
+

@@ -1,0 +1,82 @@
+<html lang="en">
+<head>
+<title>Attribute Code_Address - GNAT Reference Manual</title>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+<meta name="description" content="GNAT Reference Manual">
+<meta name="generator" content="makeinfo 4.13">
+<link title="Top" rel="start" href="index.html#Top">
+<link rel="up" href="Implementation-Defined-Attributes.html#Implementation-Defined-Attributes" title="Implementation Defined Attributes">
+<link rel="prev" href="Attribute-Bit_005fPosition.html#Attribute-Bit_005fPosition" title="Attribute Bit_Position">
+<link rel="next" href="Attribute-Compiler_005fVersion.html#Attribute-Compiler_005fVersion" title="Attribute Compiler_Version">
+<link href="http://www.gnu.org/software/texinfo/" rel="generator-home" title="Texinfo Homepage">
+<!--
+
+     GNAT Reference Manual , March 24, 2015
+
+     AdaCore
+
+     Copyright (C) 2008-2015, Free Software Foundation
+-->
+<meta http-equiv="Content-Style-Type" content="text/css">
+<style type="text/css"><!--
+  pre.display { font-family:inherit }
+  pre.format  { font-family:inherit }
+  pre.smalldisplay { font-family:inherit; font-size:smaller }
+  pre.smallformat  { font-family:inherit; font-size:smaller }
+  pre.smallexample { font-size:smaller }
+  pre.smalllisp    { font-size:smaller }
+  span.sc    { font-variant:small-caps }
+  span.roman { font-family:serif; font-weight:normal; } 
+  span.sansserif { font-family:sans-serif; font-weight:normal; } 
+--></style>
+</head>
+<body>
+<div class="node">
+<a name="Attribute-Code_Address"></a>
+<a name="Attribute-Code_005fAddress"></a>
+<p>
+Next:&nbsp;<a rel="next" accesskey="n" href="Attribute-Compiler_005fVersion.html#Attribute-Compiler_005fVersion">Attribute Compiler_Version</a>,
+Previous:&nbsp;<a rel="previous" accesskey="p" href="Attribute-Bit_005fPosition.html#Attribute-Bit_005fPosition">Attribute Bit_Position</a>,
+Up:&nbsp;<a rel="up" accesskey="u" href="Implementation-Defined-Attributes.html#Implementation-Defined-Attributes">Implementation Defined Attributes</a>
+<hr>
+</div>
+
+<p><a name="gnat_005frm_002fimplementation_005fdefined_005fattributes-attribute_002dcode_002daddress"></a><a name="g_t11f"></a>
+
+<h3 class="section">4.8 Attribute Code_Address</h3>
+
+<p><a name="index-Code_005fAddress-166"></a>
+<a name="index-Subprogram-address-167"></a>
+<a name="index-Address-of-subprogram-code-168"></a>
+The <cite>'Address</cite>
+attribute may be applied to subprograms in Ada 95 and Ada 2005, but the
+intended effect seems to be to provide
+an address value which can be used to call the subprogram by means of
+an address clause as in the following example:
+
+<pre class="example">    procedure K is ...
+    
+    procedure L;
+    for L'Address use K'Address;
+    pragma Import (Ada, L);
+</pre>
+<p>A call to <cite>L</cite> is then expected to result in a call to <cite>K</cite>. 
+In Ada 83, where there were no access-to-subprogram values, this was
+a common work-around for getting the effect of an indirect call. 
+GNAT implements the above use of <cite>Address</cite> and the technique
+illustrated by the example code works correctly.
+
+<p>However, for some purposes, it is useful to have the address of the start
+of the generated code for the subprogram.  On some architectures, this is
+not necessarily the same as the <cite>Address</cite> value described above. 
+For example, the <cite>Address</cite> value may reference a subprogram
+descriptor rather than the subprogram itself.
+
+<p>The <cite>'Code_Address</cite> attribute, which can only be applied to
+subprogram entities, always returns the address of the start of the
+generated code of the specified subprogram, which may or may not be
+the same value as is returned by the corresponding <cite>'Address</cite>
+attribute.
+
+</body></html>
+

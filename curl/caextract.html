@@ -1,0 +1,65 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
+<HTML>
+<HEAD> <TITLE>cURL - Extract CA Certs from Mozilla</TITLE>
+<meta content="text/html; charset=UTF-8" http-equiv="Content-Type">
+<link rel="stylesheet" type="text/css" href="http://curl.haxx.se/curl.css">
+<link rel="shortcut icon" href="http://curl.haxx.se/favicon.ico">
+</HEAD>
+<body bgcolor="#ffffff" text="#000000">
+<div class="main">
+<div class="menu">
+<a href="index.html" class="menuitem" title="Documentation main page">Docs Overview</a>
+<a href="caextract.html" class="itemselect">CA Extract</a>
+<a href="http-cookies.html" class="menuitem" title="Description of cookies with curl">HTTP Cookies</a>
+<a href="http2.html" class="menuitem" title="HTTP/2 with curl">HTTP/2</a>
+<a href="sslcerts.html" class="menuitem" title="How curl works with SSL certficates">SSL Certs</a>
+<a href="ssl-compared.html" class="menuitem" title="An SSL library comparison">SSL libs compared</a>
+</div>
+<div class="contents">
+<div class="where"><a href="http://curl.haxx.se/">cURL</a> / <a href="index.html">Docs</a> / <a href="protdocs.html">Protocol docs</a> / <b>CA Extract</b></div>
+<h1> Automatically converted CA Certs from mozilla.org </h1>
+<div class="relatedbox">
+<b>Related:</b>
+<br><a href="sslcerts.html">SSL Certs</a>
+</div>
+<p>
+ We provide automated conversions. The output CA bundle file in PEM format
+ (250KB) is available from here:
+<ul>
+<p>
+ HTTP from curl.haxx.se: <a href="http://curl.haxx.se/ca/cacert.pem">cacert.pem</a>
+<p>
+ HTTPS from github: <a href="https://raw.githubusercontent.com/bagder/ca-bundle/master/ca-bundle.crt">ca-bundle.crt</a>
+</ul>
+<p>
+ The PEM file contains the datestamp of the conversion and we try to only
+ convert if there's a change in either the script or the source file.
+<h2> RSA-1024 removed </h2>
+<p>
+ Around early September 2014, Mozilla removed the trust bits from the certs in
+ their CA bundle that were still using RSA 1024 bit keys. This may lead to TLS
+ libraries having a hard time to verify some sites if the library in question
+ doesn't properly support "path discovery" as per RFC 4158. (That includes
+ OpenSSL and GnuTLS.)
+<p>
+ The last CA bundle we converted from <i>before</i> that
+ cleanup: <a href="https://github.com/bagder/ca-bundle/blob/e9175fec5d0c4d42de24ed6d84a06d504d5e5a09/ca-bundle.crt">an
+ older ca-bundle from github</a>.
+<h2> CA cert bundle license </h2>
+<p>
+ This new file is only a converted version of the original one and thus it is
+ licensed under the same licenses as the Mozilla source file: MPL 1.1, GPL
+ v2.0 or LGPL 2.1
+<h2> The conversion script mk-ca-bundle </h2>
+<p>
+ The <a href="mk-ca-bundle.html">mk-ca-bundle</a> tool
+ converts <a href="https://www.mozilla.org/">Mozilla</a>'s cert bundle to PEM
+ format, suitable for (lib)curl and others. Writtten by Guenter Knauf.
+<h2> Convert from your local Firefox installation </h2>
+<p> You can also extract the ca certs off your Firefox installation, if you
+ just have the 'certutil' tool installed and run the <a href="https://github.com/bagder/curl/blob/master/lib/firefox-db2pem.sh">firefox-db2pem.sh</a> script!
+</ol>
+</div>
+</div>
+</BODY>
+</HTML>

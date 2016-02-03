@@ -1,0 +1,180 @@
+<html lang="en">
+<head>
+<title>Other Elaboration Order Considerations - GNAT User's Guide for Native Platforms</title>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+<meta name="description" content="GNAT User's Guide for Native Platforms">
+<meta name="generator" content="makeinfo 4.13">
+<link title="Top" rel="start" href="index.html#Top">
+<link rel="up" href="Elaboration-Order-Handling-in-GNAT.html#Elaboration-Order-Handling-in-GNAT" title="Elaboration Order Handling in GNAT">
+<link rel="prev" href="Summary-of-Procedures-for-Elaboration-Control.html#Summary-of-Procedures-for-Elaboration-Control" title="Summary of Procedures for Elaboration Control">
+<link rel="next" href="Determining-the-Chosen-Elaboration-Order.html#Determining-the-Chosen-Elaboration-Order" title="Determining the Chosen Elaboration Order">
+<link href="http://www.gnu.org/software/texinfo/" rel="generator-home" title="Texinfo Homepage">
+<!--
+
+     GNAT User's Guide for Native Platforms , March 24, 2015
+
+     AdaCore
+
+     Copyright (C) 2008-2015, Free Software Foundation
+-->
+<meta http-equiv="Content-Style-Type" content="text/css">
+<style type="text/css"><!--
+  pre.display { font-family:inherit }
+  pre.format  { font-family:inherit }
+  pre.smalldisplay { font-family:inherit; font-size:smaller }
+  pre.smallformat  { font-family:inherit; font-size:smaller }
+  pre.smallexample { font-size:smaller }
+  pre.smalllisp    { font-size:smaller }
+  span.sc    { font-variant:small-caps }
+  span.roman { font-family:serif; font-weight:normal; } 
+  span.sansserif { font-family:sans-serif; font-weight:normal; } 
+--></style>
+</head>
+<body>
+<div class="node">
+<a name="Other-Elaboration-Order-Considerations"></a>
+<p>
+Next:&nbsp;<a rel="next" accesskey="n" href="Determining-the-Chosen-Elaboration-Order.html#Determining-the-Chosen-Elaboration-Order">Determining the Chosen Elaboration Order</a>,
+Previous:&nbsp;<a rel="previous" accesskey="p" href="Summary-of-Procedures-for-Elaboration-Control.html#Summary-of-Procedures-for-Elaboration-Control">Summary of Procedures for Elaboration Control</a>,
+Up:&nbsp;<a rel="up" accesskey="u" href="Elaboration-Order-Handling-in-GNAT.html#Elaboration-Order-Handling-in-GNAT">Elaboration Order Handling in GNAT</a>
+<hr>
+</div>
+
+<p><a name="gnat_005fugn_002felaboration_005forder_005fhandling_005fin_005fgnat-id14"></a><a name="g_t2c8"></a><a name="gnat_005fugn_002felaboration_005forder_005fhandling_005fin_005fgnat-other_002delaboration_002dorder_002dconsiderations"></a><a name="g_t2c9"></a>
+
+<h3 class="section">11.13 Other Elaboration Order Considerations</h3>
+
+<p>This section has been entirely concerned with the issue of finding a valid
+elaboration order, as defined by the Ada Reference Manual. In a case
+where several elaboration orders are valid, the task is to find one
+of the possible valid elaboration orders (and the static model in GNAT
+will ensure that this is achieved).
+
+<p>The purpose of the elaboration rules in the Ada Reference Manual is to
+make sure that no entity is accessed before it has been elaborated. For
+a subprogram, this means that the spec and body must have been elaborated
+before the subprogram is called. For an object, this means that the object
+must have been elaborated before its value is read or written. A violation
+of either of these two requirements is an access before elaboration order,
+and this section has been all about avoiding such errors.
+
+<p>In the case where more than one order of elaboration is possible, in the
+sense that access before elaboration errors are avoided, then any one of
+the orders is 'correct' in the sense that it meets the requirements of
+the Ada Reference Manual, and no such error occurs.
+
+<p>However, it may be the case for a given program, that there are
+constraints on the order of elaboration that come not from consideration
+of avoiding elaboration errors, but rather from extra-lingual logic
+requirements. Consider this example:
+
+<pre class="example">    with Init_Constants;
+    package Constants is
+       X : Integer := 0;
+       Y : Integer := 0;
+    end Constants;
+    
+    package Init_Constants is
+       procedure P; --* require a body*
+    end Init_Constants;
+    
+    with Constants;
+    package body Init_Constants is
+       procedure P is begin null; end;
+    begin
+       Constants.X := 3;
+       Constants.Y := 4;
+    end Init_Constants;
+    
+    with Constants;
+    package Calc is
+       Z : Integer := Constants.X + Constants.Y;
+    end Calc;
+    
+    with Calc;
+    with Text_IO; use Text_IO;
+    procedure Main is
+    begin
+       Put_Line (Calc.Z'Img);
+    end Main;
+</pre>
+<p>In this example, there is more than one valid order of elaboration. For
+example both the following are correct orders:
+
+<pre class="example">    Init_Constants spec
+    Constants spec
+    Calc spec
+    Init_Constants body
+    Main body
+</pre>
+<p>and
+
+<pre class="example">    Init_Constants spec
+    Init_Constants body
+    Constants spec
+    Calc spec
+    Main body
+</pre>
+<p>There is no language rule to prefer one or the other, both are correct
+from an order of elaboration point of view. But the programmatic effects
+of the two orders are very different. In the first, the elaboration routine
+of <cite>Calc</cite> initializes <cite>Z</cite> to zero, and then the main program
+runs with this value of zero. But in the second order, the elaboration
+routine of <cite>Calc</cite> runs after the body of Init_Constants has set
+<cite>X</cite> and <cite>Y</cite> and thus <cite>Z</cite> is set to 7 before <cite>Main</cite> runs.
+
+<p>One could perhaps by applying pretty clever non-artificial intelligence
+to the situation guess that it is more likely that the second order of
+elaboration is the one desired, but there is no formal linguistic reason
+to prefer one over the other. In fact in this particular case, GNAT will
+prefer the second order, because of the rule that bodies are elaborated
+as soon as possible, but it's just luck that this is what was wanted
+(if indeed the second order was preferred).
+
+<p>If the program cares about the order of elaboration routines in a case like
+this, it is important to specify the order required. In this particular
+case, that could have been achieved by adding to the spec of Calc:
+
+<pre class="example">    pragma Elaborate_All (Constants);
+</pre>
+<p>which requires that the body (if any) and spec of <cite>Constants</cite>,
+as well as the body and spec of any unit `with'ed by
+<cite>Constants</cite> be elaborated before <cite>Calc</cite> is elaborated.
+
+<p>Clearly no automatic method can always guess which alternative you require,
+and if you are working with legacy code that had constraints of this kind
+which were not properly specified by adding <cite>Elaborate</cite> or
+<cite>Elaborate_All</cite> pragmas, then indeed it is possible that two different
+compilers can choose different orders.
+
+<p>However, GNAT does attempt to diagnose the common situation where there
+are uninitialized variables in the visible part of a package spec, and the
+corresponding package body has an elaboration block that directly or
+indirectly initialized one or more of these variables. This is the situation
+in which a pragma Elaborate_Body is usually desirable, and GNAT will generate
+a warning that suggests this addition if it detects this situation.
+
+<p>The <cite>gnatbind</cite> `-p' switch may be useful in smoking
+out problems. This switch causes bodies to be elaborated as late as possible
+instead of as early as possible. In the example above, it would have forced
+the choice of the first elaboration order. If you get different results
+when using this switch, and particularly if one set of results is right,
+and one is wrong as far as you are concerned, it shows that you have some
+missing <cite>Elaborate</cite> pragmas. For the example above, we have the
+following output:
+
+<pre class="example">    $ gnatmake -f -q main
+    $ main
+     7
+    $ gnatmake -f -q main -bargs -p
+    $ main
+     0
+</pre>
+<p>It is of course quite unlikely that both these results are correct, so
+it is up to you in a case like this to investigate the source of the
+difference, by looking at the two elaboration orders that are chosen,
+and figuring out which is correct, and then adding the necessary
+<cite>Elaborate</cite> or <cite>Elaborate_All</cite> pragmas to ensure the desired order.
+
+</body></html>
+

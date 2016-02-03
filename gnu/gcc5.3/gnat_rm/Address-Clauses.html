@@ -1,0 +1,339 @@
+<html lang="en">
+<head>
+<title>Address Clauses - GNAT Reference Manual</title>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+<meta name="description" content="GNAT Reference Manual">
+<meta name="generator" content="makeinfo 4.13">
+<link title="Top" rel="start" href="index.html#Top">
+<link rel="up" href="Representation-Clauses-and-Pragmas.html#Representation-Clauses-and-Pragmas" title="Representation Clauses and Pragmas">
+<link rel="prev" href="Enumeration-Clauses.html#Enumeration-Clauses" title="Enumeration Clauses">
+<link rel="next" href="Use-of-Address-Clauses-for-Memory_002dMapped-I_002fO.html#Use-of-Address-Clauses-for-Memory_002dMapped-I_002fO" title="Use of Address Clauses for Memory-Mapped I/O">
+<link href="http://www.gnu.org/software/texinfo/" rel="generator-home" title="Texinfo Homepage">
+<!--
+
+     GNAT Reference Manual , March 24, 2015
+
+     AdaCore
+
+     Copyright (C) 2008-2015, Free Software Foundation
+-->
+<meta http-equiv="Content-Style-Type" content="text/css">
+<style type="text/css"><!--
+  pre.display { font-family:inherit }
+  pre.format  { font-family:inherit }
+  pre.smalldisplay { font-family:inherit; font-size:smaller }
+  pre.smallformat  { font-family:inherit; font-size:smaller }
+  pre.smallexample { font-size:smaller }
+  pre.smalllisp    { font-size:smaller }
+  span.sc    { font-variant:small-caps }
+  span.roman { font-family:serif; font-weight:normal; } 
+  span.sansserif { font-family:sans-serif; font-weight:normal; } 
+--></style>
+</head>
+<body>
+<div class="node">
+<a name="Address-Clauses"></a>
+<p>
+Next:&nbsp;<a rel="next" accesskey="n" href="Use-of-Address-Clauses-for-Memory_002dMapped-I_002fO.html#Use-of-Address-Clauses-for-Memory_002dMapped-I_002fO">Use of Address Clauses for Memory-Mapped I/O</a>,
+Previous:&nbsp;<a rel="previous" accesskey="p" href="Enumeration-Clauses.html#Enumeration-Clauses">Enumeration Clauses</a>,
+Up:&nbsp;<a rel="up" accesskey="u" href="Representation-Clauses-and-Pragmas.html#Representation-Clauses-and-Pragmas">Representation Clauses and Pragmas</a>
+<hr>
+</div>
+
+<p><a name="gnat_005frm_002frepresentation_005fclauses_005fand_005fpragmas-id16"></a><a name="g_t236"></a><a name="gnat_005frm_002frepresentation_005fclauses_005fand_005fpragmas-address_002dclauses"></a><a name="g_t237"></a>
+
+<h3 class="section">9.15 Address Clauses</h3>
+
+<p><a name="index-Address-Clause-512"></a>
+The reference manual allows a general restriction on representation clauses,
+as found in RM 13.1(22):
+
+<blockquote>
+
+<p>"An implementation need not support representation
+items containing nonstatic expressions, except that
+an implementation should support a representation item
+for a given entity if each nonstatic expression in the
+representation item is a name that statically denotes
+a constant declared before the entity." 
+</blockquote>
+
+<p>In practice this is applicable only to address clauses, since this is the
+only case in which a non-static expression is permitted by the syntax.  As
+the AARM notes in sections 13.1 (22.a-22.h):
+
+<blockquote>
+
+<p>22.a   Reason: This is to avoid the following sort of thing:
+
+<p>22.b        X : Integer := F(...);
+Y : Address := G(...);
+for X'Address use Y;
+
+<p>22.c   In the above, we have to evaluate the
+initialization expression for X before we
+know where to put the result.  This seems
+like an unreasonable implementation burden.
+
+<p>22.d   The above code should instead be written
+like this:
+
+<p>22.e        Y : constant Address := G(...);
+X : Integer := F(...);
+for X'Address use Y;
+
+<p>22.f   This allows the expression 'Y' to be safely
+evaluated before X is created.
+
+<p>22.g   The constant could be a formal parameter of mode in.
+
+<p>22.h   An implementation can support other nonstatic
+expressions if it wants to.  Expressions of type
+Address are hardly ever static, but their value
+might be known at compile time anyway in many
+cases. 
+</blockquote>
+
+<p>GNAT does indeed permit many additional cases of non-static expressions.  In
+particular, if the type involved is elementary there are no restrictions
+(since in this case, holding a temporary copy of the initialization value,
+if one is present, is inexpensive).  In addition, if there is no implicit or
+explicit initialization, then there are no restrictions.  GNAT will reject
+only the case where all three of these conditions hold:
+
+     <ul>
+<li>The type of the item is non-elementary (e.g., a record or array).
+
+     <li>There is explicit or implicit initialization required for the object. 
+Note that access values are always implicitly initialized.
+
+     <li>The address value is non-static.  Here GNAT is more permissive than the
+RM, and allows the address value to be the address of a previously declared
+stand-alone variable, as long as it does not itself have an address clause.
+
+     <pre class="example">         Anchor  : Some_Initialized_Type;
+         Overlay : Some_Initialized_Type;
+         for Overlay'Address use Anchor'Address;
+</pre>
+     <p>However, the prefix of the address clause cannot be an array component, or
+a component of a discriminated record. 
+</ul>
+
+<p>As noted above in section 22.h, address values are typically non-static.  In
+particular the To_Address function, even if applied to a literal value, is
+a non-static function call.  To avoid this minor annoyance, GNAT provides
+the implementation defined attribute 'To_Address.  The following two
+expressions have identical values:
+
+<p><a name="index-Attribute-513"></a>
+<a name="index-To_005fAddress-514"></a>
+<pre class="example">    To_Address (16#1234_0000#)
+    System'To_Address (16#1234_0000#);
+</pre>
+<p>except that the second form is considered to be a static expression, and
+thus when used as an address clause value is always permitted.
+
+<p>Additionally, GNAT treats as static an address clause that is an
+unchecked_conversion of a static integer value.  This simplifies the porting
+of legacy code, and provides a portable equivalent to the GNAT attribute
+<cite>To_Address</cite>.
+
+<p>Another issue with address clauses is the interaction with alignment
+requirements.  When an address clause is given for an object, the address
+value must be consistent with the alignment of the object (which is usually
+the same as the alignment of the type of the object).  If an address clause
+is given that specifies an inappropriately aligned address value, then the
+program execution is erroneous.
+
+<p>Since this source of erroneous behavior can have unfortunate effects on
+machines with strict alignment requirements, GNAT
+checks (at compile time if possible, generating a warning, or at execution
+time with a run-time check) that the alignment is appropriate.  If the
+run-time check fails, then <cite>Program_Error</cite> is raised.  This run-time
+check is suppressed if range checks are suppressed, or if the special GNAT
+check Alignment_Check is suppressed, or if
+<cite>pragma Restrictions (No_Elaboration_Code)</cite> is in effect. It is also
+suppressed by default on non-strict alignment machines (such as the x86).
+
+<p>Finally, GNAT does not permit overlaying of objects of controlled types or
+composite types containing a controlled component. In most cases, the compiler
+can detect an attempt at such overlays and will generate a warning at compile
+time and a Program_Error exception at run time.
+
+<p><a name="index-Export-515"></a>
+An address clause cannot be given for an exported object.  More
+understandably the real restriction is that objects with an address
+clause cannot be exported.  This is because such variables are not
+defined by the Ada program, so there is no external object to export.
+
+<p><a name="index-Import-516"></a>
+It is permissible to give an address clause and a pragma Import for the
+same object.  In this case, the variable is not really defined by the
+Ada program, so there is no external symbol to be linked.  The link name
+and the external name are ignored in this case.  The reason that we allow this
+combination is that it provides a useful idiom to avoid unwanted
+initializations on objects with address clauses.
+
+<p>When an address clause is given for an object that has implicit or
+explicit initialization, then by default initialization takes place.  This
+means that the effect of the object declaration is to overwrite the
+memory at the specified address.  This is almost always not what the
+programmer wants, so GNAT will output a warning:
+
+<pre class="example">    with System;
+    package G is
+       type R is record
+          M : Integer := 0;
+       end record;
+    
+       Ext : R;
+       for Ext'Address use System'To_Address (16#1234_1234#);
+           |
+    &gt;&gt;&gt; warning: implicit initialization of "Ext" may
+        modify overlaid storage
+    &gt;&gt;&gt; warning: use pragma Import for "Ext" to suppress
+        initialization (RM B(24))
+    
+    end G;
+</pre>
+<p>As indicated by the warning message, the solution is to use a (dummy) pragma
+Import to suppress this initialization.  The pragma tell the compiler that the
+object is declared and initialized elsewhere.  The following package compiles
+without warnings (and the initialization is suppressed):
+
+<pre class="example">    with System;
+    package G is
+       type R is record
+          M : Integer := 0;
+       end record;
+    
+       Ext : R;
+       for Ext'Address use System'To_Address (16#1234_1234#);
+       pragma Import (Ada, Ext);
+    end G;
+</pre>
+<p>A final issue with address clauses involves their use for overlaying
+variables, as in the following example:
+
+<p><a name="index-Overlaying-of-objects-517"></a>
+<pre class="example">    A : Integer;
+    B : Integer;
+    for B'Address use A'Address;
+</pre>
+<p>or alternatively, using the form recommended by the RM:
+
+<pre class="example">    A    : Integer;
+    Addr : constant Address := A'Address;
+    B    : Integer;
+    for B'Address use Addr;
+</pre>
+<p>In both of these cases, <cite>A</cite>
+and <cite>B</cite> become aliased to one another via the
+address clause. This use of address clauses to overlay
+variables, achieving an effect similar to unchecked
+conversion was erroneous in Ada 83, but in Ada 95 and Ada 2005
+the effect is implementation defined. Furthermore, the
+Ada RM specifically recommends that in a situation
+like this, <cite>B</cite> should be subject to the following
+implementation advice (RM 13.3(19)):
+
+<blockquote>
+
+<p>"19  If the Address of an object is specified, or it is imported
+or exported, then the implementation should not perform
+optimizations based on assumptions of no aliases." 
+</blockquote>
+
+<p>GNAT follows this recommendation, and goes further by also applying
+this recommendation to the overlaid variable (<cite>A</cite>
+in the above example) in this case. This means that the overlay
+works "as expected", in that a modification to one of the variables
+will affect the value of the other.
+
+<p>Note that when address clause overlays are used in this way, there is an
+issue of unintentional initialization, as shown by this example:
+
+<pre class="example">    package Overwrite_Record is
+       type R is record
+          A : Character := 'C';
+          B : Character := 'A';
+       end record;
+       X : Short_Integer := 3;
+       Y : R;
+       for Y'Address use X'Address;
+           |
+    &gt;&gt;&gt; warning: default initialization of "Y" may
+        modify "X", use pragma Import for "Y" to
+        suppress initialization (RM B.1(24))
+    
+    end Overwrite_Record;
+</pre>
+<p>Here the default initialization of <cite>Y</cite> will clobber the value
+of <cite>X</cite>, which justifies the warning. The warning notes that
+this effect can be eliminated by adding a <cite>pragma Import</cite>
+which suppresses the initialization:
+
+<pre class="example">    package Overwrite_Record is
+       type R is record
+          A : Character := 'C';
+          B : Character := 'A';
+       end record;
+       X : Short_Integer := 3;
+       Y : R;
+       for Y'Address use X'Address;
+       pragma Import (Ada, Y);
+    end Overwrite_Record;
+</pre>
+<p>Note that the use of <cite>pragma Initialize_Scalars</cite> may cause variables to
+be initialized when they would not otherwise have been in the absence
+of the use of this pragma. This may cause an overlay to have this
+unintended clobbering effect. The compiler avoids this for scalar
+types, but not for composite objects (where in general the effect
+of <cite>Initialize_Scalars</cite> is part of the initialization routine
+for the composite object:
+
+<pre class="example">    pragma Initialize_Scalars;
+    with Ada.Text_IO;  use Ada.Text_IO;
+    procedure Overwrite_Array is
+       type Arr is array (1 .. 5) of Integer;
+       X : Arr := (others =&gt; 1);
+       A : Arr;
+       for A'Address use X'Address;
+           |
+    &gt;&gt;&gt; warning: default initialization of "A" may
+        modify "X", use pragma Import for "A" to
+        suppress initialization (RM B.1(24))
+    
+    begin
+       if X /= Arr'(others =&gt; 1) then
+          Put_Line ("X was clobbered");
+       else
+          Put_Line ("X was not clobbered");
+       end if;
+    end Overwrite_Array;
+</pre>
+<p>The above program generates the warning as shown, and at execution
+time, prints <cite>X was clobbered</cite>. If the <cite>pragma Import</cite> is
+added as suggested:
+
+<pre class="example">    pragma Initialize_Scalars;
+    with Ada.Text_IO;  use Ada.Text_IO;
+    procedure Overwrite_Array is
+       type Arr is array (1 .. 5) of Integer;
+       X : Arr := (others =&gt; 1);
+       A : Arr;
+       for A'Address use X'Address;
+       pragma Import (Ada, A);
+    begin
+       if X /= Arr'(others =&gt; 1) then
+          Put_Line ("X was clobbered");
+       else
+          Put_Line ("X was not clobbered");
+       end if;
+    end Overwrite_Array;
+</pre>
+<p>then the program compiles without the warning and when run will generate
+the output <cite>X was not clobbered</cite>.
+
+</body></html>
+

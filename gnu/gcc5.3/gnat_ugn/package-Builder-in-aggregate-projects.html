@@ -1,0 +1,186 @@
+<html lang="en">
+<head>
+<title>package Builder in aggregate projects - GNAT User's Guide for Native Platforms</title>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+<meta name="description" content="GNAT User's Guide for Native Platforms">
+<meta name="generator" content="makeinfo 4.13">
+<link title="Top" rel="start" href="index.html#Top">
+<link rel="up" href="Aggregate-Projects.html#Aggregate-Projects" title="Aggregate Projects">
+<link rel="prev" href="Syntax-of-aggregate-projects.html#Syntax-of-aggregate-projects" title="Syntax of aggregate projects">
+<link href="http://www.gnu.org/software/texinfo/" rel="generator-home" title="Texinfo Homepage">
+<!--
+
+     GNAT User's Guide for Native Platforms , March 24, 2015
+
+     AdaCore
+
+     Copyright (C) 2008-2015, Free Software Foundation
+-->
+<meta http-equiv="Content-Style-Type" content="text/css">
+<style type="text/css"><!--
+  pre.display { font-family:inherit }
+  pre.format  { font-family:inherit }
+  pre.smalldisplay { font-family:inherit; font-size:smaller }
+  pre.smallformat  { font-family:inherit; font-size:smaller }
+  pre.smallexample { font-size:smaller }
+  pre.smalllisp    { font-size:smaller }
+  span.sc    { font-variant:small-caps }
+  span.roman { font-family:serif; font-weight:normal; } 
+  span.sansserif { font-family:sans-serif; font-weight:normal; } 
+--></style>
+</head>
+<body>
+<div class="node">
+<a name="package-Builder-in-aggregate-projects"></a>
+<p>
+Previous:&nbsp;<a rel="previous" accesskey="p" href="Syntax-of-aggregate-projects.html#Syntax-of-aggregate-projects">Syntax of aggregate projects</a>,
+Up:&nbsp;<a rel="up" accesskey="u" href="Aggregate-Projects.html#Aggregate-Projects">Aggregate Projects</a>
+<hr>
+</div>
+
+<p><a name="gnat_005fugn_002fgnat_005fproject_005fmanager-package_002dbuilder_002din_002daggregate_002dprojects"></a><a name="g_t18c"></a><a name="gnat_005fugn_002fgnat_005fproject_005fmanager-id33"></a><a name="g_t18d"></a>
+
+<h4 class="subsection">5.7.6 package Builder in aggregate projects</h4>
+
+<p>As mentioned above, only the package Builder can be specified in
+an aggregate project. In this package, only the following attributes
+are valid:
+
+<p><a name="index-Switches-_0028GNAT-Project-Manager_0029-855"></a>
+`Switches':
+
+<blockquote>
+
+<p>This attribute gives the list of switches to use for `gprbuild'. 
+Because no mains can be specified for aggregate projects, the only possible
+index for attribute <cite>Switches</cite> is <cite>others</cite>. All other indexes will
+be ignored.
+
+<p>Example:
+
+<pre class="example">    for Switches (others) use ("-v", "-k", "-j8");
+</pre>
+<p>These switches are only read from the main aggregate project (the
+one passed on the command line), and ignored in all other aggregate
+projects or projects.
+
+<p>It can only contain builder switches, not compiler switches. 
+</blockquote>
+
+<p><a name="index-Global_005fCompilation_005fSwitches-_0028GNAT-Project-Manager_0029-856"></a>
+`Global_Compilation_Switches'
+
+<blockquote>
+
+<p>This attribute gives the list of compiler switches for the various
+languages. For instance,
+
+<pre class="example">    for Global_Compilation_Switches ("Ada") use ("O1", "-g");
+    for Global_Compilation_Switches ("C")   use ("-O2");
+</pre>
+<p>This attribute is only taken into account in the aggregate project
+specified on the command line, not in other aggregate projects.
+
+<p>In the projects grouped by that aggregate, the attribute
+Builder.Global_Compilation_Switches is also ignored. However, the
+attribute Compiler.Default_Switches will be taken into account (but
+that of the aggregate have higher priority). The attribute
+Compiler.Switches is also taken into account and can be used to
+override the switches for a specific file. As a result, it always
+has priority.
+
+<p>The rules are meant to avoid ambiguities when compiling. For
+instance, aggregate project Agg groups the projects A and B, that
+both depend on C. Here is an extra for all of these projects:
+
+<pre class="example">    aggregate project Agg is
+        for Project_Files use ("a.gpr", "b.gpr");
+        package Builder is
+           for Global_Compilation_Switches ("Ada") use ("-O2");
+        end Builder;
+    end Agg;
+    
+    with "c.gpr";
+    project A is
+        package Builder is
+           for Global_Compilation_Switches ("Ada") use ("-O1");
+           --  ignored
+        end Builder;
+    
+        package Compiler is
+           for Default_Switches ("Ada")
+               use ("-O1", "-g");
+           for Switches ("a_file1.adb")
+               use ("-O0");
+        end Compiler;
+    end A;
+    
+    with "c.gpr";
+    project B is
+        package Compiler is
+           for Default_Switches ("Ada") use ("-O0");
+        end Compiler;
+    end B;
+    
+    project C is
+        package Compiler is
+           for Default_Switches ("Ada")
+               use ("-O3",
+                    "-gnatn");
+           for Switches ("c_file1.adb")
+               use ("-O0", "-g");
+        end Compiler;
+    end C;
+</pre>
+<p>then the following switches are used:
+
+     <ul>
+<li>all files from project A except a_file1.adb are compiled
+with "-O2 -g", since the aggregate project has priority.
+
+     <li>the file a_file1.adb is compiled with
+"-O0", since the Compiler.Switches has priority
+
+     <li>all files from project B are compiled with
+"-O2", since the aggregate project has priority
+
+     <li>all files from C are compiled with "-O2 -gnatn", except for
+c_file1.adb which is compiled with "-O0 -g"
+</ul>
+
+<p>Even though C is seen through two paths (through A and through
+B), the switches used by the compiler are unambiguous. 
+</blockquote>
+
+<p><a name="index-Global_005fConfiguration_005fPragmas-_0028GNAT-Project-Manager_0029-857"></a>
+`Global_Configuration_Pragmas'
+
+<blockquote>
+
+<p>This attribute can be used to specify a file containing
+configuration pragmas, to be passed to the Ada compiler.  Since we
+ignore the package Builder in other aggregate projects and projects,
+only those pragmas defined in the main aggregate project will be
+taken into account.
+
+<p>Projects can locally add to those by using the
+<cite>Compiler.Local_Configuration_Pragmas</cite> attribute if they need. 
+</blockquote>
+
+<p><a name="index-Global_005fConfig_005fFile-_0028GNAT-Project-Manager_0029-858"></a>
+`Global_Config_File'
+
+<blockquote>
+
+<p>This attribute, indexed with a language name, can be used to specify a config
+when compiling sources of the language. For Ada, these files are configuration
+pragmas files. 
+</blockquote>
+
+<p>For projects that are built through the aggregate, the package Builder
+is ignored, except for the Executable attribute which specifies the
+name of the executables resulting from the link of the main programs, and
+for the Executable_Suffix.
+
+</body></html>
+

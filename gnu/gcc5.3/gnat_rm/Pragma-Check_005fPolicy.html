@@ -1,0 +1,115 @@
+<html lang="en">
+<head>
+<title>Pragma Check_Policy - GNAT Reference Manual</title>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+<meta name="description" content="GNAT Reference Manual">
+<meta name="generator" content="makeinfo 4.13">
+<link title="Top" rel="start" href="index.html#Top">
+<link rel="up" href="Implementation-Defined-Pragmas.html#Implementation-Defined-Pragmas" title="Implementation Defined Pragmas">
+<link rel="prev" href="Pragma-Check_005fName.html#Pragma-Check_005fName" title="Pragma Check_Name">
+<link rel="next" href="Pragma-CIL_005fConstructor.html#Pragma-CIL_005fConstructor" title="Pragma CIL_Constructor">
+<link href="http://www.gnu.org/software/texinfo/" rel="generator-home" title="Texinfo Homepage">
+<!--
+
+     GNAT Reference Manual , March 24, 2015
+
+     AdaCore
+
+     Copyright (C) 2008-2015, Free Software Foundation
+-->
+<meta http-equiv="Content-Style-Type" content="text/css">
+<style type="text/css"><!--
+  pre.display { font-family:inherit }
+  pre.format  { font-family:inherit }
+  pre.smalldisplay { font-family:inherit; font-size:smaller }
+  pre.smallformat  { font-family:inherit; font-size:smaller }
+  pre.smallexample { font-size:smaller }
+  pre.smalllisp    { font-size:smaller }
+  span.sc    { font-variant:small-caps }
+  span.roman { font-family:serif; font-weight:normal; } 
+  span.sansserif { font-family:sans-serif; font-weight:normal; } 
+--></style>
+</head>
+<body>
+<div class="node">
+<a name="Pragma-Check_Policy"></a>
+<a name="Pragma-Check_005fPolicy"></a>
+<p>
+Next:&nbsp;<a rel="next" accesskey="n" href="Pragma-CIL_005fConstructor.html#Pragma-CIL_005fConstructor">Pragma CIL_Constructor</a>,
+Previous:&nbsp;<a rel="previous" accesskey="p" href="Pragma-Check_005fName.html#Pragma-Check_005fName">Pragma Check_Name</a>,
+Up:&nbsp;<a rel="up" accesskey="u" href="Implementation-Defined-Pragmas.html#Implementation-Defined-Pragmas">Implementation Defined Pragmas</a>
+<hr>
+</div>
+
+<p><a name="gnat_005frm_002fimplementation_005fdefined_005fpragmas-pragma_002dcheck_002dpolicy"></a><a name="g_t31"></a>
+
+<h3 class="section">2.23 Pragma Check_Policy</h3>
+
+<p><a name="index-Controlling-assertions-17"></a>
+<a name="index-Assertions-18"></a><a name="index-control-19"></a>
+<a name="index-Check-pragma-control-20"></a>
+<a name="index-Named-assertions-21"></a>
+Syntax:
+
+<pre class="example">    pragma Check_Policy
+     ([Name   =&gt;] CHECK_KIND,
+      [Policy =&gt;] POLICY_IDENTIFIER);
+    
+    pragma Check_Policy (
+        CHECK_KIND =&gt; POLICY_IDENTIFIER
+     {, CHECK_KIND =&gt; POLICY_IDENTIFIER});
+    
+    ASSERTION_KIND ::= RM_ASSERTION_KIND | ID_ASSERTION_KIND
+    
+    CHECK_KIND ::= IDENTIFIER           |
+                   Pre'Class            |
+                   Post'Class           |
+                   Type_Invariant'Class |
+                   Invariant'Class
+    
+    The identifiers Name and Policy are not allowed as CHECK_KIND values. This
+    avoids confusion between the two possible syntax forms for this pragma.
+    
+    POLICY_IDENTIFIER ::= ON | OFF | CHECK | DISABLE | IGNORE
+</pre>
+<p>This pragma is used to set the checking policy for assertions (specified
+by aspects or pragmas), the <cite>Debug</cite> pragma, or additional checks
+to be checked using the <cite>Check</cite> pragma. It may appear either as
+a configuration pragma, or within a declarative part of package. In the
+latter case, it applies from the point where it appears to the end of
+the declarative region (like pragma <cite>Suppress</cite>).
+
+<p>The <cite>Check_Policy</cite> pragma is similar to the
+predefined <cite>Assertion_Policy</cite> pragma,
+and if the check kind corresponds to one of the assertion kinds that
+are allowed by <cite>Assertion_Policy</cite>, then the effect is identical.
+
+<p>If the first argument is Debug, then the policy applies to Debug pragmas,
+disabling their effect if the policy is <cite>OFF</cite>, <cite>DISABLE</cite>, or
+<cite>IGNORE</cite>, and allowing them to execute with normal semantics if
+the policy is <cite>ON</cite> or <cite>CHECK</cite>. In addition if the policy is
+<cite>DISABLE</cite>, then the procedure call in <cite>Debug</cite> pragmas will
+be totally ignored and not analyzed semantically.
+
+<p>Finally the first argument may be some other identifier than the above
+possibilities, in which case it controls a set of named assertions
+that can be checked using pragma <cite>Check</cite>. For example, if the pragma:
+
+<pre class="example">    pragma Check_Policy (Critical_Error, OFF);
+</pre>
+<p>is given, then subsequent <cite>Check</cite> pragmas whose first argument is also
+<cite>Critical_Error</cite> will be disabled.
+
+<p>The check policy is <cite>OFF</cite> to turn off corresponding checks, and <cite>ON</cite>
+to turn on corresponding checks. The default for a set of checks for which no
+<cite>Check_Policy</cite> is given is <cite>OFF</cite> unless the compiler switch
+`-gnata' is given, which turns on all checks by default.
+
+<p>The check policy settings <cite>CHECK</cite> and <cite>IGNORE</cite> are recognized
+as synonyms for <cite>ON</cite> and <cite>OFF</cite>. These synonyms are provided for
+compatibility with the standard <cite>Assertion_Policy</cite> pragma. The check
+policy setting <cite>DISABLE</cite> causes the second argument of a corresponding
+<cite>Check</cite> pragma to be completely ignored and not analyzed.
+
+</body></html>
+

@@ -1,0 +1,196 @@
+<html lang="en">
+<head>
+<title>Machine Code Insertions - GNAT Reference Manual</title>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+<meta name="description" content="GNAT Reference Manual">
+<meta name="generator" content="makeinfo 4.13">
+<link title="Top" rel="start" href="index.html#Top">
+<link rel="up" href="Implementation-of-Specific-Ada-Features.html#Implementation-of-Specific-Ada-Features" title="Implementation of Specific Ada Features">
+<link rel="next" href="GNAT-Implementation-of-Tasking.html#GNAT-Implementation-of-Tasking" title="GNAT Implementation of Tasking">
+<link href="http://www.gnu.org/software/texinfo/" rel="generator-home" title="Texinfo Homepage">
+<!--
+
+     GNAT Reference Manual , March 24, 2015
+
+     AdaCore
+
+     Copyright (C) 2008-2015, Free Software Foundation
+-->
+<meta http-equiv="Content-Style-Type" content="text/css">
+<style type="text/css"><!--
+  pre.display { font-family:inherit }
+  pre.format  { font-family:inherit }
+  pre.smalldisplay { font-family:inherit; font-size:smaller }
+  pre.smallformat  { font-family:inherit; font-size:smaller }
+  pre.smallexample { font-size:smaller }
+  pre.smalllisp    { font-size:smaller }
+  span.sc    { font-variant:small-caps }
+  span.roman { font-family:serif; font-weight:normal; } 
+  span.sansserif { font-family:sans-serif; font-weight:normal; } 
+--></style>
+</head>
+<body>
+<div class="node">
+<a name="Machine-Code-Insertions"></a>
+<p>
+Next:&nbsp;<a rel="next" accesskey="n" href="GNAT-Implementation-of-Tasking.html#GNAT-Implementation-of-Tasking">GNAT Implementation of Tasking</a>,
+Up:&nbsp;<a rel="up" accesskey="u" href="Implementation-of-Specific-Ada-Features.html#Implementation-of-Specific-Ada-Features">Implementation of Specific Ada Features</a>
+<hr>
+</div>
+
+<p><a name="gnat_005frm_002fimplementation_005fof_005fspecific_005fada_005ffeatures-machine_002dcode_002dinsertions"></a><a name="g_t11a"></a><a name="gnat_005frm_002fimplementation_005fof_005fspecific_005fada_005ffeatures-id2"></a><a name="g_t3ae"></a>
+
+<h3 class="section">15.1 Machine Code Insertions</h3>
+
+<p><a name="index-Machine-Code-insertions-928"></a>
+Package <cite>Machine_Code</cite> provides machine code support as described
+in the Ada Reference Manual in two separate forms:
+
+     <ul>
+<li>Machine code statements, consisting of qualified expressions that
+fit the requirements of RM section 13.8.
+
+     <li>An intrinsic callable procedure, providing an alternative mechanism of
+including machine instructions in a subprogram. 
+</ul>
+
+<p>The two features are similar, and both are closely related to the mechanism
+provided by the asm instruction in the GNU C compiler.  Full understanding
+and use of the facilities in this package requires understanding the asm
+instruction, see the section on Extended Asm in
+<cite>Using_the_GNU_Compiler_Collection_(GCC)</cite>.
+
+<p>Calls to the function <cite>Asm</cite> and the procedure <cite>Asm</cite> have identical
+semantic restrictions and effects as described below.  Both are provided so
+that the procedure call can be used as a statement, and the function call
+can be used to form a code_statement.
+
+<p>Consider this C <cite>asm</cite> instruction:
+
+<pre class="example">    asm ("fsinx %1 %0" : "=f" (result) : "f" (angle));
+</pre>
+<p>The equivalent can be written for GNAT as:
+
+<pre class="example">    Asm ("fsinx %1 %0",
+         My_Float'Asm_Output ("=f", result),
+         My_Float'Asm_Input  ("f",  angle));
+</pre>
+<p>The first argument to <cite>Asm</cite> is the assembler template, and is
+identical to what is used in GNU C.  This string must be a static
+expression.  The second argument is the output operand list.  It is
+either a single <cite>Asm_Output</cite> attribute reference, or a list of such
+references enclosed in parentheses (technically an array aggregate of
+such references).
+
+<p>The <cite>Asm_Output</cite> attribute denotes a function that takes two
+parameters.  The first is a string, the second is the name of a variable
+of the type designated by the attribute prefix.  The first (string)
+argument is required to be a static expression and designates the
+constraint (see the section on Constraints in
+<cite>Using_the_GNU_Compiler_Collection_(GCC)</cite>)
+for the parameter; e.g., what kind of register is required.  The second
+argument is the variable to be written or updated with the
+result.  The possible values for constraint are the same as those used in
+the RTL, and are dependent on the configuration file used to build the
+GCC back end.  If there are no output operands, then this argument may
+either be omitted, or explicitly given as <cite>No_Output_Operands</cite>. 
+No support is provided for GNU C's symbolic names for output parameters.
+
+<p>The second argument of <code>my_float'Asm_Output</code> functions as
+though it were an <cite>out</cite> parameter, which is a little curious, but
+all names have the form of expressions, so there is no syntactic
+irregularity, even though normally functions would not be permitted
+<cite>out</cite> parameters.  The third argument is the list of input
+operands.  It is either a single <cite>Asm_Input</cite> attribute reference, or
+a list of such references enclosed in parentheses (technically an array
+aggregate of such references).
+
+<p>The <cite>Asm_Input</cite> attribute denotes a function that takes two
+parameters.  The first is a string, the second is an expression of the
+type designated by the prefix.  The first (string) argument is required
+to be a static expression, and is the constraint for the parameter,
+(e.g., what kind of register is required).  The second argument is the
+value to be used as the input argument.  The possible values for the
+constraint are the same as those used in the RTL, and are dependent on
+the configuration file used to built the GCC back end. 
+No support is provided for GNU C's symbolic names for input parameters.
+
+<p>If there are no input operands, this argument may either be omitted, or
+explicitly given as <cite>No_Input_Operands</cite>.  The fourth argument, not
+present in the above example, is a list of register names, called the
+`clobber' argument.  This argument, if given, must be a static string
+expression, and is a space or comma separated list of names of registers
+that must be considered destroyed as a result of the <cite>Asm</cite> call.  If
+this argument is the null string (the default value), then the code
+generator assumes that no additional registers are destroyed. 
+In addition to registers, the special clobbers <cite>memory</cite> and
+<cite>cc</cite> as described in the GNU C docs are both supported.
+
+<p>The fifth argument, not present in the above example, called the
+`volatile' argument, is by default <cite>False</cite>.  It can be set to
+the literal value <cite>True</cite> to indicate to the code generator that all
+optimizations with respect to the instruction specified should be
+suppressed, and in particular an instruction that has outputs
+will still be generated, even if none of the outputs are
+used.  See <cite>Using_the_GNU_Compiler_Collection_(GCC)</cite>
+for the full description. 
+Generally it is strongly advisable to use Volatile for any ASM statement
+that is missing either input or output operands or to avoid unwanted
+optimizations. A warning is generated if this advice is not followed.
+
+<p>No support is provided for GNU C's <cite>asm goto</cite> feature.
+
+<p>The <cite>Asm</cite> subprograms may be used in two ways.  First the procedure
+forms can be used anywhere a procedure call would be valid, and
+correspond to what the RM calls 'intrinsic' routines.  Such calls can
+be used to intersperse machine instructions with other Ada statements. 
+Second, the function forms, which return a dummy value of the limited
+private type <cite>Asm_Insn</cite>, can be used in code statements, and indeed
+this is the only context where such calls are allowed.  Code statements
+appear as aggregates of the form:
+
+<pre class="example">    Asm_Insn'(Asm (...));
+    Asm_Insn'(Asm_Volatile (...));
+</pre>
+<p>In accordance with RM rules, such code statements are allowed only
+within subprograms whose entire body consists of such statements.  It is
+not permissible to intermix such statements with other Ada statements.
+
+<p>Typically the form using intrinsic procedure calls is more convenient
+and more flexible.  The code statement form is provided to meet the RM
+suggestion that such a facility should be made available.  The following
+is the exact syntax of the call to <cite>Asm</cite>. As usual, if named notation
+is used, the arguments may be given in arbitrary order, following the
+normal rules for use of positional and named arguments:
+
+<pre class="example">    ASM_CALL ::= Asm (
+                     [Template =&gt;] static_string_EXPRESSION
+                   [,[Outputs  =&gt;] OUTPUT_OPERAND_LIST      ]
+                   [,[Inputs   =&gt;] INPUT_OPERAND_LIST       ]
+                   [,[Clobber  =&gt;] static_string_EXPRESSION ]
+                   [,[Volatile =&gt;] static_boolean_EXPRESSION] )
+    
+    OUTPUT_OPERAND_LIST ::=
+      [PREFIX.]No_Output_Operands
+    | OUTPUT_OPERAND_ATTRIBUTE
+    | (OUTPUT_OPERAND_ATTRIBUTE {,OUTPUT_OPERAND_ATTRIBUTE})
+    
+    OUTPUT_OPERAND_ATTRIBUTE ::=
+      SUBTYPE_MARK'Asm_Output (static_string_EXPRESSION, NAME)
+    
+    INPUT_OPERAND_LIST ::=
+      [PREFIX.]No_Input_Operands
+    | INPUT_OPERAND_ATTRIBUTE
+    | (INPUT_OPERAND_ATTRIBUTE {,INPUT_OPERAND_ATTRIBUTE})
+    
+    INPUT_OPERAND_ATTRIBUTE ::=
+      SUBTYPE_MARK'Asm_Input (static_string_EXPRESSION, EXPRESSION)
+</pre>
+<p>The identifiers <cite>No_Input_Operands</cite> and <cite>No_Output_Operands</cite>
+are declared in the package <cite>Machine_Code</cite> and must be referenced
+according to normal visibility rules. In particular if there is no
+<cite>use</cite> clause for this package, then appropriate package name
+qualification is required.
+
+</body></html>
+

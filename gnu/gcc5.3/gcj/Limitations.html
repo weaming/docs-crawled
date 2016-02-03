@@ -1,0 +1,87 @@
+<html lang="en">
+<head>
+<title>Limitations - Guide to GNU gcj</title>
+<meta http-equiv="Content-Type" content="text/html">
+<meta name="description" content="Guide to GNU gcj">
+<meta name="generator" content="makeinfo 4.13">
+<link title="Top" rel="start" href="index.html#Top">
+<link rel="up" href="Compatibility.html#Compatibility" title="Compatibility">
+<link rel="next" href="Extensions.html#Extensions" title="Extensions">
+<link href="http://www.gnu.org/software/texinfo/" rel="generator-home" title="Texinfo Homepage">
+<!--
+Copyright (C) 2001-2015 Free Software Foundation, Inc.
+
+Permission is granted to copy, distribute and/or modify this document
+under the terms of the GNU Free Documentation License, Version 1.3 or
+any later version published by the Free Software Foundation; with no
+Invariant Sections, the Front-Cover Texts being (a) (see below), and
+with the Back-Cover Texts being (b) (see below).
+A copy of the license is included in the
+section entitled ``GNU Free Documentation License''.
+
+
+(a) The FSF's Front-Cover Text is:
+
+     A GNU Manual
+
+(b) The FSF's Back-Cover Text is:
+
+     You have freedom to copy and modify this GNU Manual, like GNU
+     software.  Copies published by the Free Software Foundation raise
+     funds for GNU development.
+-->
+<meta http-equiv="Content-Style-Type" content="text/css">
+<style type="text/css"><!--
+  pre.display { font-family:inherit }
+  pre.format  { font-family:inherit }
+  pre.smalldisplay { font-family:inherit; font-size:smaller }
+  pre.smallformat  { font-family:inherit; font-size:smaller }
+  pre.smallexample { font-size:smaller }
+  pre.smalllisp    { font-size:smaller }
+  span.sc    { font-variant:small-caps }
+  span.roman { font-family:serif; font-weight:normal; } 
+  span.sansserif { font-family:sans-serif; font-weight:normal; } 
+--></style>
+</head>
+<body>
+<div class="node">
+<a name="Limitations"></a>
+<p>
+Next:&nbsp;<a rel="next" accesskey="n" href="Extensions.html#Extensions">Extensions</a>,
+Up:&nbsp;<a rel="up" accesskey="u" href="Compatibility.html#Compatibility">Compatibility</a>
+<hr>
+</div>
+
+<h3 class="section">2.1 Standard features not yet supported</h3>
+
+<p>This list of compatibility issues is by no means complete.
+
+     <ul>
+<li><samp><span class="command">gcj</span></samp> implements the JDK 1.2 language.  It supports inner classes
+and the new 1.4 <code>assert</code> keyword.  It does not yet support the Java 2
+<code>strictfp</code> keyword (it recognizes the keyword but ignores it).
+
+     <li><code>libgcj</code> is largely compatible with the JDK 1.2 libraries. 
+However, <code>libgcj</code> is missing many packages, most notably
+<code>java.awt</code>.  There are also individual missing classes and methods. 
+We currently do not have a list showing differences between
+<code>libgcj</code> and the Java 2 platform.
+
+     <li>Sometimes the <code>libgcj</code> implementation of a method or class differs
+from the JDK implementation.  This is not always a bug.  Still, if it
+affects you, it probably makes sense to report it so that we can discuss
+the appropriate response.
+
+     <li><samp><span class="command">gcj</span></samp> does not currently allow for piecemeal replacement of
+components within <code>libgcj</code>. Unfortunately, programmers often want
+to use newer versions of certain packages, such as those provided by
+the Apache Software Foundation's Jakarta project.  This has forced us
+to place the <code>org.w3c.dom</code> and <code>org.xml.sax</code> packages into
+their own libraries, separate from <code>libgcj</code>.  If you intend to
+use these classes, you must link them explicitly with
+<code>-l-org-w3c-dom</code> and <code>-l-org-xml-sax</code>.  Future versions of
+<samp><span class="command">gcj</span></samp> may not have this restriction. 
+</ul>
+
+   </body></html>
+

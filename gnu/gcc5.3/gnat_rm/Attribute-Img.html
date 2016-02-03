@@ -1,0 +1,68 @@
+<html lang="en">
+<head>
+<title>Attribute Img - GNAT Reference Manual</title>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+<meta name="description" content="GNAT Reference Manual">
+<meta name="generator" content="makeinfo 4.13">
+<link title="Top" rel="start" href="index.html#Top">
+<link rel="up" href="Implementation-Defined-Attributes.html#Implementation-Defined-Attributes" title="Implementation Defined Attributes">
+<link rel="prev" href="Attribute-Has_005fDiscriminants.html#Attribute-Has_005fDiscriminants" title="Attribute Has_Discriminants">
+<link rel="next" href="Attribute-Integer_005fValue.html#Attribute-Integer_005fValue" title="Attribute Integer_Value">
+<link href="http://www.gnu.org/software/texinfo/" rel="generator-home" title="Texinfo Homepage">
+<!--
+
+     GNAT Reference Manual , March 24, 2015
+
+     AdaCore
+
+     Copyright (C) 2008-2015, Free Software Foundation
+-->
+<meta http-equiv="Content-Style-Type" content="text/css">
+<style type="text/css"><!--
+  pre.display { font-family:inherit }
+  pre.format  { font-family:inherit }
+  pre.smalldisplay { font-family:inherit; font-size:smaller }
+  pre.smallformat  { font-family:inherit; font-size:smaller }
+  pre.smallexample { font-size:smaller }
+  pre.smalllisp    { font-size:smaller }
+  span.sc    { font-variant:small-caps }
+  span.roman { font-family:serif; font-weight:normal; } 
+  span.sansserif { font-family:sans-serif; font-weight:normal; } 
+--></style>
+</head>
+<body>
+<div class="node">
+<a name="Attribute-Img"></a>
+<p>
+Next:&nbsp;<a rel="next" accesskey="n" href="Attribute-Integer_005fValue.html#Attribute-Integer_005fValue">Attribute Integer_Value</a>,
+Previous:&nbsp;<a rel="previous" accesskey="p" href="Attribute-Has_005fDiscriminants.html#Attribute-Has_005fDiscriminants">Attribute Has_Discriminants</a>,
+Up:&nbsp;<a rel="up" accesskey="u" href="Implementation-Defined-Attributes.html#Implementation-Defined-Attributes">Implementation Defined Attributes</a>
+<hr>
+</div>
+
+<p><a name="gnat_005frm_002fimplementation_005fdefined_005fattributes-attribute_002dimg"></a><a name="g_t134"></a>
+
+<h3 class="section">4.29 Attribute Img</h3>
+
+<p><a name="index-Img-203"></a>
+The <cite>Img</cite> attribute differs from <cite>Image</cite> in that it is applied
+directly to an object, and yields the same result as
+<cite>Image</cite> for the subtype of the object.  This is convenient for
+debugging:
+
+<pre class="example">    Put_Line ("X = " &amp; X'Img);
+</pre>
+<p>has the same meaning as the more verbose:
+
+<pre class="example">    Put_Line ("X = " &amp; T'Image (X));
+</pre>
+<p>where <cite>T</cite> is the (sub)type of the object <cite>X</cite>.
+
+<p>Note that technically, in analogy to <cite>Image</cite>,
+<cite>X'Img</cite> returns a parameterless function
+that returns the appropriate string when called. This means that
+<cite>X'Img</cite> can be renamed as a function-returning-string, or used
+in an instantiation as a function parameter.
+
+</body></html>
+

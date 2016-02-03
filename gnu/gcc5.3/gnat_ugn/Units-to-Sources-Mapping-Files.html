@@ -1,0 +1,90 @@
+<html lang="en">
+<head>
+<title>Units to Sources Mapping Files - GNAT User's Guide for Native Platforms</title>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+<meta name="description" content="GNAT User's Guide for Native Platforms">
+<meta name="generator" content="makeinfo 4.13">
+<link title="Top" rel="start" href="index.html#Top">
+<link rel="up" href="Compiler-Switches.html#Compiler-Switches" title="Compiler Switches">
+<link rel="prev" href="Exception-Handling-Control.html#Exception-Handling-Control" title="Exception Handling Control">
+<link rel="next" href="Code-Generation-Control.html#Code-Generation-Control" title="Code Generation Control">
+<link href="http://www.gnu.org/software/texinfo/" rel="generator-home" title="Texinfo Homepage">
+<!--
+
+     GNAT User's Guide for Native Platforms , March 24, 2015
+
+     AdaCore
+
+     Copyright (C) 2008-2015, Free Software Foundation
+-->
+<meta http-equiv="Content-Style-Type" content="text/css">
+<style type="text/css"><!--
+  pre.display { font-family:inherit }
+  pre.format  { font-family:inherit }
+  pre.smalldisplay { font-family:inherit; font-size:smaller }
+  pre.smallformat  { font-family:inherit; font-size:smaller }
+  pre.smallexample { font-size:smaller }
+  pre.smalllisp    { font-size:smaller }
+  span.sc    { font-variant:small-caps }
+  span.roman { font-family:serif; font-weight:normal; } 
+  span.sansserif { font-family:sans-serif; font-weight:normal; } 
+--></style>
+</head>
+<body>
+<div class="node">
+<a name="Units-to-Sources-Mapping-Files"></a>
+<p>
+Next:&nbsp;<a rel="next" accesskey="n" href="Code-Generation-Control.html#Code-Generation-Control">Code Generation Control</a>,
+Previous:&nbsp;<a rel="previous" accesskey="p" href="Exception-Handling-Control.html#Exception-Handling-Control">Exception Handling Control</a>,
+Up:&nbsp;<a rel="up" accesskey="u" href="Compiler-Switches.html#Compiler-Switches">Compiler Switches</a>
+<hr>
+</div>
+
+<p><a name="gnat_005fugn_002fbuilding_005fexecutable_005fprograms_005fwith_005fgnat-id29"></a><a name="g_t11b"></a><a name="gnat_005fugn_002fbuilding_005fexecutable_005fprograms_005fwith_005fgnat-units_002dto_002dsources_002dmapping_002dfiles"></a><a name="fc"></a>
+
+<h4 class="subsection">4.3.17 Units to Sources Mapping Files</h4>
+
+<p><a name="index-g_t_002dgnatem-_0028gcc_0029-654"></a>
+
+     <dl>
+<dt><code>-gnatem=`path'</code><dd>
+A mapping file is a way to communicate to the compiler two mappings:
+from unit names to file names (without any directory information) and from
+file names to path names (with full directory information). These mappings
+are used by the compiler to short-circuit the path search.
+
+     <p>The use of mapping files is not required for correct operation of the
+compiler, but mapping files can improve efficiency, particularly when
+sources are read over a slow network connection. In normal operation,
+you need not be concerned with the format or use of mapping files,
+and the `-gnatem' switch is not a switch that you would use
+explicitly. It is intended primarily for use by automatic tools such as
+`gnatmake' running under the project file facility. The
+description here of the format of mapping files is provided
+for completeness and for possible use by other tools.
+
+     <p>A mapping file is a sequence of sets of three lines. In each set, the
+first line is the unit name, in lower case, with <cite>%s</cite> appended
+for specs and <cite>%b</cite> appended for bodies; the second line is the
+file name; and the third line is the path name.
+
+     <p>Example:
+
+     <pre class="example">         main%b
+         main.2.ada
+         /gnat/project1/sources/main.2.ada
+</pre>
+     <p>When the switch `-gnatem' is specified, the compiler will
+create in memory the two mappings from the specified file. If there is
+any problem (nonexistent file, truncated file or duplicate entries),
+no mapping will be created.
+
+     <p>Several `-gnatem' switches may be specified; however, only the
+last one on the command line will be taken into account.
+
+     <p>When using a project file, `gnatmake' creates a temporary
+mapping file and communicates it to the compiler using this switch. 
+</dl>
+
+</body></html>
+

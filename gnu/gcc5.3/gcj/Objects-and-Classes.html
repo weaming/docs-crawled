@@ -1,0 +1,118 @@
+<html lang="en">
+<head>
+<title>Objects and Classes - Guide to GNU gcj</title>
+<meta http-equiv="Content-Type" content="text/html">
+<meta name="description" content="Guide to GNU gcj">
+<meta name="generator" content="makeinfo 4.13">
+<link title="Top" rel="start" href="index.html#Top">
+<link rel="up" href="About-CNI.html#About-CNI" title="About CNI">
+<link rel="prev" href="Interfaces.html#Interfaces" title="Interfaces">
+<link rel="next" href="Class-Initialization.html#Class-Initialization" title="Class Initialization">
+<link href="http://www.gnu.org/software/texinfo/" rel="generator-home" title="Texinfo Homepage">
+<!--
+Copyright (C) 2001-2015 Free Software Foundation, Inc.
+
+Permission is granted to copy, distribute and/or modify this document
+under the terms of the GNU Free Documentation License, Version 1.3 or
+any later version published by the Free Software Foundation; with no
+Invariant Sections, the Front-Cover Texts being (a) (see below), and
+with the Back-Cover Texts being (b) (see below).
+A copy of the license is included in the
+section entitled ``GNU Free Documentation License''.
+
+
+(a) The FSF's Front-Cover Text is:
+
+     A GNU Manual
+
+(b) The FSF's Back-Cover Text is:
+
+     You have freedom to copy and modify this GNU Manual, like GNU
+     software.  Copies published by the Free Software Foundation raise
+     funds for GNU development.
+-->
+<meta http-equiv="Content-Style-Type" content="text/css">
+<style type="text/css"><!--
+  pre.display { font-family:inherit }
+  pre.format  { font-family:inherit }
+  pre.smalldisplay { font-family:inherit; font-size:smaller }
+  pre.smallformat  { font-family:inherit; font-size:smaller }
+  pre.smallexample { font-size:smaller }
+  pre.smalllisp    { font-size:smaller }
+  span.sc    { font-variant:small-caps }
+  span.roman { font-family:serif; font-weight:normal; } 
+  span.sansserif { font-family:sans-serif; font-weight:normal; } 
+--></style>
+</head>
+<body>
+<div class="node">
+<a name="Objects-and-Classes"></a>
+<p>
+Next:&nbsp;<a rel="next" accesskey="n" href="Class-Initialization.html#Class-Initialization">Class Initialization</a>,
+Previous:&nbsp;<a rel="previous" accesskey="p" href="Interfaces.html#Interfaces">Interfaces</a>,
+Up:&nbsp;<a rel="up" accesskey="u" href="About-CNI.html#About-CNI">About CNI</a>
+<hr>
+</div>
+
+<h3 class="section">11.6 Objects and Classes</h3>
+
+<h4 class="subsection">11.6.1 Classes</h4>
+
+<p>All Java classes are derived from <code>java.lang.Object</code>.  C++ does
+not have a unique root class, but we use the C++ class
+<code>java::lang::Object</code> as the C++ version of the
+<code>java.lang.Object</code> Java class.  All other Java classes are mapped
+into corresponding C++ classes derived from <code>java::lang::Object</code>.
+
+   <p>Interface inheritance (the <code>implements</code> keyword) is currently not
+reflected in the C++ mapping.
+
+<h4 class="subsection">11.6.2 Object fields</h4>
+
+<p>Each object contains an object header, followed by the instance fields
+of the class, in order.  The object header consists of a single
+pointer to a dispatch or virtual function table.  (There may be extra
+fields <em>in front of</em> the object, for example for memory
+management, but this is invisible to the application, and the
+reference to the object points to the dispatch table pointer.)
+
+   <p>The fields are laid out in the same order, alignment, and size as in
+C++.  Specifically, 8-bit and 16-bit native types (<code>byte</code>,
+<code>short</code>, <code>char</code>, and <code>boolean</code>) are <em>not</em> widened
+to 32 bits.  Note that the Java VM does extend 8-bit and 16-bit types
+to 32 bits when on the VM stack or temporary registers.
+
+   <p>If you include the <code>gcjh</code>-generated header for a
+class, you can access fields of Java classes in the <em>natural</em>
+way.  For example, given the following Java class:
+
+<pre class="example">     public class Int
+     {
+       public int i;
+       public Int (int i) { this.i = i; }
+       public static Int zero = new Int(0);
+     }
+</pre>
+   <p>you can write:
+
+<pre class="example">     #include &lt;gcj/cni.h&gt;;
+     #include &lt;Int&gt;;
+     
+     Int*
+     mult (Int *p, jint k)
+     {
+       if (k == 0)
+         return Int::zero;  // <span class="roman">Static member access.</span>
+       return new Int(p-&gt;i * k);
+     }
+</pre>
+   <h4 class="subsection">11.6.3 Access specifiers</h4>
+
+<p>CNI does not strictly enforce the Java access
+specifiers, because Java permissions cannot be directly mapped
+into C++ permission.  Private Java fields and methods are mapped
+to private C++ fields and methods, but other fields and methods
+are mapped to public fields and methods.
+
+   </body></html>
+

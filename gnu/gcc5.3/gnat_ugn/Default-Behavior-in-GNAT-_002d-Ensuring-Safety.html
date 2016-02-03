@@ -1,0 +1,150 @@
+<html lang="en">
+<head>
+<title>Default Behavior in GNAT - Ensuring Safety - GNAT User's Guide for Native Platforms</title>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+<meta name="description" content="GNAT User's Guide for Native Platforms">
+<meta name="generator" content="makeinfo 4.13">
+<link title="Top" rel="start" href="index.html#Top">
+<link rel="up" href="Elaboration-Order-Handling-in-GNAT.html#Elaboration-Order-Handling-in-GNAT" title="Elaboration Order Handling in GNAT">
+<link rel="prev" href="Controlling-Elaboration-in-GNAT-_002d-External-Calls.html#Controlling-Elaboration-in-GNAT-_002d-External-Calls" title="Controlling Elaboration in GNAT - External Calls">
+<link rel="next" href="Treatment-of-Pragma-Elaborate.html#Treatment-of-Pragma-Elaborate" title="Treatment of Pragma Elaborate">
+<link href="http://www.gnu.org/software/texinfo/" rel="generator-home" title="Texinfo Homepage">
+<!--
+
+     GNAT User's Guide for Native Platforms , March 24, 2015
+
+     AdaCore
+
+     Copyright (C) 2008-2015, Free Software Foundation
+-->
+<meta http-equiv="Content-Style-Type" content="text/css">
+<style type="text/css"><!--
+  pre.display { font-family:inherit }
+  pre.format  { font-family:inherit }
+  pre.smalldisplay { font-family:inherit; font-size:smaller }
+  pre.smallformat  { font-family:inherit; font-size:smaller }
+  pre.smallexample { font-size:smaller }
+  pre.smalllisp    { font-size:smaller }
+  span.sc    { font-variant:small-caps }
+  span.roman { font-family:serif; font-weight:normal; } 
+  span.sansserif { font-family:sans-serif; font-weight:normal; } 
+--></style>
+</head>
+<body>
+<div class="node">
+<a name="Default-Behavior-in-GNAT---Ensuring-Safety"></a>
+<a name="Default-Behavior-in-GNAT-_002d-Ensuring-Safety"></a>
+<p>
+Next:&nbsp;<a rel="next" accesskey="n" href="Treatment-of-Pragma-Elaborate.html#Treatment-of-Pragma-Elaborate">Treatment of Pragma Elaborate</a>,
+Previous:&nbsp;<a rel="previous" accesskey="p" href="Controlling-Elaboration-in-GNAT-_002d-External-Calls.html#Controlling-Elaboration-in-GNAT-_002d-External-Calls">Controlling Elaboration in GNAT - External Calls</a>,
+Up:&nbsp;<a rel="up" accesskey="u" href="Elaboration-Order-Handling-in-GNAT.html#Elaboration-Order-Handling-in-GNAT">Elaboration Order Handling in GNAT</a>
+<hr>
+</div>
+
+<p><a name="gnat_005fugn_002felaboration_005forder_005fhandling_005fin_005fgnat-id7"></a><a name="g_t2ba"></a><a name="gnat_005fugn_002felaboration_005forder_005fhandling_005fin_005fgnat-default_002dbehavior_002din_002dgnat_002densuring_002dsafety"></a><a name="g_t2bb"></a>
+
+<h3 class="section">11.6 Default Behavior in GNAT - Ensuring Safety</h3>
+
+<p>The default behavior in GNAT ensures elaboration safety. In its
+default mode GNAT implements the
+rule we previously described as the right approach. Let's restate it:
+
+<p>`If a unit has elaboration code that can directly or indirectly make a
+call to a subprogram in a |withed| unit, or instantiate a generic
+package in a |withed| unit, then if the |withed| unit
+does not have pragma `Pure` or `Preelaborate`, then the client should have an
+`Elaborate_All` pragma for the |withed| unit.'
+
+<p>`In the case of instantiating a generic subprogram, it is always
+sufficient to have only an `Elaborate` pragma for the
+|withed| unit.'
+
+<p>By following this rule a client is assured that calls and instantiations
+can be made without risk of an exception.
+
+<p>In this mode GNAT traces all calls that are potentially made from
+elaboration code, and puts in any missing implicit <cite>Elaborate</cite>
+and <cite>Elaborate_All</cite> pragmas. 
+The advantage of this approach is that no elaboration problems
+are possible if the binder can find an elaboration order that is
+consistent with these implicit <cite>Elaborate</cite> and
+<cite>Elaborate_All</cite> pragmas. The
+disadvantage of this approach is that no such order may exist.
+
+<p>If the binder does not generate any diagnostics, then it means that it has
+found an elaboration order that is guaranteed to be safe. However, the binder
+may still be relying on implicitly generated <cite>Elaborate</cite> and
+<cite>Elaborate_All</cite> pragmas so portability to other compilers than GNAT is not
+guaranteed.
+
+<p>If it is important to guarantee portability, then the compilations should
+use the `-gnatel'
+(info messages for elaboration pragmas) switch. This will cause info messages
+to be generated indicating the missing <cite>Elaborate</cite> and
+<cite>Elaborate_All</cite> pragmas. 
+Consider the following source program:
+
+<pre class="example">    with k;
+    package j is
+      m : integer := k.r;
+    end;
+</pre>
+<p>where it is clear that there
+should be a pragma <cite>Elaborate_All</cite>
+for unit <cite>k</cite>. An implicit pragma will be generated, and it is
+likely that the binder will be able to honor it. However, if you want
+to port this program to some other Ada compiler than GNAT. 
+it is safer to include the pragma explicitly in the source. If this
+unit is compiled with the `-gnatel'
+switch, then the compiler outputs an information message:
+
+<pre class="example">    1. with k;
+    2. package j is
+    3.   m : integer := k.r;
+                         |
+       &gt;&gt;&gt; info: call to "r" may raise Program_Error
+       &gt;&gt;&gt; info: missing pragma Elaborate_All for "k"
+    
+    4. end;
+</pre>
+<p>and these messages can be used as a guide for supplying manually
+the missing pragmas. It is usually a bad idea to use this
+option during development. That's because it will tell you when
+you need to put in a pragma, but cannot tell you when it is time
+to take it out. So the use of pragma <cite>Elaborate_All</cite> may lead to
+unnecessary dependencies and even false circularities.
+
+<p>This default mode is more restrictive than the Ada Reference
+Manual, and it is possible to construct programs which will compile
+using the dynamic model described there, but will run into a
+circularity using the safer static model we have described.
+
+<p>Of course any Ada compiler must be able to operate in a mode
+consistent with the requirements of the Ada Reference Manual,
+and in particular must have the capability of implementing the
+standard dynamic model of elaboration with run-time checks.
+
+<p>In GNAT, this standard mode can be achieved either by the use of
+the `-gnatE' switch on the compiler (`gcc' or
+`gnatmake') command, or by the use of the configuration pragma:
+
+<pre class="example">    pragma Elaboration_Checks (DYNAMIC);
+</pre>
+<p>Either approach will cause the unit affected to be compiled using the
+standard dynamic run-time elaboration checks described in the Ada
+Reference Manual. The static model is generally preferable, since it
+is clearly safer to rely on compile and link time checks rather than
+run-time checks. However, in the case of legacy code, it may be
+difficult to meet the requirements of the static model. This
+issue is further discussed in
+<a href="2bc.html#g_t2bc">What to Do If the Default Elaboration Behavior Fails</a>.
+
+<p>Note that the static model provides a strict subset of the allowed
+behavior and programs of the Ada Reference Manual, so if you do
+adhere to the static model and no circularities exist,
+then you are assured that your program will
+work using the dynamic model, providing that you remove any
+pragma Elaborate statements from the source.
+
+</body></html>
+

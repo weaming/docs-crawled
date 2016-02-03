@@ -1,0 +1,111 @@
+<html lang="en">
+<head>
+<title>Handling of Records with Holes - GNAT Reference Manual</title>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+<meta name="description" content="GNAT Reference Manual">
+<meta name="generator" content="makeinfo 4.13">
+<link title="Top" rel="start" href="index.html#Top">
+<link rel="up" href="Representation-Clauses-and-Pragmas.html#Representation-Clauses-and-Pragmas" title="Representation Clauses and Pragmas">
+<link rel="prev" href="Record-Representation-Clauses.html#Record-Representation-Clauses" title="Record Representation Clauses">
+<link rel="next" href="Enumeration-Clauses.html#Enumeration-Clauses" title="Enumeration Clauses">
+<link href="http://www.gnu.org/software/texinfo/" rel="generator-home" title="Texinfo Homepage">
+<!--
+
+     GNAT Reference Manual , March 24, 2015
+
+     AdaCore
+
+     Copyright (C) 2008-2015, Free Software Foundation
+-->
+<meta http-equiv="Content-Style-Type" content="text/css">
+<style type="text/css"><!--
+  pre.display { font-family:inherit }
+  pre.format  { font-family:inherit }
+  pre.smalldisplay { font-family:inherit; font-size:smaller }
+  pre.smallformat  { font-family:inherit; font-size:smaller }
+  pre.smallexample { font-size:smaller }
+  pre.smalllisp    { font-size:smaller }
+  span.sc    { font-variant:small-caps }
+  span.roman { font-family:serif; font-weight:normal; } 
+  span.sansserif { font-family:sans-serif; font-weight:normal; } 
+--></style>
+</head>
+<body>
+<div class="node">
+<a name="Handling-of-Records-with-Holes"></a>
+<p>
+Next:&nbsp;<a rel="next" accesskey="n" href="Enumeration-Clauses.html#Enumeration-Clauses">Enumeration Clauses</a>,
+Previous:&nbsp;<a rel="previous" accesskey="p" href="Record-Representation-Clauses.html#Record-Representation-Clauses">Record Representation Clauses</a>,
+Up:&nbsp;<a rel="up" accesskey="u" href="Representation-Clauses-and-Pragmas.html#Representation-Clauses-and-Pragmas">Representation Clauses and Pragmas</a>
+<hr>
+</div>
+
+<p><a name="gnat_005frm_002frepresentation_005fclauses_005fand_005fpragmas-handling_002dof_002drecords_002dwith_002dholes"></a><a name="g_t232"></a><a name="gnat_005frm_002frepresentation_005fclauses_005fand_005fpragmas-id14"></a><a name="g_t233"></a>
+
+<h3 class="section">9.13 Handling of Records with Holes</h3>
+
+<p><a name="index-Handling-of-Records-with-Holes-511"></a>
+As a result of alignment considerations, records may contain "holes"
+or gaps
+which do not correspond to the data bits of any of the components. 
+Record representation clauses can also result in holes in records.
+
+<p>GNAT does not attempt to clear these holes, so in record objects,
+they should be considered to hold undefined rubbish. The generated
+equality routine just tests components so does not access these
+undefined bits, and assignment and copy operations may or may not
+preserve the contents of these holes (for assignments, the holes
+in the target will in practice contain either the bits that are
+present in the holes in the source, or the bits that were present
+in the target before the assignment).
+
+<p>If it is necessary to ensure that holes in records have all zero
+bits, then record objects for which this initialization is desired
+should be explicitly set to all zero values using Unchecked_Conversion
+or address overlays. For example
+
+<pre class="example">    type HRec is record
+       C : Character;
+       I : Integer;
+    end record;
+</pre>
+<p>On typical machines, integers need to be aligned on a four-byte
+boundary, resulting in three bytes of undefined rubbish following
+the 8-bit field for C. To ensure that the hole in a variable of
+type HRec is set to all zero bits,
+you could for example do:
+
+<pre class="example">    type Base is record
+       Dummy1, Dummy2 : Integer := 0;
+    end record;
+    
+    BaseVar : Base;
+    RealVar : Hrec;
+    for RealVar'Address use BaseVar'Address;
+</pre>
+<p>Now the 8-bytes of the value of RealVar start out containing all zero
+bits. A safer approach is to just define dummy fields, avoiding the
+holes, as in:
+
+<pre class="example">    type HRec is record
+       C      : Character;
+       Dummy1 : Short_Short_Integer := 0;
+       Dummy2 : Short_Short_Integer := 0;
+       Dummy3 : Short_Short_Integer := 0;
+       I      : Integer;
+    end record;
+</pre>
+<p>And to make absolutely sure that the intent of this is followed, you
+can use representation clauses:
+
+<pre class="example">    for Hrec use record
+       C      at 0 range 0 .. 7;
+       Dummy1 at 1 range 0 .. 7;
+       Dummy2 at 2 range 0 .. 7;
+       Dummy3 at 3 range 0 .. 7;
+       I      at 4 range 0 .. 31;
+    end record;
+    for Hrec'Size use 64;
+</pre>
+</body></html>
+

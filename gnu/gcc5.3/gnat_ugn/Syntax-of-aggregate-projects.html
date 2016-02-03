@@ -1,0 +1,267 @@
+<html lang="en">
+<head>
+<title>Syntax of aggregate projects - GNAT User's Guide for Native Platforms</title>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+<meta name="description" content="GNAT User's Guide for Native Platforms">
+<meta name="generator" content="makeinfo 4.13">
+<link title="Top" rel="start" href="index.html#Top">
+<link rel="up" href="Aggregate-Projects.html#Aggregate-Projects" title="Aggregate Projects">
+<link rel="prev" href="Performance-improvements-in-builder.html#Performance-improvements-in-builder" title="Performance improvements in builder">
+<link rel="next" href="package-Builder-in-aggregate-projects.html#package-Builder-in-aggregate-projects" title="package Builder in aggregate projects">
+<link href="http://www.gnu.org/software/texinfo/" rel="generator-home" title="Texinfo Homepage">
+<!--
+
+     GNAT User's Guide for Native Platforms , March 24, 2015
+
+     AdaCore
+
+     Copyright (C) 2008-2015, Free Software Foundation
+-->
+<meta http-equiv="Content-Style-Type" content="text/css">
+<style type="text/css"><!--
+  pre.display { font-family:inherit }
+  pre.format  { font-family:inherit }
+  pre.smalldisplay { font-family:inherit; font-size:smaller }
+  pre.smallformat  { font-family:inherit; font-size:smaller }
+  pre.smallexample { font-size:smaller }
+  pre.smalllisp    { font-size:smaller }
+  span.sc    { font-variant:small-caps }
+  span.roman { font-family:serif; font-weight:normal; } 
+  span.sansserif { font-family:sans-serif; font-weight:normal; } 
+--></style>
+</head>
+<body>
+<div class="node">
+<a name="Syntax-of-aggregate-projects"></a>
+<p>
+Next:&nbsp;<a rel="next" accesskey="n" href="package-Builder-in-aggregate-projects.html#package-Builder-in-aggregate-projects">package Builder in aggregate projects</a>,
+Previous:&nbsp;<a rel="previous" accesskey="p" href="Performance-improvements-in-builder.html#Performance-improvements-in-builder">Performance improvements in builder</a>,
+Up:&nbsp;<a rel="up" accesskey="u" href="Aggregate-Projects.html#Aggregate-Projects">Aggregate Projects</a>
+<hr>
+</div>
+
+<p><a name="gnat_005fugn_002fgnat_005fproject_005fmanager-id32"></a><a name="g_t18a"></a><a name="gnat_005fugn_002fgnat_005fproject_005fmanager-syntax_002dof_002daggregate_002dprojects"></a><a name="g_t18b"></a>
+
+<h4 class="subsection">5.7.5 Syntax of aggregate projects</h4>
+
+<p>An aggregate project follows the general syntax of project files. The
+recommended extension is still <code>.gpr</code>. However, a special
+<cite>aggregate</cite> qualifier must be put before the keyword
+<cite>project</cite>.
+
+<p>An aggregate project cannot `with' any other project (standard or
+aggregate), except an abstract project which can be used to share attribute
+values. Also, aggregate projects cannot be extended or imported though a
+`with' clause by any other project. Building other aggregate projects from
+an aggregate project is done through the Project_Files attribute (see below).
+
+<p>An aggregate project does not have any source files directly (only
+through other standard projects). Therefore a number of the standard
+attributes and packages are forbidden in an aggregate project. Here is the
+(non exhaustive) list:
+
+     <ul>
+<li>Languages
+
+     <li>Source_Files, Source_List_File and other attributes dealing with
+list of sources.
+
+     <li>Source_Dirs, Exec_Dir and Object_Dir
+
+     <li>Library_Dir, Library_Name and other library-related attributes
+
+     <li>Main
+
+     <li>Roots
+
+     <li>Externally_Built
+
+     <li>Inherit_Source_Path
+
+     <li>Excluded_Source_Dirs
+
+     <li>Locally_Removed_Files
+
+     <li>Excluded_Source_Files
+
+     <li>Excluded_Source_List_File
+
+     <li>Interfaces
+</ul>
+
+<p>The only package that is authorized (albeit optional) is
+Builder. Other packages (in particular Compiler, Binder and Linker)
+are forbidden.
+
+<p>The following three attributes can be used only in an aggregate project:
+
+<p><a name="index-Project_005fFiles-_0028GNAT-Project-Manager_0029-852"></a>
+`Project_Files':
+
+<blockquote>
+
+<p>This attribute is compulsory (or else we are not aggregating any project,
+and thus not doing anything). It specifies a list of <code>.gpr</code> files
+that are grouped in the aggregate. The list may be empty. The project
+files can be either other aggregate projects, or standard projects. When
+grouping standard projects, you can have both the root of a project tree
+(and you do not need to specify all its imported projects), and any project
+within the tree.
+
+<p>Basically, the idea is to specify all those projects that have
+main programs you want to build and link, or libraries you want to
+build. You can even specify projects that do not use the Main
+attribute nor the <cite>Library_*</cite> attributes, and the result will be to
+build all their source files (not just the ones needed by other
+projects).
+
+<p>The file can include paths (absolute or relative). Paths are relative to
+the location of the aggregate project file itself (if you use a base name,
+we expect to find the .gpr file in the same directory as the aggregate
+project file). The environment variables <cite>ADA_PROJECT_PATH</cite>,
+<cite>GPR_PROJECT_PATH</cite> and <cite>GPR_PROJECT_PATH_FILE</cite> are not used to find
+the project files. The extension <code>.gpr</code> is mandatory, since this attribute
+contains file names, not project names.
+
+<p>Paths can also include the <cite>"*"</cite> and <cite>"**"</cite> globbing patterns. The
+latter indicates that any subdirectory (recursively) will be
+searched for matching files. The latter (<cite>"**"</cite>) can only occur at the
+last position in the directory part (ie <cite>"a/**/*.gpr"</cite> is supported, but
+not <cite>"**/a/*.gpr"</cite>). Starting the pattern with <cite>"**"</cite> is equivalent
+to starting with <cite>"./**"</cite>.
+
+<p>For now, the pattern <cite>"*"</cite> is only allowed in the filename part, not
+in the directory part. This is mostly for efficiency reasons to limit the
+number of system calls that are needed.
+
+<p>Here are a few valid examples:
+
+<pre class="example">    for Project_Files use ("a.gpr", "subdir/b.gpr");
+    --  two specific projects relative to the directory of agg.gpr
+    
+    for Project_Files use ("/.gpr");
+    --  all projects recursively
+</pre>
+</blockquote>
+
+<p><a name="index-Project_005fPath-_0028GNAT-Project-Manager_0029-853"></a>
+`Project_Path':
+
+<blockquote>
+
+<p>This attribute can be used to specify a list of directories in
+which to look for project files in `with' declarations.
+
+<p>When you specify a project in Project_Files (say <cite>x/y/a.gpr</cite>), and
+<cite>a.gpr</cite> imports a project <cite>b.gpr</cite>, only <cite>b.gpr</cite> is searched in
+the project path. <cite>a.gpr</cite> must be exactly at
+<cite>&lt;dir of the aggregate&gt;/x/y/a.gpr</cite>.
+
+<p>This attribute, however, does not affect the search for the aggregated
+project files specified with <cite>Project_Files</cite>.
+
+<p>Each aggregate project has its own <cite>Project_Path</cite> (that is if
+<cite>agg1.gpr</cite> includes <cite>agg2.gpr</cite>, they can potentially both have a
+different <cite>Project_Path</cite>).
+
+<p>This project path is defined as the concatenation, in that order, of:
+
+     <ul>
+<li>the current directory;
+
+     <li>followed by the command line -aP switches;
+
+     <li>then the directories from the GPR_PROJECT_PATH and ADA_PROJECT_PATH environment
+variables;
+
+     <li>then the directories from the Project_Path attribute;
+
+     <li>and finally the predefined directories. 
+</ul>
+
+<p>In the example above, agg2.gpr's project path is not influenced by
+the attribute agg1'Project_Path, nor is agg1 influenced by
+agg2'Project_Path.
+
+<p>This can potentially lead to errors. Consider the following example:
+
+<pre class="example">    --
+    --  +---------------+                  +----------------+
+    --  | Agg1.gpr      |-=--includes--=--&gt;| Agg2.gpr       |
+    --  |  'project_path|                  |  'project_path |
+    --  |               |                  |                |
+    --  +---------------+                  +----------------+
+    --        :                                   :
+    --        includes                        includes
+    --        :                                   :
+    --        v                                   v
+    --    +-------+                          +---------+
+    --    | P.gpr |&lt;---------- withs --------|  Q.gpr  |
+    --    +-------+---------\                +---------+
+    --        |             |
+    --        withs         |
+    --        |             |
+    --        v             v
+    --    +-------+      +---------+
+    --    | R.gpr |      | R'.gpr  |
+    --    +-------+      +---------+
+</pre>
+<p>When looking for p.gpr, both aggregates find the same physical file on
+the disk. However, it might happen that with their different project
+paths, both aggregate projects would in fact find a different r.gpr. 
+Since we have a common project (p.gpr) "with"ing two different r.gpr,
+this will be reported as an error by the builder.
+
+<p>Directories are relative to the location of the aggregate project file.
+
+<p>Example:
+
+<pre class="example">    for Project_Path use ("/usr/local/gpr", "gpr/");
+</pre>
+</blockquote>
+
+<p><a name="index-External-_0028GNAT-Project-Manager_0029-854"></a>
+`External':
+
+<blockquote>
+
+<p>This attribute can be used to set the value of environment
+variables as retrieved through the <cite>external</cite> function
+in projects. It does not affect the environment variables
+themselves (so for instance you cannot use it to change the value
+of your PATH as seen from the spawned compiler).
+
+<p>This attribute affects the external values as seen in the rest of
+the aggregate project, and in the aggregated projects.
+
+<p>The exact value of external a variable comes from one of three
+sources (each level overrides the previous levels):
+
+     <ul>
+<li>An External attribute in aggregate project, for instance
+<cite>for External ("BUILD_MODE") use "DEBUG"</cite>;
+
+     <li>Environment variables. 
+These override the value given by the attribute, so that
+users can override the value set in the (presumably shared
+with others team members) aggregate project.
+
+     <li>The -X command line switch to `gprbuild'. 
+This always takes precedence. 
+</ul>
+
+<p>This attribute is only taken into account in the main aggregate
+project (i.e. the one specified on the command line to `gprbuild'),
+and ignored in other aggregate projects. It is invalid
+in standard projects. 
+The goal is to have a consistent value in all
+projects that are built through the aggregate, which would not
+be the case in the diamond case: A groups the aggregate
+projects B and C, which both (either directly or indirectly)
+build the project P. If B and C could set different values for
+the environment variables, we would have two different views of
+P, which in particular might impact the list of source files in P. 
+</blockquote>
+
+</body></html>
+

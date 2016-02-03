@@ -1,0 +1,112 @@
+<html lang="en">
+<head>
+<title>Package IDE Attributes - GNAT User's Guide for Native Platforms</title>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+<meta name="description" content="GNAT User's Guide for Native Platforms">
+<meta name="generator" content="makeinfo 4.13">
+<link title="Top" rel="start" href="index.html#Top">
+<link rel="up" href="Attributes.html#Attributes" title="Attributes">
+<link rel="prev" href="Package-gnatls-Attributes.html#Package-gnatls-Attributes" title="Package gnatls Attributes">
+<link rel="next" href="Package-Install-Attributes.html#Package-Install-Attributes" title="Package Install Attributes">
+<link href="http://www.gnu.org/software/texinfo/" rel="generator-home" title="Texinfo Homepage">
+<!--
+
+     GNAT User's Guide for Native Platforms , March 24, 2015
+
+     AdaCore
+
+     Copyright (C) 2008-2015, Free Software Foundation
+-->
+<meta http-equiv="Content-Style-Type" content="text/css">
+<style type="text/css"><!--
+  pre.display { font-family:inherit }
+  pre.format  { font-family:inherit }
+  pre.smalldisplay { font-family:inherit; font-size:smaller }
+  pre.smallformat  { font-family:inherit; font-size:smaller }
+  pre.smallexample { font-size:smaller }
+  pre.smalllisp    { font-size:smaller }
+  span.sc    { font-variant:small-caps }
+  span.roman { font-family:serif; font-weight:normal; } 
+  span.sansserif { font-family:sans-serif; font-weight:normal; } 
+--></style>
+</head>
+<body>
+<div class="node">
+<a name="Package-IDE-Attributes"></a>
+<p>
+Next:&nbsp;<a rel="next" accesskey="n" href="Package-Install-Attributes.html#Package-Install-Attributes">Package Install Attributes</a>,
+Previous:&nbsp;<a rel="previous" accesskey="p" href="Package-gnatls-Attributes.html#Package-gnatls-Attributes">Package gnatls Attributes</a>,
+Up:&nbsp;<a rel="up" accesskey="u" href="Attributes.html#Attributes">Attributes</a>
+<hr>
+</div>
+
+<p><a name="gnat_005fugn_002fgnat_005fproject_005fmanager-id58"></a><a name="g_t1b4"></a><a name="gnat_005fugn_002fgnat_005fproject_005fmanager-package_002dide_002dattributes"></a><a name="g_t1b5"></a>
+
+<h5 class="subsubsection">5.9.10.9 Package IDE Attributes</h5>
+
+     <ul>
+<li>`Default_Switches': list, indexed
+
+     <p>Index is the name of an external tool that the GNAT Programming System (GPS)
+is supporting. Value is a list of switches to use when invoking that tool.
+
+     <li>`Remote_Host': single
+
+     <p>Value is a string that designates the remote host in a cross-compilation
+environment, to be used for remote compilation and debugging. This attribute
+should not be specified when running on the local machine.
+
+     <li>`Program_Host': single
+
+     <p>Value is a string that specifies the name of IP address of the embedded target
+in a cross-compilation environment, on which the program should execute.
+
+     <li>`Communication_Protocol': single
+
+     <p>Value is the name of the protocol to use to communicate with the target
+in a cross-compilation environment, for example <cite>"wtx"</cite> or
+<cite>"vxworks"</cite>.
+
+     <li>`Compiler_Command': single, indexed, case-insensitive index
+
+     <p>Index is a language Name. Value is a string that denotes the command to be
+used to invoke the compiler. The value of <cite>Compiler_Command ("Ada")</cite> is
+expected to be compatible with `gnatmake', in particular in
+the handling of switches.
+
+     <li>`Debugger_Command': single
+
+     <p>Value is a string that specifies the name of the debugger to be used, such as
+gdb, powerpc-wrs-vxworks-gdb or gdb-4.
+
+     <li>`gnatlist': single
+
+     <p>Value is a string that specifies the name of the `gnatls' utility
+to be used to retrieve information about the predefined path; for example,
+<cite>"gnatls"</cite>, <cite>"powerpc-wrs-vxworks-gnatls"</cite>.
+
+     <li>`VCS_Kind': single
+
+     <p>Value is a string used to specify the Version Control System (VCS) to be used
+for this project, for example "Subversion", "ClearCase". If the
+value is set to "Auto", the IDE will try to detect the actual VCS used
+on the list of supported ones.
+
+     <li>`VCS_File_Check': single
+
+     <p>Value is a string that specifies the command used by the VCS to check
+the validity of a file, either when the user explicitly asks for a check,
+or as a sanity check before doing the check-in.
+
+     <li>`VCS_Log_Check': single
+
+     <p>Value is a string that specifies the command used by the VCS to check
+the validity of a log file.
+
+     <li>`Documentation_Dir': single
+
+     <p>Value is the directory used to generate the documentation of source code. 
+</ul>
+
+</body></html>
+

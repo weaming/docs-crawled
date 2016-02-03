@@ -1,0 +1,103 @@
+<html lang="en">
+<head>
+<title>Stack Overflow Checking - GNAT User's Guide for Native Platforms</title>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+<meta name="description" content="GNAT User's Guide for Native Platforms">
+<meta name="generator" content="makeinfo 4.13">
+<link title="Top" rel="start" href="index.html#Top">
+<link rel="up" href="Stack-Related-Facilities.html#Stack-Related-Facilities" title="Stack Related Facilities">
+<link rel="next" href="Static-Stack-Usage-Analysis.html#Static-Stack-Usage-Analysis" title="Static Stack Usage Analysis">
+<link href="http://www.gnu.org/software/texinfo/" rel="generator-home" title="Texinfo Homepage">
+<!--
+
+     GNAT User's Guide for Native Platforms , March 24, 2015
+
+     AdaCore
+
+     Copyright (C) 2008-2015, Free Software Foundation
+-->
+<meta http-equiv="Content-Style-Type" content="text/css">
+<style type="text/css"><!--
+  pre.display { font-family:inherit }
+  pre.format  { font-family:inherit }
+  pre.smalldisplay { font-family:inherit; font-size:smaller }
+  pre.smallformat  { font-family:inherit; font-size:smaller }
+  pre.smallexample { font-size:smaller }
+  pre.smalllisp    { font-size:smaller }
+  span.sc    { font-variant:small-caps }
+  span.roman { font-family:serif; font-weight:normal; } 
+  span.sansserif { font-family:sans-serif; font-weight:normal; } 
+--></style>
+</head>
+<body>
+<div class="node">
+<a name="Stack-Overflow-Checking"></a>
+<p>
+Next:&nbsp;<a rel="next" accesskey="n" href="Static-Stack-Usage-Analysis.html#Static-Stack-Usage-Analysis">Static Stack Usage Analysis</a>,
+Up:&nbsp;<a rel="up" accesskey="u" href="Stack-Related-Facilities.html#Stack-Related-Facilities">Stack Related Facilities</a>
+<hr>
+</div>
+
+<p><a name="gnat_005fugn_002fgnat_005fand_005fprogram_005fexecution-id62"></a><a name="g_t251"></a><a name="gnat_005fugn_002fgnat_005fand_005fprogram_005fexecution-stack_002doverflow_002dchecking"></a><a name="f9"></a>
+
+<h4 class="subsection">8.6.1 Stack Overflow Checking</h4>
+
+<p><a name="index-Stack-Overflow-Checking-1034"></a>
+<a name="index-g_t_002dfstack_002dcheck-_0028gcc_0029-1035"></a>
+For most operating systems, `gcc' does not perform stack overflow
+checking by default. This means that if the main environment task or
+some other task exceeds the available stack space, then unpredictable
+behavior will occur. Most native systems offer some level of protection by
+adding a guard page at the end of each task stack. This mechanism is usually
+not enough for dealing properly with stack overflow situations because
+a large local variable could "jump" above the guard page. 
+Furthermore, when the
+guard page is hit, there may not be any space left on the stack for executing
+the exception propagation code. Enabling stack checking avoids
+such situations.
+
+<p>To activate stack checking, compile all units with the gcc option
+<cite>-fstack-check</cite>. For example:
+
+<blockquote>
+
+<pre class="example">    $ gcc -c -fstack-check package1.adb
+</pre>
+</blockquote>
+
+<p>Units compiled with this option will generate extra instructions to check
+that any use of the stack (for procedure calls or for declaring local
+variables in declare blocks) does not exceed the available stack space. 
+If the space is exceeded, then a <cite>Storage_Error</cite> exception is raised.
+
+<p>For declared tasks, the stack size is controlled by the size
+given in an applicable <cite>Storage_Size</cite> pragma or by the value specified
+at bind time with <code>-d</code> (<a href="123.html#g_t123">Switches for gnatbind</a>) or is set to
+the default size as defined in the GNAT runtime otherwise.
+
+<p><a name="index-GNAT_005fSTACK_005fLIMIT-1036"></a>
+For the environment task, the stack size depends on
+system defaults and is unknown to the compiler. Stack checking
+may still work correctly if a fixed
+size stack is allocated, but this cannot be guaranteed. 
+To ensure that a clean exception is signalled for stack
+overflow, set the environment variable
+<a name="index-GNAT_005fSTACK_005fLIMIT-1037"></a><a name="index-environment-variable_003b-GNAT_005fSTACK_005fLIMIT-1038"></a><code>GNAT_STACK_LIMIT</code> to indicate the maximum
+stack area that can be used, as in:
+
+<blockquote>
+
+<pre class="example">    $ SET GNAT_STACK_LIMIT 1600
+</pre>
+</blockquote>
+
+<p>The limit is given in kilobytes, so the above declaration would
+set the stack limit of the environment task to 1.6 megabytes. 
+Note that the only purpose of this usage is to limit the amount
+of stack used by the environment task. If it is necessary to
+increase the amount of stack for the environment task, then this
+is an operating systems issue, and must be addressed with the
+appropriate operating systems commands.
+
+</body></html>
+

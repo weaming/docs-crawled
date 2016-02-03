@@ -1,0 +1,67 @@
+<html lang="en">
+<head>
+<title>Attribute Library_Level - GNAT Reference Manual</title>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+<meta name="description" content="GNAT Reference Manual">
+<meta name="generator" content="makeinfo 4.13">
+<link title="Top" rel="start" href="index.html#Top">
+<link rel="up" href="Implementation-Defined-Attributes.html#Implementation-Defined-Attributes" title="Implementation Defined Attributes">
+<link rel="prev" href="Attribute-Large.html#Attribute-Large" title="Attribute Large">
+<link rel="next" href="Attribute-Lock_005fFree.html#Attribute-Lock_005fFree" title="Attribute Lock_Free">
+<link href="http://www.gnu.org/software/texinfo/" rel="generator-home" title="Texinfo Homepage">
+<!--
+
+     GNAT Reference Manual , March 24, 2015
+
+     AdaCore
+
+     Copyright (C) 2008-2015, Free Software Foundation
+-->
+<meta http-equiv="Content-Style-Type" content="text/css">
+<style type="text/css"><!--
+  pre.display { font-family:inherit }
+  pre.format  { font-family:inherit }
+  pre.smalldisplay { font-family:inherit; font-size:smaller }
+  pre.smallformat  { font-family:inherit; font-size:smaller }
+  pre.smallexample { font-size:smaller }
+  pre.smalllisp    { font-size:smaller }
+  span.sc    { font-variant:small-caps }
+  span.roman { font-family:serif; font-weight:normal; } 
+  span.sansserif { font-family:sans-serif; font-weight:normal; } 
+--></style>
+</head>
+<body>
+<div class="node">
+<a name="Attribute-Library_Level"></a>
+<a name="Attribute-Library_005fLevel"></a>
+<p>
+Next:&nbsp;<a rel="next" accesskey="n" href="Attribute-Lock_005fFree.html#Attribute-Lock_005fFree">Attribute Lock_Free</a>,
+Previous:&nbsp;<a rel="previous" accesskey="p" href="Attribute-Large.html#Attribute-Large">Attribute Large</a>,
+Up:&nbsp;<a rel="up" accesskey="u" href="Implementation-Defined-Attributes.html#Implementation-Defined-Attributes">Implementation Defined Attributes</a>
+<hr>
+</div>
+
+<p><a name="gnat_005frm_002fimplementation_005fdefined_005fattributes-attribute_002dlibrary_002dlevel"></a><a name="g_t139"></a>
+
+<h3 class="section">4.34 Attribute Library_Level</h3>
+
+<p><a name="index-Library_005fLevel-209"></a>
+<cite>P'Library_Level</cite>, where P is an entity name,
+returns a Boolean value which is True if the entity is declared
+at the library level, and False otherwise. Note that within a
+generic instantition, the name of the generic unit denotes the
+instance, which means that this attribute can be used to test
+if a generic is instantiated at the library level, as shown
+in this example:
+
+<pre class="example">    generic
+      ...
+    package Gen is
+      pragma Compile_Time_Error
+        (not Gen'Library_Level,
+         "Gen can only be instantiated at library level");
+      ...
+    end Gen;
+</pre>
+</body></html>
+

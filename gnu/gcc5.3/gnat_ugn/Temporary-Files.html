@@ -1,0 +1,70 @@
+<html lang="en">
+<head>
+<title>Temporary Files - GNAT User's Guide for Native Platforms</title>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+<meta name="description" content="GNAT User's Guide for Native Platforms">
+<meta name="generator" content="makeinfo 4.13">
+<link title="Top" rel="start" href="index.html#Top">
+<link rel="up" href="Microsoft-Windows-Topics.html#Microsoft-Windows-Topics" title="Microsoft Windows Topics">
+<link rel="prev" href="CONSOLE-and-WINDOWS-subsystems.html#CONSOLE-and-WINDOWS-subsystems" title="CONSOLE and WINDOWS subsystems">
+<link rel="next" href="Mixed_002dLanguage-Programming-on-Windows.html#Mixed_002dLanguage-Programming-on-Windows" title="Mixed-Language Programming on Windows">
+<link href="http://www.gnu.org/software/texinfo/" rel="generator-home" title="Texinfo Homepage">
+<!--
+
+     GNAT User's Guide for Native Platforms , March 24, 2015
+
+     AdaCore
+
+     Copyright (C) 2008-2015, Free Software Foundation
+-->
+<meta http-equiv="Content-Style-Type" content="text/css">
+<style type="text/css"><!--
+  pre.display { font-family:inherit }
+  pre.format  { font-family:inherit }
+  pre.smalldisplay { font-family:inherit; font-size:smaller }
+  pre.smallformat  { font-family:inherit; font-size:smaller }
+  pre.smallexample { font-size:smaller }
+  pre.smalllisp    { font-size:smaller }
+  span.sc    { font-variant:small-caps }
+  span.roman { font-family:serif; font-weight:normal; } 
+  span.sansserif { font-family:sans-serif; font-weight:normal; } 
+--></style>
+</head>
+<body>
+<div class="node">
+<a name="Temporary-Files"></a>
+<p>
+Next:&nbsp;<a rel="next" accesskey="n" href="Mixed_002dLanguage-Programming-on-Windows.html#Mixed_002dLanguage-Programming-on-Windows">Mixed-Language Programming on Windows</a>,
+Previous:&nbsp;<a rel="previous" accesskey="p" href="CONSOLE-and-WINDOWS-subsystems.html#CONSOLE-and-WINDOWS-subsystems">CONSOLE and WINDOWS subsystems</a>,
+Up:&nbsp;<a rel="up" accesskey="u" href="Microsoft-Windows-Topics.html#Microsoft-Windows-Topics">Microsoft Windows Topics</a>
+<hr>
+</div>
+
+<p><a name="gnat_005fugn_002fplatform_005fspecific_005finformation-id13"></a><a name="g_t26e"></a><a name="gnat_005fugn_002fplatform_005fspecific_005finformation-temporary_002dfiles"></a><a name="g_t26f"></a>
+
+<h4 class="subsection">9.3.4 Temporary Files</h4>
+
+<p><a name="index-Temporary-files-1079"></a>
+It is possible to control where temporary files gets created by setting
+the
+<a name="index-TMP-1080"></a><a name="index-environment-variable_003b-TMP-1081"></a><code>TMP</code> environment variable. The file will be created:
+
+     <ul>
+<li>Under the directory pointed to by the
+<a name="index-TMP-1082"></a><a name="index-environment-variable_003b-TMP-1083"></a><code>TMP</code> environment variable if
+this directory exists.
+
+     <li>Under <code>c:\temp</code>, if the
+<a name="index-TMP-1084"></a><a name="index-environment-variable_003b-TMP-1085"></a><code>TMP</code> environment variable is not
+set (or not pointing to a directory) and if this directory exists.
+
+     <li>Under the current working directory otherwise. 
+</ul>
+
+<p>This allows you to determine exactly where the temporary
+file will be created. This is particularly useful in networked
+environments where you may not have write access to some
+directories.
+
+</body></html>
+

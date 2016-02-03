@@ -1,0 +1,62 @@
+<html lang="en">
+<head>
+<title>Limitations When Using Ada DLLs from Ada - GNAT User's Guide for Native Platforms</title>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+<meta name="description" content="GNAT User's Guide for Native Platforms">
+<meta name="generator" content="makeinfo 4.13">
+<link title="Top" rel="start" href="index.html#Top">
+<link rel="up" href="Building-DLLs-with-gnatdll.html#Building-DLLs-with-gnatdll" title="Building DLLs with gnatdll">
+<link rel="next" href="Exporting-Ada-Entities.html#Exporting-Ada-Entities" title="Exporting Ada Entities">
+<link href="http://www.gnu.org/software/texinfo/" rel="generator-home" title="Texinfo Homepage">
+<!--
+
+     GNAT User's Guide for Native Platforms , March 24, 2015
+
+     AdaCore
+
+     Copyright (C) 2008-2015, Free Software Foundation
+-->
+<meta http-equiv="Content-Style-Type" content="text/css">
+<style type="text/css"><!--
+  pre.display { font-family:inherit }
+  pre.format  { font-family:inherit }
+  pre.smalldisplay { font-family:inherit; font-size:smaller }
+  pre.smallformat  { font-family:inherit; font-size:smaller }
+  pre.smallexample { font-size:smaller }
+  pre.smalllisp    { font-size:smaller }
+  span.sc    { font-variant:small-caps }
+  span.roman { font-family:serif; font-weight:normal; } 
+  span.sansserif { font-family:sans-serif; font-weight:normal; } 
+--></style>
+</head>
+<body>
+<div class="node">
+<a name="Limitations-When-Using-Ada-DLLs-from-Ada"></a>
+<p>
+Next:&nbsp;<a rel="next" accesskey="n" href="Exporting-Ada-Entities.html#Exporting-Ada-Entities">Exporting Ada Entities</a>,
+Up:&nbsp;<a rel="up" accesskey="u" href="Building-DLLs-with-gnatdll.html#Building-DLLs-with-gnatdll">Building DLLs with gnatdll</a>
+<hr>
+</div>
+
+<p><a name="gnat_005fugn_002fplatform_005fspecific_005finformation-limitations_002dwhen_002dusing_002dada_002ddlls_002dfrom_002dada"></a><a name="g_t290"></a>
+
+<h5 class="subsubsection">9.3.5.13 Limitations When Using Ada DLLs from Ada</h5>
+
+<p>When using Ada DLLs from Ada applications there is a limitation users
+should be aware of. Because on Windows the GNAT run time is not in a DLL of
+its own, each Ada DLL includes a part of the GNAT run time. Specifically,
+each Ada DLL includes the services of the GNAT run time that are necessary
+to the Ada code inside the DLL. As a result, when an Ada program uses an
+Ada DLL there are two independent GNAT run times: one in the Ada DLL and
+one in the main program.
+
+<p>It is therefore not possible to exchange GNAT run-time objects between the
+Ada DLL and the main Ada program. Example of GNAT run-time objects are file
+handles (e.g., <cite>Text_IO.File_Type</cite>), tasks types, protected objects
+types, etc.
+
+<p>It is completely safe to exchange plain elementary, array or record types,
+Windows object handles, etc.
+
+</body></html>
+

@@ -1,0 +1,69 @@
+<html lang="en">
+<head>
+<title>Intrinsic Operators - GNAT Reference Manual</title>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+<meta name="description" content="GNAT Reference Manual">
+<meta name="generator" content="makeinfo 4.13">
+<link title="Top" rel="start" href="index.html#Top">
+<link rel="up" href="Intrinsic-Subprograms.html#Intrinsic-Subprograms" title="Intrinsic Subprograms">
+<link rel="next" href="Compilation_005fDate.html#Compilation_005fDate" title="Compilation_Date">
+<link href="http://www.gnu.org/software/texinfo/" rel="generator-home" title="Texinfo Homepage">
+<!--
+
+     GNAT Reference Manual , March 24, 2015
+
+     AdaCore
+
+     Copyright (C) 2008-2015, Free Software Foundation
+-->
+<meta http-equiv="Content-Style-Type" content="text/css">
+<style type="text/css"><!--
+  pre.display { font-family:inherit }
+  pre.format  { font-family:inherit }
+  pre.smalldisplay { font-family:inherit; font-size:smaller }
+  pre.smallformat  { font-family:inherit; font-size:smaller }
+  pre.smallexample { font-size:smaller }
+  pre.smalllisp    { font-size:smaller }
+  span.sc    { font-variant:small-caps }
+  span.roman { font-family:serif; font-weight:normal; } 
+  span.sansserif { font-family:sans-serif; font-weight:normal; } 
+--></style>
+</head>
+<body>
+<div class="node">
+<a name="Intrinsic-Operators"></a>
+<p>
+Next:&nbsp;<a rel="next" accesskey="n" href="Compilation_005fDate.html#Compilation_005fDate">Compilation_Date</a>,
+Up:&nbsp;<a rel="up" accesskey="u" href="Intrinsic-Subprograms.html#Intrinsic-Subprograms">Intrinsic Subprograms</a>
+<hr>
+</div>
+
+<p><a name="gnat_005frm_002fintrinsic_005fsubprograms-id2"></a><a name="g_t202"></a><a name="gnat_005frm_002fintrinsic_005fsubprograms-intrinsic_002doperators"></a><a name="g_t203"></a>
+
+<h3 class="section">8.1 Intrinsic Operators</h3>
+
+<p><a name="index-Intrinsic-operator-459"></a>
+All the predefined numeric operators in package Standard
+in <cite>pragma Import (Intrinsic,..)</cite>
+declarations.  In the binary operator case, the operands must have the same
+size.  The operand or operands must also be appropriate for
+the operator.  For example, for addition, the operands must
+both be floating-point or both be fixed-point, and the
+right operand for <cite>"**"</cite> must have a root type of
+<cite>Standard.Integer'Base</cite>. 
+You can use an intrinsic operator declaration as in the following example:
+
+<pre class="example">    type Int1 is new Integer;
+    type Int2 is new Integer;
+    
+    function "+" (X1 : Int1; X2 : Int2) return Int1;
+    function "+" (X1 : Int1; X2 : Int2) return Int2;
+    pragma Import (Intrinsic, "+");
+</pre>
+<p>This declaration would permit 'mixed mode' arithmetic on items
+of the differing types <cite>Int1</cite> and <cite>Int2</cite>. 
+It is also possible to specify such operators for private types, if the
+full views are appropriate arithmetic types.
+
+</body></html>
+

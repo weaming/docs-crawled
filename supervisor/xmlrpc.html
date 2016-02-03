@@ -1,0 +1,156 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+  "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+
+
+<html xmlns="http://www.w3.org/1999/xhtml">
+  <head>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+    
+    <title>Extending Supervisor’s XML-RPC API &mdash; Supervisor 4.0.0.dev0 documentation</title>
+    
+    <link rel="stylesheet" href="_static/repoze.css" type="text/css" />
+    <link rel="stylesheet" href="_static/pygments.css" type="text/css" />
+    
+    <script type="text/javascript">
+      var DOCUMENTATION_OPTIONS = {
+        URL_ROOT:    './',
+        VERSION:     '4.0.0.dev0',
+        COLLAPSE_INDEX: false,
+        FILE_SUFFIX: '.html',
+        HAS_SOURCE:  true
+      };
+    </script>
+    <script type="text/javascript" src="_static/jquery.js"></script>
+    <script type="text/javascript" src="_static/underscore.js"></script>
+    <script type="text/javascript" src="_static/doctools.js"></script>
+    <link rel="top" title="Supervisor 4.0.0.dev0 documentation" href="index.html" />
+    <link rel="next" title="Upgrading Supervisor 2 to 3" href="upgrading.html" />
+    <link rel="prev" title="Events" href="events.html" />
+   
+  
+  <meta name="viewport" content="width=device-width, initial-scale=0.9, maximum-scale=0.9" />
+
+  </head>
+  <body role="document">  
+
+    <div class="document">
+      <div class="documentwrapper">
+        <div class="bodywrapper">
+          <div class="body" role="main">
+            
+  <div class="section" id="extending-supervisor-s-xml-rpc-api">
+<h1>Extending Supervisor&#8217;s XML-RPC API<a class="headerlink" href="#extending-supervisor-s-xml-rpc-api" title="Permalink to this headline">¶</a></h1>
+<p>Supervisor can be extended with new XML-RPC APIs.  Several third-party
+plugins already exist that can be wired into your Supervisor
+configuration.  You may additionally write your own.  Extensible
+XML-RPC interfaces is an advanced feature, introduced in version 3.0.
+You needn&#8217;t understand it unless you wish to use an existing
+third-party RPC interface plugin or if you wish to write your own RPC
+interface plugin.</p>
+<div class="section" id="configuring-xml-rpc-interface-factories">
+<span id="rpcinterface-factories"></span><h2>Configuring XML-RPC Interface Factories<a class="headerlink" href="#configuring-xml-rpc-interface-factories" title="Permalink to this headline">¶</a></h2>
+<p>An additional RPC interface is configured into a supervisor
+installation by adding a <code class="docutils literal"><span class="pre">[rpcinterface:x]</span></code> section in the
+Supervisor configuration file.</p>
+<p>In the sample config file, there is a section which is named
+<code class="docutils literal"><span class="pre">[rpcinterface:supervisor]</span></code>.  By default it looks like this:</p>
+<div class="highlight-ini"><div class="highlight"><pre><span class="k">[rpcinterface:supervisor]</span>
+<span class="na">supervisor.rpcinterface_factory</span> <span class="o">=</span> <span class="s">supervisor.rpcinterface:make_main_rpcinterface</span>
+</pre></div>
+</div>
+<p>This section <em>must</em> remain in the configuration for the standard setup
+of supervisor to work properly.  If you don&#8217;t want supervisor to do
+anything it doesn&#8217;t already do out of the box, this is all you need to
+know about this type of section.</p>
+<p>However, if you wish to add additional XML-RPC interface namespaces to
+a configuration of supervisor, you may add additional
+<code class="docutils literal"><span class="pre">[rpcinterface:foo]</span></code> sections, where &#8220;foo&#8221; represents the namespace
+of the interface (from the web root), and the value named by
+<code class="docutils literal"><span class="pre">supervisor.rpcinterface_factory</span></code> is a factory callable written in
+Python which should have a function signature that accepts a single
+positional argument <code class="docutils literal"><span class="pre">supervisord</span></code> and as many keyword arguments as
+required to perform configuration.  Any key/value pairs defined within
+the <code class="docutils literal"><span class="pre">rpcinterface:foo</span></code> section will be passed as keyword arguments
+to the factory.  Here&#8217;s an example of a factory function, created in
+the package <code class="docutils literal"><span class="pre">my.package</span></code>.</p>
+<div class="highlight-python"><div class="highlight"><pre><span class="k">def</span> <span class="nf">make_another_rpcinterface</span><span class="p">(</span><span class="n">supervisord</span><span class="p">,</span> <span class="o">**</span><span class="n">config</span><span class="p">):</span>
+    <span class="n">retries</span> <span class="o">=</span> <span class="nb">int</span><span class="p">(</span><span class="n">config</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s">&#39;retries&#39;</span><span class="p">,</span> <span class="mi">0</span><span class="p">))</span>
+    <span class="n">another_rpc_interface</span> <span class="o">=</span> <span class="n">AnotherRPCInterface</span><span class="p">(</span><span class="n">supervisord</span><span class="p">,</span> <span class="n">retries</span><span class="p">)</span>
+    <span class="k">return</span> <span class="n">another_rpc_interface</span>
+</pre></div>
+</div>
+<p>And a section in the config file meant to configure it.</p>
+<div class="highlight-ini"><div class="highlight"><pre><span class="k">[rpcinterface:another]</span>
+<span class="na">supervisor.rpcinterface_factory</span> <span class="o">=</span> <span class="s">my.package:make_another_rpcinterface</span>
+<span class="na">retries</span> <span class="o">=</span> <span class="s">1</span>
+</pre></div>
+</div>
+</div>
+</div>
+
+
+          </div>
+        </div>
+      </div>
+      <div class="sphinxsidebar" role="navigation" aria-label="main navigation">
+        <div class="sphinxsidebarwrapper">
+            <p class="logo"><a href="index.html">
+              <img class="logo" src="_static/logo_hi.gif" alt="Logo"/>
+            </a></p>
+  <h3><a href="index.html">Table Of Contents</a></h3>
+  <ul>
+<li><a class="reference internal" href="#">Extending Supervisor&#8217;s XML-RPC API</a><ul>
+<li><a class="reference internal" href="#configuring-xml-rpc-interface-factories">Configuring XML-RPC Interface Factories</a></li>
+</ul>
+</li>
+</ul>
+<div class="relations">
+<h3>Related Topics</h3>
+<ul>
+  <li><a href="index.html">Documentation overview</a><ul>
+      <li>Previous: <a href="events.html" title="previous chapter">Events</a></li>
+      <li>Next: <a href="upgrading.html" title="next chapter">Upgrading Supervisor 2 to 3</a></li>
+  </ul></li>
+</ul>
+</div>
+  <div role="note" aria-label="source link">
+    <h3>This Page</h3>
+    <ul class="this-page-menu">
+      <li><a href="_sources/xmlrpc.txt"
+            rel="nofollow">Show Source</a></li>
+    </ul>
+   </div>
+<div id="searchbox" style="display: none" role="search">
+  <h3>Quick search</h3>
+    <form class="search" action="search.html" method="get">
+      <input type="text" name="q" />
+      <input type="submit" value="Go" />
+      <input type="hidden" name="check_keywords" value="yes" />
+      <input type="hidden" name="area" value="default" />
+    </form>
+    <p class="searchtip" style="font-size: 90%">
+    Enter search terms or a module, class or function name.
+    </p>
+</div>
+<script type="text/javascript">$('#searchbox').show(0);</script>
+        </div>
+      </div>
+      <div class="clearer"></div>
+    </div>
+    <div class="footer">
+      &copy;2004-2016, Agendaless Consulting and Contributors.
+      
+      |
+      Powered by <a href="http://sphinx-doc.org/">Sphinx 1.3.3</a>
+      &amp; <a href="https://github.com/bitprophet/alabaster">Alabaster 0.7.7</a>
+      
+      |
+      <a href="_sources/xmlrpc.txt"
+          rel="nofollow">Page source</a>
+    </div>
+
+    
+
+    
+  </body>
+</html>

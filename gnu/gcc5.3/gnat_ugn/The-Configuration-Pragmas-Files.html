@@ -1,0 +1,85 @@
+<html lang="en">
+<head>
+<title>The Configuration Pragmas Files - GNAT User's Guide for Native Platforms</title>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+<meta name="description" content="GNAT User's Guide for Native Platforms">
+<meta name="generator" content="makeinfo 4.13">
+<link title="Top" rel="start" href="index.html#Top">
+<link rel="up" href="Configuration-Pragmas.html#Configuration-Pragmas" title="Configuration Pragmas">
+<link rel="prev" href="Handling-of-Configuration-Pragmas.html#Handling-of-Configuration-Pragmas" title="Handling of Configuration Pragmas">
+<link href="http://www.gnu.org/software/texinfo/" rel="generator-home" title="Texinfo Homepage">
+<!--
+
+     GNAT User's Guide for Native Platforms , March 24, 2015
+
+     AdaCore
+
+     Copyright (C) 2008-2015, Free Software Foundation
+-->
+<meta http-equiv="Content-Style-Type" content="text/css">
+<style type="text/css"><!--
+  pre.display { font-family:inherit }
+  pre.format  { font-family:inherit }
+  pre.smalldisplay { font-family:inherit; font-size:smaller }
+  pre.smallformat  { font-family:inherit; font-size:smaller }
+  pre.smallexample { font-size:smaller }
+  pre.smalllisp    { font-size:smaller }
+  span.sc    { font-variant:small-caps }
+  span.roman { font-family:serif; font-weight:normal; } 
+  span.sansserif { font-family:sans-serif; font-weight:normal; } 
+--></style>
+</head>
+<body>
+<div class="node">
+<a name="The-Configuration-Pragmas-Files"></a>
+<p>
+Previous:&nbsp;<a rel="previous" accesskey="p" href="Handling-of-Configuration-Pragmas.html#Handling-of-Configuration-Pragmas">Handling of Configuration Pragmas</a>,
+Up:&nbsp;<a rel="up" accesskey="u" href="Configuration-Pragmas.html#Configuration-Pragmas">Configuration Pragmas</a>
+<hr>
+</div>
+
+<p><a name="gnat_005fugn_002fthe_005fgnat_005fcompilation_005fmodel-the_002dconfiguration_002dpragmas_002dfiles"></a><a name="g_t7b"></a><a name="gnat_005fugn_002fthe_005fgnat_005fcompilation_005fmodel-id30"></a><a name="g_t7c"></a>
+
+<h4 class="subsection">3.4.2 The Configuration Pragmas Files</h4>
+
+<p><a name="index-gnat_002eadc-72"></a>
+In GNAT a compilation environment is defined by the current
+directory at the time that a compile command is given. This current
+directory is searched for a file whose name is <code>gnat.adc</code>. If
+this file is present, it is expected to contain one or more
+configuration pragmas that will be applied to the current compilation. 
+However, if the switch `-gnatA' is used, <code>gnat.adc</code> is not
+considered. When taken into account, <code>gnat.adc</code> is added to the
+dependencies, so that if <code>gnat.adc</code> is modified later, an invocation of
+`gnatmake' will recompile the source.
+
+<p>Configuration pragmas may be entered into the <code>gnat.adc</code> file
+either by running <cite>gnatchop</cite> on a source file that consists only of
+configuration pragmas, or more conveniently by direct editing of the
+<code>gnat.adc</code> file, which is a standard format source file.
+
+<p>Besides <code>gnat.adc</code>, additional files containing configuration
+pragmas may be applied to the current compilation using the switch
+<code>-gnatec=`path'</code> where <cite>path</cite> must designate an existing file that
+contains only configuration pragmas. These configuration pragmas are
+in addition to those found in <code>gnat.adc</code> (provided <code>gnat.adc</code>
+is present and switch `-gnatA' is not used).
+
+<p>It is allowable to specify several switches `-gnatec=', all of which
+will be taken into account.
+
+<p>Files containing configuration pragmas specified with switches
+`-gnatec=' are added to the dependencies, unless they are
+temporary files. A file is considered temporary if its name ends in
+<code>.tmp</code> or <code>.TMP</code>. Certain tools follow this naming
+convention because they pass information to `gcc' via
+temporary files that are immediately deleted; it doesn't make sense to
+depend on a file that no longer exists. Such tools include
+`gprbuild', `gnatmake', and `gnatcheck'.
+
+<p>If you are using project file, a separate mechanism is provided using
+project attributes, see <a href="7d.html#g_t7d">Specifying Configuration Pragmas</a> for more
+details.
+
+</body></html>
+

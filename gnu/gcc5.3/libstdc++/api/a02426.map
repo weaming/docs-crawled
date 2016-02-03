@@ -1,0 +1,5 @@
+<map id="std::time_get_byname&lt; _CharT, _InIter &gt;" name="std::time_get_byname&lt; _CharT, _InIter &gt;">
+<area shape="rect" id="node2" href="$a00699.html" title="Primary class template time_get.This facet encapsulates the code to parse and return a date or time f..." alt="" coords="51,79,197,117"/>
+<area shape="rect" id="node3" href="$a00624.html" title="Localization functionality base class.The facet class is the base class for a localization feature..." alt="" coords="5,5,115,31"/>
+<area shape="rect" id="node4" href="$a00698.html" title="Time format ordering data.This class provides an enum representing different orderings of time: day..." alt="" coords="139,5,240,31"/>
+</map>

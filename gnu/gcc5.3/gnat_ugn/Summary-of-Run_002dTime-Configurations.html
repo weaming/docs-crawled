@@ -1,0 +1,272 @@
+<html lang="en">
+<head>
+<title>Summary of Run-Time Configurations - GNAT User's Guide for Native Platforms</title>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+<meta name="description" content="GNAT User's Guide for Native Platforms">
+<meta name="generator" content="makeinfo 4.13">
+<link title="Top" rel="start" href="index.html#Top">
+<link rel="up" href="Run_002dTime-Libraries.html#Run_002dTime-Libraries" title="Run-Time Libraries">
+<link href="http://www.gnu.org/software/texinfo/" rel="generator-home" title="Texinfo Homepage">
+<!--
+
+     GNAT User's Guide for Native Platforms , March 24, 2015
+
+     AdaCore
+
+     Copyright (C) 2008-2015, Free Software Foundation
+-->
+<meta http-equiv="Content-Style-Type" content="text/css">
+<style type="text/css"><!--
+  pre.display { font-family:inherit }
+  pre.format  { font-family:inherit }
+  pre.smalldisplay { font-family:inherit; font-size:smaller }
+  pre.smallformat  { font-family:inherit; font-size:smaller }
+  pre.smallexample { font-size:smaller }
+  pre.smalllisp    { font-size:smaller }
+  span.sc    { font-variant:small-caps }
+  span.roman { font-family:serif; font-weight:normal; } 
+  span.sansserif { font-family:sans-serif; font-weight:normal; } 
+--></style>
+</head>
+<body>
+<div class="node">
+<a name="Summary-of-Run-Time-Configurations"></a>
+<a name="Summary-of-Run_002dTime-Configurations"></a>
+<p>
+Up:&nbsp;<a rel="up" accesskey="u" href="Run_002dTime-Libraries.html#Run_002dTime-Libraries">Run-Time Libraries</a>
+<hr>
+</div>
+
+<p><a name="gnat_005fugn_002fplatform_005fspecific_005finformation-summary_002dof_002drun_002dtime_002dconfigurations"></a><a name="g_t25b"></a><a name="gnat_005fugn_002fplatform_005fspecific_005finformation-id3"></a><a name="g_t25c"></a>
+
+<h4 class="subsection">9.1.1 Summary of Run-Time Configurations</h4>
+
+<p><table summary=""><tr align="left"><th valign="top">
+Platform
+
+<p></th><th valign="top">
+
+<p>Run-Time
+
+<p></th><th valign="top">
+
+<p>Tasking
+
+<p></th><th valign="top">
+
+<p>Exceptions
+
+<p><br></th></tr><tr align="left"><td valign="top">
+ppc-aix
+
+<p></td><td valign="top">
+
+<p>rts-native
+(default)
+
+<p></td><td valign="top">
+
+<p>native AIX threads
+
+<p></td><td valign="top">
+
+<p>ZCX
+
+<p><br></td></tr><tr align="left"><td valign="top">
+rts-sjlj
+
+<p></td><td valign="top">
+
+<p>native AIX threads
+
+<p></td><td valign="top">
+
+<p>SJLJ
+
+<p><br></td></tr><tr align="left"><td valign="top">
+sparc-solaris
+
+<p></td><td valign="top">
+
+<p>rts-native
+(default)
+
+<p></td><td valign="top">
+
+<p>native Solaris
+threads library
+
+<p></td><td valign="top">
+
+<p>ZCX
+
+<p><br></td></tr><tr align="left"><td valign="top">
+rts-pthread
+
+<p></td><td valign="top">
+
+<p>pthread library
+
+<p></td><td valign="top">
+
+<p>ZCX
+
+<p><br></td></tr><tr align="left"><td valign="top">
+rts-sjlj
+
+<p></td><td valign="top">
+
+<p>native Solaris
+threads library
+
+<p></td><td valign="top">
+
+<p>SJLJ
+
+<p><br></td></tr><tr align="left"><td valign="top">
+sparc64-solaris
+
+<p></td><td valign="top">
+
+<p>rts-native
+(default)
+
+<p></td><td valign="top">
+
+<p>native Solaris
+threads library
+
+<p></td><td valign="top">
+
+<p>ZCX
+
+<p><br></td></tr><tr align="left"><td valign="top">
+x86-linux
+
+<p></td><td valign="top">
+
+<p>rts-native
+(default)
+
+<p></td><td valign="top">
+
+<p>pthread library
+
+<p></td><td valign="top">
+
+<p>ZCX
+
+<p><br></td></tr><tr align="left"><td valign="top">
+rts-sjlj
+
+<p></td><td valign="top">
+
+<p>pthread library
+
+<p></td><td valign="top">
+
+<p>SJLJ
+
+<p><br></td></tr><tr align="left"><td valign="top">
+x86-lynx
+
+<p></td><td valign="top">
+
+<p>rts-native
+(default)
+
+<p></td><td valign="top">
+
+<p>native LynxOS threads
+
+<p></td><td valign="top">
+
+<p>SJLJ
+
+<p><br></td></tr><tr align="left"><td valign="top">
+x86-solaris
+
+<p></td><td valign="top">
+
+<p>rts-native
+(default)
+
+<p></td><td valign="top">
+
+<p>native Solaris
+threads library
+
+<p></td><td valign="top">
+
+<p>ZCX
+
+<p><br></td></tr><tr align="left"><td valign="top">
+rts-sjlj
+
+<p></td><td valign="top">
+
+<p>native Solaris
+threads library
+
+<p></td><td valign="top">
+
+<p>SJLJ
+
+<p><br></td></tr><tr align="left"><td valign="top">
+x86-windows
+
+<p></td><td valign="top">
+
+<p>rts-native
+(default)
+
+<p></td><td valign="top">
+
+<p>native Win32 threads
+
+<p></td><td valign="top">
+
+<p>ZCX
+
+<p><br></td></tr><tr align="left"><td valign="top">
+rts-sjlj
+
+<p></td><td valign="top">
+
+<p>native Win32 threads
+
+<p></td><td valign="top">
+
+<p>SJLJ
+
+<p><br></td></tr><tr align="left"><td valign="top">
+x86_64-linux
+
+<p></td><td valign="top">
+
+<p>rts-native
+(default)
+
+<p></td><td valign="top">
+
+<p>pthread library
+
+<p></td><td valign="top">
+
+<p>ZCX
+
+<p><br></td></tr><tr align="left"><td valign="top">
+rts-sjlj
+
+<p></td><td valign="top">
+
+<p>pthread library
+
+<p></td><td valign="top">
+
+<p>SJLJ
+
+<br></td></tr></table>
+
+</body></html>
+

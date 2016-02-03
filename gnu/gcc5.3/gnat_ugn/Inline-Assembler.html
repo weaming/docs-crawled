@@ -1,0 +1,91 @@
+<html lang="en">
+<head>
+<title>Inline Assembler - GNAT User's Guide for Native Platforms</title>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+<meta name="description" content="GNAT User's Guide for Native Platforms">
+<meta name="generator" content="makeinfo 4.13">
+<link title="Top" rel="start" href="index.html#Top">
+<link rel="prev" href="Elaboration-Order-Handling-in-GNAT.html#Elaboration-Order-Handling-in-GNAT" title="Elaboration Order Handling in GNAT">
+<link rel="next" href="GNU-Free-Documentation-License.html#GNU-Free-Documentation-License" title="GNU Free Documentation License">
+<link href="http://www.gnu.org/software/texinfo/" rel="generator-home" title="Texinfo Homepage">
+<!--
+
+     GNAT User's Guide for Native Platforms , March 24, 2015
+
+     AdaCore
+
+     Copyright (C) 2008-2015, Free Software Foundation
+-->
+<meta http-equiv="Content-Style-Type" content="text/css">
+<style type="text/css"><!--
+  pre.display { font-family:inherit }
+  pre.format  { font-family:inherit }
+  pre.smalldisplay { font-family:inherit; font-size:smaller }
+  pre.smallformat  { font-family:inherit; font-size:smaller }
+  pre.smallexample { font-size:smaller }
+  pre.smalllisp    { font-size:smaller }
+  span.sc    { font-variant:small-caps }
+  span.roman { font-family:serif; font-weight:normal; } 
+  span.sansserif { font-family:sans-serif; font-weight:normal; } 
+--></style>
+</head>
+<body>
+<div class="node">
+<a name="Inline-Assembler"></a>
+<p>
+Next:&nbsp;<a rel="next" accesskey="n" href="GNU-Free-Documentation-License.html#GNU-Free-Documentation-License">GNU Free Documentation License</a>,
+Previous:&nbsp;<a rel="previous" accesskey="p" href="Elaboration-Order-Handling-in-GNAT.html#Elaboration-Order-Handling-in-GNAT">Elaboration Order Handling in GNAT</a>,
+Up:&nbsp;<a rel="up" accesskey="u" href="index.html#Top">Top</a>
+<hr>
+</div>
+
+<p><a name="gnat_005fugn_002finline_005fassembler-inline_002dassembler"></a><a name="g_t12"></a><a name="gnat_005fugn_002finline_005fassembler-doc"></a><a name="g_t2cc"></a><a name="gnat_005fugn_002finline_005fassembler-id1"></a><a name="g_t2cd"></a>
+
+<h2 class="chapter">12 Inline Assembler</h2>
+
+<p><a name="index-Inline-Assembler-1157"></a>
+If you need to write low-level software that interacts directly
+with the hardware, Ada provides two ways to incorporate assembly
+language code into your program.  First, you can import and invoke
+external routines written in assembly language, an Ada feature fully
+supported by GNAT.  However, for small sections of code it may be simpler
+or more efficient to include assembly language statements directly
+in your Ada source program, using the facilities of the implementation-defined
+package <cite>System.Machine_Code</cite>, which incorporates the gcc
+Inline Assembler.  The Inline Assembler approach offers a number of advantages,
+including the following:
+
+     <ul>
+<li>No need to use non-Ada tools
+
+     <li>Consistent interface over different targets
+
+     <li>Automatic usage of the proper calling conventions
+
+     <li>Access to Ada constants and variables
+
+     <li>Definition of intrinsic routines
+
+     <li>Possibility of inlining a subprogram comprising assembler code
+
+     <li>Code optimizer can take Inline Assembler code into account
+</ul>
+
+<p>This appendix presents a series of examples to show you how to use
+the Inline Assembler.  Although it focuses on the Intel x86,
+the general approach applies also to other processors. 
+It is assumed that you are familiar with Ada
+and with assembly language programming.
+
+<ul class="menu">
+<li><a accesskey="1" href="Basic-Assembler-Syntax.html#Basic-Assembler-Syntax">Basic Assembler Syntax</a>
+<li><a accesskey="2" href="A-Simple-Example-of-Inline-Assembler.html#A-Simple-Example-of-Inline-Assembler">A Simple Example of Inline Assembler</a>
+<li><a accesskey="3" href="Output-Variables-in-Inline-Assembler.html#Output-Variables-in-Inline-Assembler">Output Variables in Inline Assembler</a>
+<li><a accesskey="4" href="Input-Variables-in-Inline-Assembler.html#Input-Variables-in-Inline-Assembler">Input Variables in Inline Assembler</a>
+<li><a accesskey="5" href="Inlining-Inline-Assembler-Code.html#Inlining-Inline-Assembler-Code">Inlining Inline Assembler Code</a>
+<li><a accesskey="6" href="Other-Asm-Functionality.html#Other-Asm-Functionality">Other Asm Functionality</a>
+
+</ul>
+
+</body></html>
+

@@ -1,0 +1,148 @@
+<html lang="en">
+<head>
+<title>Alignment Clauses - GNAT Reference Manual</title>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+<meta name="description" content="GNAT Reference Manual">
+<meta name="generator" content="makeinfo 4.13">
+<link title="Top" rel="start" href="index.html#Top">
+<link rel="up" href="Representation-Clauses-and-Pragmas.html#Representation-Clauses-and-Pragmas" title="Representation Clauses and Pragmas">
+<link rel="next" href="Size-Clauses.html#Size-Clauses" title="Size Clauses">
+<link href="http://www.gnu.org/software/texinfo/" rel="generator-home" title="Texinfo Homepage">
+<!--
+
+     GNAT Reference Manual , March 24, 2015
+
+     AdaCore
+
+     Copyright (C) 2008-2015, Free Software Foundation
+-->
+<meta http-equiv="Content-Style-Type" content="text/css">
+<style type="text/css"><!--
+  pre.display { font-family:inherit }
+  pre.format  { font-family:inherit }
+  pre.smalldisplay { font-family:inherit; font-size:smaller }
+  pre.smallformat  { font-family:inherit; font-size:smaller }
+  pre.smallexample { font-size:smaller }
+  pre.smalllisp    { font-size:smaller }
+  span.sc    { font-variant:small-caps }
+  span.roman { font-family:serif; font-weight:normal; } 
+  span.sansserif { font-family:sans-serif; font-weight:normal; } 
+--></style>
+</head>
+<body>
+<div class="node">
+<a name="Alignment-Clauses"></a>
+<p>
+Next:&nbsp;<a rel="next" accesskey="n" href="Size-Clauses.html#Size-Clauses">Size Clauses</a>,
+Up:&nbsp;<a rel="up" accesskey="u" href="Representation-Clauses-and-Pragmas.html#Representation-Clauses-and-Pragmas">Representation Clauses and Pragmas</a>
+<hr>
+</div>
+
+<p><a name="gnat_005frm_002frepresentation_005fclauses_005fand_005fpragmas-id2"></a><a name="g_t21a"></a><a name="gnat_005frm_002frepresentation_005fclauses_005fand_005fpragmas-alignment_002dclauses"></a><a name="g_t21b"></a>
+
+<h3 class="section">9.1 Alignment Clauses</h3>
+
+<p><a name="index-Alignment-Clause-479"></a>
+GNAT requires that all alignment clauses specify a power of 2, and all
+default alignments are always a power of 2.  The default alignment
+values are as follows:
+
+     <ul>
+<li>`Primitive Types'.
+
+     <p>For primitive types, the alignment is the minimum of the actual size of
+objects of the type divided by <cite>Storage_Unit</cite>,
+and the maximum alignment supported by the target. 
+(This maximum alignment is given by the GNAT-specific attribute
+<cite>Standard'Maximum_Alignment</cite>; see <a href="13e.html#g_t13e">Attribute Maximum_Alignment</a>.)
+
+     <p><a name="index-Maximum_005fAlignment-attribute-480"></a>
+For example, for type <cite>Long_Float</cite>, the object size is 8 bytes, and the
+default alignment will be 8 on any target that supports alignments
+this large, but on some targets, the maximum alignment may be smaller
+than 8, in which case objects of type <cite>Long_Float</cite> will be maximally
+aligned.
+
+     <li>`Arrays'.
+
+     <p>For arrays, the alignment is equal to the alignment of the component type
+for the normal case where no packing or component size is given.  If the
+array is packed, and the packing is effective (see separate section on
+packed arrays), then the alignment will be one for long packed arrays,
+or arrays whose length is not known at compile time.  For short packed
+arrays, which are handled internally as modular types, the alignment
+will be as described for primitive types, e.g., a packed array of length
+31 bits will have an object size of four bytes, and an alignment of 4.
+
+     <li>`Records'.
+
+     <p>For the normal non-packed case, the alignment of a record is equal to
+the maximum alignment of any of its components.  For tagged records, this
+includes the implicit access type used for the tag.  If a pragma <cite>Pack</cite>
+is used and all components are packable (see separate section on pragma
+<cite>Pack</cite>), then the resulting alignment is 1, unless the layout of the
+record makes it profitable to increase it.
+
+     <p>A special case is when:
+
+          <ul>
+<li>the size of the record is given explicitly, or a
+full record representation clause is given, and
+
+          <li>the size of the record is 2, 4, or 8 bytes. 
+</ul>
+
+     <p>In this case, an alignment is chosen to match the
+size of the record. For example, if we have:
+
+     <pre class="example">         type Small is record
+            A, B : Character;
+         end record;
+         for Small'Size use 16;
+</pre>
+     <p>then the default alignment of the record type <cite>Small</cite> is 2, not 1. This
+leads to more efficient code when the record is treated as a unit, and also
+allows the type to specified as <cite>Atomic</cite> on architectures requiring
+strict alignment. 
+</ul>
+
+<p>An alignment clause may specify a larger alignment than the default value
+up to some maximum value dependent on the target (obtainable by using the
+attribute reference <cite>Standard'Maximum_Alignment</cite>). It may also specify
+a smaller alignment than the default value for enumeration, integer and
+fixed point types, as well as for record types, for example
+
+<pre class="example">    type V is record
+       A : Integer;
+    end record;
+    
+    for V'alignment use 1;
+</pre>
+<p><a name="index-Alignment-481"></a><a name="index-default-482"></a>
+The default alignment for the type <cite>V</cite> is 4, as a result of the
+Integer field in the record, but it is permissible, as shown, to
+override the default alignment of the record with a smaller value.
+
+<p><a name="index-Alignment-483"></a><a name="index-subtypes-484"></a>
+Note that according to the Ada standard, an alignment clause applies only
+to the first named subtype. If additional subtypes are declared, then the
+compiler is allowed to choose any alignment it likes, and there is no way
+to control this choice. Consider:
+
+<pre class="example">    type R is range 1 .. 10_000;
+    for R'Alignment use 1;
+    subtype RS is R range 1 .. 1000;
+</pre>
+<p>The alignment clause specifies an alignment of 1 for the first named subtype
+<cite>R</cite> but this does not necessarily apply to <cite>RS</cite>. When writing
+portable Ada code, you should avoid writing code that explicitly or
+implicitly relies on the alignment of such subtypes.
+
+<p>For the GNAT compiler, if an explicit alignment clause is given, this
+value is also used for any subsequent subtypes. So for GNAT, in the
+above example, you can count on the alignment of <cite>RS</cite> being 1. But this
+assumption is non-portable, and other compilers may choose different
+alignments for the subtype <cite>RS</cite>.
+
+</body></html>
+

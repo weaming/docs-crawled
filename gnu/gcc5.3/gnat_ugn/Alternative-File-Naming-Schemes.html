@@ -1,0 +1,170 @@
+<html lang="en">
+<head>
+<title>Alternative File Naming Schemes - GNAT User's Guide for Native Platforms</title>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+<meta name="description" content="GNAT User's Guide for Native Platforms">
+<meta name="generator" content="makeinfo 4.13">
+<link title="Top" rel="start" href="index.html#Top">
+<link rel="up" href="File-Naming-Topics-and-Utilities.html#File-Naming-Topics-and-Utilities" title="File Naming Topics and Utilities">
+<link rel="prev" href="Using-Other-File-Names.html#Using-Other-File-Names" title="Using Other File Names">
+<link rel="next" href="Handling-Arbitrary-File-Naming-Conventions-with-gnatname.html#Handling-Arbitrary-File-Naming-Conventions-with-gnatname" title="Handling Arbitrary File Naming Conventions with gnatname">
+<link href="http://www.gnu.org/software/texinfo/" rel="generator-home" title="Texinfo Homepage">
+<!--
+
+     GNAT User's Guide for Native Platforms , March 24, 2015
+
+     AdaCore
+
+     Copyright (C) 2008-2015, Free Software Foundation
+-->
+<meta http-equiv="Content-Style-Type" content="text/css">
+<style type="text/css"><!--
+  pre.display { font-family:inherit }
+  pre.format  { font-family:inherit }
+  pre.smalldisplay { font-family:inherit; font-size:smaller }
+  pre.smallformat  { font-family:inherit; font-size:smaller }
+  pre.smallexample { font-size:smaller }
+  pre.smalllisp    { font-size:smaller }
+  span.sc    { font-variant:small-caps }
+  span.roman { font-family:serif; font-weight:normal; } 
+  span.sansserif { font-family:sans-serif; font-weight:normal; } 
+--></style>
+</head>
+<body>
+<div class="node">
+<a name="Alternative-File-Naming-Schemes"></a>
+<p>
+Next:&nbsp;<a rel="next" accesskey="n" href="Handling-Arbitrary-File-Naming-Conventions-with-gnatname.html#Handling-Arbitrary-File-Naming-Conventions-with-gnatname">Handling Arbitrary File Naming Conventions with gnatname</a>,
+Previous:&nbsp;<a rel="previous" accesskey="p" href="Using-Other-File-Names.html#Using-Other-File-Names">Using Other File Names</a>,
+Up:&nbsp;<a rel="up" accesskey="u" href="File-Naming-Topics-and-Utilities.html#File-Naming-Topics-and-Utilities">File Naming Topics and Utilities</a>
+<hr>
+</div>
+
+<p><a name="gnat_005fugn_002fthe_005fgnat_005fcompilation_005fmodel-id11"></a><a name="g_t59"></a><a name="gnat_005fugn_002fthe_005fgnat_005fcompilation_005fmodel-alternative_002dfile_002dnaming_002dschemes"></a><a name="g_t5a"></a>
+
+<h4 class="subsection">3.3.3 Alternative File Naming Schemes</h4>
+
+<p><a name="index-File-naming-schemes-39"></a><a name="index-alternative-40"></a>
+<a name="index-File-names-41"></a>
+The previous section described the use of the <cite>Source_File_Name</cite>
+pragma to allow arbitrary names to be assigned to individual source files. 
+However, this approach requires one pragma for each file, and especially in
+large systems can result in very long <code>gnat.adc</code> files, and also create
+a maintenance problem.
+
+<p><a name="index-Source_005fFile_005fName-pragma-42"></a>
+GNAT also provides a facility for specifying systematic file naming schemes
+other than the standard default naming scheme previously described. An
+alternative scheme for naming is specified by the use of
+<cite>Source_File_Name</cite> pragmas having the following format:
+
+<pre class="example">    pragma Source_File_Name (
+       Spec_File_Name  =&gt; FILE_NAME_PATTERN
+     [ , Casing          =&gt; CASING_SPEC]
+     [ , Dot_Replacement =&gt; STRING_LITERAL ] );
+    
+    pragma Source_File_Name (
+       Body_File_Name  =&gt; FILE_NAME_PATTERN
+     [ , Casing          =&gt; CASING_SPEC ]
+     [ , Dot_Replacement =&gt; STRING_LITERAL ] ) ;
+    
+    pragma Source_File_Name (
+       Subunit_File_Name  =&gt; FILE_NAME_PATTERN
+     [ , Casing          =&gt; CASING_SPEC ]
+     [ , Dot_Replacement =&gt; STRING_LITERAL ] ) ;
+    
+    FILE_NAME_PATTERN ::= STRING_LITERAL
+    CASING_SPEC ::= Lowercase | Uppercase | Mixedcase
+</pre>
+<p>The <cite>FILE_NAME_PATTERN</cite> string shows how the file name is constructed. 
+It contains a single asterisk character, and the unit name is substituted
+systematically for this asterisk. The optional parameter
+<cite>Casing</cite> indicates
+whether the unit name is to be all upper-case letters, all lower-case letters,
+or mixed-case. If no
+<cite>Casing</cite> parameter is used, then the default is all
+lower-case.
+
+<p>The optional <cite>Dot_Replacement</cite> string is used to replace any periods
+that occur in subunit or child unit names. If no <cite>Dot_Replacement</cite>
+argument is used then separating dots appear unchanged in the resulting
+file name. 
+Although the above syntax indicates that the
+<cite>Casing</cite> argument must appear
+before the <cite>Dot_Replacement</cite> argument, but it
+is also permissible to write these arguments in the opposite order.
+
+<p>As indicated, it is possible to specify different naming schemes for
+bodies, specs, and subunits. Quite often the rule for subunits is the
+same as the rule for bodies, in which case, there is no need to give
+a separate <cite>Subunit_File_Name</cite> rule, and in this case the
+<cite>Body_File_name</cite> rule is used for subunits as well.
+
+<p>The separate rule for subunits can also be used to implement the rather
+unusual case of a compilation environment (e.g., a single directory) which
+contains a subunit and a child unit with the same unit name. Although
+both units cannot appear in the same partition, the Ada Reference Manual
+allows (but does not require) the possibility of the two units coexisting
+in the same environment.
+
+<p>The file name translation works in the following steps:
+
+     <ul>
+<li>If there is a specific <cite>Source_File_Name</cite> pragma for the given unit,
+then this is always used, and any general pattern rules are ignored.
+
+     <li>If there is a pattern type <cite>Source_File_Name</cite> pragma that applies to
+the unit, then the resulting file name will be used if the file exists. If
+more than one pattern matches, the latest one will be tried first, and the
+first attempt resulting in a reference to a file that exists will be used.
+
+     <li>If no pattern type <cite>Source_File_Name</cite> pragma that applies to the unit
+for which the corresponding file exists, then the standard GNAT default
+naming rules are used. 
+</ul>
+
+<p>As an example of the use of this mechanism, consider a commonly used scheme
+in which file names are all lower case, with separating periods copied
+unchanged to the resulting file name, and specs end with <code>.1.ada</code>, and
+bodies end with <code>.2.ada</code>. GNAT will follow this scheme if the following
+two pragmas appear:
+
+<pre class="example">    pragma Source_File_Name
+      (Spec_File_Name =&gt; ".1.ada");
+    pragma Source_File_Name
+      (Body_File_Name =&gt; ".2.ada");
+</pre>
+<p>The default GNAT scheme is actually implemented by providing the following
+default pragmas internally:
+
+<pre class="example">    pragma Source_File_Name
+      (Spec_File_Name =&gt; ".ads", Dot_Replacement =&gt; "-");
+    pragma Source_File_Name
+      (Body_File_Name =&gt; ".adb", Dot_Replacement =&gt; "-");
+</pre>
+<p>Our final example implements a scheme typically used with one of the
+Ada 83 compilers, where the separator character for subunits was '__'
+(two underscores), specs were identified by adding <code>_.ADA</code>, bodies
+by adding <code>.ADA</code>, and subunits by
+adding <code>.SEP</code>. All file names were
+upper case. Child units were not present of course since this was an
+Ada 83 compiler, but it seems reasonable to extend this scheme to use
+the same double underscore separator for child units.
+
+<pre class="example">    pragma Source_File_Name
+      (Spec_File_Name =&gt; "_.ADA",
+       Dot_Replacement =&gt; "__",
+       Casing = Uppercase);
+    pragma Source_File_Name
+      (Body_File_Name =&gt; ".ADA",
+       Dot_Replacement =&gt; "__",
+       Casing = Uppercase);
+    pragma Source_File_Name
+      (Subunit_File_Name =&gt; ".SEP",
+       Dot_Replacement =&gt; "__",
+       Casing = Uppercase);
+</pre>
+<p><a name="index-gnatname-43"></a>
+
+</body></html>
+

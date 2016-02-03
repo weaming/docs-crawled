@@ -1,0 +1,125 @@
+<html lang="en">
+<head>
+<title>Input Variables in Inline Assembler - GNAT User's Guide for Native Platforms</title>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+<meta name="description" content="GNAT User's Guide for Native Platforms">
+<meta name="generator" content="makeinfo 4.13">
+<link title="Top" rel="start" href="index.html#Top">
+<link rel="up" href="Inline-Assembler.html#Inline-Assembler" title="Inline Assembler">
+<link rel="prev" href="Output-Variables-in-Inline-Assembler.html#Output-Variables-in-Inline-Assembler" title="Output Variables in Inline Assembler">
+<link rel="next" href="Inlining-Inline-Assembler-Code.html#Inlining-Inline-Assembler-Code" title="Inlining Inline Assembler Code">
+<link href="http://www.gnu.org/software/texinfo/" rel="generator-home" title="Texinfo Homepage">
+<!--
+
+     GNAT User's Guide for Native Platforms , March 24, 2015
+
+     AdaCore
+
+     Copyright (C) 2008-2015, Free Software Foundation
+-->
+<meta http-equiv="Content-Style-Type" content="text/css">
+<style type="text/css"><!--
+  pre.display { font-family:inherit }
+  pre.format  { font-family:inherit }
+  pre.smalldisplay { font-family:inherit; font-size:smaller }
+  pre.smallformat  { font-family:inherit; font-size:smaller }
+  pre.smallexample { font-size:smaller }
+  pre.smalllisp    { font-size:smaller }
+  span.sc    { font-variant:small-caps }
+  span.roman { font-family:serif; font-weight:normal; } 
+  span.sansserif { font-family:sans-serif; font-weight:normal; } 
+--></style>
+</head>
+<body>
+<div class="node">
+<a name="Input-Variables-in-Inline-Assembler"></a>
+<p>
+Next:&nbsp;<a rel="next" accesskey="n" href="Inlining-Inline-Assembler-Code.html#Inlining-Inline-Assembler-Code">Inlining Inline Assembler Code</a>,
+Previous:&nbsp;<a rel="previous" accesskey="p" href="Output-Variables-in-Inline-Assembler.html#Output-Variables-in-Inline-Assembler">Output Variables in Inline Assembler</a>,
+Up:&nbsp;<a rel="up" accesskey="u" href="Inline-Assembler.html#Inline-Assembler">Inline Assembler</a>
+<hr>
+</div>
+
+<p><a name="gnat_005fugn_002finline_005fassembler-id5"></a><a name="g_t2d4"></a><a name="gnat_005fugn_002finline_005fassembler-input_002dvariables_002din_002dinline_002dassembler"></a><a name="g_t2d5"></a>
+
+<h3 class="section">12.4 Input Variables in Inline Assembler</h3>
+
+<p>The example in this section illustrates how to specify the source operands
+for assembly language statements. 
+The program simply increments its input value by 1:
+
+<blockquote>
+
+<pre class="example">    with Interfaces; use Interfaces;
+    with Ada.Text_IO; use Ada.Text_IO;
+    with System.Machine_Code; use System.Machine_Code;
+    procedure Increment is
+    
+       function Incr (Value : Unsigned_32) return Unsigned_32 is
+          Result : Unsigned_32;
+       begin
+          Asm ("incl %0",
+               Outputs =&gt; Unsigned_32'Asm_Output ("=a", Result),
+               Inputs  =&gt; Unsigned_32'Asm_Input ("a", Value));
+          return Result;
+       end Incr;
+    
+       Value : Unsigned_32;
+    
+    begin
+       Value := 5;
+       Put_Line ("Value before is" &amp; Value'Img);
+       Value := Incr (Value);
+      Put_Line ("Value after is" &amp; Value'Img);
+    end Increment;
+</pre>
+</blockquote>
+
+<p>The <cite>Outputs</cite> parameter to <cite>Asm</cite> specifies
+that the result will be in the eax register and that it is to be stored
+in the <cite>Result</cite> variable.
+
+<p>The <cite>Inputs</cite> parameter looks much like the <cite>Outputs</cite> parameter,
+but with an <cite>Asm_Input</cite> attribute. 
+The <cite>"="</cite> constraint, indicating an output value, is not present.
+
+<p>You can have multiple input variables, in the same way that you can have more
+than one output variable.
+
+<p>The parameter count (%0, %1) etc, still starts at the first output statement,
+and continues with the input statements.
+
+<p>Just as the <cite>Outputs</cite> parameter causes the register to be stored into the
+target variable after execution of the assembler statements, so does the
+<cite>Inputs</cite> parameter cause its variable to be loaded into the register
+before execution of the assembler statements.
+
+<p>Thus the effect of the <cite>Asm</cite> invocation is:
+
+     <ul>
+<li>load the 32-bit value of <cite>Value</cite> into eax
+
+     <li>execute the <cite>incl %eax</cite> instruction
+
+     <li>store the contents of eax into the <cite>Result</cite> variable
+</ul>
+
+<p>The resulting assembler file (with `-O2' optimization) contains:
+
+<blockquote>
+
+<pre class="example">    _increment__incr.1:
+       subl $4,%esp
+       movl 8(%esp),%eax
+    #APP
+       incl %eax
+    #NO_APP
+       movl %eax,%edx
+       movl %ecx,(%esp)
+       addl $4,%esp
+       ret
+</pre>
+</blockquote>
+
+</body></html>
+

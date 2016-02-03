@@ -1,0 +1,75 @@
+<html lang="en">
+<head>
+<title>Comparison between GNAT and C/C++ Compilation Models - GNAT User's Guide for Native Platforms</title>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+<meta name="description" content="GNAT User's Guide for Native Platforms">
+<meta name="generator" content="makeinfo 4.13">
+<link title="Top" rel="start" href="index.html#Top">
+<link rel="up" href="GNAT-and-Other-Compilation-Models.html#GNAT-and-Other-Compilation-Models" title="GNAT and Other Compilation Models">
+<link rel="next" href="Comparison-between-GNAT-and-Conventional-Ada-Library-Models.html#Comparison-between-GNAT-and-Conventional-Ada-Library-Models" title="Comparison between GNAT and Conventional Ada Library Models">
+<link href="http://www.gnu.org/software/texinfo/" rel="generator-home" title="Texinfo Homepage">
+<!--
+
+     GNAT User's Guide for Native Platforms , March 24, 2015
+
+     AdaCore
+
+     Copyright (C) 2008-2015, Free Software Foundation
+-->
+<meta http-equiv="Content-Style-Type" content="text/css">
+<style type="text/css"><!--
+  pre.display { font-family:inherit }
+  pre.format  { font-family:inherit }
+  pre.smalldisplay { font-family:inherit; font-size:smaller }
+  pre.smallformat  { font-family:inherit; font-size:smaller }
+  pre.smallexample { font-size:smaller }
+  pre.smalllisp    { font-size:smaller }
+  span.sc    { font-variant:small-caps }
+  span.roman { font-family:serif; font-weight:normal; } 
+  span.sansserif { font-family:sans-serif; font-weight:normal; } 
+--></style>
+</head>
+<body>
+<div class="node">
+<a name="Comparison-between-GNAT-and-C%2fC++-Compilation-Models"></a>
+<a name="Comparison-between-GNAT-and-C_002fC_002b_002b-Compilation-Models"></a>
+<p>
+Next:&nbsp;<a rel="next" accesskey="n" href="Comparison-between-GNAT-and-Conventional-Ada-Library-Models.html#Comparison-between-GNAT-and-Conventional-Ada-Library-Models">Comparison between GNAT and Conventional Ada Library Models</a>,
+Up:&nbsp;<a rel="up" accesskey="u" href="GNAT-and-Other-Compilation-Models.html#GNAT-and-Other-Compilation-Models">GNAT and Other Compilation Models</a>
+<hr>
+</div>
+
+<p><a name="gnat_005fugn_002fthe_005fgnat_005fcompilation_005fmodel-comparison_002dbetween_002dgnat_002dand_002dc_002dc_002dcompilation_002dmodels"></a><a name="d1"></a><a name="gnat_005fugn_002fthe_005fgnat_005fcompilation_005fmodel-id74"></a><a name="d2"></a>
+
+<h4 class="subsection">3.12.1 Comparison between GNAT and C/C++ Compilation Models</h4>
+
+<p>The GNAT model of compilation is close to the C and C++ models. You can
+think of Ada specs as corresponding to header files in C. As in C, you
+don't need to compile specs; they are compiled when they are used. The
+Ada `with' is similar in effect to the <cite>#include</cite> of a C
+header.
+
+<p>One notable difference is that, in Ada, you may compile specs separately
+to check them for semantic and syntactic accuracy. This is not always
+possible with C headers because they are fragments of programs that have
+less specific syntactic or semantic rules.
+
+<p>The other major difference is the requirement for running the binder,
+which performs two important functions. First, it checks for
+consistency. In C or C++, the only defense against assembling
+inconsistent programs lies outside the compiler, in a makefile, for
+example. The binder satisfies the Ada requirement that it be impossible
+to construct an inconsistent program when the compiler is used in normal
+mode.
+
+<p><a name="index-Elaboration-order-control-169"></a>
+The other important function of the binder is to deal with elaboration
+issues. There are also elaboration issues in C++ that are handled
+automatically. This automatic handling has the advantage of being
+simpler to use, but the C++ programmer has no control over elaboration. 
+Where <cite>gnatbind</cite> might complain there was no valid order of
+elaboration, a C++ compiler would simply construct a program that
+malfunctioned at run time.
+
+</body></html>
+

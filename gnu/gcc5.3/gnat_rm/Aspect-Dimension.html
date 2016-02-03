@@ -1,0 +1,76 @@
+<html lang="en">
+<head>
+<title>Aspect Dimension - GNAT Reference Manual</title>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+<meta name="description" content="GNAT Reference Manual">
+<meta name="generator" content="makeinfo 4.13">
+<link title="Top" rel="start" href="index.html#Top">
+<link rel="up" href="Implementation-Defined-Aspects.html#Implementation-Defined-Aspects" title="Implementation Defined Aspects">
+<link rel="prev" href="Aspect-Depends.html#Aspect-Depends" title="Aspect Depends">
+<link rel="next" href="Aspect-Dimension_005fSystem.html#Aspect-Dimension_005fSystem" title="Aspect Dimension_System">
+<link href="http://www.gnu.org/software/texinfo/" rel="generator-home" title="Texinfo Homepage">
+<!--
+
+     GNAT Reference Manual , March 24, 2015
+
+     AdaCore
+
+     Copyright (C) 2008-2015, Free Software Foundation
+-->
+<meta http-equiv="Content-Style-Type" content="text/css">
+<style type="text/css"><!--
+  pre.display { font-family:inherit }
+  pre.format  { font-family:inherit }
+  pre.smalldisplay { font-family:inherit; font-size:smaller }
+  pre.smallformat  { font-family:inherit; font-size:smaller }
+  pre.smallexample { font-size:smaller }
+  pre.smalllisp    { font-size:smaller }
+  span.sc    { font-variant:small-caps }
+  span.roman { font-family:serif; font-weight:normal; } 
+  span.sansserif { font-family:sans-serif; font-weight:normal; } 
+--></style>
+</head>
+<body>
+<div class="node">
+<a name="Aspect-Dimension"></a>
+<p>
+Next:&nbsp;<a rel="next" accesskey="n" href="Aspect-Dimension_005fSystem.html#Aspect-Dimension_005fSystem">Aspect Dimension_System</a>,
+Previous:&nbsp;<a rel="previous" accesskey="p" href="Aspect-Depends.html#Aspect-Depends">Aspect Depends</a>,
+Up:&nbsp;<a rel="up" accesskey="u" href="Implementation-Defined-Aspects.html#Implementation-Defined-Aspects">Implementation Defined Aspects</a>
+<hr>
+</div>
+
+<p><a name="gnat_005frm_002fimplementation_005fdefined_005faspects-aspect_002ddimension"></a><a name="ea"></a>
+
+<h3 class="section">3.7 Aspect Dimension</h3>
+
+<p><a name="index-Dimension-115"></a>
+The <cite>Dimension</cite> aspect is used to specify the dimensions of a given
+subtype of a dimensioned numeric type. The aspect also specifies a symbol
+used when doing formatted output of dimensioned quantities. The syntax is:
+
+<pre class="example">    with Dimension =&gt;
+      ([Symbol =&gt;] SYMBOL, DIMENSION_VALUE {, DIMENSION_Value})
+    
+    SYMBOL ::= STRING_LITERAL | CHARACTER_LITERAL
+    
+    DIMENSION_VALUE ::=
+      RATIONAL
+    | others               =&gt; RATIONAL
+    | DISCRETE_CHOICE_LIST =&gt; RATIONAL
+    
+    RATIONAL ::= [-] NUMERIC_LITERAL [/ NUMERIC_LITERAL]
+</pre>
+<p>This aspect can only be applied to a subtype whose parent type has
+a <cite>Dimension_Systen</cite> aspect. The aspect must specify values for
+all dimensions of the system. The rational values are the powers of the
+corresponding dimensions that are used by the compiler to verify that
+physical (numeric) computations are dimensionally consistent. For example,
+the computation of a force must result in dimensions (L =&gt; 1, M =&gt; 1, T =&gt; -2). 
+For further examples of the usage
+of this aspect, see package <cite>System.Dim.Mks</cite>. 
+Note that when the dimensioned type is an integer type, then any
+dimension value must be an integer literal.
+
+</body></html>
+

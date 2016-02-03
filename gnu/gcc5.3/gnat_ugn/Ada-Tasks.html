@@ -1,0 +1,116 @@
+<html lang="en">
+<head>
+<title>Ada Tasks - GNAT User's Guide for Native Platforms</title>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+<meta name="description" content="GNAT User's Guide for Native Platforms">
+<meta name="generator" content="makeinfo 4.13">
+<link title="Top" rel="start" href="index.html#Top">
+<link rel="up" href="Running-and-Debugging-Ada-Programs.html#Running-and-Debugging-Ada-Programs" title="Running and Debugging Ada Programs">
+<link rel="prev" href="Stopping-When-Ada-Exceptions-Are-Raised.html#Stopping-When-Ada-Exceptions-Are-Raised" title="Stopping When Ada Exceptions Are Raised">
+<link rel="next" href="Debugging-Generic-Units.html#Debugging-Generic-Units" title="Debugging Generic Units">
+<link href="http://www.gnu.org/software/texinfo/" rel="generator-home" title="Texinfo Homepage">
+<!--
+
+     GNAT User's Guide for Native Platforms , March 24, 2015
+
+     AdaCore
+
+     Copyright (C) 2008-2015, Free Software Foundation
+-->
+<meta http-equiv="Content-Style-Type" content="text/css">
+<style type="text/css"><!--
+  pre.display { font-family:inherit }
+  pre.format  { font-family:inherit }
+  pre.smalldisplay { font-family:inherit; font-size:smaller }
+  pre.smallformat  { font-family:inherit; font-size:smaller }
+  pre.smallexample { font-size:smaller }
+  pre.smalllisp    { font-size:smaller }
+  span.sc    { font-variant:small-caps }
+  span.roman { font-family:serif; font-weight:normal; } 
+  span.sansserif { font-family:sans-serif; font-weight:normal; } 
+--></style>
+</head>
+<body>
+<div class="node">
+<a name="Ada-Tasks"></a>
+<p>
+Next:&nbsp;<a rel="next" accesskey="n" href="Debugging-Generic-Units.html#Debugging-Generic-Units">Debugging Generic Units</a>,
+Previous:&nbsp;<a rel="previous" accesskey="p" href="Stopping-When-Ada-Exceptions-Are-Raised.html#Stopping-When-Ada-Exceptions-Are-Raised">Stopping When Ada Exceptions Are Raised</a>,
+Up:&nbsp;<a rel="up" accesskey="u" href="Running-and-Debugging-Ada-Programs.html#Running-and-Debugging-Ada-Programs">Running and Debugging Ada Programs</a>
+<hr>
+</div>
+
+<p><a name="gnat_005fugn_002fgnat_005fand_005fprogram_005fexecution-ada_002dtasks"></a><a name="g_t205"></a><a name="gnat_005fugn_002fgnat_005fand_005fprogram_005fexecution-id10"></a><a name="g_t206"></a>
+
+<h4 class="subsection">8.1.8 Ada Tasks</h4>
+
+<p><cite>GDB</cite> allows the following task-related commands:
+
+     <ul>
+<li>
+          <dl>
+<dt>`info tasks'<dd>
+This command shows a list of current Ada tasks, as in the following example:
+
+          <pre class="example">              (gdb) info tasks
+                ID       TID P-ID   Thread Pri State                 Name
+                 1   8088000   0   807e000  15 Child Activation Wait main_task
+                 2   80a4000   1   80ae000  15 Accept/Select Wait    b
+                 3   809a800   1   80a4800  15 Child Activation Wait a
+              *  4   80ae800   3   80b8000  15 Running               c
+</pre>
+          <p>In this listing, the asterisk before the first task indicates it to be the
+currently running task. The first column lists the task ID that is used
+to refer to tasks in the following commands. 
+</dl>
+     </ul>
+
+<p><a name="index-Breakpoints-and-tasks-955"></a>
+
+     <ul>
+<li>`break `linespec` task `taskid`', `break `linespec` task `taskid` if ...'
+
+     <blockquote>
+
+     <p>These commands are like the <cite>break ... thread ...</cite>. 
+<cite>linespec</cite> specifies source lines.
+
+     <p>Use the qualifier <code>task `taskid'</code> with a breakpoint command
+to specify that you only want <cite>GDB</cite> to stop the program when a
+particular Ada task reaches this breakpoint. <cite>taskid</cite> is one of the
+numeric task identifiers assigned by <cite>GDB</cite>, shown in the first
+column of the <code>info tasks</code> display.
+
+     <p>If you do not specify <code>task `taskid'</code> when you set a
+breakpoint, the breakpoint applies to `all' tasks of your
+program.
+
+     <p>You can use the <cite>task</cite> qualifier on conditional breakpoints as
+well; in this case, place <code>task `taskid'</code> before the
+breakpoint condition (before the <cite>if</cite>). 
+</blockquote>
+     </ul>
+
+<p><a name="index-Task-switching-_0028in-gdb_0029-956"></a>
+
+     <ul>
+<li>`task `taskno`'
+
+     <blockquote>
+
+     <p>This command allows switching to the task referred by <cite>taskno</cite>. In
+particular, this allows browsing of the backtrace of the specified
+task. It is advisable to switch back to the original task before
+continuing execution otherwise the scheduling of the program may be
+perturbed. 
+</blockquote>
+     </ul>
+
+<p>For more detailed information on the tasking support,
+see <cite>Debugging with GDB</cite>.
+
+<p><a name="index-Debugging-Generic-Units-957"></a>
+<a name="index-Generics-958"></a>
+
+</body></html>
+

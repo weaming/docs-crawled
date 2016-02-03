@@ -1,0 +1,71 @@
+<html lang="en">
+<head>
+<title>Organizing Projects into Subsystems - GNAT User's Guide for Native Platforms</title>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+<meta name="description" content="GNAT User's Guide for Native Platforms">
+<meta name="generator" content="makeinfo 4.13">
+<link title="Top" rel="start" href="index.html#Top">
+<link rel="up" href="GNAT-Project-Manager.html#GNAT-Project-Manager" title="GNAT Project Manager">
+<link rel="prev" href="Building-With-Projects.html#Building-With-Projects" title="Building With Projects">
+<link rel="next" href="Scenarios-in-Projects.html#Scenarios-in-Projects" title="Scenarios in Projects">
+<link href="http://www.gnu.org/software/texinfo/" rel="generator-home" title="Texinfo Homepage">
+<!--
+
+     GNAT User's Guide for Native Platforms , March 24, 2015
+
+     AdaCore
+
+     Copyright (C) 2008-2015, Free Software Foundation
+-->
+<meta http-equiv="Content-Style-Type" content="text/css">
+<style type="text/css"><!--
+  pre.display { font-family:inherit }
+  pre.format  { font-family:inherit }
+  pre.smalldisplay { font-family:inherit; font-size:smaller }
+  pre.smallformat  { font-family:inherit; font-size:smaller }
+  pre.smallexample { font-size:smaller }
+  pre.smalllisp    { font-size:smaller }
+  span.sc    { font-variant:small-caps }
+  span.roman { font-family:serif; font-weight:normal; } 
+  span.sansserif { font-family:sans-serif; font-weight:normal; } 
+--></style>
+</head>
+<body>
+<div class="node">
+<a name="Organizing-Projects-into-Subsystems"></a>
+<p>
+Next:&nbsp;<a rel="next" accesskey="n" href="Scenarios-in-Projects.html#Scenarios-in-Projects">Scenarios in Projects</a>,
+Previous:&nbsp;<a rel="previous" accesskey="p" href="Building-With-Projects.html#Building-With-Projects">Building With Projects</a>,
+Up:&nbsp;<a rel="up" accesskey="u" href="GNAT-Project-Manager.html#GNAT-Project-Manager">GNAT Project Manager</a>
+<hr>
+</div>
+
+<p><a name="gnat_005fugn_002fgnat_005fproject_005fmanager-organizing_002dprojects_002dinto_002dsubsystems"></a><a name="g_t14e"></a><a name="gnat_005fugn_002fgnat_005fproject_005fmanager-id14"></a><a name="g_t16b"></a>
+
+<h3 class="section">5.3 Organizing Projects into Subsystems</h3>
+
+<p>A `subsystem' is a coherent part of the complete system to be built. It is
+represented by a set of sources and one single object directory. A system can
+be composed of a single subsystem when it is simple as we have seen in the
+first section. Complex systems are usually composed of several interdependent
+subsystems. A subsystem is dependent on another subsystem if knowledge of the
+other one is required to build it, and in particular if visibility on some of
+the sources of this other subsystem is required. Each subsystem is usually
+represented by its own project file.
+
+<p>In this section, the previous example is being extended. Let's assume some
+sources of our <cite>Build</cite> project depend on other sources. 
+For instance, when building a graphical interface, it is usual to depend upon
+a graphical library toolkit such as GtkAda. Furthermore, we also need
+sources from a logging module we had previously written.
+
+<ul class="menu">
+<li><a accesskey="1" href="Project-Dependencies.html#Project-Dependencies">Project Dependencies</a>
+<li><a accesskey="2" href="Cyclic-Project-Dependencies.html#Cyclic-Project-Dependencies">Cyclic Project Dependencies</a>
+<li><a accesskey="3" href="Sharing-Between-Projects.html#Sharing-Between-Projects">Sharing Between Projects</a>
+<li><a accesskey="4" href="Global-Attributes.html#Global-Attributes">Global Attributes</a>
+
+</ul>
+
+</body></html>
+

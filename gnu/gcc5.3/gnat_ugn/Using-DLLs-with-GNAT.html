@@ -1,0 +1,119 @@
+<html lang="en">
+<head>
+<title>Using DLLs with GNAT - GNAT User's Guide for Native Platforms</title>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+<meta name="description" content="GNAT User's Guide for Native Platforms">
+<meta name="generator" content="makeinfo 4.13">
+<link title="Top" rel="start" href="index.html#Top">
+<link rel="up" href="Mixed_002dLanguage-Programming-on-Windows.html#Mixed_002dLanguage-Programming-on-Windows" title="Mixed-Language Programming on Windows">
+<link rel="prev" href="Introduction-to-Dynamic-Link-Libraries-DLLs.html#Introduction-to-Dynamic-Link-Libraries-DLLs" title="Introduction to Dynamic Link Libraries DLLs">
+<link rel="next" href="Building-DLLs-with-GNAT-Project-files.html#Building-DLLs-with-GNAT-Project-files" title="Building DLLs with GNAT Project files">
+<link href="http://www.gnu.org/software/texinfo/" rel="generator-home" title="Texinfo Homepage">
+<!--
+
+     GNAT User's Guide for Native Platforms , March 24, 2015
+
+     AdaCore
+
+     Copyright (C) 2008-2015, Free Software Foundation
+-->
+<meta http-equiv="Content-Style-Type" content="text/css">
+<style type="text/css"><!--
+  pre.display { font-family:inherit }
+  pre.format  { font-family:inherit }
+  pre.smalldisplay { font-family:inherit; font-size:smaller }
+  pre.smallformat  { font-family:inherit; font-size:smaller }
+  pre.smallexample { font-size:smaller }
+  pre.smalllisp    { font-size:smaller }
+  span.sc    { font-variant:small-caps }
+  span.roman { font-family:serif; font-weight:normal; } 
+  span.sansserif { font-family:sans-serif; font-weight:normal; } 
+--></style>
+</head>
+<body>
+<div class="node">
+<a name="Using-DLLs-with-GNAT"></a>
+<p>
+Next:&nbsp;<a rel="next" accesskey="n" href="Building-DLLs-with-GNAT-Project-files.html#Building-DLLs-with-GNAT-Project-files">Building DLLs with GNAT Project files</a>,
+Previous:&nbsp;<a rel="previous" accesskey="p" href="Introduction-to-Dynamic-Link-Libraries-DLLs.html#Introduction-to-Dynamic-Link-Libraries-DLLs">Introduction to Dynamic Link Libraries DLLs</a>,
+Up:&nbsp;<a rel="up" accesskey="u" href="Mixed_002dLanguage-Programming-on-Windows.html#Mixed_002dLanguage-Programming-on-Windows">Mixed-Language Programming on Windows</a>
+<hr>
+</div>
+
+<p><a name="gnat_005fugn_002fplatform_005fspecific_005finformation-id21"></a><a name="g_t281"></a><a name="gnat_005fugn_002fplatform_005fspecific_005finformation-using_002ddlls_002dwith_002dgnat"></a><a name="g_t272"></a>
+
+<h5 class="subsubsection">9.3.5.7 Using DLLs with GNAT</h5>
+
+<p>To use the services of a DLL, say <code>API.dll</code>, in your Ada application
+you must have:
+
+     <ul>
+<li>The Ada spec for the routines and/or variables you want to access in
+<code>API.dll</code>. If not available this Ada spec must be built from the C/C++
+header files provided with the DLL.
+
+     <li>The import library (<code>libAPI.dll.a</code> or <code>API.lib</code>). As previously
+mentioned an import library is a statically linked library containing the
+import table which will be filled at load time to point to the actual
+<code>API.dll</code> routines. Sometimes you don't have an import library for the
+DLL you want to use. The following sections will explain how to build
+one. Note that this is optional.
+
+     <li>The actual DLL, <code>API.dll</code>. 
+</ul>
+
+<p>Once you have all the above, to compile an Ada application that uses the
+services of <code>API.dll</code> and whose main subprogram is <cite>My_Ada_App</cite>,
+you simply issue the command
+
+<blockquote>
+
+<pre class="example">    $ gnatmake my_ada_app -largs -lAPI
+</pre>
+</blockquote>
+
+<p>The argument `-largs -lAPI' at the end of the `gnatmake' command
+tells the GNAT linker to look for an import library. The linker will
+look for a library name in this specific order:
+
+     <ul>
+<li><code>libAPI.dll.a</code>
+
+     <li><code>API.dll.a</code>
+
+     <li><code>libAPI.a</code>
+
+     <li><code>API.lib</code>
+
+     <li><code>libAPI.dll</code>
+
+     <li><code>API.dll</code>
+</ul>
+
+<p>The first three are the GNU style import libraries. The third is the
+Microsoft style import libraries. The last two are the actual DLL names.
+
+<p>Note that if the Ada package spec for <code>API.dll</code> contains the
+following pragma
+
+<blockquote>
+
+<pre class="example">    pragma Linker_Options ("-lAPI");
+</pre>
+</blockquote>
+
+<p>you do not have to add `-largs -lAPI' at the end of the
+`gnatmake' command.
+
+<p>If any one of the items above is missing you will have to create it
+yourself. The following sections explain how to do so using as an
+example a fictitious DLL called <code>API.dll</code>.
+
+<ul class="menu">
+<li><a accesskey="1" href="Creating-an-Ada-Spec-for-the-DLL-Services.html#Creating-an-Ada-Spec-for-the-DLL-Services">Creating an Ada Spec for the DLL Services</a>
+<li><a accesskey="2" href="Creating-an-Import-Library.html#Creating-an-Import-Library">Creating an Import Library</a>
+
+</ul>
+
+</body></html>
+

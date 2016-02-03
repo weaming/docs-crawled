@@ -1,0 +1,75 @@
+<html lang="en">
+<head>
+<title>Debugging a DLL - GNAT User's Guide for Native Platforms</title>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+<meta name="description" content="GNAT User's Guide for Native Platforms">
+<meta name="generator" content="makeinfo 4.13">
+<link title="Top" rel="start" href="index.html#Top">
+<link rel="up" href="Mixed_002dLanguage-Programming-on-Windows.html#Mixed_002dLanguage-Programming-on-Windows" title="Mixed-Language Programming on Windows">
+<link rel="prev" href="GNAT-and-Windows-Resources.html#GNAT-and-Windows-Resources" title="GNAT and Windows Resources">
+<link rel="next" href="Setting-Stack-Size-from-gnatlink.html#Setting-Stack-Size-from-gnatlink" title="Setting Stack Size from gnatlink">
+<link href="http://www.gnu.org/software/texinfo/" rel="generator-home" title="Texinfo Homepage">
+<!--
+
+     GNAT User's Guide for Native Platforms , March 24, 2015
+
+     AdaCore
+
+     Copyright (C) 2008-2015, Free Software Foundation
+-->
+<meta http-equiv="Content-Style-Type" content="text/css">
+<style type="text/css"><!--
+  pre.display { font-family:inherit }
+  pre.format  { font-family:inherit }
+  pre.smalldisplay { font-family:inherit; font-size:smaller }
+  pre.smallformat  { font-family:inherit; font-size:smaller }
+  pre.smallexample { font-size:smaller }
+  pre.smalllisp    { font-size:smaller }
+  span.sc    { font-variant:small-caps }
+  span.roman { font-family:serif; font-weight:normal; } 
+  span.sansserif { font-family:sans-serif; font-weight:normal; } 
+--></style>
+</head>
+<body>
+<div class="node">
+<a name="Debugging-a-DLL"></a>
+<p>
+Next:&nbsp;<a rel="next" accesskey="n" href="Setting-Stack-Size-from-gnatlink.html#Setting-Stack-Size-from-gnatlink">Setting Stack Size from gnatlink</a>,
+Previous:&nbsp;<a rel="previous" accesskey="p" href="GNAT-and-Windows-Resources.html#GNAT-and-Windows-Resources">GNAT and Windows Resources</a>,
+Up:&nbsp;<a rel="up" accesskey="u" href="Mixed_002dLanguage-Programming-on-Windows.html#Mixed_002dLanguage-Programming-on-Windows">Mixed-Language Programming on Windows</a>
+<hr>
+</div>
+
+<p><a name="gnat_005fugn_002fplatform_005fspecific_005finformation-id37"></a><a name="g_t2a2"></a><a name="gnat_005fugn_002fplatform_005fspecific_005finformation-debugging_002da_002ddll"></a><a name="g_t2a3"></a>
+
+<h5 class="subsubsection">9.3.5.24 Debugging a DLL</h5>
+
+<p><a name="index-DLL-debugging-1134"></a>
+Debugging a DLL is similar to debugging a standard program. But
+we have to deal with two different executable parts: the DLL and the
+program that uses it. We have the following four possibilities:
+
+     <ul>
+<li>The program and the DLL are built with <cite>GCC/GNAT</cite>.
+
+     <li>The program is built with foreign tools and the DLL is built with
+<cite>GCC/GNAT</cite>.
+
+     <li>The program is built with <cite>GCC/GNAT</cite> and the DLL is built with
+foreign tools. 
+</ul>
+
+<p>In this section we address only cases one and two above. 
+There is no point in trying to debug
+a DLL with <cite>GNU/GDB</cite>, if there is no GDB-compatible debugging
+information in it. To do so you must use a debugger compatible with the
+tools suite used to build the DLL.
+
+<ul class="menu">
+<li><a accesskey="1" href="Program-and-DLL-Both-Built-with-GCC_002fGNAT.html#Program-and-DLL-Both-Built-with-GCC_002fGNAT">Program and DLL Both Built with GCC/GNAT</a>
+<li><a accesskey="2" href="Program-Built-with-Foreign-Tools-and-DLL-Built-with-GCC_002fGNAT.html#Program-Built-with-Foreign-Tools-and-DLL-Built-with-GCC_002fGNAT">Program Built with Foreign Tools and DLL Built with GCC/GNAT</a>
+
+</ul>
+
+</body></html>
+

@@ -1,0 +1,142 @@
+<html lang="en">
+<head>
+<title>Pragma Pack for Arrays - GNAT Reference Manual</title>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+<meta name="description" content="GNAT Reference Manual">
+<meta name="generator" content="makeinfo 4.13">
+<link title="Top" rel="start" href="index.html#Top">
+<link rel="up" href="Representation-Clauses-and-Pragmas.html#Representation-Clauses-and-Pragmas" title="Representation Clauses and Pragmas">
+<link rel="prev" href="Effect-of-Bit_005fOrder-on-Byte-Ordering.html#Effect-of-Bit_005fOrder-on-Byte-Ordering" title="Effect of Bit_Order on Byte Ordering">
+<link rel="next" href="Pragma-Pack-for-Records.html#Pragma-Pack-for-Records" title="Pragma Pack for Records">
+<link href="http://www.gnu.org/software/texinfo/" rel="generator-home" title="Texinfo Homepage">
+<!--
+
+     GNAT Reference Manual , March 24, 2015
+
+     AdaCore
+
+     Copyright (C) 2008-2015, Free Software Foundation
+-->
+<meta http-equiv="Content-Style-Type" content="text/css">
+<style type="text/css"><!--
+  pre.display { font-family:inherit }
+  pre.format  { font-family:inherit }
+  pre.smalldisplay { font-family:inherit; font-size:smaller }
+  pre.smallformat  { font-family:inherit; font-size:smaller }
+  pre.smallexample { font-size:smaller }
+  pre.smalllisp    { font-size:smaller }
+  span.sc    { font-variant:small-caps }
+  span.roman { font-family:serif; font-weight:normal; } 
+  span.sansserif { font-family:sans-serif; font-weight:normal; } 
+--></style>
+</head>
+<body>
+<div class="node">
+<a name="Pragma-Pack-for-Arrays"></a>
+<p>
+Next:&nbsp;<a rel="next" accesskey="n" href="Pragma-Pack-for-Records.html#Pragma-Pack-for-Records">Pragma Pack for Records</a>,
+Previous:&nbsp;<a rel="previous" accesskey="p" href="Effect-of-Bit_005fOrder-on-Byte-Ordering.html#Effect-of-Bit_005fOrder-on-Byte-Ordering">Effect of Bit_Order on Byte Ordering</a>,
+Up:&nbsp;<a rel="up" accesskey="u" href="Representation-Clauses-and-Pragmas.html#Representation-Clauses-and-Pragmas">Representation Clauses and Pragmas</a>
+<hr>
+</div>
+
+<p><a name="gnat_005frm_002frepresentation_005fclauses_005fand_005fpragmas-pragma_002dpack_002dfor_002darrays"></a><a name="g_t22c"></a><a name="gnat_005frm_002frepresentation_005fclauses_005fand_005fpragmas-id11"></a><a name="g_t22d"></a>
+
+<h3 class="section">9.10 Pragma Pack for Arrays</h3>
+
+<p><a name="index-Pragma-Pack-_0028for-arrays_0029-505"></a>
+Pragma <cite>Pack</cite> applied to an array has no effect unless the component type
+is packable.  For a component type to be packable, it must be one of the
+following cases:
+
+     <ul>
+<li>Any scalar type
+
+     <li>Any type whose size is specified with a size clause
+
+     <li>Any packed array type with a static size
+
+     <li>Any record type padded because of its default alignment
+</ul>
+
+<p>For all these cases, if the component subtype size is in the range
+1 through 63, then the effect of the pragma <cite>Pack</cite> is exactly as though a
+component size were specified giving the component subtype size. 
+For example if we have:
+
+<pre class="example">    type r is range 0 .. 17;
+    
+    type ar is array (1 .. 8) of r;
+    pragma Pack (ar);
+</pre>
+<p>Then the component size of <cite>ar</cite> will be set to 5 (i.e., to <cite>r'size</cite>,
+and the size of the array <cite>ar</cite> will be exactly 40 bits.
+
+<p>Note that in some cases this rather fierce approach to packing can produce
+unexpected effects.  For example, in Ada 95 and Ada 2005,
+subtype <cite>Natural</cite> typically has a size of 31, meaning that if you
+pack an array of <cite>Natural</cite>, you get 31-bit
+close packing, which saves a few bits, but results in far less efficient
+access.  Since many other Ada compilers will ignore such a packing request,
+GNAT will generate a warning on some uses of pragma <cite>Pack</cite> that it guesses
+might not be what is intended.  You can easily remove this warning by
+using an explicit <cite>Component_Size</cite> setting instead, which never generates
+a warning, since the intention of the programmer is clear in this case.
+
+<p>GNAT treats packed arrays in one of two ways.  If the size of the array is
+known at compile time and is less than 64 bits, then internally the array
+is represented as a single modular type, of exactly the appropriate number
+of bits.  If the length is greater than 63 bits, or is not known at compile
+time, then the packed array is represented as an array of bytes, and the
+length is always a multiple of 8 bits.
+
+<p>Note that to represent a packed array as a modular type, the alignment must
+be suitable for the modular type involved. For example, on typical machines
+a 32-bit packed array will be represented by a 32-bit modular integer with
+an alignment of four bytes. If you explicitly override the default alignment
+with an alignment clause that is too small, the modular representation
+cannot be used. For example, consider the following set of declarations:
+
+<pre class="example">    type R is range 1 .. 3;
+    type S is array (1 .. 31) of R;
+    for S'Component_Size use 2;
+    for S'Size use 62;
+    for S'Alignment use 1;
+</pre>
+<p>If the alignment clause were not present, then a 62-bit modular
+representation would be chosen (typically with an alignment of 4 or 8
+bytes depending on the target). But the default alignment is overridden
+with the explicit alignment clause. This means that the modular
+representation cannot be used, and instead the array of bytes
+representation must be used, meaning that the length must be a multiple
+of 8. Thus the above set of declarations will result in a diagnostic
+rejecting the size clause and noting that the minimum size allowed is 64.
+
+<p><a name="index-Pragma-Pack-_0028for-type-Natural_0029-506"></a>
+<a name="index-Pragma-Pack-warning-507"></a>
+One special case that is worth noting occurs when the base type of the
+component size is 8/16/32 and the subtype is one bit less. Notably this
+occurs with subtype <cite>Natural</cite>. Consider:
+
+<pre class="example">    type Arr is array (1 .. 32) of Natural;
+    pragma Pack (Arr);
+</pre>
+<p>In all commonly used Ada 83 compilers, this pragma Pack would be ignored,
+since typically <cite>Natural'Size</cite> is 32 in Ada 83, and in any case most
+Ada 83 compilers did not attempt 31 bit packing.
+
+<p>In Ada 95 and Ada 2005, <cite>Natural'Size</cite> is required to be 31. Furthermore,
+GNAT really does pack 31-bit subtype to 31 bits. This may result in a
+substantial unintended performance penalty when porting legacy Ada 83 code. 
+To help prevent this, GNAT generates a warning in such cases. If you really
+want 31 bit packing in a case like this, you can set the component size
+explicitly:
+
+<pre class="example">    type Arr is array (1 .. 32) of Natural;
+    for Arr'Component_Size use 31;
+</pre>
+<p>Here 31-bit packing is achieved as required, and no warning is generated,
+since in this case the programmer intention is clear.
+
+</body></html>
+

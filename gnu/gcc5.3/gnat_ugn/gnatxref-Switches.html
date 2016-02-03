@@ -1,0 +1,215 @@
+<html lang="en">
+<head>
+<title>gnatxref Switches - GNAT User's Guide for Native Platforms</title>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+<meta name="description" content="GNAT User's Guide for Native Platforms">
+<meta name="generator" content="makeinfo 4.13">
+<link title="Top" rel="start" href="index.html#Top">
+<link rel="up" href="The-Cross_002dReferencing-Tools-gnatxref-and-gnatfind.html#The-Cross_002dReferencing-Tools-gnatxref-and-gnatfind" title="The Cross-Referencing Tools gnatxref and gnatfind">
+<link rel="next" href="gnatfind-Switches.html#gnatfind-Switches" title="gnatfind Switches">
+<link href="http://www.gnu.org/software/texinfo/" rel="generator-home" title="Texinfo Homepage">
+<!--
+
+     GNAT User's Guide for Native Platforms , March 24, 2015
+
+     AdaCore
+
+     Copyright (C) 2008-2015, Free Software Foundation
+-->
+<meta http-equiv="Content-Style-Type" content="text/css">
+<style type="text/css"><!--
+  pre.display { font-family:inherit }
+  pre.format  { font-family:inherit }
+  pre.smalldisplay { font-family:inherit; font-size:smaller }
+  pre.smallformat  { font-family:inherit; font-size:smaller }
+  pre.smallexample { font-size:smaller }
+  pre.smalllisp    { font-size:smaller }
+  span.sc    { font-variant:small-caps }
+  span.roman { font-family:serif; font-weight:normal; } 
+  span.sansserif { font-family:sans-serif; font-weight:normal; } 
+--></style>
+</head>
+<body>
+<div class="node">
+<a name="gnatxref-Switches"></a>
+<p>
+Next:&nbsp;<a rel="next" accesskey="n" href="gnatfind-Switches.html#gnatfind-Switches">gnatfind Switches</a>,
+Up:&nbsp;<a rel="up" accesskey="u" href="The-Cross_002dReferencing-Tools-gnatxref-and-gnatfind.html#The-Cross_002dReferencing-Tools-gnatxref-and-gnatfind">The Cross-Referencing Tools gnatxref and gnatfind</a>
+<hr>
+</div>
+
+<p><a name="gnat_005fugn_002fgnat_005futility_005fprograms-id10"></a><a name="g_t1db"></a><a name="gnat_005fugn_002fgnat_005futility_005fprograms-gnatxref_002dswitches"></a><a name="g_t1dc"></a>
+
+<h4 class="subsection">7.3.1 <cite>gnatxref</cite> Switches</h4>
+
+<p>The command invocation for <cite>gnatxref</cite> is:
+
+<blockquote>
+
+<pre class="example">    $ gnatxref [`switches`] `sourcefile1` [`sourcefile2` ...]
+</pre>
+</blockquote>
+
+<p>where
+
+     <dl>
+<dt>`sourcefile1' [, `sourcefile2' ...]<dd>
+identify the source files for which a report is to be generated. The
+'with'ed units will be processed too. You must provide at least one file.
+
+     <p>These file names are considered to be regular expressions, so for instance
+specifying <code>source*.adb</code> is the same as giving every file in the current
+directory whose name starts with <code>source</code> and whose extension is
+<code>adb</code>.
+
+     <p>You shouldn't specify any directory name, just base names. `gnatxref'
+and `gnatfind' will be able to locate these files by themselves using
+the source path. If you specify directories, no result is produced. 
+</dl>
+
+<p>The following switches are available for `gnatxref':
+
+<p><a name="index-g_t_002d_002dversion-_0028gnatxref_0029-904"></a>
+
+     <dl>
+<dt><code>-version</code><dd>
+Display Copyright and version, then exit disregarding all other options. 
+</dl>
+
+<p><a name="index-g_t_002d_002dhelp-_0028gnatxref_0029-905"></a>
+
+     <dl>
+<dt><code>-help</code><dd>
+If `&ndash;version' was not used, display usage, then exit disregarding
+all other options. 
+</dl>
+
+<p><a name="index-g_t_002da-_0028gnatxref_0029-906"></a>
+
+     <dl>
+<dt><code>a</code><dd>
+If this switch is present, <cite>gnatfind</cite> and <cite>gnatxref</cite> will parse
+the read-only files found in the library search path. Otherwise, these files
+will be ignored. This option can be used to protect Gnat sources or your own
+libraries from being parsed, thus making <cite>gnatfind</cite> and <cite>gnatxref</cite>
+much faster, and their output much smaller. Read-only here refers to access
+or permissions status in the file system for the current user. 
+</dl>
+
+<p><a name="index-g_t_002daIDIR-_0028gnatxref_0029-907"></a>
+
+     <dl>
+<dt><code>aI`DIR'</code><dd>
+When looking for source files also look in directory DIR. The order in which
+source file search is undertaken is the same as for `gnatmake'. 
+</dl>
+
+<p><a name="index-g_t_002daODIR-_0028gnatxref_0029-908"></a>
+
+     <dl>
+<dt><code>aO`DIR'</code><dd>
+When searching for library and object files, look in directory
+DIR. The order in which library files are searched is the same as for
+`gnatmake'. 
+</dl>
+
+<p><a name="index-g_t_002dnostdinc-_0028gnatxref_0029-909"></a>
+
+     <dl>
+<dt><code>nostdinc</code><dd>
+Do not look for sources in the system default directory. 
+</dl>
+
+<p><a name="index-g_t_002dnostdlib-_0028gnatxref_0029-910"></a>
+
+     <dl>
+<dt><code>nostdlib</code><dd>
+Do not look for library files in the system default directory. 
+</dl>
+
+<p><a name="index-g_t_002d_002dext-_0028gnatxref_0029-911"></a>
+
+     <dl>
+<dt><code>-ext=`extension'</code><dd>
+Specify an alternate ali file extension. The default is <cite>ali</cite> and other
+extensions (e.g. <cite>gli</cite> for C/C++ sources when using `-fdump-xref')
+may be specified via this switch. Note that if this switch overrides the
+default, which means that only the new extension will be considered. 
+</dl>
+
+<p><a name="index-g_t_002d_002dRTS-_0028gnatxref_0029-912"></a>
+
+     <dl>
+<dt><code>-RTS=`rts-path'</code><dd>
+Specifies the default location of the runtime library. Same meaning as the
+equivalent `gnatmake' flag (<a href="df.html#df">Switches for gnatmake</a>). 
+</dl>
+
+<p><a name="index-g_t_002dd-_0028gnatxref_0029-913"></a>
+
+     <dl>
+<dt><code>d</code><dd>
+If this switch is set <cite>gnatxref</cite> will output the parent type
+reference for each matching derived types. 
+</dl>
+
+<p><a name="index-g_t_002df-_0028gnatxref_0029-914"></a>
+
+     <dl>
+<dt><code>f</code><dd>
+If this switch is set, the output file names will be preceded by their
+directory (if the file was found in the search path). If this switch is
+not set, the directory will not be printed. 
+</dl>
+
+<p><a name="index-g_t_002dg-_0028gnatxref_0029-915"></a>
+
+     <dl>
+<dt><code>g</code><dd>
+If this switch is set, information is output only for library-level
+entities, ignoring local entities. The use of this switch may accelerate
+<cite>gnatfind</cite> and <cite>gnatxref</cite>. 
+</dl>
+
+<p><a name="index-g_t_002dIDIR-_0028gnatxref_0029-916"></a>
+
+     <dl>
+<dt><code>I`DIR'</code><dd>
+Equivalent to <code>-aODIR -aIDIR</code>. 
+</dl>
+
+<p><a name="index-g_t_002dpFILE-_0028gnatxref_0029-917"></a>
+
+     <dl>
+<dt><code>p`FILE'</code><dd>
+Specify a project file to use <a href="b.html#b">GNAT Project Manager</a>. 
+If you need to use the <code>.gpr</code>
+project files, you should use gnatxref through the GNAT driver
+(`gnat xref -Pproject').
+
+     <p>By default, <cite>gnatxref</cite> and <cite>gnatfind</cite> will try to locate a
+project file in the current directory.
+
+     <p>If a project file is either specified or found by the tools, then the content
+of the source directory and object directory lines are added as if they
+had been specified respectively by <code>-aI</code>
+and <code>-aO</code>.
+
+     <br><dt><code>u</code><dd>
+Output only unused symbols. This may be really useful if you give your
+main compilation unit on the command line, as <cite>gnatxref</cite> will then
+display every unused entity and 'with'ed package.
+
+     <br><dt><code>v</code><dd>
+Instead of producing the default output, <cite>gnatxref</cite> will generate a
+<code>tags</code> file that can be used by vi. For examples how to use this
+feature, see <a href="1dd.html#g_t1dd">Examples of gnatxref Usage</a>. The tags file is output
+to the standard output, thus you will have to redirect it to a file. 
+</dl>
+
+<p>All these switches may be in any order on the command line, and may even
+appear after the file names. They need not be separated by spaces, thus
+you can say <code>gnatxref -ag</code> instead of <code>gnatxref -a -g</code>.
+
+</body></html>
+

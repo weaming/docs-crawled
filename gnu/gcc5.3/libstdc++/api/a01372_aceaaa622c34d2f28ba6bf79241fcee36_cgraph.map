@@ -1,0 +1,11 @@
+<map id="__gnu_parallel::__parallel_sort" name="__gnu_parallel::__parallel_sort">
+<area shape="rect" id="node2" href="$a00163.html#a18b32829b31b902699690b750e190e59" title="Find out desired number of threads. " alt="" coords="249,33,411,72"/>
+<area shape="rect" id="node3" href="$a01372.html#ac416a1c7e347b429bbf7a8fb17e847b2" title="Unbalanced quicksort main call. " alt="" coords="247,96,413,135"/>
+<area shape="rect" id="node4" href="$a01372.html#a06c506308856b684737d24944a93a42e" title="Unbalanced quicksort conquer step. " alt="" coords="461,96,628,135"/>
+<area shape="rect" id="node5" href="$a01372.html#a55defa3d8e8ca7b4e52330b9afc0b1ce" title="Unbalanced quicksort divide step. " alt="" coords="676,67,843,105"/>
+<area shape="rect" id="node10" href="$a00146.html#abc4965eacae0b49945ebc887cb11adc1" title="Get the global settings. " alt="" coords="1105,131,1291,156"/>
+<area shape="rect" id="node6" href="$a01403.html#gad48656de2f272a953455e1fff2532125" title="This does what you think it does. " alt="" coords="942,17,1006,43"/>
+<area shape="rect" id="node7" href="$a01372.html#aa56788b479955dd136d6af173d2cae0b" title="Parallel implementation of std::partition. " alt="" coords="891,67,1057,105"/>
+<area shape="rect" id="node8" href="$a01372.html#accd4441e0f846fee44966195a91e9e68" title="Compare&#45;and&#45;swap. " alt="" coords="1111,5,1285,44"/>
+<area shape="rect" id="node9" href="$a01372.html#a56a5a84c8a6049cd3cc83968c6eae088" title="Add a value to a variable, atomically. " alt="" coords="1123,68,1273,107"/>
+</map>

@@ -1,0 +1,209 @@
+<html lang="en">
+<head>
+<title>Source Files and Directories - GNAT User's Guide for Native Platforms</title>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+<meta name="description" content="GNAT User's Guide for Native Platforms">
+<meta name="generator" content="makeinfo 4.13">
+<link title="Top" rel="start" href="index.html#Top">
+<link rel="up" href="Building-With-Projects.html#Building-With-Projects" title="Building With Projects">
+<link rel="next" href="Duplicate-Sources-in-Projects.html#Duplicate-Sources-in-Projects" title="Duplicate Sources in Projects">
+<link href="http://www.gnu.org/software/texinfo/" rel="generator-home" title="Texinfo Homepage">
+<!--
+
+     GNAT User's Guide for Native Platforms , March 24, 2015
+
+     AdaCore
+
+     Copyright (C) 2008-2015, Free Software Foundation
+-->
+<meta http-equiv="Content-Style-Type" content="text/css">
+<style type="text/css"><!--
+  pre.display { font-family:inherit }
+  pre.format  { font-family:inherit }
+  pre.smalldisplay { font-family:inherit; font-size:smaller }
+  pre.smallformat  { font-family:inherit; font-size:smaller }
+  pre.smallexample { font-size:smaller }
+  pre.smalllisp    { font-size:smaller }
+  span.sc    { font-variant:small-caps }
+  span.roman { font-family:serif; font-weight:normal; } 
+  span.sansserif { font-family:sans-serif; font-weight:normal; } 
+--></style>
+</head>
+<body>
+<div class="node">
+<a name="Source-Files-and-Directories"></a>
+<p>
+Next:&nbsp;<a rel="next" accesskey="n" href="Duplicate-Sources-in-Projects.html#Duplicate-Sources-in-Projects">Duplicate Sources in Projects</a>,
+Up:&nbsp;<a rel="up" accesskey="u" href="Building-With-Projects.html#Building-With-Projects">Building With Projects</a>
+<hr>
+</div>
+
+<p><a name="gnat_005fugn_002fgnat_005fproject_005fmanager-id3"></a><a name="g_t156"></a><a name="gnat_005fugn_002fgnat_005fproject_005fmanager-source_002dfiles_002dand_002ddirectories"></a><a name="g_t157"></a>
+
+<h4 class="subsection">5.2.1 Source Files and Directories</h4>
+
+<p>When you create a new project, the first thing to describe is how to find the
+corresponding source files. These are the only settings that are needed by all
+the tools that will use this project (builder, compiler, binder and linker for
+the compilation, IDEs to edit the source files,...).
+
+<p><a name="index-Source-directories-_0028GNAT-Project-Manager_0029-777"></a>
+The first step is to declare the source directories, which are the directories
+to be searched to find source files. In the case of the example,
+the <code>common</code> directory is the only source directory.
+
+<p><a name="index-Source_005fDirs-_0028GNAT-Project-Manager_0029-778"></a>
+There are several ways of defining source directories:
+
+     <ul>
+<li>When the attribute `Source_Dirs' is not used, a project contains a
+single source directory which is the one where the project file itself
+resides. In our example, if <code>build.gpr</code> is placed in the <code>common</code>
+directory, the project has the needed implicit source directory.
+
+     <li>The attribute `Source_Dirs' can be set to a list of path names, one
+for each of the source directories. Such paths can either be absolute
+names (for instance <code>"/usr/local/common/"</code> on UNIX), or relative to the
+directory in which the project file resides (for instance "." if
+<code>build.gpr</code> is inside <code>common/</code>, or "common" if it is one level up). 
+Each of the source directories must exist and be readable.
+
+     <p><a name="index-portability-of-path-names-_0028GNAT-Project-Manager_0029-779"></a>
+The syntax for directories is platform specific. For portability, however,
+the project manager will always properly translate UNIX-like path names to
+the native format of the specific platform. For instance, when the same
+project file is to be used both on Unix and Windows, "/" should be used as
+the directory separator rather than "\".
+
+     <li>The attribute `Source_Dirs' can automatically include subdirectories
+using a special syntax inspired by some UNIX shells. If any of the paths in
+the list ends with "<code>**</code>", then that path and all its subdirectories
+(recursively) are included in the list of source directories. For instance,
+<code>**</code> and <code>./**</code> represent the complete directory tree rooted at
+the directory in which the project file resides.
+
+     <p><a name="index-Source-directories-_0028GNAT-Project-Manager_0029-780"></a>
+<a name="index-Excluded_005fSource_005fDirs-_0028GNAT-Project-Manager_0029-781"></a>
+When using that construct, it can sometimes be convenient to also use the
+attribute `Excluded_Source_Dirs', which is also a list of paths. Each entry
+specifies a directory whose immediate content, not including subdirs, is to
+be excluded. It is also possible to exclude a complete directory subtree
+using the "**" notation.
+
+     <p><a name="index-Ignore_005fSource_005fSub_005fDirs-_0028GNAT-Project-Manager_0029-782"></a>
+It is often desirable to remove, from the source directories, directory
+subtrees rooted at some subdirectories. An example is the subdirectories
+created by a Version Control System such as Subversion that creates directory
+subtrees rooted at subdirectories ".svn". To do that, attribute
+`Ignore_Source_Sub_Dirs' can be used. It specifies the list of simple
+file names for the roots of these undesirable directory subtrees.
+
+     <!-- code-block: ada-project -->
+     <!-- for Source_Dirs use ("./**"); -->
+     <!-- for Ignore_Source_Sub_Dirs use (".svn"); -->
+</ul>
+
+<p>When applied to the simple example, and because we generally prefer to have
+the project file at the toplevel directory rather than mixed with the sources,
+we will create the following file
+
+<!-- code-block: ada-project -->
+<!-- build.gpr -->
+<!-- project Build is -->
+<!-- for Source_Dirs use ("common");  -  <<<< -->
+<!-- end Build; -->
+<p>Once source directories have been specified, one may need to indicate
+source files of interest. By default, all source files present in the source
+directories are considered by the project manager. When this is not desired,
+it is possible to specify the list of sources to consider explicitly. 
+In such a case, only source file base names are indicated and not
+their absolute or relative path names. The project manager is in charge of
+locating the specified source files in the specified source directories.
+
+     <ul>
+<li>By default, the project manager searches for all source files of all
+specified languages in all the source directories.
+
+     <p>Since the project manager was initially developed for Ada environments, the
+default language is usually Ada and the above project file is complete: it
+defines without ambiguity the sources composing the project: that is to say,
+all the sources in subdirectory "common" for the default language (Ada) using
+the default naming convention.
+
+     <p><a name="index-Languages-_0028GNAT-Project-Manager_0029-783"></a>
+However, when compiling a multi-language application, or a pure C
+application, the project manager must be told which languages are of
+interest, which is done by setting the `Languages' attribute to a list of
+strings, each of which is the name of a language. Tools like
+`gnatmake' only know about Ada, while other tools like
+`gprbuild' know about many more languages such as C, C++, Fortran,
+assembly and others can be added dynamically.
+
+     <p><a name="index-Naming-scheme-_0028GNAT-Project-Manager_0029-784"></a>
+Even when using only Ada, the default naming might not be suitable. Indeed,
+how does the project manager recognizes an "Ada file" from any other
+file? Project files can describe the naming scheme used for source files,
+and override the default (see <a href="14b.html#g_t14b">Naming Schemes</a>). The default is the
+standard GNAT extension (<code>.adb</code> for bodies and <code>.ads</code> for
+specs), which is what is used in our example, explaining why no naming scheme
+is explicitly specified. 
+See <a href="14b.html#g_t14b">Naming Schemes</a>.
+
+     <p><a name="index-Source_005fFiles-_0028GNAT-Project-Manager_0029-785"></a>
+<li><cite>Source_Files</cite>. 
+In some cases, source directories might contain files that should not be
+included in a project. One can specify the explicit list of file names to
+be considered through the `Source_Files' attribute. 
+When this attribute is defined, instead of looking at every file in the
+source directories, the project manager takes only those names into
+consideration  reports  errors if they cannot be found in the source
+directories or does not correspond to the naming scheme.
+
+     <li>For various reasons, it is sometimes useful to have a project with no
+sources (most of the time because the attributes defined in the project
+file will be reused in other projects, as explained in
+<a href="14e.html#g_t14e">Organizing Projects into Subsystems</a>. To do this, the attribute
+`Source_Files' is set to the empty list, i.e. <cite>()</cite>. Alternatively,
+`Source_Dirs' can be set to the empty list, with the same
+result.
+
+     <p><a name="index-Source_005fList_005fFile-_0028GNAT-Project-Manager_0029-786"></a>
+<li><cite>Source_List_File</cite>. 
+If there is a great number of files, it might be more convenient to use
+the attribute `Source_List_File', which specifies the full path of a file. 
+This file must contain a list of source file names (one per line, no
+directory information) that are searched as if they had been defined
+through `Source_Files'. Such a file can easily be created through
+external tools.
+
+     <p>A warning is issued if both attributes <cite>Source_Files</cite> and
+<cite>Source_List_File</cite> are given explicit values. In this case, the
+attribute <cite>Source_Files</cite> prevails.
+
+     <p><a name="index-Excluded_005fSource_005fFiles-_0028GNAT-Project-Manager_0029-787"></a>
+<a name="index-Locally_005fRemoved_005fFiles-_0028GNAT-Project-Manager_0029-788"></a>
+<a name="index-Excluded_005fSource_005fList_005fFile-_0028GNAT-Project-Manager_0029-789"></a>
+<li><cite>Excluded_Source_Files</cite>. 
+Specifying an explicit list of files is not always convenient.It might be
+more convenient to use the default search rules with specific exceptions. 
+This can be done thanks to the attribute `Excluded_Source_Files'
+(or its synonym `Locally_Removed_Files'). 
+Its value is the list of file names that should not be taken into account. 
+This attribute is often used when extending a project,
+see <a href="14f.html#g_t14f">Project Extension</a>. A similar attribute
+`Excluded_Source_List_File' plays the same
+role but takes the name of file containing file names similarly to
+<cite>Source_List_File</cite>. 
+</ul>
+
+<p>In most simple cases, such as the above example, the default source file search
+behavior provides the expected result, and we do not need to add anything after
+setting <cite>Source_Dirs</cite>. The project manager automatically finds
+<code>pack.ads</code>, <code>pack.adb</code>, and <code>proc.adb</code> as source files of the
+project.
+
+<p>Note that by default a warning is issued when a project has no sources attached
+to it and this is not explicitly indicated in the project file.
+
+</body></html>
+

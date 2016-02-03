@@ -1,0 +1,111 @@
+<html lang="en">
+<head>
+<title>Extensions - Guide to GNU gcj</title>
+<meta http-equiv="Content-Type" content="text/html">
+<meta name="description" content="Guide to GNU gcj">
+<meta name="generator" content="makeinfo 4.13">
+<link title="Top" rel="start" href="index.html#Top">
+<link rel="up" href="Compatibility.html#Compatibility" title="Compatibility">
+<link rel="prev" href="Limitations.html#Limitations" title="Limitations">
+<link href="http://www.gnu.org/software/texinfo/" rel="generator-home" title="Texinfo Homepage">
+<!--
+Copyright (C) 2001-2015 Free Software Foundation, Inc.
+
+Permission is granted to copy, distribute and/or modify this document
+under the terms of the GNU Free Documentation License, Version 1.3 or
+any later version published by the Free Software Foundation; with no
+Invariant Sections, the Front-Cover Texts being (a) (see below), and
+with the Back-Cover Texts being (b) (see below).
+A copy of the license is included in the
+section entitled ``GNU Free Documentation License''.
+
+
+(a) The FSF's Front-Cover Text is:
+
+     A GNU Manual
+
+(b) The FSF's Back-Cover Text is:
+
+     You have freedom to copy and modify this GNU Manual, like GNU
+     software.  Copies published by the Free Software Foundation raise
+     funds for GNU development.
+-->
+<meta http-equiv="Content-Style-Type" content="text/css">
+<style type="text/css"><!--
+  pre.display { font-family:inherit }
+  pre.format  { font-family:inherit }
+  pre.smalldisplay { font-family:inherit; font-size:smaller }
+  pre.smallformat  { font-family:inherit; font-size:smaller }
+  pre.smallexample { font-size:smaller }
+  pre.smalllisp    { font-size:smaller }
+  span.sc    { font-variant:small-caps }
+  span.roman { font-family:serif; font-weight:normal; } 
+  span.sansserif { font-family:sans-serif; font-weight:normal; } 
+--></style>
+</head>
+<body>
+<div class="node">
+<a name="Extensions"></a>
+<p>
+Previous:&nbsp;<a rel="previous" accesskey="p" href="Limitations.html#Limitations">Limitations</a>,
+Up:&nbsp;<a rel="up" accesskey="u" href="Compatibility.html#Compatibility">Compatibility</a>
+<hr>
+</div>
+
+<h3 class="section">2.2 Extra features unique to gcj</h3>
+
+<p>The main feature of <samp><span class="command">gcj</span></samp> is that it can compile programs written in
+the Java programming language to native code.  Most extensions that have been
+added are to facilitate this functionality.
+
+     <ul>
+<li><samp><span class="command">gcj</span></samp> makes it easy and efficient to mix code written in Java and C++. 
+See <a href="About-CNI.html#About-CNI">About CNI</a>, for more info on how to use this in your programs.
+
+     <li>When you compile your classes into a shared library using
+<code>-findirect-dispatch</code> then add them to the system-wide
+classmap.db file using <code>gcj-dbtool</code>, they will be automatically
+loaded by the <code>libgcj</code> system classloader.  This is the new,
+preferred classname-to-library resolution mechanism.  See <a href="Invoking-gcj_002ddbtool.html#Invoking-gcj_002ddbtool">Invoking gcj-dbtool</a>, for more information on using the classmap database.
+
+     <li>The old classname-to-library lookup mechanism is still supported
+through the <code>gnu.gcj.runtime.VMClassLoader.library_control</code>
+property, but it is deprecated and will likely be removed in some
+future release.  When trying to load a class <code>gnu.pkg.SomeClass</code>
+the system classloader will first try to load the shared library
+<samp><span class="file">lib-gnu-pkg-SomeClass.so</span></samp>, if that fails to load the class then
+it will try to load <samp><span class="file">lib-gnu-pkg.so</span></samp> and finally when the class
+is still not loaded it will try to load <samp><span class="file">lib-gnu.so</span></samp>.  Note that
+all &lsquo;<samp><span class="samp">.</span></samp>&rsquo;s will be transformed into &lsquo;<samp><span class="samp">-</span></samp>&rsquo;s and that searching
+for inner classes starts with their outermost outer class.  If the
+class cannot be found this way the system classloader tries to use the
+<code>libgcj</code> bytecode interpreter to load the class from the standard
+classpath.  This process can be controlled to some degree via the
+<code>gnu.gcj.runtime.VMClassLoader.library_control</code> property;
+See <a href="libgcj-Runtime-Properties.html#libgcj-Runtime-Properties">libgcj Runtime Properties</a>.
+
+     <li><code>libgcj</code> includes a special &lsquo;<samp><span class="samp">gcjlib</span></samp>&rsquo; URL type.  A URL of
+this form is like a <code>jar</code> URL, and looks like
+&lsquo;<samp><span class="samp">gcjlib:/path/to/shared/library.so!/path/to/resource</span></samp>&rsquo;.  An access
+to one of these URLs causes the shared library to be <code>dlopen()</code>d,
+and then the resource is looked for in that library.  These URLs are
+most useful when used in conjunction with <code>java.net.URLClassLoader</code>. 
+Note that, due to implementation limitations, currently any such URL
+can be accessed by only one class loader, and libraries are never
+unloaded.  This means some care must be exercised to make sure that
+a <code>gcjlib</code> URL is not accessed by more than one class loader at once. 
+In a future release this limitation will be lifted, and such
+libraries will be mapped privately.
+
+     <li>A program compiled by <samp><span class="command">gcj</span></samp> will examine the
+<samp><span class="env">GCJ_PROPERTIES</span></samp> environment variable and change its behavior in
+some ways.  In particular <samp><span class="env">GCJ_PROPERTIES</span></samp> holds a list of
+assignments to global properties, such as would be set with the
+<samp><span class="option">-D</span></samp> option to <samp><span class="command">java</span></samp>.  For instance,
+&lsquo;<samp><span class="samp">java.compiler=gcj</span></samp>&rsquo; is a valid (but currently meaningless)
+setting. 
+<a name="index-GCJ_005fPROPERTIES-3"></a><a name="index-GCJ_005fPROPERTIES-4"></a>
+</ul>
+
+   </body></html>
+

@@ -1,0 +1,112 @@
+<html lang="en">
+<head>
+<title>Running gnatls - GNAT User's Guide for Native Platforms</title>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+<meta name="description" content="GNAT User's Guide for Native Platforms">
+<meta name="generator" content="makeinfo 4.13">
+<link title="Top" rel="start" href="index.html#Top">
+<link rel="up" href="The-GNAT-Library-Browser-gnatls.html#The-GNAT-Library-Browser-gnatls" title="The GNAT Library Browser gnatls">
+<link rel="next" href="Switches-for-gnatls.html#Switches-for-gnatls" title="Switches for gnatls">
+<link href="http://www.gnu.org/software/texinfo/" rel="generator-home" title="Texinfo Homepage">
+<!--
+
+     GNAT User's Guide for Native Platforms , March 24, 2015
+
+     AdaCore
+
+     Copyright (C) 2008-2015, Free Software Foundation
+-->
+<meta http-equiv="Content-Style-Type" content="text/css">
+<style type="text/css"><!--
+  pre.display { font-family:inherit }
+  pre.format  { font-family:inherit }
+  pre.smalldisplay { font-family:inherit; font-size:smaller }
+  pre.smallformat  { font-family:inherit; font-size:smaller }
+  pre.smallexample { font-size:smaller }
+  pre.smalllisp    { font-size:smaller }
+  span.sc    { font-variant:small-caps }
+  span.roman { font-family:serif; font-weight:normal; } 
+  span.sansserif { font-family:sans-serif; font-weight:normal; } 
+--></style>
+</head>
+<body>
+<div class="node">
+<a name="Running-gnatls"></a>
+<p>
+Next:&nbsp;<a rel="next" accesskey="n" href="Switches-for-gnatls.html#Switches-for-gnatls">Switches for gnatls</a>,
+Up:&nbsp;<a rel="up" accesskey="u" href="The-GNAT-Library-Browser-gnatls.html#The-GNAT-Library-Browser-gnatls">The GNAT Library Browser gnatls</a>
+<hr>
+</div>
+
+<p><a name="gnat_005fugn_002fgnat_005futility_005fprograms-id6"></a><a name="g_t1d4"></a><a name="gnat_005fugn_002fgnat_005futility_005fprograms-running_002dgnatls"></a><a name="g_t1d5"></a>
+
+<h4 class="subsection">7.2.1 Running <cite>gnatls</cite></h4>
+
+<p>The <cite>gnatls</cite> command has the form
+
+<blockquote>
+
+<pre class="example">    $ gnatls switches `object_or_ali_file`
+</pre>
+</blockquote>
+
+<p>The main argument is the list of object or <code>ali</code> files
+(see <a href="44.html#g_t44">The Ada Library Information Files</a>)
+for which information is requested.
+
+<p>In normal mode, without additional option, <cite>gnatls</cite> produces a
+four-column listing. Each line represents information for a specific
+object. The first column gives the full path of the object, the second
+column gives the name of the principal unit in this object, the third
+column gives the status of the source and the fourth column gives the
+full path of the source representing this unit. 
+Here is a simple example of use:
+
+<blockquote>
+
+<pre class="example">    $ gnatls *.o
+    ./demo1.o            demo1            DIF demo1.adb
+    ./demo2.o            demo2             OK demo2.adb
+    ./hello.o            h1                OK hello.adb
+    ./instr-child.o      instr.child      MOK instr-child.adb
+    ./instr.o            instr             OK instr.adb
+    ./tef.o              tef              DIF tef.adb
+    ./text_io_example.o  text_io_example   OK text_io_example.adb
+    ./tgef.o             tgef             DIF tgef.adb
+</pre>
+</blockquote>
+
+<p>The first line can be interpreted as follows: the main unit which is
+contained in
+object file <code>demo1.o</code> is demo1, whose main source is in
+<code>demo1.adb</code>. Furthermore, the version of the source used for the
+compilation of demo1 has been modified (DIF). Each source file has a status
+qualifier which can be:
+
+     <dl>
+<dt>`OK (unchanged)'<dd>
+The version of the source file used for the compilation of the
+specified unit corresponds exactly to the actual source file.
+
+     <br><dt>`MOK (slightly modified)'<dd>
+The version of the source file used for the compilation of the
+specified unit differs from the actual source file but not enough to
+require recompilation. If you use gnatmake with the qualifier
+`-m (minimal recompilation)', a file marked
+MOK will not be recompiled.
+
+     <br><dt>`DIF (modified)'<dd>
+No version of the source found on the path corresponds to the source
+used to build this object.
+
+     <br><dt>`??? (file not found)'<dd>
+No source file was found for this unit.
+
+     <br><dt>`HID (hidden,  unchanged version not first on PATH)'<dd>
+The version of the source that corresponds exactly to the source used
+for compilation has been found on the path but it is hidden by another
+version of the same source that has been modified. 
+</dl>
+
+</body></html>
+

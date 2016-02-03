@@ -1,0 +1,1622 @@
+<html lang="en">
+<head>
+<title>Warning Message Control - GNAT User's Guide for Native Platforms</title>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+<meta name="description" content="GNAT User's Guide for Native Platforms">
+<meta name="generator" content="makeinfo 4.13">
+<link title="Top" rel="start" href="index.html#Top">
+<link rel="up" href="Compiler-Switches.html#Compiler-Switches" title="Compiler Switches">
+<link rel="prev" href="Output-and-Error-Message-Control.html#Output-and-Error-Message-Control" title="Output and Error Message Control">
+<link rel="next" href="Debugging-and-Assertion-Control.html#Debugging-and-Assertion-Control" title="Debugging and Assertion Control">
+<link href="http://www.gnu.org/software/texinfo/" rel="generator-home" title="Texinfo Homepage">
+<!--
+
+     GNAT User's Guide for Native Platforms , March 24, 2015
+
+     AdaCore
+
+     Copyright (C) 2008-2015, Free Software Foundation
+-->
+<meta http-equiv="Content-Style-Type" content="text/css">
+<style type="text/css"><!--
+  pre.display { font-family:inherit }
+  pre.format  { font-family:inherit }
+  pre.smalldisplay { font-family:inherit; font-size:smaller }
+  pre.smallformat  { font-family:inherit; font-size:smaller }
+  pre.smallexample { font-size:smaller }
+  pre.smalllisp    { font-size:smaller }
+  span.sc    { font-variant:small-caps }
+  span.roman { font-family:serif; font-weight:normal; } 
+  span.sansserif { font-family:sans-serif; font-weight:normal; } 
+--></style>
+</head>
+<body>
+<div class="node">
+<a name="Warning-Message-Control"></a>
+<p>
+Next:&nbsp;<a rel="next" accesskey="n" href="Debugging-and-Assertion-Control.html#Debugging-and-Assertion-Control">Debugging and Assertion Control</a>,
+Previous:&nbsp;<a rel="previous" accesskey="p" href="Output-and-Error-Message-Control.html#Output-and-Error-Message-Control">Output and Error Message Control</a>,
+Up:&nbsp;<a rel="up" accesskey="u" href="Compiler-Switches.html#Compiler-Switches">Compiler Switches</a>
+<hr>
+</div>
+
+<p><a name="gnat_005fugn_002fbuilding_005fexecutable_005fprograms_005fwith_005fgnat-warning_002dmessage_002dcontrol"></a><a name="ff"></a><a name="gnat_005fugn_002fbuilding_005fexecutable_005fprograms_005fwith_005fgnat-id15"></a><a name="g_t104"></a>
+
+<h4 class="subsection">4.3.3 Warning Message Control</h4>
+
+<p><a name="index-Warning-messages-371"></a>
+In addition to error messages, which correspond to illegalities as defined
+in the Ada Reference Manual, the compiler detects two kinds of warning
+situations.
+
+<p>First, the compiler considers some constructs suspicious and generates a
+warning message to alert you to a possible error. Second, if the
+compiler detects a situation that is sure to raise an exception at
+run time, it generates a warning message. The following shows an example
+of warning messages:
+
+<pre class="example">    e.adb:4:24: warning: creation of object may raise Storage_Error
+    e.adb:10:17: warning: static value out of range
+    e.adb:10:17: warning: "Constraint_Error" will be raised at run time
+</pre>
+<p>GNAT considers a large number of situations as appropriate
+for the generation of warning messages. As always, warnings are not
+definite indications of errors. For example, if you do an out-of-range
+assignment with the deliberate intention of raising a
+<cite>Constraint_Error</cite> exception, then the warning that may be
+issued does not indicate an error. Some of the situations for which GNAT
+issues warnings (at least some of the time) are given in the following
+list. This list is not complete, and new warnings are often added to
+subsequent versions of GNAT. The list is intended to give a general idea
+of the kinds of warnings that are generated.
+
+     <ul>
+<li>Possible infinitely recursive calls
+
+     <li>Out-of-range values being assigned
+
+     <li>Possible order of elaboration problems
+
+     <li>Size not a multiple of alignment for a record type
+
+     <li>Assertions (pragma Assert) that are sure to fail
+
+     <li>Unreachable code
+
+     <li>Address clauses with possibly unaligned values, or where an attempt is
+made to overlay a smaller variable with a larger one.
+
+     <li>Fixed-point type declarations with a null range
+
+     <li>Direct_IO or Sequential_IO instantiated with a type that has access values
+
+     <li>Variables that are never assigned a value
+
+     <li>Variables that are referenced before being initialized
+
+     <li>Task entries with no corresponding <cite>accept</cite> statement
+
+     <li>Duplicate accepts for the same task entry in a <cite>select</cite>
+
+     <li>Objects that take too much storage
+
+     <li>Unchecked conversion between types of differing sizes
+
+     <li>Missing <cite>return</cite> statement along some execution path in a function
+
+     <li>Incorrect (unrecognized) pragmas
+
+     <li>Incorrect external names
+
+     <li>Allocation from empty storage pool
+
+     <li>Potentially blocking operation in protected type
+
+     <li>Suspicious parenthesization of expressions
+
+     <li>Mismatching bounds in an aggregate
+
+     <li>Attempt to return local value by reference
+
+     <li>Premature instantiation of a generic body
+
+     <li>Attempt to pack aliased components
+
+     <li>Out of bounds array subscripts
+
+     <li>Wrong length on string assignment
+
+     <li>Violations of style rules if style checking is enabled
+
+     <li>Unused `with' clauses
+
+     <li><cite>Bit_Order</cite> usage that does not have any effect
+
+     <li><cite>Standard.Duration</cite> used to resolve universal fixed expression
+
+     <li>Dereference of possibly null value
+
+     <li>Declaration that is likely to cause storage error
+
+     <li>Internal GNAT unit `with'ed by application unit
+
+     <li>Values known to be out of range at compile time
+
+     <li>Unreferenced or unmodified variables. Note that a special
+exemption applies to variables which contain any of the substrings
+<cite>DISCARD, DUMMY, IGNORE, JUNK, UNUSED</cite>, in any casing. Such variables
+are considered likely to be intentionally used in a situation where
+otherwise a warning would be given, so warnings of this kind are
+always suppressed for such variables.
+
+     <li>Address overlays that could clobber memory
+
+     <li>Unexpected initialization when address clause present
+
+     <li>Bad alignment for address clause
+
+     <li>Useless type conversions
+
+     <li>Redundant assignment statements and other redundant constructs
+
+     <li>Useless exception handlers
+
+     <li>Accidental hiding of name by child unit
+
+     <li>Access before elaboration detected at compile time
+
+     <li>A range in a <cite>for</cite> loop that is known to be null or might be null
+</ul>
+
+<p>The following section lists compiler switches that are available
+to control the handling of warning messages. It is also possible
+to exercise much finer control over what warnings are issued and
+suppressed using the GNAT pragma Warnings (see the description
+of the pragma in the <cite>GNAT_Reference_manual</cite>).
+
+<p><a name="index-g_t_002dgnatwa-_0028gcc_0029-372"></a>
+
+     <dl>
+<dt><code>-gnatwa</code><dd>
+`Activate most optional warnings.'
+
+     <p>This switch activates most optional warning messages.  See the remaining list
+in this section for details on optional warning messages that can be
+individually controlled.  The warnings that are not turned on by this
+switch are:
+
+          <ul>
+<li><code>-gnatwd</code> (implicit dereferencing)
+
+          <li><code>-gnatw.d</code> (tag warnings with -gnatw switch)
+
+          <li><code>-gnatwh</code> (hiding)
+
+          <li><code>-gnatw.h</code> (holes in record layouts)
+
+          <li><code>-gnatw.k</code> (redefinition of names in standard)
+
+          <li><code>-gnatwl</code> (elaboration warnings)
+
+          <li><code>-gnatw.l</code> (inherited aspects)
+
+          <li><code>-gnatw.n</code> (atomic synchronization)
+
+          <li><code>-gnatwo</code> (address clause overlay)
+
+          <li><code>-gnatw.o</code> (values set by out parameters ignored)
+
+          <li><code>-gnatw.s</code> (overridden size clause)
+
+          <li><code>-gnatwt</code> (tracking of deleted conditional code)
+
+          <li><code>-gnatw.u</code> (unordered enumeration)
+
+          <li><code>-gnatw.w</code> (use of Warnings Off)
+
+          <li><code>-gnatw.y</code> (reasons for package needing body)
+</ul>
+
+     <p>All other optional warnings are turned on. 
+</dl>
+
+<p><a name="index-g_t_002dgnatwA-_0028gcc_0029-373"></a>
+
+     <dl>
+<dt><code>-gnatwA</code><dd>
+`Suppress all optional errors.'
+
+     <p>This switch suppresses all optional warning messages, see remaining list
+in this section for details on optional warning messages that can be
+individually controlled. Note that unlike switch `-gnatws', the
+use of switch `-gnatwA' does not suppress warnings that are
+normally given unconditionally and cannot be individually controlled
+(for example, the warning about a missing exit path in a function). 
+Also, again unlike switch `-gnatws', warnings suppressed by
+the use of switch `-gnatwA' can be individually turned back
+on. For example the use of switch `-gnatwA' followed by
+switch `-gnatwd' will suppress all optional warnings except
+the warnings for implicit dereferencing. 
+</dl>
+
+<p><a name="index-g_t_002dgnatw_002ea-_0028gcc_0029-374"></a>
+
+     <dl>
+<dt><code>-gnatw.a</code><dd>
+`Activate warnings on failing assertions.'
+
+     <p><a name="index-Assert-failures-375"></a>
+This switch activates warnings for assertions where the compiler can tell at
+compile time that the assertion will fail. Note that this warning is given
+even if assertions are disabled. The default is that such warnings are
+generated. 
+</dl>
+
+<p><a name="index-g_t_002dgnatw_002eA-_0028gcc_0029-376"></a>
+
+     <dl>
+<dt><code>-gnatw.A</code><dd>
+`Suppress warnings on failing assertions.'
+
+     <p><a name="index-Assert-failures-377"></a>
+This switch suppresses warnings for assertions where the compiler can tell at
+compile time that the assertion will fail. 
+</dl>
+
+<p><a name="index-g_t_002dgnatwb-_0028gcc_0029-378"></a>
+
+     <dl>
+<dt><code>-gnatwb</code><dd>
+`Activate warnings on bad fixed values.'
+
+     <p><a name="index-Bad-fixed-values-379"></a>
+<a name="index-Fixed_002dpoint-Small-value-380"></a>
+<a name="index-Small-value-381"></a>
+This switch activates warnings for static fixed-point expressions whose
+value is not an exact multiple of Small. Such values are implementation
+dependent, since an implementation is free to choose either of the multiples
+that surround the value. GNAT always chooses the closer one, but this is not
+required behavior, and it is better to specify a value that is an exact
+multiple, ensuring predictable execution. The default is that such warnings
+are not generated. 
+</dl>
+
+<p><a name="index-g_t_002dgnatwB-_0028gcc_0029-382"></a>
+
+     <dl>
+<dt><code>-gnatwB</code><dd>
+`Suppress warnings on bad fixed values.'
+
+     <p>This switch suppresses warnings for static fixed-point expressions whose
+value is not an exact multiple of Small. 
+</dl>
+
+<p><a name="index-g_t_002dgnatw_002eb-_0028gcc_0029-383"></a>
+
+     <dl>
+<dt><code>-gnatw.b</code><dd>
+`Activate warnings on biased representation.'
+
+     <p><a name="index-Biased-representation-384"></a>
+This switch activates warnings when a size clause, value size clause, component
+clause, or component size clause forces the use of biased representation for an
+integer type (e.g. representing a range of 10..11 in a single bit by using 0/1
+to represent 10/11). The default is that such warnings are generated. 
+</dl>
+
+<p><a name="index-g_t_002dgnatwB-_0028gcc_0029-385"></a>
+
+     <dl>
+<dt><code>-gnatw.B</code><dd>
+`Suppress warnings on biased representation.'
+
+     <p>This switch suppresses warnings for representation clauses that force the use
+of biased representation. 
+</dl>
+
+<p><a name="index-g_t_002dgnatwc-_0028gcc_0029-386"></a>
+
+     <dl>
+<dt><code>-gnatwc</code><dd>
+`Activate warnings on conditionals.'
+
+     <p><a name="index-Conditionals-387"></a><a name="index-constant-388"></a>
+This switch activates warnings for conditional expressions used in
+tests that are known to be True or False at compile time. The default
+is that such warnings are not generated. 
+Note that this warning does
+not get issued for the use of boolean variables or constants whose
+values are known at compile time, since this is a standard technique
+for conditional compilation in Ada, and this would generate too many
+false positive warnings.
+
+     <p>This warning option also activates a special test for comparisons using
+the operators '&gt;=' and' &lt;='. 
+If the compiler can tell that only the equality condition is possible,
+then it will warn that the '&gt;' or '&lt;' part of the test
+is useless and that the operator could be replaced by '='. 
+An example would be comparing a <cite>Natural</cite> variable &lt;= 0.
+
+     <p>This warning option also generates warnings if
+one or both tests is optimized away in a membership test for integer
+values if the result can be determined at compile time. Range tests on
+enumeration types are not included, since it is common for such tests
+to include an end point.
+
+     <p>This warning can also be turned on using `-gnatwa'. 
+</dl>
+
+<p><a name="index-g_t_002dgnatwC-_0028gcc_0029-389"></a>
+
+     <dl>
+<dt><code>-gnatwC</code><dd>
+`Suppress warnings on conditionals.'
+
+     <p>This switch suppresses warnings for conditional expressions used in
+tests that are known to be True or False at compile time. 
+</dl>
+
+<p><a name="index-g_t_002dgnatw_002ec-_0028gcc_0029-390"></a>
+
+     <dl>
+<dt><code>-gnatw.c</code><dd>
+`Activate warnings on missing component clauses.'
+
+     <p><a name="index-Component-clause-391"></a><a name="index-missing-392"></a>
+This switch activates warnings for record components where a record
+representation clause is present and has component clauses for the
+majority, but not all, of the components. A warning is given for each
+component for which no component clause is present. 
+</dl>
+
+<p><a name="index-g_t_002dgnatwC-_0028gcc_0029-393"></a>
+
+     <dl>
+<dt><code>-gnatw.C</code><dd>
+`Suppress warnings on missing component clauses.'
+
+     <p>This switch suppresses warnings for record components that are
+missing a component clause in the situation described above. 
+</dl>
+
+<p><a name="index-g_t_002dgnatwd-_0028gcc_0029-394"></a>
+
+     <dl>
+<dt><code>-gnatwd</code><dd>
+`Activate warnings on implicit dereferencing.'
+
+     <p>If this switch is set, then the use of a prefix of an access type
+in an indexed component, slice, or selected component without an
+explicit <cite>.all</cite> will generate a warning. With this warning
+enabled, access checks occur only at points where an explicit
+<cite>.all</cite> appears in the source code (assuming no warnings are
+generated as a result of this switch). The default is that such
+warnings are not generated. 
+</dl>
+
+<p><a name="index-g_t_002dgnatwD-_0028gcc_0029-395"></a>
+
+     <dl>
+<dt><code>-gnatwD</code><dd>
+`Suppress warnings on implicit dereferencing.'
+
+     <p><a name="index-Implicit-dereferencing-396"></a>
+<a name="index-Dereferencing-397"></a><a name="index-implicit-398"></a>
+This switch suppresses warnings for implicit dereferences in
+indexed components, slices, and selected components. 
+</dl>
+
+<p><a name="index-g_t_002dgnatw_002ed-_0028gcc_0029-399"></a>
+
+     <dl>
+<dt><code>-gnatw.d</code><dd>
+`Activate tagging of warning and info messages.'
+
+     <p>If this switch is set, then warning messages are tagged, with one of the
+following strings:
+
+     <blockquote>
+
+          <ul>
+<li>`[-gnatw?]' 
+Used to tag warnings controlled by the switch `-gnatwx' where x
+is a letter a-z.
+
+          <li>`[-gnatw.?]' 
+Used to tag warnings controlled by the switch `-gnatw.x' where x
+is a letter a-z.
+
+          <li>`[-gnatel]'
+Used to tag elaboration information (info) messages generated when the
+static model of elaboration is used and the `-gnatel' switch is set.
+
+          <li>`[restriction warning]'
+Used to tag warning messages for restriction violations, activated by use
+of the pragma `Restriction_Warnings'.
+
+          <li>`[warning-as-error]'
+Used to tag warning messages that have been converted to error messages by
+use of the pragma Warning_As_Error. Note that such warnings are prefixed by
+the string "error: " rather than "warning: ".
+
+          <li>`[enabled by default]'
+Used to tag all other warnings that are always given by default, unless
+warnings are completely suppressed using pragma `Warnings(Off)' or
+the switch `-gnatws'. 
+</ul>
+</blockquote>
+     </dl>
+
+<p><a name="index-g_t_002dgnatw_002ed-_0028gcc_0029-400"></a>
+
+     <dl>
+<dt><code>-gnatw.D</code><dd>
+`Deactivate tagging of warning and info messages messages.'
+
+     <p>If this switch is set, then warning messages return to the default
+mode in which warnings and info messages are not tagged as described above for
+<cite>-gnatw.d</cite>. 
+</dl>
+
+<p><a name="index-g_t_002dgnatwe-_0028gcc_0029-401"></a>
+<a name="index-Warnings-402"></a><a name="index-treat-as-error-403"></a>
+
+     <dl>
+<dt><code>-gnatwe</code><dd>
+`Treat warnings and style checks as errors.'
+
+     <p>This switch causes warning messages and style check messages to be
+treated as errors. 
+The warning string still appears, but the warning messages are counted
+as errors, and prevent the generation of an object file. Note that this
+is the only -gnatw switch that affects the handling of style check messages. 
+Note also that this switch has no effect on info (information) messages, which
+are not treated as errors if this switch is present. 
+</dl>
+
+<p><a name="index-g_t_002dgnatw_002ee-_0028gcc_0029-404"></a>
+
+     <dl>
+<dt><code>-gnatw.e</code><dd>
+`Activate every optional warning'
+
+     <p><a name="index-Warnings-405"></a><a name="index-activate-every-optional-warning-406"></a>
+This switch activates all optional warnings, including those which
+are not activated by <cite>-gnatwa</cite>. The use of this switch is not
+recommended for normal use. If you turn this switch on, it is almost
+certain that you will get large numbers of useless warnings. The
+warnings that are excluded from <cite>-gnatwa</cite> are typically highly
+specialized warnings that are suitable for use only in code that has
+been specifically designed according to specialized coding rules. 
+</dl>
+
+<p><a name="index-g_t_002dgnatwf-_0028gcc_0029-407"></a>
+
+     <dl>
+<dt><code>-gnatwf</code><dd>
+`Activate warnings on unreferenced formals.'
+
+     <p><a name="index-Formals-408"></a><a name="index-unreferenced-409"></a>
+This switch causes a warning to be generated if a formal parameter
+is not referenced in the body of the subprogram. This warning can
+also be turned on using `-gnatwu'. The
+default is that these warnings are not generated. 
+</dl>
+
+<p><a name="index-g_t_002dgnatwF-_0028gcc_0029-410"></a>
+
+     <dl>
+<dt><code>-gnatwF</code><dd>
+`Suppress warnings on unreferenced formals.'
+
+     <p>This switch suppresses warnings for unreferenced formal
+parameters. Note that the
+combination `-gnatwu' followed by `-gnatwF' has the
+effect of warning on unreferenced entities other than subprogram
+formals. 
+</dl>
+
+<p><a name="index-g_t_002dgnatwg-_0028gcc_0029-411"></a>
+
+     <dl>
+<dt><code>-gnatwg</code><dd>
+`Activate warnings on unrecognized pragmas.'
+
+     <p><a name="index-Pragmas-412"></a><a name="index-unrecognized-413"></a>
+This switch causes a warning to be generated if an unrecognized
+pragma is encountered. Apart from issuing this warning, the
+pragma is ignored and has no effect. The default
+is that such warnings are issued (satisfying the Ada Reference
+Manual requirement that such warnings appear). 
+</dl>
+
+<p><a name="index-g_t_002dgnatwG-_0028gcc_0029-414"></a>
+
+     <dl>
+<dt><code>-gnatwG</code><dd>
+`Suppress warnings on unrecognized pragmas.'
+
+     <p>This switch suppresses warnings for unrecognized pragmas. 
+</dl>
+
+<p><a name="index-g_t_002dgnatw_002eg-_0028gcc_0029-415"></a>
+
+     <dl>
+<dt><code>-gnatw.g</code><dd>
+`Warnings used for GNAT sources'
+
+     <p>This switch sets the warning categories that are used by the standard
+GNAT style. Currently this is equivalent to
+`-gnatwAao.sI.C.V.X'
+but more warnings may be added in the future without advanced notice. 
+</dl>
+
+<p><a name="index-g_t_002dgnatwh-_0028gcc_0029-416"></a>
+
+     <dl>
+<dt><code>-gnatwh</code><dd>
+`Activate warnings on hiding.'
+
+     <p><a name="index-Hiding-of-Declarations-417"></a>
+This switch activates warnings on hiding declarations. 
+A declaration is considered hiding
+if it is for a non-overloadable entity, and it declares an entity with the
+same name as some other entity that is directly or use-visible. The default
+is that such warnings are not generated. 
+</dl>
+
+<p><a name="index-g_t_002dgnatwH-_0028gcc_0029-418"></a>
+
+     <dl>
+<dt><code>-gnatwH</code><dd>
+`Suppress warnings on hiding.'
+
+     <p>This switch suppresses warnings on hiding declarations. 
+</dl>
+
+<p><a name="index-g_t_002dgnatw_002eh-_0028gcc_0029-419"></a>
+
+     <dl>
+<dt><code>-gnatw.h</code><dd>
+`Activate warnings on holes/gaps in records.'
+
+     <p><a name="index-Record-Representation-_0028gaps_0029-420"></a>
+This switch activates warnings on component clauses in record
+representation clauses that leave holes (gaps) in the record layout. 
+If this warning option is active, then record representation clauses
+should specify a contiguous layout, adding unused fill fields if needed. 
+</dl>
+
+<p><a name="index-g_t_002dgnatw_002eH-_0028gcc_0029-421"></a>
+
+     <dl>
+<dt><code>-gnatw.H</code><dd>
+`Suppress warnings on holes/gaps in records.'
+
+     <p>This switch suppresses warnings on component clauses in record
+representation clauses that leave holes (haps) in the record layout. 
+</dl>
+
+<p><a name="index-g_t_002dgnatwi-_0028gcc_0029-422"></a>
+
+     <dl>
+<dt><code>-gnatwi</code><dd>
+`Activate warnings on implementation units.'
+
+     <p>This switch activates warnings for a `with' of an internal GNAT
+implementation unit, defined as any unit from the <cite>Ada</cite>,
+<cite>Interfaces</cite>, <cite>GNAT</cite>,
+or <cite>System</cite>
+hierarchies that is not
+documented in either the Ada Reference Manual or the GNAT
+Programmer's Reference Manual. Such units are intended only
+for internal implementation purposes and should not be `with'ed
+by user programs. The default is that such warnings are generated
+</dl>
+
+<p><a name="index-g_t_002dgnatwI-_0028gcc_0029-423"></a>
+
+     <dl>
+<dt><code>-gnatwI</code><dd>
+`Disable warnings on implementation units.'
+
+     <p>This switch disables warnings for a `with' of an internal GNAT
+implementation unit. 
+</dl>
+
+<p><a name="index-g_t_002dgnatw_002ei-_0028gcc_0029-424"></a>
+
+     <dl>
+<dt><code>-gnatw.i</code><dd>
+`Activate warnings on overlapping actuals.'
+
+     <p>This switch enables a warning on statically detectable overlapping actuals in
+a subprogram call, when one of the actuals is an in-out parameter, and the
+types of the actuals are not by-copy types. This warning is off by default. 
+</dl>
+
+<p><a name="index-g_t_002dgnatw_002eI-_0028gcc_0029-425"></a>
+
+     <dl>
+<dt><code>-gnatw.I</code><dd>
+`Disable warnings on overlapping actuals.'
+
+     <p>This switch disables warnings on overlapping actuals in a call.. 
+</dl>
+
+<p><a name="index-g_t_002dgnatwj-_0028gcc_0029-426"></a>
+
+     <dl>
+<dt><code>-gnatwj</code><dd>
+`Activate warnings on obsolescent features (Annex J).'
+
+     <p><a name="index-Features-427"></a><a name="index-obsolescent-428"></a>
+<a name="index-Obsolescent-features-429"></a>
+If this warning option is activated, then warnings are generated for
+calls to subprograms marked with <cite>pragma Obsolescent</cite> and
+for use of features in Annex J of the Ada Reference Manual. In the
+case of Annex J, not all features are flagged. In particular use
+of the renamed packages (like <cite>Text_IO</cite>) and use of package
+<cite>ASCII</cite> are not flagged, since these are very common and
+would generate many annoying positive warnings. The default is that
+such warnings are not generated.
+
+     <p>In addition to the above cases, warnings are also generated for
+GNAT features that have been provided in past versions but which
+have been superseded (typically by features in the new Ada standard). 
+For example, <cite>pragma Ravenscar</cite> will be flagged since its
+function is replaced by <cite>pragma Profile(Ravenscar)</cite>, and
+<cite>pragma Interface_Name</cite> will be flagged since its function
+is replaced by <cite>pragma Import</cite>.
+
+     <p>Note that this warning option functions differently from the
+restriction <cite>No_Obsolescent_Features</cite> in two respects. 
+First, the restriction applies only to annex J features. 
+Second, the restriction does flag uses of package <cite>ASCII</cite>.
+
+     <br><dt><code>-gnatwJ</code><dd>
+`Suppress warnings on obsolescent features (Annex J).' 
+.. index:: -gnatwJ  (gcc)
+
+     <p>This switch disables warnings on use of obsolescent features.
+
+     <br><dt><code>-gnatwk</code><dd>
+`Activate warnings on variables that could be constants.' 
+.. index:: -gnatwk  (gcc)
+
+     <p>This switch activates warnings for variables that are initialized but
+never modified, and then could be declared constants. The default is that
+such warnings are not given. 
+</dl>
+
+<p><a name="index-g_t_002dgnatwK-_0028gcc_0029-430"></a>
+
+     <dl>
+<dt><code>-gnatwK</code><dd>
+`Suppress warnings on variables that could be constants.'
+
+     <p>This switch disables warnings on variables that could be declared constants. 
+</dl>
+
+<p><a name="index-g_t_002dgnatw_002ek-_0028gcc_0029-431"></a>
+
+     <dl>
+<dt><code>-gnatw.k</code><dd>
+`Activate warnings on redefinition of names in standard.'
+
+     <p>This switch activates warnings for declarations that declare a name that
+is defined in package Standard. Such declarations can be confusing,
+especially since the names in package Standard continue to be directly
+visible, meaning that use visibiliy on such redeclared names does not
+work as expected. Names of discriminants and components in records are
+not included in this check. 
+</dl>
+
+<p><a name="index-g_t_002dgnatwK-_0028gcc_0029-432"></a>
+
+     <dl>
+<dt><code>-gnatw.K</code><dd>
+`Suppress warnings on redefinition of names in standard.'
+
+     <p>This switch activates warnings for declarations that declare a name that
+is defined in package Standard. 
+</dl>
+
+<p><a name="index-g_t_002dgnatwl-_0028gcc_0029-433"></a>
+
+     <dl>
+<dt><code>-gnatwl</code><dd>
+`Activate warnings for elaboration pragmas.'
+
+     <p><a name="index-Elaboration-434"></a><a name="index-warnings-435"></a>
+This switch activates warnings for possible elaboration problems,
+including suspicious use
+of <cite>Elaborate</cite> pragmas, when using the static elaboration model, and
+possible situations that may raise <cite>Program_Error</cite> when using the
+dynamic elaboration model. 
+See the section in this guide on elaboration checking for further details. 
+The default is that such warnings
+are not generated. 
+</dl>
+
+<p><a name="index-g_t_002dgnatwL-_0028gcc_0029-436"></a>
+
+     <dl>
+<dt><code>-gnatwL</code><dd>
+`Suppress warnings for elaboration pragmas.'
+
+     <p>This switch suppresses warnings for possible elaboration problems. 
+</dl>
+
+<p><a name="index-g_t_002dgnatw_002el-_0028gcc_0029-437"></a>
+
+     <dl>
+<dt><code>-gnatw.l</code><dd>
+`List inherited aspects.'
+
+     <p>This switch causes the compiler to list inherited invariants,
+preconditions, and postconditions from Type_Invariant'Class, Invariant'Class,
+Pre'Class, and Post'Class aspects. Also list inherited subtype predicates. 
+</dl>
+
+<p><a name="index-g_t_002dgnatw_002eL-_0028gcc_0029-438"></a>
+
+     <dl>
+<dt><code>-gnatw.L</code><dd>
+`Suppress listing of inherited aspects.'
+
+     <p>This switch suppresses listing of inherited aspects. 
+</dl>
+
+<p><a name="index-g_t_002dgnatwm-_0028gcc_0029-439"></a>
+
+     <dl>
+<dt><code>-gnatwm</code><dd>
+`Activate warnings on modified but unreferenced variables.'
+
+     <p>This switch activates warnings for variables that are assigned (using
+an initialization value or with one or more assignment statements) but
+whose value is never read. The warning is suppressed for volatile
+variables and also for variables that are renamings of other variables
+or for which an address clause is given. 
+The default is that these warnings are not given. 
+</dl>
+
+<p><a name="index-g_t_002dgnatwM-_0028gcc_0029-440"></a>
+
+     <dl>
+<dt><code>-gnatwM</code><dd>
+`Disable warnings on modified but unreferenced variables.'
+
+     <p>This switch disables warnings for variables that are assigned or
+initialized, but never read. 
+</dl>
+
+<p><a name="index-g_t_002dgnatw_002em-_0028gcc_0029-441"></a>
+
+     <dl>
+<dt><code>-gnatw.m</code><dd>
+`Activate warnings on suspicious modulus values.'
+
+     <p>This switch activates warnings for modulus values that seem suspicious. 
+The cases caught are where the size is the same as the modulus (e.g. 
+a modulus of 7 with a size of 7 bits), and modulus values of 32 or 64
+with no size clause. The guess in both cases is that 2**x was intended
+rather than x. In addition expressions of the form 2*x for small x
+generate a warning (the almost certainly accurate guess being that
+2**x was intended). The default is that these warnings are given. 
+</dl>
+
+<p><a name="index-g_t_002dgnatw_002eM-_0028gcc_0029-442"></a>
+
+     <dl>
+<dt><code>-gnatw.M</code><dd>
+`Disable warnings on suspicious modulus values.'
+
+     <p>This switch disables warnings for suspicious modulus values. 
+</dl>
+
+<p><a name="index-g_t_002dgnatwn-_0028gcc_0029-443"></a>
+
+     <dl>
+<dt><code>-gnatwn</code><dd>
+`Set normal warnings mode.'
+
+     <p>This switch sets normal warning mode, in which enabled warnings are
+issued and treated as warnings rather than errors. This is the default
+mode. the switch `-gnatwn' can be used to cancel the effect of
+an explicit `-gnatws' or
+`-gnatwe'. It also cancels the effect of the
+implicit `-gnatwe' that is activated by the
+use of `-gnatg'. 
+</dl>
+
+<p><a name="index-g_t_002dgnatw_002en-_0028gcc_0029-444"></a>
+<a name="index-Atomic-Synchronization-445"></a><a name="index-warnings-446"></a>
+
+     <dl>
+<dt><code>-gnatw.n</code><dd>
+`Activate warnings on atomic synchronization.'
+
+     <p>This switch actives warnings when an access to an atomic variable
+requires the generation of atomic synchronization code. These
+warnings are off by default. 
+</dl>
+
+<p><a name="index-g_t_002dgnatw_002eN-_0028gcc_0029-447"></a>
+
+     <dl>
+<dt><code>-gnatw.N</code><dd>
+`Suppress warnings on atomic synchronization.'
+
+     <p><a name="index-Atomic-Synchronization-448"></a><a name="index-warnings-449"></a>
+This switch suppresses warnings when an access to an atomic variable
+requires the generation of atomic synchronization code. 
+</dl>
+
+<p><a name="index-g_t_002dgnatwo-_0028gcc_0029-450"></a>
+<a name="index-Address-Clauses-451"></a><a name="index-warnings-452"></a>
+
+     <dl>
+<dt><code>-gnatwo</code><dd>
+`Activate warnings on address clause overlays.'
+
+     <p>This switch activates warnings for possibly unintended initialization
+effects of defining address clauses that cause one variable to overlap
+another. The default is that such warnings are generated. 
+</dl>
+
+<p><a name="index-g_t_002dgnatwO-_0028gcc_0029-453"></a>
+
+     <dl>
+<dt><code>-gnatwO</code><dd>
+`Suppress warnings on address clause overlays.'
+
+     <p>This switch suppresses warnings on possibly unintended initialization
+effects of defining address clauses that cause one variable to overlap
+another. 
+</dl>
+
+<p><a name="index-g_t_002dgnatw_002eo-_0028gcc_0029-454"></a>
+
+     <dl>
+<dt><code>-gnatw.o</code><dd>
+`Activate warnings on modified but unreferenced out parameters.'
+
+     <p>This switch activates warnings for variables that are modified by using
+them as actuals for a call to a procedure with an out mode formal, where
+the resulting assigned value is never read. It is applicable in the case
+where there is more than one out mode formal. If there is only one out
+mode formal, the warning is issued by default (controlled by -gnatwu). 
+The warning is suppressed for volatile
+variables and also for variables that are renamings of other variables
+or for which an address clause is given. 
+The default is that these warnings are not given. 
+</dl>
+
+<p><a name="index-g_t_002dgnatw_002eO-_0028gcc_0029-455"></a>
+
+     <dl>
+<dt><code>-gnatw.O</code><dd>
+`Disable warnings on modified but unreferenced out parameters.'
+
+     <p>This switch suppresses warnings for variables that are modified by using
+them as actuals for a call to a procedure with an out mode formal, where
+the resulting assigned value is never read. 
+</dl>
+
+<p><a name="index-g_t_002dgnatwp-_0028gcc_0029-456"></a>
+<a name="index-Inlining-457"></a><a name="index-warnings-458"></a>
+
+     <dl>
+<dt><code>-gnatwp</code><dd>
+`Activate warnings on ineffective pragma Inlines.'
+
+     <p>This switch activates warnings for failure of front end inlining
+(activated by `-gnatN') to inline a particular call. There are
+many reasons for not being able to inline a call, including most
+commonly that the call is too complex to inline. The default is
+that such warnings are not given. 
+Warnings on ineffective inlining by the gcc back-end can be activated
+separately, using the gcc switch -Winline. 
+</dl>
+
+<p><a name="index-g_t_002dgnatwP-_0028gcc_0029-459"></a>
+
+     <dl>
+<dt><code>-gnatwP</code><dd>
+`Suppress warnings on ineffective pragma Inlines.'
+
+     <p>This switch suppresses warnings on ineffective pragma Inlines. If the
+inlining mechanism cannot inline a call, it will simply ignore the
+request silently. 
+</dl>
+
+<p><a name="index-g_t_002dgnatw_002ep-_0028gcc_0029-460"></a>
+<a name="index-Parameter-order-461"></a><a name="index-warnings-462"></a>
+
+     <dl>
+<dt><code>-gnatw.p</code><dd>
+`Activate warnings on parameter ordering.'
+
+     <p>This switch activates warnings for cases of suspicious parameter
+ordering when the list of arguments are all simple identifiers that
+match the names of the formals, but are in a different order. The
+warning is suppressed if any use of named parameter notation is used,
+so this is the appropriate way to suppress a false positive (and
+serves to emphasize that the "misordering" is deliberate). The
+default is that such warnings are not given. 
+</dl>
+
+<p><a name="index-g_t_002dgnatw_002eP-_0028gcc_0029-463"></a>
+
+     <dl>
+<dt><code>-gnatw.P</code><dd>
+`Suppress warnings on parameter ordering.'
+
+     <p>This switch suppresses warnings on cases of suspicious parameter
+ordering. 
+</dl>
+
+<p><a name="index-g_t_002dgnatwq-_0028gcc_0029-464"></a>
+<a name="index-Parentheses-465"></a><a name="index-warnings-466"></a>
+
+     <dl>
+<dt><code>-gnatwq</code><dd>
+`Activate warnings on questionable missing parentheses.'
+
+     <p>This switch activates warnings for cases where parentheses are not used and
+the result is potential ambiguity from a readers point of view. For example
+(not a &gt; b) when a and b are modular means ((not a) &gt; b) and very likely the
+programmer intended (not (a &gt; b)). Similarly (-x mod 5) means (-(x mod 5)) and
+quite likely ((-x) mod 5) was intended. In such situations it seems best to
+follow the rule of always parenthesizing to make the association clear, and
+this warning switch warns if such parentheses are not present. The default
+is that these warnings are given. 
+</dl>
+
+<p><a name="index-g_t_002dgnatwQ-_0028gcc_0029-467"></a>
+
+     <dl>
+<dt><code>-gnatwQ</code><dd>
+`Suppress warnings on questionable missing parentheses.'
+
+     <p>This switch suppresses warnings for cases where the association is not
+clear and the use of parentheses is preferred. 
+</dl>
+
+<p><a name="index-g_t_002dgnatwr-_0028gcc_0029-468"></a>
+
+     <dl>
+<dt><code>-gnatwr</code><dd>
+`Activate warnings on redundant constructs.'
+
+     <p>This switch activates warnings for redundant constructs. The following
+is the current list of constructs regarded as redundant:
+
+          <ul>
+<li>Assignment of an item to itself.
+
+          <li>Type conversion that converts an expression to its own type.
+
+          <li>Use of the attribute <cite>Base</cite> where <cite>typ'Base</cite> is the same
+as <cite>typ</cite>.
+
+          <li>Use of pragma <cite>Pack</cite> when all components are placed by a record
+representation clause.
+
+          <li>Exception handler containing only a reraise statement (raise with no
+operand) which has no effect.
+
+          <li>Use of the operator abs on an operand that is known at compile time
+to be non-negative
+
+          <li>Comparison of boolean expressions to an explicit True value. 
+</ul>
+
+     <p>The default is that warnings for redundant constructs are not given. 
+</dl>
+
+<p><a name="index-g_t_002dgnatwR-_0028gcc_0029-469"></a>
+
+     <dl>
+<dt><code>-gnatwR</code><dd>
+`Suppress warnings on redundant constructs.'
+
+     <p>This switch suppresses warnings for redundant constructs. 
+</dl>
+
+<p><a name="index-g_t_002dgnatw_002er-_0028gcc_0029-470"></a>
+
+     <dl>
+<dt><code>-gnatw.r</code><dd>
+`Activate warnings for object renaming function.'
+
+     <p>This switch activates warnings for an object renaming that renames a
+function call, which is equivalent to a constant declaration (as
+opposed to renaming the function itself).  The default is that these
+warnings are given. 
+</dl>
+
+<p><a name="index-g_t_002dgnatwT-_0028gcc_0029-471"></a>
+
+     <dl>
+<dt><code>-gnatw.R</code><dd>
+`Suppress warnings for object renaming function.'
+
+     <p>This switch suppresses warnings for object renaming function. 
+</dl>
+
+<p><a name="index-g_t_002dgnatws-_0028gcc_0029-472"></a>
+
+     <dl>
+<dt><code>-gnatws</code><dd>
+`Suppress all warnings.'
+
+     <p>This switch completely suppresses the
+output of all warning messages from the GNAT front end, including
+both warnings that can be controlled by switches described in this
+section, and those that are normally given unconditionally. The
+effect of this suppress action can only be cancelled by a subsequent
+use of the switch `-gnatwn'.
+
+     <p>Note that switch `-gnatws' does not suppress
+warnings from the `gcc' back end. 
+To suppress these back end warnings as well, use the switch `-w'
+in addition to `-gnatws'. Also this switch has no effect on the
+handling of style check messages. 
+</dl>
+
+<p><a name="index-g_t_002dgnatw_002es-_0028gcc_0029-473"></a>
+<a name="index-Record-Representation-_0028component-sizes_0029-474"></a>
+
+     <dl>
+<dt><code>-gnatw.s</code><dd>
+`Activate warnings on overridden size clauses.'
+
+     <p>This switch activates warnings on component clauses in record
+representation clauses where the length given overrides that
+specified by an explicit size clause for the component type. A
+warning is similarly given in the array case if a specified
+component size overrides an explicit size clause for the array
+component type. 
+</dl>
+
+<p><a name="index-g_t_002dgnatw_002eS-_0028gcc_0029-475"></a>
+
+     <dl>
+<dt><code>-gnatw.S</code><dd>
+`Suppress warnings on overridden size clauses.'
+
+     <p>This switch suppresses warnings on component clauses in record
+representation clauses that override size clauses, and similar
+warnings when an array component size overrides a size clause. 
+</dl>
+
+<p><a name="index-g_t_002dgnatwt-_0028gcc_0029-476"></a>
+<a name="index-Deactivated-code-477"></a><a name="index-warnings-478"></a>
+<a name="index-Deleted-code-479"></a><a name="index-warnings-480"></a>
+
+     <dl>
+<dt><code>-gnatwt</code><dd>
+`Activate warnings for tracking of deleted conditional code.'
+
+     <p>This switch activates warnings for tracking of code in conditionals (IF and
+CASE statements) that is detected to be dead code which cannot be executed, and
+which is removed by the front end. This warning is off by default. This may be
+useful for detecting deactivated code in certified applications. 
+</dl>
+
+<p><a name="index-g_t_002dgnatwT-_0028gcc_0029-481"></a>
+
+     <dl>
+<dt><code>-gnatwT</code><dd>
+`Suppress warnings for tracking of deleted conditional code.'
+
+     <p>This switch suppresses warnings for tracking of deleted conditional code. 
+</dl>
+
+<p><a name="index-g_t_002dgnatw_002et-_0028gcc_0029-482"></a>
+
+     <dl>
+<dt><code>-gnatw.t</code><dd>
+`Activate warnings on suspicious contracts.'
+
+     <p>This switch activates warnings on suspicious contracts. This includes
+warnings on suspicious postconditions (whether a pragma <cite>Postcondition</cite> or a
+<cite>Post</cite> aspect in Ada 2012) and suspicious contract cases (pragma or aspect
+<cite>Contract_Cases</cite>). A function postcondition or contract case is suspicious
+when no postcondition or contract case for this function mentions the result
+of the function.  A procedure postcondition or contract case is suspicious
+when it only refers to the pre-state of the procedure, because in that case
+it should rather be expressed as a precondition. This switch also controls
+warnings on suspicious cases of expressions typically found in contracts like
+quantified expressions and uses of Update attribute. The default is that such
+warnings are generated. 
+</dl>
+
+<p><a name="index-g_t_002dgnatw_002eT-_0028gcc_0029-483"></a>
+
+     <dl>
+<dt><code>-gnatw.T</code><dd>
+`Suppress warnings on suspicious contracts.'
+
+     <p>This switch suppresses warnings on suspicious contracts. 
+</dl>
+
+<p><a name="index-g_t_002dgnatwu-_0028gcc_0029-484"></a>
+
+     <dl>
+<dt><code>-gnatwu</code><dd>
+`Activate warnings on unused entities.'
+
+     <p>This switch activates warnings to be generated for entities that
+are declared but not referenced, and for units that are `with'ed
+and not
+referenced. In the case of packages, a warning is also generated if
+no entities in the package are referenced. This means that if a with'ed
+package is referenced but the only references are in <cite>use</cite>
+clauses or <cite>renames</cite>
+declarations, a warning is still generated. A warning is also generated
+for a generic package that is `with'ed but never instantiated. 
+In the case where a package or subprogram body is compiled, and there
+is a `with' on the corresponding spec
+that is only referenced in the body,
+a warning is also generated, noting that the
+`with' can be moved to the body. The default is that
+such warnings are not generated. 
+This switch also activates warnings on unreferenced formals
+(it includes the effect of `-gnatwf'). 
+</dl>
+
+<p><a name="index-g_t_002dgnatwU-_0028gcc_0029-485"></a>
+
+     <dl>
+<dt><code>-gnatwU</code><dd>
+`Suppress warnings on unused entities.'
+
+     <p>This switch suppresses warnings for unused entities and packages. 
+It also turns off warnings on unreferenced formals (and thus includes
+the effect of `-gnatwF'). 
+</dl>
+
+<p><a name="index-g_t_002dgnatw_002eu-_0028gcc_0029-486"></a>
+
+     <dl>
+<dt><code>-gnatw.u</code><dd>
+`Activate warnings on unordered enumeration types.'
+
+     <p>This switch causes enumeration types to be considered as conceptually
+unordered, unless an explicit pragma <cite>Ordered</cite> is given for the type. 
+The effect is to generate warnings in clients that use explicit comparisons
+or subranges, since these constructs both treat objects of the type as
+ordered. (A `client' is defined as a unit that is other than the unit in
+which the type is declared, or its body or subunits.) Please refer to
+the description of pragma <cite>Ordered</cite> in the
+<cite>GNAT Reference Manual</cite> for further details. 
+The default is that such warnings are not generated. 
+</dl>
+
+<p><a name="index-g_t_002dgnatw_002eU-_0028gcc_0029-487"></a>
+
+     <dl>
+<dt><code>-gnatw.U</code><dd>
+`Deactivate warnings on unordered enumeration types.'
+
+     <p>This switch causes all enumeration types to be considered as ordered, so
+that no warnings are given for comparisons or subranges for any type. 
+</dl>
+
+<p><a name="index-g_t_002dgnatwv-_0028gcc_0029-488"></a>
+<a name="index-Unassigned-variable-warnings-489"></a>
+
+     <dl>
+<dt><code>-gnatwv</code><dd>
+`Activate warnings on unassigned variables.'
+
+     <p>This switch activates warnings for access to variables which
+may not be properly initialized. The default is that
+such warnings are generated. 
+</dl>
+
+<p><a name="index-g_t_002dgnatwV-_0028gcc_0029-490"></a>
+
+     <dl>
+<dt><code>-gnatwV</code><dd>
+`Suppress warnings on unassigned variables.'
+
+     <p>This switch suppresses warnings for access to variables which
+may not be properly initialized. 
+For variables of a composite type, the warning can also be suppressed in
+Ada 2005 by using a default initialization with a box. For example, if
+Table is an array of records whose components are only partially uninitialized,
+then the following code:
+
+     <pre class="example">         Tab : Table := (others =&gt; &lt;&gt;);
+</pre>
+     <p>will suppress warnings on subsequent statements that access components
+of variable Tab. 
+</dl>
+
+<p><a name="index-g_t_002dgnatw_002ev-_0028gcc_0029-491"></a>
+<a name="index-bit-order-warnings-492"></a>
+
+     <dl>
+<dt><code>-gnatw.v</code><dd>
+`Activate info messages for non-default bit order.'
+
+     <p>This switch activates messages (labeled "info", they are not warnings,
+just informational messages) about the effects of non-default bit-order
+on records to which a component clause is applied. The effect of specifying
+non-default bit ordering is a bit subtle (and changed with Ada 2005), so
+these messages, which are given by default, are useful in understanding the
+exact consequences of using this feature. 
+</dl>
+
+<p><a name="index-g_t_002dgnatw_002eV-_0028gcc_0029-493"></a>
+
+     <dl>
+<dt><code>-gnatw.V</code><dd>
+`Suppress info messages for non-default bit order.'
+
+     <p>This switch suppresses information messages for the effects of specifying
+non-default bit order on record components with component clauses. 
+</dl>
+
+<p><a name="index-g_t_002dgnatww-_0028gcc_0029-494"></a>
+<a name="index-String-indexing-warnings-495"></a>
+
+     <dl>
+<dt><code>-gnatww</code><dd>
+`Activate warnings on wrong low bound assumption.'
+
+     <p>This switch activates warnings for indexing an unconstrained string parameter
+with a literal or S'Length. This is a case where the code is assuming that the
+low bound is one, which is in general not true (for example when a slice is
+passed). The default is that such warnings are generated. 
+</dl>
+
+<p><a name="index-g_t_002dgnatwW-_0028gcc_0029-496"></a>
+
+     <dl>
+<dt><code>-gnatwW</code><dd>
+`Suppress warnings on wrong low bound assumption.'
+
+     <p>This switch suppresses warnings for indexing an unconstrained string parameter
+with a literal or S'Length. Note that this warning can also be suppressed
+in a particular case by adding an assertion that the lower bound is 1,
+as shown in the following example:
+
+     <pre class="example">         procedure K (S : String) is
+            pragma Assert (S'First = 1);
+            ...
+</pre>
+     </dl>
+
+<p><a name="index-g_t_002dgnatw_002ew-_0028gcc_0029-497"></a>
+<a name="index-Warnings-Off-control-498"></a>
+
+     <dl>
+<dt><code>-gnatw.w</code><dd>
+`Activate warnings on Warnings Off pragmas'
+
+     <p>This switch activates warnings for use of <cite>pragma Warnings (Off, entity)</cite>
+where either the pragma is entirely useless (because it suppresses no
+warnings), or it could be replaced by <cite>pragma Unreferenced</cite> or
+<cite>pragma Unmodified</cite>. 
+Also activates warnings for the case of
+Warnings (Off, String), where either there is no matching
+Warnings (On, String), or the Warnings (Off) did not suppress any warning. 
+The default is that these warnings are not given. 
+</dl>
+
+<p><a name="index-g_t_002dgnatw_002eW-_0028gcc_0029-499"></a>
+
+     <dl>
+<dt><code>-gnatw.W</code><dd>
+`Suppress warnings on unnecessary Warnings Off pragmas'
+
+     <p>This switch suppresses warnings for use of <cite>pragma Warnings (Off, ...)</cite>. 
+</dl>
+
+<p><a name="index-g_t_002dgnatwx-_0028gcc_0029-500"></a>
+<a name="index-Export_002fImport-pragma-warnings-501"></a>
+
+     <dl>
+<dt><code>-gnatwx</code><dd>
+`Activate warnings on Export/Import pragmas.'
+
+     <p>This switch activates warnings on Export/Import pragmas when
+the compiler detects a possible conflict between the Ada and
+foreign language calling sequences. For example, the use of
+default parameters in a convention C procedure is dubious
+because the C compiler cannot supply the proper default, so
+a warning is issued. The default is that such warnings are
+generated. 
+</dl>
+
+<p><a name="index-g_t_002dgnatwX-_0028gcc_0029-502"></a>
+
+     <dl>
+<dt><code>-gnatwX</code><dd>
+`Suppress warnings on Export/Import pragmas.'
+
+     <p>This switch suppresses warnings on Export/Import pragmas. 
+The sense of this is that you are telling the compiler that
+you know what you are doing in writing the pragma, and it
+should not complain at you. 
+</dl>
+
+<p><a name="index-g_t_002dgnatwm-_0028gcc_0029-503"></a>
+
+     <dl>
+<dt><code>-gnatw.x</code><dd>
+`Activate warnings for No_Exception_Propagation mode.'
+
+     <p>This switch activates warnings for exception usage when pragma Restrictions
+(No_Exception_Propagation) is in effect. Warnings are given for implicit or
+explicit exception raises which are not covered by a local handler, and for
+exception handlers which do not cover a local raise. The default is that these
+warnings are not given.
+
+     <br><dt><code>-gnatw.X</code><dd>
+`Disable warnings for No_Exception_Propagation mode.'
+
+     <p>This switch disables warnings for exception usage when pragma Restrictions
+(No_Exception_Propagation) is in effect. 
+</dl>
+
+<p><a name="index-g_t_002dgnatwy-_0028gcc_0029-504"></a>
+<a name="index-Ada-compatibility-issues-warnings-505"></a>
+
+     <dl>
+<dt><code>-gnatwy</code><dd>
+`Activate warnings for Ada compatibility issues.'
+
+     <p>For the most part, newer versions of Ada are upwards compatible
+with older versions. For example, Ada 2005 programs will almost
+always work when compiled as Ada 2012. 
+However there are some exceptions (for example the fact that
+<cite>some</cite> is now a reserved word in Ada 2012). This
+switch activates several warnings to help in identifying
+and correcting such incompatibilities. The default is that
+these warnings are generated. Note that at one point Ada 2005
+was called Ada 0Y, hence the choice of character. 
+</dl>
+
+<p><a name="index-g_t_002dgnatwY-_0028gcc_0029-506"></a>
+<a name="index-Ada-compatibility-issues-warnings-507"></a>
+
+     <dl>
+<dt><code>-gnatwY</code><dd>
+`Disable warnings for Ada compatibility issues.'
+
+     <p>This switch suppresses the warnings intended to help in identifying
+incompatibilities between Ada language versions. 
+</dl>
+
+<p><a name="index-g_t_002dgnatw_002ey-_0028gcc_0029-508"></a>
+<a name="index-Package-spec-needing-body-509"></a>
+
+     <dl>
+<dt><code>-gnatw.y</code><dd>
+`Activate information messages for why package spec needs body'
+
+     <p>There are a number of cases in which a package spec needs a body. 
+For example, the use of pragma Elaborate_Body, or the declaration
+of a procedure specification requiring a completion. This switch
+causes information messages to be output showing why a package
+specification requires a body. This can be useful in the case of
+a large package specification which is unexpectedly requiring a
+body. The default is that such information messages are not output. 
+</dl>
+
+<p><a name="index-g_t_002dgnatw_002eY-_0028gcc_0029-510"></a>
+<a name="index-No-information-messages-for-why-package-spec-needs-body-511"></a>
+
+     <dl>
+<dt><code>-gnatw.Y</code><dd>
+`Disable information messages for why package spec needs body'
+
+     <p>This switch suppresses the output of information messages showing why
+a package specification needs a body. 
+</dl>
+
+<p><a name="index-g_t_002dgnatwz-_0028gcc_0029-512"></a>
+<a name="index-Unchecked_005fConversion-warnings-513"></a>
+
+     <dl>
+<dt><code>-gnatwz</code><dd>
+`Activate warnings on unchecked conversions.'
+
+     <p>This switch activates warnings for unchecked conversions
+where the types are known at compile time to have different
+sizes. The default is that such warnings are generated. Warnings are also
+generated for subprogram pointers with different conventions. 
+</dl>
+
+<p><a name="index-g_t_002dgnatwZ-_0028gcc_0029-514"></a>
+
+     <dl>
+<dt><code>-gnatwZ</code><dd>
+`Suppress warnings on unchecked conversions.'
+
+     <p>This switch suppresses warnings for unchecked conversions
+where the types are known at compile time to have different
+sizes or conventions. 
+</dl>
+
+<p><a name="index-g_t_002dgnatw_002ez-_0028gcc_0029-515"></a>
+<a name="index-Size_002fAlignment-warnings-516"></a>
+
+     <dl>
+<dt><code>-gnatw.z</code><dd>
+`Activate warnings for size not a multiple of alignment.'
+
+     <p>This switch activates warnings for cases of record types with
+specified <cite>Size</cite> and <cite>Alignment</cite> attributes where the
+size is not a multiple of the alignment, resulting in an object
+size that is greater than the specified size. The default
+is that such warnings are generated. 
+</dl>
+
+<p><a name="index-g_t_002dgnatw_002eZ-_0028gcc_0029-517"></a>
+<a name="index-Size_002fAlignment-warnings-518"></a>
+
+     <dl>
+<dt><code>-gnatw.Z</code><dd>
+`Suppress warnings for size not a multiple of alignment.'
+
+     <p>This switch suppresses warnings for cases of record types with
+specified <cite>Size</cite> and <cite>Alignment</cite> attributes where the
+size is not a multiple of the alignment, resulting in an object
+size that is greater than the specified size. 
+The warning can also be
+suppressed by giving an explicit <cite>Object_Size</cite> value. 
+</dl>
+
+<p><a name="index-g_t_002dWunused-_0028gcc_0029-519"></a>
+
+     <dl>
+<dt><code>-Wunused</code><dd>
+The warnings controlled by the `-gnatw' switch are generated by
+the front end of the compiler. The `GCC' back end can provide
+additional warnings and they are controlled by the `-W' switch. 
+For example, `-Wunused' activates back end
+warnings for entities that are declared but not referenced. 
+</dl>
+
+<p><a name="index-g_t_002dWuninitialized-_0028gcc_0029-520"></a>
+
+     <dl>
+<dt><code>-Wuninitialized</code><dd>
+Similarly, `-Wuninitialized' activates
+the back end warning for uninitialized variables. This switch must be
+used in conjunction with an optimization level greater than zero. 
+</dl>
+
+<p><a name="index-g_t_002dWstack_002dusage-_0028gcc_0029-521"></a>
+
+     <dl>
+<dt><code>-Wstack-usage=`len'</code><dd>
+Warn if the stack usage of a subprogram might be larger than <cite>len</cite> bytes. 
+See <a href="fa.html#fa">Static Stack Usage Analysis</a> for details. 
+</dl>
+
+<p><a name="index-g_t_002dWall-_0028gcc_0029-522"></a>
+
+     <dl>
+<dt><code>-Wall</code><dd>
+This switch enables most warnings from the `GCC' back end. 
+The code generator detects a number of warning situations that are missed
+by the `GNAT' front end, and this switch can be used to activate them. 
+The use of this switch also sets the default front end warning mode to
+`-gnatwa', that is, most front end warnings activated as well. 
+</dl>
+
+<p><a name="index-g_t_002dw-_0028gcc_0029-523"></a>
+
+     <dl>
+<dt><code>-w</code><dd>
+Conversely, this switch suppresses warnings from the `GCC' back end. 
+The use of this switch also sets the default front end warning mode to
+`-gnatws', that is, front end warnings suppressed as well. 
+</dl>
+
+<p><a name="index-g_t_002dWerror-_0028gcc_0029-524"></a>
+
+     <dl>
+<dt><code>-Werror</code><dd>
+This switch causes warnings from the `GCC' back end to be treated as
+errors.  The warning string still appears, but the warning messages are
+counted as errors, and prevent the generation of an object file. 
+</dl>
+
+<p>A string of warning parameters can be used in the same parameter. For example:
+
+<pre class="example">    -gnatwaGe
+</pre>
+<p>will turn on all optional warnings except for unrecognized pragma warnings,
+and also specify that warnings should be treated as errors.
+
+<p>When no switch `-gnatw' is used, this is equivalent to:
+
+<blockquote>
+
+     <ul>
+<li><code>-gnatw.a</code>
+
+     <li><code>-gnatwB</code>
+
+     <li><code>-gnatw.b</code>
+
+     <li><code>-gnatwC</code>
+
+     <li><code>-gnatw.C</code>
+
+     <li><code>-gnatwD</code>
+
+     <li><code>-gnatwF</code>
+
+     <li><code>-gnatwg</code>
+
+     <li><code>-gnatwH</code>
+
+     <li><code>-gnatwi</code>
+
+     <li><code>-gnatw.I</code>
+
+     <li><code>-gnatwJ</code>
+
+     <li><code>-gnatwK</code>
+
+     <li><code>-gnatwL</code>
+
+     <li><code>-gnatw.L</code>
+
+     <li><code>-gnatwM</code>
+
+     <li><code>-gnatw.m</code>
+
+     <li><code>-gnatwn</code>
+
+     <li><code>-gnatwo</code>
+
+     <li><code>-gnatw.O</code>
+
+     <li><code>-gnatwP</code>
+
+     <li><code>-gnatw.P</code>
+
+     <li><code>-gnatwq</code>
+
+     <li><code>-gnatwR</code>
+
+     <li><code>-gnatw.R</code>
+
+     <li><code>-gnatw.S</code>
+
+     <li><code>-gnatwT</code>
+
+     <li><code>-gnatw.T</code>
+
+     <li><code>-gnatwU</code>
+
+     <li><code>-gnatwv</code>
+
+     <li><code>-gnatww</code>
+
+     <li><code>-gnatw.W</code>
+
+     <li><code>-gnatwx</code>
+
+     <li><code>-gnatw.X</code>
+
+     <li><code>-gnatwy</code>
+
+     <li><code>-gnatwz</code>
+</ul>
+</blockquote>
+
+</body></html>
+

@@ -1,0 +1,99 @@
+<html lang="en">
+<head>
+<title>GNAT Abnormal Termination or Failure to Terminate - GNAT User's Guide for Native Platforms</title>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+<meta name="description" content="GNAT User's Guide for Native Platforms">
+<meta name="generator" content="makeinfo 4.13">
+<link title="Top" rel="start" href="index.html#Top">
+<link rel="up" href="Running-and-Debugging-Ada-Programs.html#Running-and-Debugging-Ada-Programs" title="Running and Debugging Ada Programs">
+<link rel="prev" href="Remote-Debugging-with-gdbserver.html#Remote-Debugging-with-gdbserver" title="Remote Debugging with gdbserver">
+<link rel="next" href="Naming-Conventions-for-GNAT-Source-Files.html#Naming-Conventions-for-GNAT-Source-Files" title="Naming Conventions for GNAT Source Files">
+<link href="http://www.gnu.org/software/texinfo/" rel="generator-home" title="Texinfo Homepage">
+<!--
+
+     GNAT User's Guide for Native Platforms , March 24, 2015
+
+     AdaCore
+
+     Copyright (C) 2008-2015, Free Software Foundation
+-->
+<meta http-equiv="Content-Style-Type" content="text/css">
+<style type="text/css"><!--
+  pre.display { font-family:inherit }
+  pre.format  { font-family:inherit }
+  pre.smalldisplay { font-family:inherit; font-size:smaller }
+  pre.smallformat  { font-family:inherit; font-size:smaller }
+  pre.smallexample { font-size:smaller }
+  pre.smalllisp    { font-size:smaller }
+  span.sc    { font-variant:small-caps }
+  span.roman { font-family:serif; font-weight:normal; } 
+  span.sansserif { font-family:sans-serif; font-weight:normal; } 
+--></style>
+</head>
+<body>
+<div class="node">
+<a name="GNAT-Abnormal-Termination-or-Failure-to-Terminate"></a>
+<p>
+Next:&nbsp;<a rel="next" accesskey="n" href="Naming-Conventions-for-GNAT-Source-Files.html#Naming-Conventions-for-GNAT-Source-Files">Naming Conventions for GNAT Source Files</a>,
+Previous:&nbsp;<a rel="previous" accesskey="p" href="Remote-Debugging-with-gdbserver.html#Remote-Debugging-with-gdbserver">Remote Debugging with gdbserver</a>,
+Up:&nbsp;<a rel="up" accesskey="u" href="Running-and-Debugging-Ada-Programs.html#Running-and-Debugging-Ada-Programs">Running and Debugging Ada Programs</a>
+<hr>
+</div>
+
+<p><a name="gnat_005fugn_002fgnat_005fand_005fprogram_005fexecution-gnat_002dabnormal_002dtermination_002dor_002dfailure_002dto_002dterminate"></a><a name="g_t20b"></a><a name="gnat_005fugn_002fgnat_005fand_005fprogram_005fexecution-id13"></a><a name="g_t20c"></a>
+
+<h4 class="subsection">8.1.11 GNAT Abnormal Termination or Failure to Terminate</h4>
+
+<p>When presented with programs that contain serious errors in syntax
+or semantics,
+GNAT may on rare occasions  experience problems in operation, such
+as aborting with a
+segmentation fault or illegal memory access, raising an internal
+exception, terminating abnormally, or failing to terminate at all. 
+In such cases, you can activate
+various features of GNAT that can help you pinpoint the construct in your
+program that is the likely source of the problem.
+
+<p>The following strategies are presented in increasing order of
+difficulty, corresponding to your experience in using GNAT and your
+familiarity with compiler internals.
+
+     <ul>
+<li>Run `gcc' with the `-gnatf'. This first
+switch causes all errors on a given line to be reported. In its absence,
+only the first error on a line is displayed.
+
+     <p>The `-gnatdO' switch causes errors to be displayed as soon as they
+are encountered, rather than after compilation is terminated. If GNAT
+terminates prematurely or goes into an infinite loop, the last error
+message displayed may help to pinpoint the culprit.
+
+     <li>Run `gcc' with the `-v (verbose)' switch. In this
+mode, `gcc' produces ongoing information about the progress of the
+compilation and provides the name of each procedure as code is
+generated. This switch allows you to find which Ada procedure was being
+compiled when it encountered a code generation problem. 
+</ul>
+
+<p><a name="index-g_t_002dgnatdc-switch-961"></a>
+
+     <ul>
+<li>Run `gcc' with the `-gnatdc' switch. This is a GNAT specific
+switch that does for the front-end what `-v' does
+for the back end. The system prints the name of each unit,
+either a compilation unit or nested unit, as it is being analyzed.
+
+     <li>Finally, you can start
+<cite>gdb</cite> directly on the <cite>gnat1</cite> executable. <cite>gnat1</cite> is the
+front-end of GNAT, and can be run independently (normally it is just
+called from `gcc'). You can use <cite>gdb</cite> on <cite>gnat1</cite> as you
+would on a C program (but <a href="1f7.html#g_t1f7">The GNAT Debugger GDB</a> for caveats). The
+<cite>where</cite> command is the first line of attack; the variable
+<cite>lineno</cite> (seen by <cite>print lineno</cite>), used by the second phase of
+<cite>gnat1</cite> and by the `gcc' backend, indicates the source line at
+which the execution stopped, and <cite>input_file name</cite> indicates the name of
+the source file. 
+</ul>
+
+</body></html>
+

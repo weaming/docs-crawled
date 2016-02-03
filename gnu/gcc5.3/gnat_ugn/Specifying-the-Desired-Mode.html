@@ -1,0 +1,158 @@
+<html lang="en">
+<head>
+<title>Specifying the Desired Mode - GNAT User's Guide for Native Platforms</title>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+<meta name="description" content="GNAT User's Guide for Native Platforms">
+<meta name="generator" content="makeinfo 4.13">
+<link title="Top" rel="start" href="index.html#Top">
+<link rel="up" href="Overflow-Check-Handling-in-GNAT.html#Overflow-Check-Handling-in-GNAT" title="Overflow Check Handling in GNAT">
+<link rel="prev" href="Overflow-Checking-Modes-in-GNAT.html#Overflow-Checking-Modes-in-GNAT" title="Overflow Checking Modes in GNAT">
+<link rel="next" href="Default-Settings.html#Default-Settings" title="Default Settings">
+<link href="http://www.gnu.org/software/texinfo/" rel="generator-home" title="Texinfo Homepage">
+<!--
+
+     GNAT User's Guide for Native Platforms , March 24, 2015
+
+     AdaCore
+
+     Copyright (C) 2008-2015, Free Software Foundation
+-->
+<meta http-equiv="Content-Style-Type" content="text/css">
+<style type="text/css"><!--
+  pre.display { font-family:inherit }
+  pre.format  { font-family:inherit }
+  pre.smalldisplay { font-family:inherit; font-size:smaller }
+  pre.smallformat  { font-family:inherit; font-size:smaller }
+  pre.smallexample { font-size:smaller }
+  pre.smalllisp    { font-size:smaller }
+  span.sc    { font-variant:small-caps }
+  span.roman { font-family:serif; font-weight:normal; } 
+  span.sansserif { font-family:sans-serif; font-weight:normal; } 
+--></style>
+</head>
+<body>
+<div class="node">
+<a name="Specifying-the-Desired-Mode"></a>
+<p>
+Next:&nbsp;<a rel="next" accesskey="n" href="Default-Settings.html#Default-Settings">Default Settings</a>,
+Previous:&nbsp;<a rel="previous" accesskey="p" href="Overflow-Checking-Modes-in-GNAT.html#Overflow-Checking-Modes-in-GNAT">Overflow Checking Modes in GNAT</a>,
+Up:&nbsp;<a rel="up" accesskey="u" href="Overflow-Check-Handling-in-GNAT.html#Overflow-Check-Handling-in-GNAT">Overflow Check Handling in GNAT</a>
+<hr>
+</div>
+
+<p><a name="gnat_005fugn_002fgnat_005fand_005fprogram_005fexecution-specifying_002dthe_002ddesired_002dmode"></a><a name="fd"></a><a name="gnat_005fugn_002fgnat_005fand_005fprogram_005fexecution-id57"></a><a name="g_t24c"></a>
+
+<h4 class="subsection">8.4.3 Specifying the Desired Mode</h4>
+
+<p><a name="index-pragma-Overflow_005fMode-1025"></a>
+The desired mode of for handling intermediate overflow can be specified using
+either the <cite>Overflow_Mode</cite> pragma or an equivalent compiler switch. 
+The pragma has the form
+
+<blockquote>
+
+<pre class="example">    pragma Overflow_Mode ([General =&gt;] MODE [, [Assertions =&gt;] MODE]);
+</pre>
+</blockquote>
+
+<p>where <cite>MODE</cite> is one of
+
+     <ul>
+<li><cite>STRICT</cite>:  intermediate overflows checked (using base type)
+
+     <li><cite>MINIMIZED</cite>: minimize intermediate overflows
+
+     <li><cite>ELIMINATED</cite>: eliminate intermediate overflows
+</ul>
+
+<p>The case is ignored, so <cite>MINIMIZED</cite>, <cite>Minimized</cite> and
+<cite>minimized</cite> all have the same effect.
+
+<p>If only the <cite>General</cite> parameter is present, then the given <cite>MODE</cite>
+applies
+to expressions both within and outside assertions. If both arguments
+are present, then <cite>General</cite> applies to expressions outside assertions,
+and <cite>Assertions</cite> applies to expressions within assertions. For example:
+
+<blockquote>
+
+<pre class="example">    pragma Overflow_Mode
+      (General =&gt; Minimized, Assertions =&gt; Eliminated);
+</pre>
+</blockquote>
+
+<p>specifies that general expressions outside assertions be evaluated
+in 'minimize intermediate overflows' mode, and expressions within
+assertions be evaluated in 'eliminate intermediate overflows' mode. 
+This is often a reasonable choice, avoiding excessive overhead
+outside assertions, but assuring a high degree of portability
+when importing code from another compiler, while incurring
+the extra overhead for assertion expressions to ensure that
+the behavior at run time matches the expected mathematical
+behavior.
+
+<p>The <cite>Overflow_Mode</cite> pragma has the same scoping and placement
+rules as pragma <cite>Suppress</cite>, so it can occur either as a
+configuration pragma, specifying a default for the whole
+program, or in a declarative scope, where it applies to the
+remaining declarations and statements in that scope.
+
+<p>Note that pragma <cite>Overflow_Mode</cite> does not affect whether
+overflow checks are enabled or suppressed. It only controls the
+method used to compute intermediate values. To control whether
+overflow checking is enabled or suppressed, use pragma <cite>Suppress</cite>
+or <cite>Unsuppress</cite> in the usual manner
+
+<p><a name="index-g_t_002dgnato_003f-_0028gcc_0029-1026"></a>
+<a name="index-g_t_002dgnato_003f_003f-_0028gcc_0029-1027"></a>
+Additionally, a compiler switch `-gnato?' or `-gnato??' 
+can be used to control the checking mode default (which can be subsequently
+overridden using pragmas).
+
+<p>Here <code>?</code> is one of the digits <code>1</code> through <code>3</code>:
+
+<blockquote>
+
+<p><table summary=""><tr align="left"><td valign="top">
+<code>1</code>
+
+<p></td><td valign="top">
+
+<p>use base type for intermediate operations (<cite>STRICT</cite>)
+
+<p><br></td></tr><tr align="left"><td valign="top">
+<code>2</code>
+
+<p></td><td valign="top">
+
+<p>minimize intermediate overflows (<cite>MINIMIZED</cite>)
+
+<p><br></td></tr><tr align="left"><td valign="top">
+<code>3</code>
+
+<p></td><td valign="top">
+
+<p>eliminate intermediate overflows (<cite>ELIMINATED</cite>)
+
+<br></td></tr></table>
+
+</blockquote>
+
+<p>As with the pragma, if only one digit appears then it applies to all
+cases; if two digits are given, then the first applies outside
+assertions, and the second within assertions. Thus the equivalent
+of the example pragma above would be
+`-gnato23'.
+
+<p>If no digits follow the `-gnato', then it is equivalent to
+`-gnato11',
+causing all intermediate operations to be computed using the base
+type (<cite>STRICT</cite> mode).
+
+<p>In addition to setting the mode used for computation of intermediate
+results, the <cite>-gnato</cite> switch also enables overflow checking (which
+is suppressed by default). It thus combines the effect of using
+a pragma <cite>Overflow_Mode</cite> and pragma <cite>Unsuppress</cite>.
+
+</body></html>
+

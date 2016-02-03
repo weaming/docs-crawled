@@ -1,0 +1,91 @@
+<html lang="en">
+<head>
+<title>Subprogram Inlining Control - GNAT User's Guide for Native Platforms</title>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+<meta name="description" content="GNAT User's Guide for Native Platforms">
+<meta name="generator" content="makeinfo 4.13">
+<link title="Top" rel="start" href="index.html#Top">
+<link rel="up" href="Compiler-Switches.html#Compiler-Switches" title="Compiler Switches">
+<link rel="prev" href="File-Naming-Control.html#File-Naming-Control" title="File Naming Control">
+<link rel="next" href="Auxiliary-Output-Control.html#Auxiliary-Output-Control" title="Auxiliary Output Control">
+<link href="http://www.gnu.org/software/texinfo/" rel="generator-home" title="Texinfo Homepage">
+<!--
+
+     GNAT User's Guide for Native Platforms , March 24, 2015
+
+     AdaCore
+
+     Copyright (C) 2008-2015, Free Software Foundation
+-->
+<meta http-equiv="Content-Style-Type" content="text/css">
+<style type="text/css"><!--
+  pre.display { font-family:inherit }
+  pre.format  { font-family:inherit }
+  pre.smalldisplay { font-family:inherit; font-size:smaller }
+  pre.smallformat  { font-family:inherit; font-size:smaller }
+  pre.smallexample { font-size:smaller }
+  pre.smalllisp    { font-size:smaller }
+  span.sc    { font-variant:small-caps }
+  span.roman { font-family:serif; font-weight:normal; } 
+  span.sansserif { font-family:sans-serif; font-weight:normal; } 
+--></style>
+</head>
+<body>
+<div class="node">
+<a name="Subprogram-Inlining-Control"></a>
+<p>
+Next:&nbsp;<a rel="next" accesskey="n" href="Auxiliary-Output-Control.html#Auxiliary-Output-Control">Auxiliary Output Control</a>,
+Previous:&nbsp;<a rel="previous" accesskey="p" href="File-Naming-Control.html#File-Naming-Control">File Naming Control</a>,
+Up:&nbsp;<a rel="up" accesskey="u" href="Compiler-Switches.html#Compiler-Switches">Compiler Switches</a>
+<hr>
+</div>
+
+<p><a name="gnat_005fugn_002fbuilding_005fexecutable_005fprograms_005fwith_005fgnat-subprogram_002dinlining_002dcontrol"></a><a name="g_t112"></a><a name="gnat_005fugn_002fbuilding_005fexecutable_005fprograms_005fwith_005fgnat-id25"></a><a name="g_t113"></a>
+
+<h4 class="subsection">4.3.13 Subprogram Inlining Control</h4>
+
+<p><a name="index-g_t_002dgnatn-_0028gcc_0029-632"></a>
+
+     <dl>
+<dt><code>-gnatn[12]</code><dd>
+The <cite>n</cite> here is intended to suggest the first syllable of the
+word 'inline'. 
+GNAT recognizes and processes <cite>Inline</cite> pragmas. However, for the
+inlining to actually occur, optimization must be enabled and, in order
+to enable inlining of subprograms specified by pragma <cite>Inline</cite>,
+you must also specify this switch. 
+In the absence of this switch, GNAT does not attempt
+inlining and does not need to access the bodies of
+subprograms for which <cite>pragma Inline</cite> is specified if they are not
+in the current unit.
+
+     <p>You can optionally specify the inlining level: 1 for moderate inlining across
+modules, which is a good compromise between compilation times and performances
+at run time, or 2 for full inlining across modules, which may bring about
+longer compilation times. If no inlining level is specified, the compiler will
+pick it based on the optimization level: 1 for `-O1', `-O2' or
+`-Os' and 2 for `-O3'.
+
+     <p>If you specify this switch the compiler will access these bodies,
+creating an extra source dependency for the resulting object file, and
+where possible, the call will be inlined. 
+For further details on when inlining is possible
+see <a href="114.html#g_t114">Inlining of Subprograms</a>. 
+</dl>
+
+<p><a name="index-g_t_002dgnatN-_0028gcc_0029-633"></a>
+
+     <dl>
+<dt><code>-gnatN</code><dd>
+This switch activates front-end inlining which also
+generates additional dependencies.
+
+     <p>When using a gcc-based back end (in practice this means using any version
+of GNAT other than the JGNAT, .NET or GNAAMP versions), then the use of
+`-gnatN' is deprecated, and the use of `-gnatn' is preferred. 
+Historically front end inlining was more extensive than the gcc back end
+inlining, but that is no longer the case. 
+</dl>
+
+</body></html>
+

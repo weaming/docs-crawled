@@ -1,0 +1,150 @@
+<html lang="en">
+<head>
+<title>Compiling Different Versions of Ada - GNAT User's Guide for Native Platforms</title>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+<meta name="description" content="GNAT User's Guide for Native Platforms">
+<meta name="generator" content="makeinfo 4.13">
+<link title="Top" rel="start" href="index.html#Top">
+<link rel="up" href="Compiler-Switches.html#Compiler-Switches" title="Compiler Switches">
+<link rel="prev" href="Using-gcc-for-Semantic-Checking.html#Using-gcc-for-Semantic-Checking" title="Using gcc for Semantic Checking">
+<link rel="next" href="Character-Set-Control.html#Character-Set-Control" title="Character Set Control">
+<link href="http://www.gnu.org/software/texinfo/" rel="generator-home" title="Texinfo Homepage">
+<!--
+
+     GNAT User's Guide for Native Platforms , March 24, 2015
+
+     AdaCore
+
+     Copyright (C) 2008-2015, Free Software Foundation
+-->
+<meta http-equiv="Content-Style-Type" content="text/css">
+<style type="text/css"><!--
+  pre.display { font-family:inherit }
+  pre.format  { font-family:inherit }
+  pre.smalldisplay { font-family:inherit; font-size:smaller }
+  pre.smallformat  { font-family:inherit; font-size:smaller }
+  pre.smallexample { font-size:smaller }
+  pre.smalllisp    { font-size:smaller }
+  span.sc    { font-variant:small-caps }
+  span.roman { font-family:serif; font-weight:normal; } 
+  span.sansserif { font-family:sans-serif; font-weight:normal; } 
+--></style>
+</head>
+<body>
+<div class="node">
+<a name="Compiling-Different-Versions-of-Ada"></a>
+<p>
+Next:&nbsp;<a rel="next" accesskey="n" href="Character-Set-Control.html#Character-Set-Control">Character Set Control</a>,
+Previous:&nbsp;<a rel="previous" accesskey="p" href="Using-gcc-for-Semantic-Checking.html#Using-gcc-for-Semantic-Checking">Using gcc for Semantic Checking</a>,
+Up:&nbsp;<a rel="up" accesskey="u" href="Compiler-Switches.html#Compiler-Switches">Compiler Switches</a>
+<hr>
+</div>
+
+<p><a name="gnat_005fugn_002fbuilding_005fexecutable_005fprograms_005fwith_005fgnat-compiling_002ddifferent_002dversions_002dof_002dada"></a><a name="g_t6"></a><a name="gnat_005fugn_002fbuilding_005fexecutable_005fprograms_005fwith_005fgnat-id22"></a><a name="g_t10e"></a>
+
+<h4 class="subsection">4.3.10 Compiling Different Versions of Ada</h4>
+
+<p>The switches described in this section allow you to explicitly specify
+the version of the Ada language that your programs are written in. 
+The default mode is Ada 2012,
+but you can also specify Ada 95, Ada 2005 mode, or
+indicate Ada 83 compatibility mode.
+
+<p><a name="index-Compatibility-with-Ada-83-613"></a>
+<a name="index-g_t_002dgnat83-_0028gcc_0029-614"></a>
+<a name="index-ACVC-615"></a><a name="index-Ada-83-tests-616"></a>
+<a name="index-Ada-83-mode-617"></a>
+
+     <dl>
+<dt><code>-gnat83 (Ada 83 Compatibility Mode)</code><dd>
+Although GNAT is primarily an Ada 95 / Ada 2005 compiler, this switch
+specifies that the program is to be compiled in Ada 83 mode. With
+`-gnat83', GNAT rejects most post-Ada 83 extensions and applies Ada 83
+semantics where this can be done easily. 
+It is not possible to guarantee this switch does a perfect
+job; some subtle tests, such as are
+found in earlier ACVC tests (and that have been removed from the ACATS suite
+for Ada 95), might not compile correctly. 
+Nevertheless, this switch may be useful in some circumstances, for example
+where, due to contractual reasons, existing code needs to be maintained
+using only Ada 83 features.
+
+     <p>With few exceptions (most notably the need to use <cite>&lt;&gt;</cite> on
+.. index:: Generic formal parameters
+
+     <p>unconstrained generic formal parameters, the use of the new Ada 95 / Ada 2005
+reserved words, and the use of packages
+with optional bodies), it is not necessary to specify the
+`-gnat83' switch when compiling Ada 83 programs, because, with rare
+exceptions, Ada 95 and Ada 2005 are upwardly compatible with Ada 83. Thus
+a correct Ada 83 program is usually also a correct program
+in these later versions of the language standard. For further information
+please refer to the <cite>Compatibility_and_Porting_Guide</cite> chapter in the
+<cite>GNAT Reference Manual</cite>. 
+</dl>
+
+<p><a name="index-g_t_002dgnat95-_0028gcc_0029-618"></a>
+<a name="index-Ada-95-mode-619"></a>
+
+     <dl>
+<dt><code>-gnat95</code> (Ada 95 mode)<dd>
+This switch directs the compiler to implement the Ada 95 version of the
+language. 
+Since Ada 95 is almost completely upwards
+compatible with Ada 83, Ada 83 programs may generally be compiled using
+this switch (see the description of the `-gnat83' switch for further
+information about Ada 83 mode). 
+If an Ada 2005 program is compiled in Ada 95 mode,
+uses of the new Ada 2005 features will cause error
+messages or warnings.
+
+     <p>This switch also can be used to cancel the effect of a previous
+`-gnat83', `-gnat05/2005', or `-gnat12/2012'
+switch earlier in the command line. 
+</dl>
+
+<p><a name="index-g_t_002dgnat05-_0028gcc_0029-620"></a>
+<a name="index-g_t_002dgnat2005-_0028gcc_0029-621"></a>
+<a name="index-Ada-2005-mode-622"></a>
+
+     <dl>
+<dt><code>-gnat05</code> or <code>-gnat2005</code> (Ada 2005 mode)<dd>
+This switch directs the compiler to implement the Ada 2005 version of the
+language, as documented in the official Ada standards document. 
+Since Ada 2005 is almost completely upwards
+compatible with Ada 95 (and thus also with Ada 83), Ada 83 and Ada 95 programs
+may generally be compiled using this switch (see the description of the
+`-gnat83' and `-gnat95' switches for further
+information). 
+</dl>
+
+<p><a name="index-g_t_002dgnat12-_0028gcc_0029-623"></a>
+<a name="index-g_t_002dgnat2012-_0028gcc_0029-624"></a>
+<a name="index-Ada-2012-mode-625"></a>
+
+     <dl>
+<dt><code>-gnat12</code> or <code>-gnat2012</code> (Ada 2012 mode)<dd>
+This switch directs the compiler to implement the Ada 2012 version of the
+language (also the default). 
+Since Ada 2012 is almost completely upwards
+compatible with Ada 2005 (and thus also with Ada 83, and Ada 95),
+Ada 83 and Ada 95 programs
+may generally be compiled using this switch (see the description of the
+`-gnat83', `-gnat95', and `-gnat05/2005' switches
+for further information). 
+</dl>
+
+<p><a name="index-g_t_002dgnatX-_0028gcc_0029-626"></a>
+<a name="index-Ada-language-extensions-627"></a>
+<a name="index-GNAT-extensions-628"></a>
+
+     <dl>
+<dt><code>-gnatX</code> (Enable GNAT Extensions)<dd>
+This switch directs the compiler to implement the latest version of the
+language (currently Ada 2012) and also to enable certain GNAT implementation
+extensions that are not part of any Ada standard. For a full list of these
+extensions, see the GNAT reference manual. 
+</dl>
+
+</body></html>
+

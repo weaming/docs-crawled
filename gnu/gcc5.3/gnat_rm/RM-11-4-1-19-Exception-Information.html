@@ -1,0 +1,72 @@
+<html lang="en">
+<head>
+<title>RM 11 4 1 19 Exception Information - GNAT Reference Manual</title>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+<meta name="description" content="GNAT Reference Manual">
+<meta name="generator" content="makeinfo 4.13">
+<link title="Top" rel="start" href="index.html#Top">
+<link rel="up" href="Implementation-Advice.html#Implementation-Advice" title="Implementation Advice">
+<link rel="prev" href="RM-10-2-1-12-Consistent-Representation.html#RM-10-2-1-12-Consistent-Representation" title="RM 10 2 1 12 Consistent Representation">
+<link rel="next" href="RM-11-5-28-Suppression-of-Checks.html#RM-11-5-28-Suppression-of-Checks" title="RM 11 5 28 Suppression of Checks">
+<link href="http://www.gnu.org/software/texinfo/" rel="generator-home" title="Texinfo Homepage">
+<!--
+
+     GNAT Reference Manual , March 24, 2015
+
+     AdaCore
+
+     Copyright (C) 2008-2015, Free Software Foundation
+-->
+<meta http-equiv="Content-Style-Type" content="text/css">
+<style type="text/css"><!--
+  pre.display { font-family:inherit }
+  pre.format  { font-family:inherit }
+  pre.smalldisplay { font-family:inherit; font-size:smaller }
+  pre.smallformat  { font-family:inherit; font-size:smaller }
+  pre.smallexample { font-size:smaller }
+  pre.smalllisp    { font-size:smaller }
+  span.sc    { font-variant:small-caps }
+  span.roman { font-family:serif; font-weight:normal; } 
+  span.sansserif { font-family:sans-serif; font-weight:normal; } 
+--></style>
+</head>
+<body>
+<div class="node">
+<a name="RM-11-4-1-19-Exception-Information"></a>
+<p>
+Next:&nbsp;<a rel="next" accesskey="n" href="RM-11-5-28-Suppression-of-Checks.html#RM-11-5-28-Suppression-of-Checks">RM 11 5 28 Suppression of Checks</a>,
+Previous:&nbsp;<a rel="previous" accesskey="p" href="RM-10-2-1-12-Consistent-Representation.html#RM-10-2-1-12-Consistent-Representation">RM 10 2 1 12 Consistent Representation</a>,
+Up:&nbsp;<a rel="up" accesskey="u" href="Implementation-Advice.html#Implementation-Advice">Implementation Advice</a>
+<hr>
+</div>
+
+<p><a name="gnat_005frm_002fimplementation_005fadvice-rm_002d11_002d4_002d1_002d19_002dexception_002dinformation"></a><a name="g_t1ca"></a>
+
+<h3 class="section">6.14 RM 11.4.1(19): Exception Information</h3>
+
+<blockquote>
+
+<p>"<cite>Exception_Message</cite> by default and <cite>Exception_Information</cite>
+should produce information useful for
+debugging.  <cite>Exception_Message</cite> should be short, about one
+line.  <cite>Exception_Information</cite> can be long.  <cite>Exception_Message</cite>
+should not include the
+<cite>Exception_Name</cite>.  <cite>Exception_Information</cite> should include both
+the <cite>Exception_Name</cite> and the <cite>Exception_Message</cite>." 
+</blockquote>
+
+<p>Followed.  For each exception that doesn't have a specified
+<cite>Exception_Message</cite>, the compiler generates one containing the location
+of the raise statement.  This location has the form 'file_name:line', where
+file_name is the short file name (without path information) and line is the line
+number in the file.  Note that in the case of the Zero Cost Exception
+mechanism, these messages become redundant with the Exception_Information that
+contains a full backtrace of the calling sequence, so they are disabled. 
+To disable explicitly the generation of the source location message, use the
+Pragma <cite>Discard_Names</cite>.
+
+<p><a name="index-Suppression-of-checks-387"></a>
+<a name="index-Checks-388"></a><a name="index-suppression-of-389"></a>
+
+</body></html>
+

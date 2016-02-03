@@ -1,0 +1,67 @@
+<html lang="en">
+<head>
+<title>Pragma Disable_Atomic_Synchronization - GNAT Reference Manual</title>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+<meta name="description" content="GNAT Reference Manual">
+<meta name="generator" content="makeinfo 4.13">
+<link title="Top" rel="start" href="index.html#Top">
+<link rel="up" href="Implementation-Defined-Pragmas.html#Implementation-Defined-Pragmas" title="Implementation Defined Pragmas">
+<link rel="prev" href="Pragma-Detect_005fBlocking.html#Pragma-Detect_005fBlocking" title="Pragma Detect_Blocking">
+<link rel="next" href="Pragma-Dispatching_005fDomain.html#Pragma-Dispatching_005fDomain" title="Pragma Dispatching_Domain">
+<link href="http://www.gnu.org/software/texinfo/" rel="generator-home" title="Texinfo Homepage">
+<!--
+
+     GNAT Reference Manual , March 24, 2015
+
+     AdaCore
+
+     Copyright (C) 2008-2015, Free Software Foundation
+-->
+<meta http-equiv="Content-Style-Type" content="text/css">
+<style type="text/css"><!--
+  pre.display { font-family:inherit }
+  pre.format  { font-family:inherit }
+  pre.smalldisplay { font-family:inherit; font-size:smaller }
+  pre.smallformat  { font-family:inherit; font-size:smaller }
+  pre.smallexample { font-size:smaller }
+  pre.smalllisp    { font-size:smaller }
+  span.sc    { font-variant:small-caps }
+  span.roman { font-family:serif; font-weight:normal; } 
+  span.sansserif { font-family:sans-serif; font-weight:normal; } 
+--></style>
+</head>
+<body>
+<div class="node">
+<a name="Pragma-Disable_Atomic_Synchronization"></a>
+<a name="Pragma-Disable_005fAtomic_005fSynchronization"></a>
+<p>
+Next:&nbsp;<a rel="next" accesskey="n" href="Pragma-Dispatching_005fDomain.html#Pragma-Dispatching_005fDomain">Pragma Dispatching_Domain</a>,
+Previous:&nbsp;<a rel="previous" accesskey="p" href="Pragma-Detect_005fBlocking.html#Pragma-Detect_005fBlocking">Pragma Detect_Blocking</a>,
+Up:&nbsp;<a rel="up" accesskey="u" href="Implementation-Defined-Pragmas.html#Implementation-Defined-Pragmas">Implementation Defined Pragmas</a>
+<hr>
+</div>
+
+<p><a name="gnat_005frm_002fimplementation_005fdefined_005fpragmas-pragma_002ddisable_002datomic_002dsynchronization"></a><a name="g_t4a"></a>
+
+<h3 class="section">2.47 Pragma Disable_Atomic_Synchronization</h3>
+
+<p><a name="index-Atomic-Synchronization-38"></a>
+Syntax:
+
+<pre class="example">    pragma Disable_Atomic_Synchronization [(Entity)];
+</pre>
+<p>Ada requires that accesses (reads or writes) of an atomic variable be
+regarded as synchronization points in the case of multiple tasks. 
+Particularly in the case of multi-processors this may require special
+handling, e.g. the generation of memory barriers. This capability may
+be turned off using this pragma in cases where it is known not to be
+required.
+
+<p>The placement and scope rules for this pragma are the same as those
+for <cite>pragma Suppress</cite>. In particular it can be used as a
+configuration  pragma, or in a declaration sequence where it applies
+till the end of the scope. If an <cite>Entity</cite> argument is present,
+the action applies only to that entity.
+
+</body></html>
+

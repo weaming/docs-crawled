@@ -1,0 +1,91 @@
+<html lang="en">
+<head>
+<title>RM B 1 39-41 Pragma Export - GNAT Reference Manual</title>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+<meta name="description" content="GNAT Reference Manual">
+<meta name="generator" content="makeinfo 4.13">
+<link title="Top" rel="start" href="index.html#Top">
+<link rel="up" href="Implementation-Advice.html#Implementation-Advice" title="Implementation Advice">
+<link rel="prev" href="RM-A-10-7-23-Get_005fImmediate.html#RM-A-10-7-23-Get_005fImmediate" title="RM A 10 7 23 Get_Immediate">
+<link rel="next" href="RM-B-2-12_002d13-Package-Interfaces.html#RM-B-2-12_002d13-Package-Interfaces" title="RM B 2 12-13 Package Interfaces">
+<link href="http://www.gnu.org/software/texinfo/" rel="generator-home" title="Texinfo Homepage">
+<!--
+
+     GNAT Reference Manual , March 24, 2015
+
+     AdaCore
+
+     Copyright (C) 2008-2015, Free Software Foundation
+-->
+<meta http-equiv="Content-Style-Type" content="text/css">
+<style type="text/css"><!--
+  pre.display { font-family:inherit }
+  pre.format  { font-family:inherit }
+  pre.smalldisplay { font-family:inherit; font-size:smaller }
+  pre.smallformat  { font-family:inherit; font-size:smaller }
+  pre.smallexample { font-size:smaller }
+  pre.smalllisp    { font-size:smaller }
+  span.sc    { font-variant:small-caps }
+  span.roman { font-family:serif; font-weight:normal; } 
+  span.sansserif { font-family:sans-serif; font-weight:normal; } 
+--></style>
+</head>
+<body>
+<div class="node">
+<a name="RM-B-1-39-41-Pragma-Export"></a>
+<a name="RM-B-1-39_002d41-Pragma-Export"></a>
+<p>
+Next:&nbsp;<a rel="next" accesskey="n" href="RM-B-2-12_002d13-Package-Interfaces.html#RM-B-2-12_002d13-Package-Interfaces">RM B 2 12-13 Package Interfaces</a>,
+Previous:&nbsp;<a rel="previous" accesskey="p" href="RM-A-10-7-23-Get_005fImmediate.html#RM-A-10-7-23-Get_005fImmediate">RM A 10 7 23 Get_Immediate</a>,
+Up:&nbsp;<a rel="up" accesskey="u" href="Implementation-Advice.html#Implementation-Advice">Implementation Advice</a>
+<hr>
+</div>
+
+<p><a name="gnat_005frm_002fimplementation_005fadvice-rm_002db_002d1_002d39_002d41_002dpragma_002dexport"></a><a name="g_t1e2"></a>
+
+<h3 class="section">6.38 RM B.1(39-41): Pragma <cite>Export</cite></h3>
+
+<blockquote>
+
+<p>"If an implementation supports pragma <cite>Export</cite> to a given language,
+then it should also allow the main subprogram to be written in that
+language.  It should support some mechanism for invoking the elaboration
+of the Ada library units included in the system, and for invoking the
+finalization of the environment task.  On typical systems, the
+recommended mechanism is to provide two subprograms whose link names are
+<cite>adainit</cite> and <cite>adafinal</cite>.  <cite>adainit</cite> should contain the
+elaboration code for library units.  <cite>adafinal</cite> should contain the
+finalization code.  These subprograms should have no effect the second
+and subsequent time they are called." 
+</blockquote>
+
+<p>Followed.
+
+<blockquote>
+
+<p>"Automatic elaboration of pre-elaborated packages should be
+provided when pragma <cite>Export</cite> is supported." 
+</blockquote>
+
+<p>Followed when the main program is in Ada.  If the main program is in a
+foreign language, then
+<cite>adainit</cite> must be called to elaborate pre-elaborated
+packages.
+
+<blockquote>
+
+<p>"For each supported convention <cite>L</cite> other than <cite>Intrinsic</cite>, an
+implementation should support <cite>Import</cite> and <cite>Export</cite> pragmas
+for objects of <cite>L</cite>-compatible types and for subprograms, and pragma
+<cite>Convention</cite> for <cite>L</cite>-eligible types and for subprograms,
+presuming the other language has corresponding features.  Pragma
+<cite>Convention</cite> need not be supported for scalar types." 
+</blockquote>
+
+<p>Followed.
+
+<p><a name="index-Package-Interfaces-424"></a>
+<a name="index-Interfaces-425"></a>
+
+</body></html>
+

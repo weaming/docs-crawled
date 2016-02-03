@@ -1,0 +1,152 @@
+<html lang="en">
+<head>
+<title>Project Files for gnatxref and gnatfind - GNAT User's Guide for Native Platforms</title>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+<meta name="description" content="GNAT User's Guide for Native Platforms">
+<meta name="generator" content="makeinfo 4.13">
+<link title="Top" rel="start" href="index.html#Top">
+<link rel="up" href="The-Cross_002dReferencing-Tools-gnatxref-and-gnatfind.html#The-Cross_002dReferencing-Tools-gnatxref-and-gnatfind" title="The Cross-Referencing Tools gnatxref and gnatfind">
+<link rel="prev" href="gnatfind-Switches.html#gnatfind-Switches" title="gnatfind Switches">
+<link rel="next" href="Regular-Expressions-in-gnatfind-and-gnatxref.html#Regular-Expressions-in-gnatfind-and-gnatxref" title="Regular Expressions in gnatfind and gnatxref">
+<link href="http://www.gnu.org/software/texinfo/" rel="generator-home" title="Texinfo Homepage">
+<!--
+
+     GNAT User's Guide for Native Platforms , March 24, 2015
+
+     AdaCore
+
+     Copyright (C) 2008-2015, Free Software Foundation
+-->
+<meta http-equiv="Content-Style-Type" content="text/css">
+<style type="text/css"><!--
+  pre.display { font-family:inherit }
+  pre.format  { font-family:inherit }
+  pre.smalldisplay { font-family:inherit; font-size:smaller }
+  pre.smallformat  { font-family:inherit; font-size:smaller }
+  pre.smallexample { font-size:smaller }
+  pre.smalllisp    { font-size:smaller }
+  span.sc    { font-variant:small-caps }
+  span.roman { font-family:serif; font-weight:normal; } 
+  span.sansserif { font-family:sans-serif; font-weight:normal; } 
+--></style>
+</head>
+<body>
+<div class="node">
+<a name="Project-Files-for-gnatxref-and-gnatfind"></a>
+<p>
+Next:&nbsp;<a rel="next" accesskey="n" href="Regular-Expressions-in-gnatfind-and-gnatxref.html#Regular-Expressions-in-gnatfind-and-gnatxref">Regular Expressions in gnatfind and gnatxref</a>,
+Previous:&nbsp;<a rel="previous" accesskey="p" href="gnatfind-Switches.html#gnatfind-Switches">gnatfind Switches</a>,
+Up:&nbsp;<a rel="up" accesskey="u" href="The-Cross_002dReferencing-Tools-gnatxref-and-gnatfind.html#The-Cross_002dReferencing-Tools-gnatxref-and-gnatfind">The Cross-Referencing Tools gnatxref and gnatfind</a>
+<hr>
+</div>
+
+<p><a name="gnat_005fugn_002fgnat_005futility_005fprograms-project_002dfiles_002dfor_002dgnatxref_002dand_002dgnatfind"></a><a name="g_t1e2"></a><a name="gnat_005fugn_002fgnat_005futility_005fprograms-id12"></a><a name="g_t1e3"></a>
+
+<h4 class="subsection">7.3.3 Project Files for `gnatxref' and `gnatfind'</h4>
+
+<p>Project files allow a programmer to specify how to compile its
+application, where to find sources, etc.  These files are used
+primarily by GPS, but they can also be used
+by the two tools <cite>gnatxref</cite> and <cite>gnatfind</cite>.
+
+<p>A project file name must end with <code>.gpr</code>. If a single one is
+present in the current directory, then <cite>gnatxref</cite> and <cite>gnatfind</cite> will
+extract the information from it. If multiple project files are found, none of
+them is read, and you have to use the <code>-p</code> switch to specify the one
+you want to use.
+
+<p>The following lines can be included, even though most of them have default
+values which can be used in most cases. 
+The lines can be entered in any order in the file. 
+Except for <code>src_dir</code> and <code>obj_dir</code>, you can only have one instance of
+each line. If you have multiple instances, only the last one is taken into
+account.
+
+     <ul>
+<li>
+          <dl>
+<dt>`src_dir=DIR'<dd>
+[default: <cite>"./"</cite>]. 
+Specifies a directory where to look for source files. Multiple <cite>src_dir</cite>
+lines can be specified and they will be searched in the order they
+are specified. 
+</dl>
+
+     <li>
+          <dl>
+<dt>`obj_dir=DIR'<dd>
+[default: <cite>"./"</cite>]. 
+Specifies a directory where to look for object and library files. Multiple
+<cite>obj_dir</cite> lines can be specified, and they will be searched in the order
+they are specified
+</dl>
+
+     <li>
+          <dl>
+<dt>`comp_opt=SWITCHES'<dd>
+[default: <cite>""</cite>]. 
+Creates a variable which can be referred to subsequently by using
+the <cite>${comp_opt}</cite> notation. This is intended to store the default
+switches given to `gnatmake' and `gcc'. 
+</dl>
+
+     <li>
+          <dl>
+<dt>`bind_opt=SWITCHES'<dd>
+[default: <cite>""</cite>]. 
+Creates a variable which can be referred to subsequently by using
+the <code>$`bind_opt'</code> notation. This is intended to store the default
+switches given to `gnatbind'. 
+</dl>
+
+     <li>
+          <dl>
+<dt>`link_opt=SWITCHES'<dd>
+[default: <cite>""</cite>]. 
+Creates a variable which can be referred to subsequently by using
+the <code>$`link_opt'</code> notation. This is intended to store the default
+switches given to `gnatlink'. 
+</dl>
+
+     <li>
+          <dl>
+<dt>`main=EXECUTABLE'<dd>
+[default: <cite>""</cite>]. 
+Specifies the name of the executable for the application. This variable can
+be referred to in the following lines by using the <code>`${main'</code> notation. 
+</dl>
+
+     <li>
+          <dl>
+<dt>`comp_cmd=COMMAND'<dd>
+[default: <cite>"gcc -c -I${src_dir} -g -gnatq"</cite>]. 
+Specifies the command used to compile a single file in the application. 
+</dl>
+
+     <li>
+          <dl>
+<dt>`make_cmd=COMMAND'<dd>
+[default: <cite>"gnatmake ${main} -aI${src_dir} -aO${obj_dir} -g -gnatq -cargs ${comp_opt} -bargs ${bind_opt} -largs ${link_opt}"</cite>]. 
+Specifies the command used to recompile the whole application. 
+</dl>
+
+     <li>
+          <dl>
+<dt>`run_cmd=COMMAND'<dd>
+[default: <cite>"${main}"</cite>]. 
+Specifies the command used to run the application. 
+</dl>
+
+     <li>
+          <dl>
+<dt>`debug_cmd=COMMAND'<dd>
+[default: <cite>"gdb ${main}"</cite>]. 
+Specifies the command used to debug the application
+</dl>
+     </ul>
+
+<p>`gnatxref' and `gnatfind' only take into account the
+<cite>src_dir</cite> and <cite>obj_dir</cite> lines, and ignore the others.
+
+</body></html>
+

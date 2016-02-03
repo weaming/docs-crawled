@@ -1,0 +1,95 @@
+<html lang="en">
+<head>
+<title>Pragma CPP_Constructor - GNAT Reference Manual</title>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+<meta name="description" content="GNAT Reference Manual">
+<meta name="generator" content="makeinfo 4.13">
+<link title="Top" rel="start" href="index.html#Top">
+<link rel="up" href="Implementation-Defined-Pragmas.html#Implementation-Defined-Pragmas" title="Implementation Defined Pragmas">
+<link rel="prev" href="Pragma-CPP_005fClass.html#Pragma-CPP_005fClass" title="Pragma CPP_Class">
+<link rel="next" href="Pragma-CPP_005fVirtual.html#Pragma-CPP_005fVirtual" title="Pragma CPP_Virtual">
+<link href="http://www.gnu.org/software/texinfo/" rel="generator-home" title="Texinfo Homepage">
+<!--
+
+     GNAT Reference Manual , March 24, 2015
+
+     AdaCore
+
+     Copyright (C) 2008-2015, Free Software Foundation
+-->
+<meta http-equiv="Content-Style-Type" content="text/css">
+<style type="text/css"><!--
+  pre.display { font-family:inherit }
+  pre.format  { font-family:inherit }
+  pre.smalldisplay { font-family:inherit; font-size:smaller }
+  pre.smallformat  { font-family:inherit; font-size:smaller }
+  pre.smallexample { font-size:smaller }
+  pre.smalllisp    { font-size:smaller }
+  span.sc    { font-variant:small-caps }
+  span.roman { font-family:serif; font-weight:normal; } 
+  span.sansserif { font-family:sans-serif; font-weight:normal; } 
+--></style>
+</head>
+<body>
+<div class="node">
+<a name="Pragma-CPP_Constructor"></a>
+<a name="Pragma-CPP_005fConstructor"></a>
+<p>
+Next:&nbsp;<a rel="next" accesskey="n" href="Pragma-CPP_005fVirtual.html#Pragma-CPP_005fVirtual">Pragma CPP_Virtual</a>,
+Previous:&nbsp;<a rel="previous" accesskey="p" href="Pragma-CPP_005fClass.html#Pragma-CPP_005fClass">Pragma CPP_Class</a>,
+Up:&nbsp;<a rel="up" accesskey="u" href="Implementation-Defined-Pragmas.html#Implementation-Defined-Pragmas">Implementation Defined Pragmas</a>
+<hr>
+</div>
+
+<p><a name="gnat_005frm_002fimplementation_005fdefined_005fpragmas-pragma_002dcpp_002dconstructor"></a><a name="g_t40"></a>
+
+<h3 class="section">2.37 Pragma CPP_Constructor</h3>
+
+<p><a name="index-Interfacing-with-C_002b_002b-32"></a>
+Syntax:
+
+<pre class="example">    pragma CPP_Constructor ([Entity =&gt;] LOCAL_NAME
+      [, [External_Name =&gt;] static_string_EXPRESSION ]
+      [, [Link_Name     =&gt;] static_string_EXPRESSION ]);
+</pre>
+<p>This pragma identifies an imported function (imported in the usual way
+with pragma <cite>Import</cite>) as corresponding to a C++ constructor. If
+<cite>External_Name</cite> and <cite>Link_Name</cite> are not specified then the
+<cite>Entity</cite> argument is a name that must have been previously mentioned
+in a pragma <cite>Import</cite> with <cite>Convention</cite> = <cite>CPP</cite>. Such name
+must be of one of the following forms:
+
+     <ul>
+<li>`function' <cite>Fname</cite> `return' T`
+
+     <li>`function' <cite>Fname</cite> `return' T'Class
+
+     <li>`function' <cite>Fname</cite> (...) `return' T`
+
+     <li>`function' <cite>Fname</cite> (...) `return' T'Class
+</ul>
+
+<p>where <cite>T</cite> is a limited record type imported from C++ with pragma
+<cite>Import</cite> and <cite>Convention</cite> = <cite>CPP</cite>.
+
+<p>The first two forms import the default constructor, used when an object
+of type <cite>T</cite> is created on the Ada side with no explicit constructor. 
+The latter two forms cover all the non-default constructors of the type. 
+See the GNAT User's Guide for details.
+
+<p>If no constructors are imported, it is impossible to create any objects
+on the Ada side and the type is implicitly declared abstract.
+
+<p>Pragma <cite>CPP_Constructor</cite> is intended primarily for automatic generation
+using an automatic binding generator tool (such as the <cite>-fdump-ada-spec</cite>
+GCC switch). 
+See <a href="3f.html#g_t3f">Interfacing to C++</a> for more related information.
+
+<p>Note: The use of functions returning class-wide types for constructors is
+currently obsolete. They are supported for backward compatibility. The
+use of functions returning the type T leave the Ada sources more clear
+because the imported C++ constructors always return an object of type T;
+that is, they never return an object whose type is a descendant of type T.
+
+</body></html>
+

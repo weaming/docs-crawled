@@ -1,0 +1,6 @@
+<map id="Graphical Class Hierarchy" name="Graphical Class Hierarchy">
+<area shape="rect" id="node1" href="$a00302.html" title="Stored hash. " alt="" coords="6,5,143,44"/>
+<area shape="rect" id="node2" href="$a00300.html" title="Primary template for representation of stored data. Two types of data can be stored: value and hash..." alt="" coords="192,5,352,44"/>
+<area shape="rect" id="node3" href="$a00303.html" title="Stored value. " alt="" coords="5,71,144,109"/>
+<area shape="rect" id="node4" href="$a00301.html" title="Specialization for representation of stored data of just value type. " alt="" coords="209,68,335,120"/>
+</map>

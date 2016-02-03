@@ -1,0 +1,89 @@
+<html lang="en">
+<head>
+<title>Profiling an Ada Program with gprof - GNAT User's Guide for Native Platforms</title>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+<meta name="description" content="GNAT User's Guide for Native Platforms">
+<meta name="generator" content="makeinfo 4.13">
+<link title="Top" rel="start" href="index.html#Top">
+<link rel="up" href="Code-Coverage-and-Profiling.html#Code-Coverage-and-Profiling" title="Code Coverage and Profiling">
+<link rel="prev" href="Code-Coverage-of-Ada-Programs-with-gcov.html#Code-Coverage-of-Ada-Programs-with-gcov" title="Code Coverage of Ada Programs with gcov">
+<link href="http://www.gnu.org/software/texinfo/" rel="generator-home" title="Texinfo Homepage">
+<!--
+
+     GNAT User's Guide for Native Platforms , March 24, 2015
+
+     AdaCore
+
+     Copyright (C) 2008-2015, Free Software Foundation
+-->
+<meta http-equiv="Content-Style-Type" content="text/css">
+<style type="text/css"><!--
+  pre.display { font-family:inherit }
+  pre.format  { font-family:inherit }
+  pre.smalldisplay { font-family:inherit; font-size:smaller }
+  pre.smallformat  { font-family:inherit; font-size:smaller }
+  pre.smallexample { font-size:smaller }
+  pre.smalllisp    { font-size:smaller }
+  span.sc    { font-variant:small-caps }
+  span.roman { font-family:serif; font-weight:normal; } 
+  span.sansserif { font-family:sans-serif; font-weight:normal; } 
+--></style>
+</head>
+<body>
+<div class="node">
+<a name="Profiling-an-Ada-Program-with-gprof"></a>
+<p>
+Previous:&nbsp;<a rel="previous" accesskey="p" href="Code-Coverage-of-Ada-Programs-with-gcov.html#Code-Coverage-of-Ada-Programs-with-gcov">Code Coverage of Ada Programs with gcov</a>,
+Up:&nbsp;<a rel="up" accesskey="u" href="Code-Coverage-and-Profiling.html#Code-Coverage-and-Profiling">Code Coverage and Profiling</a>
+<hr>
+</div>
+
+<p><a name="gnat_005fugn_002fgnat_005fand_005fprogram_005fexecution-profiling_002dan_002dada_002dprogram_002dwith_002dgprof"></a><a name="g_t21d"></a><a name="gnat_005fugn_002fgnat_005fand_005fprogram_005fexecution-id23"></a><a name="g_t21e"></a>
+
+<h4 class="subsection">8.2.2 Profiling an Ada Program with gprof</h4>
+
+<p>This section is not meant to be an exhaustive documentation of <cite>gprof</cite>. 
+Full documentation for it can be found in the <cite>GNU Profiler User's Guide</cite>
+documentation that is part of this GNAT distribution.
+
+<p>Profiling a program helps determine the parts of a program that are executed
+most often, and are therefore the most time-consuming.
+
+<p><cite>gprof</cite> is the standard GNU profiling tool; it has been enhanced to
+better handle Ada programs and multitasking. 
+It is currently supported on the following platforms
+
+     <ul>
+<li>linux x86/x86_64
+
+     <li>solaris sparc/sparc64/x86
+
+     <li>windows x86
+</ul>
+
+<p>In order to profile a program using <cite>gprof</cite>, several steps are needed:
+
+     <ol type=1 start=1>
+
+     <li>Instrument the code, which requires a full recompilation of the project with the
+proper switches.
+
+     <li>Execute the program under the analysis conditions, i.e. with the desired
+input.
+
+     <li>Analyze the results using the <cite>gprof</cite> tool.
+     </ol>
+
+<p>The following sections detail the different steps, and indicate how
+to interpret the results.
+
+<ul class="menu">
+<li><a accesskey="1" href="Compilation-for-profiling.html#Compilation-for-profiling">Compilation for profiling</a>
+<li><a accesskey="2" href="Program-execution.html#Program-execution">Program execution</a>
+<li><a accesskey="3" href="Running-gprof.html#Running-gprof">Running gprof</a>
+<li><a accesskey="4" href="Interpretation-of-profiling-results.html#Interpretation-of-profiling-results">Interpretation of profiling results</a>
+
+</ul>
+
+</body></html>
+

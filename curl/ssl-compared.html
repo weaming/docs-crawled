@@ -1,0 +1,479 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
+<HTML>
+<HEAD> <TITLE>cURL - SSL libraries compared</TITLE>
+<meta content="text/html; charset=UTF-8" http-equiv="Content-Type">
+<link rel="stylesheet" type="text/css" href="http://curl.haxx.se/curl.css">
+<link rel="shortcut icon" href="http://curl.haxx.se/favicon.ico">
+<link rel="stylesheet" type="text/css" href="comparison.css">
+</HEAD>
+<body bgcolor="#ffffff" text="#000000">
+<div class="main">
+<div class="menu">
+<a href="index.html" class="menuitem" title="Documentation main page">Docs Overview</a>
+<a href="caextract.html" class="menuitem" title="CA cert bundle exatracted from Mozilla">CA Extract</a>
+<a href="http-cookies.html" class="menuitem" title="Description of cookies with curl">HTTP Cookies</a>
+<a href="http2.html" class="menuitem" title="HTTP/2 with curl">HTTP/2</a>
+<a href="sslcerts.html" class="menuitem" title="How curl works with SSL certficates">SSL Certs</a>
+<a href="ssl-compared.html" class="itemselect">SSL libs compared</a>
+</div>
+<div class="contents">
+<div class="where"><a href="http://curl.haxx.se/">cURL</a> / <a href="index.html">Docs</a> / <a href="protdocs.html">Protocol docs</a> / <b>SSL libraries compared</b></div>
+<h1> Compare SSL libraries </h1>
+<div class="relatedbox">
+<b>Related:</b>
+<br><a href="comparison-table.html">Compare HTTP/FTP Tools</a>
+<br><a href="http://curl.haxx.se/libcurl/competitors.html">Compare HTTP Libraries</a>
+</div>
+<p> This comparison only involves SSL/TLS libraries that libcurl can be built
+to use.
+<p>
+<table cellspacing="2" cellpadding="2" border="0" summary="Comparison of SSL libraries">
+ <thead>
+ <tr class="tabletop">
+  <th> Feature </th>
+  <th> OpenSSL[6] </th>
+  <th> GnuTLS </th>
+  <th> NSS </th>
+  <th> CyaSSL </th>
+  <th> QSOSSL </th>
+  <th> PolarSSL </th>
+  <th> axTLS </th>
+  <th> Secure Channel (&quot;WinSSL&quot;) </th>
+  <th> Secure Transport (&quot;DarwinSSL&quot;) </th>
+ </tr>
+ </thead>
+ <tbody>
+ <tr valign=top>
+  <td> Native name check </td>
+  <td class="no">no</td>
+  <td class="yes">yes</td>
+  <td class="yes">yes</td>
+  <td class="yes">yes</td>
+  <td class="yes">yes</td>
+  <td class="yes">yes</td>
+  <td class="yes">yes</td>
+  <td class="yes">yes</td>
+  <td class="yes">yes</td>
+ </tr>
+ <tr valign=top>
+  <td> CRL </td>
+  <td class="no">manual</td>
+  <td class="no">manual</td>
+  <td class="yes">automatic</td>
+  <td class="yes">automatic</td>
+  <td class="no">no</td>
+  <td class="no">manual</td>
+  <td class="no">no</td>
+  <td class="yes">automatic</td>
+  <td class="yes">automatic</td>
+ </tr>
+ <tr valign=top>
+  <td> SSLv2 </td>
+  <td class="yes">yes</td>
+  <td class="no">no</td>
+  <td class="yes">yes</td>
+  <td class="no">no</td>
+  <td class="no">no</td>
+  <td class="yes">yes</td>
+  <td class="no">no</td>
+  <td class="yes">yes</td>
+  <td class="yes">yes</td>
+ </tr>
+ <tr valign=top>
+  <td> SSLv3 </td>
+  <td class="yes">yes</td>
+  <td class="yes">yes</td>
+  <td class="yes">yes</td>
+  <td class="yes">yes</td>
+  <td class="yes">yes</td>
+  <td class="yes">yes</td>
+  <td class="no">no</td>
+  <td class="yes">yes</td>
+  <td class="yes">yes</td>
+ </tr>
+ <tr valign=top>
+  <td> TLSv1.0 </td>
+  <td class="yes">yes</td>
+  <td class="yes">yes</td>
+  <td class="yes">yes</td>
+  <td class="yes">yes</td>
+  <td class="yes">yes</td>
+  <td class="yes">yes</td>
+  <td class="yes">yes</td>
+  <td class="yes">yes</td>
+  <td class="yes">yes</td>
+ </tr>
+ <tr valign=top>
+  <td> TLSv1.1 </td>
+  <td class="yes">yes [1]</td>
+  <td class="yes">yes</td>
+  <td class="yes">yes</td>
+  <td class="yes">yes</td>
+  <td class="yes">yes [5]</td>
+  <td class="yes">yes</td>
+  <td class="yes">yes</td>
+  <td class="yes">yes</td>
+  <td class="yes">yes [2]</td>
+ </tr>
+ <tr valign=top>
+  <td> TLSv1.2 </td>
+  <td class="yes">yes [1]</td>
+  <td class="yes">yes</td>
+  <td class="yes">yes</td>
+  <td class="yes">yes</td>
+  <td class="yes">yes [5]</td>
+  <td class="yes">yes</td>
+  <td class="no">no</td>
+  <td class="yes">yes [4]</td>
+  <td class="yes">yes [2]</td>
+ </tr>
+ <tr valign=top>
+  <td> TLS SRP </td>
+  <td class="yes">yes [1]</td>
+  <td class="yes">yes</td>
+  <td class="no">no</td>
+  <td class="no">no</td>
+  <td class="no">no</td>
+  <td class="no">no</td>
+  <td class="no">no</td>
+  <td class="no">no</td>
+  <td class="no">no</td>
+ </tr>
+ <tr valign=top>
+  <td> TLS ECC </td>
+  <td class="yes">yes</td>
+  <td class="yes">yes</td>
+  <td class="yes">yes</td>
+  <td class="yes">yes</td>
+  <td class="unknown">?</td>
+  <td class="yes">yes</td>
+  <td class="no">no</td>
+  <td class="yes">yes [3]</td>
+  <td class="yes">yes [2]</td>
+ </tr>
+ <tr valign=top>
+  <td> ALPN </td>
+  <td class="yes">yes</td>
+  <td class="yes">yes</td>
+  <td class="yes">yes</td>
+  <td class="no">no</td>
+  <td class="no">no</td>
+  <td class="yes">yes</td>
+  <td class="no">no</td>
+  <td class="yes">yes [7]</td>
+  <td class="no">no</td>
+ </tr>
+ <tr valign=top>
+  <td> NPN </td>
+  <td class="yes">yes</td>
+  <td class="no">no</td>
+  <td class="yes">yes</td>
+  <td class="no">no</td>
+  <td class="no">no</td>
+  <td class="no">no</td>
+  <td class="no">no</td>
+  <td class="yes">yes [7]</td>
+  <td class="no">no</td>
+ </tr>
+ <tr valign=top>
+  <td> Small </td>
+  <td class="no">no</td>
+  <td class="no">no</td>
+  <td class="no">no</td>
+  <td class="yes">yes</td>
+  <td class="unknown">N/A</td>
+  <td class="yes">yes</td>
+  <td class="yes">yes</td>
+  <td class="unknown">N/A</td>
+  <td class="unknown">N/A</td>
+ </tr>
+ <tr valign=top>
+  <td> Platforms </td>
+  <td> POSIX, Windows, VMS </td>
+  <td> POSIX, Windows </td>
+  <td> POSIX, Windows </td>
+  <td> POSIX, Windows </td>
+  <td> IBM i          </td>
+  <td> POSIX, Windows </td>
+  <td> POSIX, Windows </td>
+  <td> Windows (CE and NT) </td>
+  <td> Darwin (inc. iOS and Mac OS X) </td>
+ </tr>
+ <tr valign=top>
+  <td> Uses Certificate/Key Files </td>
+  <td class="yes">yes</td>
+  <td class="yes">yes</td>
+  <td class="yes">yes</td>
+  <td class="yes">yes</td>
+  <td class="unknown">?</td>
+  <td class="yes">yes</td>
+  <td class="yes">yes</td>
+  <td class="no">no</td>
+  <td class="no">no</td>
+ </tr>
+ <tr valign=top>
+  <td> Uses Certificate/Key Database </td>
+  <td class="no">no</td>
+  <td class="yes">yes</td>
+  <td class="yes">yes</td>
+  <td class="no">no</td>
+  <td class="unknown">?</td>
+  <td class="no">no</td>
+  <td class="no">no</td>
+  <td class="yes">yes</td>
+  <td class="yes">yes</td>
+ </tr>
+ <tr valign=top>
+  <td> Crypto module/token support </td>
+  <td class="yes">PKCS<!-- " -->#11<!-- "--> [8]</td>
+  <td class="yes">PKCS<!-- " -->#11<!-- "--></td>
+  <td class="yes">PKCS<!-- " -->#11<!-- "--></td>
+  <td class="no">no</td>
+  <td class="unknown">?</td>
+  <td class="no">no</td>
+  <td class="no">no</td>
+  <td class="yes">Microsoft CryptoAPI</td>
+  <td class="yes">Keychain</td>
+ </tr>
+ <tr valign=top>
+  <td> Select Certificates/Keys with PKCS#11 URI </td>
+  <td class="yes">yes [8]</td>
+  <td class="yes">yes</td>
+  <td class="no">no</td>
+  <td class="unknown">N/A</td>
+  <td class="unknown">?</td>
+  <td class="unknown">N/A</td>
+  <td class="unknown">N/A</td>
+  <td class="unknown">N/A</td>
+  <td class="unknown">N/A</td>
+ </tr>
+ <tr valign=top>
+  <td> Integrates with system token database </td>
+  <td class="yes">yes [8]</td>
+  <td class="yes">yes</td>
+  <td class="no">no</td>
+  <td class="no">no</td>
+  <td class="unknown">?</td>
+  <td class="no">no</td>
+  <td class="no">no</td>
+  <td class="yes">yes</td>
+  <td class="yes">yes</td>
+ </tr>
+ <tr valign=top>
+  <td> FIPS-140 </td>
+  <td class="yes">yes</td>
+  <td class="yes">yes</td>
+  <td class="yes">yes</td>
+  <td class="no">no</td>
+  <td class="no">no</td>
+  <td class="no">no</td>
+  <td class="no">no</td>
+  <td class="yes">yes</td>
+  <td class="yes">yes</td>
+ </tr>
+ <tr valign=top>
+  <td> OpenSSL-like API </td>
+  <td class="unknown">N/A</td>
+  <td> limited </td>
+  <td> separate </td>
+  <td class="yes">yes</td>
+  <td> limited </td>
+  <td class="no">no</td>
+  <td> limited </td>
+  <td class="no">no</td>
+  <td> digests only </td>
+ </tr>
+ <tr valign=top>
+  <td> Vendor </td>
+  <td> <a href="https://www.openssl.org/">OpenSSL Project</a> </td>
+  <td> <a href="https://www.gnu.org/">Free Software Foundation</a> </td>
+  <td> <a href="https://www.mozilla.org/">Mozilla Foundation</a> </td>
+  <td> <a href="https://www.wolfssl.com/">wolfSSL</a> </td>
+  <td> <a href="https://www.ibm.com/">IBM Corporation</a> </td>
+  <td> <a href="https://tls.mbed.org/">mbed TLS</a> </td>
+  <td> <a href="http://axtls.sourceforge.net/">Cameron Rich</a> </td>
+  <td> <a href="https://www.microsoft.com/">Microsoft Corporation</a> </td>
+  <td> <a href="https://apple.com/">Apple Inc.</a> </td>
+ </tr>
+ <tr valign=top>
+  <td> License </td>
+  <td> 4-clause BSD </td>
+  <td> LGPL </td>
+  <td> MPL/LGPL/GPL </td>
+  <td> GPLv2 / prop </td>
+  <td class="unknown">?</td>
+  <td> GPLv2 / prop </td>
+  <td> BSD </td>
+  <td> Proprietary </td>
+  <td> APSL 2.0 </td>
+ </tr>
+ <tr valign=top>
+  <td> First release </td>
+  <td> 1998 </td>
+  <td> 2004? </td>
+  <td> ? </td>
+  <td> 2006 </td>
+  <td> ? </td>
+  <td> 2006 </td>
+  <td> 2006 </td>
+  <td> 2000 </td>
+  <td> 2003? </td>
+ </tr>
+ <tr valign=top>
+  <td> Version </td>
+  <td> 1.0.1i </td>
+  <td> 3.3.15 </td>
+  <td> 3.16.4 </td>
+  <td> 3.1.0 </td>
+  <td> 7.1 TR6 </td>
+  <td> 1.3.8 </td>
+  <td> 1.4.9 </td>
+  <td> 6.3.9600 </td>
+  <td> 55471.14 </td>
+ </tr>
+ <tr valign=top>
+  <td> Famous Application </td>
+  <td> Apache HTTPD </td>
+  <td> GNOME </td>
+  <td> Mozilla Firefox </td>
+  <td> MySQL </td>
+  <td> IBM HTTPD </td>
+  <td> Hiawatha HTTPD </td>
+  <td> ? </td>
+  <td> Microsoft Internet Explorer </td>
+  <td> Apple Safari </td>
+ </tr>
+ </tbody>
+</table>
+<p>
+ [1] = Requires OpenSSL 1.0.1c or later
+<br>
+ [2] = Requires iOS 5.0 or later, or OS X 10.8.0 or later
+<br>
+ [3] = Requires Windows Vista or later
+<br>
+ [4] = Requires Windows 7 or later
+<br>
+ [5] = Requires IBM i 7.1 TR6 or later
+<br>
+[6] = The same feature set is also provided by LibreSSL and probably by BoringSSL. The latter doesn't build with curl unmodified as of September 2014.
+<br>
+[7] = support for ALPN and NPN was added in <a href="https://technet.microsoft.com/en-us/library/hh831771.aspx">Windows 8.1 / Server 2012 R2</a>.
+<br>
+[8] = Via external <a href="https://github.com/OpenSC/OpenSC/wiki/Engine-pkcs11-quickstart">engine_pkcs11</a>;
+<h2> Glossary of Terms </h2>
+<b>Native name Check:</b> If yes, then this means that the engine will
+ automatically check the domain name in the server's certificate against the
+ domain name used to connect to the server, unless CURLOPT_VERIFYHOST was
+ manually disabled. If no, then libcurl will perform this check manually.
+<p>
+<b>CRL:</b> CRL means "Certificate Revocation List" and is used to check to
+see if any certificates in the server's chain have been revoked for some
+reason. If automatic, then the engine will automatically download a CRL and
+use it to evaluate the trust of the server's certificate chain when performing
+the TLS handshake. If manual, then the engine will not automatically use a
+CRL, but you can provide one that has been downloaded separately by using the
+CURLOPT_CRL option. If no, then the CURLOPT_CRL option will be ignored.
+<p>
+<b>SSLv2:</b> This was the first public release of the SSL protocol. It is
+deprecated and really should no longer be used, because it has a number of
+serious security problems. Even if your engine supports it, libcurl will never
+default to allowing SSLv2 when performing a TLS handshake. Support for SSLv2
+is only provided here if you need to connect to a very old (circa 1995) SSL
+server that does not support a newer version of the protocol.
+<p>
+<b>SSLv3:</b> This version of SSL fixed all of the major weaknesses in
+SSLv2. It is still widely supported on the public Internet, mainly because
+Microsoft Internet Explorer 6 does not support TLS by default, although TLS is
+a preferred protocol.
+<p>
+<b>TLSv1.0:</b> TLS is a slight variation on SSLv3 that was the first version
+of the protocol to be approved of by the Internet Engineering Task Force
+(IETF). This version of TLS has been available since 1999 and is by far the
+most widely supported version on the public Internet. There have been a few
+minor security vulnerabilities found in TLSv1.0 which were fixed later, but
+all of them (so far) have been easily worked around, which has contributed to
+the longevity of this version of TLS.
+<p>
+<b>TLSv1.1:</b> TLSv1.1 is similar to v1.0, except that it has a better fix
+for the CBC (Cipher Block Chain) cipher-suite attack that lead to the BEAST
+(Browser Exploit Against SSL/TLS) vulnerability in TLSv1.0. Unfortunately it
+was released seven years after v1.0, and took even longer to start appearing
+in TLS engines, so it's not very widely supported by servers yet.
+<p>
+<b>TLSv1.2:</b> TLSv1.2 provides even better security than TLSv1.1 and
+earlier, with support for many all-new cipher suites that are even more
+difficult to crack. Unfortunately TLSv1.2 is not widely used on the public
+Internet yet for the same reasons that v1.1 support is scarce.
+<p>
+<b>TLS SRP:</b> SRP means "Secure Remote Password" and it is a method of
+performing client-side authentication with a TLS server by using a user name
+and password, sometimes coupled with a certificate. It is not yet widely
+supported, but for the engines that do support it, you can provide the
+credentials to curl by using the CURLOPT_TLSAUTH_USERNAME and
+CURLOPT_TLSAUTH_PASSWORD options.
+<p>
+<b>TLS ECC:</b> ECC means "Elliptic Curve Cryptography" and it is an advanced
+set of cipher-suites that are used in TLS connections (typically with
+TLSv1.2). Not all engines support ECC.
+<p>
+<b>Uses Certificate/Key Files:</b> Some engines, such as OpenSSL, read
+certificates and keys from files rather than a central database. These engines
+require you to use a certificate bundle in order to verify a server's
+certificate chain; this is usually set at build time but can also be set by
+using the CURLOPT_CAINFO option.
+<p>
+<b>Uses Certificate/Key Database:</b> Some engines, such as Apple's Security
+framework, use a central database instead of separate files to store
+certificates and keys. Apple's Security framework database, for instance, is
+called the Keychain. For engines that use a database and don't also support
+files, the CURLOPT_CAINFO option is ignored.
+<p>
+<b>Crypto module/token support:</b> Support for cryptographic hardware tokens
+and software databases is typically provided via
+<a href="https://en.wikipedia.org/wiki/PKCS_11">; PKCS#11</a> on POSIX platforms,
+and via platform-specific APIs on Windows and Darwin. Examples of PKCS#11
+software tokens include the GNOME keyring, and the NSS "soft token" database.
+<p>
+<b>Integrates with system token database:</b> Platforms often have a
+system-wide configuration which specifies which crypto modules/token should
+be visible in which applications. Many Linux distributions have chosen
+to use <a href="http://p11-glue.freedesktop.org/p11-kit.html">p11-kit</a>;
+to provide this configuration, and some now consider it a bug for
+applications <em>not</em> to automatically use the tokens configured therein.
+<p>
+<b>Select Certificates/Keys with PKCS#11 URI:</b> <a
+href="https://tools.ietf.org/html/rfc7512">RFC 7512</a> defines a
+standard URI format for specifying objects within PKCS#11
+tokens/databases.
+<p>
+<b>FIPS-140:</b> FIPS-140 is a security standard used by the United States and
+Canada for transferring information that is sensitive but not classified. If
+yes, and you are using curl or a libcurl-based application in the US or
+Canadian government, or in a government contractor, then it's okay for you to
+use the engine when building curl/libcurl.
+<p>
+<b>License:</b> If you are deploying an application that uses libcurl, then
+the license used by the engine may affect whether or not you are able to
+distribute your application legally. OpenSSL's 4-clause BSD license, for
+instance, is not compatible with the GNU GPL.
+<h2> More reading </h2>
+<p>
+ The mentioned libraries: <a href="https://www.openssl.org/">OpenSSL</a>, <a
+ href="http://www.gnutls.org/">GnuTLS</a>, <a
+ href="https://developer.mozilla.org/en-US/docs/Mozilla/Projects/NSS">NSS</a>, <a
+ href="https://www.wolfssl.com/">wolfSSL</a>, <a
+ href="https://tls.mbed.org">mbed TLS</a>, <a
+ href="http://axtls.sf.net/">axTLS</a>, <a href="https://msdn.microsoft.com/en-us/library/windows/desktop/ms678421(v=vs.85).aspx">Secure Channel</a>, <a href="https://developer.apple.com/documentation/security/Reference/secureTransportRef/">Secure Transport</a>.
+<p> More comparisons in the extensive <a
+href="https://en.wikipedia.org/wiki/Comparison_of_TLS_Implementations">feature-by-feature
+comparison on wikipedia</a>.
+<p>
+ curl's documentation of <a href="https://raw.githubusercontent.com/bagder/curl/master/docs/SSL-PROBLEMS">SSL problems</a>.
+<p>
+ Please <a href="mailto:curl-web@haxx.se">mail us</a> corrections if this
+ table is incorrect, or tell us other features we should compare!
+</div>
+</div>
+</BODY>
+</HTML>

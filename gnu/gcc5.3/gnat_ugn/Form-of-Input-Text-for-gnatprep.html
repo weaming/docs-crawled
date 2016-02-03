@@ -1,0 +1,159 @@
+<html lang="en">
+<head>
+<title>Form of Input Text for gnatprep - GNAT User's Guide for Native Platforms</title>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+<meta name="description" content="GNAT User's Guide for Native Platforms">
+<meta name="generator" content="makeinfo 4.13">
+<link title="Top" rel="start" href="index.html#Top">
+<link rel="up" href="Preprocessing-with-gnatprep.html#Preprocessing-with-gnatprep" title="Preprocessing with gnatprep">
+<link rel="prev" href="Form-of-Definitions-File.html#Form-of-Definitions-File" title="Form of Definitions File">
+<link href="http://www.gnu.org/software/texinfo/" rel="generator-home" title="Texinfo Homepage">
+<!--
+
+     GNAT User's Guide for Native Platforms , March 24, 2015
+
+     AdaCore
+
+     Copyright (C) 2008-2015, Free Software Foundation
+-->
+<meta http-equiv="Content-Style-Type" content="text/css">
+<style type="text/css"><!--
+  pre.display { font-family:inherit }
+  pre.format  { font-family:inherit }
+  pre.smalldisplay { font-family:inherit; font-size:smaller }
+  pre.smallformat  { font-family:inherit; font-size:smaller }
+  pre.smallexample { font-size:smaller }
+  pre.smalllisp    { font-size:smaller }
+  span.sc    { font-variant:small-caps }
+  span.roman { font-family:serif; font-weight:normal; } 
+  span.sansserif { font-family:sans-serif; font-weight:normal; } 
+--></style>
+</head>
+<body>
+<div class="node">
+<a name="Form-of-Input-Text-for-gnatprep"></a>
+<p>
+Previous:&nbsp;<a rel="previous" accesskey="p" href="Form-of-Definitions-File.html#Form-of-Definitions-File">Form of Definitions File</a>,
+Up:&nbsp;<a rel="up" accesskey="u" href="Preprocessing-with-gnatprep.html#Preprocessing-with-gnatprep">Preprocessing with gnatprep</a>
+<hr>
+</div>
+
+<p><a name="gnat_005fugn_002fthe_005fgnat_005fcompilation_005fmodel-id59"></a><a name="b4"></a><a name="gnat_005fugn_002fthe_005fgnat_005fcompilation_005fmodel-form_002dof_002dinput_002dtext_002dfor_002dgnatprep"></a><a name="b5"></a>
+
+<h5 class="subsubsection">3.10.2.5 Form of Input Text for <cite>gnatprep</cite></h5>
+
+<p>The input text may contain preprocessor conditional inclusion lines,
+as well as general symbol substitution sequences.
+
+<p>The preprocessor conditional inclusion commands have the form:
+
+<pre class="example">    #if &lt;expression&gt; [then]
+       lines
+    #elsif &lt;expression&gt; [then]
+       lines
+    #elsif &lt;expression&gt; [then]
+       lines
+    ...
+    #else
+       lines
+    #end if;
+</pre>
+<p>In this example, &lt;expression&gt; is defined by the following grammar:
+
+<pre class="example">    &lt;expression&gt; ::=  &lt;symbol&gt;
+    &lt;expression&gt; ::=  &lt;symbol&gt; = "&lt;value&gt;"
+    &lt;expression&gt; ::=  &lt;symbol&gt; = &lt;symbol&gt;
+    &lt;expression&gt; ::=  &lt;symbol&gt; = &lt;integer&gt;
+    &lt;expression&gt; ::=  &lt;symbol&gt; &gt; &lt;integer&gt;
+    &lt;expression&gt; ::=  &lt;symbol&gt; &gt;= &lt;integer&gt;
+    &lt;expression&gt; ::=  &lt;symbol&gt; &lt; &lt;integer&gt;
+    &lt;expression&gt; ::=  &lt;symbol&gt; &lt;= &lt;integer&gt;
+    &lt;expression&gt; ::=  &lt;symbol&gt; 'Defined
+    &lt;expression&gt; ::=  not &lt;expression&gt;
+    &lt;expression&gt; ::=  &lt;expression&gt; and &lt;expression&gt;
+    &lt;expression&gt; ::=  &lt;expression&gt; or &lt;expression&gt;
+    &lt;expression&gt; ::=  &lt;expression&gt; and then &lt;expression&gt;
+    &lt;expression&gt; ::=  &lt;expression&gt; or else &lt;expression&gt;
+    &lt;expression&gt; ::=  ( &lt;expression&gt; )
+</pre>
+<p>Note the following restriction: it is not allowed to have "and" or "or"
+following "not" in the same expression without parentheses. For example, this
+is not allowed:
+
+<pre class="example">    not X or Y
+</pre>
+<p>This can be expressed instead as one of the following forms:
+
+<pre class="example">    (not X) or Y
+    not (X or Y)
+</pre>
+<p>For the first test (&lt;expression&gt; ::= &lt;symbol&gt;) the symbol must have
+either the value true or false, that is to say the right-hand of the
+symbol definition must be one of the (case-insensitive) literals
+<cite>True</cite> or <cite>False</cite>. If the value is true, then the
+corresponding lines are included, and if the value is false, they are
+excluded.
+
+<p>When comparing a symbol to an integer, the integer is any non negative
+literal integer as defined in the Ada Reference Manual, such as 3, 16#FF# or
+2#11#. The symbol value must also be a non negative integer. Integer values
+in the range 0 .. 2**31-1 are supported.
+
+<p>The test (&lt;expression&gt; ::= &lt;symbol&gt;'Defined) is true only if
+the symbol has been defined in the definition file or by a `-D'
+switch on the command line. Otherwise, the test is false.
+
+<p>The equality tests are case insensitive, as are all the preprocessor lines.
+
+<p>If the symbol referenced is not defined in the symbol definitions file,
+then the effect depends on whether or not switch `-u'
+is specified. If so, then the symbol is treated as if it had the value
+false and the test fails. If this switch is not specified, then
+it is an error to reference an undefined symbol. It is also an error to
+reference a symbol that is defined with a value other than <cite>True</cite>
+or <cite>False</cite>.
+
+<p>The use of the <cite>not</cite> operator inverts the sense of this logical test. 
+The <cite>not</cite> operator cannot be combined with the <cite>or</cite> or <cite>and</cite>
+operators, without parentheses. For example, "if not X or Y then" is not
+allowed, but "if (not X) or Y then" and "if not (X or Y) then" are.
+
+<p>The <cite>then</cite> keyword is optional as shown
+
+<p>The <cite>#</cite> must be the first non-blank character on a line, but
+otherwise the format is free form. Spaces or tabs may appear between
+the <cite>#</cite> and the keyword. The keywords and the symbols are case
+insensitive as in normal Ada code. Comments may be used on a
+preprocessor line, but other than that, no other tokens may appear on a
+preprocessor line. Any number of <cite>elsif</cite> clauses can be present,
+including none at all. The <cite>else</cite> is optional, as in Ada.
+
+<p>The <cite>#</cite> marking the start of a preprocessor line must be the first
+non-blank character on the line, i.e., it must be preceded only by
+spaces or horizontal tabs.
+
+<p>Symbol substitution outside of preprocessor lines is obtained by using
+the sequence:
+
+<pre class="example">    $symbol
+</pre>
+<p>anywhere within a source line, except in a comment or within a
+string literal. The identifier
+following the <cite>$</cite> must match one of the symbols defined in the symbol
+definition file, and the result is to substitute the value of the
+symbol in place of <cite>$symbol</cite> in the output file.
+
+<p>Note that although the substitution of strings within a string literal
+is not possible, it is possible to have a symbol whose defined value is
+a string literal. So instead of setting XYZ to <cite>hello</cite> and writing:
+
+<pre class="example">    Header : String := "$XYZ";
+</pre>
+<p>you should set XYZ to <cite>"hello"</cite> and write:
+
+<pre class="example">    Header : String := $XYZ;
+</pre>
+<p>and then the substitution will occur as desired.
+
+</body></html>
+

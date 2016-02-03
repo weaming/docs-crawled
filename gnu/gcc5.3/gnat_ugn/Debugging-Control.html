@@ -1,0 +1,293 @@
+<html lang="en">
+<head>
+<title>Debugging Control - GNAT User's Guide for Native Platforms</title>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+<meta name="description" content="GNAT User's Guide for Native Platforms">
+<meta name="generator" content="makeinfo 4.13">
+<link title="Top" rel="start" href="index.html#Top">
+<link rel="up" href="Compiler-Switches.html#Compiler-Switches" title="Compiler Switches">
+<link rel="prev" href="Auxiliary-Output-Control.html#Auxiliary-Output-Control" title="Auxiliary Output Control">
+<link rel="next" href="Exception-Handling-Control.html#Exception-Handling-Control" title="Exception Handling Control">
+<link href="http://www.gnu.org/software/texinfo/" rel="generator-home" title="Texinfo Homepage">
+<!--
+
+     GNAT User's Guide for Native Platforms , March 24, 2015
+
+     AdaCore
+
+     Copyright (C) 2008-2015, Free Software Foundation
+-->
+<meta http-equiv="Content-Style-Type" content="text/css">
+<style type="text/css"><!--
+  pre.display { font-family:inherit }
+  pre.format  { font-family:inherit }
+  pre.smalldisplay { font-family:inherit; font-size:smaller }
+  pre.smallformat  { font-family:inherit; font-size:smaller }
+  pre.smallexample { font-size:smaller }
+  pre.smalllisp    { font-size:smaller }
+  span.sc    { font-variant:small-caps }
+  span.roman { font-family:serif; font-weight:normal; } 
+  span.sansserif { font-family:sans-serif; font-weight:normal; } 
+--></style>
+</head>
+<body>
+<div class="node">
+<a name="Debugging-Control"></a>
+<p>
+Next:&nbsp;<a rel="next" accesskey="n" href="Exception-Handling-Control.html#Exception-Handling-Control">Exception Handling Control</a>,
+Previous:&nbsp;<a rel="previous" accesskey="p" href="Auxiliary-Output-Control.html#Auxiliary-Output-Control">Auxiliary Output Control</a>,
+Up:&nbsp;<a rel="up" accesskey="u" href="Compiler-Switches.html#Compiler-Switches">Compiler Switches</a>
+<hr>
+</div>
+
+<p><a name="gnat_005fugn_002fbuilding_005fexecutable_005fprograms_005fwith_005fgnat-debugging_002dcontrol"></a><a name="g_t117"></a><a name="gnat_005fugn_002fbuilding_005fexecutable_005fprograms_005fwith_005fgnat-id27"></a><a name="g_t118"></a>
+
+<h4 class="subsection">4.3.15 Debugging Control</h4>
+
+<blockquote>
+
+<p><a name="index-Debugging-options-640"></a></blockquote>
+
+<p><a name="index-g_t_002dgnatd-_0028gcc_0029-641"></a>
+
+     <dl>
+<dt><code>-gnatd`x'</code><dd>
+Activate internal debugging switches. <cite>x</cite> is a letter or digit, or
+string of letters or digits, which specifies the type of debugging
+outputs desired. Normally these are used only for internal development
+or system debugging purposes. You can find full documentation for these
+switches in the body of the <cite>Debug</cite> unit in the compiler source
+file <code>debug.adb</code>. 
+</dl>
+
+<p><a name="index-g_t_002dgnatG-_0028gcc_0029-642"></a>
+
+     <dl>
+<dt><code>-gnatG[=`nn']</code><dd>
+This switch causes the compiler to generate auxiliary output containing
+a pseudo-source listing of the generated expanded code. Like most Ada
+compilers, GNAT works by first transforming the high level Ada code into
+lower level constructs. For example, tasking operations are transformed
+into calls to the tasking run-time routines. A unique capability of GNAT
+is to list this expanded code in a form very close to normal Ada source. 
+This is very useful in understanding the implications of various Ada
+usage on the efficiency of the generated code. There are many cases in
+Ada (e.g., the use of controlled types), where simple Ada statements can
+generate a lot of run-time code. By using `-gnatG' you can identify
+these cases, and consider whether it may be desirable to modify the coding
+approach to improve efficiency.
+
+     <p>The optional parameter <cite>nn</cite> if present after -gnatG specifies an
+alternative maximum line length that overrides the normal default of 72. 
+This value is in the range 40-999999, values less than 40 being silently
+reset to 40. The equal sign is optional.
+
+     <p>The format of the output is very similar to standard Ada source, and is
+easily understood by an Ada programmer. The following special syntactic
+additions correspond to low level features used in the generated code that
+do not have any exact analogies in pure Ada source form. The following
+is a partial list of these special constructions. See the spec
+of package <cite>Sprint</cite> in file <code>sprint.ads</code> for a full list.
+
+     <p><a name="index-g_t_002dgnatL-_0028gcc_0029-643"></a>
+If the switch `-gnatL' is used in conjunction with
+`-gnatG', then the original source lines are interspersed
+in the expanded source (as comment lines with the original line number).
+
+          <dl>
+<dt><code>new `xxx' [storage_pool = `yyy']</code><dd>
+Shows the storage pool being used for an allocator.
+
+          <br><dt><code>at end `procedure-name';</code><dd>
+Shows the finalization (cleanup) procedure for a scope.
+
+          <br><dt><code>(if `expr' then `expr' else `expr')</code><dd>
+Conditional expression equivalent to the <cite>x?y:z</cite> construction in C.
+
+          <br><dt><code>`target'^(`source')</code><dd>
+A conversion with floating-point truncation instead of rounding.
+
+          <br><dt><code>`target'?(`source')</code><dd>
+A conversion that bypasses normal Ada semantic checking. In particular
+enumeration types and fixed-point types are treated simply as integers.
+
+          <br><dt><code>`target'?^(`source')</code><dd>
+Combines the above two cases. 
+</dl>
+
+     <p><code>`x' #/ `y'</code>
+
+     <p><code>`x' #mod `y'</code>
+
+     <p><code>`x' # `y'</code>
+
+          <dl>
+<dt><code>`x' #rem `y'</code><dd>
+A division or multiplication of fixed-point values which are treated as
+integers without any kind of scaling.
+
+          <br><dt><code>free `expr' [storage_pool = `xxx']</code><dd>
+Shows the storage pool associated with a <cite>free</cite> statement.
+
+          <br><dt><code>[subtype or type declaration]</code><dd>
+Used to list an equivalent declaration for an internally generated
+type that is referenced elsewhere in the listing.
+
+          <br><dt><code>freeze `type-name' [`actions']</code><dd>
+Shows the point at which <cite>type-name</cite> is frozen, with possible
+associated actions to be performed at the freeze point.
+
+          <br><dt><code>reference `itype'</code><dd>
+Reference (and hence definition) to internal type <cite>itype</cite>.
+
+          <br><dt><code>`function-name'! (`arg', `arg', `arg')</code><dd>
+Intrinsic function call.
+
+          <br><dt><code>`label-name' : label</code><dd>
+Declaration of label <cite>labelname</cite>.
+
+          <br><dt><code>#$ `subprogram-name'</code><dd>
+An implicit call to a run-time support routine
+(to meet the requirement of H.3.1(9) in a
+convenient manner).
+
+          <br><dt><code>`expr' &amp;&amp; `expr' &amp;&amp; `expr' ... &amp;&amp; `expr'</code><dd>
+A multiple concatenation (same effect as <cite>expr</cite> &amp; <cite>expr</cite> &amp;
+<cite>expr</cite>, but handled more efficiently).
+
+          <br><dt><code>[constraint_error]</code><dd>
+Raise the <cite>Constraint_Error</cite> exception.
+
+          <br><dt><code>`expression''reference</code><dd>
+A pointer to the result of evaluating {expression}.
+
+          <br><dt><code>`target-type'!(`source-expression')</code><dd>
+An unchecked conversion of <cite>source-expression</cite> to <cite>target-type</cite>.
+
+          <br><dt><code>[`numerator'/`denominator']</code><dd>
+Used to represent internal real literals (that) have no exact
+representation in base 2-16 (for example, the result of compile time
+evaluation of the expression 1.0/27.0). 
+</dl>
+     </dl>
+
+<p><a name="index-g_t_002dgnatD-_0028gcc_0029-644"></a>
+
+     <dl>
+<dt><code>-gnatD[=nn]</code><dd>
+When used in conjunction with `-gnatG', this switch causes
+the expanded source, as described above for
+`-gnatG' to be written to files with names
+<code>xxx.dg</code>, where <code>xxx</code> is the normal file name,
+instead of to the standard output file. For
+example, if the source file name is <code>hello.adb</code>, then a file
+<code>hello.adb.dg</code> will be written.  The debugging
+information generated by the `gcc' `-g' switch
+will refer to the generated <code>xxx.dg</code> file. This allows
+you to do source level debugging using the generated code which is
+sometimes useful for complex code, for example to find out exactly
+which part of a complex construction raised an exception. This switch
+also suppress generation of cross-reference information (see
+`-gnatx') since otherwise the cross-reference information
+would refer to the <code>.dg</code> file, which would cause
+confusion since this is not the original source file.
+
+     <p>Note that `-gnatD' actually implies `-gnatG'
+automatically, so it is not necessary to give both options. 
+In other words `-gnatD' is equivalent to `-gnatDG').
+
+     <p><a name="index-g_t_002dgnatL-_0028gcc_0029-645"></a>
+If the switch `-gnatL' is used in conjunction with
+`-gnatDG', then the original source lines are interspersed
+in the expanded source (as comment lines with the original line number).
+
+     <p>The optional parameter <cite>nn</cite> if present after -gnatD specifies an
+alternative maximum line length that overrides the normal default of 72. 
+This value is in the range 40-999999, values less than 40 being silently
+reset to 40. The equal sign is optional. 
+</dl>
+
+<p><a name="index-g_t_002dgnatr-_0028gcc_0029-646"></a>
+<a name="index-pragma-Restrictions-647"></a>
+
+     <dl>
+<dt><code>-gnatr</code><dd>
+This switch causes pragma Restrictions to be treated as Restriction_Warnings
+so that violation of restrictions causes warnings rather than illegalities. 
+This is useful during the development process when new restrictions are added
+or investigated. The switch also causes pragma Profile to be treated as
+Profile_Warnings, and pragma Restricted_Run_Time and pragma Ravenscar set
+restriction warnings rather than restrictions. 
+</dl>
+
+<p><a name="index-g_t_002dgnatR-_0028gcc_0029-648"></a>
+
+     <dl>
+<dt><code>-gnatR[0|1|2|3[s]]</code><dd>
+This switch controls output from the compiler of a listing showing
+representation information for declared types and objects. For
+`-gnatR0', no information is output (equivalent to omitting
+the `-gnatR' switch). For `-gnatR1' (which is the default,
+so `-gnatR' with no parameter has the same effect), size and alignment
+information is listed for declared array and record types. For
+`-gnatR2', size and alignment information is listed for all
+declared types and objects. The <cite>Linker_Section</cite> is also listed for any
+entity for which the <cite>Linker_Section</cite> is set explicitly or implicitly (the
+latter case occurs for objects of a type for which a <cite>Linker_Section</cite>
+is set).
+
+     <p>Finally `-gnatR3' includes symbolic
+expressions for values that are computed at run time for
+variant records. These symbolic expressions have a mostly obvious
+format with #n being used to represent the value of the n'th
+discriminant. See source files <code>repinfo.ads/adb</code> in the
+<cite>GNAT</cite> sources for full details on the format of `-gnatR3'
+output. If the switch is followed by an s (e.g., `-gnatR2s'), then
+the output is to a file with the name <code>file.rep</code> where
+file is the name of the corresponding source file.
+
+     <br><dt><code>-gnatRm[s]</code><dd>
+This form of the switch controls output of subprogram conventions
+and parameter passing mechanisms for all subprograms. A following
+<cite>s</cite> means output to a file as described above.
+
+     <p>Note that it is possible for record components to have zero size. In
+this case, the component clause uses an obvious extension of permitted
+Ada syntax, for example <cite>at 0 range 0 .. -1</cite>.
+
+     <p>Representation information requires that code be generated (since it is the
+code generator that lays out complex data structures). If an attempt is made
+to output representation information when no code is generated, for example
+when a subunit is compiled on its own, then no information can be generated
+and the compiler outputs a message to this effect. 
+</dl>
+
+<p><a name="index-g_t_002dgnatS-_0028gcc_0029-649"></a>
+
+     <dl>
+<dt><code>-gnatS</code><dd>
+The use of the switch `-gnatS' for an
+Ada compilation will cause the compiler to output a
+representation of package Standard in a form very
+close to standard Ada. It is not quite possible to
+do this entirely in standard Ada (since new
+numeric base types cannot be created in standard
+Ada), but the output is easily
+readable to any Ada programmer, and is useful to
+determine the characteristics of target dependent
+types in package Standard. 
+</dl>
+
+<p><a name="index-g_t_002dgnatx-_0028gcc_0029-650"></a>
+
+     <dl>
+<dt><code>-gnatx</code><dd>
+Normally the compiler generates full cross-referencing information in
+the <code>ALI</code> file. This information is used by a number of tools,
+including <cite>gnatfind</cite> and <cite>gnatxref</cite>. The `-gnatx' switch
+suppresses this information. This saves some space and may slightly
+speed up compilation, but means that these tools cannot be used. 
+</dl>
+
+</body></html>
+

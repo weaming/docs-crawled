@@ -1,0 +1,106 @@
+<html lang="en">
+<head>
+<title>Pragma Style_Checks - GNAT Reference Manual</title>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+<meta name="description" content="GNAT Reference Manual">
+<meta name="generator" content="makeinfo 4.13">
+<link title="Top" rel="start" href="index.html#Top">
+<link rel="up" href="Implementation-Defined-Pragmas.html#Implementation-Defined-Pragmas" title="Implementation Defined Pragmas">
+<link rel="prev" href="Pragma-Stream_005fConvert.html#Pragma-Stream_005fConvert" title="Pragma Stream_Convert">
+<link rel="next" href="Pragma-Subtitle.html#Pragma-Subtitle" title="Pragma Subtitle">
+<link href="http://www.gnu.org/software/texinfo/" rel="generator-home" title="Texinfo Homepage">
+<!--
+
+     GNAT Reference Manual , March 24, 2015
+
+     AdaCore
+
+     Copyright (C) 2008-2015, Free Software Foundation
+-->
+<meta http-equiv="Content-Style-Type" content="text/css">
+<style type="text/css"><!--
+  pre.display { font-family:inherit }
+  pre.format  { font-family:inherit }
+  pre.smalldisplay { font-family:inherit; font-size:smaller }
+  pre.smallformat  { font-family:inherit; font-size:smaller }
+  pre.smallexample { font-size:smaller }
+  pre.smalllisp    { font-size:smaller }
+  span.sc    { font-variant:small-caps }
+  span.roman { font-family:serif; font-weight:normal; } 
+  span.sansserif { font-family:sans-serif; font-weight:normal; } 
+--></style>
+</head>
+<body>
+<div class="node">
+<a name="Pragma-Style_Checks"></a>
+<a name="Pragma-Style_005fChecks"></a>
+<p>
+Next:&nbsp;<a rel="next" accesskey="n" href="Pragma-Subtitle.html#Pragma-Subtitle">Pragma Subtitle</a>,
+Previous:&nbsp;<a rel="previous" accesskey="p" href="Pragma-Stream_005fConvert.html#Pragma-Stream_005fConvert">Pragma Stream_Convert</a>,
+Up:&nbsp;<a rel="up" accesskey="u" href="Implementation-Defined-Pragmas.html#Implementation-Defined-Pragmas">Implementation Defined Pragmas</a>
+<hr>
+</div>
+
+<p><a name="gnat_005frm_002fimplementation_005fdefined_005fpragmas-pragma_002dstyle_002dchecks"></a><a name="c0"></a>
+
+<h3 class="section">2.161 Pragma Style_Checks</h3>
+
+<p>Syntax:
+
+<pre class="example">    pragma Style_Checks (string_LITERAL | ALL_CHECKS |
+                         On | Off [, LOCAL_NAME]);
+</pre>
+<p>This pragma is used in conjunction with compiler switches to control the
+built in style checking provided by GNAT.  The compiler switches, if set,
+provide an initial setting for the switches, and this pragma may be used
+to modify these settings, or the settings may be provided entirely by
+the use of the pragma.  This pragma can be used anywhere that a pragma
+is legal, including use as a configuration pragma (including use in
+the <code>gnat.adc</code> file).
+
+<p>The form with a string literal specifies which style options are to be
+activated.  These are additive, so they apply in addition to any previously
+set style check options.  The codes for the options are the same as those
+used in the `-gnaty' switch to `gcc' or `gnatmake'. 
+For example the following two methods can be used to enable
+layout checking:
+
+     <ul>
+<li>
+     <pre class="example">         pragma Style_Checks ("l");
+</pre>
+     <li>
+     <pre class="example">         gcc -c -gnatyl ...
+</pre>
+     </ul>
+
+<p>The form ALL_CHECKS activates all standard checks (its use is equivalent
+to the use of the <cite>gnaty</cite> switch with no options. 
+See the <cite>GNAT User's Guide</cite> for details.)
+
+<p>Note: the behavior is slightly different in GNAT mode (`-gnatg' used). 
+In this case, ALL_CHECKS implies the standard set of GNAT mode style check
+options (i.e. equivalent to `-gnatyg').
+
+<p>The forms with <cite>Off</cite> and <cite>On</cite>
+can be used to temporarily disable style checks
+as shown in the following example:
+
+<pre class="example">    pragma Style_Checks ("k"); -- requires keywords in lower case
+    pragma Style_Checks (Off); -- turn off style checks
+    NULL;                      -- this will not generate an error message
+    pragma Style_Checks (On);  -- turn style checks back on
+    NULL;                      -- this will generate an error message
+</pre>
+<p>Finally the two argument form is allowed only if the first argument is
+<cite>On</cite> or <cite>Off</cite>.  The effect is to turn of semantic style checks
+for the specified entity, as shown in the following example:
+
+<pre class="example">    pragma Style_Checks ("r"); -- require consistency of identifier casing
+    Arg : Integer;
+    Rf1 : Integer := ARG;      -- incorrect, wrong case
+    pragma Style_Checks (Off, Arg);
+    Rf2 : Integer := ARG;      -- OK, no error
+</pre>
+</body></html>
+

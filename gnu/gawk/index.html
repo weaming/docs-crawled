@@ -1,0 +1,1823 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
+<html>
+<!-- 
+Copyright (C) 1989, 1991, 1992, 1993, 1996-2005, 2007, 2009-2015 
+
+Free Software Foundation, Inc.
+
+
+
+This is Edition 4.1 of GAWK: Effective AWK Programming: A User's Guide for GNU Awk,
+for the 4.1.2 (or later) version of the GNU
+implementation of AWK.
+
+Permission is granted to copy, distribute and/or modify this document
+under the terms of the GNU Free Documentation License, Version 1.3 or
+any later version published by the Free Software Foundation; with the
+Invariant Sections being "GNU General Public License", with the
+Front-Cover Texts being "A GNU Manual", and with the Back-Cover Texts
+as in (a) below.
+A copy of the license is included in the section entitled
+"GNU Free Documentation License".
+
+a. The FSF's Back-Cover Text is: "You have the freedom to
+copy and modify this GNU manual." -->
+<!-- Created by GNU Texinfo 5.1, http://www.gnu.org/software/texinfo/ -->
+<head>
+<title>The GNU Awk User&rsquo;s Guide: Top</title>
+
+<meta name="description" content="The GNU Awk User&rsquo;s Guide: Top">
+<meta name="keywords" content="The GNU Awk User&rsquo;s Guide: Top">
+<meta name="resource-type" content="document">
+<meta name="distribution" content="global">
+<meta name="Generator" content="makeinfo">
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+<link href="#Top" rel="start" title="Top">
+<link href="Index.html#Index" rel="index" title="Index">
+<link href="#SEC_Contents" rel="contents" title="Table of Contents">
+<link href="../dir/index.html" rel="up" title="(dir)">
+<link href="Foreword3.html#Foreword3" rel="next" title="Foreword3">
+<style type="text/css">
+<!--
+a.summary-letter {text-decoration: none}
+blockquote.smallquotation {font-size: smaller}
+div.display {margin-left: 3.2em}
+div.example {margin-left: 3.2em}
+div.indentedblock {margin-left: 3.2em}
+div.lisp {margin-left: 3.2em}
+div.smalldisplay {margin-left: 3.2em}
+div.smallexample {margin-left: 3.2em}
+div.smallindentedblock {margin-left: 3.2em; font-size: smaller}
+div.smalllisp {margin-left: 3.2em}
+kbd {font-style:oblique}
+pre.display {font-family: inherit}
+pre.format {font-family: inherit}
+pre.menu-comment {font-family: serif}
+pre.menu-preformatted {font-family: serif}
+pre.smalldisplay {font-family: inherit; font-size: smaller}
+pre.smallexample {font-size: smaller}
+pre.smallformat {font-family: inherit; font-size: smaller}
+pre.smalllisp {font-size: smaller}
+span.nocodebreak {white-space:nowrap}
+span.nolinebreak {white-space:nowrap}
+span.roman {font-family:serif; font-weight:normal}
+span.sansserif {font-family:sans-serif; font-weight:normal}
+ul.no-bullet {list-style: none}
+-->
+</style>
+<link rel="stylesheet" type="text/css" href="/software/gnulib/manual.css">
+
+
+</head>
+
+<body lang="en" bgcolor="#FFFFFF" text="#000000" link="#0000FF" vlink="#800080" alink="#FF0000">
+<h1 class="settitle" align="center">The GNU Awk User&rsquo;s Guide</h1>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<a name="Top"></a>
+<div class="header">
+<p>
+Next: <a href="Foreword3.html#Foreword3" accesskey="n" rel="next">Foreword3</a>, Up: <a href="../dir/index.html" accesskey="u" rel="up">(dir)</a> &nbsp; [<a href="#SEC_Contents" title="Table of contents" rel="contents">Contents</a>][<a href="Index.html#Index" title="Index" rel="index">Index</a>]</p>
+</div>
+<hr>
+<a name="General-Introduction"></a>
+<h1 class="top">General Introduction</h1>
+
+<p>This file documents <code>awk</code>, a program that you can use to select
+particular records in a file and perform operations upon them.
+</p>
+
+<p>Copyright &copy; 1989, 1991, 1992, 1993, 1996&ndash;2005, 2007, 2009&ndash;2015 <br>
+Free Software Foundation, Inc.
+</p><br>
+<br>
+
+<p>This is Edition 4.1 of <cite>GAWK: Effective AWK Programming: A User&rsquo;s Guide for GNU Awk</cite>,
+for the 4.1.2 (or later) version of the GNU
+implementation of AWK.
+</p>
+<p>Permission is granted to copy, distribute and/or modify this document
+under the terms of the GNU Free Documentation License, Version 1.3 or
+any later version published by the Free Software Foundation; with the
+Invariant Sections being &ldquo;GNU General Public License&rdquo;, with the
+Front-Cover Texts being &ldquo;A GNU Manual&rdquo;, and with the Back-Cover Texts
+as in (a) below.
+A copy of the license is included in the section entitled
+&ldquo;GNU Free Documentation License&rdquo;.
+</p>
+<ol>
+<li> The FSF&rsquo;s Back-Cover Text is: &ldquo;You have the freedom to
+copy and modify this GNU manual.&rdquo;
+</li></ol>
+
+
+
+<table class="menu" border="0" cellspacing="0">
+<tr><td align="left" valign="top">&bull; <a href="Foreword3.html#Foreword3" accesskey="1">Foreword3</a>:</td><td>&nbsp;&nbsp;</td><td align="left" valign="top">Some nice words about this
+                                   Web page.
+</td></tr>
+<tr><td align="left" valign="top">&bull; <a href="Foreword4.html#Foreword4" accesskey="2">Foreword4</a>:</td><td>&nbsp;&nbsp;</td><td align="left" valign="top">More nice words.
+</td></tr>
+<tr><td align="left" valign="top">&bull; <a href="Preface.html#Preface" accesskey="3">Preface</a>:</td><td>&nbsp;&nbsp;</td><td align="left" valign="top">What this Web page is about; brief
+                                   history and acknowledgments.
+</td></tr>
+<tr><td align="left" valign="top">&bull; <a href="Getting-Started.html#Getting-Started" accesskey="4">Getting Started</a>:</td><td>&nbsp;&nbsp;</td><td align="left" valign="top">A basic introduction to using
+                                   <code>awk</code>. How to run an <code>awk</code>
+                                   program. Command-line syntax.
+</td></tr>
+<tr><td align="left" valign="top">&bull; <a href="Invoking-Gawk.html#Invoking-Gawk" accesskey="5">Invoking Gawk</a>:</td><td>&nbsp;&nbsp;</td><td align="left" valign="top">How to run <code>gawk</code>.
+</td></tr>
+<tr><td align="left" valign="top">&bull; <a href="Regexp.html#Regexp" accesskey="6">Regexp</a>:</td><td>&nbsp;&nbsp;</td><td align="left" valign="top">All about matching things using regular
+                                   expressions.
+</td></tr>
+<tr><td align="left" valign="top">&bull; <a href="Reading-Files.html#Reading-Files" accesskey="7">Reading Files</a>:</td><td>&nbsp;&nbsp;</td><td align="left" valign="top">How to read files and manipulate fields.
+</td></tr>
+<tr><td align="left" valign="top">&bull; <a href="Printing.html#Printing" accesskey="8">Printing</a>:</td><td>&nbsp;&nbsp;</td><td align="left" valign="top">How to print using <code>awk</code>. Describes
+                                   the <code>print</code> and <code>printf</code>
+                                   statements. Also describes redirection of
+                                   output.
+</td></tr>
+<tr><td align="left" valign="top">&bull; <a href="Expressions.html#Expressions" accesskey="9">Expressions</a>:</td><td>&nbsp;&nbsp;</td><td align="left" valign="top">Expressions are the basic building blocks
+                                   of statements.
+</td></tr>
+<tr><td align="left" valign="top">&bull; <a href="Patterns-and-Actions.html#Patterns-and-Actions">Patterns and Actions</a>:</td><td>&nbsp;&nbsp;</td><td align="left" valign="top">Overviews of patterns and actions.
+</td></tr>
+<tr><td align="left" valign="top">&bull; <a href="Arrays.html#Arrays">Arrays</a>:</td><td>&nbsp;&nbsp;</td><td align="left" valign="top">The description and use of arrays. Also
+                                   includes array-oriented control statements.
+</td></tr>
+<tr><td align="left" valign="top">&bull; <a href="Functions.html#Functions">Functions</a>:</td><td>&nbsp;&nbsp;</td><td align="left" valign="top">Built-in and user-defined functions.
+</td></tr>
+<tr><td align="left" valign="top">&bull; <a href="Library-Functions.html#Library-Functions">Library Functions</a>:</td><td>&nbsp;&nbsp;</td><td align="left" valign="top">A Library of <code>awk</code> Functions.
+</td></tr>
+<tr><td align="left" valign="top">&bull; <a href="Sample-Programs.html#Sample-Programs">Sample Programs</a>:</td><td>&nbsp;&nbsp;</td><td align="left" valign="top">Many <code>awk</code> programs with complete
+                                   explanations.
+</td></tr>
+<tr><td align="left" valign="top">&bull; <a href="Advanced-Features.html#Advanced-Features">Advanced Features</a>:</td><td>&nbsp;&nbsp;</td><td align="left" valign="top">Stuff for advanced users, specific to
+                                   <code>gawk</code>.
+</td></tr>
+<tr><td align="left" valign="top">&bull; <a href="Internationalization.html#Internationalization">Internationalization</a>:</td><td>&nbsp;&nbsp;</td><td align="left" valign="top">Getting <code>gawk</code> to speak your
+                                   language.
+</td></tr>
+<tr><td align="left" valign="top">&bull; <a href="Debugger.html#Debugger">Debugger</a>:</td><td>&nbsp;&nbsp;</td><td align="left" valign="top">The <code>gawk</code> debugger.
+</td></tr>
+<tr><td align="left" valign="top">&bull; <a href="Arbitrary-Precision-Arithmetic.html#Arbitrary-Precision-Arithmetic">Arbitrary Precision Arithmetic</a>:</td><td>&nbsp;&nbsp;</td><td align="left" valign="top">Arbitrary precision arithmetic with
+                                   <code>gawk</code>.
+</td></tr>
+<tr><td align="left" valign="top">&bull; <a href="Dynamic-Extensions.html#Dynamic-Extensions">Dynamic Extensions</a>:</td><td>&nbsp;&nbsp;</td><td align="left" valign="top">Adding new built-in functions to
+                                   <code>gawk</code>.
+</td></tr>
+<tr><td align="left" valign="top">&bull; <a href="Language-History.html#Language-History">Language History</a>:</td><td>&nbsp;&nbsp;</td><td align="left" valign="top">The evolution of the <code>awk</code>
+                                   language.
+</td></tr>
+<tr><td align="left" valign="top">&bull; <a href="Installation.html#Installation">Installation</a>:</td><td>&nbsp;&nbsp;</td><td align="left" valign="top">Installing <code>gawk</code> under various
+                                   operating systems.
+</td></tr>
+<tr><td align="left" valign="top">&bull; <a href="Notes.html#Notes">Notes</a>:</td><td>&nbsp;&nbsp;</td><td align="left" valign="top">Notes about adding things to <code>gawk</code>
+                                   and possible future work.
+</td></tr>
+<tr><td align="left" valign="top">&bull; <a href="Basic-Concepts.html#Basic-Concepts">Basic Concepts</a>:</td><td>&nbsp;&nbsp;</td><td align="left" valign="top">A very quick introduction to programming
+                                   concepts.
+</td></tr>
+<tr><td align="left" valign="top">&bull; <a href="Glossary.html#Glossary">Glossary</a>:</td><td>&nbsp;&nbsp;</td><td align="left" valign="top">An explanation of some unfamiliar terms.
+</td></tr>
+<tr><td align="left" valign="top">&bull; <a href="Copying.html#Copying">Copying</a>:</td><td>&nbsp;&nbsp;</td><td align="left" valign="top">Your right to copy and distribute
+                                   <code>gawk</code>.
+</td></tr>
+<tr><td align="left" valign="top">&bull; <a href="GNU-Free-Documentation-License.html#GNU-Free-Documentation-License">GNU Free Documentation License</a>:</td><td>&nbsp;&nbsp;</td><td align="left" valign="top">The license for this Web page.
+</td></tr>
+<tr><td align="left" valign="top">&bull; <a href="Index.html#Index">Index</a>:</td><td>&nbsp;&nbsp;</td><td align="left" valign="top">Concept and Variable Index.
+</td></tr>
+<tr><th colspan="3" align="left" valign="top"><pre class="menu-comment">
+</pre></th></tr><tr><td align="left" valign="top">&bull; <a href="History.html#History">History</a>:</td><td>&nbsp;&nbsp;</td><td align="left" valign="top">The history of <code>gawk</code> and
+                                        <code>awk</code>.
+</td></tr>
+<tr><td align="left" valign="top">&bull; <a href="Names.html#Names">Names</a>:</td><td>&nbsp;&nbsp;</td><td align="left" valign="top">What name to use to find
+                                        <code>awk</code>.
+</td></tr>
+<tr><td align="left" valign="top">&bull; <a href="This-Manual.html#This-Manual">This Manual</a>:</td><td>&nbsp;&nbsp;</td><td align="left" valign="top">Using this Web page. Includes
+                                        sample input files that you can use.
+</td></tr>
+<tr><td align="left" valign="top">&bull; <a href="Conventions.html#Conventions">Conventions</a>:</td><td>&nbsp;&nbsp;</td><td align="left" valign="top">Typographical Conventions.
+</td></tr>
+<tr><td align="left" valign="top">&bull; <a href="Manual-History.html#Manual-History">Manual History</a>:</td><td>&nbsp;&nbsp;</td><td align="left" valign="top">Brief history of the GNU project and
+                                        this Web page.
+</td></tr>
+<tr><td align="left" valign="top">&bull; <a href="How-To-Contribute.html#How-To-Contribute">How To Contribute</a>:</td><td>&nbsp;&nbsp;</td><td align="left" valign="top">Helping to save the world.
+</td></tr>
+<tr><td align="left" valign="top">&bull; <a href="Acknowledgments.html#Acknowledgments">Acknowledgments</a>:</td><td>&nbsp;&nbsp;</td><td align="left" valign="top">Acknowledgments.
+</td></tr>
+<tr><td align="left" valign="top">&bull; <a href="Running-gawk.html#Running-gawk">Running gawk</a>:</td><td>&nbsp;&nbsp;</td><td align="left" valign="top">How to run <code>gawk</code> programs;
+                                        includes command-line syntax.
+</td></tr>
+<tr><td align="left" valign="top">&bull; <a href="One_002dshot.html#One_002dshot">One-shot</a>:</td><td>&nbsp;&nbsp;</td><td align="left" valign="top">Running a short throwaway
+                                        <code>awk</code> program.
+</td></tr>
+<tr><td align="left" valign="top">&bull; <a href="Read-Terminal.html#Read-Terminal">Read Terminal</a>:</td><td>&nbsp;&nbsp;</td><td align="left" valign="top">Using no input files (input from the
+                                        keyboard instead).
+</td></tr>
+<tr><td align="left" valign="top">&bull; <a href="Long.html#Long">Long</a>:</td><td>&nbsp;&nbsp;</td><td align="left" valign="top">Putting permanent <code>awk</code>
+                                        programs in files.
+</td></tr>
+<tr><td align="left" valign="top">&bull; <a href="Executable-Scripts.html#Executable-Scripts">Executable Scripts</a>:</td><td>&nbsp;&nbsp;</td><td align="left" valign="top">Making self-contained <code>awk</code>
+                                        programs.
+</td></tr>
+<tr><td align="left" valign="top">&bull; <a href="Comments.html#Comments">Comments</a>:</td><td>&nbsp;&nbsp;</td><td align="left" valign="top">Adding documentation to <code>gawk</code>
+                                        programs.
+</td></tr>
+<tr><td align="left" valign="top">&bull; <a href="Quoting.html#Quoting">Quoting</a>:</td><td>&nbsp;&nbsp;</td><td align="left" valign="top">More discussion of shell quoting
+                                        issues.
+</td></tr>
+<tr><td align="left" valign="top">&bull; <a href="DOS-Quoting.html#DOS-Quoting">DOS Quoting</a>:</td><td>&nbsp;&nbsp;</td><td align="left" valign="top">Quoting in Windows Batch Files.
+</td></tr>
+<tr><td align="left" valign="top">&bull; <a href="Sample-Data-Files.html#Sample-Data-Files">Sample Data Files</a>:</td><td>&nbsp;&nbsp;</td><td align="left" valign="top">Sample data files for use in the
+                                        <code>awk</code> programs illustrated in
+                                        this Web page.
+</td></tr>
+<tr><td align="left" valign="top">&bull; <a href="Very-Simple.html#Very-Simple">Very Simple</a>:</td><td>&nbsp;&nbsp;</td><td align="left" valign="top">A very simple example.
+</td></tr>
+<tr><td align="left" valign="top">&bull; <a href="Two-Rules.html#Two-Rules">Two Rules</a>:</td><td>&nbsp;&nbsp;</td><td align="left" valign="top">A less simple one-line example using
+                                        two rules.
+</td></tr>
+<tr><td align="left" valign="top">&bull; <a href="More-Complex.html#More-Complex">More Complex</a>:</td><td>&nbsp;&nbsp;</td><td align="left" valign="top">A more complex example.
+</td></tr>
+<tr><td align="left" valign="top">&bull; <a href="Statements_002fLines.html#Statements_002fLines">Statements/Lines</a>:</td><td>&nbsp;&nbsp;</td><td align="left" valign="top">Subdividing or combining statements
+                                        into lines.
+</td></tr>
+<tr><td align="left" valign="top">&bull; <a href="Other-Features.html#Other-Features">Other Features</a>:</td><td>&nbsp;&nbsp;</td><td align="left" valign="top">Other Features of <code>awk</code>.
+</td></tr>
+<tr><td align="left" valign="top">&bull; <a href="When.html#When">When</a>:</td><td>&nbsp;&nbsp;</td><td align="left" valign="top">When to use <code>gawk</code> and when to
+                                        use other things.
+</td></tr>
+<tr><td align="left" valign="top">&bull; <a href="Intro-Summary.html#Intro-Summary">Intro Summary</a>:</td><td>&nbsp;&nbsp;</td><td align="left" valign="top">Summary of the introduction.
+</td></tr>
+<tr><td align="left" valign="top">&bull; <a href="Command-Line.html#Command-Line">Command Line</a>:</td><td>&nbsp;&nbsp;</td><td align="left" valign="top">How to run <code>awk</code>.
+</td></tr>
+<tr><td align="left" valign="top">&bull; <a href="Options.html#Options">Options</a>:</td><td>&nbsp;&nbsp;</td><td align="left" valign="top">Command-line options and their
+                                        meanings.
+</td></tr>
+<tr><td align="left" valign="top">&bull; <a href="Other-Arguments.html#Other-Arguments">Other Arguments</a>:</td><td>&nbsp;&nbsp;</td><td align="left" valign="top">Input file names and variable
+                                        assignments.
+</td></tr>
+<tr><td align="left" valign="top">&bull; <a href="Naming-Standard-Input.html#Naming-Standard-Input">Naming Standard Input</a>:</td><td>&nbsp;&nbsp;</td><td align="left" valign="top">How to specify standard input with
+                                        other files.
+</td></tr>
+<tr><td align="left" valign="top">&bull; <a href="Environment-Variables.html#Environment-Variables">Environment Variables</a>:</td><td>&nbsp;&nbsp;</td><td align="left" valign="top">The environment variables
+                                        <code>gawk</code> uses.
+</td></tr>
+<tr><td align="left" valign="top">&bull; <a href="AWKPATH-Variable.html#AWKPATH-Variable">AWKPATH Variable</a>:</td><td>&nbsp;&nbsp;</td><td align="left" valign="top">Searching directories for
+                                        <code>awk</code> programs.
+</td></tr>
+<tr><td align="left" valign="top">&bull; <a href="AWKLIBPATH-Variable.html#AWKLIBPATH-Variable">AWKLIBPATH Variable</a>:</td><td>&nbsp;&nbsp;</td><td align="left" valign="top">Searching directories for
+                                        <code>awk</code> shared libraries.
+</td></tr>
+<tr><td align="left" valign="top">&bull; <a href="Other-Environment-Variables.html#Other-Environment-Variables">Other Environment Variables</a>:</td><td>&nbsp;&nbsp;</td><td align="left" valign="top">The environment variables.
+</td></tr>
+<tr><td align="left" valign="top">&bull; <a href="Exit-Status.html#Exit-Status">Exit Status</a>:</td><td>&nbsp;&nbsp;</td><td align="left" valign="top"><code>gawk</code>&rsquo;s exit status.
+</td></tr>
+<tr><td align="left" valign="top">&bull; <a href="Include-Files.html#Include-Files">Include Files</a>:</td><td>&nbsp;&nbsp;</td><td align="left" valign="top">Including other files into your
+                                        program.
+</td></tr>
+<tr><td align="left" valign="top">&bull; <a href="Loading-Shared-Libraries.html#Loading-Shared-Libraries">Loading Shared Libraries</a>:</td><td>&nbsp;&nbsp;</td><td align="left" valign="top">Loading shared libraries into your
+                                        program.
+</td></tr>
+<tr><td align="left" valign="top">&bull; <a href="Obsolete.html#Obsolete">Obsolete</a>:</td><td>&nbsp;&nbsp;</td><td align="left" valign="top">Obsolete Options and/or features.
+</td></tr>
+<tr><td align="left" valign="top">&bull; <a href="Undocumented.html#Undocumented">Undocumented</a>:</td><td>&nbsp;&nbsp;</td><td align="left" valign="top">Undocumented Options and Features.
+</td></tr>
+<tr><td align="left" valign="top">&bull; <a href="Invoking-Summary.html#Invoking-Summary">Invoking Summary</a>:</td><td>&nbsp;&nbsp;</td><td align="left" valign="top">Invocation summary.
+</td></tr>
+<tr><td align="left" valign="top">&bull; <a href="Regexp-Usage.html#Regexp-Usage">Regexp Usage</a>:</td><td>&nbsp;&nbsp;</td><td align="left" valign="top">How to Use Regular Expressions.
+</td></tr>
+<tr><td align="left" valign="top">&bull; <a href="Escape-Sequences.html#Escape-Sequences">Escape Sequences</a>:</td><td>&nbsp;&nbsp;</td><td align="left" valign="top">How to write nonprinting characters.
+</td></tr>
+<tr><td align="left" valign="top">&bull; <a href="Regexp-Operators.html#Regexp-Operators">Regexp Operators</a>:</td><td>&nbsp;&nbsp;</td><td align="left" valign="top">Regular Expression Operators.
+</td></tr>
+<tr><td align="left" valign="top">&bull; <a href="Bracket-Expressions.html#Bracket-Expressions">Bracket Expressions</a>:</td><td>&nbsp;&nbsp;</td><td align="left" valign="top">What can go between &lsquo;<samp>[...]</samp>&rsquo;.
+</td></tr>
+<tr><td align="left" valign="top">&bull; <a href="Leftmost-Longest.html#Leftmost-Longest">Leftmost Longest</a>:</td><td>&nbsp;&nbsp;</td><td align="left" valign="top">How much text matches.
+</td></tr>
+<tr><td align="left" valign="top">&bull; <a href="Computed-Regexps.html#Computed-Regexps">Computed Regexps</a>:</td><td>&nbsp;&nbsp;</td><td align="left" valign="top">Using Dynamic Regexps.
+</td></tr>
+<tr><td align="left" valign="top">&bull; <a href="GNU-Regexp-Operators.html#GNU-Regexp-Operators">GNU Regexp Operators</a>:</td><td>&nbsp;&nbsp;</td><td align="left" valign="top">Operators specific to GNU software.
+</td></tr>
+<tr><td align="left" valign="top">&bull; <a href="Case_002dsensitivity.html#Case_002dsensitivity">Case-sensitivity</a>:</td><td>&nbsp;&nbsp;</td><td align="left" valign="top">How to do case-insensitive matching.
+</td></tr>
+<tr><td align="left" valign="top">&bull; <a href="Regexp-Summary.html#Regexp-Summary">Regexp Summary</a>:</td><td>&nbsp;&nbsp;</td><td align="left" valign="top">Regular expressions summary.
+</td></tr>
+<tr><td align="left" valign="top">&bull; <a href="Records.html#Records">Records</a>:</td><td>&nbsp;&nbsp;</td><td align="left" valign="top">Controlling how data is split into
+                                        records.
+</td></tr>
+<tr><td align="left" valign="top">&bull; <a href="awk-split-records.html#awk-split-records">awk split records</a>:</td><td>&nbsp;&nbsp;</td><td align="left" valign="top">How standard <code>awk</code> splits
+                                        records.
+</td></tr>
+<tr><td align="left" valign="top">&bull; <a href="gawk-split-records.html#gawk-split-records">gawk split records</a>:</td><td>&nbsp;&nbsp;</td><td align="left" valign="top">How <code>gawk</code> splits records.
+</td></tr>
+<tr><td align="left" valign="top">&bull; <a href="Fields.html#Fields">Fields</a>:</td><td>&nbsp;&nbsp;</td><td align="left" valign="top">An introduction to fields.
+</td></tr>
+<tr><td align="left" valign="top">&bull; <a href="Nonconstant-Fields.html#Nonconstant-Fields">Nonconstant Fields</a>:</td><td>&nbsp;&nbsp;</td><td align="left" valign="top">Nonconstant Field Numbers.
+</td></tr>
+<tr><td align="left" valign="top">&bull; <a href="Changing-Fields.html#Changing-Fields">Changing Fields</a>:</td><td>&nbsp;&nbsp;</td><td align="left" valign="top">Changing the Contents of a Field.
+</td></tr>
+<tr><td align="left" valign="top">&bull; <a href="Field-Separators.html#Field-Separators">Field Separators</a>:</td><td>&nbsp;&nbsp;</td><td align="left" valign="top">The field separator and how to change
+                                        it.
+</td></tr>
+<tr><td align="left" valign="top">&bull; <a href="Default-Field-Splitting.html#Default-Field-Splitting">Default Field Splitting</a>:</td><td>&nbsp;&nbsp;</td><td align="left" valign="top">How fields are normally separated.
+</td></tr>
+<tr><td align="left" valign="top">&bull; <a href="Regexp-Field-Splitting.html#Regexp-Field-Splitting">Regexp Field Splitting</a>:</td><td>&nbsp;&nbsp;</td><td align="left" valign="top">Using regexps as the field separator.
+</td></tr>
+<tr><td align="left" valign="top">&bull; <a href="Single-Character-Fields.html#Single-Character-Fields">Single Character Fields</a>:</td><td>&nbsp;&nbsp;</td><td align="left" valign="top">Making each character a separate
+                                        field.
+</td></tr>
+<tr><td align="left" valign="top">&bull; <a href="Command-Line-Field-Separator.html#Command-Line-Field-Separator">Command Line Field Separator</a>:</td><td>&nbsp;&nbsp;</td><td align="left" valign="top">Setting <code>FS</code> from the command
+                                        line.
+</td></tr>
+<tr><td align="left" valign="top">&bull; <a href="Full-Line-Fields.html#Full-Line-Fields">Full Line Fields</a>:</td><td>&nbsp;&nbsp;</td><td align="left" valign="top">Making the full line be a single
+                                        field.
+</td></tr>
+<tr><td align="left" valign="top">&bull; <a href="Field-Splitting-Summary.html#Field-Splitting-Summary">Field Splitting Summary</a>:</td><td>&nbsp;&nbsp;</td><td align="left" valign="top">Some final points and a summary table.
+</td></tr>
+<tr><td align="left" valign="top">&bull; <a href="Constant-Size.html#Constant-Size">Constant Size</a>:</td><td>&nbsp;&nbsp;</td><td align="left" valign="top">Reading constant width data.
+</td></tr>
+<tr><td align="left" valign="top">&bull; <a href="Splitting-By-Content.html#Splitting-By-Content">Splitting By Content</a>:</td><td>&nbsp;&nbsp;</td><td align="left" valign="top">Defining Fields By Content
+</td></tr>
+<tr><td align="left" valign="top">&bull; <a href="Multiple-Line.html#Multiple-Line">Multiple Line</a>:</td><td>&nbsp;&nbsp;</td><td align="left" valign="top">Reading multiline records.
+</td></tr>
+<tr><td align="left" valign="top">&bull; <a href="Getline.html#Getline">Getline</a>:</td><td>&nbsp;&nbsp;</td><td align="left" valign="top">Reading files under explicit program
+                                        control using the <code>getline</code>
+                                        function.
+</td></tr>
+<tr><td align="left" valign="top">&bull; <a href="Plain-Getline.html#Plain-Getline">Plain Getline</a>:</td><td>&nbsp;&nbsp;</td><td align="left" valign="top">Using <code>getline</code> with no
+                                        arguments.
+</td></tr>
+<tr><td align="left" valign="top">&bull; <a href="Getline_002fVariable.html#Getline_002fVariable">Getline/Variable</a>:</td><td>&nbsp;&nbsp;</td><td align="left" valign="top">Using <code>getline</code> into a variable.
+</td></tr>
+<tr><td align="left" valign="top">&bull; <a href="Getline_002fFile.html#Getline_002fFile">Getline/File</a>:</td><td>&nbsp;&nbsp;</td><td align="left" valign="top">Using <code>getline</code> from a file.
+</td></tr>
+<tr><td align="left" valign="top">&bull; <a href="Getline_002fVariable_002fFile.html#Getline_002fVariable_002fFile">Getline/Variable/File</a>:</td><td>&nbsp;&nbsp;</td><td align="left" valign="top">Using <code>getline</code> into a variable
+                                        from a file.
+</td></tr>
+<tr><td align="left" valign="top">&bull; <a href="Getline_002fPipe.html#Getline_002fPipe">Getline/Pipe</a>:</td><td>&nbsp;&nbsp;</td><td align="left" valign="top">Using <code>getline</code> from a pipe.
+</td></tr>
+<tr><td align="left" valign="top">&bull; <a href="Getline_002fVariable_002fPipe.html#Getline_002fVariable_002fPipe">Getline/Variable/Pipe</a>:</td><td>&nbsp;&nbsp;</td><td align="left" valign="top">Using <code>getline</code> into a variable
+                                        from a pipe.
+</td></tr>
+<tr><td align="left" valign="top">&bull; <a href="Getline_002fCoprocess.html#Getline_002fCoprocess">Getline/Coprocess</a>:</td><td>&nbsp;&nbsp;</td><td align="left" valign="top">Using <code>getline</code> from a coprocess.
+</td></tr>
+<tr><td align="left" valign="top">&bull; <a href="Getline_002fVariable_002fCoprocess.html#Getline_002fVariable_002fCoprocess">Getline/Variable/Coprocess</a>:</td><td>&nbsp;&nbsp;</td><td align="left" valign="top">Using <code>getline</code> into a variable
+                                        from a coprocess.
+</td></tr>
+<tr><td align="left" valign="top">&bull; <a href="Getline-Notes.html#Getline-Notes">Getline Notes</a>:</td><td>&nbsp;&nbsp;</td><td align="left" valign="top">Important things to know about
+                                        <code>getline</code>.
+</td></tr>
+<tr><td align="left" valign="top">&bull; <a href="Getline-Summary.html#Getline-Summary">Getline Summary</a>:</td><td>&nbsp;&nbsp;</td><td align="left" valign="top">Summary of <code>getline</code> Variants.
+</td></tr>
+<tr><td align="left" valign="top">&bull; <a href="Read-Timeout.html#Read-Timeout">Read Timeout</a>:</td><td>&nbsp;&nbsp;</td><td align="left" valign="top">Reading input with a timeout.
+</td></tr>
+<tr><td align="left" valign="top">&bull; <a href="Command_002dline-directories.html#Command_002dline-directories">Command-line directories</a>:</td><td>&nbsp;&nbsp;</td><td align="left" valign="top">What happens if you put a directory on
+                                        the command line.
+</td></tr>
+<tr><td align="left" valign="top">&bull; <a href="Input-Summary.html#Input-Summary">Input Summary</a>:</td><td>&nbsp;&nbsp;</td><td align="left" valign="top">Input summary.
+</td></tr>
+<tr><td align="left" valign="top">&bull; <a href="Input-Exercises.html#Input-Exercises">Input Exercises</a>:</td><td>&nbsp;&nbsp;</td><td align="left" valign="top">Exercises.
+</td></tr>
+<tr><td align="left" valign="top">&bull; <a href="Print.html#Print">Print</a>:</td><td>&nbsp;&nbsp;</td><td align="left" valign="top">The <code>print</code> statement.
+</td></tr>
+<tr><td align="left" valign="top">&bull; <a href="Print-Examples.html#Print-Examples">Print Examples</a>:</td><td>&nbsp;&nbsp;</td><td align="left" valign="top">Simple examples of <code>print</code>
+                                        statements.
+</td></tr>
+<tr><td align="left" valign="top">&bull; <a href="Output-Separators.html#Output-Separators">Output Separators</a>:</td><td>&nbsp;&nbsp;</td><td align="left" valign="top">The output separators and how to
+                                        change them.
+</td></tr>
+<tr><td align="left" valign="top">&bull; <a href="OFMT.html#OFMT">OFMT</a>:</td><td>&nbsp;&nbsp;</td><td align="left" valign="top">Controlling Numeric Output With
+                                        <code>print</code>.
+</td></tr>
+<tr><td align="left" valign="top">&bull; <a href="Printf.html#Printf">Printf</a>:</td><td>&nbsp;&nbsp;</td><td align="left" valign="top">The <code>printf</code> statement.
+</td></tr>
+<tr><td align="left" valign="top">&bull; <a href="Basic-Printf.html#Basic-Printf">Basic Printf</a>:</td><td>&nbsp;&nbsp;</td><td align="left" valign="top">Syntax of the <code>printf</code> statement.
+</td></tr>
+<tr><td align="left" valign="top">&bull; <a href="Control-Letters.html#Control-Letters">Control Letters</a>:</td><td>&nbsp;&nbsp;</td><td align="left" valign="top">Format-control letters.
+</td></tr>
+<tr><td align="left" valign="top">&bull; <a href="Format-Modifiers.html#Format-Modifiers">Format Modifiers</a>:</td><td>&nbsp;&nbsp;</td><td align="left" valign="top">Format-specification modifiers.
+</td></tr>
+<tr><td align="left" valign="top">&bull; <a href="Printf-Examples.html#Printf-Examples">Printf Examples</a>:</td><td>&nbsp;&nbsp;</td><td align="left" valign="top">Several examples.
+</td></tr>
+<tr><td align="left" valign="top">&bull; <a href="Redirection.html#Redirection">Redirection</a>:</td><td>&nbsp;&nbsp;</td><td align="left" valign="top">How to redirect output to multiple
+                                        files and pipes.
+</td></tr>
+<tr><td align="left" valign="top">&bull; <a href="Special-FD.html#Special-FD">Special FD</a>:</td><td>&nbsp;&nbsp;</td><td align="left" valign="top">Special files for I/O.
+</td></tr>
+<tr><td align="left" valign="top">&bull; <a href="Special-Files.html#Special-Files">Special Files</a>:</td><td>&nbsp;&nbsp;</td><td align="left" valign="top">File name interpretation in
+                                        <code>gawk</code>. <code>gawk</code> allows
+                                        access to inherited file descriptors.
+</td></tr>
+<tr><td align="left" valign="top">&bull; <a href="Other-Inherited-Files.html#Other-Inherited-Files">Other Inherited Files</a>:</td><td>&nbsp;&nbsp;</td><td align="left" valign="top">Accessing other open files with
+                                        <code>gawk</code>.
+</td></tr>
+<tr><td align="left" valign="top">&bull; <a href="Special-Network.html#Special-Network">Special Network</a>:</td><td>&nbsp;&nbsp;</td><td align="left" valign="top">Special files for network
+                                        communications.
+</td></tr>
+<tr><td align="left" valign="top">&bull; <a href="Special-Caveats.html#Special-Caveats">Special Caveats</a>:</td><td>&nbsp;&nbsp;</td><td align="left" valign="top">Things to watch out for.
+</td></tr>
+<tr><td align="left" valign="top">&bull; <a href="Close-Files-And-Pipes.html#Close-Files-And-Pipes">Close Files And Pipes</a>:</td><td>&nbsp;&nbsp;</td><td align="left" valign="top">Closing Input and Output Files and
+                                        Pipes.
+</td></tr>
+<tr><td align="left" valign="top">&bull; <a href="Output-Summary.html#Output-Summary">Output Summary</a>:</td><td>&nbsp;&nbsp;</td><td align="left" valign="top">Output summary.
+</td></tr>
+<tr><td align="left" valign="top">&bull; <a href="Output-Exercises.html#Output-Exercises">Output Exercises</a>:</td><td>&nbsp;&nbsp;</td><td align="left" valign="top">Exercises.
+</td></tr>
+<tr><td align="left" valign="top">&bull; <a href="Values.html#Values">Values</a>:</td><td>&nbsp;&nbsp;</td><td align="left" valign="top">Constants, Variables, and Regular
+                                        Expressions.
+</td></tr>
+<tr><td align="left" valign="top">&bull; <a href="Constants.html#Constants">Constants</a>:</td><td>&nbsp;&nbsp;</td><td align="left" valign="top">String, numeric and regexp constants.
+</td></tr>
+<tr><td align="left" valign="top">&bull; <a href="Scalar-Constants.html#Scalar-Constants">Scalar Constants</a>:</td><td>&nbsp;&nbsp;</td><td align="left" valign="top">Numeric and string constants.
+</td></tr>
+<tr><td align="left" valign="top">&bull; <a href="Nondecimal_002dnumbers.html#Nondecimal_002dnumbers">Nondecimal-numbers</a>:</td><td>&nbsp;&nbsp;</td><td align="left" valign="top">What are octal and hex numbers.
+</td></tr>
+<tr><td align="left" valign="top">&bull; <a href="Regexp-Constants.html#Regexp-Constants">Regexp Constants</a>:</td><td>&nbsp;&nbsp;</td><td align="left" valign="top">Regular Expression constants.
+</td></tr>
+<tr><td align="left" valign="top">&bull; <a href="Using-Constant-Regexps.html#Using-Constant-Regexps">Using Constant Regexps</a>:</td><td>&nbsp;&nbsp;</td><td align="left" valign="top">When and how to use a regexp constant.
+</td></tr>
+<tr><td align="left" valign="top">&bull; <a href="Variables.html#Variables">Variables</a>:</td><td>&nbsp;&nbsp;</td><td align="left" valign="top">Variables give names to values for
+                                        later use.
+</td></tr>
+<tr><td align="left" valign="top">&bull; <a href="Using-Variables.html#Using-Variables">Using Variables</a>:</td><td>&nbsp;&nbsp;</td><td align="left" valign="top">Using variables in your programs.
+</td></tr>
+<tr><td align="left" valign="top">&bull; <a href="Assignment-Options.html#Assignment-Options">Assignment Options</a>:</td><td>&nbsp;&nbsp;</td><td align="left" valign="top">Setting variables on the command line
+                                        and a summary of command-line syntax.
+                                        This is an advanced method of input.
+</td></tr>
+<tr><td align="left" valign="top">&bull; <a href="Conversion.html#Conversion">Conversion</a>:</td><td>&nbsp;&nbsp;</td><td align="left" valign="top">The conversion of strings to numbers
+                                        and vice versa.
+</td></tr>
+<tr><td align="left" valign="top">&bull; <a href="Strings-And-Numbers.html#Strings-And-Numbers">Strings And Numbers</a>:</td><td>&nbsp;&nbsp;</td><td align="left" valign="top">How <code>awk</code> Converts Between
+                                        Strings And Numbers.
+</td></tr>
+<tr><td align="left" valign="top">&bull; <a href="Locale-influences-conversions.html#Locale-influences-conversions">Locale influences conversions</a>:</td><td>&nbsp;&nbsp;</td><td align="left" valign="top">How the locale may affect conversions.
+</td></tr>
+<tr><td align="left" valign="top">&bull; <a href="All-Operators.html#All-Operators">All Operators</a>:</td><td>&nbsp;&nbsp;</td><td align="left" valign="top"><code>gawk</code>&rsquo;s operators.
+</td></tr>
+<tr><td align="left" valign="top">&bull; <a href="Arithmetic-Ops.html#Arithmetic-Ops">Arithmetic Ops</a>:</td><td>&nbsp;&nbsp;</td><td align="left" valign="top">Arithmetic operations (&lsquo;<samp>+</samp>&rsquo;,
+                                        &lsquo;<samp>-</samp>&rsquo;, etc.)
+</td></tr>
+<tr><td align="left" valign="top">&bull; <a href="Concatenation.html#Concatenation">Concatenation</a>:</td><td>&nbsp;&nbsp;</td><td align="left" valign="top">Concatenating strings.
+</td></tr>
+<tr><td align="left" valign="top">&bull; <a href="Assignment-Ops.html#Assignment-Ops">Assignment Ops</a>:</td><td>&nbsp;&nbsp;</td><td align="left" valign="top">Changing the value of a variable or a
+                                        field.
+</td></tr>
+<tr><td align="left" valign="top">&bull; <a href="Increment-Ops.html#Increment-Ops">Increment Ops</a>:</td><td>&nbsp;&nbsp;</td><td align="left" valign="top">Incrementing the numeric value of a
+                                        variable.
+</td></tr>
+<tr><td align="left" valign="top">&bull; <a href="Truth-Values-and-Conditions.html#Truth-Values-and-Conditions">Truth Values and Conditions</a>:</td><td>&nbsp;&nbsp;</td><td align="left" valign="top">Testing for true and false.
+</td></tr>
+<tr><td align="left" valign="top">&bull; <a href="Truth-Values.html#Truth-Values">Truth Values</a>:</td><td>&nbsp;&nbsp;</td><td align="left" valign="top">What is &ldquo;true&rdquo; and what is
+                                        &ldquo;false&rdquo;.
+</td></tr>
+<tr><td align="left" valign="top">&bull; <a href="Typing-and-Comparison.html#Typing-and-Comparison">Typing and Comparison</a>:</td><td>&nbsp;&nbsp;</td><td align="left" valign="top">How variables acquire types and how
+                                        this affects comparison of numbers and
+                                        strings with &lsquo;<samp>&lt;</samp>&rsquo;, etc.
+</td></tr>
+<tr><td align="left" valign="top">&bull; <a href="Variable-Typing.html#Variable-Typing">Variable Typing</a>:</td><td>&nbsp;&nbsp;</td><td align="left" valign="top">String type versus numeric type.
+</td></tr>
+<tr><td align="left" valign="top">&bull; <a href="Comparison-Operators.html#Comparison-Operators">Comparison Operators</a>:</td><td>&nbsp;&nbsp;</td><td align="left" valign="top">The comparison operators.
+</td></tr>
+<tr><td align="left" valign="top">&bull; <a href="POSIX-String-Comparison.html#POSIX-String-Comparison">POSIX String Comparison</a>:</td><td>&nbsp;&nbsp;</td><td align="left" valign="top">String comparison with POSIX rules.
+</td></tr>
+<tr><td align="left" valign="top">&bull; <a href="Boolean-Ops.html#Boolean-Ops">Boolean Ops</a>:</td><td>&nbsp;&nbsp;</td><td align="left" valign="top">Combining comparison expressions using
+                                        boolean operators &lsquo;<samp>||</samp>&rsquo; (&ldquo;or&rdquo;),
+                                        &lsquo;<samp>&amp;&amp;</samp>&rsquo; (&ldquo;and&rdquo;) and &lsquo;<samp>!</samp>&rsquo;
+                                        (&ldquo;not&rdquo;).
+</td></tr>
+<tr><td align="left" valign="top">&bull; <a href="Conditional-Exp.html#Conditional-Exp">Conditional Exp</a>:</td><td>&nbsp;&nbsp;</td><td align="left" valign="top">Conditional expressions select between
+                                        two subexpressions under control of a
+                                        third subexpression.
+</td></tr>
+<tr><td align="left" valign="top">&bull; <a href="Function-Calls.html#Function-Calls">Function Calls</a>:</td><td>&nbsp;&nbsp;</td><td align="left" valign="top">A function call is an expression.
+</td></tr>
+<tr><td align="left" valign="top">&bull; <a href="Precedence.html#Precedence">Precedence</a>:</td><td>&nbsp;&nbsp;</td><td align="left" valign="top">How various operators nest.
+</td></tr>
+<tr><td align="left" valign="top">&bull; <a href="Locales.html#Locales">Locales</a>:</td><td>&nbsp;&nbsp;</td><td align="left" valign="top">How the locale affects things.
+</td></tr>
+<tr><td align="left" valign="top">&bull; <a href="Expressions-Summary.html#Expressions-Summary">Expressions Summary</a>:</td><td>&nbsp;&nbsp;</td><td align="left" valign="top">Expressions summary.
+</td></tr>
+<tr><td align="left" valign="top">&bull; <a href="Pattern-Overview.html#Pattern-Overview">Pattern Overview</a>:</td><td>&nbsp;&nbsp;</td><td align="left" valign="top">What goes into a pattern.
+</td></tr>
+<tr><td align="left" valign="top">&bull; <a href="Regexp-Patterns.html#Regexp-Patterns">Regexp Patterns</a>:</td><td>&nbsp;&nbsp;</td><td align="left" valign="top">Using regexps as patterns.
+</td></tr>
+<tr><td align="left" valign="top">&bull; <a href="Expression-Patterns.html#Expression-Patterns">Expression Patterns</a>:</td><td>&nbsp;&nbsp;</td><td align="left" valign="top">Any expression can be used as a
+                                        pattern.
+</td></tr>
+<tr><td align="left" valign="top">&bull; <a href="Ranges.html#Ranges">Ranges</a>:</td><td>&nbsp;&nbsp;</td><td align="left" valign="top">Pairs of patterns specify record
+                                        ranges.
+</td></tr>
+<tr><td align="left" valign="top">&bull; <a href="BEGIN_002fEND.html#BEGIN_002fEND">BEGIN/END</a>:</td><td>&nbsp;&nbsp;</td><td align="left" valign="top">Specifying initialization and cleanup
+                                        rules.
+</td></tr>
+<tr><td align="left" valign="top">&bull; <a href="Using-BEGIN_002fEND.html#Using-BEGIN_002fEND">Using BEGIN/END</a>:</td><td>&nbsp;&nbsp;</td><td align="left" valign="top">How and why to use BEGIN/END rules.
+</td></tr>
+<tr><td align="left" valign="top">&bull; <a href="I_002fO-And-BEGIN_002fEND.html#I_002fO-And-BEGIN_002fEND">I/O And BEGIN/END</a>:</td><td>&nbsp;&nbsp;</td><td align="left" valign="top">I/O issues in BEGIN/END rules.
+</td></tr>
+<tr><td align="left" valign="top">&bull; <a href="BEGINFILE_002fENDFILE.html#BEGINFILE_002fENDFILE">BEGINFILE/ENDFILE</a>:</td><td>&nbsp;&nbsp;</td><td align="left" valign="top">Two special patterns for advanced
+                                        control.
+</td></tr>
+<tr><td align="left" valign="top">&bull; <a href="Empty.html#Empty">Empty</a>:</td><td>&nbsp;&nbsp;</td><td align="left" valign="top">The empty pattern, which matches every
+                                        record.
+</td></tr>
+<tr><td align="left" valign="top">&bull; <a href="Using-Shell-Variables.html#Using-Shell-Variables">Using Shell Variables</a>:</td><td>&nbsp;&nbsp;</td><td align="left" valign="top">How to use shell variables with
+                                        <code>awk</code>.
+</td></tr>
+<tr><td align="left" valign="top">&bull; <a href="Action-Overview.html#Action-Overview">Action Overview</a>:</td><td>&nbsp;&nbsp;</td><td align="left" valign="top">What goes into an action.
+</td></tr>
+<tr><td align="left" valign="top">&bull; <a href="Statements.html#Statements">Statements</a>:</td><td>&nbsp;&nbsp;</td><td align="left" valign="top">Describes the various control
+                                        statements in detail.
+</td></tr>
+<tr><td align="left" valign="top">&bull; <a href="If-Statement.html#If-Statement">If Statement</a>:</td><td>&nbsp;&nbsp;</td><td align="left" valign="top">Conditionally execute some
+                                        <code>awk</code> statements.
+</td></tr>
+<tr><td align="left" valign="top">&bull; <a href="While-Statement.html#While-Statement">While Statement</a>:</td><td>&nbsp;&nbsp;</td><td align="left" valign="top">Loop until some condition is
+                                        satisfied.
+</td></tr>
+<tr><td align="left" valign="top">&bull; <a href="Do-Statement.html#Do-Statement">Do Statement</a>:</td><td>&nbsp;&nbsp;</td><td align="left" valign="top">Do specified action while looping
+                                        until some condition is satisfied.
+</td></tr>
+<tr><td align="left" valign="top">&bull; <a href="For-Statement.html#For-Statement">For Statement</a>:</td><td>&nbsp;&nbsp;</td><td align="left" valign="top">Another looping statement, that
+                                        provides initialization and increment
+                                        clauses.
+</td></tr>
+<tr><td align="left" valign="top">&bull; <a href="Switch-Statement.html#Switch-Statement">Switch Statement</a>:</td><td>&nbsp;&nbsp;</td><td align="left" valign="top">Switch/case evaluation for conditional
+                                        execution of statements based on a
+                                        value.
+</td></tr>
+<tr><td align="left" valign="top">&bull; <a href="Break-Statement.html#Break-Statement">Break Statement</a>:</td><td>&nbsp;&nbsp;</td><td align="left" valign="top">Immediately exit the innermost
+                                        enclosing loop.
+</td></tr>
+<tr><td align="left" valign="top">&bull; <a href="Continue-Statement.html#Continue-Statement">Continue Statement</a>:</td><td>&nbsp;&nbsp;</td><td align="left" valign="top">Skip to the end of the innermost
+                                        enclosing loop.
+</td></tr>
+<tr><td align="left" valign="top">&bull; <a href="Next-Statement.html#Next-Statement">Next Statement</a>:</td><td>&nbsp;&nbsp;</td><td align="left" valign="top">Stop processing the current input
+                                        record.
+</td></tr>
+<tr><td align="left" valign="top">&bull; <a href="Nextfile-Statement.html#Nextfile-Statement">Nextfile Statement</a>:</td><td>&nbsp;&nbsp;</td><td align="left" valign="top">Stop processing the current file.
+</td></tr>
+<tr><td align="left" valign="top">&bull; <a href="Exit-Statement.html#Exit-Statement">Exit Statement</a>:</td><td>&nbsp;&nbsp;</td><td align="left" valign="top">Stop execution of <code>awk</code>.
+</td></tr>
+<tr><td align="left" valign="top">&bull; <a href="Built_002din-Variables.html#Built_002din-Variables">Built-in Variables</a>:</td><td>&nbsp;&nbsp;</td><td align="left" valign="top">Summarizes the predefined variables.
+</td></tr>
+<tr><td align="left" valign="top">&bull; <a href="User_002dmodified.html#User_002dmodified">User-modified</a>:</td><td>&nbsp;&nbsp;</td><td align="left" valign="top">Built-in variables that you change to
+                                        control <code>awk</code>.
+</td></tr>
+<tr><td align="left" valign="top">&bull; <a href="Auto_002dset.html#Auto_002dset">Auto-set</a>:</td><td>&nbsp;&nbsp;</td><td align="left" valign="top">Built-in variables where <code>awk</code>
+                                        gives you information.
+</td></tr>
+<tr><td align="left" valign="top">&bull; <a href="ARGC-and-ARGV.html#ARGC-and-ARGV">ARGC and ARGV</a>:</td><td>&nbsp;&nbsp;</td><td align="left" valign="top">Ways to use <code>ARGC</code> and
+                                        <code>ARGV</code>.
+</td></tr>
+<tr><td align="left" valign="top">&bull; <a href="Pattern-Action-Summary.html#Pattern-Action-Summary">Pattern Action Summary</a>:</td><td>&nbsp;&nbsp;</td><td align="left" valign="top">Patterns and Actions summary.
+</td></tr>
+<tr><td align="left" valign="top">&bull; <a href="Array-Basics.html#Array-Basics">Array Basics</a>:</td><td>&nbsp;&nbsp;</td><td align="left" valign="top">The basics of arrays.
+</td></tr>
+<tr><td align="left" valign="top">&bull; <a href="Array-Intro.html#Array-Intro">Array Intro</a>:</td><td>&nbsp;&nbsp;</td><td align="left" valign="top">Introduction to Arrays
+</td></tr>
+<tr><td align="left" valign="top">&bull; <a href="Reference-to-Elements.html#Reference-to-Elements">Reference to Elements</a>:</td><td>&nbsp;&nbsp;</td><td align="left" valign="top">How to examine one element of an
+                                        array.
+</td></tr>
+<tr><td align="left" valign="top">&bull; <a href="Assigning-Elements.html#Assigning-Elements">Assigning Elements</a>:</td><td>&nbsp;&nbsp;</td><td align="left" valign="top">How to change an element of an array.
+</td></tr>
+<tr><td align="left" valign="top">&bull; <a href="Array-Example.html#Array-Example">Array Example</a>:</td><td>&nbsp;&nbsp;</td><td align="left" valign="top">Basic Example of an Array
+</td></tr>
+<tr><td align="left" valign="top">&bull; <a href="Scanning-an-Array.html#Scanning-an-Array">Scanning an Array</a>:</td><td>&nbsp;&nbsp;</td><td align="left" valign="top">A variation of the <code>for</code>
+                                        statement. It loops through the
+                                        indices of an array&rsquo;s existing
+                                        elements.
+</td></tr>
+<tr><td align="left" valign="top">&bull; <a href="Controlling-Scanning.html#Controlling-Scanning">Controlling Scanning</a>:</td><td>&nbsp;&nbsp;</td><td align="left" valign="top">Controlling the order in which arrays
+                                        are scanned.
+</td></tr>
+<tr><td align="left" valign="top">&bull; <a href="Numeric-Array-Subscripts.html#Numeric-Array-Subscripts">Numeric Array Subscripts</a>:</td><td>&nbsp;&nbsp;</td><td align="left" valign="top">How to use numbers as subscripts in
+                                        <code>awk</code>.
+</td></tr>
+<tr><td align="left" valign="top">&bull; <a href="Uninitialized-Subscripts.html#Uninitialized-Subscripts">Uninitialized Subscripts</a>:</td><td>&nbsp;&nbsp;</td><td align="left" valign="top">Using Uninitialized variables as
+                                        subscripts.
+</td></tr>
+<tr><td align="left" valign="top">&bull; <a href="Delete.html#Delete">Delete</a>:</td><td>&nbsp;&nbsp;</td><td align="left" valign="top">The <code>delete</code> statement removes an
+                                        element from an array.
+</td></tr>
+<tr><td align="left" valign="top">&bull; <a href="Multidimensional.html#Multidimensional">Multidimensional</a>:</td><td>&nbsp;&nbsp;</td><td align="left" valign="top">Emulating multidimensional arrays in
+                                        <code>awk</code>.
+</td></tr>
+<tr><td align="left" valign="top">&bull; <a href="Multiscanning.html#Multiscanning">Multiscanning</a>:</td><td>&nbsp;&nbsp;</td><td align="left" valign="top">Scanning multidimensional arrays.
+</td></tr>
+<tr><td align="left" valign="top">&bull; <a href="Arrays-of-Arrays.html#Arrays-of-Arrays">Arrays of Arrays</a>:</td><td>&nbsp;&nbsp;</td><td align="left" valign="top">True multidimensional arrays.
+</td></tr>
+<tr><td align="left" valign="top">&bull; <a href="Arrays-Summary.html#Arrays-Summary">Arrays Summary</a>:</td><td>&nbsp;&nbsp;</td><td align="left" valign="top">Summary of arrays.
+</td></tr>
+<tr><td align="left" valign="top">&bull; <a href="Built_002din.html#Built_002din">Built-in</a>:</td><td>&nbsp;&nbsp;</td><td align="left" valign="top">Summarizes the built-in functions.
+</td></tr>
+<tr><td align="left" valign="top">&bull; <a href="Calling-Built_002din.html#Calling-Built_002din">Calling Built-in</a>:</td><td>&nbsp;&nbsp;</td><td align="left" valign="top">How to call built-in functions.
+</td></tr>
+<tr><td align="left" valign="top">&bull; <a href="Numeric-Functions.html#Numeric-Functions">Numeric Functions</a>:</td><td>&nbsp;&nbsp;</td><td align="left" valign="top">Functions that work with numbers,
+                                        including <code>int()</code>, <code>sin()</code>
+                                        and <code>rand()</code>.
+</td></tr>
+<tr><td align="left" valign="top">&bull; <a href="String-Functions.html#String-Functions">String Functions</a>:</td><td>&nbsp;&nbsp;</td><td align="left" valign="top">Functions for string manipulation,
+                                        such as <code>split()</code>, <code>match()</code>
+                                        and <code>sprintf()</code>.
+</td></tr>
+<tr><td align="left" valign="top">&bull; <a href="Gory-Details.html#Gory-Details">Gory Details</a>:</td><td>&nbsp;&nbsp;</td><td align="left" valign="top">More than you want to know about
+                                        &lsquo;<samp>\</samp>&rsquo; and &lsquo;<samp>&amp;</samp>&rsquo; with
+                                        <code>sub()</code>, <code>gsub()</code>, and
+                                        <code>gensub()</code>.
+</td></tr>
+<tr><td align="left" valign="top">&bull; <a href="I_002fO-Functions.html#I_002fO-Functions">I/O Functions</a>:</td><td>&nbsp;&nbsp;</td><td align="left" valign="top">Functions for files and shell
+                                        commands.
+</td></tr>
+<tr><td align="left" valign="top">&bull; <a href="Time-Functions.html#Time-Functions">Time Functions</a>:</td><td>&nbsp;&nbsp;</td><td align="left" valign="top">Functions for dealing with timestamps.
+</td></tr>
+<tr><td align="left" valign="top">&bull; <a href="Bitwise-Functions.html#Bitwise-Functions">Bitwise Functions</a>:</td><td>&nbsp;&nbsp;</td><td align="left" valign="top">Functions for bitwise operations.
+</td></tr>
+<tr><td align="left" valign="top">&bull; <a href="Type-Functions.html#Type-Functions">Type Functions</a>:</td><td>&nbsp;&nbsp;</td><td align="left" valign="top">Functions for type information.
+</td></tr>
+<tr><td align="left" valign="top">&bull; <a href="I18N-Functions.html#I18N-Functions">I18N Functions</a>:</td><td>&nbsp;&nbsp;</td><td align="left" valign="top">Functions for string translation.
+</td></tr>
+<tr><td align="left" valign="top">&bull; <a href="User_002ddefined.html#User_002ddefined">User-defined</a>:</td><td>&nbsp;&nbsp;</td><td align="left" valign="top">Describes User-defined functions in
+                                        detail.
+</td></tr>
+<tr><td align="left" valign="top">&bull; <a href="Definition-Syntax.html#Definition-Syntax">Definition Syntax</a>:</td><td>&nbsp;&nbsp;</td><td align="left" valign="top">How to write definitions and what they
+                                        mean.
+</td></tr>
+<tr><td align="left" valign="top">&bull; <a href="Function-Example.html#Function-Example">Function Example</a>:</td><td>&nbsp;&nbsp;</td><td align="left" valign="top">An example function definition and
+                                        what it does.
+</td></tr>
+<tr><td align="left" valign="top">&bull; <a href="Function-Caveats.html#Function-Caveats">Function Caveats</a>:</td><td>&nbsp;&nbsp;</td><td align="left" valign="top">Things to watch out for.
+</td></tr>
+<tr><td align="left" valign="top">&bull; <a href="Calling-A-Function.html#Calling-A-Function">Calling A Function</a>:</td><td>&nbsp;&nbsp;</td><td align="left" valign="top">Don&rsquo;t use spaces.
+</td></tr>
+<tr><td align="left" valign="top">&bull; <a href="Variable-Scope.html#Variable-Scope">Variable Scope</a>:</td><td>&nbsp;&nbsp;</td><td align="left" valign="top">Controlling variable scope.
+</td></tr>
+<tr><td align="left" valign="top">&bull; <a href="Pass-By-Value_002fReference.html#Pass-By-Value_002fReference">Pass By Value/Reference</a>:</td><td>&nbsp;&nbsp;</td><td align="left" valign="top">Passing parameters.
+</td></tr>
+<tr><td align="left" valign="top">&bull; <a href="Return-Statement.html#Return-Statement">Return Statement</a>:</td><td>&nbsp;&nbsp;</td><td align="left" valign="top">Specifying the value a function
+                                        returns.
+</td></tr>
+<tr><td align="left" valign="top">&bull; <a href="Dynamic-Typing.html#Dynamic-Typing">Dynamic Typing</a>:</td><td>&nbsp;&nbsp;</td><td align="left" valign="top">How variable types can change at
+                                        runtime.
+</td></tr>
+<tr><td align="left" valign="top">&bull; <a href="Indirect-Calls.html#Indirect-Calls">Indirect Calls</a>:</td><td>&nbsp;&nbsp;</td><td align="left" valign="top">Choosing the function to call at
+                                        runtime.
+</td></tr>
+<tr><td align="left" valign="top">&bull; <a href="Functions-Summary.html#Functions-Summary">Functions Summary</a>:</td><td>&nbsp;&nbsp;</td><td align="left" valign="top">Summary of functions.
+</td></tr>
+<tr><td align="left" valign="top">&bull; <a href="Library-Names.html#Library-Names">Library Names</a>:</td><td>&nbsp;&nbsp;</td><td align="left" valign="top">How to best name private global
+                                        variables in library functions.
+</td></tr>
+<tr><td align="left" valign="top">&bull; <a href="General-Functions.html#General-Functions">General Functions</a>:</td><td>&nbsp;&nbsp;</td><td align="left" valign="top">Functions that are of general use.
+</td></tr>
+<tr><td align="left" valign="top">&bull; <a href="Strtonum-Function.html#Strtonum-Function">Strtonum Function</a>:</td><td>&nbsp;&nbsp;</td><td align="left" valign="top">A replacement for the built-in
+                                        <code>strtonum()</code> function.
+</td></tr>
+<tr><td align="left" valign="top">&bull; <a href="Assert-Function.html#Assert-Function">Assert Function</a>:</td><td>&nbsp;&nbsp;</td><td align="left" valign="top">A function for assertions in
+                                        <code>awk</code> programs.
+</td></tr>
+<tr><td align="left" valign="top">&bull; <a href="Round-Function.html#Round-Function">Round Function</a>:</td><td>&nbsp;&nbsp;</td><td align="left" valign="top">A function for rounding if
+                                        <code>sprintf()</code> does not do it
+                                        correctly.
+</td></tr>
+<tr><td align="left" valign="top">&bull; <a href="Cliff-Random-Function.html#Cliff-Random-Function">Cliff Random Function</a>:</td><td>&nbsp;&nbsp;</td><td align="left" valign="top">The Cliff Random Number Generator.
+</td></tr>
+<tr><td align="left" valign="top">&bull; <a href="Ordinal-Functions.html#Ordinal-Functions">Ordinal Functions</a>:</td><td>&nbsp;&nbsp;</td><td align="left" valign="top">Functions for using characters as
+                                        numbers and vice versa.
+</td></tr>
+<tr><td align="left" valign="top">&bull; <a href="Join-Function.html#Join-Function">Join Function</a>:</td><td>&nbsp;&nbsp;</td><td align="left" valign="top">A function to join an array into a
+                                        string.
+</td></tr>
+<tr><td align="left" valign="top">&bull; <a href="Getlocaltime-Function.html#Getlocaltime-Function">Getlocaltime Function</a>:</td><td>&nbsp;&nbsp;</td><td align="left" valign="top">A function to get formatted times.
+</td></tr>
+<tr><td align="left" valign="top">&bull; <a href="Readfile-Function.html#Readfile-Function">Readfile Function</a>:</td><td>&nbsp;&nbsp;</td><td align="left" valign="top">A function to read an entire file at
+                                        once.
+</td></tr>
+<tr><td align="left" valign="top">&bull; <a href="Shell-Quoting.html#Shell-Quoting">Shell Quoting</a>:</td><td>&nbsp;&nbsp;</td><td align="left" valign="top">A function to quote strings for the
+                                        shell.
+</td></tr>
+<tr><td align="left" valign="top">&bull; <a href="Data-File-Management.html#Data-File-Management">Data File Management</a>:</td><td>&nbsp;&nbsp;</td><td align="left" valign="top">Functions for managing command-line
+                                        data files.
+</td></tr>
+<tr><td align="left" valign="top">&bull; <a href="Filetrans-Function.html#Filetrans-Function">Filetrans Function</a>:</td><td>&nbsp;&nbsp;</td><td align="left" valign="top">A function for handling data file
+                                        transitions.
+</td></tr>
+<tr><td align="left" valign="top">&bull; <a href="Rewind-Function.html#Rewind-Function">Rewind Function</a>:</td><td>&nbsp;&nbsp;</td><td align="left" valign="top">A function for rereading the current
+                                        file.
+</td></tr>
+<tr><td align="left" valign="top">&bull; <a href="File-Checking.html#File-Checking">File Checking</a>:</td><td>&nbsp;&nbsp;</td><td align="left" valign="top">Checking that data files are readable.
+</td></tr>
+<tr><td align="left" valign="top">&bull; <a href="Empty-Files.html#Empty-Files">Empty Files</a>:</td><td>&nbsp;&nbsp;</td><td align="left" valign="top">Checking for zero-length files.
+</td></tr>
+<tr><td align="left" valign="top">&bull; <a href="Ignoring-Assigns.html#Ignoring-Assigns">Ignoring Assigns</a>:</td><td>&nbsp;&nbsp;</td><td align="left" valign="top">Treating assignments as file names.
+</td></tr>
+<tr><td align="left" valign="top">&bull; <a href="Getopt-Function.html#Getopt-Function">Getopt Function</a>:</td><td>&nbsp;&nbsp;</td><td align="left" valign="top">A function for processing command-line
+                                        arguments.
+</td></tr>
+<tr><td align="left" valign="top">&bull; <a href="Passwd-Functions.html#Passwd-Functions">Passwd Functions</a>:</td><td>&nbsp;&nbsp;</td><td align="left" valign="top">Functions for getting user
+                                        information.
+</td></tr>
+<tr><td align="left" valign="top">&bull; <a href="Group-Functions.html#Group-Functions">Group Functions</a>:</td><td>&nbsp;&nbsp;</td><td align="left" valign="top">Functions for getting group
+                                        information.
+</td></tr>
+<tr><td align="left" valign="top">&bull; <a href="Walking-Arrays.html#Walking-Arrays">Walking Arrays</a>:</td><td>&nbsp;&nbsp;</td><td align="left" valign="top">A function to walk arrays of arrays.
+</td></tr>
+<tr><td align="left" valign="top">&bull; <a href="Library-Functions-Summary.html#Library-Functions-Summary">Library Functions Summary</a>:</td><td>&nbsp;&nbsp;</td><td align="left" valign="top">Summary of library functions.
+</td></tr>
+<tr><td align="left" valign="top">&bull; <a href="Library-Exercises.html#Library-Exercises">Library Exercises</a>:</td><td>&nbsp;&nbsp;</td><td align="left" valign="top">Exercises.
+</td></tr>
+<tr><td align="left" valign="top">&bull; <a href="Running-Examples.html#Running-Examples">Running Examples</a>:</td><td>&nbsp;&nbsp;</td><td align="left" valign="top">How to run these examples.
+</td></tr>
+<tr><td align="left" valign="top">&bull; <a href="Clones.html#Clones">Clones</a>:</td><td>&nbsp;&nbsp;</td><td align="left" valign="top">Clones of common utilities.
+</td></tr>
+<tr><td align="left" valign="top">&bull; <a href="Cut-Program.html#Cut-Program">Cut Program</a>:</td><td>&nbsp;&nbsp;</td><td align="left" valign="top">The <code>cut</code> utility.
+</td></tr>
+<tr><td align="left" valign="top">&bull; <a href="Egrep-Program.html#Egrep-Program">Egrep Program</a>:</td><td>&nbsp;&nbsp;</td><td align="left" valign="top">The <code>egrep</code> utility.
+</td></tr>
+<tr><td align="left" valign="top">&bull; <a href="Id-Program.html#Id-Program">Id Program</a>:</td><td>&nbsp;&nbsp;</td><td align="left" valign="top">The <code>id</code> utility.
+</td></tr>
+<tr><td align="left" valign="top">&bull; <a href="Split-Program.html#Split-Program">Split Program</a>:</td><td>&nbsp;&nbsp;</td><td align="left" valign="top">The <code>split</code> utility.
+</td></tr>
+<tr><td align="left" valign="top">&bull; <a href="Tee-Program.html#Tee-Program">Tee Program</a>:</td><td>&nbsp;&nbsp;</td><td align="left" valign="top">The <code>tee</code> utility.
+</td></tr>
+<tr><td align="left" valign="top">&bull; <a href="Uniq-Program.html#Uniq-Program">Uniq Program</a>:</td><td>&nbsp;&nbsp;</td><td align="left" valign="top">The <code>uniq</code> utility.
+</td></tr>
+<tr><td align="left" valign="top">&bull; <a href="Wc-Program.html#Wc-Program">Wc Program</a>:</td><td>&nbsp;&nbsp;</td><td align="left" valign="top">The <code>wc</code> utility.
+</td></tr>
+<tr><td align="left" valign="top">&bull; <a href="Miscellaneous-Programs.html#Miscellaneous-Programs">Miscellaneous Programs</a>:</td><td>&nbsp;&nbsp;</td><td align="left" valign="top">Some interesting <code>awk</code>
+                                        programs.
+</td></tr>
+<tr><td align="left" valign="top">&bull; <a href="Dupword-Program.html#Dupword-Program">Dupword Program</a>:</td><td>&nbsp;&nbsp;</td><td align="left" valign="top">Finding duplicated words in a
+                                        document.
+</td></tr>
+<tr><td align="left" valign="top">&bull; <a href="Alarm-Program.html#Alarm-Program">Alarm Program</a>:</td><td>&nbsp;&nbsp;</td><td align="left" valign="top">An alarm clock.
+</td></tr>
+<tr><td align="left" valign="top">&bull; <a href="Translate-Program.html#Translate-Program">Translate Program</a>:</td><td>&nbsp;&nbsp;</td><td align="left" valign="top">A program similar to the <code>tr</code>
+                                        utility.
+</td></tr>
+<tr><td align="left" valign="top">&bull; <a href="Labels-Program.html#Labels-Program">Labels Program</a>:</td><td>&nbsp;&nbsp;</td><td align="left" valign="top">Printing mailing labels.
+</td></tr>
+<tr><td align="left" valign="top">&bull; <a href="Word-Sorting.html#Word-Sorting">Word Sorting</a>:</td><td>&nbsp;&nbsp;</td><td align="left" valign="top">A program to produce a word usage
+                                        count.
+</td></tr>
+<tr><td align="left" valign="top">&bull; <a href="History-Sorting.html#History-Sorting">History Sorting</a>:</td><td>&nbsp;&nbsp;</td><td align="left" valign="top">Eliminating duplicate entries from a
+                                        history file.
+</td></tr>
+<tr><td align="left" valign="top">&bull; <a href="Extract-Program.html#Extract-Program">Extract Program</a>:</td><td>&nbsp;&nbsp;</td><td align="left" valign="top">Pulling out programs from Texinfo
+                                        source files.
+</td></tr>
+<tr><td align="left" valign="top">&bull; <a href="Simple-Sed.html#Simple-Sed">Simple Sed</a>:</td><td>&nbsp;&nbsp;</td><td align="left" valign="top">A Simple Stream Editor.
+</td></tr>
+<tr><td align="left" valign="top">&bull; <a href="Igawk-Program.html#Igawk-Program">Igawk Program</a>:</td><td>&nbsp;&nbsp;</td><td align="left" valign="top">A wrapper for <code>awk</code> that
+                                        includes files.
+</td></tr>
+<tr><td align="left" valign="top">&bull; <a href="Anagram-Program.html#Anagram-Program">Anagram Program</a>:</td><td>&nbsp;&nbsp;</td><td align="left" valign="top">Finding anagrams from a dictionary.
+</td></tr>
+<tr><td align="left" valign="top">&bull; <a href="Signature-Program.html#Signature-Program">Signature Program</a>:</td><td>&nbsp;&nbsp;</td><td align="left" valign="top">People do amazing things with too much
+                                        time on their hands.
+</td></tr>
+<tr><td align="left" valign="top">&bull; <a href="Programs-Summary.html#Programs-Summary">Programs Summary</a>:</td><td>&nbsp;&nbsp;</td><td align="left" valign="top">Summary of programs.
+</td></tr>
+<tr><td align="left" valign="top">&bull; <a href="Programs-Exercises.html#Programs-Exercises">Programs Exercises</a>:</td><td>&nbsp;&nbsp;</td><td align="left" valign="top">Exercises.
+</td></tr>
+<tr><td align="left" valign="top">&bull; <a href="Nondecimal-Data.html#Nondecimal-Data">Nondecimal Data</a>:</td><td>&nbsp;&nbsp;</td><td align="left" valign="top">Allowing nondecimal input data.
+</td></tr>
+<tr><td align="left" valign="top">&bull; <a href="Array-Sorting.html#Array-Sorting">Array Sorting</a>:</td><td>&nbsp;&nbsp;</td><td align="left" valign="top">Facilities for controlling array
+                                        traversal and sorting arrays.
+</td></tr>
+<tr><td align="left" valign="top">&bull; <a href="Controlling-Array-Traversal.html#Controlling-Array-Traversal">Controlling Array Traversal</a>:</td><td>&nbsp;&nbsp;</td><td align="left" valign="top">How to use PROCINFO[&quot;sorted_in&quot;].
+</td></tr>
+<tr><td align="left" valign="top">&bull; <a href="Array-Sorting-Functions.html#Array-Sorting-Functions">Array Sorting Functions</a>:</td><td>&nbsp;&nbsp;</td><td align="left" valign="top">How to use <code>asort()</code> and
+                                        <code>asorti()</code>.
+</td></tr>
+<tr><td align="left" valign="top">&bull; <a href="Two_002dway-I_002fO.html#Two_002dway-I_002fO">Two-way I/O</a>:</td><td>&nbsp;&nbsp;</td><td align="left" valign="top">Two-way communications with another
+                                        process.
+</td></tr>
+<tr><td align="left" valign="top">&bull; <a href="TCP_002fIP-Networking.html#TCP_002fIP-Networking">TCP/IP Networking</a>:</td><td>&nbsp;&nbsp;</td><td align="left" valign="top">Using <code>gawk</code> for network
+                                        programming.
+</td></tr>
+<tr><td align="left" valign="top">&bull; <a href="Profiling.html#Profiling">Profiling</a>:</td><td>&nbsp;&nbsp;</td><td align="left" valign="top">Profiling your <code>awk</code> programs.
+</td></tr>
+<tr><td align="left" valign="top">&bull; <a href="Advanced-Features-Summary.html#Advanced-Features-Summary">Advanced Features Summary</a>:</td><td>&nbsp;&nbsp;</td><td align="left" valign="top">Summary of advanced features.
+</td></tr>
+<tr><td align="left" valign="top">&bull; <a href="I18N-and-L10N.html#I18N-and-L10N">I18N and L10N</a>:</td><td>&nbsp;&nbsp;</td><td align="left" valign="top">Internationalization and Localization.
+</td></tr>
+<tr><td align="left" valign="top">&bull; <a href="Explaining-gettext.html#Explaining-gettext">Explaining gettext</a>:</td><td>&nbsp;&nbsp;</td><td align="left" valign="top">How GNU <code>gettext</code> works.
+</td></tr>
+<tr><td align="left" valign="top">&bull; <a href="Programmer-i18n.html#Programmer-i18n">Programmer i18n</a>:</td><td>&nbsp;&nbsp;</td><td align="left" valign="top">Features for the programmer.
+</td></tr>
+<tr><td align="left" valign="top">&bull; <a href="Translator-i18n.html#Translator-i18n">Translator i18n</a>:</td><td>&nbsp;&nbsp;</td><td align="left" valign="top">Features for the translator.
+</td></tr>
+<tr><td align="left" valign="top">&bull; <a href="String-Extraction.html#String-Extraction">String Extraction</a>:</td><td>&nbsp;&nbsp;</td><td align="left" valign="top">Extracting marked strings.
+</td></tr>
+<tr><td align="left" valign="top">&bull; <a href="Printf-Ordering.html#Printf-Ordering">Printf Ordering</a>:</td><td>&nbsp;&nbsp;</td><td align="left" valign="top">Rearranging <code>printf</code> arguments.
+</td></tr>
+<tr><td align="left" valign="top">&bull; <a href="I18N-Portability.html#I18N-Portability">I18N Portability</a>:</td><td>&nbsp;&nbsp;</td><td align="left" valign="top"><code>awk</code>-level portability
+                                        issues.
+</td></tr>
+<tr><td align="left" valign="top">&bull; <a href="I18N-Example.html#I18N-Example">I18N Example</a>:</td><td>&nbsp;&nbsp;</td><td align="left" valign="top">A simple i18n example.
+</td></tr>
+<tr><td align="left" valign="top">&bull; <a href="Gawk-I18N.html#Gawk-I18N">Gawk I18N</a>:</td><td>&nbsp;&nbsp;</td><td align="left" valign="top"><code>gawk</code> is also
+                                        internationalized.
+</td></tr>
+<tr><td align="left" valign="top">&bull; <a href="I18N-Summary.html#I18N-Summary">I18N Summary</a>:</td><td>&nbsp;&nbsp;</td><td align="left" valign="top">Summary of I18N stuff.
+</td></tr>
+<tr><td align="left" valign="top">&bull; <a href="Debugging.html#Debugging">Debugging</a>:</td><td>&nbsp;&nbsp;</td><td align="left" valign="top">Introduction to <code>gawk</code>
+                                        debugger.
+</td></tr>
+<tr><td align="left" valign="top">&bull; <a href="Debugging-Concepts.html#Debugging-Concepts">Debugging Concepts</a>:</td><td>&nbsp;&nbsp;</td><td align="left" valign="top">Debugging in General.
+</td></tr>
+<tr><td align="left" valign="top">&bull; <a href="Debugging-Terms.html#Debugging-Terms">Debugging Terms</a>:</td><td>&nbsp;&nbsp;</td><td align="left" valign="top">Additional Debugging Concepts.
+</td></tr>
+<tr><td align="left" valign="top">&bull; <a href="Awk-Debugging.html#Awk-Debugging">Awk Debugging</a>:</td><td>&nbsp;&nbsp;</td><td align="left" valign="top">Awk Debugging.
+</td></tr>
+<tr><td align="left" valign="top">&bull; <a href="Sample-Debugging-Session.html#Sample-Debugging-Session">Sample Debugging Session</a>:</td><td>&nbsp;&nbsp;</td><td align="left" valign="top">Sample debugging session.
+</td></tr>
+<tr><td align="left" valign="top">&bull; <a href="Debugger-Invocation.html#Debugger-Invocation">Debugger Invocation</a>:</td><td>&nbsp;&nbsp;</td><td align="left" valign="top">How to Start the Debugger.
+</td></tr>
+<tr><td align="left" valign="top">&bull; <a href="Finding-The-Bug.html#Finding-The-Bug">Finding The Bug</a>:</td><td>&nbsp;&nbsp;</td><td align="left" valign="top">Finding the Bug.
+</td></tr>
+<tr><td align="left" valign="top">&bull; <a href="List-of-Debugger-Commands.html#List-of-Debugger-Commands">List of Debugger Commands</a>:</td><td>&nbsp;&nbsp;</td><td align="left" valign="top">Main debugger commands.
+</td></tr>
+<tr><td align="left" valign="top">&bull; <a href="Breakpoint-Control.html#Breakpoint-Control">Breakpoint Control</a>:</td><td>&nbsp;&nbsp;</td><td align="left" valign="top">Control of Breakpoints.
+</td></tr>
+<tr><td align="left" valign="top">&bull; <a href="Debugger-Execution-Control.html#Debugger-Execution-Control">Debugger Execution Control</a>:</td><td>&nbsp;&nbsp;</td><td align="left" valign="top">Control of Execution.
+</td></tr>
+<tr><td align="left" valign="top">&bull; <a href="Viewing-And-Changing-Data.html#Viewing-And-Changing-Data">Viewing And Changing Data</a>:</td><td>&nbsp;&nbsp;</td><td align="left" valign="top">Viewing and Changing Data.
+</td></tr>
+<tr><td align="left" valign="top">&bull; <a href="Execution-Stack.html#Execution-Stack">Execution Stack</a>:</td><td>&nbsp;&nbsp;</td><td align="left" valign="top">Dealing with the Stack.
+</td></tr>
+<tr><td align="left" valign="top">&bull; <a href="Debugger-Info.html#Debugger-Info">Debugger Info</a>:</td><td>&nbsp;&nbsp;</td><td align="left" valign="top">Obtaining Information about the
+                                        Program and the Debugger State.
+</td></tr>
+<tr><td align="left" valign="top">&bull; <a href="Miscellaneous-Debugger-Commands.html#Miscellaneous-Debugger-Commands">Miscellaneous Debugger Commands</a>:</td><td>&nbsp;&nbsp;</td><td align="left" valign="top">Miscellaneous Commands.
+</td></tr>
+<tr><td align="left" valign="top">&bull; <a href="Readline-Support.html#Readline-Support">Readline Support</a>:</td><td>&nbsp;&nbsp;</td><td align="left" valign="top">Readline support.
+</td></tr>
+<tr><td align="left" valign="top">&bull; <a href="Limitations.html#Limitations">Limitations</a>:</td><td>&nbsp;&nbsp;</td><td align="left" valign="top">Limitations and future plans.
+</td></tr>
+<tr><td align="left" valign="top">&bull; <a href="Debugging-Summary.html#Debugging-Summary">Debugging Summary</a>:</td><td>&nbsp;&nbsp;</td><td align="left" valign="top">Debugging summary.
+</td></tr>
+<tr><td align="left" valign="top">&bull; <a href="Computer-Arithmetic.html#Computer-Arithmetic">Computer Arithmetic</a>:</td><td>&nbsp;&nbsp;</td><td align="left" valign="top">A quick intro to computer math.
+</td></tr>
+<tr><td align="left" valign="top">&bull; <a href="Math-Definitions.html#Math-Definitions">Math Definitions</a>:</td><td>&nbsp;&nbsp;</td><td align="left" valign="top">Defining terms used.
+</td></tr>
+<tr><td align="left" valign="top">&bull; <a href="MPFR-features.html#MPFR-features">MPFR features</a>:</td><td>&nbsp;&nbsp;</td><td align="left" valign="top">The MPFR features in <code>gawk</code>.
+</td></tr>
+<tr><td align="left" valign="top">&bull; <a href="FP-Math-Caution.html#FP-Math-Caution">FP Math Caution</a>:</td><td>&nbsp;&nbsp;</td><td align="left" valign="top">Things to know.
+</td></tr>
+<tr><td align="left" valign="top">&bull; <a href="Inexactness-of-computations.html#Inexactness-of-computations">Inexactness of computations</a>:</td><td>&nbsp;&nbsp;</td><td align="left" valign="top">Floating point math is not exact.
+</td></tr>
+<tr><td align="left" valign="top">&bull; <a href="Inexact-representation.html#Inexact-representation">Inexact representation</a>:</td><td>&nbsp;&nbsp;</td><td align="left" valign="top">Numbers are not exactly represented.
+</td></tr>
+<tr><td align="left" valign="top">&bull; <a href="Comparing-FP-Values.html#Comparing-FP-Values">Comparing FP Values</a>:</td><td>&nbsp;&nbsp;</td><td align="left" valign="top">How to compare floating point values.
+</td></tr>
+<tr><td align="left" valign="top">&bull; <a href="Errors-accumulate.html#Errors-accumulate">Errors accumulate</a>:</td><td>&nbsp;&nbsp;</td><td align="left" valign="top">Errors get bigger as they go.
+</td></tr>
+<tr><td align="left" valign="top">&bull; <a href="Getting-Accuracy.html#Getting-Accuracy">Getting Accuracy</a>:</td><td>&nbsp;&nbsp;</td><td align="left" valign="top">Getting more accuracy takes some work.
+</td></tr>
+<tr><td align="left" valign="top">&bull; <a href="Try-To-Round.html#Try-To-Round">Try To Round</a>:</td><td>&nbsp;&nbsp;</td><td align="left" valign="top">Add digits and round.
+</td></tr>
+<tr><td align="left" valign="top">&bull; <a href="Setting-precision.html#Setting-precision">Setting precision</a>:</td><td>&nbsp;&nbsp;</td><td align="left" valign="top">How to set the precision.
+</td></tr>
+<tr><td align="left" valign="top">&bull; <a href="Setting-the-rounding-mode.html#Setting-the-rounding-mode">Setting the rounding mode</a>:</td><td>&nbsp;&nbsp;</td><td align="left" valign="top">How to set the rounding mode.
+</td></tr>
+<tr><td align="left" valign="top">&bull; <a href="Arbitrary-Precision-Integers.html#Arbitrary-Precision-Integers">Arbitrary Precision Integers</a>:</td><td>&nbsp;&nbsp;</td><td align="left" valign="top">Arbitrary Precision Integer Arithmetic
+                                        with <code>gawk</code>.
+</td></tr>
+<tr><td align="left" valign="top">&bull; <a href="POSIX-Floating-Point-Problems.html#POSIX-Floating-Point-Problems">POSIX Floating Point Problems</a>:</td><td>&nbsp;&nbsp;</td><td align="left" valign="top">Standards Versus Existing Practice.
+</td></tr>
+<tr><td align="left" valign="top">&bull; <a href="Floating-point-summary.html#Floating-point-summary">Floating point summary</a>:</td><td>&nbsp;&nbsp;</td><td align="left" valign="top">Summary of floating point discussion.
+</td></tr>
+<tr><td align="left" valign="top">&bull; <a href="Extension-Intro.html#Extension-Intro">Extension Intro</a>:</td><td>&nbsp;&nbsp;</td><td align="left" valign="top">What is an extension.
+</td></tr>
+<tr><td align="left" valign="top">&bull; <a href="Plugin-License.html#Plugin-License">Plugin License</a>:</td><td>&nbsp;&nbsp;</td><td align="left" valign="top">A note about licensing.
+</td></tr>
+<tr><td align="left" valign="top">&bull; <a href="Extension-Mechanism-Outline.html#Extension-Mechanism-Outline">Extension Mechanism Outline</a>:</td><td>&nbsp;&nbsp;</td><td align="left" valign="top">An outline of how it works.
+</td></tr>
+<tr><td align="left" valign="top">&bull; <a href="Extension-API-Description.html#Extension-API-Description">Extension API Description</a>:</td><td>&nbsp;&nbsp;</td><td align="left" valign="top">A full description of the API.
+</td></tr>
+<tr><td align="left" valign="top">&bull; <a href="Extension-API-Functions-Introduction.html#Extension-API-Functions-Introduction">Extension API Functions Introduction</a>:</td><td>&nbsp;&nbsp;</td><td align="left" valign="top">Introduction to the API functions.
+</td></tr>
+<tr><td align="left" valign="top">&bull; <a href="General-Data-Types.html#General-Data-Types">General Data Types</a>:</td><td>&nbsp;&nbsp;</td><td align="left" valign="top">The data types.
+</td></tr>
+<tr><td align="left" valign="top">&bull; <a href="Memory-Allocation-Functions.html#Memory-Allocation-Functions">Memory Allocation Functions</a>:</td><td>&nbsp;&nbsp;</td><td align="left" valign="top">Functions for allocating memory.
+</td></tr>
+<tr><td align="left" valign="top">&bull; <a href="Constructor-Functions.html#Constructor-Functions">Constructor Functions</a>:</td><td>&nbsp;&nbsp;</td><td align="left" valign="top">Functions for creating values.
+</td></tr>
+<tr><td align="left" valign="top">&bull; <a href="Registration-Functions.html#Registration-Functions">Registration Functions</a>:</td><td>&nbsp;&nbsp;</td><td align="left" valign="top">Functions to register things with
+                                        <code>gawk</code>.
+</td></tr>
+<tr><td align="left" valign="top">&bull; <a href="Extension-Functions.html#Extension-Functions">Extension Functions</a>:</td><td>&nbsp;&nbsp;</td><td align="left" valign="top">Registering extension functions.
+</td></tr>
+<tr><td align="left" valign="top">&bull; <a href="Exit-Callback-Functions.html#Exit-Callback-Functions">Exit Callback Functions</a>:</td><td>&nbsp;&nbsp;</td><td align="left" valign="top">Registering an exit callback.
+</td></tr>
+<tr><td align="left" valign="top">&bull; <a href="Extension-Version-String.html#Extension-Version-String">Extension Version String</a>:</td><td>&nbsp;&nbsp;</td><td align="left" valign="top">Registering a version string.
+</td></tr>
+<tr><td align="left" valign="top">&bull; <a href="Input-Parsers.html#Input-Parsers">Input Parsers</a>:</td><td>&nbsp;&nbsp;</td><td align="left" valign="top">Registering an input parser.
+</td></tr>
+<tr><td align="left" valign="top">&bull; <a href="Output-Wrappers.html#Output-Wrappers">Output Wrappers</a>:</td><td>&nbsp;&nbsp;</td><td align="left" valign="top">Registering an output wrapper.
+</td></tr>
+<tr><td align="left" valign="top">&bull; <a href="Two_002dway-processors.html#Two_002dway-processors">Two-way processors</a>:</td><td>&nbsp;&nbsp;</td><td align="left" valign="top">Registering a two-way processor.
+</td></tr>
+<tr><td align="left" valign="top">&bull; <a href="Printing-Messages.html#Printing-Messages">Printing Messages</a>:</td><td>&nbsp;&nbsp;</td><td align="left" valign="top">Functions for printing messages.
+</td></tr>
+<tr><td align="left" valign="top">&bull; <a href="Updating-ERRNO.html#Updating-ERRNO">Updating <code>ERRNO</code></a>:</td><td>&nbsp;&nbsp;</td><td align="left" valign="top">Functions for updating <code>ERRNO</code>.
+</td></tr>
+<tr><td align="left" valign="top">&bull; <a href="Requesting-Values.html#Requesting-Values">Requesting Values</a>:</td><td>&nbsp;&nbsp;</td><td align="left" valign="top">How to get a value.
+</td></tr>
+<tr><td align="left" valign="top">&bull; <a href="Accessing-Parameters.html#Accessing-Parameters">Accessing Parameters</a>:</td><td>&nbsp;&nbsp;</td><td align="left" valign="top">Functions for accessing parameters.
+</td></tr>
+<tr><td align="left" valign="top">&bull; <a href="Symbol-Table-Access.html#Symbol-Table-Access">Symbol Table Access</a>:</td><td>&nbsp;&nbsp;</td><td align="left" valign="top">Functions for accessing global
+                                        variables.
+</td></tr>
+<tr><td align="left" valign="top">&bull; <a href="Symbol-table-by-name.html#Symbol-table-by-name">Symbol table by name</a>:</td><td>&nbsp;&nbsp;</td><td align="left" valign="top">Accessing variables by name.
+</td></tr>
+<tr><td align="left" valign="top">&bull; <a href="Symbol-table-by-cookie.html#Symbol-table-by-cookie">Symbol table by cookie</a>:</td><td>&nbsp;&nbsp;</td><td align="left" valign="top">Accessing variables by &ldquo;cookie&rdquo;.
+</td></tr>
+<tr><td align="left" valign="top">&bull; <a href="Cached-values.html#Cached-values">Cached values</a>:</td><td>&nbsp;&nbsp;</td><td align="left" valign="top">Creating and using cached values.
+</td></tr>
+<tr><td align="left" valign="top">&bull; <a href="Array-Manipulation.html#Array-Manipulation">Array Manipulation</a>:</td><td>&nbsp;&nbsp;</td><td align="left" valign="top">Functions for working with arrays.
+</td></tr>
+<tr><td align="left" valign="top">&bull; <a href="Array-Data-Types.html#Array-Data-Types">Array Data Types</a>:</td><td>&nbsp;&nbsp;</td><td align="left" valign="top">Data types for working with arrays.
+</td></tr>
+<tr><td align="left" valign="top">&bull; <a href="Array-Functions.html#Array-Functions">Array Functions</a>:</td><td>&nbsp;&nbsp;</td><td align="left" valign="top">Functions for working with arrays.
+</td></tr>
+<tr><td align="left" valign="top">&bull; <a href="Flattening-Arrays.html#Flattening-Arrays">Flattening Arrays</a>:</td><td>&nbsp;&nbsp;</td><td align="left" valign="top">How to flatten arrays.
+</td></tr>
+<tr><td align="left" valign="top">&bull; <a href="Creating-Arrays.html#Creating-Arrays">Creating Arrays</a>:</td><td>&nbsp;&nbsp;</td><td align="left" valign="top">How to create and populate arrays.
+</td></tr>
+<tr><td align="left" valign="top">&bull; <a href="Extension-API-Variables.html#Extension-API-Variables">Extension API Variables</a>:</td><td>&nbsp;&nbsp;</td><td align="left" valign="top">Variables provided by the API.
+</td></tr>
+<tr><td align="left" valign="top">&bull; <a href="Extension-Versioning.html#Extension-Versioning">Extension Versioning</a>:</td><td>&nbsp;&nbsp;</td><td align="left" valign="top">API Version information.
+</td></tr>
+<tr><td align="left" valign="top">&bull; <a href="Extension-API-Informational-Variables.html#Extension-API-Informational-Variables">Extension API Informational Variables</a>:</td><td>&nbsp;&nbsp;</td><td align="left" valign="top">Variables providing information about
+                                        <code>gawk</code>&rsquo;s invocation.
+</td></tr>
+<tr><td align="left" valign="top">&bull; <a href="Extension-API-Boilerplate.html#Extension-API-Boilerplate">Extension API Boilerplate</a>:</td><td>&nbsp;&nbsp;</td><td align="left" valign="top">Boilerplate code for using the API.
+</td></tr>
+<tr><td align="left" valign="top">&bull; <a href="Finding-Extensions.html#Finding-Extensions">Finding Extensions</a>:</td><td>&nbsp;&nbsp;</td><td align="left" valign="top">How <code>gawk</code> finds compiled
+                                        extensions.
+</td></tr>
+<tr><td align="left" valign="top">&bull; <a href="Extension-Example.html#Extension-Example">Extension Example</a>:</td><td>&nbsp;&nbsp;</td><td align="left" valign="top">Example C code for an extension.
+</td></tr>
+<tr><td align="left" valign="top">&bull; <a href="Internal-File-Description.html#Internal-File-Description">Internal File Description</a>:</td><td>&nbsp;&nbsp;</td><td align="left" valign="top">What the new functions will do.
+</td></tr>
+<tr><td align="left" valign="top">&bull; <a href="Internal-File-Ops.html#Internal-File-Ops">Internal File Ops</a>:</td><td>&nbsp;&nbsp;</td><td align="left" valign="top">The code for internal file operations.
+</td></tr>
+<tr><td align="left" valign="top">&bull; <a href="Using-Internal-File-Ops.html#Using-Internal-File-Ops">Using Internal File Ops</a>:</td><td>&nbsp;&nbsp;</td><td align="left" valign="top">How to use an external extension.
+</td></tr>
+<tr><td align="left" valign="top">&bull; <a href="Extension-Samples.html#Extension-Samples">Extension Samples</a>:</td><td>&nbsp;&nbsp;</td><td align="left" valign="top">The sample extensions that ship with
+                                        <code>gawk</code>.
+</td></tr>
+<tr><td align="left" valign="top">&bull; <a href="Extension-Sample-File-Functions.html#Extension-Sample-File-Functions">Extension Sample File Functions</a>:</td><td>&nbsp;&nbsp;</td><td align="left" valign="top">The file functions sample.
+</td></tr>
+<tr><td align="left" valign="top">&bull; <a href="Extension-Sample-Fnmatch.html#Extension-Sample-Fnmatch">Extension Sample Fnmatch</a>:</td><td>&nbsp;&nbsp;</td><td align="left" valign="top">An interface to <code>fnmatch()</code>.
+</td></tr>
+<tr><td align="left" valign="top">&bull; <a href="Extension-Sample-Fork.html#Extension-Sample-Fork">Extension Sample Fork</a>:</td><td>&nbsp;&nbsp;</td><td align="left" valign="top">An interface to <code>fork()</code> and
+                                        other process functions.
+</td></tr>
+<tr><td align="left" valign="top">&bull; <a href="Extension-Sample-Inplace.html#Extension-Sample-Inplace">Extension Sample Inplace</a>:</td><td>&nbsp;&nbsp;</td><td align="left" valign="top">Enabling in-place file editing.
+</td></tr>
+<tr><td align="left" valign="top">&bull; <a href="Extension-Sample-Ord.html#Extension-Sample-Ord">Extension Sample Ord</a>:</td><td>&nbsp;&nbsp;</td><td align="left" valign="top">Character to value to character
+                                        conversions.
+</td></tr>
+<tr><td align="left" valign="top">&bull; <a href="Extension-Sample-Readdir.html#Extension-Sample-Readdir">Extension Sample Readdir</a>:</td><td>&nbsp;&nbsp;</td><td align="left" valign="top">An interface to <code>readdir()</code>.
+</td></tr>
+<tr><td align="left" valign="top">&bull; <a href="Extension-Sample-Revout.html#Extension-Sample-Revout">Extension Sample Revout</a>:</td><td>&nbsp;&nbsp;</td><td align="left" valign="top">Reversing output sample output
+                                        wrapper.
+</td></tr>
+<tr><td align="left" valign="top">&bull; <a href="Extension-Sample-Rev2way.html#Extension-Sample-Rev2way">Extension Sample Rev2way</a>:</td><td>&nbsp;&nbsp;</td><td align="left" valign="top">Reversing data sample two-way
+                                        processor.
+</td></tr>
+<tr><td align="left" valign="top">&bull; <a href="Extension-Sample-Read-write-array.html#Extension-Sample-Read-write-array">Extension Sample Read write array</a>:</td><td>&nbsp;&nbsp;</td><td align="left" valign="top">Serializing an array to a file.
+</td></tr>
+<tr><td align="left" valign="top">&bull; <a href="Extension-Sample-Readfile.html#Extension-Sample-Readfile">Extension Sample Readfile</a>:</td><td>&nbsp;&nbsp;</td><td align="left" valign="top">Reading an entire file into a string.
+</td></tr>
+<tr><td align="left" valign="top">&bull; <a href="Extension-Sample-Time.html#Extension-Sample-Time">Extension Sample Time</a>:</td><td>&nbsp;&nbsp;</td><td align="left" valign="top">An interface to <code>gettimeofday()</code>
+                                        and <code>sleep()</code>.
+</td></tr>
+<tr><td align="left" valign="top">&bull; <a href="Extension-Sample-API-Tests.html#Extension-Sample-API-Tests">Extension Sample API Tests</a>:</td><td>&nbsp;&nbsp;</td><td align="left" valign="top">Tests for the API.
+</td></tr>
+<tr><td align="left" valign="top">&bull; <a href="gawkextlib.html#gawkextlib">gawkextlib</a>:</td><td>&nbsp;&nbsp;</td><td align="left" valign="top">The <code>gawkextlib</code> project.
+</td></tr>
+<tr><td align="left" valign="top">&bull; <a href="Extension-summary.html#Extension-summary">Extension summary</a>:</td><td>&nbsp;&nbsp;</td><td align="left" valign="top">Extension summary.
+</td></tr>
+<tr><td align="left" valign="top">&bull; <a href="Extension-Exercises.html#Extension-Exercises">Extension Exercises</a>:</td><td>&nbsp;&nbsp;</td><td align="left" valign="top">Exercises.
+</td></tr>
+<tr><td align="left" valign="top">&bull; <a href="V7_002fSVR3_002e1.html#V7_002fSVR3_002e1">V7/SVR3.1</a>:</td><td>&nbsp;&nbsp;</td><td align="left" valign="top">The major changes between V7 and
+                                        System V Release 3.1.
+</td></tr>
+<tr><td align="left" valign="top">&bull; <a href="SVR4.html#SVR4">SVR4</a>:</td><td>&nbsp;&nbsp;</td><td align="left" valign="top">Minor changes between System V
+                                        Releases 3.1 and 4.
+</td></tr>
+<tr><td align="left" valign="top">&bull; <a href="POSIX.html#POSIX">POSIX</a>:</td><td>&nbsp;&nbsp;</td><td align="left" valign="top">New features from the POSIX standard.
+</td></tr>
+<tr><td align="left" valign="top">&bull; <a href="BTL.html#BTL">BTL</a>:</td><td>&nbsp;&nbsp;</td><td align="left" valign="top">New features from Brian Kernighan&rsquo;s
+                                        version of <code>awk</code>.
+</td></tr>
+<tr><td align="left" valign="top">&bull; <a href="POSIX_002fGNU.html#POSIX_002fGNU">POSIX/GNU</a>:</td><td>&nbsp;&nbsp;</td><td align="left" valign="top">The extensions in <code>gawk</code> not
+                                        in POSIX <code>awk</code>.
+</td></tr>
+<tr><td align="left" valign="top">&bull; <a href="Feature-History.html#Feature-History">Feature History</a>:</td><td>&nbsp;&nbsp;</td><td align="left" valign="top">The history of the features in
+                                        <code>gawk</code>.
+</td></tr>
+<tr><td align="left" valign="top">&bull; <a href="Common-Extensions.html#Common-Extensions">Common Extensions</a>:</td><td>&nbsp;&nbsp;</td><td align="left" valign="top">Common Extensions Summary.
+</td></tr>
+<tr><td align="left" valign="top">&bull; <a href="Ranges-and-Locales.html#Ranges-and-Locales">Ranges and Locales</a>:</td><td>&nbsp;&nbsp;</td><td align="left" valign="top">How locales used to affect regexp
+                                        ranges.
+</td></tr>
+<tr><td align="left" valign="top">&bull; <a href="Contributors.html#Contributors">Contributors</a>:</td><td>&nbsp;&nbsp;</td><td align="left" valign="top">The major contributors to
+                                        <code>gawk</code>.
+</td></tr>
+<tr><td align="left" valign="top">&bull; <a href="History-summary.html#History-summary">History summary</a>:</td><td>&nbsp;&nbsp;</td><td align="left" valign="top">History summary.
+</td></tr>
+<tr><td align="left" valign="top">&bull; <a href="Gawk-Distribution.html#Gawk-Distribution">Gawk Distribution</a>:</td><td>&nbsp;&nbsp;</td><td align="left" valign="top">What is in the <code>gawk</code>
+                                        distribution.
+</td></tr>
+<tr><td align="left" valign="top">&bull; <a href="Getting.html#Getting">Getting</a>:</td><td>&nbsp;&nbsp;</td><td align="left" valign="top">How to get the distribution.
+</td></tr>
+<tr><td align="left" valign="top">&bull; <a href="Extracting.html#Extracting">Extracting</a>:</td><td>&nbsp;&nbsp;</td><td align="left" valign="top">How to extract the distribution.
+</td></tr>
+<tr><td align="left" valign="top">&bull; <a href="Distribution-contents.html#Distribution-contents">Distribution contents</a>:</td><td>&nbsp;&nbsp;</td><td align="left" valign="top">What is in the distribution.
+</td></tr>
+<tr><td align="left" valign="top">&bull; <a href="Unix-Installation.html#Unix-Installation">Unix Installation</a>:</td><td>&nbsp;&nbsp;</td><td align="left" valign="top">Installing <code>gawk</code> under
+                                        various versions of Unix.
+</td></tr>
+<tr><td align="left" valign="top">&bull; <a href="Quick-Installation.html#Quick-Installation">Quick Installation</a>:</td><td>&nbsp;&nbsp;</td><td align="left" valign="top">Compiling <code>gawk</code> under Unix.
+</td></tr>
+<tr><td align="left" valign="top">&bull; <a href="Additional-Configuration-Options.html#Additional-Configuration-Options">Additional Configuration Options</a>:</td><td>&nbsp;&nbsp;</td><td align="left" valign="top">Other compile-time options.
+</td></tr>
+<tr><td align="left" valign="top">&bull; <a href="Configuration-Philosophy.html#Configuration-Philosophy">Configuration Philosophy</a>:</td><td>&nbsp;&nbsp;</td><td align="left" valign="top">How it&rsquo;s all supposed to work.
+</td></tr>
+<tr><td align="left" valign="top">&bull; <a href="Non_002dUnix-Installation.html#Non_002dUnix-Installation">Non-Unix Installation</a>:</td><td>&nbsp;&nbsp;</td><td align="left" valign="top">Installation on Other Operating
+                                        Systems.
+</td></tr>
+<tr><td align="left" valign="top">&bull; <a href="PC-Installation.html#PC-Installation">PC Installation</a>:</td><td>&nbsp;&nbsp;</td><td align="left" valign="top">Installing and Compiling
+                                        <code>gawk</code> on MS-DOS and OS/2.
+</td></tr>
+<tr><td align="left" valign="top">&bull; <a href="PC-Binary-Installation.html#PC-Binary-Installation">PC Binary Installation</a>:</td><td>&nbsp;&nbsp;</td><td align="left" valign="top">Installing a prepared distribution.
+</td></tr>
+<tr><td align="left" valign="top">&bull; <a href="PC-Compiling.html#PC-Compiling">PC Compiling</a>:</td><td>&nbsp;&nbsp;</td><td align="left" valign="top">Compiling <code>gawk</code> for MS-DOS,
+                                        Windows32, and OS/2.
+</td></tr>
+<tr><td align="left" valign="top">&bull; <a href="PC-Testing.html#PC-Testing">PC Testing</a>:</td><td>&nbsp;&nbsp;</td><td align="left" valign="top">Testing <code>gawk</code> on PC systems.
+</td></tr>
+<tr><td align="left" valign="top">&bull; <a href="PC-Using.html#PC-Using">PC Using</a>:</td><td>&nbsp;&nbsp;</td><td align="left" valign="top">Running <code>gawk</code> on MS-DOS,
+                                        Windows32 and OS/2.
+</td></tr>
+<tr><td align="left" valign="top">&bull; <a href="Cygwin.html#Cygwin">Cygwin</a>:</td><td>&nbsp;&nbsp;</td><td align="left" valign="top">Building and running <code>gawk</code>
+                                        for Cygwin.
+</td></tr>
+<tr><td align="left" valign="top">&bull; <a href="MSYS.html#MSYS">MSYS</a>:</td><td>&nbsp;&nbsp;</td><td align="left" valign="top">Using <code>gawk</code> In The MSYS
+                                        Environment.
+</td></tr>
+<tr><td align="left" valign="top">&bull; <a href="VMS-Installation.html#VMS-Installation">VMS Installation</a>:</td><td>&nbsp;&nbsp;</td><td align="left" valign="top">Installing <code>gawk</code> on VMS.
+</td></tr>
+<tr><td align="left" valign="top">&bull; <a href="VMS-Compilation.html#VMS-Compilation">VMS Compilation</a>:</td><td>&nbsp;&nbsp;</td><td align="left" valign="top">How to compile <code>gawk</code> under
+                                        VMS.
+</td></tr>
+<tr><td align="left" valign="top">&bull; <a href="VMS-Dynamic-Extensions.html#VMS-Dynamic-Extensions">VMS Dynamic Extensions</a>:</td><td>&nbsp;&nbsp;</td><td align="left" valign="top">Compiling <code>gawk</code> dynamic
+                                        extensions on VMS.
+</td></tr>
+<tr><td align="left" valign="top">&bull; <a href="VMS-Installation-Details.html#VMS-Installation-Details">VMS Installation Details</a>:</td><td>&nbsp;&nbsp;</td><td align="left" valign="top">How to install <code>gawk</code> under
+                                        VMS.
+</td></tr>
+<tr><td align="left" valign="top">&bull; <a href="VMS-Running.html#VMS-Running">VMS Running</a>:</td><td>&nbsp;&nbsp;</td><td align="left" valign="top">How to run <code>gawk</code> under VMS.
+</td></tr>
+<tr><td align="left" valign="top">&bull; <a href="VMS-GNV.html#VMS-GNV">VMS GNV</a>:</td><td>&nbsp;&nbsp;</td><td align="left" valign="top">The VMS GNV Project.
+</td></tr>
+<tr><td align="left" valign="top">&bull; <a href="VMS-Old-Gawk.html#VMS-Old-Gawk">VMS Old Gawk</a>:</td><td>&nbsp;&nbsp;</td><td align="left" valign="top">An old version comes with some VMS
+                                        systems.
+</td></tr>
+<tr><td align="left" valign="top">&bull; <a href="Bugs.html#Bugs">Bugs</a>:</td><td>&nbsp;&nbsp;</td><td align="left" valign="top">Reporting Problems and Bugs.
+</td></tr>
+<tr><td align="left" valign="top">&bull; <a href="Other-Versions.html#Other-Versions">Other Versions</a>:</td><td>&nbsp;&nbsp;</td><td align="left" valign="top">Other freely available <code>awk</code>
+                                        implementations.
+</td></tr>
+<tr><td align="left" valign="top">&bull; <a href="Installation-summary.html#Installation-summary">Installation summary</a>:</td><td>&nbsp;&nbsp;</td><td align="left" valign="top">Summary of installation.
+</td></tr>
+<tr><td align="left" valign="top">&bull; <a href="Compatibility-Mode.html#Compatibility-Mode">Compatibility Mode</a>:</td><td>&nbsp;&nbsp;</td><td align="left" valign="top">How to disable certain <code>gawk</code>
+                                        extensions.
+</td></tr>
+<tr><td align="left" valign="top">&bull; <a href="Additions.html#Additions">Additions</a>:</td><td>&nbsp;&nbsp;</td><td align="left" valign="top">Making Additions To <code>gawk</code>.
+</td></tr>
+<tr><td align="left" valign="top">&bull; <a href="Accessing-The-Source.html#Accessing-The-Source">Accessing The Source</a>:</td><td>&nbsp;&nbsp;</td><td align="left" valign="top">Accessing the Git repository.
+</td></tr>
+<tr><td align="left" valign="top">&bull; <a href="Adding-Code.html#Adding-Code">Adding Code</a>:</td><td>&nbsp;&nbsp;</td><td align="left" valign="top">Adding code to the main body of
+                                        <code>gawk</code>.
+</td></tr>
+<tr><td align="left" valign="top">&bull; <a href="New-Ports.html#New-Ports">New Ports</a>:</td><td>&nbsp;&nbsp;</td><td align="left" valign="top">Porting <code>gawk</code> to a new
+                                        operating system.
+</td></tr>
+<tr><td align="left" valign="top">&bull; <a href="Derived-Files.html#Derived-Files">Derived Files</a>:</td><td>&nbsp;&nbsp;</td><td align="left" valign="top">Why derived files are kept in the Git
+                                        repository.
+</td></tr>
+<tr><td align="left" valign="top">&bull; <a href="Future-Extensions.html#Future-Extensions">Future Extensions</a>:</td><td>&nbsp;&nbsp;</td><td align="left" valign="top">New features that may be implemented
+                                        one day.
+</td></tr>
+<tr><td align="left" valign="top">&bull; <a href="Implementation-Limitations.html#Implementation-Limitations">Implementation Limitations</a>:</td><td>&nbsp;&nbsp;</td><td align="left" valign="top">Some limitations of the
+                                        implementation.
+</td></tr>
+<tr><td align="left" valign="top">&bull; <a href="Extension-Design.html#Extension-Design">Extension Design</a>:</td><td>&nbsp;&nbsp;</td><td align="left" valign="top">Design notes about the extension API.
+</td></tr>
+<tr><td align="left" valign="top">&bull; <a href="Old-Extension-Problems.html#Old-Extension-Problems">Old Extension Problems</a>:</td><td>&nbsp;&nbsp;</td><td align="left" valign="top">Problems with the old mechanism.
+</td></tr>
+<tr><td align="left" valign="top">&bull; <a href="Extension-New-Mechanism-Goals.html#Extension-New-Mechanism-Goals">Extension New Mechanism Goals</a>:</td><td>&nbsp;&nbsp;</td><td align="left" valign="top">Goals for the new mechanism.
+</td></tr>
+<tr><td align="left" valign="top">&bull; <a href="Extension-Other-Design-Decisions.html#Extension-Other-Design-Decisions">Extension Other Design Decisions</a>:</td><td>&nbsp;&nbsp;</td><td align="left" valign="top">Some other design decisions.
+</td></tr>
+<tr><td align="left" valign="top">&bull; <a href="Extension-Future-Growth.html#Extension-Future-Growth">Extension Future Growth</a>:</td><td>&nbsp;&nbsp;</td><td align="left" valign="top">Some room for future growth.
+</td></tr>
+<tr><td align="left" valign="top">&bull; <a href="Old-Extension-Mechanism.html#Old-Extension-Mechanism">Old Extension Mechanism</a>:</td><td>&nbsp;&nbsp;</td><td align="left" valign="top">Some compatibility for old extensions.
+</td></tr>
+<tr><td align="left" valign="top">&bull; <a href="Notes-summary.html#Notes-summary">Notes summary</a>:</td><td>&nbsp;&nbsp;</td><td align="left" valign="top">Summary of implementation notes.
+</td></tr>
+<tr><td align="left" valign="top">&bull; <a href="Basic-High-Level.html#Basic-High-Level">Basic High Level</a>:</td><td>&nbsp;&nbsp;</td><td align="left" valign="top">The high level view.
+</td></tr>
+<tr><td align="left" valign="top">&bull; <a href="Basic-Data-Typing.html#Basic-Data-Typing">Basic Data Typing</a>:</td><td>&nbsp;&nbsp;</td><td align="left" valign="top">A very quick intro to data types.
+</td></tr>
+</table>
+
+
+<a name="SEC_Overview"></a>
+<h2 class="shortcontents-heading">Short Table of Contents</h2>
+
+<div class="shortcontents">
+<ul class="no-bullet">
+<li><ul class="no-bullet">
+<li><a name="stoc-Foreword-to-the-Third-Edition" href="#toc-Foreword-to-the-Third-Edition">Foreword to the Third Edition</a></li>
+<li><a name="stoc-Foreword-to-the-Fourth-Edition" href="#toc-Foreword-to-the-Fourth-Edition">Foreword to the Fourth Edition</a></li>
+<li><a name="stoc-Preface-1" href="#toc-Preface-1">Preface</a></li>
+</ul></li>
+<li><a name="stoc-Part-I_003a-The-awk-Language" href="#toc-Part-I_003a-The-awk-Language">Part I:<br>The <code>awk</code> Language</a><ul class="no-bullet">
+<li><a name="stoc-Getting-Started-with-awk" href="#toc-Getting-Started-with-awk">1 Getting Started with <code>awk</code></a></li>
+<li><a name="stoc-Running-awk-and-gawk" href="#toc-Running-awk-and-gawk">2 Running <code>awk</code> and <code>gawk</code></a></li>
+<li><a name="stoc-Regular-Expressions" href="#toc-Regular-Expressions">3 Regular Expressions</a></li>
+<li><a name="stoc-Reading-Input-Files" href="#toc-Reading-Input-Files">4 Reading Input Files</a></li>
+<li><a name="stoc-Printing-Output" href="#toc-Printing-Output">5 Printing Output</a></li>
+<li><a name="stoc-Expressions-1" href="#toc-Expressions-1">6 Expressions</a></li>
+<li><a name="stoc-Patterns_002c-Actions_002c-and-Variables" href="#toc-Patterns_002c-Actions_002c-and-Variables">7 Patterns, Actions, and Variables</a></li>
+<li><a name="stoc-Arrays-in-awk" href="#toc-Arrays-in-awk">8 Arrays in <code>awk</code></a></li>
+<li><a name="stoc-Functions-1" href="#toc-Functions-1">9 Functions</a></li>
+</ul></li>
+<li><a name="stoc-Part-II_003a-Problem-Solving-with-awk" href="#toc-Part-II_003a-Problem-Solving-with-awk">Part II:<br>Problem Solving with <code>awk</code></a><ul class="no-bullet">
+<li><a name="stoc-A-Library-of-awk-Functions" href="#toc-A-Library-of-awk-Functions">10 A Library of <code>awk</code> Functions</a></li>
+<li><a name="stoc-Practical-awk-Programs" href="#toc-Practical-awk-Programs">11 Practical <code>awk</code> Programs</a></li>
+</ul></li>
+<li><a name="stoc-Part-III_003a-Moving-Beyond-Standard-awk-with-gawk" href="#toc-Part-III_003a-Moving-Beyond-Standard-awk-with-gawk">Part III:<br>Moving Beyond Standard <code>awk</code> with <code>gawk</code></a><ul class="no-bullet">
+<li><a name="stoc-Advanced-Features-of-gawk" href="#toc-Advanced-Features-of-gawk">12 Advanced Features of <code>gawk</code></a></li>
+<li><a name="stoc-Internationalization-with-gawk" href="#toc-Internationalization-with-gawk">13 Internationalization with <code>gawk</code></a></li>
+<li><a name="stoc-Debugging-awk-Programs" href="#toc-Debugging-awk-Programs">14 Debugging <code>awk</code> Programs</a></li>
+<li><a name="stoc-Arithmetic-and-Arbitrary_002dPrecision-Arithmetic-with-gawk" href="#toc-Arithmetic-and-Arbitrary_002dPrecision-Arithmetic-with-gawk">15 Arithmetic and Arbitrary-Precision Arithmetic with <code>gawk</code></a></li>
+<li><a name="stoc-Writing-Extensions-for-gawk" href="#toc-Writing-Extensions-for-gawk">16 Writing Extensions for <code>gawk</code></a></li>
+</ul></li>
+<li><a name="stoc-Part-IV_003a-Appendices" href="#toc-Part-IV_003a-Appendices">Part IV:<br>Appendices</a><ul class="no-bullet">
+<li><a name="stoc-The-Evolution-of-the-awk-Language" href="#toc-The-Evolution-of-the-awk-Language">Appendix A The Evolution of the <code>awk</code> Language</a></li>
+<li><a name="stoc-Installing-gawk" href="#toc-Installing-gawk">Appendix B Installing <code>gawk</code></a></li>
+<li><a name="stoc-Implementation-Notes" href="#toc-Implementation-Notes">Appendix C Implementation Notes</a></li>
+<li><a name="stoc-Basic-Programming-Concepts" href="#toc-Basic-Programming-Concepts">Appendix D Basic Programming Concepts</a></li>
+<li><a name="stoc-Glossary-1" href="#toc-Glossary-1">Glossary</a></li>
+<li><a name="stoc-GNU-General-Public-License" href="#toc-GNU-General-Public-License">GNU General Public License</a></li>
+<li><a name="stoc-GNU-Free-Documentation-License-1" href="#toc-GNU-Free-Documentation-License-1">GNU Free Documentation License</a></li>
+<li><a name="stoc-Index-1" href="#toc-Index-1">Index</a></li>
+</ul></li>
+
+</ul>
+</div>
+
+<a name="SEC_Contents"></a>
+<h2 class="contents-heading">Table of Contents</h2>
+
+<div class="contents">
+<ul class="no-bullet">
+<li>
+<ul class="no-bullet">
+  <li><a name="toc-Foreword-to-the-Third-Edition" href="Foreword3.html#Foreword3">Foreword to the Third Edition</a></li>
+  <li><a name="toc-Foreword-to-the-Fourth-Edition" href="Foreword4.html#Foreword4">Foreword to the Fourth Edition</a></li>
+  <li><a name="toc-Preface-1" href="Preface.html#Preface">Preface</a>
+  <ul class="no-bullet">
+    <li><a name="toc-History-of-awk-and-gawk" href="History.html#History">History of <code>awk</code> and <code>gawk</code></a></li>
+    <li><a name="toc-A-Rose-by-Any-Other-Name" href="Names.html#Names">A Rose by Any Other Name</a></li>
+    <li><a name="toc-Using-This-Book" href="This-Manual.html#This-Manual">Using This Book</a></li>
+    <li><a name="toc-Typographical-Conventions" href="Conventions.html#Conventions">Typographical Conventions</a>
+    <ul class="no-bullet">
+      <li><a name="toc-Dark-Corners" href="Conventions.html#Dark-Corners">Dark Corners</a></li>
+    </ul></li>
+    <li><a name="toc-The-GNU-Project-and-This-Book" href="Manual-History.html#Manual-History">The GNU Project and This Book</a></li>
+    <li><a name="toc-How-to-Contribute" href="How-To-Contribute.html#How-To-Contribute">How to Contribute</a></li>
+    <li><a name="toc-Acknowledgments-1" href="Acknowledgments.html#Acknowledgments">Acknowledgments</a></li>
+  </ul></li>
+</ul></li>
+<li><a name="toc-Part-I_003a-The-awk-Language" href="Getting-Started.html#Part-I_003a-The-awk-Language">Part I:<br>The <code>awk</code> Language</a>
+<ul class="no-bullet">
+  <li><a name="toc-Getting-Started-with-awk" href="Getting-Started.html#Getting-Started">1 Getting Started with <code>awk</code></a>
+  <ul class="no-bullet">
+    <li><a name="toc-How-to-Run-awk-Programs" href="Running-gawk.html#Running-gawk">1.1 How to Run <code>awk</code> Programs</a>
+    <ul class="no-bullet">
+      <li><a name="toc-One_002dShot-Throwaway-awk-Programs" href="One_002dshot.html#One_002dshot">1.1.1 One-Shot Throwaway <code>awk</code> Programs</a></li>
+      <li><a name="toc-Running-awk-Without-Input-Files" href="Read-Terminal.html#Read-Terminal">1.1.2 Running <code>awk</code> Without Input Files</a></li>
+      <li><a name="toc-Running-Long-Programs" href="Long.html#Long">1.1.3 Running Long Programs</a></li>
+      <li><a name="toc-Executable-awk-Programs" href="Executable-Scripts.html#Executable-Scripts">1.1.4 Executable <code>awk</code> Programs</a></li>
+      <li><a name="toc-Comments-in-awk-Programs" href="Comments.html#Comments">1.1.5 Comments in <code>awk</code> Programs</a></li>
+      <li><a name="toc-Shell-Quoting-Issues" href="Quoting.html#Quoting">1.1.6 Shell Quoting Issues</a>
+      <ul class="no-bullet">
+        <li><a name="toc-Quoting-in-MS_002dWindows-Batch-Files" href="DOS-Quoting.html#DOS-Quoting">1.1.6.1 Quoting in MS-Windows Batch Files</a></li>
+      </ul></li>
+    </ul></li>
+    <li><a name="toc-Data-files-for-the-Examples" href="Sample-Data-Files.html#Sample-Data-Files">1.2 Data files for the Examples</a></li>
+    <li><a name="toc-Some-Simple-Examples" href="Very-Simple.html#Very-Simple">1.3 Some Simple Examples</a></li>
+    <li><a name="toc-An-Example-with-Two-Rules" href="Two-Rules.html#Two-Rules">1.4 An Example with Two Rules</a></li>
+    <li><a name="toc-A-More-Complex-Example" href="More-Complex.html#More-Complex">1.5 A More Complex Example</a></li>
+    <li><a name="toc-awk-Statements-Versus-Lines" href="Statements_002fLines.html#Statements_002fLines">1.6 <code>awk</code> Statements Versus Lines</a></li>
+    <li><a name="toc-Other-Features-of-awk" href="Other-Features.html#Other-Features">1.7 Other Features of <code>awk</code></a></li>
+    <li><a name="toc-When-to-Use-awk" href="When.html#When">1.8 When to Use <code>awk</code></a></li>
+    <li><a name="toc-Summary" href="Intro-Summary.html#Intro-Summary">1.9 Summary</a></li>
+  </ul></li>
+  <li><a name="toc-Running-awk-and-gawk" href="Invoking-Gawk.html#Invoking-Gawk">2 Running <code>awk</code> and <code>gawk</code></a>
+  <ul class="no-bullet">
+    <li><a name="toc-Invoking-awk" href="Command-Line.html#Command-Line">2.1 Invoking <code>awk</code></a></li>
+    <li><a name="toc-Command_002dLine-Options" href="Options.html#Options">2.2 Command-Line Options</a></li>
+    <li><a name="toc-Other-Command_002dLine-Arguments" href="Other-Arguments.html#Other-Arguments">2.3 Other Command-Line Arguments</a></li>
+    <li><a name="toc-Naming-Standard-Input-1" href="Naming-Standard-Input.html#Naming-Standard-Input">2.4 Naming Standard Input</a></li>
+    <li><a name="toc-The-Environment-Variables-gawk-Uses" href="Environment-Variables.html#Environment-Variables">2.5 The Environment Variables <code>gawk</code> Uses</a>
+    <ul class="no-bullet">
+      <li><a name="toc-The-AWKPATH-Environment-Variable" href="AWKPATH-Variable.html#AWKPATH-Variable">2.5.1 The <code>AWKPATH</code> Environment Variable</a></li>
+      <li><a name="toc-The-AWKLIBPATH-Environment-Variable" href="AWKLIBPATH-Variable.html#AWKLIBPATH-Variable">2.5.2 The <code>AWKLIBPATH</code> Environment Variable</a></li>
+      <li><a name="toc-Other-Environment-Variables-1" href="Other-Environment-Variables.html#Other-Environment-Variables">2.5.3 Other Environment Variables</a></li>
+    </ul></li>
+    <li><a name="toc-gawk_0027s-Exit-Status" href="Exit-Status.html#Exit-Status">2.6 <code>gawk</code>&rsquo;s Exit Status</a></li>
+    <li><a name="toc-Including-Other-Files-into-Your-Program" href="Include-Files.html#Include-Files">2.7 Including Other Files into Your Program</a></li>
+    <li><a name="toc-Loading-Dynamic-Extensions-into-Your-Program" href="Loading-Shared-Libraries.html#Loading-Shared-Libraries">2.8 Loading Dynamic Extensions into Your Program</a></li>
+    <li><a name="toc-Obsolete-Options-and_002for-Features" href="Obsolete.html#Obsolete">2.9 Obsolete Options and/or Features</a></li>
+    <li><a name="toc-Undocumented-Options-and-Features" href="Undocumented.html#Undocumented">2.10 Undocumented Options and Features</a></li>
+    <li><a name="toc-Summary-1" href="Invoking-Summary.html#Invoking-Summary">2.11 Summary</a></li>
+  </ul></li>
+  <li><a name="toc-Regular-Expressions" href="Regexp.html#Regexp">3 Regular Expressions</a>
+  <ul class="no-bullet">
+    <li><a name="toc-How-to-Use-Regular-Expressions" href="Regexp-Usage.html#Regexp-Usage">3.1 How to Use Regular Expressions</a></li>
+    <li><a name="toc-Escape-Sequences-1" href="Escape-Sequences.html#Escape-Sequences">3.2 Escape Sequences</a></li>
+    <li><a name="toc-Regular-Expression-Operators" href="Regexp-Operators.html#Regexp-Operators">3.3 Regular Expression Operators</a></li>
+    <li><a name="toc-Using-Bracket-Expressions" href="Bracket-Expressions.html#Bracket-Expressions">3.4 Using Bracket Expressions</a></li>
+    <li><a name="toc-How-Much-Text-Matches_003f" href="Leftmost-Longest.html#Leftmost-Longest">3.5 How Much Text Matches?</a></li>
+    <li><a name="toc-Using-Dynamic-Regexps" href="Computed-Regexps.html#Computed-Regexps">3.6 Using Dynamic Regexps</a></li>
+    <li><a name="toc-gawk_002dSpecific-Regexp-Operators" href="GNU-Regexp-Operators.html#GNU-Regexp-Operators">3.7 <code>gawk</code>-Specific Regexp Operators</a></li>
+    <li><a name="toc-Case-Sensitivity-in-Matching" href="Case_002dsensitivity.html#Case_002dsensitivity">3.8 Case Sensitivity in Matching</a></li>
+    <li><a name="toc-Summary-2" href="Regexp-Summary.html#Regexp-Summary">3.9 Summary</a></li>
+  </ul></li>
+  <li><a name="toc-Reading-Input-Files" href="Reading-Files.html#Reading-Files">4 Reading Input Files</a>
+  <ul class="no-bullet">
+    <li><a name="toc-How-Input-Is-Split-into-Records" href="Records.html#Records">4.1 How Input Is Split into Records</a>
+    <ul class="no-bullet">
+      <li><a name="toc-Record-Splitting-with-Standard-awk" href="awk-split-records.html#awk-split-records">4.1.1 Record Splitting with Standard <code>awk</code></a></li>
+      <li><a name="toc-Record-Splitting-with-gawk" href="gawk-split-records.html#gawk-split-records">4.1.2 Record Splitting with <code>gawk</code></a></li>
+    </ul></li>
+    <li><a name="toc-Examining-Fields" href="Fields.html#Fields">4.2 Examining Fields</a></li>
+    <li><a name="toc-Nonconstant-Field-Numbers" href="Nonconstant-Fields.html#Nonconstant-Fields">4.3 Nonconstant Field Numbers</a></li>
+    <li><a name="toc-Changing-the-Contents-of-a-Field" href="Changing-Fields.html#Changing-Fields">4.4 Changing the Contents of a Field</a></li>
+    <li><a name="toc-Specifying-How-Fields-Are-Separated" href="Field-Separators.html#Field-Separators">4.5 Specifying How Fields Are Separated</a>
+    <ul class="no-bullet">
+      <li><a name="toc-Whitespace-Normally-Separates-Fields" href="Default-Field-Splitting.html#Default-Field-Splitting">4.5.1 Whitespace Normally Separates Fields</a></li>
+      <li><a name="toc-Using-Regular-Expressions-to-Separate-Fields" href="Regexp-Field-Splitting.html#Regexp-Field-Splitting">4.5.2 Using Regular Expressions to Separate Fields</a></li>
+      <li><a name="toc-Making-Each-Character-a-Separate-Field" href="Single-Character-Fields.html#Single-Character-Fields">4.5.3 Making Each Character a Separate Field</a></li>
+      <li><a name="toc-Setting-FS-from-the-Command-Line" href="Command-Line-Field-Separator.html#Command-Line-Field-Separator">4.5.4 Setting <code>FS</code> from the Command Line</a></li>
+      <li><a name="toc-Making-the-Full-Line-Be-a-Single-Field" href="Full-Line-Fields.html#Full-Line-Fields">4.5.5 Making the Full Line Be a Single Field</a></li>
+      <li><a name="toc-Field_002dSplitting-Summary" href="Field-Splitting-Summary.html#Field-Splitting-Summary">4.5.6 Field-Splitting Summary</a></li>
+    </ul></li>
+    <li><a name="toc-Reading-Fixed_002dWidth-Data" href="Constant-Size.html#Constant-Size">4.6 Reading Fixed-Width Data</a></li>
+    <li><a name="toc-Defining-Fields-by-Content" href="Splitting-By-Content.html#Splitting-By-Content">4.7 Defining Fields by Content</a></li>
+    <li><a name="toc-Multiple_002dLine-Records" href="Multiple-Line.html#Multiple-Line">4.8 Multiple-Line Records</a></li>
+    <li><a name="toc-Explicit-Input-with-getline" href="Getline.html#Getline">4.9 Explicit Input with <code>getline</code></a>
+    <ul class="no-bullet">
+      <li><a name="toc-Using-getline-with-No-Arguments" href="Plain-Getline.html#Plain-Getline">4.9.1 Using <code>getline</code> with No Arguments</a></li>
+      <li><a name="toc-Using-getline-into-a-Variable" href="Getline_002fVariable.html#Getline_002fVariable">4.9.2 Using <code>getline</code> into a Variable</a></li>
+      <li><a name="toc-Using-getline-from-a-File" href="Getline_002fFile.html#Getline_002fFile">4.9.3 Using <code>getline</code> from a File</a></li>
+      <li><a name="toc-Using-getline-into-a-Variable-from-a-File" href="Getline_002fVariable_002fFile.html#Getline_002fVariable_002fFile">4.9.4 Using <code>getline</code> into a Variable from a File</a></li>
+      <li><a name="toc-Using-getline-from-a-Pipe" href="Getline_002fPipe.html#Getline_002fPipe">4.9.5 Using <code>getline</code> from a Pipe</a></li>
+      <li><a name="toc-Using-getline-into-a-Variable-from-a-Pipe" href="Getline_002fVariable_002fPipe.html#Getline_002fVariable_002fPipe">4.9.6 Using <code>getline</code> into a Variable from a Pipe</a></li>
+      <li><a name="toc-Using-getline-from-a-Coprocess" href="Getline_002fCoprocess.html#Getline_002fCoprocess">4.9.7 Using <code>getline</code> from a Coprocess</a></li>
+      <li><a name="toc-Using-getline-into-a-Variable-from-a-Coprocess" href="Getline_002fVariable_002fCoprocess.html#Getline_002fVariable_002fCoprocess">4.9.8 Using <code>getline</code> into a Variable from a Coprocess</a></li>
+      <li><a name="toc-Points-to-Remember-About-getline" href="Getline-Notes.html#Getline-Notes">4.9.9 Points to Remember About <code>getline</code></a></li>
+      <li><a name="toc-Summary-of-getline-Variants" href="Getline-Summary.html#Getline-Summary">4.9.10 Summary of <code>getline</code> Variants</a></li>
+    </ul></li>
+    <li><a name="toc-Reading-Input-with-a-Timeout" href="Read-Timeout.html#Read-Timeout">4.10 Reading Input with a Timeout</a></li>
+    <li><a name="toc-Directories-on-the-Command-Line" href="Command_002dline-directories.html#Command_002dline-directories">4.11 Directories on the Command Line</a></li>
+    <li><a name="toc-Summary-3" href="Input-Summary.html#Input-Summary">4.12 Summary</a></li>
+    <li><a name="toc-Exercises" href="Input-Exercises.html#Input-Exercises">4.13 Exercises</a></li>
+  </ul></li>
+  <li><a name="toc-Printing-Output" href="Printing.html#Printing">5 Printing Output</a>
+  <ul class="no-bullet">
+    <li><a name="toc-The-print-Statement" href="Print.html#Print">5.1 The <code>print</code> Statement</a></li>
+    <li><a name="toc-print-Statement-Examples" href="Print-Examples.html#Print-Examples">5.2 <code>print</code> Statement Examples</a></li>
+    <li><a name="toc-Output-Separators-1" href="Output-Separators.html#Output-Separators">5.3 Output Separators</a></li>
+    <li><a name="toc-Controlling-Numeric-Output-with-print" href="OFMT.html#OFMT">5.4 Controlling Numeric Output with <code>print</code></a></li>
+    <li><a name="toc-Using-printf-Statements-for-Fancier-Printing" href="Printf.html#Printf">5.5 Using <code>printf</code> Statements for Fancier Printing</a>
+    <ul class="no-bullet">
+      <li><a name="toc-Introduction-to-the-printf-Statement" href="Basic-Printf.html#Basic-Printf">5.5.1 Introduction to the <code>printf</code> Statement</a></li>
+      <li><a name="toc-Format_002dControl-Letters" href="Control-Letters.html#Control-Letters">5.5.2 Format-Control Letters</a></li>
+      <li><a name="toc-Modifiers-for-printf-Formats" href="Format-Modifiers.html#Format-Modifiers">5.5.3 Modifiers for <code>printf</code> Formats</a></li>
+      <li><a name="toc-Examples-Using-printf" href="Printf-Examples.html#Printf-Examples">5.5.4 Examples Using <code>printf</code></a></li>
+    </ul></li>
+    <li><a name="toc-Redirecting-Output-of-print-and-printf" href="Redirection.html#Redirection">5.6 Redirecting Output of <code>print</code> and <code>printf</code></a></li>
+    <li><a name="toc-Special-Files-for-Standard-Preopened-Data-Streams" href="Special-FD.html#Special-FD">5.7 Special Files for Standard Preopened Data Streams</a></li>
+    <li><a name="toc-Special-File-names-in-gawk" href="Special-Files.html#Special-Files">5.8 Special File names in <code>gawk</code></a>
+    <ul class="no-bullet">
+      <li><a name="toc-Accessing-Other-Open-Files-with-gawk" href="Other-Inherited-Files.html#Other-Inherited-Files">5.8.1 Accessing Other Open Files with <code>gawk</code></a></li>
+      <li><a name="toc-Special-Files-for-Network-Communications" href="Special-Network.html#Special-Network">5.8.2 Special Files for Network Communications</a></li>
+      <li><a name="toc-Special-File-name-Caveats" href="Special-Caveats.html#Special-Caveats">5.8.3 Special File name Caveats</a></li>
+    </ul></li>
+    <li><a name="toc-Closing-Input-and-Output-Redirections" href="Close-Files-And-Pipes.html#Close-Files-And-Pipes">5.9 Closing Input and Output Redirections</a></li>
+    <li><a name="toc-Summary-4" href="Output-Summary.html#Output-Summary">5.10 Summary</a></li>
+    <li><a name="toc-Exercises-1" href="Output-Exercises.html#Output-Exercises">5.11 Exercises</a></li>
+  </ul></li>
+  <li><a name="toc-Expressions-1" href="Expressions.html#Expressions">6 Expressions</a>
+  <ul class="no-bullet">
+    <li><a name="toc-Constants_002c-Variables_002c-and-Conversions" href="Values.html#Values">6.1 Constants, Variables, and Conversions</a>
+    <ul class="no-bullet">
+      <li><a name="toc-Constant-Expressions" href="Constants.html#Constants">6.1.1 Constant Expressions</a>
+      <ul class="no-bullet">
+        <li><a name="toc-Numeric-and-String-Constants" href="Scalar-Constants.html#Scalar-Constants">6.1.1.1 Numeric and String Constants</a></li>
+        <li><a name="toc-Octal-and-Hexadecimal-Numbers" href="Nondecimal_002dnumbers.html#Nondecimal_002dnumbers">6.1.1.2 Octal and Hexadecimal Numbers</a></li>
+        <li><a name="toc-Regular-Expression-Constants" href="Regexp-Constants.html#Regexp-Constants">6.1.1.3 Regular Expression Constants</a></li>
+      </ul></li>
+      <li><a name="toc-Using-Regular-Expression-Constants" href="Using-Constant-Regexps.html#Using-Constant-Regexps">6.1.2 Using Regular Expression Constants</a></li>
+      <li><a name="toc-Variables-1" href="Variables.html#Variables">6.1.3 Variables</a>
+      <ul class="no-bullet">
+        <li><a name="toc-Using-Variables-in-a-Program" href="Using-Variables.html#Using-Variables">6.1.3.1 Using Variables in a Program</a></li>
+        <li><a name="toc-Assigning-Variables-on-the-Command-Line" href="Assignment-Options.html#Assignment-Options">6.1.3.2 Assigning Variables on the Command Line</a></li>
+      </ul></li>
+      <li><a name="toc-Conversion-of-Strings-and-Numbers" href="Conversion.html#Conversion">6.1.4 Conversion of Strings and Numbers</a>
+      <ul class="no-bullet">
+        <li><a name="toc-How-awk-Converts-Between-Strings-and-Numbers" href="Strings-And-Numbers.html#Strings-And-Numbers">6.1.4.1 How <code>awk</code> Converts Between Strings and Numbers</a></li>
+        <li><a name="toc-Locales-Can-Influence-Conversion" href="Locale-influences-conversions.html#Locale-influences-conversions">6.1.4.2 Locales Can Influence Conversion</a></li>
+      </ul></li>
+    </ul></li>
+    <li><a name="toc-Operators_003a-Doing-Something-with-Values" href="All-Operators.html#All-Operators">6.2 Operators: Doing Something with Values</a>
+    <ul class="no-bullet">
+      <li><a name="toc-Arithmetic-Operators" href="Arithmetic-Ops.html#Arithmetic-Ops">6.2.1 Arithmetic Operators</a></li>
+      <li><a name="toc-String-Concatenation" href="Concatenation.html#Concatenation">6.2.2 String Concatenation</a></li>
+      <li><a name="toc-Assignment-Expressions" href="Assignment-Ops.html#Assignment-Ops">6.2.3 Assignment Expressions</a></li>
+      <li><a name="toc-Increment-and-Decrement-Operators" href="Increment-Ops.html#Increment-Ops">6.2.4 Increment and Decrement Operators</a></li>
+    </ul></li>
+    <li><a name="toc-Truth-Values-and-Conditions-1" href="Truth-Values-and-Conditions.html#Truth-Values-and-Conditions">6.3 Truth Values and Conditions</a>
+    <ul class="no-bullet">
+      <li><a name="toc-True-and-False-in-awk" href="Truth-Values.html#Truth-Values">6.3.1 True and False in <code>awk</code></a></li>
+      <li><a name="toc-Variable-Typing-and-Comparison-Expressions" href="Typing-and-Comparison.html#Typing-and-Comparison">6.3.2 Variable Typing and Comparison Expressions</a>
+      <ul class="no-bullet">
+        <li><a name="toc-String-Type-versus-Numeric-Type" href="Variable-Typing.html#Variable-Typing">6.3.2.1 String Type versus Numeric Type</a></li>
+        <li><a name="toc-Comparison-Operators-1" href="Comparison-Operators.html#Comparison-Operators">6.3.2.2 Comparison Operators</a></li>
+        <li><a name="toc-String-Comparison-with-POSIX-Rules" href="POSIX-String-Comparison.html#POSIX-String-Comparison">6.3.2.3 String Comparison with POSIX Rules</a></li>
+      </ul></li>
+      <li><a name="toc-Boolean-Expressions" href="Boolean-Ops.html#Boolean-Ops">6.3.3 Boolean Expressions</a></li>
+      <li><a name="toc-Conditional-Expressions" href="Conditional-Exp.html#Conditional-Exp">6.3.4 Conditional Expressions</a></li>
+    </ul></li>
+    <li><a name="toc-Function-Calls-1" href="Function-Calls.html#Function-Calls">6.4 Function Calls</a></li>
+    <li><a name="toc-Operator-Precedence-_0028How-Operators-Nest_0029" href="Precedence.html#Precedence">6.5 Operator Precedence (How Operators Nest)</a></li>
+    <li><a name="toc-Where-You-Are-Makes-a-Difference" href="Locales.html#Locales">6.6 Where You Are Makes a Difference</a></li>
+    <li><a name="toc-Summary-5" href="Expressions-Summary.html#Expressions-Summary">6.7 Summary</a></li>
+  </ul></li>
+  <li><a name="toc-Patterns_002c-Actions_002c-and-Variables" href="Patterns-and-Actions.html#Patterns-and-Actions">7 Patterns, Actions, and Variables</a>
+  <ul class="no-bullet">
+    <li><a name="toc-Pattern-Elements" href="Pattern-Overview.html#Pattern-Overview">7.1 Pattern Elements</a>
+    <ul class="no-bullet">
+      <li><a name="toc-Regular-Expressions-as-Patterns" href="Regexp-Patterns.html#Regexp-Patterns">7.1.1 Regular Expressions as Patterns</a></li>
+      <li><a name="toc-Expressions-as-Patterns" href="Expression-Patterns.html#Expression-Patterns">7.1.2 Expressions as Patterns</a></li>
+      <li><a name="toc-Specifying-Record-Ranges-with-Patterns" href="Ranges.html#Ranges">7.1.3 Specifying Record Ranges with Patterns</a></li>
+      <li><a name="toc-The-BEGIN-and-END-Special-Patterns" href="BEGIN_002fEND.html#BEGIN_002fEND">7.1.4 The <code>BEGIN</code> and <code>END</code> Special Patterns</a>
+      <ul class="no-bullet">
+        <li><a name="toc-Startup-and-Cleanup-Actions" href="Using-BEGIN_002fEND.html#Using-BEGIN_002fEND">7.1.4.1 Startup and Cleanup Actions</a></li>
+        <li><a name="toc-Input_002fOutput-from-BEGIN-and-END-Rules" href="I_002fO-And-BEGIN_002fEND.html#I_002fO-And-BEGIN_002fEND">7.1.4.2 Input/Output from <code>BEGIN</code> and <code>END</code> Rules</a></li>
+      </ul></li>
+      <li><a name="toc-The-BEGINFILE-and-ENDFILE-Special-Patterns" href="BEGINFILE_002fENDFILE.html#BEGINFILE_002fENDFILE">7.1.5 The <code>BEGINFILE</code> and <code>ENDFILE</code> Special Patterns</a></li>
+      <li><a name="toc-The-Empty-Pattern" href="Empty.html#Empty">7.1.6 The Empty Pattern</a></li>
+    </ul></li>
+    <li><a name="toc-Using-Shell-Variables-in-Programs" href="Using-Shell-Variables.html#Using-Shell-Variables">7.2 Using Shell Variables in Programs</a></li>
+    <li><a name="toc-Actions" href="Action-Overview.html#Action-Overview">7.3 Actions</a></li>
+    <li><a name="toc-Control-Statements-in-Actions" href="Statements.html#Statements">7.4 Control Statements in Actions</a>
+    <ul class="no-bullet">
+      <li><a name="toc-The-if_002delse-Statement" href="If-Statement.html#If-Statement">7.4.1 The <code>if</code>-<code>else</code> Statement</a></li>
+      <li><a name="toc-The-while-Statement" href="While-Statement.html#While-Statement">7.4.2 The <code>while</code> Statement</a></li>
+      <li><a name="toc-The-do_002dwhile-Statement" href="Do-Statement.html#Do-Statement">7.4.3 The <code>do</code>-<code>while</code> Statement</a></li>
+      <li><a name="toc-The-for-Statement" href="For-Statement.html#For-Statement">7.4.4 The <code>for</code> Statement</a></li>
+      <li><a name="toc-The-switch-Statement" href="Switch-Statement.html#Switch-Statement">7.4.5 The <code>switch</code> Statement</a></li>
+      <li><a name="toc-The-break-Statement" href="Break-Statement.html#Break-Statement">7.4.6 The <code>break</code> Statement</a></li>
+      <li><a name="toc-The-continue-Statement" href="Continue-Statement.html#Continue-Statement">7.4.7 The <code>continue</code> Statement</a></li>
+      <li><a name="toc-The-next-Statement" href="Next-Statement.html#Next-Statement">7.4.8 The <code>next</code> Statement</a></li>
+      <li><a name="toc-The-nextfile-Statement" href="Nextfile-Statement.html#Nextfile-Statement">7.4.9 The <code>nextfile</code> Statement</a></li>
+      <li><a name="toc-The-exit-Statement" href="Exit-Statement.html#Exit-Statement">7.4.10 The <code>exit</code> Statement</a></li>
+    </ul></li>
+    <li><a name="toc-Predefined-Variables" href="Built_002din-Variables.html#Built_002din-Variables">7.5 Predefined Variables</a>
+    <ul class="no-bullet">
+      <li><a name="toc-Built_002din-Variables-That-Control-awk" href="User_002dmodified.html#User_002dmodified">7.5.1 Built-in Variables That Control <code>awk</code></a></li>
+      <li><a name="toc-Built_002din-Variables-That-Convey-Information" href="Auto_002dset.html#Auto_002dset">7.5.2 Built-in Variables That Convey Information</a></li>
+      <li><a name="toc-Using-ARGC-and-ARGV" href="ARGC-and-ARGV.html#ARGC-and-ARGV">7.5.3 Using <code>ARGC</code> and <code>ARGV</code></a></li>
+    </ul></li>
+    <li><a name="toc-Summary-6" href="Pattern-Action-Summary.html#Pattern-Action-Summary">7.6 Summary</a></li>
+  </ul></li>
+  <li><a name="toc-Arrays-in-awk" href="Arrays.html#Arrays">8 Arrays in <code>awk</code></a>
+  <ul class="no-bullet">
+    <li><a name="toc-The-Basics-of-Arrays" href="Array-Basics.html#Array-Basics">8.1 The Basics of Arrays</a>
+    <ul class="no-bullet">
+      <li><a name="toc-Introduction-to-Arrays" href="Array-Intro.html#Array-Intro">8.1.1 Introduction to Arrays</a></li>
+      <li><a name="toc-Referring-to-an-Array-Element" href="Reference-to-Elements.html#Reference-to-Elements">8.1.2 Referring to an Array Element</a></li>
+      <li><a name="toc-Assigning-Array-Elements" href="Assigning-Elements.html#Assigning-Elements">8.1.3 Assigning Array Elements</a></li>
+      <li><a name="toc-Basic-Array-Example" href="Array-Example.html#Array-Example">8.1.4 Basic Array Example</a></li>
+      <li><a name="toc-Scanning-All-Elements-of-an-Array" href="Scanning-an-Array.html#Scanning-an-Array">8.1.5 Scanning All Elements of an Array</a></li>
+      <li><a name="toc-Using-Predefined-Array-Scanning-Orders-with-gawk" href="Controlling-Scanning.html#Controlling-Scanning">8.1.6 Using Predefined Array Scanning Orders with <code>gawk</code></a></li>
+    </ul></li>
+    <li><a name="toc-Using-Numbers-to-Subscript-Arrays" href="Numeric-Array-Subscripts.html#Numeric-Array-Subscripts">8.2 Using Numbers to Subscript Arrays</a></li>
+    <li><a name="toc-Using-Uninitialized-Variables-as-Subscripts" href="Uninitialized-Subscripts.html#Uninitialized-Subscripts">8.3 Using Uninitialized Variables as Subscripts</a></li>
+    <li><a name="toc-The-delete-Statement" href="Delete.html#Delete">8.4 The <code>delete</code> Statement</a></li>
+    <li><a name="toc-Multidimensional-Arrays" href="Multidimensional.html#Multidimensional">8.5 Multidimensional Arrays</a>
+    <ul class="no-bullet">
+      <li><a name="toc-Scanning-Multidimensional-Arrays" href="Multiscanning.html#Multiscanning">8.5.1 Scanning Multidimensional Arrays</a></li>
+    </ul></li>
+    <li><a name="toc-Arrays-of-Arrays-1" href="Arrays-of-Arrays.html#Arrays-of-Arrays">8.6 Arrays of Arrays</a></li>
+    <li><a name="toc-Summary-7" href="Arrays-Summary.html#Arrays-Summary">8.7 Summary</a></li>
+  </ul></li>
+  <li><a name="toc-Functions-1" href="Functions.html#Functions">9 Functions</a>
+  <ul class="no-bullet">
+    <li><a name="toc-Built_002din-Functions" href="Built_002din.html#Built_002din">9.1 Built-in Functions</a>
+    <ul class="no-bullet">
+      <li><a name="toc-Calling-Built_002din-Functions" href="Calling-Built_002din.html#Calling-Built_002din">9.1.1 Calling Built-in Functions</a></li>
+      <li><a name="toc-Numeric-Functions-1" href="Numeric-Functions.html#Numeric-Functions">9.1.2 Numeric Functions</a></li>
+      <li><a name="toc-String_002dManipulation-Functions" href="String-Functions.html#String-Functions">9.1.3 String-Manipulation Functions</a>
+      <ul class="no-bullet">
+        <li><a name="toc-More-about-_005c-and-_0026-with-sub_0028_0029_002c-gsub_0028_0029_002c-and-gensub_0028_0029" href="Gory-Details.html#Gory-Details">9.1.3.1 More about &lsquo;<samp>\</samp>&rsquo; and &lsquo;<samp>&amp;</samp>&rsquo; with <code>sub()</code>, <code>gsub()</code>, and <code>gensub()</code></a></li>
+      </ul></li>
+      <li><a name="toc-Input_002fOutput-Functions" href="I_002fO-Functions.html#I_002fO-Functions">9.1.4 Input/Output Functions</a></li>
+      <li><a name="toc-Time-Functions-1" href="Time-Functions.html#Time-Functions">9.1.5 Time Functions</a></li>
+      <li><a name="toc-Bit_002dManipulation-Functions" href="Bitwise-Functions.html#Bitwise-Functions">9.1.6 Bit-Manipulation Functions</a></li>
+      <li><a name="toc-Getting-Type-Information" href="Type-Functions.html#Type-Functions">9.1.7 Getting Type Information</a></li>
+      <li><a name="toc-String_002dTranslation-Functions" href="I18N-Functions.html#I18N-Functions">9.1.8 String-Translation Functions</a></li>
+    </ul></li>
+    <li><a name="toc-User_002dDefined-Functions" href="User_002ddefined.html#User_002ddefined">9.2 User-Defined Functions</a>
+    <ul class="no-bullet">
+      <li><a name="toc-Function-Definition-Syntax" href="Definition-Syntax.html#Definition-Syntax">9.2.1 Function Definition Syntax</a></li>
+      <li><a name="toc-Function-Definition-Examples" href="Function-Example.html#Function-Example">9.2.2 Function Definition Examples</a></li>
+      <li><a name="toc-Calling-User_002dDefined-Functions" href="Function-Caveats.html#Function-Caveats">9.2.3 Calling User-Defined Functions</a>
+      <ul class="no-bullet">
+        <li><a name="toc-Writing-a-Function-Call" href="Calling-A-Function.html#Calling-A-Function">9.2.3.1 Writing a Function Call</a></li>
+        <li><a name="toc-Controlling-Variable-Scope" href="Variable-Scope.html#Variable-Scope">9.2.3.2 Controlling Variable Scope</a></li>
+        <li><a name="toc-Passing-Function-Arguments-by-Value-Or-by-Reference" href="Pass-By-Value_002fReference.html#Pass-By-Value_002fReference">9.2.3.3 Passing Function Arguments by Value Or by Reference</a></li>
+      </ul></li>
+      <li><a name="toc-The-return-Statement" href="Return-Statement.html#Return-Statement">9.2.4 The <code>return</code> Statement</a></li>
+      <li><a name="toc-Functions-and-Their-Effects-on-Variable-Typing" href="Dynamic-Typing.html#Dynamic-Typing">9.2.5 Functions and Their Effects on Variable Typing</a></li>
+    </ul></li>
+    <li><a name="toc-Indirect-Function-Calls" href="Indirect-Calls.html#Indirect-Calls">9.3 Indirect Function Calls</a></li>
+    <li><a name="toc-Summary-8" href="Functions-Summary.html#Functions-Summary">9.4 Summary</a></li>
+  </ul></li>
+</ul></li>
+<li><a name="toc-Part-II_003a-Problem-Solving-with-awk" href="Library-Functions.html#Part-II_003a-Problem-Solving-with-awk">Part II:<br>Problem Solving with <code>awk</code></a>
+<ul class="no-bullet">
+  <li><a name="toc-A-Library-of-awk-Functions" href="Library-Functions.html#Library-Functions">10 A Library of <code>awk</code> Functions</a>
+  <ul class="no-bullet">
+    <li><a name="toc-Naming-Library-Function-Global-Variables" href="Library-Names.html#Library-Names">10.1 Naming Library Function Global Variables</a></li>
+    <li><a name="toc-General-Programming" href="General-Functions.html#General-Functions">10.2 General Programming</a>
+    <ul class="no-bullet">
+      <li><a name="toc-Converting-Strings-to-Numbers" href="Strtonum-Function.html#Strtonum-Function">10.2.1 Converting Strings to Numbers</a></li>
+      <li><a name="toc-Assertions" href="Assert-Function.html#Assert-Function">10.2.2 Assertions</a></li>
+      <li><a name="toc-Rounding-Numbers" href="Round-Function.html#Round-Function">10.2.3 Rounding Numbers</a></li>
+      <li><a name="toc-The-Cliff-Random-Number-Generator" href="Cliff-Random-Function.html#Cliff-Random-Function">10.2.4 The Cliff Random Number Generator</a></li>
+      <li><a name="toc-Translating-Between-Characters-and-Numbers" href="Ordinal-Functions.html#Ordinal-Functions">10.2.5 Translating Between Characters and Numbers</a></li>
+      <li><a name="toc-Merging-an-Array-into-a-String" href="Join-Function.html#Join-Function">10.2.6 Merging an Array into a String</a></li>
+      <li><a name="toc-Managing-the-Time-of-Day" href="Getlocaltime-Function.html#Getlocaltime-Function">10.2.7 Managing the Time of Day</a></li>
+      <li><a name="toc-Reading-a-Whole-File-at-Once" href="Readfile-Function.html#Readfile-Function">10.2.8 Reading a Whole File at Once</a></li>
+      <li><a name="toc-Quoting-Strings-to-Pass-to-the-Shell" href="Shell-Quoting.html#Shell-Quoting">10.2.9 Quoting Strings to Pass to the Shell</a></li>
+    </ul></li>
+    <li><a name="toc-Data-file-Management" href="Data-File-Management.html#Data-File-Management">10.3 Data file Management</a>
+    <ul class="no-bullet">
+      <li><a name="toc-Noting-Data-file-Boundaries" href="Filetrans-Function.html#Filetrans-Function">10.3.1 Noting Data file Boundaries</a></li>
+      <li><a name="toc-Rereading-the-Current-File" href="Rewind-Function.html#Rewind-Function">10.3.2 Rereading the Current File</a></li>
+      <li><a name="toc-Checking-for-Readable-Data-files" href="File-Checking.html#File-Checking">10.3.3 Checking for Readable Data files</a></li>
+      <li><a name="toc-Checking-for-Zero_002dLength-Files" href="Empty-Files.html#Empty-Files">10.3.4 Checking for Zero-Length Files</a></li>
+      <li><a name="toc-Treating-Assignments-as-File-names" href="Ignoring-Assigns.html#Ignoring-Assigns">10.3.5 Treating Assignments as File names</a></li>
+    </ul></li>
+    <li><a name="toc-Processing-Command_002dLine-Options" href="Getopt-Function.html#Getopt-Function">10.4 Processing Command-Line Options</a></li>
+    <li><a name="toc-Reading-the-User-Database" href="Passwd-Functions.html#Passwd-Functions">10.5 Reading the User Database</a></li>
+    <li><a name="toc-Reading-the-Group-Database" href="Group-Functions.html#Group-Functions">10.6 Reading the Group Database</a></li>
+    <li><a name="toc-Traversing-Arrays-of-Arrays" href="Walking-Arrays.html#Walking-Arrays">10.7 Traversing Arrays of Arrays</a></li>
+    <li><a name="toc-Summary-9" href="Library-Functions-Summary.html#Library-Functions-Summary">10.8 Summary</a></li>
+    <li><a name="toc-Exercises-2" href="Library-Exercises.html#Library-Exercises">10.9 Exercises</a></li>
+  </ul></li>
+  <li><a name="toc-Practical-awk-Programs" href="Sample-Programs.html#Sample-Programs">11 Practical <code>awk</code> Programs</a>
+  <ul class="no-bullet">
+    <li><a name="toc-Running-the-Example-Programs" href="Running-Examples.html#Running-Examples">11.1 Running the Example Programs</a></li>
+    <li><a name="toc-Reinventing-Wheels-for-Fun-and-Profit" href="Clones.html#Clones">11.2 Reinventing Wheels for Fun and Profit</a>
+    <ul class="no-bullet">
+      <li><a name="toc-Cutting-Out-Fields-and-Columns" href="Cut-Program.html#Cut-Program">11.2.1 Cutting Out Fields and Columns</a></li>
+      <li><a name="toc-Searching-for-Regular-Expressions-in-Files" href="Egrep-Program.html#Egrep-Program">11.2.2 Searching for Regular Expressions in Files</a></li>
+      <li><a name="toc-Printing-Out-User-Information" href="Id-Program.html#Id-Program">11.2.3 Printing Out User Information</a></li>
+      <li><a name="toc-Splitting-a-Large-File-into-Pieces" href="Split-Program.html#Split-Program">11.2.4 Splitting a Large File into Pieces</a></li>
+      <li><a name="toc-Duplicating-Output-into-Multiple-Files" href="Tee-Program.html#Tee-Program">11.2.5 Duplicating Output into Multiple Files</a></li>
+      <li><a name="toc-Printing-Nonduplicated-Lines-of-Text" href="Uniq-Program.html#Uniq-Program">11.2.6 Printing Nonduplicated Lines of Text</a></li>
+      <li><a name="toc-Counting-Things" href="Wc-Program.html#Wc-Program">11.2.7 Counting Things</a></li>
+    </ul></li>
+    <li><a name="toc-A-Grab-Bag-of-awk-Programs" href="Miscellaneous-Programs.html#Miscellaneous-Programs">11.3 A Grab Bag of <code>awk</code> Programs</a>
+    <ul class="no-bullet">
+      <li><a name="toc-Finding-Duplicated-Words-in-a-Document" href="Dupword-Program.html#Dupword-Program">11.3.1 Finding Duplicated Words in a Document</a></li>
+      <li><a name="toc-An-Alarm-Clock-Program" href="Alarm-Program.html#Alarm-Program">11.3.2 An Alarm Clock Program</a></li>
+      <li><a name="toc-Transliterating-Characters" href="Translate-Program.html#Translate-Program">11.3.3 Transliterating Characters</a></li>
+      <li><a name="toc-Printing-Mailing-Labels" href="Labels-Program.html#Labels-Program">11.3.4 Printing Mailing Labels</a></li>
+      <li><a name="toc-Generating-Word_002dUsage-Counts" href="Word-Sorting.html#Word-Sorting">11.3.5 Generating Word-Usage Counts</a></li>
+      <li><a name="toc-Removing-Duplicates-from-Unsorted-Text" href="History-Sorting.html#History-Sorting">11.3.6 Removing Duplicates from Unsorted Text</a></li>
+      <li><a name="toc-Extracting-Programs-from-Texinfo-Source-Files" href="Extract-Program.html#Extract-Program">11.3.7 Extracting Programs from Texinfo Source Files</a></li>
+      <li><a name="toc-A-Simple-Stream-Editor" href="Simple-Sed.html#Simple-Sed">11.3.8 A Simple Stream Editor</a></li>
+      <li><a name="toc-An-Easy-Way-to-Use-Library-Functions" href="Igawk-Program.html#Igawk-Program">11.3.9 An Easy Way to Use Library Functions</a></li>
+      <li><a name="toc-Finding-Anagrams-from-a-Dictionary" href="Anagram-Program.html#Anagram-Program">11.3.10 Finding Anagrams from a Dictionary</a></li>
+      <li><a name="toc-And-Now-for-Something-Completely-Different" href="Signature-Program.html#Signature-Program">11.3.11 And Now for Something Completely Different</a></li>
+    </ul></li>
+    <li><a name="toc-Summary-10" href="Programs-Summary.html#Programs-Summary">11.4 Summary</a></li>
+    <li><a name="toc-Exercises-3" href="Programs-Exercises.html#Programs-Exercises">11.5 Exercises</a></li>
+  </ul></li>
+</ul></li>
+<li><a name="toc-Part-III_003a-Moving-Beyond-Standard-awk-with-gawk" href="Advanced-Features.html#Part-III_003a-Moving-Beyond-Standard-awk-with-gawk">Part III:<br>Moving Beyond Standard <code>awk</code> with <code>gawk</code></a>
+<ul class="no-bullet">
+  <li><a name="toc-Advanced-Features-of-gawk" href="Advanced-Features.html#Advanced-Features">12 Advanced Features of <code>gawk</code></a>
+  <ul class="no-bullet">
+    <li><a name="toc-Allowing-Nondecimal-Input-Data" href="Nondecimal-Data.html#Nondecimal-Data">12.1 Allowing Nondecimal Input Data</a></li>
+    <li><a name="toc-Controlling-Array-Traversal-and-Array-Sorting" href="Array-Sorting.html#Array-Sorting">12.2 Controlling Array Traversal and Array Sorting</a>
+    <ul class="no-bullet">
+      <li><a name="toc-Controlling-Array-Traversal-1" href="Controlling-Array-Traversal.html#Controlling-Array-Traversal">12.2.1 Controlling Array Traversal</a></li>
+      <li><a name="toc-Sorting-Array-Values-and-Indices-with-gawk" href="Array-Sorting-Functions.html#Array-Sorting-Functions">12.2.2 Sorting Array Values and Indices with <code>gawk</code></a></li>
+    </ul></li>
+    <li><a name="toc-Two_002dWay-Communications-with-Another-Process" href="Two_002dway-I_002fO.html#Two_002dway-I_002fO">12.3 Two-Way Communications with Another Process</a></li>
+    <li><a name="toc-Using-gawk-for-Network-Programming" href="TCP_002fIP-Networking.html#TCP_002fIP-Networking">12.4 Using <code>gawk</code> for Network Programming</a></li>
+    <li><a name="toc-Profiling-Your-awk-Programs" href="Profiling.html#Profiling">12.5 Profiling Your <code>awk</code> Programs</a></li>
+    <li><a name="toc-Summary-11" href="Advanced-Features-Summary.html#Advanced-Features-Summary">12.6 Summary</a></li>
+  </ul></li>
+  <li><a name="toc-Internationalization-with-gawk" href="Internationalization.html#Internationalization">13 Internationalization with <code>gawk</code></a>
+  <ul class="no-bullet">
+    <li><a name="toc-Internationalization-and-Localization" href="I18N-and-L10N.html#I18N-and-L10N">13.1 Internationalization and Localization</a></li>
+    <li><a name="toc-GNU-gettext" href="Explaining-gettext.html#Explaining-gettext">13.2 GNU <code>gettext</code></a></li>
+    <li><a name="toc-Internationalizing-awk-Programs" href="Programmer-i18n.html#Programmer-i18n">13.3 Internationalizing <code>awk</code> Programs</a></li>
+    <li><a name="toc-Translating-awk-Programs" href="Translator-i18n.html#Translator-i18n">13.4 Translating <code>awk</code> Programs</a>
+    <ul class="no-bullet">
+      <li><a name="toc-Extracting-Marked-Strings" href="String-Extraction.html#String-Extraction">13.4.1 Extracting Marked Strings</a></li>
+      <li><a name="toc-Rearranging-printf-Arguments" href="Printf-Ordering.html#Printf-Ordering">13.4.2 Rearranging <code>printf</code> Arguments</a></li>
+      <li><a name="toc-awk-Portability-Issues" href="I18N-Portability.html#I18N-Portability">13.4.3 <code>awk</code> Portability Issues</a></li>
+    </ul></li>
+    <li><a name="toc-A-Simple-Internationalization-Example" href="I18N-Example.html#I18N-Example">13.5 A Simple Internationalization Example</a></li>
+    <li><a name="toc-gawk-Can-Speak-Your-Language" href="Gawk-I18N.html#Gawk-I18N">13.6 <code>gawk</code> Can Speak Your Language</a></li>
+    <li><a name="toc-Summary-12" href="I18N-Summary.html#I18N-Summary">13.7 Summary</a></li>
+  </ul></li>
+  <li><a name="toc-Debugging-awk-Programs" href="Debugger.html#Debugger">14 Debugging <code>awk</code> Programs</a>
+  <ul class="no-bullet">
+    <li><a name="toc-Introduction-to-the-gawk-Debugger" href="Debugging.html#Debugging">14.1 Introduction to the <code>gawk</code> Debugger</a>
+    <ul class="no-bullet">
+      <li><a name="toc-Debugging-in-General" href="Debugging-Concepts.html#Debugging-Concepts">14.1.1 Debugging in General</a></li>
+      <li><a name="toc-Debugging-Concepts-1" href="Debugging-Terms.html#Debugging-Terms">14.1.2 Debugging Concepts</a></li>
+      <li><a name="toc-awk-Debugging" href="Awk-Debugging.html#Awk-Debugging">14.1.3 <code>awk</code> Debugging</a></li>
+    </ul></li>
+    <li><a name="toc-Sample-gawk-Debugging-Session" href="Sample-Debugging-Session.html#Sample-Debugging-Session">14.2 Sample <code>gawk</code> Debugging Session</a>
+    <ul class="no-bullet">
+      <li><a name="toc-How-to-Start-the-Debugger" href="Debugger-Invocation.html#Debugger-Invocation">14.2.1 How to Start the Debugger</a></li>
+      <li><a name="toc-Finding-the-Bug" href="Finding-The-Bug.html#Finding-The-Bug">14.2.2 Finding the Bug</a></li>
+    </ul></li>
+    <li><a name="toc-Main-Debugger-Commands" href="List-of-Debugger-Commands.html#List-of-Debugger-Commands">14.3 Main Debugger Commands</a>
+    <ul class="no-bullet">
+      <li><a name="toc-Control-of-Breakpoints" href="Breakpoint-Control.html#Breakpoint-Control">14.3.1 Control of Breakpoints</a></li>
+      <li><a name="toc-Control-of-Execution" href="Debugger-Execution-Control.html#Debugger-Execution-Control">14.3.2 Control of Execution</a></li>
+      <li><a name="toc-Viewing-and-Changing-Data" href="Viewing-And-Changing-Data.html#Viewing-And-Changing-Data">14.3.3 Viewing and Changing Data</a></li>
+      <li><a name="toc-Working-with-the-Stack" href="Execution-Stack.html#Execution-Stack">14.3.4 Working with the Stack</a></li>
+      <li><a name="toc-Obtaining-Information-About-the-Program-and-the-Debugger-State" href="Debugger-Info.html#Debugger-Info">14.3.5 Obtaining Information About the Program and the Debugger State</a></li>
+      <li><a name="toc-Miscellaneous-Commands" href="Miscellaneous-Debugger-Commands.html#Miscellaneous-Debugger-Commands">14.3.6 Miscellaneous Commands</a></li>
+    </ul></li>
+    <li><a name="toc-Readline-Support-1" href="Readline-Support.html#Readline-Support">14.4 Readline Support</a></li>
+    <li><a name="toc-Limitations-1" href="Limitations.html#Limitations">14.5 Limitations</a></li>
+    <li><a name="toc-Summary-13" href="Debugging-Summary.html#Debugging-Summary">14.6 Summary</a></li>
+  </ul></li>
+  <li><a name="toc-Arithmetic-and-Arbitrary_002dPrecision-Arithmetic-with-gawk" href="Arbitrary-Precision-Arithmetic.html#Arbitrary-Precision-Arithmetic">15 Arithmetic and Arbitrary-Precision Arithmetic with <code>gawk</code></a>
+  <ul class="no-bullet">
+    <li><a name="toc-A-General-Description-of-Computer-Arithmetic" href="Computer-Arithmetic.html#Computer-Arithmetic">15.1 A General Description of Computer Arithmetic</a></li>
+    <li><a name="toc-Other-Stuff-to-Know" href="Math-Definitions.html#Math-Definitions">15.2 Other Stuff to Know</a></li>
+    <li><a name="toc-Arbitrary_002dPrecision-Arithmetic-Features-in-gawk" href="MPFR-features.html#MPFR-features">15.3 Arbitrary-Precision Arithmetic Features in <code>gawk</code></a></li>
+    <li><a name="toc-Floating_002dPoint-Arithmetic_003a-Caveat-Emptor_0021" href="FP-Math-Caution.html#FP-Math-Caution">15.4 Floating-Point Arithmetic: Caveat Emptor!</a>
+    <ul class="no-bullet">
+      <li><a name="toc-Floating_002dPoint-Arithmetic-Is-Not-Exact" href="Inexactness-of-computations.html#Inexactness-of-computations">15.4.1 Floating-Point Arithmetic Is Not Exact</a>
+      <ul class="no-bullet">
+        <li><a name="toc-Many-Numbers-Cannot-Be-Represented-Exactly" href="Inexact-representation.html#Inexact-representation">15.4.1.1 Many Numbers Cannot Be Represented Exactly</a></li>
+        <li><a name="toc-Be-Careful-Comparing-Values" href="Comparing-FP-Values.html#Comparing-FP-Values">15.4.1.2 Be Careful Comparing Values</a></li>
+        <li><a name="toc-Errors-Accumulate" href="Errors-accumulate.html#Errors-accumulate">15.4.1.3 Errors Accumulate</a></li>
+      </ul></li>
+      <li><a name="toc-Getting-the-Accuracy-You-Need" href="Getting-Accuracy.html#Getting-Accuracy">15.4.2 Getting the Accuracy You Need</a></li>
+      <li><a name="toc-Try-a-Few-Extra-Bits-of-Precision-and-Rounding" href="Try-To-Round.html#Try-To-Round">15.4.3 Try a Few Extra Bits of Precision and Rounding</a></li>
+      <li><a name="toc-Setting-the-Precision" href="Setting-precision.html#Setting-precision">15.4.4 Setting the Precision</a></li>
+      <li><a name="toc-Setting-the-Rounding-Mode" href="Setting-the-rounding-mode.html#Setting-the-rounding-mode">15.4.5 Setting the Rounding Mode</a></li>
+    </ul></li>
+    <li><a name="toc-Arbitrary_002dPrecision-Integer-Arithmetic-with-gawk" href="Arbitrary-Precision-Integers.html#Arbitrary-Precision-Integers">15.5 Arbitrary-Precision Integer Arithmetic with <code>gawk</code></a></li>
+    <li><a name="toc-Standards-Versus-Existing-Practice" href="POSIX-Floating-Point-Problems.html#POSIX-Floating-Point-Problems">15.6 Standards Versus Existing Practice</a></li>
+    <li><a name="toc-Summary-14" href="Floating-point-summary.html#Floating-point-summary">15.7 Summary</a></li>
+  </ul></li>
+  <li><a name="toc-Writing-Extensions-for-gawk" href="Dynamic-Extensions.html#Dynamic-Extensions">16 Writing Extensions for <code>gawk</code></a>
+  <ul class="no-bullet">
+    <li><a name="toc-Introduction" href="Extension-Intro.html#Extension-Intro">16.1 Introduction</a></li>
+    <li><a name="toc-Extension-Licensing" href="Plugin-License.html#Plugin-License">16.2 Extension Licensing</a></li>
+    <li><a name="toc-How-It-Works-at-a-High-Level" href="Extension-Mechanism-Outline.html#Extension-Mechanism-Outline">16.3 How It Works at a High Level</a></li>
+    <li><a name="toc-API-Description" href="Extension-API-Description.html#Extension-API-Description">16.4 API Description</a>
+    <ul class="no-bullet">
+      <li><a name="toc-Introduction-1" href="Extension-API-Functions-Introduction.html#Extension-API-Functions-Introduction">16.4.1 Introduction</a></li>
+      <li><a name="toc-General_002dPurpose-Data-Types" href="General-Data-Types.html#General-Data-Types">16.4.2 General-Purpose Data Types</a></li>
+      <li><a name="toc-Memory-Allocation-Functions-and-Convenience-Macros" href="Memory-Allocation-Functions.html#Memory-Allocation-Functions">16.4.3 Memory Allocation Functions and Convenience Macros</a></li>
+      <li><a name="toc-Constructor-Functions-1" href="Constructor-Functions.html#Constructor-Functions">16.4.4 Constructor Functions</a></li>
+      <li><a name="toc-Registration-Functions-1" href="Registration-Functions.html#Registration-Functions">16.4.5 Registration Functions</a>
+      <ul class="no-bullet">
+        <li><a name="toc-Registering-An-Extension-Function" href="Extension-Functions.html#Extension-Functions">16.4.5.1 Registering An Extension Function</a></li>
+        <li><a name="toc-Registering-An-Exit-Callback-Function" href="Exit-Callback-Functions.html#Exit-Callback-Functions">16.4.5.2 Registering An Exit Callback Function</a></li>
+        <li><a name="toc-Registering-An-Extension-Version-String" href="Extension-Version-String.html#Extension-Version-String">16.4.5.3 Registering An Extension Version String</a></li>
+        <li><a name="toc-Customized-Input-Parsers" href="Input-Parsers.html#Input-Parsers">16.4.5.4 Customized Input Parsers</a></li>
+        <li><a name="toc-Customized-Output-Wrappers" href="Output-Wrappers.html#Output-Wrappers">16.4.5.5 Customized Output Wrappers</a></li>
+        <li><a name="toc-Customized-Two_002dway-Processors" href="Two_002dway-processors.html#Two_002dway-processors">16.4.5.6 Customized Two-way Processors</a></li>
+      </ul></li>
+      <li><a name="toc-Printing-Messages-1" href="Printing-Messages.html#Printing-Messages">16.4.6 Printing Messages</a></li>
+      <li><a name="toc-Updating-ERRNO-1" href="Updating-ERRNO.html#Updating-ERRNO">16.4.7 Updating <code>ERRNO</code></a></li>
+      <li><a name="toc-Requesting-Values-1" href="Requesting-Values.html#Requesting-Values">16.4.8 Requesting Values</a></li>
+      <li><a name="toc-Accessing-and-Updating-Parameters" href="Accessing-Parameters.html#Accessing-Parameters">16.4.9 Accessing and Updating Parameters</a></li>
+      <li><a name="toc-Symbol-Table-Access-1" href="Symbol-Table-Access.html#Symbol-Table-Access">16.4.10 Symbol Table Access</a>
+      <ul class="no-bullet">
+        <li><a name="toc-Variable-Access-and-Update-by-Name" href="Symbol-table-by-name.html#Symbol-table-by-name">16.4.10.1 Variable Access and Update by Name</a></li>
+        <li><a name="toc-Variable-Access-and-Update-by-Cookie" href="Symbol-table-by-cookie.html#Symbol-table-by-cookie">16.4.10.2 Variable Access and Update by Cookie</a></li>
+        <li><a name="toc-Creating-and-Using-Cached-Values" href="Cached-values.html#Cached-values">16.4.10.3 Creating and Using Cached Values</a></li>
+      </ul></li>
+      <li><a name="toc-Array-Manipulation-1" href="Array-Manipulation.html#Array-Manipulation">16.4.11 Array Manipulation</a>
+      <ul class="no-bullet">
+        <li><a name="toc-Array-Data-Types-1" href="Array-Data-Types.html#Array-Data-Types">16.4.11.1 Array Data Types</a></li>
+        <li><a name="toc-Array-Functions-1" href="Array-Functions.html#Array-Functions">16.4.11.2 Array Functions</a></li>
+        <li><a name="toc-Working-With-All-The-Elements-of-an-Array" href="Flattening-Arrays.html#Flattening-Arrays">16.4.11.3 Working With All The Elements of an Array</a></li>
+        <li><a name="toc-How-To-Create-and-Populate-Arrays" href="Creating-Arrays.html#Creating-Arrays">16.4.11.4 How To Create and Populate Arrays</a></li>
+      </ul></li>
+      <li><a name="toc-API-Variables" href="Extension-API-Variables.html#Extension-API-Variables">16.4.12 API Variables</a>
+      <ul class="no-bullet">
+        <li><a name="toc-API-Version-Constants-and-Variables" href="Extension-Versioning.html#Extension-Versioning">16.4.12.1 API Version Constants and Variables</a></li>
+        <li><a name="toc-Informational-Variables" href="Extension-API-Informational-Variables.html#Extension-API-Informational-Variables">16.4.12.2 Informational Variables</a></li>
+      </ul></li>
+      <li><a name="toc-Boilerplate-Code" href="Extension-API-Boilerplate.html#Extension-API-Boilerplate">16.4.13 Boilerplate Code</a></li>
+    </ul></li>
+    <li><a name="toc-How-gawk-Finds-Extensions" href="Finding-Extensions.html#Finding-Extensions">16.5 How <code>gawk</code> Finds Extensions</a></li>
+    <li><a name="toc-Example_003a-Some-File-Functions" href="Extension-Example.html#Extension-Example">16.6 Example: Some File Functions</a>
+    <ul class="no-bullet">
+      <li><a name="toc-Using-chdir_0028_0029-and-stat_0028_0029" href="Internal-File-Description.html#Internal-File-Description">16.6.1 Using <code>chdir()</code> and <code>stat()</code></a></li>
+      <li><a name="toc-C-Code-for-chdir_0028_0029-and-stat_0028_0029" href="Internal-File-Ops.html#Internal-File-Ops">16.6.2 C Code for <code>chdir()</code> and <code>stat()</code></a></li>
+      <li><a name="toc-Integrating-the-Extensions" href="Using-Internal-File-Ops.html#Using-Internal-File-Ops">16.6.3 Integrating the Extensions</a></li>
+    </ul></li>
+    <li><a name="toc-The-Sample-Extensions-in-the-gawk-Distribution" href="Extension-Samples.html#Extension-Samples">16.7 The Sample Extensions in the <code>gawk</code> Distribution</a>
+    <ul class="no-bullet">
+      <li><a name="toc-File_002dRelated-Functions" href="Extension-Sample-File-Functions.html#Extension-Sample-File-Functions">16.7.1 File-Related Functions</a></li>
+      <li><a name="toc-Interface-to-fnmatch_0028_0029" href="Extension-Sample-Fnmatch.html#Extension-Sample-Fnmatch">16.7.2 Interface to <code>fnmatch()</code></a></li>
+      <li><a name="toc-Interface-to-fork_0028_0029_002c-wait_0028_0029_002c-and-waitpid_0028_0029" href="Extension-Sample-Fork.html#Extension-Sample-Fork">16.7.3 Interface to <code>fork()</code>, <code>wait()</code>, and <code>waitpid()</code></a></li>
+      <li><a name="toc-Enabling-In_002dPlace-File-Editing" href="Extension-Sample-Inplace.html#Extension-Sample-Inplace">16.7.4 Enabling In-Place File Editing</a></li>
+      <li><a name="toc-Character-and-Numeric-values_003a-ord_0028_0029-and-chr_0028_0029" href="Extension-Sample-Ord.html#Extension-Sample-Ord">16.7.5 Character and Numeric values: <code>ord()</code> and <code>chr()</code></a></li>
+      <li><a name="toc-Reading-Directories" href="Extension-Sample-Readdir.html#Extension-Sample-Readdir">16.7.6 Reading Directories</a></li>
+      <li><a name="toc-Reversing-Output" href="Extension-Sample-Revout.html#Extension-Sample-Revout">16.7.7 Reversing Output</a></li>
+      <li><a name="toc-Two_002dWay-I_002fO-Example" href="Extension-Sample-Rev2way.html#Extension-Sample-Rev2way">16.7.8 Two-Way I/O Example</a></li>
+      <li><a name="toc-Dumping-and-Restoring-an-Array" href="Extension-Sample-Read-write-array.html#Extension-Sample-Read-write-array">16.7.9 Dumping and Restoring an Array</a></li>
+      <li><a name="toc-Reading-an-Entire-File" href="Extension-Sample-Readfile.html#Extension-Sample-Readfile">16.7.10 Reading an Entire File</a></li>
+      <li><a name="toc-Extension-Time-Functions" href="Extension-Sample-Time.html#Extension-Sample-Time">16.7.11 Extension Time Functions</a></li>
+      <li><a name="toc-API-Tests" href="Extension-Sample-API-Tests.html#Extension-Sample-API-Tests">16.7.12 API Tests</a></li>
+    </ul></li>
+    <li><a name="toc-The-gawkextlib-Project" href="gawkextlib.html#gawkextlib">16.8 The <code>gawkextlib</code> Project</a></li>
+    <li><a name="toc-Summary-15" href="Extension-summary.html#Extension-summary">16.9 Summary</a></li>
+    <li><a name="toc-Exercises-4" href="Extension-Exercises.html#Extension-Exercises">16.10 Exercises</a></li>
+  </ul></li>
+</ul></li>
+<li><a name="toc-Part-IV_003a-Appendices" href="Language-History.html#Part-IV_003a-Appendices">Part IV:<br>Appendices</a>
+<ul class="no-bullet">
+  <li><a name="toc-The-Evolution-of-the-awk-Language" href="Language-History.html#Language-History">Appendix A The Evolution of the <code>awk</code> Language</a>
+  <ul class="no-bullet">
+    <li><a name="toc-Major-Changes-Between-V7-and-SVR3_002e1" href="V7_002fSVR3_002e1.html#V7_002fSVR3_002e1">A.1 Major Changes Between V7 and SVR3.1</a></li>
+    <li><a name="toc-Changes-Between-SVR3_002e1-and-SVR4" href="SVR4.html#SVR4">A.2 Changes Between SVR3.1 and SVR4</a></li>
+    <li><a name="toc-Changes-Between-SVR4-and-POSIX-awk" href="POSIX.html#POSIX">A.3 Changes Between SVR4 and POSIX <code>awk</code></a></li>
+    <li><a name="toc-Extensions-in-Brian-Kernighan_0027s-awk" href="BTL.html#BTL">A.4 Extensions in Brian Kernighan&rsquo;s <code>awk</code></a></li>
+    <li><a name="toc-Extensions-in-gawk-Not-in-POSIX-awk" href="POSIX_002fGNU.html#POSIX_002fGNU">A.5 Extensions in <code>gawk</code> Not in POSIX <code>awk</code></a></li>
+    <li><a name="toc-History-of-gawk-Features" href="Feature-History.html#Feature-History">A.6 History of <code>gawk</code> Features</a></li>
+    <li><a name="toc-Common-Extensions-Summary" href="Common-Extensions.html#Common-Extensions">A.7 Common Extensions Summary</a></li>
+    <li><a name="toc-Regexp-Ranges-and-Locales_003a-A-Long-Sad-Story" href="Ranges-and-Locales.html#Ranges-and-Locales">A.8 Regexp Ranges and Locales: A Long Sad Story</a></li>
+    <li><a name="toc-Major-Contributors-to-gawk" href="Contributors.html#Contributors">A.9 Major Contributors to <code>gawk</code></a></li>
+    <li><a name="toc-Summary-16" href="History-summary.html#History-summary">A.10 Summary</a></li>
+  </ul></li>
+  <li><a name="toc-Installing-gawk" href="Installation.html#Installation">Appendix B Installing <code>gawk</code></a>
+  <ul class="no-bullet">
+    <li><a name="toc-The-gawk-Distribution" href="Gawk-Distribution.html#Gawk-Distribution">B.1 The <code>gawk</code> Distribution</a>
+    <ul class="no-bullet">
+      <li><a name="toc-Getting-the-gawk-Distribution" href="Getting.html#Getting">B.1.1 Getting the <code>gawk</code> Distribution</a></li>
+      <li><a name="toc-Extracting-the-Distribution" href="Extracting.html#Extracting">B.1.2 Extracting the Distribution</a></li>
+      <li><a name="toc-Contents-of-the-gawk-Distribution" href="Distribution-contents.html#Distribution-contents">B.1.3 Contents of the <code>gawk</code> Distribution</a></li>
+    </ul></li>
+    <li><a name="toc-Compiling-and-Installing-gawk-on-Unix_002dLike-Systems" href="Unix-Installation.html#Unix-Installation">B.2 Compiling and Installing <code>gawk</code> on Unix-Like Systems</a>
+    <ul class="no-bullet">
+      <li><a name="toc-Compiling-gawk-for-Unix_002dLike-Systems" href="Quick-Installation.html#Quick-Installation">B.2.1 Compiling <code>gawk</code> for Unix-Like Systems</a></li>
+      <li><a name="toc-Additional-Configuration-Options-1" href="Additional-Configuration-Options.html#Additional-Configuration-Options">B.2.2 Additional Configuration Options</a></li>
+      <li><a name="toc-The-Configuration-Process" href="Configuration-Philosophy.html#Configuration-Philosophy">B.2.3 The Configuration Process</a></li>
+    </ul></li>
+    <li><a name="toc-Installation-on-Other-Operating-Systems" href="Non_002dUnix-Installation.html#Non_002dUnix-Installation">B.3 Installation on Other Operating Systems</a>
+    <ul class="no-bullet">
+      <li><a name="toc-Installation-on-PC-Operating-Systems" href="PC-Installation.html#PC-Installation">B.3.1 Installation on PC Operating Systems</a>
+      <ul class="no-bullet">
+        <li><a name="toc-Installing-a-Prepared-Distribution-for-PC-Systems" href="PC-Binary-Installation.html#PC-Binary-Installation">B.3.1.1 Installing a Prepared Distribution for PC Systems</a></li>
+        <li><a name="toc-Compiling-gawk-for-PC-Operating-Systems" href="PC-Compiling.html#PC-Compiling">B.3.1.2 Compiling <code>gawk</code> for PC Operating Systems</a></li>
+        <li><a name="toc-Testing-gawk-on-PC-Operating-Systems" href="PC-Testing.html#PC-Testing">B.3.1.3 Testing <code>gawk</code> on PC Operating Systems</a></li>
+        <li><a name="toc-Using-gawk-on-PC-Operating-Systems" href="PC-Using.html#PC-Using">B.3.1.4 Using <code>gawk</code> on PC Operating Systems</a></li>
+        <li><a name="toc-Using-gawk-In-The-Cygwin-Environment" href="Cygwin.html#Cygwin">B.3.1.5 Using <code>gawk</code> In The Cygwin Environment</a></li>
+        <li><a name="toc-Using-gawk-In-The-MSYS-Environment" href="MSYS.html#MSYS">B.3.1.6 Using <code>gawk</code> In The MSYS Environment</a></li>
+      </ul></li>
+      <li><a name="toc-Compiling-and-Installing-gawk-on-Vax_002fVMS-and-OpenVMS" href="VMS-Installation.html#VMS-Installation">B.3.2 Compiling and Installing <code>gawk</code> on Vax/VMS and OpenVMS</a>
+      <ul class="no-bullet">
+        <li><a name="toc-Compiling-gawk-on-VMS" href="VMS-Compilation.html#VMS-Compilation">B.3.2.1 Compiling <code>gawk</code> on VMS</a></li>
+        <li><a name="toc-Compiling-gawk-Dynamic-Extensions-on-VMS" href="VMS-Dynamic-Extensions.html#VMS-Dynamic-Extensions">B.3.2.2 Compiling <code>gawk</code> Dynamic Extensions on VMS</a></li>
+        <li><a name="toc-Installing-gawk-on-VMS" href="VMS-Installation-Details.html#VMS-Installation-Details">B.3.2.3 Installing <code>gawk</code> on VMS</a></li>
+        <li><a name="toc-Running-gawk-on-VMS" href="VMS-Running.html#VMS-Running">B.3.2.4 Running <code>gawk</code> on VMS</a></li>
+        <li><a name="toc-The-VMS-GNV-Project" href="VMS-GNV.html#VMS-GNV">B.3.2.5 The VMS GNV Project</a></li>
+        <li><a name="toc-Some-VMS-Systems-Have-An-Old-Version-of-gawk" href="VMS-Old-Gawk.html#VMS-Old-Gawk">B.3.2.6 Some VMS Systems Have An Old Version of <code>gawk</code></a></li>
+      </ul></li>
+    </ul></li>
+    <li><a name="toc-Reporting-Problems-and-Bugs" href="Bugs.html#Bugs">B.4 Reporting Problems and Bugs</a></li>
+    <li><a name="toc-Other-Freely-Available-awk-Implementations" href="Other-Versions.html#Other-Versions">B.5 Other Freely Available <code>awk</code> Implementations</a></li>
+    <li><a name="toc-Summary-17" href="Installation-summary.html#Installation-summary">B.6 Summary</a></li>
+  </ul></li>
+  <li><a name="toc-Implementation-Notes" href="Notes.html#Notes">Appendix C Implementation Notes</a>
+  <ul class="no-bullet">
+    <li><a name="toc-Downward-Compatibility-and-Debugging" href="Compatibility-Mode.html#Compatibility-Mode">C.1 Downward Compatibility and Debugging</a></li>
+    <li><a name="toc-Making-Additions-to-gawk" href="Additions.html#Additions">C.2 Making Additions to <code>gawk</code></a>
+    <ul class="no-bullet">
+      <li><a name="toc-Accessing-The-gawk-Git-Repository" href="Accessing-The-Source.html#Accessing-The-Source">C.2.1 Accessing The <code>gawk</code> Git Repository</a></li>
+      <li><a name="toc-Adding-New-Features" href="Adding-Code.html#Adding-Code">C.2.2 Adding New Features</a></li>
+      <li><a name="toc-Porting-gawk-to-a-New-Operating-System" href="New-Ports.html#New-Ports">C.2.3 Porting <code>gawk</code> to a New Operating System</a></li>
+      <li><a name="toc-Why-Generated-Files-Are-Kept-In-Git" href="Derived-Files.html#Derived-Files">C.2.4 Why Generated Files Are Kept In Git</a></li>
+    </ul></li>
+    <li><a name="toc-Probable-Future-Extensions" href="Future-Extensions.html#Future-Extensions">C.3 Probable Future Extensions</a></li>
+    <li><a name="toc-Some-Limitations-of-the-Implementation" href="Implementation-Limitations.html#Implementation-Limitations">C.4 Some Limitations of the Implementation</a></li>
+    <li><a name="toc-Extension-API-Design" href="Extension-Design.html#Extension-Design">C.5 Extension API Design</a>
+    <ul class="no-bullet">
+      <li><a name="toc-Problems-With-The-Old-Mechanism" href="Old-Extension-Problems.html#Old-Extension-Problems">C.5.1 Problems With The Old Mechanism</a></li>
+      <li><a name="toc-Goals-For-A-New-Mechanism" href="Extension-New-Mechanism-Goals.html#Extension-New-Mechanism-Goals">C.5.2 Goals For A New Mechanism</a></li>
+      <li><a name="toc-Other-Design-Decisions" href="Extension-Other-Design-Decisions.html#Extension-Other-Design-Decisions">C.5.3 Other Design Decisions</a></li>
+      <li><a name="toc-Room-For-Future-Growth" href="Extension-Future-Growth.html#Extension-Future-Growth">C.5.4 Room For Future Growth</a></li>
+    </ul></li>
+    <li><a name="toc-Compatibility-For-Old-Extensions" href="Old-Extension-Mechanism.html#Old-Extension-Mechanism">C.6 Compatibility For Old Extensions</a></li>
+    <li><a name="toc-Summary-18" href="Notes-summary.html#Notes-summary">C.7 Summary</a></li>
+  </ul></li>
+  <li><a name="toc-Basic-Programming-Concepts" href="Basic-Concepts.html#Basic-Concepts">Appendix D Basic Programming Concepts</a>
+  <ul class="no-bullet">
+    <li><a name="toc-What-a-Program-Does" href="Basic-High-Level.html#Basic-High-Level">D.1 What a Program Does</a></li>
+    <li><a name="toc-Data-Values-in-a-Computer" href="Basic-Data-Typing.html#Basic-Data-Typing">D.2 Data Values in a Computer</a></li>
+  </ul></li>
+  <li><a name="toc-Glossary-1" href="Glossary.html#Glossary">Glossary</a></li>
+  <li><a name="toc-GNU-General-Public-License" href="Copying.html#Copying">GNU General Public License</a></li>
+  <li><a name="toc-GNU-Free-Documentation-License-1" href="GNU-Free-Documentation-License.html#GNU-Free-Documentation-License">GNU Free Documentation License</a>
+  <ul class="no-bullet">
+    <li><a name="toc-ADDENDUM_003a-How-to-use-this-License-for-your-documents" href="GNU-Free-Documentation-License.html#ADDENDUM_003a-How-to-use-this-License-for-your-documents">ADDENDUM: How to use this License for your documents</a></li>
+  </ul></li>
+  <li><a name="toc-Index-1" href="Index.html#Index">Index</a></li>
+</ul></li>
+
+</ul>
+</div>
+
+
+<hr>
+<div class="header">
+<p>
+Next: <a href="Foreword3.html#Foreword3" accesskey="n" rel="next">Foreword3</a>, Up: <a href="../dir/index.html" accesskey="u" rel="up">(dir)</a> &nbsp; [<a href="#SEC_Contents" title="Table of contents" rel="contents">Contents</a>][<a href="Index.html#Index" title="Index" rel="index">Index</a>]</p>
+</div>
+
+
+
+</body>
+</html>

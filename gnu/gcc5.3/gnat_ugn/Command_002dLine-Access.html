@@ -1,0 +1,70 @@
+<html lang="en">
+<head>
+<title>Command-Line Access - GNAT User's Guide for Native Platforms</title>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+<meta name="description" content="GNAT User's Guide for Native Platforms">
+<meta name="generator" content="makeinfo 4.13">
+<link title="Top" rel="start" href="index.html#Top">
+<link rel="up" href="Binding-with-gnatbind.html#Binding-with-gnatbind" title="Binding with gnatbind">
+<link rel="prev" href="Switches-for-gnatbind.html#Switches-for-gnatbind" title="Switches for gnatbind">
+<link rel="next" href="Search-Paths-for-gnatbind.html#Search-Paths-for-gnatbind" title="Search Paths for gnatbind">
+<link href="http://www.gnu.org/software/texinfo/" rel="generator-home" title="Texinfo Homepage">
+<!--
+
+     GNAT User's Guide for Native Platforms , March 24, 2015
+
+     AdaCore
+
+     Copyright (C) 2008-2015, Free Software Foundation
+-->
+<meta http-equiv="Content-Style-Type" content="text/css">
+<style type="text/css"><!--
+  pre.display { font-family:inherit }
+  pre.format  { font-family:inherit }
+  pre.smalldisplay { font-family:inherit; font-size:smaller }
+  pre.smallformat  { font-family:inherit; font-size:smaller }
+  pre.smallexample { font-size:smaller }
+  pre.smalllisp    { font-size:smaller }
+  span.sc    { font-variant:small-caps }
+  span.roman { font-family:serif; font-weight:normal; } 
+  span.sansserif { font-family:sans-serif; font-weight:normal; } 
+--></style>
+</head>
+<body>
+<div class="node">
+<a name="Command-Line-Access"></a>
+<a name="Command_002dLine-Access"></a>
+<p>
+Next:&nbsp;<a rel="next" accesskey="n" href="Search-Paths-for-gnatbind.html#Search-Paths-for-gnatbind">Search Paths for gnatbind</a>,
+Previous:&nbsp;<a rel="previous" accesskey="p" href="Switches-for-gnatbind.html#Switches-for-gnatbind">Switches for gnatbind</a>,
+Up:&nbsp;<a rel="up" accesskey="u" href="Binding-with-gnatbind.html#Binding-with-gnatbind">Binding with gnatbind</a>
+<hr>
+</div>
+
+<p><a name="gnat_005fugn_002fbuilding_005fexecutable_005fprograms_005fwith_005fgnat-id41"></a><a name="g_t132"></a><a name="gnat_005fugn_002fbuilding_005fexecutable_005fprograms_005fwith_005fgnat-command_002dline_002daccess"></a><a name="g_t133"></a>
+
+<h4 class="subsection">4.4.3 Command-Line Access</h4>
+
+<p>The package <cite>Ada.Command_Line</cite> provides access to the command-line
+arguments and program name. In order for this interface to operate
+correctly, the two variables
+
+<pre class="example">    int gnat_argc;
+    char **gnat_argv;
+</pre>
+<p><a name="index-gnat_005fargv-739"></a>
+<a name="index-gnat_005fargc-740"></a>
+are declared in one of the GNAT library routines. These variables must
+be set from the actual <cite>argc</cite> and <cite>argv</cite> values passed to the
+main program. With no `n' present, <cite>gnatbind</cite>
+generates the C main program to automatically set these variables. 
+If the `n' switch is used, there is no automatic way to
+set these variables. If they are not set, the procedures in
+<cite>Ada.Command_Line</cite> will not be available, and any attempt to use
+them will raise <cite>Constraint_Error</cite>. If command line access is
+required, your main program must set <cite>gnat_argc</cite> and
+<cite>gnat_argv</cite> from the <cite>argc</cite> and <cite>argv</cite> values passed to
+it.
+
+</body></html>
+

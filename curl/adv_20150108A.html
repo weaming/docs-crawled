@@ -1,0 +1,82 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
+<HTML>
+<HEAD> <TITLE>cURL - darwinssl certificate check bypass</TITLE>
+<meta content="text/html; charset=UTF-8" http-equiv="Content-Type">
+<link rel="stylesheet" type="text/css" href="http://curl.haxx.se/curl.css">
+<link rel="shortcut icon" href="http://curl.haxx.se/favicon.ico">
+<link rel="STYLESHEET" type="text/css" href="http://curl.haxx.se/manpage.css">
+</HEAD>
+<body bgcolor="#ffffff" text="#000000">
+<div class="main">
+<div class="menu">
+<a href="index.html" class="menuitem" title="Documentation main page">Docs Overview</a>
+</div>
+<div class="contents">
+<div class="where"><a href="http://curl.haxx.se/">cURL</a> / <a href="index.html">Docs</a> / <a href="security.html">Security</a> / <b>darwinssl certificate check bypass</b></div>
+<h1> darwinssl certificate check bypass </h1>
+<div class="relatedbox">
+<b>Related:</b>
+<br><a href="http://curl.haxx.se/changes.html">Changelog</a>
+<br><a href="faq.html">FAQ</a>
+<br><a href="http://curl.haxx.se/dev/security.html">Security dev process</a>
+<br><a href="vulnerabilities.html">Vulnerabilities Table</a>
+</div>
+<h1>libcurl/darwinssl certificate check bypass</h1>
+<p>Project cURL Security Advisory, January 8th 2015 -
+<a href="adv_20150108A.html">Permalink</a></p>
+<h2>VULNERABILITY</h2>
+<p>libcurl stores TLS Session IDs in its associated Session ID cache when it
+connects to TLS servers. In subsequent connects it re-uses the entry in the
+cache to resume the TLS connection faster than when doing a full TLS
+handshake. The actual implementation for the Session ID caching varies
+depending on the underlying TLS backend.</p>
+<p>libcurl allows applications to switch off certificate verification in two
+different ways - using <code>CURLOPT_SSL_VERIFYHOST</code> and <code>CURLOPT_SSL_VERIFYPEER</code>.</p>
+<p>When an application connected to a TLS server with certificate verification
+disabled, it would store the Session ID in the cache and if then a subsequent
+connection was made against the same host and port number, it would re-use the
+former session and thanks to the the re-used session from the cache, it would
+skip the certificate check and wrongly accept any bad certificate that could
+be presented.</p>
+<p>The problem was that the "key" used for caching Session IDs didn't take the
+ceritificate check status into account.</p>
+<p>This problem is specific to libcurl built to use the DarwinSSL back-end for
+TLS, so it can only affect Mac and iPhone based applications.</p>
+<p>We are not aware of any exploit of this flaw.</p>
+<p>DarwinSSL is also known as SecureTransport.</p>
+<h2>INFO</h2>
+<p>This flaw can also affect the curl command line tool if a similar operation
+series is made with that.</p>
+<p>The Common Vulnerabilities and Exposures (CVE) project has assigned the name
+CVE-2014-8151 to this issue.</p>
+<h2>AFFECTED VERSIONS</h2>
+<ul>
+<li>Affected versions: from libcurl 7.31.0 to and including 7.39.0</li>
+<li>Not affected versions: libcurl &lt; 7.31.0 or >= 7.40.0</li>
+</ul>
+<p>libcurl is used by many applications, but not always advertised as such!</p>
+<h2>THE SOLUTION</h2>
+<p>libcurl 7.40.0 makes sure that the certificate check status is used in the key
+set for the Session ID and thus it cannot re-use IDs between checked and
+unchecked TLS connections.</p>
+<p>A patch for this problem is available at:</p>
+<pre><code>http://curl.haxx.se/CVE-2014-8151.patch
+</code></pre>
+<h2>RECOMMENDATIONS</h2>
+<p>We suggest you take one of the following actions immediately, in order of
+preference:</p>
+<p>A - Upgrade to curl and libcurl 7.40.0</p>
+<p>B - Apply the patch and rebuild libcurl</p>
+<p>C - Avoid disabling the server certificate checks when using TLS</p>
+<h2>TIME LINE</h2>
+<p>It was first reported to the curl project on November 26 2014.</p>
+<p>We contacted Apple Product Security on December 17. We contacted
+distros@openwall on December 28.</p>
+<p>libcurl 7.40.0 was released on January 8th 2015, coordinated with the
+publication of this advisory.</p>
+<h2>CREDITS</h2>
+<p>Reported by Marc Hesse at RethinkDB.</p>
+<p>Thanks a lot!</p>
+</div>
+</div>
+</body> </html>

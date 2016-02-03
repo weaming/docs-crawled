@@ -1,0 +1,73 @@
+<html lang="en">
+<head>
+<title>Pragma CPP_Class - GNAT Reference Manual</title>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+<meta name="description" content="GNAT Reference Manual">
+<meta name="generator" content="makeinfo 4.13">
+<link title="Top" rel="start" href="index.html#Top">
+<link rel="up" href="Implementation-Defined-Pragmas.html#Implementation-Defined-Pragmas" title="Implementation Defined Pragmas">
+<link rel="prev" href="Pragma-Convention_005fIdentifier.html#Pragma-Convention_005fIdentifier" title="Pragma Convention_Identifier">
+<link rel="next" href="Pragma-CPP_005fConstructor.html#Pragma-CPP_005fConstructor" title="Pragma CPP_Constructor">
+<link href="http://www.gnu.org/software/texinfo/" rel="generator-home" title="Texinfo Homepage">
+<!--
+
+     GNAT Reference Manual , March 24, 2015
+
+     AdaCore
+
+     Copyright (C) 2008-2015, Free Software Foundation
+-->
+<meta http-equiv="Content-Style-Type" content="text/css">
+<style type="text/css"><!--
+  pre.display { font-family:inherit }
+  pre.format  { font-family:inherit }
+  pre.smalldisplay { font-family:inherit; font-size:smaller }
+  pre.smallformat  { font-family:inherit; font-size:smaller }
+  pre.smallexample { font-size:smaller }
+  pre.smalllisp    { font-size:smaller }
+  span.sc    { font-variant:small-caps }
+  span.roman { font-family:serif; font-weight:normal; } 
+  span.sansserif { font-family:sans-serif; font-weight:normal; } 
+--></style>
+</head>
+<body>
+<div class="node">
+<a name="Pragma-CPP_Class"></a>
+<a name="Pragma-CPP_005fClass"></a>
+<p>
+Next:&nbsp;<a rel="next" accesskey="n" href="Pragma-CPP_005fConstructor.html#Pragma-CPP_005fConstructor">Pragma CPP_Constructor</a>,
+Previous:&nbsp;<a rel="previous" accesskey="p" href="Pragma-Convention_005fIdentifier.html#Pragma-Convention_005fIdentifier">Pragma Convention_Identifier</a>,
+Up:&nbsp;<a rel="up" accesskey="u" href="Implementation-Defined-Pragmas.html#Implementation-Defined-Pragmas">Implementation Defined Pragmas</a>
+<hr>
+</div>
+
+<p><a name="gnat_005frm_002fimplementation_005fdefined_005fpragmas-pragma_002dcpp_002dclass"></a><a name="g_t3e"></a>
+
+<h3 class="section">2.36 Pragma CPP_Class</h3>
+
+<p><a name="index-Interfacing-with-C_002b_002b-31"></a>
+Syntax:
+
+<pre class="example">    pragma CPP_Class ([Entity =&gt;] LOCAL_NAME);
+</pre>
+<p>The argument denotes an entity in the current declarative region that is
+declared as a record type. It indicates that the type corresponds to an
+externally declared C++ class type, and is to be laid out the same way
+that C++ would lay out the type. If the C++ class has virtual primitives
+then the record must be declared as a tagged record type.
+
+<p>Types for which <cite>CPP_Class</cite> is specified do not have assignment or
+equality operators defined (such operations can be imported or declared
+as subprograms as required). Initialization is allowed only by constructor
+functions (see pragma <cite>CPP_Constructor</cite>). Such types are implicitly
+limited if not explicitly declared as limited or derived from a limited
+type, and an error is issued in that case.
+
+<p>See <a href="3f.html#g_t3f">Interfacing to C++</a> for related information.
+
+<p>Note: Pragma <cite>CPP_Class</cite> is currently obsolete. It is supported
+for backward compatibility but its functionality is available
+using pragma <cite>Import</cite> with <cite>Convention</cite> = <cite>CPP</cite>.
+
+</body></html>
+

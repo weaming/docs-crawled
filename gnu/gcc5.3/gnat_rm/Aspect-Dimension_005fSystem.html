@@ -1,0 +1,99 @@
+<html lang="en">
+<head>
+<title>Aspect Dimension_System - GNAT Reference Manual</title>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+<meta name="description" content="GNAT Reference Manual">
+<meta name="generator" content="makeinfo 4.13">
+<link title="Top" rel="start" href="index.html#Top">
+<link rel="up" href="Implementation-Defined-Aspects.html#Implementation-Defined-Aspects" title="Implementation Defined Aspects">
+<link rel="prev" href="Aspect-Dimension.html#Aspect-Dimension" title="Aspect Dimension">
+<link rel="next" href="Aspect-Effective_005fReads.html#Aspect-Effective_005fReads" title="Aspect Effective_Reads">
+<link href="http://www.gnu.org/software/texinfo/" rel="generator-home" title="Texinfo Homepage">
+<!--
+
+     GNAT Reference Manual , March 24, 2015
+
+     AdaCore
+
+     Copyright (C) 2008-2015, Free Software Foundation
+-->
+<meta http-equiv="Content-Style-Type" content="text/css">
+<style type="text/css"><!--
+  pre.display { font-family:inherit }
+  pre.format  { font-family:inherit }
+  pre.smalldisplay { font-family:inherit; font-size:smaller }
+  pre.smallformat  { font-family:inherit; font-size:smaller }
+  pre.smallexample { font-size:smaller }
+  pre.smalllisp    { font-size:smaller }
+  span.sc    { font-variant:small-caps }
+  span.roman { font-family:serif; font-weight:normal; } 
+  span.sansserif { font-family:sans-serif; font-weight:normal; } 
+--></style>
+</head>
+<body>
+<div class="node">
+<a name="Aspect-Dimension_System"></a>
+<a name="Aspect-Dimension_005fSystem"></a>
+<p>
+Next:&nbsp;<a rel="next" accesskey="n" href="Aspect-Effective_005fReads.html#Aspect-Effective_005fReads">Aspect Effective_Reads</a>,
+Previous:&nbsp;<a rel="previous" accesskey="p" href="Aspect-Dimension.html#Aspect-Dimension">Aspect Dimension</a>,
+Up:&nbsp;<a rel="up" accesskey="u" href="Implementation-Defined-Aspects.html#Implementation-Defined-Aspects">Implementation Defined Aspects</a>
+<hr>
+</div>
+
+<p><a name="gnat_005frm_002fimplementation_005fdefined_005faspects-aspect_002ddimension_002dsystem"></a><a name="eb"></a>
+
+<h3 class="section">3.8 Aspect Dimension_System</h3>
+
+<p><a name="index-Dimension_005fSystem-116"></a>
+The <cite>Dimension_System</cite> aspect is used to define a system of
+dimensions that will be used in subsequent subtype declarations with
+<cite>Dimension</cite> aspects that reference this system. The syntax is:
+
+<pre class="example">    with Dimension_System =&gt; (DIMENSION {, DIMENSION});
+    
+    DIMENSION ::= ([Unit_Name   =&gt;] IDENTIFIER,
+                   [Unit_Symbol =&gt;] SYMBOL,
+                   [Dim_Symbol  =&gt;] SYMBOL)
+    
+    SYMBOL ::= CHARACTER_LITERAL | STRING_LITERAL
+</pre>
+<p>This aspect is applied to a type, which must be a numeric derived type
+(typically a floating-point type), that
+will represent values within the dimension system. Each <cite>DIMENSION</cite>
+corresponds to one particular dimension. A maximum of 7 dimensions may
+be specified. <cite>Unit_Name</cite> is the name of the dimension (for example
+<cite>Meter</cite>). <cite>Unit_Symbol</cite> is the shorthand used for quantities
+of this dimension (for example <cite>m</cite> for <cite>Meter</cite>). 
+<cite>Dim_Symbol</cite> gives
+the identification within the dimension system (typically this is a
+single letter, e.g. <cite>L</cite> standing for length for unit name <cite>Meter</cite>). 
+The <cite>Unit_Symbol</cite> is used in formatted output of dimensioned quantities. 
+The <cite>Dim_Symbol</cite> is used in error messages when numeric operations have
+inconsistent dimensions.
+
+<p>GNAT provides the standard definition of the International MKS system in
+the run-time package <cite>System.Dim.Mks</cite>. You can easily define
+similar packages for cgs units or British units, and define conversion factors
+between values in different systems. The MKS system is characterized by the
+following aspect:
+
+<pre class="example">    type Mks_Type is new Long_Long_Float with
+      Dimension_System =&gt; (
+        (Unit_Name =&gt; Meter,    Unit_Symbol =&gt; 'm',   Dim_Symbol =&gt; 'L'),
+        (Unit_Name =&gt; Kilogram, Unit_Symbol =&gt; "kg",  Dim_Symbol =&gt; 'M'),
+        (Unit_Name =&gt; Second,   Unit_Symbol =&gt; 's',   Dim_Symbol =&gt; 'T'),
+        (Unit_Name =&gt; Ampere,   Unit_Symbol =&gt; 'A',   Dim_Symbol =&gt; 'I'),
+        (Unit_Name =&gt; Kelvin,   Unit_Symbol =&gt; 'K',   Dim_Symbol =&gt; '@'),
+        (Unit_Name =&gt; Mole,     Unit_Symbol =&gt; "mol", Dim_Symbol =&gt; 'N'),
+        (Unit_Name =&gt; Candela,  Unit_Symbol =&gt; "cd",  Dim_Symbol =&gt; 'J'));
+</pre>
+<p>Note that in the above type definition, we use the <cite>at</cite> symbol (<code>@</code>) to
+represent a theta character (avoiding the use of extended Latin-1
+characters in this context).
+
+<p>See section 'Performing Dimensionality Analysis in GNAT' in the GNAT Users
+Guide for detailed examples of use of the dimension system.
+
+</body></html>
+

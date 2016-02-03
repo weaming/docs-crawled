@@ -1,0 +1,66 @@
+<html lang="en">
+<head>
+<title>Interfacing to non-GNAT Ada code - GNAT Reference Manual</title>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+<meta name="description" content="GNAT Reference Manual">
+<meta name="generator" content="makeinfo 4.13">
+<link title="Top" rel="start" href="index.html#Top">
+<link rel="up" href="Interfacing-to-Other-Languages.html#Interfacing-to-Other-Languages" title="Interfacing to Other Languages">
+<link rel="prev" href="Interfacing-to-Fortran.html#Interfacing-to-Fortran" title="Interfacing to Fortran">
+<link href="http://www.gnu.org/software/texinfo/" rel="generator-home" title="Texinfo Homepage">
+<!--
+
+     GNAT Reference Manual , March 24, 2015
+
+     AdaCore
+
+     Copyright (C) 2008-2015, Free Software Foundation
+-->
+<meta http-equiv="Content-Style-Type" content="text/css">
+<style type="text/css"><!--
+  pre.display { font-family:inherit }
+  pre.format  { font-family:inherit }
+  pre.smalldisplay { font-family:inherit; font-size:smaller }
+  pre.smallformat  { font-family:inherit; font-size:smaller }
+  pre.smallexample { font-size:smaller }
+  pre.smalllisp    { font-size:smaller }
+  span.sc    { font-variant:small-caps }
+  span.roman { font-family:serif; font-weight:normal; } 
+  span.sansserif { font-family:sans-serif; font-weight:normal; } 
+--></style>
+</head>
+<body>
+<div class="node">
+<a name="Interfacing-to-non-GNAT-Ada-code"></a>
+<a name="Interfacing-to-non_002dGNAT-Ada-code"></a>
+<p>
+Previous:&nbsp;<a rel="previous" accesskey="p" href="Interfacing-to-Fortran.html#Interfacing-to-Fortran">Interfacing to Fortran</a>,
+Up:&nbsp;<a rel="up" accesskey="u" href="Interfacing-to-Other-Languages.html#Interfacing-to-Other-Languages">Interfacing to Other Languages</a>
+<hr>
+</div>
+
+<p><a name="gnat_005frm_002finterfacing_005fto_005fother_005flanguages-interfacing_002dto_002dnon_002dgnat_002dada_002dcode"></a><a name="g_t3a8"></a><a name="gnat_005frm_002finterfacing_005fto_005fother_005flanguages-id7"></a><a name="g_t3a9"></a>
+
+<h3 class="section">13.5 Interfacing to non-GNAT Ada code</h3>
+
+<p>It is possible to specify the convention <cite>Ada</cite> in a pragma
+<cite>Import</cite> or pragma <cite>Export</cite>.  However this refers to
+the calling conventions used by GNAT, which may or may not be
+similar enough to those used by some other Ada 83 / Ada 95 / Ada 2005
+compiler to allow interoperation.
+
+<p>If arguments types are kept simple, and if the foreign compiler generally
+follows system calling conventions, then it may be possible to integrate
+files compiled by other Ada compilers, provided that the elaboration
+issues are adequately addressed (for example by eliminating the
+need for any load time elaboration).
+
+<p>In particular, GNAT running on VMS is designed to
+be highly compatible with the DEC Ada 83 compiler, so this is one
+case in which it is possible to import foreign units of this type,
+provided that the data items passed are restricted to simple scalar
+values or simple record types without variants, or simple array
+types with fixed bounds.
+
+</body></html>
+

@@ -1,0 +1,73 @@
+<html lang="en">
+<head>
+<title>RM A 5 2 46-47 Random Number Generation - GNAT Reference Manual</title>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+<meta name="description" content="GNAT Reference Manual">
+<meta name="generator" content="makeinfo 4.13">
+<link title="Top" rel="start" href="index.html#Top">
+<link rel="up" href="Implementation-Advice.html#Implementation-Advice" title="Implementation Advice">
+<link rel="prev" href="RM-A-4-4-106-Bounded_002dLength-String-Handling.html#RM-A-4-4-106-Bounded_002dLength-String-Handling" title="RM A 4 4 106 Bounded-Length String Handling">
+<link rel="next" href="RM-A-10-7-23-Get_005fImmediate.html#RM-A-10-7-23-Get_005fImmediate" title="RM A 10 7 23 Get_Immediate">
+<link href="http://www.gnu.org/software/texinfo/" rel="generator-home" title="Texinfo Homepage">
+<!--
+
+     GNAT Reference Manual , March 24, 2015
+
+     AdaCore
+
+     Copyright (C) 2008-2015, Free Software Foundation
+-->
+<meta http-equiv="Content-Style-Type" content="text/css">
+<style type="text/css"><!--
+  pre.display { font-family:inherit }
+  pre.format  { font-family:inherit }
+  pre.smalldisplay { font-family:inherit; font-size:smaller }
+  pre.smallformat  { font-family:inherit; font-size:smaller }
+  pre.smallexample { font-size:smaller }
+  pre.smalllisp    { font-size:smaller }
+  span.sc    { font-variant:small-caps }
+  span.roman { font-family:serif; font-weight:normal; } 
+  span.sansserif { font-family:sans-serif; font-weight:normal; } 
+--></style>
+</head>
+<body>
+<div class="node">
+<a name="RM-A-5-2-46-47-Random-Number-Generation"></a>
+<a name="RM-A-5-2-46_002d47-Random-Number-Generation"></a>
+<p>
+Next:&nbsp;<a rel="next" accesskey="n" href="RM-A-10-7-23-Get_005fImmediate.html#RM-A-10-7-23-Get_005fImmediate">RM A 10 7 23 Get_Immediate</a>,
+Previous:&nbsp;<a rel="previous" accesskey="p" href="RM-A-4-4-106-Bounded_002dLength-String-Handling.html#RM-A-4-4-106-Bounded_002dLength-String-Handling">RM A 4 4 106 Bounded-Length String Handling</a>,
+Up:&nbsp;<a rel="up" accesskey="u" href="Implementation-Advice.html#Implementation-Advice">Implementation Advice</a>
+<hr>
+</div>
+
+<p><a name="gnat_005frm_002fimplementation_005fadvice-rm_002da_002d5_002d2_002d46_002d47_002drandom_002dnumber_002dgeneration"></a><a name="g_t1e0"></a>
+
+<h3 class="section">6.36 RM A.5.2(46-47): Random Number Generation</h3>
+
+<blockquote>
+
+<p>"Any storage associated with an object of type <cite>Generator</cite> should be
+reclaimed on exit from the scope of the object." 
+</blockquote>
+
+<p>Followed.
+
+<blockquote>
+
+<p>"If the generator period is sufficiently long in relation to the number
+of distinct initiator values, then each possible value of
+<cite>Initiator</cite> passed to <cite>Reset</cite> should initiate a sequence of
+random numbers that does not, in a practical sense, overlap the sequence
+initiated by any other value.  If this is not possible, then the mapping
+between initiator values and generator states should be a rapidly
+varying function of the initiator value." 
+</blockquote>
+
+<p>Followed.  The generator period is sufficiently long for the first
+condition here to hold true.
+
+<p><a name="index-Get_005fImmediate-422"></a>
+
+</body></html>
+

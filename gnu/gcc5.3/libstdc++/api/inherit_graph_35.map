@@ -1,0 +1,5 @@
+<map id="Graphical Class Hierarchy" name="Graphical Class Hierarchy">
+<area shape="rect" id="node1" href="$a00048.html" title="An allocator that uses global new, as per [20.4].This is precisely the allocator defined in the C++ S..." alt="" coords="5,33,171,72"/>
+<area shape="rect" id="node2" href="$a00420.html" title="std::allocator\&lt; value\l_type \&gt;" alt="" coords="219,5,350,44"/>
+<area shape="rect" id="node3" href="$a00420.html" title="The standard allocator, as per [20.4]. " alt="" coords="219,68,351,93"/>
+</map>

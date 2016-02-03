@@ -1,0 +1,81 @@
+<html lang="en">
+<head>
+<title>Cyclic Project Dependencies - GNAT User's Guide for Native Platforms</title>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+<meta name="description" content="GNAT User's Guide for Native Platforms">
+<meta name="generator" content="makeinfo 4.13">
+<link title="Top" rel="start" href="index.html#Top">
+<link rel="up" href="Organizing-Projects-into-Subsystems.html#Organizing-Projects-into-Subsystems" title="Organizing Projects into Subsystems">
+<link rel="prev" href="Project-Dependencies.html#Project-Dependencies" title="Project Dependencies">
+<link rel="next" href="Sharing-Between-Projects.html#Sharing-Between-Projects" title="Sharing Between Projects">
+<link href="http://www.gnu.org/software/texinfo/" rel="generator-home" title="Texinfo Homepage">
+<!--
+
+     GNAT User's Guide for Native Platforms , March 24, 2015
+
+     AdaCore
+
+     Copyright (C) 2008-2015, Free Software Foundation
+-->
+<meta http-equiv="Content-Style-Type" content="text/css">
+<style type="text/css"><!--
+  pre.display { font-family:inherit }
+  pre.format  { font-family:inherit }
+  pre.smalldisplay { font-family:inherit; font-size:smaller }
+  pre.smallformat  { font-family:inherit; font-size:smaller }
+  pre.smallexample { font-size:smaller }
+  pre.smalllisp    { font-size:smaller }
+  span.sc    { font-variant:small-caps }
+  span.roman { font-family:serif; font-weight:normal; } 
+  span.sansserif { font-family:sans-serif; font-weight:normal; } 
+--></style>
+</head>
+<body>
+<div class="node">
+<a name="Cyclic-Project-Dependencies"></a>
+<p>
+Next:&nbsp;<a rel="next" accesskey="n" href="Sharing-Between-Projects.html#Sharing-Between-Projects">Sharing Between Projects</a>,
+Previous:&nbsp;<a rel="previous" accesskey="p" href="Project-Dependencies.html#Project-Dependencies">Project Dependencies</a>,
+Up:&nbsp;<a rel="up" accesskey="u" href="Organizing-Projects-into-Subsystems.html#Organizing-Projects-into-Subsystems">Organizing Projects into Subsystems</a>
+<hr>
+</div>
+
+<p><a name="gnat_005fugn_002fgnat_005fproject_005fmanager-id16"></a><a name="g_t16f"></a><a name="gnat_005fugn_002fgnat_005fproject_005fmanager-cyclic_002dproject_002ddependencies"></a><a name="g_t170"></a>
+
+<h4 class="subsection">5.3.2 Cyclic Project Dependencies</h4>
+
+<p>Cyclic dependencies are mostly forbidden:
+if <cite>A</cite> imports <cite>B</cite> (directly or indirectly) then <cite>B</cite>
+is not allowed to import <cite>A</cite>. However, there are cases when cyclic
+dependencies would be beneficial. For these cases, another form of import
+between projects exists: the `limited with'.  A project <cite>A</cite> that
+imports a project <cite>B</cite> with a straight `with' may also be imported,
+directly or indirectly, by <cite>B</cite> through a <cite>limited with</cite>.
+
+<p>The difference between straight `with' and <cite>limited with</cite> is that
+the name of a project imported with a <cite>limited with</cite> cannot be used in the
+project importing it. In particular, its packages cannot be renamed and
+its variables cannot be referred to.
+
+<pre class="example">    with "b.gpr";
+    with "c.gpr";
+    project A is
+        for Exec_Dir use B'Exec_Dir; -- ok
+    end A;
+    
+    limited with "a.gpr";   --  Cyclic dependency: A -&gt; B -&gt; A
+    project B is
+       for Exec_Dir use A'Exec_Dir; -- not ok
+    end B;
+    
+    with "d.gpr";
+    project C is
+    end C;
+    
+    limited with "a.gpr";  --  Cyclic dependency: A -&gt; C -&gt; D -&gt; A
+    project D is
+       for Exec_Dir use A'Exec_Dir; -- not ok
+    end D;
+</pre>
+</body></html>
+

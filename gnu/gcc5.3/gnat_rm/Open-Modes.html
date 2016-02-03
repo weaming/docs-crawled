@@ -1,0 +1,136 @@
+<html lang="en">
+<head>
+<title>Open Modes - GNAT Reference Manual</title>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+<meta name="description" content="GNAT Reference Manual">
+<meta name="generator" content="makeinfo 4.13">
+<link title="Top" rel="start" href="index.html#Top">
+<link rel="up" href="The-Implementation-of-Standard-I_002fO.html#The-Implementation-of-Standard-I_002fO" title="The Implementation of Standard I/O">
+<link rel="prev" href="File-content-encoding.html#File-content-encoding" title="File content encoding">
+<link rel="next" href="Operations-on-C-Streams.html#Operations-on-C-Streams" title="Operations on C Streams">
+<link href="http://www.gnu.org/software/texinfo/" rel="generator-home" title="Texinfo Homepage">
+<!--
+
+     GNAT Reference Manual , March 24, 2015
+
+     AdaCore
+
+     Copyright (C) 2008-2015, Free Software Foundation
+-->
+<meta http-equiv="Content-Style-Type" content="text/css">
+<style type="text/css"><!--
+  pre.display { font-family:inherit }
+  pre.format  { font-family:inherit }
+  pre.smalldisplay { font-family:inherit; font-size:smaller }
+  pre.smallformat  { font-family:inherit; font-size:smaller }
+  pre.smallexample { font-size:smaller }
+  pre.smalllisp    { font-size:smaller }
+  span.sc    { font-variant:small-caps }
+  span.roman { font-family:serif; font-weight:normal; } 
+  span.sansserif { font-family:sans-serif; font-weight:normal; } 
+--></style>
+</head>
+<body>
+<div class="node">
+<a name="Open-Modes"></a>
+<p>
+Next:&nbsp;<a rel="next" accesskey="n" href="Operations-on-C-Streams.html#Operations-on-C-Streams">Operations on C Streams</a>,
+Previous:&nbsp;<a rel="previous" accesskey="p" href="File-content-encoding.html#File-content-encoding">File content encoding</a>,
+Up:&nbsp;<a rel="up" accesskey="u" href="The-Implementation-of-Standard-I_002fO.html#The-Implementation-of-Standard-I_002fO">The Implementation of Standard I/O</a>
+<hr>
+</div>
+
+<p><a name="gnat_005frm_002fthe_005fimplementation_005fof_005fstandard_005fi_005fo-open_002dmodes"></a><a name="g_t270"></a><a name="gnat_005frm_002fthe_005fimplementation_005fof_005fstandard_005fi_005fo-id24"></a><a name="g_t271"></a>
+
+<h3 class="section">11.13 Open Modes</h3>
+
+<p><cite>Open</cite> and <cite>Create</cite> calls result in a call to <cite>fopen</cite>
+using the mode shown in the following table:
+
+<p><table summary=""><tr align="left"><th valign="top">
+<cite>Open</cite> and <cite>Create</cite> Call Modes
+
+<p></th><th valign="top">
+
+<p></th><th valign="top">
+
+<p><br></th></tr><tr align="left"><td valign="top">
+</td><td valign="top">
+
+<p>`OPEN'
+
+<p></td><td valign="top">
+
+<p>`CREATE'
+
+<p><br></td></tr><tr align="left"><td valign="top">
+Append_File
+
+<p></td><td valign="top">
+
+<p>"r+"
+
+<p></td><td valign="top">
+
+<p>"w+"
+
+<p><br></td></tr><tr align="left"><td valign="top">
+In_File
+
+<p></td><td valign="top">
+
+<p>"r"
+
+<p></td><td valign="top">
+
+<p>"w+"
+
+<p><br></td></tr><tr align="left"><td valign="top">
+Out_File (Direct_IO)
+
+<p></td><td valign="top">
+
+<p>"r+"
+
+<p></td><td valign="top">
+
+<p>"w"
+
+<p><br></td></tr><tr align="left"><td valign="top">
+Out_File (all other cases)
+
+<p></td><td valign="top">
+
+<p>"w"
+
+<p></td><td valign="top">
+
+<p>"w"
+
+<p><br></td></tr><tr align="left"><td valign="top">
+Inout_File
+
+<p></td><td valign="top">
+
+<p>"r+"
+
+<p></td><td valign="top">
+
+<p>"w+"
+
+<br></td></tr></table>
+
+<p>If text file translation is required, then either <code>b</code> or <code>t</code>
+is added to the mode, depending on the setting of Text.  Text file
+translation refers to the mapping of CR/LF sequences in an external file
+to LF characters internally.  This mapping only occurs in DOS and
+DOS-like systems, and is not relevant to other systems.
+
+<p>A special case occurs with Stream_IO.  As shown in the above table, the
+file is initially opened in <code>r</code> or <code>w</code> mode for the
+<cite>In_File</cite> and <cite>Out_File</cite> cases.  If a <cite>Set_Mode</cite> operation
+subsequently requires switching from reading to writing or vice-versa,
+then the file is reopened in <code>r+</code> mode to permit the required operation.
+
+</body></html>
+

@@ -1,0 +1,61 @@
+<html lang="en">
+<head>
+<title>Pragma Ada_95 - GNAT Reference Manual</title>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+<meta name="description" content="GNAT Reference Manual">
+<meta name="generator" content="makeinfo 4.13">
+<link title="Top" rel="start" href="index.html#Top">
+<link rel="up" href="Implementation-Defined-Pragmas.html#Implementation-Defined-Pragmas" title="Implementation Defined Pragmas">
+<link rel="prev" href="Pragma-Ada_005f83.html#Pragma-Ada_005f83" title="Pragma Ada_83">
+<link rel="next" href="Pragma-Ada_005f05.html#Pragma-Ada_005f05" title="Pragma Ada_05">
+<link href="http://www.gnu.org/software/texinfo/" rel="generator-home" title="Texinfo Homepage">
+<!--
+
+     GNAT Reference Manual , March 24, 2015
+
+     AdaCore
+
+     Copyright (C) 2008-2015, Free Software Foundation
+-->
+<meta http-equiv="Content-Style-Type" content="text/css">
+<style type="text/css"><!--
+  pre.display { font-family:inherit }
+  pre.format  { font-family:inherit }
+  pre.smalldisplay { font-family:inherit; font-size:smaller }
+  pre.smallformat  { font-family:inherit; font-size:smaller }
+  pre.smallexample { font-size:smaller }
+  pre.smalllisp    { font-size:smaller }
+  span.sc    { font-variant:small-caps }
+  span.roman { font-family:serif; font-weight:normal; } 
+  span.sansserif { font-family:sans-serif; font-weight:normal; } 
+--></style>
+</head>
+<body>
+<div class="node">
+<a name="Pragma-Ada_95"></a>
+<a name="Pragma-Ada_005f95"></a>
+<p>
+Next:&nbsp;<a rel="next" accesskey="n" href="Pragma-Ada_005f05.html#Pragma-Ada_005f05">Pragma Ada_05</a>,
+Previous:&nbsp;<a rel="previous" accesskey="p" href="Pragma-Ada_005f83.html#Pragma-Ada_005f83">Pragma Ada_83</a>,
+Up:&nbsp;<a rel="up" accesskey="u" href="Implementation-Defined-Pragmas.html#Implementation-Defined-Pragmas">Implementation Defined Pragmas</a>
+<hr>
+</div>
+
+<p><a name="gnat_005frm_002fimplementation_005fdefined_005fpragmas-pragma_002dada_002d95"></a><a name="g_t1e"></a>
+
+<h3 class="section">2.4 Pragma Ada_95</h3>
+
+<p>Syntax:
+
+<pre class="example">    pragma Ada_95;
+</pre>
+<p>A configuration pragma that establishes Ada 95 mode for the unit to which
+it applies, regardless of the mode set by the command line switches. 
+This mode is set automatically for the <cite>Ada</cite> and <cite>System</cite>
+packages and their children, so you need not specify it in these
+contexts.  This pragma is useful when writing a reusable component that
+itself uses Ada 95 features, but which is intended to be usable from
+either Ada 83 or Ada 95 programs.
+
+</body></html>
+

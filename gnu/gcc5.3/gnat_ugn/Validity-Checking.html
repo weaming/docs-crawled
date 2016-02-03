@@ -1,0 +1,289 @@
+<html lang="en">
+<head>
+<title>Validity Checking - GNAT User's Guide for Native Platforms</title>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+<meta name="description" content="GNAT User's Guide for Native Platforms">
+<meta name="generator" content="makeinfo 4.13">
+<link title="Top" rel="start" href="index.html#Top">
+<link rel="up" href="Compiler-Switches.html#Compiler-Switches" title="Compiler Switches">
+<link rel="prev" href="Debugging-and-Assertion-Control.html#Debugging-and-Assertion-Control" title="Debugging and Assertion Control">
+<link rel="next" href="Style-Checking.html#Style-Checking" title="Style Checking">
+<link href="http://www.gnu.org/software/texinfo/" rel="generator-home" title="Texinfo Homepage">
+<!--
+
+     GNAT User's Guide for Native Platforms , March 24, 2015
+
+     AdaCore
+
+     Copyright (C) 2008-2015, Free Software Foundation
+-->
+<meta http-equiv="Content-Style-Type" content="text/css">
+<style type="text/css"><!--
+  pre.display { font-family:inherit }
+  pre.format  { font-family:inherit }
+  pre.smalldisplay { font-family:inherit; font-size:smaller }
+  pre.smallformat  { font-family:inherit; font-size:smaller }
+  pre.smallexample { font-size:smaller }
+  pre.smalllisp    { font-size:smaller }
+  span.sc    { font-variant:small-caps }
+  span.roman { font-family:serif; font-weight:normal; } 
+  span.sansserif { font-family:sans-serif; font-weight:normal; } 
+--></style>
+</head>
+<body>
+<div class="node">
+<a name="Validity-Checking"></a>
+<p>
+Next:&nbsp;<a rel="next" accesskey="n" href="Style-Checking.html#Style-Checking">Style Checking</a>,
+Previous:&nbsp;<a rel="previous" accesskey="p" href="Debugging-and-Assertion-Control.html#Debugging-and-Assertion-Control">Debugging and Assertion Control</a>,
+Up:&nbsp;<a rel="up" accesskey="u" href="Compiler-Switches.html#Compiler-Switches">Compiler Switches</a>
+<hr>
+</div>
+
+<p><a name="gnat_005fugn_002fbuilding_005fexecutable_005fprograms_005fwith_005fgnat-validity_002dchecking"></a><a name="fb"></a><a name="gnat_005fugn_002fbuilding_005fexecutable_005fprograms_005fwith_005fgnat-id17"></a><a name="g_t107"></a>
+
+<h4 class="subsection">4.3.5 Validity Checking</h4>
+
+<p><a name="index-Validity-Checking-529"></a>
+The Ada Reference Manual defines the concept of invalid values (see
+RM 13.9.1). The primary source of invalid values is uninitialized
+variables. A scalar variable that is left uninitialized may contain
+an invalid value; the concept of invalid does not apply to access or
+composite types.
+
+<p>It is an error to read an invalid value, but the RM does not require
+run-time checks to detect such errors, except for some minimal
+checking to prevent erroneous execution (i.e. unpredictable
+behavior). This corresponds to the `-gnatVd' switch below,
+which is the default. For example, by default, if the expression of a
+case statement is invalid, it will raise Constraint_Error rather than
+causing a wild jump, and if an array index on the left-hand side of an
+assignment is invalid, it will raise Constraint_Error rather than
+overwriting an arbitrary memory location.
+
+<p>The `-gnatVa' may be used to enable additional validity checks,
+which are not required by the RM. These checks are often very
+expensive (which is why the RM does not require them). These checks
+are useful in tracking down uninitialized variables, but they are
+not usually recommended for production builds, and in particular
+we do not recommend using these extra validity checking options in
+combination with optimization, since this can confuse the optimizer. 
+If performance is a consideration, leading to the need to optimize,
+then the validity checking options should not be used.
+
+<p>The other `-gnatV'<code>x</code> switches below allow finer-grained
+control; you can enable whichever validity checks you desire. However,
+for most debugging purposes, `-gnatVa' is sufficient, and the
+default `-gnatVd' (i.e. standard Ada behavior) is usually
+sufficient for non-debugging use.
+
+<p>The `-gnatB' switch tells the compiler to assume that all
+values are valid (that is, within their declared subtype range)
+except in the context of a use of the Valid attribute. This means
+the compiler can generate more efficient code, since the range
+of values is better known at compile time. However, an uninitialized
+variable can cause wild jumps and memory corruption in this mode.
+
+<p>The `-gnatV'<code>x</code> switch allows control over the validity
+checking mode as described below. 
+The <code>x</code> argument is a string of letters that
+indicate validity checks that are performed or not performed in addition
+to the default checks required by Ada as described above.
+
+<p><a name="index-g_t_002dgnatVa-_0028gcc_0029-530"></a>
+
+     <dl>
+<dt><code>-gnatVa</code><dd>
+`All validity checks.'
+
+     <p>All validity checks are turned on. 
+That is, `-gnatVa' is
+equivalent to `gnatVcdfimorst'. 
+</dl>
+
+<p><a name="index-g_t_002dgnatVc-_0028gcc_0029-531"></a>
+
+     <dl>
+<dt><code>-gnatVc</code><dd>
+`Validity checks for copies.'
+
+     <p>The right hand side of assignments, and the initializing values of
+object declarations are validity checked. 
+</dl>
+
+<p><a name="index-g_t_002dgnatVd-_0028gcc_0029-532"></a>
+
+     <dl>
+<dt><code>-gnatVd</code><dd>
+`Default (RM) validity checks.'
+
+     <p>Some validity checks are done by default following normal Ada semantics
+(RM 13.9.1 (9-11)). 
+A check is done in case statements that the expression is within the range
+of the subtype. If it is not, Constraint_Error is raised. 
+For assignments to array components, a check is done that the expression used
+as index is within the range. If it is not, Constraint_Error is raised. 
+Both these validity checks may be turned off using switch `-gnatVD'. 
+They are turned on by default. If `-gnatVD' is specified, a subsequent
+switch `-gnatVd' will leave the checks turned on. 
+Switch `-gnatVD' should be used only if you are sure that all such
+expressions have valid values. If you use this switch and invalid values
+are present, then the program is erroneous, and wild jumps or memory
+overwriting may occur. 
+</dl>
+
+<p><a name="index-g_t_002dgnatVe-_0028gcc_0029-533"></a>
+
+     <dl>
+<dt><code>-gnatVe</code><dd>
+`Validity checks for elementary components.'
+
+     <p>In the absence of this switch, assignments to record or array components are
+not validity checked, even if validity checks for assignments generally
+(`-gnatVc') are turned on. In Ada, assignment of composite values do not
+require valid data, but assignment of individual components does. So for
+example, there is a difference between copying the elements of an array with a
+slice assignment, compared to assigning element by element in a loop. This
+switch allows you to turn off validity checking for components, even when they
+are assigned component by component. 
+</dl>
+
+<p><a name="index-g_t_002dgnatVf-_0028gcc_0029-534"></a>
+
+     <dl>
+<dt><code>-gnatVf</code><dd>
+`Validity checks for floating-point values.'
+
+     <p>In the absence of this switch, validity checking occurs only for discrete
+values. If `-gnatVf' is specified, then validity checking also applies
+for floating-point values, and NaNs and infinities are considered invalid,
+as well as out of range values for constrained types. Note that this means
+that standard IEEE infinity mode is not allowed. The exact contexts
+in which floating-point values are checked depends on the setting of other
+options. For example, `-gnatVif' or `-gnatVfi'
+(the order does not matter) specifies that floating-point parameters of mode
+<cite>in</cite> should be validity checked. 
+</dl>
+
+<p><a name="index-g_t_002dgnatVi-_0028gcc_0029-535"></a>
+
+     <dl>
+<dt><code>-gnatVi</code><dd>
+`Validity checks for `in' mode parameters`
+
+     <p>Arguments for parameters of mode <cite>in</cite> are validity checked in function
+and procedure calls at the point of call. 
+</dl>
+
+<p><a name="index-g_t_002dgnatVm-_0028gcc_0029-536"></a>
+
+     <dl>
+<dt><code>-gnatVm</code><dd>
+`Validity checks for `in out' mode parameters.`
+
+     <p>Arguments for parameters of mode <cite>in out</cite> are validity checked in
+procedure calls at the point of call. The <cite>'m'</cite> here stands for
+modify, since this concerns parameters that can be modified by the call. 
+Note that there is no specific option to test <cite>out</cite> parameters,
+but any reference within the subprogram will be tested in the usual
+manner, and if an invalid value is copied back, any reference to it
+will be subject to validity checking. 
+</dl>
+
+<p><a name="index-g_t_002dgnatVn-_0028gcc_0029-537"></a>
+
+     <dl>
+<dt><code>-gnatVn</code><dd>
+`No validity checks.'
+
+     <p>This switch turns off all validity checking, including the default checking
+for case statements and left hand side subscripts. Note that the use of
+the switch `-gnatp' suppresses all run-time checks, including
+validity checks, and thus implies `-gnatVn'. When this switch
+is used, it cancels any other `-gnatV' previously issued.
+
+     <br><dt><code>-gnatVo</code><dd>
+`Validity checks for operator and attribute operands.' 
+.. index:: -gnatVo  (gcc)
+
+     <p>Arguments for predefined operators and attributes are validity checked. 
+This includes all operators in package <cite>Standard</cite>,
+the shift operators defined as intrinsic in package <cite>Interfaces</cite>
+and operands for attributes such as <cite>Pos</cite>. Checks are also made
+on individual component values for composite comparisons, and on the
+expressions in type conversions and qualified expressions. Checks are
+also made on explicit ranges using <code>..</code> (e.g., slices, loops etc). 
+</dl>
+
+<p><a name="index-g_t_002dgnatVp-_0028gcc_0029-538"></a>
+
+     <dl>
+<dt><code>-gnatVp</code><dd>
+`Validity checks for parameters.'
+
+     <p>This controls the treatment of parameters within a subprogram (as opposed
+to `-gnatVi' and `-gnatVm' which control validity testing
+of parameters on a call. If either of these call options is used, then
+normally an assumption is made within a subprogram that the input arguments
+have been validity checking at the point of call, and do not need checking
+again within a subprogram). If `-gnatVp' is set, then this assumption
+is not made, and parameters are not assumed to be valid, so their validity
+will be checked (or rechecked) within the subprogram. 
+</dl>
+
+<p><a name="index-g_t_002dgnatVr-_0028gcc_0029-539"></a>
+
+     <dl>
+<dt><code>-gnatVr</code><dd>
+`Validity checks for function returns.'
+
+     <p>The expression in <cite>return</cite> statements in functions is validity
+checked. 
+</dl>
+
+<p><a name="index-g_t_002dgnatVs-_0028gcc_0029-540"></a>
+
+     <dl>
+<dt><code>-gnatVs</code><dd>
+`Validity checks for subscripts.'
+
+     <p>All subscripts expressions are checked for validity, whether they appear
+on the right side or left side (in default mode only left side subscripts
+are validity checked). 
+</dl>
+
+<p><a name="index-g_t_002dgnatVt-_0028gcc_0029-541"></a>
+
+     <dl>
+<dt><code>-gnatVt</code><dd>
+`Validity checks for tests.'
+
+     <p>Expressions used as conditions in <cite>if</cite>, <cite>while</cite> or <cite>exit</cite>
+statements are checked, as well as guard expressions in entry calls. 
+</dl>
+
+<p>The `-gnatV' switch may be followed by a string of letters
+to turn on a series of validity checking options. 
+For example, <code>-gnatVcr</code>
+specifies that in addition to the default validity checking, copies and
+function return expressions are to be validity checked. 
+In order to make it easier to specify the desired combination of effects,
+the upper case letters <cite>CDFIMORST</cite> may
+be used to turn off the corresponding lower case option. 
+Thus <code>-gnatVaM</code> turns on all validity checking options except for
+checking of <cite>**in out**</cite> procedure arguments.
+
+<p>The specification of additional validity checking generates extra code (and
+in the case of `-gnatVa' the code expansion can be substantial). 
+However, these additional checks can be very useful in detecting
+uninitialized variables, incorrect use of unchecked conversion, and other
+errors leading to invalid values. The use of pragma <cite>Initialize_Scalars</cite>
+is useful in conjunction with the extra validity checking, since this
+ensures that wherever possible uninitialized variables have invalid values.
+
+<p>See also the pragma <cite>Validity_Checks</cite> which allows modification of
+the validity checking mode at the program source level, and also allows for
+temporary disabling of validity checks.
+
+</body></html>
+

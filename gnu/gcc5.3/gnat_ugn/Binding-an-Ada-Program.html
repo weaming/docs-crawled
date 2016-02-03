@@ -1,0 +1,79 @@
+<html lang="en">
+<head>
+<title>Binding an Ada Program - GNAT User's Guide for Native Platforms</title>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+<meta name="description" content="GNAT User's Guide for Native Platforms">
+<meta name="generator" content="makeinfo 4.13">
+<link title="Top" rel="start" href="index.html#Top">
+<link rel="up" href="The-GNAT-Compilation-Model.html#The-GNAT-Compilation-Model" title="The GNAT Compilation Model">
+<link rel="prev" href="The-Ada-Library-Information-Files.html#The-Ada-Library-Information-Files" title="The Ada Library Information Files">
+<link rel="next" href="GNAT-and-Libraries.html#GNAT-and-Libraries" title="GNAT and Libraries">
+<link href="http://www.gnu.org/software/texinfo/" rel="generator-home" title="Texinfo Homepage">
+<!--
+
+     GNAT User's Guide for Native Platforms , March 24, 2015
+
+     AdaCore
+
+     Copyright (C) 2008-2015, Free Software Foundation
+-->
+<meta http-equiv="Content-Style-Type" content="text/css">
+<style type="text/css"><!--
+  pre.display { font-family:inherit }
+  pre.format  { font-family:inherit }
+  pre.smalldisplay { font-family:inherit; font-size:smaller }
+  pre.smallformat  { font-family:inherit; font-size:smaller }
+  pre.smallexample { font-size:smaller }
+  pre.smalllisp    { font-size:smaller }
+  span.sc    { font-variant:small-caps }
+  span.roman { font-family:serif; font-weight:normal; } 
+  span.sansserif { font-family:sans-serif; font-weight:normal; } 
+--></style>
+</head>
+<body>
+<div class="node">
+<a name="Binding-an-Ada-Program"></a>
+<p>
+Next:&nbsp;<a rel="next" accesskey="n" href="GNAT-and-Libraries.html#GNAT-and-Libraries">GNAT and Libraries</a>,
+Previous:&nbsp;<a rel="previous" accesskey="p" href="The-Ada-Library-Information-Files.html#The-Ada-Library-Information-Files">The Ada Library Information Files</a>,
+Up:&nbsp;<a rel="up" accesskey="u" href="The-GNAT-Compilation-Model.html#The-GNAT-Compilation-Model">The GNAT Compilation Model</a>
+<hr>
+</div>
+
+<p><a name="gnat_005fugn_002fthe_005fgnat_005fcompilation_005fmodel-id34"></a><a name="g_t81"></a><a name="gnat_005fugn_002fthe_005fgnat_005fcompilation_005fmodel-binding_002dan_002dada_002dprogram"></a><a name="g_t45"></a>
+
+<h3 class="section">3.8 Binding an Ada Program</h3>
+
+<p>When using languages such as C and C++, once the source files have been
+compiled the only remaining step in building an executable program
+is linking the object modules together. This means that it is possible to
+link an inconsistent version of a program, in which two units have
+included different versions of the same header.
+
+<p>The rules of Ada do not permit such an inconsistent program to be built. 
+For example, if two clients have different versions of the same package,
+it is illegal to build a program containing these two clients. 
+These rules are enforced by the GNAT binder, which also determines an
+elaboration order consistent with the Ada rules.
+
+<p>The GNAT binder is run after all the object files for a program have
+been created. It is given the name of the main program unit, and from
+this it determines the set of units required by the program, by reading the
+corresponding ALI files. It generates error messages if the program is
+inconsistent or if no valid order of elaboration exists.
+
+<p>If no errors are detected, the binder produces a main program, in Ada by
+default, that contains calls to the elaboration procedures of those
+compilation unit that require them, followed by
+a call to the main program. This Ada program is compiled to generate the
+object file for the main program. The name of
+the Ada file is <code>b~xxx</code>.adb` (with the corresponding spec
+<code>b~xxx</code>.ads`) where <cite>xxx</cite> is the name of the
+main program unit.
+
+<p>Finally, the linker is used to build the resulting executable program,
+using the object from the main program from the bind step as well as the
+object files for the Ada units of the program.
+
+</body></html>
+

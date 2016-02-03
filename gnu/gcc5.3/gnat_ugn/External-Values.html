@@ -1,0 +1,117 @@
+<html lang="en">
+<head>
+<title>External Values - GNAT User's Guide for Native Platforms</title>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+<meta name="description" content="GNAT User's Guide for Native Platforms">
+<meta name="generator" content="makeinfo 4.13">
+<link title="Top" rel="start" href="index.html#Top">
+<link rel="up" href="Project-File-Reference.html#Project-File-Reference" title="Project File Reference">
+<link rel="prev" href="Expressions.html#Expressions" title="Expressions">
+<link rel="next" href="Typed-String-Declaration.html#Typed-String-Declaration" title="Typed String Declaration">
+<link href="http://www.gnu.org/software/texinfo/" rel="generator-home" title="Texinfo Homepage">
+<!--
+
+     GNAT User's Guide for Native Platforms , March 24, 2015
+
+     AdaCore
+
+     Copyright (C) 2008-2015, Free Software Foundation
+-->
+<meta http-equiv="Content-Style-Type" content="text/css">
+<style type="text/css"><!--
+  pre.display { font-family:inherit }
+  pre.format  { font-family:inherit }
+  pre.smalldisplay { font-family:inherit; font-size:smaller }
+  pre.smallformat  { font-family:inherit; font-size:smaller }
+  pre.smallexample { font-size:smaller }
+  pre.smalllisp    { font-size:smaller }
+  span.sc    { font-variant:small-caps }
+  span.roman { font-family:serif; font-weight:normal; } 
+  span.sansserif { font-family:sans-serif; font-weight:normal; } 
+--></style>
+</head>
+<body>
+<div class="node">
+<a name="External-Values"></a>
+<p>
+Next:&nbsp;<a rel="next" accesskey="n" href="Typed-String-Declaration.html#Typed-String-Declaration">Typed String Declaration</a>,
+Previous:&nbsp;<a rel="previous" accesskey="p" href="Expressions.html#Expressions">Expressions</a>,
+Up:&nbsp;<a rel="up" accesskey="u" href="Project-File-Reference.html#Project-File-Reference">Project File Reference</a>
+<hr>
+</div>
+
+<p><a name="gnat_005fugn_002fgnat_005fproject_005fmanager-external_002dvalues"></a><a name="g_t154"></a><a name="gnat_005fugn_002fgnat_005fproject_005fmanager-id43"></a><a name="g_t19d"></a>
+
+<h4 class="subsection">5.9.6 External Values</h4>
+
+<p>An external value is an expression whose value is obtained from the command
+that invoked the processing of the current project file (typically a
+`gnatmake' or `gprbuild' command).
+
+<p>There are two kinds of external values, one that returns a single string, and
+one that returns a string list.
+
+<p>The syntax of a single string external value is:
+
+<pre class="example">    external_value ::= *external* ( string_literal [, string_literal] )
+</pre>
+<p>The first string_literal is the string to be used on the command line or
+in the environment to specify the external value. The second string_literal,
+if present, is the default to use if there is no specification for this
+external value either on the command line or in the environment.
+
+<p>Typically, the external value will either exist in the
+environment variables
+or be specified on the command line through the
+<code>-X`vbl'=`value'</code> switch. If both
+are specified, then the command line value is used, so that a user can more
+easily override the value.
+
+<p>The function <cite>external</cite> always returns a string. It is an error if the
+value was not found in the environment and no default was specified in the
+call to <cite>external</cite>.
+
+<p>An external reference may be part of a string expression or of a string
+list expression, and can therefore appear in a variable declaration or
+an attribute declaration.
+
+<p>Most of the time, this construct is used to initialize typed variables, which
+are then used in `case' constructions to control the value assigned to
+attributes in various scenarios. Thus such variables are often called
+`scenario variables'.
+
+<p>The syntax for a string list external value is:
+
+<pre class="example">    external_value ::= *external_as_list* ( string_literal , string_literal )
+</pre>
+<p>The first string_literal is the string to be used on the command line or
+in the environment to specify the external value. The second string_literal is
+the separator between each component of the string list.
+
+<p>If the external value does not exist in the environment or on the command line,
+the result is an empty list. This is also the case, if the separator is an
+empty string or if the external value is only one separator.
+
+<p>Any separator at the beginning or at the end of the external value is
+discarded. Then, if there is no separator in the external value, the result is
+a string list with only one string. Otherwise, any string between the beginning
+and the first separator, between two consecutive separators and between the
+last separator and the end are components of the string list.
+
+<pre class="example">    *external_as_list* ("SWITCHES", ",")
+</pre>
+<p>If the external value is "-O2,-g",
+the result is ("-O2", "-g").
+
+<p>If the external value is ",-O2,-g,",
+the result is also ("-O2", "-g").
+
+<p>if the external value is "-gnatv",
+the result is ("-gnatv").
+
+<p>If the external value is ",,", the result is ("").
+
+<p>If the external value is ",", the result is (), the empty string list.
+
+</body></html>
+

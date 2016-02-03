@@ -1,0 +1,99 @@
+<html lang="en">
+<head>
+<title>Pragma Suppress - GNAT Reference Manual</title>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+<meta name="description" content="GNAT Reference Manual">
+<meta name="generator" content="makeinfo 4.13">
+<link title="Top" rel="start" href="index.html#Top">
+<link rel="up" href="Implementation-Defined-Pragmas.html#Implementation-Defined-Pragmas" title="Implementation Defined Pragmas">
+<link rel="prev" href="Pragma-Subtitle.html#Pragma-Subtitle" title="Pragma Subtitle">
+<link rel="next" href="Pragma-Suppress_005fAll.html#Pragma-Suppress_005fAll" title="Pragma Suppress_All">
+<link href="http://www.gnu.org/software/texinfo/" rel="generator-home" title="Texinfo Homepage">
+<!--
+
+     GNAT Reference Manual , March 24, 2015
+
+     AdaCore
+
+     Copyright (C) 2008-2015, Free Software Foundation
+-->
+<meta http-equiv="Content-Style-Type" content="text/css">
+<style type="text/css"><!--
+  pre.display { font-family:inherit }
+  pre.format  { font-family:inherit }
+  pre.smalldisplay { font-family:inherit; font-size:smaller }
+  pre.smallformat  { font-family:inherit; font-size:smaller }
+  pre.smallexample { font-size:smaller }
+  pre.smalllisp    { font-size:smaller }
+  span.sc    { font-variant:small-caps }
+  span.roman { font-family:serif; font-weight:normal; } 
+  span.sansserif { font-family:sans-serif; font-weight:normal; } 
+--></style>
+</head>
+<body>
+<div class="node">
+<a name="Pragma-Suppress"></a>
+<p>
+Next:&nbsp;<a rel="next" accesskey="n" href="Pragma-Suppress_005fAll.html#Pragma-Suppress_005fAll">Pragma Suppress_All</a>,
+Previous:&nbsp;<a rel="previous" accesskey="p" href="Pragma-Subtitle.html#Pragma-Subtitle">Pragma Subtitle</a>,
+Up:&nbsp;<a rel="up" accesskey="u" href="Implementation-Defined-Pragmas.html#Implementation-Defined-Pragmas">Implementation Defined Pragmas</a>
+<hr>
+</div>
+
+<p><a name="gnat_005frm_002fimplementation_005fdefined_005fpragmas-pragma_002dsuppress"></a><a name="c2"></a>
+
+<h3 class="section">2.163 Pragma Suppress</h3>
+
+<p>Syntax:
+
+<pre class="example">    pragma Suppress (Identifier [, [On =&gt;] Name]);
+</pre>
+<p>This is a standard pragma, and supports all the check names required in
+the RM. It is included here because GNAT recognizes some additional check
+names that are implementation defined (as permitted by the RM):
+
+     <ul>
+<li><cite>Alignment_Check</cite> can be used to suppress alignment checks
+on addresses used in address clauses. Such checks can also be suppressed
+by suppressing range checks, but the specific use of <cite>Alignment_Check</cite>
+allows suppression of alignment checks without suppressing other range checks. 
+Note that <cite>Alignment_Check</cite> is suppressed by default on machines (such as
+the x86) with non-strict alignment.
+
+     <li><cite>Atomic_Synchronization</cite> can be used to suppress the special memory
+synchronization instructions that are normally generated for access to
+<cite>Atomic</cite> variables to ensure correct synchronization between tasks
+that use such variables for synchronization purposes.
+
+     <li><cite>Duplicated_Tag_Check</cite> Can be used to suppress the check that is generated
+for a duplicated tag value when a tagged type is declared.
+
+     <li><cite>Predicate_Check</cite> can be used to control whether predicate checks are
+active. It is applicable only to predicates for which the policy is
+<cite>Check</cite>. Unlike <cite>Assertion_Policy</cite>, which determines if a given
+predicate is ignored or checked for the whole program, the use of
+<cite>Suppress</cite> and <cite>Unsuppress</cite> with this check name allows a given
+predicate to be turned on and off at specific points in the program.
+
+     <li><cite>Validity_Check</cite> can be used specifically to control validity checks. 
+If <cite>Suppress</cite> is used to suppress validity checks, then no validity
+checks are performed, including those specified by the appropriate compiler
+switch or the <cite>Validity_Checks</cite> pragma.
+
+     <li>Additional check names previously introduced by use of the <cite>Check_Name</cite>
+pragma are also allowed. 
+</ul>
+
+<p>Note that pragma Suppress gives the compiler permission to omit
+checks, but does not require the compiler to omit checks. The compiler
+will generate checks if they are essentially free, even when they are
+suppressed. In particular, if the compiler can prove that a certain
+check will necessarily fail, it will generate code to do an
+unconditional 'raise', even if checks are suppressed. The compiler
+warns in this case.
+
+<p>Of course, run-time checks are omitted whenever the compiler can prove
+that they will not fail, whether or not checks are suppressed.
+
+</body></html>
+

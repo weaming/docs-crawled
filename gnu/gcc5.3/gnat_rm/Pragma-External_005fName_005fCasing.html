@@ -1,0 +1,117 @@
+<html lang="en">
+<head>
+<title>Pragma External_Name_Casing - GNAT Reference Manual</title>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+<meta name="description" content="GNAT Reference Manual">
+<meta name="generator" content="makeinfo 4.13">
+<link title="Top" rel="start" href="index.html#Top">
+<link rel="up" href="Implementation-Defined-Pragmas.html#Implementation-Defined-Pragmas" title="Implementation Defined Pragmas">
+<link rel="prev" href="Pragma-External.html#Pragma-External" title="Pragma External">
+<link rel="next" href="Pragma-Fast_005fMath.html#Pragma-Fast_005fMath" title="Pragma Fast_Math">
+<link href="http://www.gnu.org/software/texinfo/" rel="generator-home" title="Texinfo Homepage">
+<!--
+
+     GNAT Reference Manual , March 24, 2015
+
+     AdaCore
+
+     Copyright (C) 2008-2015, Free Software Foundation
+-->
+<meta http-equiv="Content-Style-Type" content="text/css">
+<style type="text/css"><!--
+  pre.display { font-family:inherit }
+  pre.format  { font-family:inherit }
+  pre.smalldisplay { font-family:inherit; font-size:smaller }
+  pre.smallformat  { font-family:inherit; font-size:smaller }
+  pre.smallexample { font-size:smaller }
+  pre.smalllisp    { font-size:smaller }
+  span.sc    { font-variant:small-caps }
+  span.roman { font-family:serif; font-weight:normal; } 
+  span.sansserif { font-family:sans-serif; font-weight:normal; } 
+--></style>
+</head>
+<body>
+<div class="node">
+<a name="Pragma-External_Name_Casing"></a>
+<a name="Pragma-External_005fName_005fCasing"></a>
+<p>
+Next:&nbsp;<a rel="next" accesskey="n" href="Pragma-Fast_005fMath.html#Pragma-Fast_005fMath">Pragma Fast_Math</a>,
+Previous:&nbsp;<a rel="previous" accesskey="p" href="Pragma-External.html#Pragma-External">Pragma External</a>,
+Up:&nbsp;<a rel="up" accesskey="u" href="Implementation-Defined-Pragmas.html#Implementation-Defined-Pragmas">Implementation Defined Pragmas</a>
+<hr>
+</div>
+
+<p><a name="gnat_005frm_002fimplementation_005fdefined_005fpragmas-pragma_002dexternal_002dname_002dcasing"></a><a name="g_t59"></a>
+
+<h3 class="section">2.62 Pragma External_Name_Casing</h3>
+
+<p><a name="index-Dec-Ada-83-casing-compatibility-51"></a>
+<a name="index-External-Names-52"></a><a name="index-casing-53"></a>
+<a name="index-Casing-of-External-names-54"></a>
+Syntax:
+
+<pre class="example">    pragma External_Name_Casing (
+      Uppercase | Lowercase
+      [, Uppercase | Lowercase | As_Is]);
+</pre>
+<p>This pragma provides control over the casing of external names associated
+with Import and Export pragmas.  There are two cases to consider:
+
+     <ul>
+<li>Implicit external names
+
+     <p>Implicit external names are derived from identifiers.  The most common case
+arises when a standard Ada Import or Export pragma is used with only two
+arguments, as in:
+
+     <pre class="example">         pragma Import (C, C_Routine);
+</pre>
+     <p>Since Ada is a case-insensitive language, the spelling of the identifier in
+the Ada source program does not provide any information on the desired
+casing of the external name, and so a convention is needed.  In GNAT the
+default treatment is that such names are converted to all lower case
+letters.  This corresponds to the normal C style in many environments. 
+The first argument of pragma <cite>External_Name_Casing</cite> can be used to
+control this treatment.  If <cite>Uppercase</cite> is specified, then the name
+will be forced to all uppercase letters.  If <cite>Lowercase</cite> is specified,
+then the normal default of all lower case letters will be used.
+
+     <p>This same implicit treatment is also used in the case of extended DEC Ada 83
+compatible Import and Export pragmas where an external name is explicitly
+specified using an identifier rather than a string.
+
+     <li>Explicit external names
+
+     <p>Explicit external names are given as string literals.  The most common case
+arises when a standard Ada Import or Export pragma is used with three
+arguments, as in:
+
+     <pre class="example">         pragma Import (C, C_Routine, "C_routine");
+</pre>
+     <p>In this case, the string literal normally provides the exact casing required
+for the external name.  The second argument of pragma
+<cite>External_Name_Casing</cite> may be used to modify this behavior. 
+If <cite>Uppercase</cite> is specified, then the name
+will be forced to all uppercase letters.  If <cite>Lowercase</cite> is specified,
+then the name will be forced to all lowercase letters.  A specification of
+<cite>As_Is</cite> provides the normal default behavior in which the casing is
+taken from the string provided. 
+</ul>
+
+<p>This pragma may appear anywhere that a pragma is valid.  In particular, it
+can be used as a configuration pragma in the <code>gnat.adc</code> file, in which
+case it applies to all subsequent compilations, or it can be used as a program
+unit pragma, in which case it only applies to the current unit, or it can
+be used more locally to control individual Import/Export pragmas.
+
+<p>It was primarily intended for use with OpenVMS systems, where many
+compilers convert all symbols to upper case by default.  For interfacing to
+such compilers (e.g., the DEC C compiler), it may be convenient to use
+the pragma:
+
+<pre class="example">    pragma External_Name_Casing (Uppercase, Uppercase);
+</pre>
+<p>to enforce the upper casing of all external symbols.
+
+</body></html>
+

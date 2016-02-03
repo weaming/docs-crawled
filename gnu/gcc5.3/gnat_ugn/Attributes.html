@@ -1,0 +1,213 @@
+<html lang="en">
+<head>
+<title>Attributes - GNAT User's Guide for Native Platforms</title>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+<meta name="description" content="GNAT User's Guide for Native Platforms">
+<meta name="generator" content="makeinfo 4.13">
+<link title="Top" rel="start" href="index.html#Top">
+<link rel="up" href="Project-File-Reference.html#Project-File-Reference" title="Project File Reference">
+<link rel="prev" href="Case-Constructions.html#Case-Constructions" title="Case Constructions">
+<link href="http://www.gnu.org/software/texinfo/" rel="generator-home" title="Texinfo Homepage">
+<!--
+
+     GNAT User's Guide for Native Platforms , March 24, 2015
+
+     AdaCore
+
+     Copyright (C) 2008-2015, Free Software Foundation
+-->
+<meta http-equiv="Content-Style-Type" content="text/css">
+<style type="text/css"><!--
+  pre.display { font-family:inherit }
+  pre.format  { font-family:inherit }
+  pre.smalldisplay { font-family:inherit; font-size:smaller }
+  pre.smallformat  { font-family:inherit; font-size:smaller }
+  pre.smallexample { font-size:smaller }
+  pre.smalllisp    { font-size:smaller }
+  span.sc    { font-variant:small-caps }
+  span.roman { font-family:serif; font-weight:normal; } 
+  span.sansserif { font-family:sans-serif; font-weight:normal; } 
+--></style>
+</head>
+<body>
+<div class="node">
+<a name="Attributes"></a>
+<p>
+Previous:&nbsp;<a rel="previous" accesskey="p" href="Case-Constructions.html#Case-Constructions">Case Constructions</a>,
+Up:&nbsp;<a rel="up" accesskey="u" href="Project-File-Reference.html#Project-File-Reference">Project File Reference</a>
+<hr>
+</div>
+
+<p><a name="gnat_005fugn_002fgnat_005fproject_005fmanager-id47"></a><a name="g_t1a3"></a><a name="gnat_005fugn_002fgnat_005fproject_005fmanager-attributes"></a><a name="g_t152"></a>
+
+<h4 class="subsection">5.9.10 Attributes</h4>
+
+<p>A project (and its packages) may have `attributes' that define
+the project's properties.  Some attributes have values that are strings;
+others have values that are string lists.
+
+<pre class="example">    attribute_declaration ::=
+       simple_attribute_declaration | indexed_attribute_declaration
+    
+    simple_attribute_declaration ::= *for* attribute_designator *use* expression ;
+    
+    indexed_attribute_declaration ::=
+      *for* *&lt;indexed_attribute_&gt;*simple_name ( string_literal) *use* expression ;
+    
+    attribute_designator ::=
+      *&lt;simple_attribute_&gt;*simple_name
+      | *&lt;indexed_attribute_&gt;*simple_name ( string_literal )
+</pre>
+<p>There are two categories of attributes: `simple attributes'
+and `indexed attributes'. 
+Each simple attribute has a default value: the empty string (for string
+attributes) and the empty list (for string list attributes). 
+An attribute declaration defines a new value for an attribute, and overrides
+the previous value. The syntax of a simple attribute declaration is similar to
+that of an attribute definition clause in Ada.
+
+<p>Some attributes are indexed. These attributes are mappings whose
+domain is a set of strings. They are declared one association
+at a time, by specifying a point in the domain and the corresponding image
+of the attribute. 
+Like untyped variables and simple attributes, indexed attributes
+may be declared several times. Each declaration supplies a new value for the
+attribute, and replaces the previous setting.
+
+<p>Here are some examples of attribute declarations:
+
+<pre class="example">    --  simple attributes
+    for Object_Dir use "objects";
+    for Source_Dirs use ("units", "test/drivers");
+    
+    --  indexed attributes
+    for Body ("main") use "Main.ada";
+    for Switches ("main.ada")
+        use ("-v", "-gnatv");
+    for Switches ("main.ada") use Builder'Switches ("main.ada") &amp; "-g";
+    
+    --  indexed attributes copy (from package Builder in project Default)
+    --  The package name must always be specified, even if it is the current
+    --  package.
+    for Default_Switches use Default.Builder'Default_Switches;
+</pre>
+<p>Attributes references may appear anywhere in expressions, and are used
+to retrieve the value previously assigned to the attribute. If an attribute
+has not been set in a given package or project, its value defaults to the
+empty string or the empty list, with some exceptions.
+
+<pre class="example">    attribute_reference ::=
+      attribute_prefix ' *&lt;simple_attribute&gt;_*simple_name [ (string_literal) ]
+    attribute_prefix ::= *project*
+      | *&lt;project_&gt;*simple_name
+      | package_identifier
+      | *&lt;project_&gt;*simple_name . package_identifier
+</pre>
+<p>Examples are:
+
+<pre class="example">    &lt;project&gt;'Object_Dir
+    Naming'Dot_Replacement
+    Imported_Project'Source_Dirs
+    Imported_Project.Naming'Casing
+    Builder'Default_Switches ("Ada")
+</pre>
+<p>The exceptions to the empty defaults are:
+
+     <ul>
+<li>Object_Dir: default is "."
+
+     <li>Exec_Dir: default is 'Object_Dir, that is the value of attribute
+Object_Dir in the same project, declared or defaulted.
+
+     <li>Source_Dirs: default is (".") 
+</ul>
+
+<p>The prefix of an attribute may be:
+
+     <ul>
+<li><cite>project</cite> for an attribute of the current project
+
+     <li>The name of an existing package of the current project
+
+     <li>The name of an imported project
+
+     <li>The name of a parent project that is extended by the current project
+
+     <li>An expanded name whose prefix is imported/parent project name,
+and whose selector is a package name
+</ul>
+
+<p>In the following sections, all predefined attributes are succinctly described,
+first the project level attributes, that is those attributes that are not in a
+package, then the attributes in the different packages.
+
+<p>It is possible for different tools to dynamically create new packages with
+attributes, or new attributes in predefined packages. These attributes are
+not documented here.
+
+<p>The attributes under Configuration headings are usually found only in
+configuration project files.
+
+<p>The characteristics of each attribute are indicated as follows:
+
+     <ul>
+<li>`Type of value'
+
+     <p>The value of an attribute may be a single string, indicated by the word
+"single", or a string list, indicated by the word "list".
+
+     <li>`Read-only'
+
+     <p>When the attribute is read-only, that is when it is not allowed to declare
+the attribute, this is indicated by the words "read-only".
+
+     <li>`Optional index'
+
+     <p>If it is allowed in the value of the attribute (both single and list) to have
+an optional index, this is indicated by the words "optional index".
+
+     <li>`Indexed attribute'
+
+     <p>When it is an indexed attribute, this is indicated by the word "indexed".
+
+     <li>`Case-sensitivity of the index'
+
+     <p>For an indexed attribute, if the index is case-insensitive, this is indicated
+by the words "case-insensitive index".
+
+     <li>`File name index'
+
+     <p>For an indexed attribute, when the index is a file name, this is indicated by
+the words "file name index". The index may or may not be case-sensitive,
+depending on the platform.
+
+     <li>`others allowed in index'
+
+     <p>For an indexed attribute, if it is allowed to use `others' as the index,
+this is indicated by the words "others allowed".
+
+     <p>When `others' is used as the index of an indexed attribute, the value of
+the attribute indexed by `others' is used when no other index would apply. 
+</ul>
+
+<ul class="menu">
+<li><a accesskey="1" href="Project-Level-Attributes.html#Project-Level-Attributes">Project Level Attributes</a>
+<li><a accesskey="2" href="Package-Binder-Attributes.html#Package-Binder-Attributes">Package Binder Attributes</a>
+<li><a accesskey="3" href="Package-Builder-Attributes.html#Package-Builder-Attributes">Package Builder Attributes</a>
+<li><a accesskey="4" href="Package-Clean-Attributes.html#Package-Clean-Attributes">Package Clean Attributes</a>
+<li><a accesskey="5" href="Package-Compiler-Attributes.html#Package-Compiler-Attributes">Package Compiler Attributes</a>
+<li><a accesskey="6" href="Package-Cross_005fReference-Attributes.html#Package-Cross_005fReference-Attributes">Package Cross_Reference Attributes</a>
+<li><a accesskey="7" href="Package-Finder-Attributes.html#Package-Finder-Attributes">Package Finder Attributes</a>
+<li><a accesskey="8" href="Package-gnatls-Attributes.html#Package-gnatls-Attributes">Package gnatls Attributes</a>
+<li><a accesskey="9" href="Package-IDE-Attributes.html#Package-IDE-Attributes">Package IDE Attributes</a>
+<li><a href="Package-Install-Attributes.html#Package-Install-Attributes">Package Install Attributes</a>
+<li><a href="Package-Linker-Attributes.html#Package-Linker-Attributes">Package Linker Attributes</a>
+<li><a href="Package-Naming-Attributes.html#Package-Naming-Attributes">Package Naming Attributes</a>
+<li><a href="Package-Remote-Attributes.html#Package-Remote-Attributes">Package Remote Attributes</a>
+<li><a href="Package-Stack-Attributes.html#Package-Stack-Attributes">Package Stack Attributes</a>
+<li><a href="Package-Synchronize-Attributes.html#Package-Synchronize-Attributes">Package Synchronize Attributes</a>
+
+</ul>
+
+</body></html>
+

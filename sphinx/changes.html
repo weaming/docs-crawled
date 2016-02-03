@@ -1,0 +1,1828 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+  "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+
+
+<html xmlns="http://www.w3.org/1999/xhtml">
+  <head>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+    
+    <title>Changes in Sphinx &mdash; Sphinx 1.4a0 documentation</title>
+    
+    <link rel="stylesheet" href="_static/sphinx13.css" type="text/css" />
+    <link rel="stylesheet" href="_static/pygments.css" type="text/css" />
+    
+    <script type="text/javascript">
+      var DOCUMENTATION_OPTIONS = {
+        URL_ROOT:    './',
+        VERSION:     '1.4a0',
+        COLLAPSE_INDEX: false,
+        FILE_SUFFIX: '.html',
+        HAS_SOURCE:  true
+      };
+    </script>
+    <script type="text/javascript" src="_static/jquery.js"></script>
+    <script type="text/javascript" src="_static/underscore.js"></script>
+    <script type="text/javascript" src="_static/doctools.js"></script>
+    <link rel="search" type="application/opensearchdescription+xml"
+          title="Search within Sphinx 1.4a0 documentation"
+          href="_static/opensearch.xml"/>
+    <link rel="top" title="Sphinx 1.4a0 documentation" href="contents.html" />
+    <link rel="next" title="Projects using Sphinx" href="examples.html" />
+    <link rel="prev" title="Sphinx Developer’s Guide" href="devguide.html" />
+    <link href='http://fonts.googleapis.com/css?family=Open+Sans:300,400,700'
+          rel='stylesheet' type='text/css' />
+ 
+    <style type="text/css">
+      table.right { float: right; margin-left: 20px; }
+      table.right td { border: 1px solid #ccc; }
+      
+    </style>
+    <script type="text/javascript">
+      // intelligent scrolling of the sidebar content
+      $(window).scroll(function() {
+        var sb = $('.sphinxsidebarwrapper');
+        var win = $(window);
+        var sbh = sb.height();
+        var offset = $('.sphinxsidebar').position()['top'];
+        var wintop = win.scrollTop();
+        var winbot = wintop + win.innerHeight();
+        var curtop = sb.position()['top'];
+        var curbot = curtop + sbh;
+        // does sidebar fit in window?
+        if (sbh < win.innerHeight()) {
+          // yes: easy case -- always keep at the top
+          sb.css('top', $u.min([$u.max([0, wintop - offset - 10]),
+                                $(document).height() - sbh - 200]));
+        } else {
+          // no: only scroll if top/bottom edge of sidebar is at
+          // top/bottom edge of window
+          if (curtop > wintop && curbot > winbot) {
+            sb.css('top', $u.max([wintop - offset - 10, 0]));
+          } else if (curtop < wintop && curbot < winbot) {
+            sb.css('top', $u.min([winbot - sbh - offset - 20,
+                                  $(document).height() - sbh - 200]));
+          }
+        }
+      });
+    </script>
+
+  </head>
+  <body role="document">
+<div class="pageheader">
+  <ul>
+    <li><a href="index.html">Home</a></li>
+    <li><a href="install.html">Get it</a></li>
+    <li><a href="contents.html">Docs</a></li>
+    <li><a href="develop.html">Extend/Develop</a></li>
+  </ul>
+  <div>
+    <a href="index.html">
+      <img src="_static/sphinxheader.png" alt="SPHINX" />
+    </a>
+  </div>
+</div>
+
+    <div class="related" role="navigation" aria-label="related navigation">
+      <h3>Navigation</h3>
+      <ul>
+        <li class="right" style="margin-right: 10px">
+          <a href="genindex.html" title="General Index"
+             accesskey="I">index</a></li>
+        <li class="right" >
+          <a href="py-modindex.html" title="Python Module Index"
+             >modules</a> |</li>
+        <li class="right" >
+          <a href="examples.html" title="Projects using Sphinx"
+             accesskey="N">next</a> |</li>
+        <li class="right" >
+          <a href="devguide.html" title="Sphinx Developer’s Guide"
+             accesskey="P">previous</a> |</li>
+        <li><a href="index.html">Sphinx home</a>&nbsp;|</li>
+        <li><a href="contents.html">Documentation</a> &raquo;</li>
+ 
+      </ul>
+    </div>
+      <div class="sphinxsidebar" role="navigation" aria-label="main navigation">
+        <div class="sphinxsidebarwrapper">
+  <h3><a href="contents.html">Table Of Contents</a></h3>
+  <ul>
+<li><a class="reference internal" href="#">Changes in Sphinx</a><ul>
+<li><a class="reference internal" href="#release-1-4-in-development">Release 1.4 (in development)</a></li>
+<li><a class="reference internal" href="#release-1-3-4-in-development">Release 1.3.4 (in development)</a></li>
+<li><a class="reference internal" href="#release-1-3-3-released-dec-2-2015">Release 1.3.3 (released Dec 2, 2015)</a></li>
+<li><a class="reference internal" href="#release-1-3-2-released-nov-29-2015">Release 1.3.2 (released Nov 29, 2015)</a></li>
+<li><a class="reference internal" href="#release-1-3-1-released-mar-17-2015">Release 1.3.1 (released Mar 17, 2015)</a></li>
+<li><a class="reference internal" href="#release-1-3-released-mar-10-2015">Release 1.3 (released Mar 10, 2015)</a></li>
+<li><a class="reference internal" href="#release-1-3b3-released-feb-24-2015">Release 1.3b3 (released Feb 24, 2015)</a></li>
+<li><a class="reference internal" href="#release-1-3b2-released-dec-5-2014">Release 1.3b2 (released Dec 5, 2014)</a></li>
+<li><a class="reference internal" href="#release-1-3b1-released-oct-10-2014">Release 1.3b1 (released Oct 10, 2014)</a></li>
+<li><a class="reference internal" href="#release-1-2-3-released-sep-1-2014">Release 1.2.3 (released Sep 1, 2014)</a></li>
+<li><a class="reference internal" href="#release-1-2-2-released-mar-2-2014">Release 1.2.2 (released Mar 2, 2014)</a></li>
+<li><a class="reference internal" href="#release-1-2-1-released-jan-19-2014">Release 1.2.1 (released Jan 19, 2014)</a></li>
+<li><a class="reference internal" href="#release-1-2-released-dec-10-2013">Release 1.2 (released Dec 10, 2013)</a></li>
+<li><a class="reference internal" href="#release-1-2-beta3-released-oct-3-2013">Release 1.2 beta3 (released Oct 3, 2013)</a></li>
+<li><a class="reference internal" href="#release-1-2-beta2-released-sep-17-2013">Release 1.2 beta2 (released Sep 17, 2013)</a></li>
+<li><a class="reference internal" href="#release-1-2-beta1-released-mar-31-2013">Release 1.2 beta1 (released Mar 31, 2013)</a></li>
+<li><a class="reference internal" href="#release-1-1-3-mar-10-2012">Release 1.1.3 (Mar 10, 2012)</a></li>
+<li><a class="reference internal" href="#release-1-1-2-nov-1-2011-1-1-1-is-a-silly-version-number-anyway">Release 1.1.2 (Nov 1, 2011) &#8211; 1.1.1 is a silly version number anyway!</a></li>
+<li><a class="reference internal" href="#release-1-1-1-nov-1-2011">Release 1.1.1 (Nov 1, 2011)</a></li>
+<li><a class="reference internal" href="#release-1-1-oct-9-2011">Release 1.1 (Oct 9, 2011)</a></li>
+<li><a class="reference internal" href="#release-1-0-8-sep-23-2011">Release 1.0.8 (Sep 23, 2011)</a></li>
+<li><a class="reference internal" href="#release-1-0-7-jan-15-2011">Release 1.0.7 (Jan 15, 2011)</a></li>
+<li><a class="reference internal" href="#release-1-0-6-jan-04-2011">Release 1.0.6 (Jan 04, 2011)</a></li>
+<li><a class="reference internal" href="#release-1-0-5-nov-12-2010">Release 1.0.5 (Nov 12, 2010)</a></li>
+<li><a class="reference internal" href="#release-1-0-4-sep-17-2010">Release 1.0.4 (Sep 17, 2010)</a></li>
+<li><a class="reference internal" href="#release-1-0-3-aug-23-2010">Release 1.0.3 (Aug 23, 2010)</a></li>
+<li><a class="reference internal" href="#release-1-0-2-aug-14-2010">Release 1.0.2 (Aug 14, 2010)</a></li>
+<li><a class="reference internal" href="#release-1-0-1-jul-27-2010">Release 1.0.1 (Jul 27, 2010)</a></li>
+<li><a class="reference internal" href="#release-1-0-jul-23-2010">Release 1.0 (Jul 23, 2010)</a></li>
+<li><a class="reference internal" href="#previous-versions">Previous versions</a></li>
+</ul>
+</li>
+</ul>
+
+  <h4>Previous topic</h4>
+  <p class="topless"><a href="devguide.html"
+                        title="previous chapter">Sphinx Developer&#8217;s Guide</a></p>
+  <h4>Next topic</h4>
+  <p class="topless"><a href="examples.html"
+                        title="next chapter">Projects using Sphinx</a></p>
+  <div role="note" aria-label="source link">
+    <h3>This Page</h3>
+    <ul class="this-page-menu">
+      <li><a href="_sources/changes.txt"
+            rel="nofollow">Show Source</a></li>
+    </ul>
+   </div>
+<div id="searchbox" style="display: none" role="search">
+  <h3>Quick search</h3>
+    <form class="search" action="search.html" method="get">
+      <input type="text" name="q" />
+      <input type="submit" value="Go" />
+      <input type="hidden" name="check_keywords" value="yes" />
+      <input type="hidden" name="area" value="default" />
+    </form>
+    <p class="searchtip" style="font-size: 90%">
+    Enter search terms or a module, class or function name.
+    </p>
+</div>
+<script type="text/javascript">$('#searchbox').show(0);</script>
+        </div>
+      </div>
+
+    <div class="document">
+      <div class="documentwrapper">
+        <div class="bodywrapper">
+          <div class="body" role="main">
+            
+  <div class="section" id="changes-in-sphinx">
+<span id="changes"></span><h1>Changes in Sphinx<a class="headerlink" href="#changes-in-sphinx" title="Permalink to this headline">¶</a></h1>
+<div class="section" id="release-1-4-in-development">
+<h2>Release 1.4 (in development)<a class="headerlink" href="#release-1-4-in-development" title="Permalink to this headline">¶</a></h2>
+<div class="section" id="incompatible-changes">
+<h3>Incompatible changes<a class="headerlink" href="#incompatible-changes" title="Permalink to this headline">¶</a></h3>
+<ul class="simple">
+<li>Drop <code class="docutils literal"><span class="pre">PorterStemmer</span></code> package support. Use <code class="docutils literal"><span class="pre">PyStemmer</span></code> instead of <code class="docutils literal"><span class="pre">PorterStemmer</span></code>
+to accelerate stemming.</li>
+</ul>
+</div>
+<div class="section" id="features-added">
+<h3>Features added<a class="headerlink" href="#features-added" title="Permalink to this headline">¶</a></h3>
+<ul class="simple">
+<li>#2092: add todo directive support in napoleon package</li>
+<li>#1962: when adding directives, roles or nodes from an extension, warn if such
+an element is already present (built-in or added by another extension).</li>
+<li>#1909: Add &#8220;doc&#8221; references to Intersphinx inventories.</li>
+<li>C++ type alias support (e.g., <code class="docutils literal"><span class="pre">..</span> <span class="pre">type::</span> <span class="pre">T</span> <span class="pre">=</span> <span class="pre">int</span></code>)</li>
+<li>C++ template support for classes, functions, type aliases, and variables (#1729, #1314).</li>
+<li>C++, added new scope management directives <code class="docutils literal"><span class="pre">namespace-push</span></code> and <code class="docutils literal"><span class="pre">namespace-pop</span></code>.</li>
+<li>Intersphinx: Added support for fetching Intersphinx inventories with URLs
+using HTTP basic auth</li>
+<li>C++, added support for template parameter in function info field lists.</li>
+<li>C++, added support for pointers to member (function).</li>
+<li>#2113: Allow <code class="docutils literal"><span class="pre">:class:</span></code> option to code-block directive</li>
+</ul>
+</div>
+<div class="section" id="bugs-fixed">
+<h3>Bugs fixed<a class="headerlink" href="#bugs-fixed" title="Permalink to this headline">¶</a></h3>
+<ul class="simple">
+<li>#1913: C++, fix assert bug for enumerators in next-to-global and global scope.</li>
+<li>C++, fix parsing of &#8216;signed char&#8217; and &#8216;unsigned char&#8217; as types.</li>
+<li>C++, add missing support for &#8216;friend&#8217; functions.</li>
+<li>C++, add missing support for virtual base classes (thanks to Rapptz).</li>
+<li>C++, add support for final classes.</li>
+<li>C++, fix parsing of types prefixed with &#8216;enum&#8217;.</li>
+<li>#2023: Dutch search support uses Danish stemming info</li>
+<li>C++, add support for user-defined literals.</li>
+<li>#1804: Now html output wraps overflowed long-line-text in the sidebar. Thanks to
+Hassen ben tanfous.</li>
+<li>#2183: Fix porterstemmer causes <code class="xref any docutils literal"><span class="pre">make</span> <span class="pre">json</span></code> to fail</li>
+</ul>
+</div>
+<div class="section" id="documentation">
+<h3>Documentation<a class="headerlink" href="#documentation" title="Permalink to this headline">¶</a></h3>
+<ul class="simple">
+<li>#1757: Fix for usage of <a class="reference internal" href="config.html#confval-html_last_updated_fmt"><code class="xref std std-confval docutils literal"><span class="pre">html_last_updated_fmt</span></code></a>. Thanks to Ralf Hemmecke.</li>
+</ul>
+</div>
+</div>
+<div class="section" id="release-1-3-4-in-development">
+<h2>Release 1.3.4 (in development)<a class="headerlink" href="#release-1-3-4-in-development" title="Permalink to this headline">¶</a></h2>
+<div class="section" id="id1">
+<h3>Bugs fixed<a class="headerlink" href="#id1" title="Permalink to this headline">¶</a></h3>
+<ul class="simple">
+<li>#2134: Fix figure caption with reference causes latex build error</li>
+<li>#2094: Fix rubric with reference not working in Latex</li>
+<li>#2147: Fix literalinclude code in latex does not break in pages</li>
+<li>#1833: Fix email addresses is showed again if latex_show_urls is not None</li>
+<li>#2176: sphinx.ext.graphviz: use &lt;object&gt; instead of &lt;img&gt; to embed svg</li>
+<li>#967: Fix SVG inheritance diagram is not hyperlinked (clickable)</li>
+<li>#1237: Fix footnotes not working in definition list in LaTeX</li>
+<li>#2168: Fix raw directive does not work for text writer</li>
+<li>#2171: Fix cannot linkcheck url with unicode</li>
+</ul>
+</div>
+</div>
+<div class="section" id="release-1-3-3-released-dec-2-2015">
+<h2>Release 1.3.3 (released Dec 2, 2015)<a class="headerlink" href="#release-1-3-3-released-dec-2-2015" title="Permalink to this headline">¶</a></h2>
+<div class="section" id="id2">
+<h3>Bugs fixed<a class="headerlink" href="#id2" title="Permalink to this headline">¶</a></h3>
+<ul class="simple">
+<li>#2177: Fix parallel hangs</li>
+<li>#2012: Fix exception occurred if <code class="docutils literal"><span class="pre">numfig_format</span></code> is invalid</li>
+<li>#2142: Provide non-minified JS code in <code class="docutils literal"><span class="pre">sphinx/search/non-minified-js/*.js</span></code> for
+source distribution on PyPI.</li>
+<li>#2148: Error while building devhelp target with non-ASCII document.</li>
+</ul>
+</div>
+</div>
+<div class="section" id="release-1-3-2-released-nov-29-2015">
+<h2>Release 1.3.2 (released Nov 29, 2015)<a class="headerlink" href="#release-1-3-2-released-nov-29-2015" title="Permalink to this headline">¶</a></h2>
+<div class="section" id="id3">
+<h3>Features added<a class="headerlink" href="#id3" title="Permalink to this headline">¶</a></h3>
+<ul class="simple">
+<li>#1935: Make &#8220;numfig_format&#8221; overridable in latex_elements.</li>
+</ul>
+</div>
+<div class="section" id="id4">
+<h3>Bugs fixed<a class="headerlink" href="#id4" title="Permalink to this headline">¶</a></h3>
+<ul class="simple">
+<li>#1976: Avoid &#8220;2.0&#8221; version of Babel because it doesn&#8217;t work with Windows environment.</li>
+<li>Add a &#8220;default.css&#8221; stylesheet (which imports &#8220;classic.css&#8221;) for compatibility.</li>
+<li>#1788: graphviz extension raises exception when caption option is present.</li>
+<li>#1789: <code class="docutils literal"><span class="pre">:pyobject:</span></code> option of <code class="docutils literal"><span class="pre">literalinclude</span></code> directive includes following
+lines after class definitions</li>
+<li>#1790: <code class="docutils literal"><span class="pre">literalinclude</span></code> strips empty lines at the head and tail</li>
+<li>#1802: load plugin themes automatically when theme.conf use it as &#8216;inherit&#8217;. Thanks to
+Takayuki Hirai.</li>
+<li>#1794: custom theme extended from alabaster or sphinx_rtd_theme can&#8217;t find base theme.</li>
+<li>#1834: compatibility for docutils-0.13: handle_io_errors keyword argument for
+docutils.io.FileInput cause TypeError.</li>
+<li>#1823: &#8216;.&#8217; as &lt;module_path&gt; for sphinx-apidoc cause an unfriendly error. Now &#8216;.&#8217;
+is converted to absolute path automatically.</li>
+<li>Fix a crash when setting up extensions which do not support metadata.</li>
+<li>#1784: Provide non-minified JS code in <code class="docutils literal"><span class="pre">sphinx/search/non-minified-js/*.js</span></code></li>
+<li>#1822, #1892: Fix regression for #1061. autosummary can&#8217;t generate doc for imported
+members since sphinx-1.3b3. Thanks to Eric Larson.</li>
+<li>#1793, #1819: &#8220;see also&#8221; misses a linebreak in text output. Thanks to Takayuki Hirai.</li>
+<li>#1780, #1866: &#8220;make text&#8221; shows &#8220;class&#8221; keyword twice. Thanks to Takayuki
+Hirai.</li>
+<li>#1871: Fix for LaTeX output of tables with one column and multirows.</li>
+<li>Work around the lack of the HTMLParserError exception in Python 3.5.</li>
+<li>#1949: Use <code class="docutils literal"><span class="pre">safe_getattr</span></code> in the coverage builder to avoid aborting with
+descriptors that have custom behavior.</li>
+<li>#1915: Do not generate smart quotes in doc field type annotations.</li>
+<li>#1796: On py3, automated .mo building caused UnicodeDecodeError.</li>
+<li>#1923: Use babel features only if the babel latex element is nonempty.</li>
+<li>#1942: Fix a KeyError in websupport.</li>
+<li>#1903: Fix strange id generation for glossary terms.</li>
+<li>#1796, On py3, automated .mo building cause UnicodeDecodeError</li>
+<li><code class="docutils literal"><span class="pre">make</span> <span class="pre">text</span></code> will crush if a definition list item has more than 1 classifiers as:
+<code class="docutils literal"><span class="pre">term</span> <span class="pre">:</span> <span class="pre">classifier1</span> <span class="pre">:</span> <span class="pre">classifier2</span></code>.</li>
+<li>#1855: make gettext generates broken po file for definition lists with classifier.</li>
+<li>#1869: Fix problems when dealing with files containing non-ASCII characters. Thanks to
+Marvin Schmidt.</li>
+<li>#1798: Fix building LaTeX with references in titles.</li>
+<li>#1725: On py2 environment, doctest with using non-ASCII characters causes
+<code class="docutils literal"><span class="pre">'ascii'</span> <span class="pre">codec</span> <span class="pre">can't</span> <span class="pre">decode</span> <span class="pre">byte</span></code> exception.</li>
+<li>#1540: Fix RuntimeError with circular referenced toctree</li>
+<li>#1983: i18n translation feature breaks references which uses section name.</li>
+<li>#1990: Use caption of toctree to title of tableofcontents in LaTeX</li>
+<li>#1987: Fix ampersand is ignored in <code class="docutils literal"><span class="pre">:menuselection:</span></code> and <code class="docutils literal"><span class="pre">:guilabel:</span></code> on LaTeX builder</li>
+<li>#1994: More supporting non-standard parser (like recommonmark parser) for Translation and
+WebSupport feature. Now node.rawsource is fall backed to node.astext() during docutils
+transforming.</li>
+<li>#1989: &#8220;make blahblah&#8221; on Windows indicate help messages for sphinx-build every time.
+It was caused by wrong make.bat that generated by Sphinx-1.3.0/1.3.1.</li>
+<li>On Py2 environment, conf.py that is generated by sphinx-quickstart should have u prefixed
+config value for &#8216;version&#8217; and &#8216;release&#8217;.</li>
+<li>#2102: On Windows + Py3, using <code class="docutils literal"><span class="pre">|today|</span></code> and non-ASCII date format will raise
+UnicodeEncodeError.</li>
+<li>#1974: UnboundLocalError: local variable &#8216;domain&#8217; referenced before assignment when
+using <a class="reference internal" href="markup/inline.html#role-any" title="any role"><code class="xref any rst rst-role docutils literal"><span class="pre">any</span></code></a> role and <a class="reference internal" href="ext/intersphinx.html#module-sphinx.ext.intersphinx" title="sphinx.ext.intersphinx: Link to other Sphinx documentation."><code class="xref any py py-mod docutils literal"><span class="pre">sphinx.ext.intersphinx</span></code></a> in same time.</li>
+<li>#2121: multiple words search doesn&#8217;t find pages when words across on the page title and
+the page content.</li>
+<li>#1884, #1885: plug-in html themes cannot inherit another plug-in theme. Thanks to
+Suzumizaki.</li>
+<li>#1818: <a class="reference internal" href="ext/todo.html#module-sphinx.ext.todo" title="sphinx.ext.todo: Allow inserting todo items into documents."><code class="xref any py py-mod docutils literal"><span class="pre">sphinx.ext.todo</span></code></a> directive generates broken html class attribute as
+&#8216;admonition-&#8216; when <a class="reference internal" href="config.html#confval-language"><code class="xref std std-confval docutils literal"><span class="pre">language</span></code></a> is specified with non-ASCII linguistic area like
+&#8216;ru&#8217; or &#8216;ja&#8217;. To fix this, now <code class="docutils literal"><span class="pre">todo</span></code> directive can use <code class="docutils literal"><span class="pre">`:class:</span></code> option.</li>
+<li>#2140: Fix footnotes in table has broken in LaTeX</li>
+<li>#2127: MecabBinder for html searching feature doesn&#8217;t work with Python 3.
+Thanks to Tomoko Uchida.</li>
+</ul>
+</div>
+</div>
+<div class="section" id="release-1-3-1-released-mar-17-2015">
+<h2>Release 1.3.1 (released Mar 17, 2015)<a class="headerlink" href="#release-1-3-1-released-mar-17-2015" title="Permalink to this headline">¶</a></h2>
+<div class="section" id="id5">
+<h3>Bugs fixed<a class="headerlink" href="#id5" title="Permalink to this headline">¶</a></h3>
+<ul class="simple">
+<li>#1769: allows generating quickstart files/dirs for destination dir that
+doesn&#8217;t overwrite existent files/dirs. Thanks to WAKAYAMA shirou.</li>
+<li>#1773: sphinx-quickstart doesn&#8217;t accept non-ASCII character as a option argument.</li>
+<li>#1766: the message &#8220;least Python 2.6 to run&#8221; is at best misleading.</li>
+<li>#1772: cross reference in docstrings like <code class="docutils literal"><span class="pre">:param</span> <span class="pre">.write:</span></code> breaks building.</li>
+<li>#1770, #1774: <code class="docutils literal"><span class="pre">literalinclude</span></code> with empty file occurs exception. Thanks to
+Takayuki Hirai.</li>
+<li>#1777: Sphinx 1.3 can&#8217;t load extra theme. Thanks to tell-k.</li>
+<li>#1776: <code class="docutils literal"><span class="pre">source_suffix</span> <span class="pre">=</span> <span class="pre">['.rst']</span></code> cause unfriendly error on prior version.</li>
+<li>#1771: automated .mo building doesn&#8217;t work properly.</li>
+<li>#1783: Autodoc: Python2 Allow unicode string in __all__.
+Thanks to Jens Hedegaard Nielsen.</li>
+<li>#1781: Setting <a class="reference internal" href="config.html#confval-html_domain_indices"><code class="xref any std std-confval docutils literal"><span class="pre">html_domain_indices</span></code></a> to a list raises a type check warnings.</li>
+</ul>
+</div>
+</div>
+<div class="section" id="release-1-3-released-mar-10-2015">
+<h2>Release 1.3 (released Mar 10, 2015)<a class="headerlink" href="#release-1-3-released-mar-10-2015" title="Permalink to this headline">¶</a></h2>
+<div class="section" id="id6">
+<h3>Incompatible changes<a class="headerlink" href="#id6" title="Permalink to this headline">¶</a></h3>
+<ul class="simple">
+<li>Roles <code class="docutils literal"><span class="pre">ref</span></code>, <code class="docutils literal"><span class="pre">term</span></code> and <code class="docutils literal"><span class="pre">menusel</span></code> now don&#8217;t generate <a class="reference external" href="http://docutils.sourceforge.net/docs/ref/rst/roles.html#emphasis">emphasis</a>
+nodes anymore.  If you want to keep italic style, adapt your stylesheet.</li>
+<li>Role <code class="docutils literal"><span class="pre">numref</span></code> uses <code class="docutils literal"><span class="pre">%s</span></code> as special character to indicate position of
+figure numbers instead <code class="docutils literal"><span class="pre">#</span></code> symbol.</li>
+</ul>
+</div>
+<div class="section" id="id7">
+<h3>Features added<a class="headerlink" href="#id7" title="Permalink to this headline">¶</a></h3>
+<ul class="simple">
+<li>Add convenience directives and roles to the C++ domain:
+directive <code class="docutils literal"><span class="pre">cpp:var</span></code> as alias for <code class="docutils literal"><span class="pre">cpp:member</span></code>, role <code class="docutils literal"><span class="pre">:cpp:var</span></code> as alias
+for <code class="docutils literal"><span class="pre">:cpp:member</span></code>, and role <a class="reference internal" href="markup/inline.html#role-any" title="any role"><code class="xref any rst rst-role docutils literal"><span class="pre">any</span></code></a> for cross-reference to any C++
+declaraction. #1577, #1744</li>
+<li>The <a class="reference internal" href="config.html#confval-source_suffix"><code class="xref std std-confval docutils literal"><span class="pre">source_suffix</span></code></a> config value can now be a list of multiple
+suffixes.</li>
+<li>Add the ability to specify source parsers by source suffix with the
+<a class="reference internal" href="config.html#confval-source_parsers"><code class="xref std std-confval docutils literal"><span class="pre">source_parsers</span></code></a> config value.</li>
+<li>#1675: A new builder, AppleHelpBuilder, has been added that builds Apple
+Help Books.</li>
+</ul>
+</div>
+<div class="section" id="id8">
+<h3>Bugs fixed<a class="headerlink" href="#id8" title="Permalink to this headline">¶</a></h3>
+<ul class="simple">
+<li>1.3b3 change breaks a previous gettext output that contains duplicated
+msgid such as &#8220;foo bar&#8221; and &#8220;version changes in 1.3: foo bar&#8221;.</li>
+<li>#1745: latex builder cause maximum recursion depth exceeded when a
+footnote has a footnote mark itself.</li>
+<li>#1748: SyntaxError in sphinx/ext/ifconfig.py with Python 2.6.</li>
+<li>#1658, #1750: No link created (and warning given) if option does not
+begin with -, / or +. Thanks to Takayuki Hirai.</li>
+<li>#1753: C++, added missing support for more complex declarations.</li>
+<li>#1700: Add <code class="docutils literal"><span class="pre">:caption:</span></code> option for <a class="reference internal" href="markup/toctree.html#directive-toctree" title="toctree directive"><code class="xref rst rst-dir docutils literal"><span class="pre">toctree</span></code></a>.</li>
+<li>#1742: <code class="docutils literal"><span class="pre">:name:</span></code> option is provided for <a class="reference internal" href="markup/toctree.html#directive-toctree" title="toctree directive"><code class="xref rst rst-dir docutils literal"><span class="pre">toctree</span></code></a>, <a class="reference internal" href="markup/code.html#directive-code-block" title="code-block directive"><code class="xref rst rst-dir docutils literal"><span class="pre">code-block</span></code></a> and
+<a class="reference internal" href="markup/code.html#directive-literalinclude" title="literalinclude directive"><code class="xref rst rst-dir docutils literal"><span class="pre">literalinclude</span></code></a> dirctives.</li>
+<li>#1756: Incorrect section titles in search that was introduced from 1.3b3.</li>
+<li>#1746: C++, fixed name lookup procedure, and added missing lookups in declarations.</li>
+<li>#1765: C++, fix old id generation to use fully qualified names.</li>
+</ul>
+</div>
+<div class="section" id="id9">
+<h3>Documentation<a class="headerlink" href="#id9" title="Permalink to this headline">¶</a></h3>
+<ul class="simple">
+<li>#1651: Add <code class="docutils literal"><span class="pre">vartype</span></code> field descritpion for python domain.</li>
+</ul>
+</div>
+</div>
+<div class="section" id="release-1-3b3-released-feb-24-2015">
+<h2>Release 1.3b3 (released Feb 24, 2015)<a class="headerlink" href="#release-1-3b3-released-feb-24-2015" title="Permalink to this headline">¶</a></h2>
+<div class="section" id="id10">
+<h3>Incompatible changes<a class="headerlink" href="#id10" title="Permalink to this headline">¶</a></h3>
+<ul class="simple">
+<li>Dependency requirement updates: docutils 0.11, Pygments 2.0</li>
+<li>The <code class="docutils literal"><span class="pre">gettext_enables</span></code> config value has been renamed to
+<a class="reference internal" href="config.html#confval-gettext_additional_targets"><code class="xref any std std-confval docutils literal"><span class="pre">gettext_additional_targets</span></code></a>.</li>
+<li>#1735: Use <a class="reference external" href="https://doc.python.org/">https://doc.python.org/</a> instead of <code class="docutils literal"><span class="pre">http</span></code> protocol.
+It was used for <a class="reference internal" href="ext/intersphinx.html#module-sphinx.ext.intersphinx" title="sphinx.ext.intersphinx: Link to other Sphinx documentation."><code class="xref any py py-mod docutils literal"><span class="pre">sphinx.ext.intersphinx</span></code></a> and some documentation.</li>
+</ul>
+</div>
+<div class="section" id="id11">
+<h3>Features added<a class="headerlink" href="#id11" title="Permalink to this headline">¶</a></h3>
+<ul class="simple">
+<li>#1346: Add new default theme;<ul>
+<li>Add &#8216;alabaster&#8217; theme.</li>
+<li>Add &#8216;sphinx_rtd_theme&#8217; theme.</li>
+<li>The &#8216;default&#8217; html theme has been renamed to &#8216;classic&#8217;. &#8216;default&#8217; is still
+available, however it will emit notice a recommendation that using new
+&#8216;alabaster&#8217; theme.</li>
+</ul>
+</li>
+<li>Added <code class="docutils literal"><span class="pre">highlight_options</span></code> configuration value.</li>
+<li>The <code class="docutils literal"><span class="pre">language</span></code> config value is now available in the HTML templates.</li>
+<li>The <code class="docutils literal"><span class="pre">env-updated</span></code> event can now return a value, which is interpreted
+as an iterable of additional docnames that need to be rewritten.</li>
+<li>#772: Support for scoped and unscoped enums in C++. Enumerators in unscoped
+enums are injected into the parent scope in addition to the enum scope.</li>
+<li>Add <code class="docutils literal"><span class="pre">todo_include_todos</span></code> config option to quickstart conf file, handled as
+described in documentation.</li>
+<li>HTML breadcrumb items tag has class &#8220;nav-item&#8221; and &#8220;nav-item-N&#8221; (like
+nav-item-0, 1, 2...).</li>
+<li>New option <a class="reference internal" href="invocation.html#cmdoption-sphinx-quickstart--use-make-mode"><code class="xref any std std-option docutils literal"><span class="pre">sphinx-quickstart</span> <span class="pre">--use-make-mode</span></code></a> for generating Makefile that
+use sphinx-build make-mode.</li>
+<li>#1235: i18n: several node can be translated if it is set to
+<a class="reference internal" href="config.html#confval-gettext_additional_targets"><code class="xref any std std-confval docutils literal"><span class="pre">gettext_additional_targets</span></code></a> in conf.py. Supported nodes are:<ul>
+<li>&#8216;literal-block&#8217;</li>
+<li>&#8216;doctest-block&#8217;</li>
+<li>&#8216;raw&#8217;</li>
+<li>&#8216;image&#8217;</li>
+</ul>
+</li>
+<li>#1227: Add <a class="reference internal" href="config.html#confval-html_scaled_image_link"><code class="xref any std std-confval docutils literal"><span class="pre">html_scaled_image_link</span></code></a> config option to conf.py, to control
+scaled image link.</li>
+</ul>
+</div>
+<div class="section" id="id12">
+<h3>Bugs fixed<a class="headerlink" href="#id12" title="Permalink to this headline">¶</a></h3>
+<ul class="simple">
+<li>LaTeX writer now generates correct markup for cells spanning multiple rows.</li>
+<li>#1674: Do not crash if a module&#8217;s <code class="docutils literal"><span class="pre">__all__</span></code> is not a list of strings.</li>
+<li>#1629: Use VerbatimBorderColor to add frame to code-block in LaTeX</li>
+<li>On windows, make-mode didn&#8217;t work on Win32 platform if sphinx was invoked as
+<code class="docutils literal"><span class="pre">python</span> <span class="pre">sphinx-build.py</span></code>.</li>
+<li>#1687: linkcheck now treats 401 Unauthorized responses as &#8220;working&#8221;.</li>
+<li>#1690: toctrees with <code class="docutils literal"><span class="pre">glob</span></code> option now can also contain entries for single
+documents with explicit title.</li>
+<li>#1591: html search results for C++ elements now has correct interpage links.</li>
+<li>bizstyle theme: nested long title pages make long breadcrumb that breaks page layout.</li>
+<li>bizstyle theme: all breadcrumb items become &#8216;Top&#8217; on some mobile browser
+(iPhone5s safari).</li>
+<li>#1722: restore <code class="docutils literal"><span class="pre">toctree()</span></code> template function behavior that was changed at 1.3b1.</li>
+<li>#1732: i18n: localized table caption raises exception.</li>
+<li>#1718: <code class="docutils literal"><span class="pre">:numref:</span></code> does not work with capital letters in the label</li>
+<li>#1630: resolve CSS conflicts, <code class="docutils literal"><span class="pre">div.container</span></code> css target for literal block wrapper
+now renamed to <code class="docutils literal"><span class="pre">div.literal-block-wrapper</span></code>.</li>
+<li><code class="docutils literal"><span class="pre">sphinx.util.pycompat</span></code> has been restored in its backwards-compatibility;
+slated for removal in Sphinx 1.4.</li>
+<li>#1719: LaTeX writer does not respect <code class="docutils literal"><span class="pre">numref_format</span></code> option in captions</li>
+</ul>
+</div>
+</div>
+<div class="section" id="release-1-3b2-released-dec-5-2014">
+<h2>Release 1.3b2 (released Dec 5, 2014)<a class="headerlink" href="#release-1-3b2-released-dec-5-2014" title="Permalink to this headline">¶</a></h2>
+<div class="section" id="id13">
+<h3>Incompatible changes<a class="headerlink" href="#id13" title="Permalink to this headline">¶</a></h3>
+<ul class="simple">
+<li>update bundled ez_setup.py for setuptools-7.0 that requires Python 2.6 or
+later.</li>
+</ul>
+</div>
+<div class="section" id="id14">
+<h3>Features added<a class="headerlink" href="#id14" title="Permalink to this headline">¶</a></h3>
+<ul class="simple">
+<li>#1597: Added possibility to return a new template name from
+<a class="reference internal" href="extdev/appapi.html#event-html-page-context"><code class="xref any std std-event docutils literal"><span class="pre">html-page-context</span></code></a>.</li>
+<li>PR#314, #1150: Configuration values are now checked for their type.  A
+warning is raised if the configured and the default value do not have the
+same type and do not share a common non-trivial base class.</li>
+</ul>
+</div>
+<div class="section" id="id15">
+<h3>Bugs fixed<a class="headerlink" href="#id15" title="Permalink to this headline">¶</a></h3>
+<ul class="simple">
+<li>PR#311: sphinx-quickstart does not work on python 3.4.</li>
+<li>Fix <a class="reference internal" href="ext/autodoc.html#confval-autodoc_docstring_signature"><code class="xref std std-confval docutils literal"><span class="pre">autodoc_docstring_signature</span></code></a> not working with signatures
+in class docstrings.</li>
+<li>Rebuilding cause crash unexpectedly when source files were added.</li>
+<li>#1607: Fix a crash when building latexpdf with &#8220;howto&#8221; class</li>
+<li>#1251: Fix again. Sections which depth are lower than :tocdepth: should not
+be shown on localtoc sidebar.</li>
+<li>make-mode didn&#8217;t work on Win32 platform if sphinx was installed by wheel
+package.</li>
+</ul>
+</div>
+</div>
+<div class="section" id="release-1-3b1-released-oct-10-2014">
+<h2>Release 1.3b1 (released Oct 10, 2014)<a class="headerlink" href="#release-1-3b1-released-oct-10-2014" title="Permalink to this headline">¶</a></h2>
+<div class="section" id="id16">
+<h3>Incompatible changes<a class="headerlink" href="#id16" title="Permalink to this headline">¶</a></h3>
+<ul class="simple">
+<li>Dropped support for Python 2.5, 3.1 and 3.2.</li>
+<li>Dropped support for docutils versions up to 0.9.</li>
+<li>Removed the <code class="docutils literal"><span class="pre">sphinx.ext.oldcmarkup</span></code> extension.</li>
+<li>The deprecated config values <code class="docutils literal"><span class="pre">exclude_trees</span></code>, <code class="docutils literal"><span class="pre">exclude_dirnames</span></code> and
+<code class="docutils literal"><span class="pre">unused_docs</span></code> have been removed.</li>
+<li>A new node, <code class="docutils literal"><span class="pre">sphinx.addnodes.literal_strong</span></code>, has been added, for text that
+should appear literally (i.e. no smart quotes) in strong font.  Custom writers
+will have to be adapted to handle this node.</li>
+<li>PR#269, #1476: replace <code class="docutils literal"><span class="pre">&lt;tt&gt;</span></code> tag by <code class="docutils literal"><span class="pre">&lt;code&gt;</span></code>. User customized stylesheets
+should be updated If the css contain some styles for <code class="docutils literal"><span class="pre">tt&gt;</span></code> tag.
+Thanks to Takeshi Komiya.</li>
+<li>#1543: <a class="reference internal" href="config.html#confval-templates_path"><code class="xref any std std-confval docutils literal"><span class="pre">templates_path</span></code></a> is automatically added to
+<a class="reference internal" href="config.html#confval-exclude_patterns"><code class="xref any std std-confval docutils literal"><span class="pre">exclude_patterns</span></code></a> to avoid reading autosummary rst templates in the
+templates directory.</li>
+<li>Custom domains should implement the new <a class="reference internal" href="extdev/domainapi.html#sphinx.domains.Domain.resolve_any_xref" title="sphinx.domains.Domain.resolve_any_xref"><code class="xref any py py-meth docutils literal"><span class="pre">Domain.resolve_any_xref</span></code></a>
+method to make the <a class="reference internal" href="markup/inline.html#role-any" title="any role"><code class="xref any rst rst-role docutils literal"><span class="pre">any</span></code></a> role work properly.</li>
+<li>gettext builder: gettext doesn&#8217;t emit uuid information to generated pot files
+by default. Please set <code class="docutils literal"><span class="pre">True</span></code> to <a class="reference internal" href="config.html#confval-gettext_uuid"><code class="xref any std std-confval docutils literal"><span class="pre">gettext_uuid</span></code></a> to emit uuid information.
+Additionally, if the <code class="docutils literal"><span class="pre">python-levenshtein</span></code> 3rd-party package is installed,
+it will improve the calculation time.</li>
+<li>gettext builder: disable extracting/apply &#8216;index&#8217; node by default. Please set
+&#8216;index&#8217; to <code class="docutils literal"><span class="pre">gettext_enables</span></code> to enable extracting index entries.</li>
+<li>PR#307: Add frame to code-block in LaTeX. Thanks to Takeshi Komiya.</li>
+</ul>
+</div>
+<div class="section" id="id17">
+<h3>Features added<a class="headerlink" href="#id17" title="Permalink to this headline">¶</a></h3>
+<ul class="simple">
+<li>Add support for Python 3.4.</li>
+<li>Add support for docutils 0.12</li>
+<li>Added <code class="docutils literal"><span class="pre">sphinx.ext.napoleon</span></code> extension for NumPy and Google style docstring
+support.</li>
+<li>Added support for parallel reading (parsing) of source files with the
+<a class="reference internal" href="invocation.html#cmdoption-sphinx-build-j"><code class="xref any std std-option docutils literal"><span class="pre">sphinx-build</span> <span class="pre">-j</span></code></a> option.  Third-party extensions will need to be checked for
+compatibility and may need to be adapted if they store information in the
+build environment object.  See <a class="reference internal" href="extdev/appapi.html#event-env-merge-info"><code class="xref any std std-event docutils literal"><span class="pre">env-merge-info</span></code></a>.</li>
+<li>Added the <a class="reference internal" href="markup/inline.html#role-any" title="any role"><code class="xref any rst rst-role docutils literal"><span class="pre">any</span></code></a> role that can be used to find a cross-reference of
+<em>any</em> type in <em>any</em> domain.  Custom domains should implement the new
+<a class="reference internal" href="extdev/domainapi.html#sphinx.domains.Domain.resolve_any_xref" title="sphinx.domains.Domain.resolve_any_xref"><code class="xref any py py-meth docutils literal"><span class="pre">Domain.resolve_any_xref</span></code></a> method to make this work properly.</li>
+<li>Exception logs now contain the last 10 messages emitted by Sphinx.</li>
+<li>Added support for extension versions (a string returned by <code class="docutils literal"><span class="pre">setup()</span></code>, these
+can be shown in the traceback log files).  Version requirements for extensions
+can be specified in projects using the new <a class="reference internal" href="config.html#confval-needs_extensions"><code class="xref any std std-confval docutils literal"><span class="pre">needs_extensions</span></code></a> config
+value.</li>
+<li>Changing the default role within a document with the <a class="reference external" href="http://docutils.sourceforge.net/docs/ref/rst/directives.html#default-role">default-role</a>
+directive is now supported.</li>
+<li>PR#214: Added stemming support for 14 languages, so that the built-in document
+search can now handle these.  Thanks to Shibukawa Yoshiki.</li>
+<li>PR#296, PR#303, #76: numfig feature: Assign numbers to figures, tables and
+code-blocks. This feature is configured with <a class="reference internal" href="config.html#confval-numfig"><code class="xref any std std-confval docutils literal"><span class="pre">numfig</span></code></a>, <a class="reference internal" href="config.html#confval-numfig_secnum_depth"><code class="xref any std std-confval docutils literal"><span class="pre">numfig_secnum_depth</span></code></a>
+and <a class="reference internal" href="config.html#confval-numfig_format"><code class="xref any std std-confval docutils literal"><span class="pre">numfig_format</span></code></a>. Also <a class="reference internal" href="markup/inline.html#role-numref" title="numref role"><code class="xref any rst rst-role docutils literal"><span class="pre">numref</span></code></a> role is available. Thanks to Takeshi
+Komiya.</li>
+<li>PR#202: Allow &#8221;.&#8221; and &#8220;~&#8221; prefixed references in <code class="docutils literal"><span class="pre">:param:</span></code> doc fields
+for Python.</li>
+<li>PR#184: Add <a class="reference internal" href="ext/autodoc.html#confval-autodoc_mock_imports"><code class="xref any std std-confval docutils literal"><span class="pre">autodoc_mock_imports</span></code></a>, allowing to mock imports of
+external modules that need not be present when autodocumenting.</li>
+<li>#925: Allow list-typed config values to be provided on the command line,
+like <code class="docutils literal"><span class="pre">-D</span> <span class="pre">key=val1,val2</span></code>.</li>
+<li>#668: Allow line numbering of <a class="reference internal" href="markup/code.html#directive-code-block" title="code-block directive"><code class="xref any rst rst-dir docutils literal"><span class="pre">code-block</span></code></a> and <a class="reference internal" href="markup/code.html#directive-literalinclude" title="literalinclude directive"><code class="xref any rst rst-dir docutils literal"><span class="pre">literalinclude</span></code></a> directives
+to start at an arbitrary line number, with a new <code class="docutils literal"><span class="pre">lineno-start</span></code> option.</li>
+<li>PR#172, PR#266: The <a class="reference internal" href="markup/code.html#directive-code-block" title="code-block directive"><code class="xref any rst rst-dir docutils literal"><span class="pre">code-block</span></code></a> and <a class="reference internal" href="markup/code.html#directive-literalinclude" title="literalinclude directive"><code class="xref any rst rst-dir docutils literal"><span class="pre">literalinclude</span></code></a>
+directives now can have a <code class="docutils literal"><span class="pre">caption</span></code> option that shows a filename before the
+code in the output. Thanks to Nasimul Haque, Takeshi Komiya.</li>
+<li>Prompt for the document language in sphinx-quickstart.</li>
+<li>PR#217: Added config values to suppress UUID and location information in
+generated gettext catalogs.</li>
+<li>PR#236, #1456: apidoc: Add a -M option to put module documentation before
+submodule documentation. Thanks to Wes Turner and Luc Saffre.</li>
+<li>#1434: Provide non-minified JS files for jquery.js and underscore.js to
+clarify the source of the minified files.</li>
+<li>PR#252, #1291: Windows color console support. Thanks to meu31.</li>
+<li>PR#255: When generating latex references, also insert latex target/anchor
+for the ids defined on the node. Thanks to Olivier Heurtier.</li>
+<li>PR#229: Allow registration of other translators. Thanks to Russell Sim.</li>
+<li>Add app.set_translator() API to register or override a Docutils translator
+class like <a class="reference internal" href="config.html#confval-html_translator_class"><code class="xref any std std-confval docutils literal"><span class="pre">html_translator_class</span></code></a>.</li>
+<li>PR#267, #1134: add &#8216;diff&#8217; parameter to literalinclude. Thanks to Richard Wall
+and WAKAYAMA shirou.</li>
+<li>PR#272: Added &#8216;bizstyle&#8217; theme. Thanks to Shoji KUMAGAI.</li>
+<li>Automatically compile <code class="docutils literal"><span class="pre">*.mo</span></code> files from <code class="docutils literal"><span class="pre">*.po</span></code> files when
+<a class="reference internal" href="config.html#confval-gettext_auto_build"><code class="xref any std std-confval docutils literal"><span class="pre">gettext_auto_build</span></code></a> is True (default) and <code class="docutils literal"><span class="pre">*.po</span></code> is newer than
+<code class="docutils literal"><span class="pre">*.mo</span></code> file.</li>
+<li>#623: <a class="reference internal" href="ext/viewcode.html#module-sphinx.ext.viewcode" title="sphinx.ext.viewcode: Add links to a highlighted version of the source code."><code class="xref any py py-mod docutils literal"><span class="pre">sphinx.ext.viewcode</span></code></a> supports imported function/class aliases.</li>
+<li>PR#275: <a class="reference internal" href="ext/intersphinx.html#module-sphinx.ext.intersphinx" title="sphinx.ext.intersphinx: Link to other Sphinx documentation."><code class="xref any py py-mod docutils literal"><span class="pre">sphinx.ext.intersphinx</span></code></a> supports multiple target for the
+inventory. Thanks to Brigitta Sipocz.</li>
+<li>PR#261: Added the <a class="reference internal" href="extdev/appapi.html#event-env-before-read-docs"><code class="xref any std std-event docutils literal"><span class="pre">env-before-read-docs</span></code></a> event that can be connected to modify
+the order of documents before they are read by the environment.</li>
+<li>#1284: Program options documented with <a class="reference internal" href="domains.html#directive-option" title="option directive"><code class="xref rst rst-dir docutils literal"><span class="pre">option</span></code></a> can now start with
+<code class="docutils literal"><span class="pre">+</span></code>.</li>
+<li>PR#291: The caption of <a class="reference internal" href="markup/code.html#directive-code-block" title="code-block directive"><code class="xref rst rst-dir docutils literal"><span class="pre">code-block</span></code></a> is recognised as a title of ref
+target. Thanks to Takeshi Komiya.</li>
+<li>PR#298: Add new API: <a class="reference internal" href="extdev/appapi.html#sphinx.application.Sphinx.add_latex_package" title="sphinx.application.Sphinx.add_latex_package"><code class="xref py py-meth docutils literal"><span class="pre">add_latex_package()</span></code></a>.
+Thanks to Takeshi Komiya.</li>
+<li>#1344: add <code class="docutils literal"><span class="pre">gettext_enables</span></code> to enable extracting &#8216;index&#8217; to gettext
+catalog output / applying translation catalog to generated documentation.</li>
+<li>PR#301, #1583: Allow the line numbering of the directive <a class="reference internal" href="markup/code.html#directive-literalinclude" title="literalinclude directive"><code class="xref any rst rst-dir docutils literal"><span class="pre">literalinclude</span></code></a> to
+match that of the included file, using a new <code class="docutils literal"><span class="pre">lineno-match</span></code> option. Thanks
+to Jeppe Pihl.</li>
+<li>PR#299: add various options to sphinx-quickstart. Quiet mode option
+<code class="docutils literal"><span class="pre">--quiet</span></code> will skips wizard mode. Thanks to WAKAYAMA shirou.</li>
+<li>#1623: Return types specified with <code class="docutils literal"><span class="pre">:rtype:</span></code> are now turned into links if
+possible.</li>
+</ul>
+</div>
+<div class="section" id="id18">
+<h3>Bugs fixed<a class="headerlink" href="#id18" title="Permalink to this headline">¶</a></h3>
+<ul class="simple">
+<li>#1438: Updated jQuery version from 1.8.3 to 1.11.1.</li>
+<li>#1568: Fix a crash when a &#8220;centered&#8221; directive contains a reference.</li>
+<li>Now sphinx.ext.autodoc works with python-2.5 again.</li>
+<li>#1563: <a class="reference internal" href="extdev/appapi.html#sphinx.application.Sphinx.add_search_language" title="sphinx.application.Sphinx.add_search_language"><code class="xref py py-meth docutils literal"><span class="pre">add_search_language()</span></code></a> raises
+AssertionError for correct type of argument. Thanks to rikoman.</li>
+<li>#1174: Fix smart quotes being applied inside roles like <a class="reference internal" href="markup/inline.html#role-program" title="program role"><code class="xref rst rst-role docutils literal"><span class="pre">program</span></code></a> or
+<a class="reference internal" href="markup/inline.html#role-makevar" title="makevar role"><code class="xref any rst rst-role docutils literal"><span class="pre">makevar</span></code></a>.</li>
+<li>PR#235: comment db schema of websupport lacked a length of the node_id field.
+Thanks to solos.</li>
+<li>#1466,PR#241: Fix failure of the cpp domain parser to parse C+11
+&#8220;variadic templates&#8221; declarations. Thanks to Victor Zverovich.</li>
+<li>#1459,PR#244: Fix default mathjax js path point to <code class="docutils literal"><span class="pre">http://</span></code> that cause
+mixed-content error on HTTPS server. Thanks to sbrandtb and robo9k.</li>
+<li>PR#157: autodoc remove spurious signatures from &#64;property decorated
+attributes. Thanks to David Ham.</li>
+<li>PR#159: Add coverage targets to quickstart generated Makefile and make.bat.
+Thanks to Matthias Troffaes.</li>
+<li>#1251: When specifying toctree :numbered: option and :tocdepth: metadata,
+sub section number that is larger depth than <code class="docutils literal"><span class="pre">:tocdepth:</span></code> is shrunk.</li>
+<li>PR#260: Encode underscore in citation labels for latex export. Thanks to
+Lennart Fricke.</li>
+<li>PR#264: Fix could not resolve xref for figure node with :name: option.
+Thanks to Takeshi Komiya.</li>
+<li>PR#265: Fix could not capture caption of graphviz node by xref. Thanks to
+Takeshi Komiya.</li>
+<li>PR#263, #1013, #1103: Rewrite of C++ domain. Thanks to Jakob Lykke Andersen.<ul>
+<li>Hyperlinks to all found nested names and template arguments (#1103).</li>
+<li>Support for function types everywhere, e.g., in
+std::function&lt;bool(int, int)&gt; (#1013).</li>
+<li>Support for virtual functions.</li>
+<li>Changed interpretation of function arguments to following standard
+prototype declarations, i.e., void f(arg) means that arg is the type of the
+argument, instead of it being the name.</li>
+<li>Updated tests.</li>
+<li>Updated documentation with elaborate description of what declarations are
+supported and how the namespace declarations influence declaration and
+cross-reference lookup.</li>
+<li>Index names may be different now. Elements are indexed by their fully
+qualified name. It should be rather easy to change this behaviour and
+potentially index by namespaces/classes as well.</li>
+</ul>
+</li>
+<li>PR#258, #939: Add dedent option for <a class="reference internal" href="markup/code.html#directive-code-block" title="code-block directive"><code class="xref any rst rst-dir docutils literal"><span class="pre">code-block</span></code></a> and
+<a class="reference internal" href="markup/code.html#directive-literalinclude" title="literalinclude directive"><code class="xref any rst rst-dir docutils literal"><span class="pre">literalinclude</span></code></a>. Thanks to Zafar Siddiqui.</li>
+<li>PR#268: Fix numbering section does not work at singlehtml mode. It still
+ad-hoc fix because there is a issue that section IDs are conflicted.
+Thanks to Takeshi Komiya.</li>
+<li>PR#273, #1536: Fix RuntimeError with numbered circular toctree. Thanks to
+Takeshi Komiya.</li>
+<li>PR#274: Set its URL as a default title value if URL appears in toctree.
+Thanks to Takeshi Komiya.</li>
+<li>PR#276, #1381: <a class="reference internal" href="markup/inline.html#role-rfc" title="rfc role"><code class="xref any rst rst-role docutils literal"><span class="pre">rfc</span></code></a> and <a class="reference internal" href="markup/inline.html#role-pep" title="pep role"><code class="xref any rst rst-role docutils literal"><span class="pre">pep</span></code></a> roles support custom link
+text. Thanks to Takeshi Komiya.</li>
+<li>PR#277, #1513: highlights for function pointers in argument list of
+<a class="reference internal" href="domains.html#directive-c:function" title="c:function directive"><code class="xref any rst rst-dir docutils literal"><span class="pre">c:function</span></code></a>. Thanks to Takeshi Komiya.</li>
+<li>PR#278: Fix section entries were shown twice if toctree has been put under
+only directive. Thanks to Takeshi Komiya.</li>
+<li>#1547: pgen2 tokenizer doesn&#8217;t recognize <code class="docutils literal"><span class="pre">...</span></code> literal (Ellipsis for py3).</li>
+<li>PR#294: On LaTeX builder, wrap float environment on writing literal_block
+to avoid separation of caption and body. Thanks to Takeshi Komiya.</li>
+<li>PR#295, #1520: <code class="docutils literal"><span class="pre">make.bat</span> <span class="pre">latexpdf</span></code> mechanism to <code class="docutils literal"><span class="pre">cd</span></code> back to the current
+directory. Thanks to Peter Suter.</li>
+<li>PR#297, #1571: Add imgpath property to all builders. It make easier to
+develop builder extensions. Thanks to Takeshi Komiya.</li>
+<li>#1584: Point to master doc in HTML &#8220;top&#8221; link.</li>
+<li>#1585: Autosummary of modules broken in Sphinx-1.2.3.</li>
+<li>#1610: Sphinx cause AttributeError when MeCab search option is enabled and
+python-mecab is not installed.</li>
+<li>#1674: Do not crash if a module&#8217;s <code class="docutils literal"><span class="pre">__all__</span></code> is not a list of strings.</li>
+<li>#1673: Fix crashes with <a class="reference internal" href="config.html#confval-nitpick_ignore"><code class="xref std std-confval docutils literal"><span class="pre">nitpick_ignore</span></code></a> and <code class="docutils literal"><span class="pre">:doc:</span></code> references.</li>
+<li>#1686: ifconfig directive doesn&#8217;t care about default config values.</li>
+<li>#1642: Fix only one search result appearing in Chrome.</li>
+</ul>
+</div>
+<div class="section" id="id19">
+<h3>Documentation<a class="headerlink" href="#id19" title="Permalink to this headline">¶</a></h3>
+<ul class="simple">
+<li>Add clarification about the syntax of tags. (<code class="file docutils literal"><span class="pre">doc/markup/misc.rst</span></code>)</li>
+</ul>
+</div>
+</div>
+<div class="section" id="release-1-2-3-released-sep-1-2014">
+<h2>Release 1.2.3 (released Sep 1, 2014)<a class="headerlink" href="#release-1-2-3-released-sep-1-2014" title="Permalink to this headline">¶</a></h2>
+<div class="section" id="id20">
+<h3>Features added<a class="headerlink" href="#id20" title="Permalink to this headline">¶</a></h3>
+<ul class="simple">
+<li>#1518: <code class="docutils literal"><span class="pre">sphinx-apidoc</span></code> command now has a <code class="docutils literal"><span class="pre">--version</span></code> option to show version
+information and exit</li>
+<li>New locales: Hebrew, European Portuguese, Vietnamese.</li>
+</ul>
+</div>
+<div class="section" id="id21">
+<h3>Bugs fixed<a class="headerlink" href="#id21" title="Permalink to this headline">¶</a></h3>
+<ul class="simple">
+<li>#636: Keep straight single quotes in literal blocks in the LaTeX build.</li>
+<li>#1419: Generated i18n sphinx.js files are missing message catalog entries
+from &#8216;.js_t&#8217; and &#8216;.html&#8217;. The issue was introduced from Sphinx-1.1</li>
+<li>#1363: Fix i18n: missing python domain&#8217;s cross-references with currentmodule
+directive or currentclass directive.</li>
+<li>#1444: autosummary does not create the description from attributes docstring.</li>
+<li>#1457: In python3 environment, make linkcheck cause &#8220;Can&#8217;t convert &#8216;bytes&#8217;
+object to str implicitly&#8221; error when link target url has a hash part.
+Thanks to Jorge_C.</li>
+<li>#1467: Exception on Python3 if nonexistent method is specified by automethod</li>
+<li>#1441: autosummary can&#8217;t handle nested classes correctly.</li>
+<li>#1499: With non-callable <code class="docutils literal"><span class="pre">setup</span></code> in a conf.py, now sphinx-build emits
+a user-friendly error message.</li>
+<li>#1502: In autodoc, fix display of parameter defaults containing backslashes.</li>
+<li>#1226: autodoc, autosummary: importing setup.py by automodule will invoke
+setup process and execute <code class="docutils literal"><span class="pre">sys.exit()</span></code>. Now sphinx avoids SystemExit
+exception and emits warnings without unexpected termination.</li>
+<li>#1503: py:function directive generate incorrectly signature when specifying
+a default parameter with an empty list <code class="docutils literal"><span class="pre">[]</span></code>. Thanks to Geert Jansen.</li>
+<li>#1508: Non-ASCII filename raise exception on make singlehtml, latex, man,
+texinfo and changes.</li>
+<li>#1531: On Python3 environment, docutils.conf with &#8216;source_link=true&#8217; in the
+general section cause type error.</li>
+<li>PR#270, #1533: Non-ASCII docstring cause UnicodeDecodeError when uses with
+inheritance-diagram directive. Thanks to WAKAYAMA shirou.</li>
+<li>PR#281, PR#282, #1509: TODO extension not compatible with websupport. Thanks
+to Takeshi Komiya.</li>
+<li>#1477: gettext does not extract nodes.line in a table or list.</li>
+<li>#1544: <code class="docutils literal"><span class="pre">make</span> <span class="pre">text</span></code> generates wrong table when it has empty table cells.</li>
+<li>#1522: Footnotes from table get displayed twice in LaTeX. This problem has
+been appeared from Sphinx-1.2.1 by #949.</li>
+<li>#508: Sphinx every time exit with zero when is invoked from setup.py command.
+ex. <code class="docutils literal"><span class="pre">python</span> <span class="pre">setup.py</span> <span class="pre">build_sphinx</span> <span class="pre">-b</span> <span class="pre">doctest</span></code> return zero even if doctest
+failed.</li>
+</ul>
+</div>
+</div>
+<div class="section" id="release-1-2-2-released-mar-2-2014">
+<h2>Release 1.2.2 (released Mar 2, 2014)<a class="headerlink" href="#release-1-2-2-released-mar-2-2014" title="Permalink to this headline">¶</a></h2>
+<div class="section" id="id22">
+<h3>Bugs fixed<a class="headerlink" href="#id22" title="Permalink to this headline">¶</a></h3>
+<ul class="simple">
+<li>PR#211: When checking for existence of the <a class="reference internal" href="config.html#confval-html_logo"><code class="xref any std std-confval docutils literal"><span class="pre">html_logo</span></code></a> file, check
+the full relative path and not the basename.</li>
+<li>PR#212: Fix traceback with autodoc and <code class="docutils literal"><span class="pre">__init__</span></code> methods without docstring.</li>
+<li>PR#213: Fix a missing import in the setup command.</li>
+<li>#1357: Option names documented by <a class="reference internal" href="domains.html#directive-option" title="option directive"><code class="xref rst rst-dir docutils literal"><span class="pre">option</span></code></a> are now again allowed to
+not start with a dash or slash, and referencing them will work correctly.</li>
+<li>#1358: Fix handling of image paths outside of the source directory when using
+the &#8220;wildcard&#8221; style reference.</li>
+<li>#1374: Fix for autosummary generating overly-long summaries if first line
+doesn&#8217;t end with a period.</li>
+<li>#1383: Fix Python 2.5 compatibility of sphinx-apidoc.</li>
+<li>#1391: Actually prevent using &#8220;pngmath&#8221; and &#8220;mathjax&#8221; extensions at the same
+time in sphinx-quickstart.</li>
+<li>#1386: Fix bug preventing more than one theme being added by the entry point
+mechanism.</li>
+<li>#1370: Ignore &#8220;toctree&#8221; nodes in text writer, instead of raising.</li>
+<li>#1364: Fix &#8216;make gettext&#8217; fails when the &#8216;.. todolist::&#8217; directive is present.</li>
+<li>#1367: Fix a change of PR#96 that break sphinx.util.docfields.Field.make_field
+interface/behavior for <code class="docutils literal"><span class="pre">item</span></code> argument usage.</li>
+</ul>
+</div>
+<div class="section" id="id23">
+<h3>Documentation<a class="headerlink" href="#id23" title="Permalink to this headline">¶</a></h3>
+<ul class="simple">
+<li>Extended the <a class="reference internal" href="extdev/index.html#dev-extensions"><span class="std std-ref">documentation about building extensions</span></a>.</li>
+</ul>
+</div>
+</div>
+<div class="section" id="release-1-2-1-released-jan-19-2014">
+<h2>Release 1.2.1 (released Jan 19, 2014)<a class="headerlink" href="#release-1-2-1-released-jan-19-2014" title="Permalink to this headline">¶</a></h2>
+<div class="section" id="id24">
+<h3>Bugs fixed<a class="headerlink" href="#id24" title="Permalink to this headline">¶</a></h3>
+<ul class="simple">
+<li>#1335: Fix autosummary template overloading with exclamation prefix like
+<code class="docutils literal"><span class="pre">{%</span> <span class="pre">extends</span> <span class="pre">&quot;!autosummary/class.rst&quot;</span> <span class="pre">%}</span></code> cause infinite recursive function
+call. This was caused by PR#181.</li>
+<li>#1337: Fix autodoc with <code class="docutils literal"><span class="pre">autoclass_content=&quot;both&quot;</span></code> uses useless
+<code class="docutils literal"><span class="pre">object.__init__</span></code> docstring when class does not have <code class="docutils literal"><span class="pre">__init__</span></code>.
+This was caused by a change for #1138.</li>
+<li>#1340: Can&#8217;t search alphabetical words on the HTML quick search generated
+with language=&#8217;ja&#8217;.</li>
+<li>#1319: Do not crash if the <a class="reference internal" href="config.html#confval-html_logo"><code class="xref any std std-confval docutils literal"><span class="pre">html_logo</span></code></a> file does not exist.</li>
+<li>#603: Do not use the HTML-ized title for building the search index (that
+resulted in &#8220;literal&#8221; being found on every page with a literal in the
+title).</li>
+<li>#751: Allow production lists longer than a page in LaTeX by using longtable.</li>
+<li>#764: Always look for stopwords lowercased in JS search.</li>
+<li>#814: autodoc: Guard against strange type objects that don&#8217;t have
+<code class="docutils literal"><span class="pre">__bases__</span></code>.</li>
+<li>#932: autodoc: Do not crash if <code class="docutils literal"><span class="pre">__doc__</span></code> is not a string.</li>
+<li>#933: Do not crash if an <a class="reference internal" href="markup/inline.html#role-option" title="option role"><code class="xref rst rst-role docutils literal"><span class="pre">option</span></code></a> value is malformed (contains
+spaces but no option name).</li>
+<li>#908: On Python 3, handle error messages from LaTeX correctly in the pngmath
+extension.</li>
+<li>#943: In autosummary, recognize &#8220;first sentences&#8221; to pull from the docstring
+if they contain uppercase letters.</li>
+<li>#923: Take the entire LaTeX document into account when caching
+pngmath-generated images.  This rebuilds them correctly when
+<a class="reference internal" href="ext/math.html#confval-pngmath_latex_preamble"><code class="xref any std std-confval docutils literal"><span class="pre">pngmath_latex_preamble</span></code></a> changes.</li>
+<li>#901: Emit a warning when using docutils&#8217; new &#8220;math&#8221; markup without a Sphinx
+math extension active.</li>
+<li>#845: In code blocks, when the selected lexer fails, display line numbers
+nevertheless if configured.</li>
+<li>#929: Support parsed-literal blocks in LaTeX output correctly.</li>
+<li>#949: Update the tabulary.sty packed with Sphinx.</li>
+<li>#1050: Add anonymous labels into <code class="docutils literal"><span class="pre">objects.inv</span></code> to be referenced via
+<a class="reference internal" href="ext/intersphinx.html#module-sphinx.ext.intersphinx" title="sphinx.ext.intersphinx: Link to other Sphinx documentation."><code class="xref py py-mod docutils literal"><span class="pre">intersphinx</span></code></a>.</li>
+<li>#1095: Fix print-media stylesheet being included always in the &#8220;scrolls&#8221;
+theme.</li>
+<li>#1085: Fix current classname not getting set if class description has
+<code class="docutils literal"><span class="pre">:noindex:</span></code> set.</li>
+<li>#1181: Report option errors in autodoc directives more gracefully.</li>
+<li>#1155: Fix autodocumenting C-defined methods as attributes in Python 3.</li>
+<li>#1233: Allow finding both Python classes and exceptions with the &#8220;class&#8221; and
+&#8220;exc&#8221; roles in intersphinx.</li>
+<li>#1198: Allow &#8220;image&#8221; for the &#8220;figwidth&#8221; option of the <a class="reference external" href="http://docutils.sourceforge.net/docs/ref/rst/directives.html#figure">figure</a>
+directive as documented by docutils.</li>
+<li>#1152: Fix pycode parsing errors of Python 3 code by including two grammar
+versions for Python 2 and 3, and loading the appropriate version for the
+running Python version.</li>
+<li>#1017: Be helpful and tell the user when the argument to <a class="reference internal" href="domains.html#directive-option" title="option directive"><code class="xref rst rst-dir docutils literal"><span class="pre">option</span></code></a>
+does not match the required format.</li>
+<li>#1345: Fix two bugs with <a class="reference internal" href="config.html#confval-nitpick_ignore"><code class="xref any std std-confval docutils literal"><span class="pre">nitpick_ignore</span></code></a>; now you don&#8217;t have to
+remove the store environment for changes to have effect.</li>
+<li>#1072: In the JS search, fix issues searching for upper-cased words by
+lowercasing words before stemming.</li>
+<li>#1299: Make behavior of the <a class="reference internal" href="ext/math.html#directive-math" title="math directive"><code class="xref rst rst-dir docutils literal"><span class="pre">math</span></code></a> directive more consistent and
+avoid producing empty environments in LaTeX output.</li>
+<li>#1308: Strip HTML tags from the content of &#8220;raw&#8221; nodes before feeding it
+to the search indexer.</li>
+<li>#1249: Fix duplicate LaTeX page numbering for manual documents.</li>
+<li>#1292: In the linkchecker, retry HEAD requests when denied by HTTP 405.
+Also make the redirect code apparent and tweak the output a bit to be
+more obvious.</li>
+<li>#1285: Avoid name clashes between C domain objects and section titles.</li>
+<li>#848: Always take the newest code in incremental rebuilds with the
+<a class="reference internal" href="ext/viewcode.html#module-sphinx.ext.viewcode" title="sphinx.ext.viewcode: Add links to a highlighted version of the source code."><code class="xref py py-mod docutils literal"><span class="pre">sphinx.ext.viewcode</span></code></a> extension.</li>
+<li>#979, #1266: Fix exclude handling in <code class="docutils literal"><span class="pre">sphinx-apidoc</span></code>.</li>
+<li>#1302: Fix regression in <a class="reference internal" href="ext/inheritance.html#module-sphinx.ext.inheritance_diagram" title="sphinx.ext.inheritance_diagram: Support for displaying inheritance diagrams via graphviz."><code class="xref py py-mod docutils literal"><span class="pre">sphinx.ext.inheritance_diagram</span></code></a> when
+documenting classes that can&#8217;t be pickled.</li>
+<li>#1316: Remove hard-coded <code class="docutils literal"><span class="pre">font-face</span></code> resources from epub theme.</li>
+<li>#1329: Fix traceback with empty translation msgstr in .po files.</li>
+<li>#1300: Fix references not working in translated documents in some instances.</li>
+<li>#1283: Fix a bug in the detection of changed files that would try to access
+doctrees of deleted documents.</li>
+<li>#1330: Fix <a class="reference internal" href="config.html#confval-exclude_patterns"><code class="xref any std std-confval docutils literal"><span class="pre">exclude_patterns</span></code></a> behavior with subdirectories in the
+<a class="reference internal" href="config.html#confval-html_static_path"><code class="xref any std std-confval docutils literal"><span class="pre">html_static_path</span></code></a>.</li>
+<li>#1323: Fix emitting empty <code class="docutils literal"><span class="pre">&lt;ul&gt;</span></code> tags in the HTML writer, which is not
+valid HTML.</li>
+<li>#1147: Don&#8217;t emit a sidebar search box in the &#8220;singlehtml&#8221; builder.</li>
+</ul>
+</div>
+<div class="section" id="id25">
+<h3>Documentation<a class="headerlink" href="#id25" title="Permalink to this headline">¶</a></h3>
+<ul class="simple">
+<li>#1325: Added a &#8220;Intersphinx&#8221; tutorial section. (<code class="file docutils literal"><span class="pre">doc/tutorial.rst</span></code>)</li>
+</ul>
+</div>
+</div>
+<div class="section" id="release-1-2-released-dec-10-2013">
+<h2>Release 1.2 (released Dec 10, 2013)<a class="headerlink" href="#release-1-2-released-dec-10-2013" title="Permalink to this headline">¶</a></h2>
+<div class="section" id="id26">
+<h3>Features added<a class="headerlink" href="#id26" title="Permalink to this headline">¶</a></h3>
+<ul class="simple">
+<li>Added <code class="docutils literal"><span class="pre">sphinx.version_info</span></code> tuple for programmatic checking of the Sphinx
+version.</li>
+</ul>
+</div>
+<div class="section" id="id27">
+<h3>Incompatible changes<a class="headerlink" href="#id27" title="Permalink to this headline">¶</a></h3>
+<ul class="simple">
+<li>Removed the <code class="docutils literal"><span class="pre">sphinx.ext.refcounting</span></code> extension &#8211; it is very specific to
+CPython and has no place in the main distribution.</li>
+</ul>
+</div>
+<div class="section" id="id28">
+<h3>Bugs fixed<a class="headerlink" href="#id28" title="Permalink to this headline">¶</a></h3>
+<ul class="simple">
+<li>Restore <code class="docutils literal"><span class="pre">versionmodified</span></code> CSS class for versionadded/changed and deprecated
+directives.</li>
+<li>PR#181: Fix <code class="docutils literal"><span class="pre">html_theme_path</span> <span class="pre">=</span> <span class="pre">['.']</span></code> is a trigger of rebuild all documents
+always (This change keeps the current &#8220;theme changes cause a rebuild&#8221;
+feature).</li>
+<li>#1296: Fix invalid charset in HTML help generated HTML files for default
+locale.</li>
+<li>PR#190: Fix gettext does not extract figure caption and rubric title inside
+other blocks. Thanks to Michael Schlenker.</li>
+<li>PR#176: Make sure setup_command test can always import Sphinx. Thanks to
+Dmitry Shachnev.</li>
+<li>#1311: Fix test_linkcode.test_html fails with C locale and Python 3.</li>
+<li>#1269: Fix ResourceWarnings with Python 3.2 or later.</li>
+<li>#1138: Fix: When <code class="docutils literal"><span class="pre">autodoc_docstring_signature</span> <span class="pre">=</span> <span class="pre">True</span></code> and
+<code class="docutils literal"><span class="pre">autoclass_content</span> <span class="pre">=</span> <span class="pre">'init'</span></code> or <code class="docutils literal"><span class="pre">'both'</span></code>, __init__ line should be
+removed from class documentation.</li>
+</ul>
+</div>
+</div>
+<div class="section" id="release-1-2-beta3-released-oct-3-2013">
+<h2>Release 1.2 beta3 (released Oct 3, 2013)<a class="headerlink" href="#release-1-2-beta3-released-oct-3-2013" title="Permalink to this headline">¶</a></h2>
+<div class="section" id="id29">
+<h3>Features added<a class="headerlink" href="#id29" title="Permalink to this headline">¶</a></h3>
+<ul class="simple">
+<li>The Sphinx error log files will now include a list of the loaded extensions
+for help in debugging.</li>
+</ul>
+</div>
+<div class="section" id="id30">
+<h3>Incompatible changes<a class="headerlink" href="#id30" title="Permalink to this headline">¶</a></h3>
+<ul class="simple">
+<li>PR#154: Remove &#8220;sphinx&#8221; prefix from LaTeX class name except &#8216;sphinxmanual&#8217;
+and &#8216;sphinxhowto&#8217;. Now you can use your custom document class without
+&#8216;sphinx&#8217; prefix. Thanks to Erik B.</li>
+</ul>
+</div>
+<div class="section" id="id31">
+<h3>Bugs fixed<a class="headerlink" href="#id31" title="Permalink to this headline">¶</a></h3>
+<ul class="simple">
+<li>#1265: Fix i18n: crash when translating a section name that is pointed to from
+a named target.</li>
+<li>A wrong condition broke the search feature on first page that is usually
+index.rst.  This issue was introduced in 1.2b1.</li>
+<li>#703: When Sphinx can&#8217;t decode filenames with non-ASCII characters, Sphinx now
+catches UnicodeError and will continue if possible instead of raising the
+exception.</li>
+</ul>
+</div>
+</div>
+<div class="section" id="release-1-2-beta2-released-sep-17-2013">
+<h2>Release 1.2 beta2 (released Sep 17, 2013)<a class="headerlink" href="#release-1-2-beta2-released-sep-17-2013" title="Permalink to this headline">¶</a></h2>
+<div class="section" id="id32">
+<h3>Features added<a class="headerlink" href="#id32" title="Permalink to this headline">¶</a></h3>
+<ul class="simple">
+<li><code class="docutils literal"><span class="pre">apidoc</span></code> now ignores &#8220;_private&#8221; modules by default, and has an option <code class="docutils literal"><span class="pre">-P</span></code>
+to include them.</li>
+<li><code class="docutils literal"><span class="pre">apidoc</span></code> now has an option to not generate headings for packages and
+modules, for the case that the module docstring already includes a reST
+heading.</li>
+<li>PR#161: <code class="docutils literal"><span class="pre">apidoc</span></code> can now write each module to a standalone page instead of
+combining all modules in a package on one page.</li>
+<li>Builders: rebuild i18n target document when catalog updated.</li>
+<li>Support docutils.conf &#8216;writers&#8217; and &#8216;html4css1 writer&#8217; section in the HTML
+writer.  The latex, manpage and texinfo writers also support their respective
+&#8216;writers&#8217; sections.</li>
+<li>The new <a class="reference internal" href="config.html#confval-html_extra_path"><code class="xref any std std-confval docutils literal"><span class="pre">html_extra_path</span></code></a> config value allows to specify directories
+with files that should be copied directly to the HTML output directory.</li>
+<li>Autodoc directives for module data and attributes now support an
+<code class="docutils literal"><span class="pre">annotation</span></code> option, so that the default display of the data/attribute
+value can be overridden.</li>
+<li>PR#136: Autodoc directives now support an <code class="docutils literal"><span class="pre">imported-members</span></code> option to
+include members imported from different modules.</li>
+<li>New locales: Macedonian, Sinhala, Indonesian.</li>
+<li>Theme package collection by using setuptools plugin mechanism.</li>
+</ul>
+</div>
+<div class="section" id="id33">
+<h3>Incompatible changes<a class="headerlink" href="#id33" title="Permalink to this headline">¶</a></h3>
+<ul class="simple">
+<li>PR#144, #1182: Force timezone offset to LocalTimeZone on POT-Creation-Date
+that was generated by gettext builder. Thanks to masklinn and Jakub Wilk.</li>
+</ul>
+</div>
+<div class="section" id="id34">
+<h3>Bugs fixed<a class="headerlink" href="#id34" title="Permalink to this headline">¶</a></h3>
+<ul class="simple">
+<li>PR#132: Updated jQuery version to 1.8.3.</li>
+<li>PR#141, #982: Avoid crash when writing PNG file using Python 3. Thanks to
+Marcin Wojdyr.</li>
+<li>PR#145: In parallel builds, sphinx drops second document file to write.
+Thanks to tychoish.</li>
+<li>PR#151: Some styling updates to tables in LaTeX.</li>
+<li>PR#153: The &#8220;extensions&#8221; config value can now be overridden.</li>
+<li>PR#155: Added support for some C++11 function qualifiers.</li>
+<li>Fix: &#8216;make gettext&#8217; caused UnicodeDecodeError when templates contain utf-8
+encoded strings.</li>
+<li>#828: use inspect.getfullargspec() to be able to document functions with
+keyword-only arguments on Python 3.</li>
+<li>#1090: Fix i18n: multiple cross references (term, ref, doc) in the same line
+return the same link.</li>
+<li>#1157: Combination of &#8216;globaltoc.html&#8217; and hidden toctree caused exception.</li>
+<li>#1159: fix wrong generation of objects inventory for Python modules, and
+add a workaround in intersphinx to fix handling of affected inventories.</li>
+<li>#1160: Citation target missing caused an AssertionError.</li>
+<li>#1162, PR#139: singlehtml builder didn&#8217;t copy images to _images/.</li>
+<li>#1173: Adjust setup.py dependencies because Jinja2 2.7 discontinued
+compatibility with Python &lt; 3.3 and Python &lt; 2.6.  Thanks to Alexander Dupuy.</li>
+<li>#1185: Don&#8217;t crash when a Python module has a wrong or no encoding declared,
+and non-ASCII characters are included.</li>
+<li>#1188: sphinx-quickstart raises UnicodeEncodeError if &#8220;Project version&#8221;
+includes non-ASCII characters.</li>
+<li>#1189: &#8220;Title underline is too short&#8221; WARNING is given when using fullwidth
+characters to &#8220;Project name&#8221; on quickstart.</li>
+<li>#1190: Output TeX/texinfo/man filename has no basename (only extension)
+when using non-ASCII characters in the &#8220;Project name&#8221; on quickstart.</li>
+<li>#1192: Fix escaping problem for hyperlinks in the manpage writer.</li>
+<li>#1193: Fix i18n: multiple link references in the same line return the same
+link.</li>
+<li>#1176: Fix i18n: footnote reference number missing for auto numbered named
+footnote and auto symbol footnote.</li>
+<li>PR#146,#1172: Fix ZeroDivisionError in parallel builds. Thanks to tychoish.</li>
+<li>#1204: Fix wrong generation of links to local intersphinx targets.</li>
+<li>#1206: Fix i18n: gettext did not translate admonition directive&#8217;s title.</li>
+<li>#1232: Sphinx generated broken ePub files on Windows.</li>
+<li>#1259: Guard the debug output call when emitting events; to prevent the
+repr() implementation of arbitrary objects causing build failures.</li>
+<li>#1142: Fix NFC/NFD normalizing problem of rst filename on Mac OS X.</li>
+<li>#1234: Ignoring the string consists only of white-space characters.</li>
+</ul>
+</div>
+</div>
+<div class="section" id="release-1-2-beta1-released-mar-31-2013">
+<h2>Release 1.2 beta1 (released Mar 31, 2013)<a class="headerlink" href="#release-1-2-beta1-released-mar-31-2013" title="Permalink to this headline">¶</a></h2>
+<div class="section" id="id35">
+<h3>Incompatible changes<a class="headerlink" href="#id35" title="Permalink to this headline">¶</a></h3>
+<ul class="simple">
+<li>Removed <code class="docutils literal"><span class="pre">sphinx.util.compat.directive_dwim()</span></code> and
+<code class="docutils literal"><span class="pre">sphinx.roles.xfileref_role()</span></code> which were deprecated since version 1.0.</li>
+<li>PR#122: the files given in <a class="reference internal" href="config.html#confval-latex_additional_files"><code class="xref any std std-confval docutils literal"><span class="pre">latex_additional_files</span></code></a> now override TeX
+files included by Sphinx, such as <code class="docutils literal"><span class="pre">sphinx.sty</span></code>.</li>
+<li>PR#124: the node generated by <a class="reference internal" href="markup/para.html#directive-versionadded" title="versionadded directive"><code class="xref any rst rst-dir docutils literal"><span class="pre">versionadded</span></code></a>,
+<a class="reference internal" href="markup/para.html#directive-versionchanged" title="versionchanged directive"><code class="xref any rst rst-dir docutils literal"><span class="pre">versionchanged</span></code></a> and <a class="reference internal" href="markup/para.html#directive-deprecated" title="deprecated directive"><code class="xref any rst rst-dir docutils literal"><span class="pre">deprecated</span></code></a> directives now includes
+all added markup (such as &#8220;New in version X&#8221;) as child nodes, and no
+additional text must be generated by writers.</li>
+<li>PR#99: the <a class="reference internal" href="markup/para.html#directive-seealso" title="seealso directive"><code class="xref rst rst-dir docutils literal"><span class="pre">seealso</span></code></a> directive now generates admonition nodes instead
+of the custom <code class="docutils literal"><span class="pre">seealso</span></code> node.</li>
+</ul>
+</div>
+<div class="section" id="id36">
+<h3>Features added<a class="headerlink" href="#id36" title="Permalink to this headline">¶</a></h3>
+<ul class="simple">
+<li>Markup<ul>
+<li>The <a class="reference internal" href="markup/toctree.html#directive-toctree" title="toctree directive"><code class="xref rst rst-dir docutils literal"><span class="pre">toctree</span></code></a> directive and the <code class="docutils literal"><span class="pre">toctree()</span></code> template function now
+have an <code class="docutils literal"><span class="pre">includehidden</span></code> option that includes hidden toctree entries (bugs
+#790 and #1047).  A bug in the <code class="docutils literal"><span class="pre">maxdepth</span></code> option for the <code class="docutils literal"><span class="pre">toctree()</span></code>
+template function has been fixed (bug #1046).</li>
+<li>PR#99: Strip down seealso directives to normal admonitions.  This removes
+their unusual CSS classes (admonition-see-also), inconsistent LaTeX
+admonition title (&#8220;See Also&#8221; instead of &#8220;See also&#8221;), and spurious indentation
+in the text builder.</li>
+</ul>
+</li>
+<li>HTML builder<ul>
+<li>#783: Create a link to full size image if it is scaled with width or height.</li>
+<li>#1067: Improve the ordering of the JavaScript search results: matches in titles
+come before matches in full text, and object results are better categorized.
+Also implement a pluggable search scorer.</li>
+<li>#1053: The &#8220;rightsidebar&#8221; and &#8220;collapsiblesidebar&#8221; HTML theme options now work
+together.</li>
+<li>Update to jQuery 1.7.1 and Underscore.js 1.3.1.</li>
+</ul>
+</li>
+<li>Texinfo builder<ul>
+<li>An &#8220;Index&#8221; node is no longer added when there are no entries.</li>
+<li>&#8220;deffn&#8221; categories are no longer capitalized if they contain capital
+letters.</li>
+<li><code class="docutils literal"><span class="pre">desc_annotation</span></code> nodes are now rendered.</li>
+<li><code class="docutils literal"><span class="pre">strong</span></code> and <code class="docutils literal"><span class="pre">emphasis</span></code> nodes are now formatted like
+<code class="docutils literal"><span class="pre">literal</span></code>s. The reason for this is because the standard Texinfo markup
+(<code class="docutils literal"><span class="pre">*strong*</span></code> and <code class="docutils literal"><span class="pre">_emphasis_</span></code>) resulted in confusing output due to the
+common usage of using these constructs for documenting parameter names.</li>
+<li>Field lists formatting has been tweaked to better display
+&#8220;Info field lists&#8221;.</li>
+<li><code class="docutils literal"><span class="pre">system_message</span></code> and <code class="docutils literal"><span class="pre">problematic</span></code> nodes are now formatted in a similar
+fashion as done by the text builder.</li>
+<li>&#8220;en-dash&#8221; and &#8220;em-dash&#8221; conversion of hyphens is no longer performed in
+option directive signatures.</li>
+<li><code class="docutils literal"><span class="pre">&#64;ref</span></code> is now used instead of <code class="docutils literal"><span class="pre">&#64;pxref</span></code> for cross-references which
+prevents the word &#8220;see&#8221; from being added before the link (does not affect
+the Info output).</li>
+<li>The <code class="docutils literal"><span class="pre">&#64;finalout</span></code> command has been added for better TeX output.</li>
+<li><code class="docutils literal"><span class="pre">transition</span></code> nodes are now formatted using underscores (&#8220;_&#8221;) instead of
+asterisks (&#8220;*&#8221;).</li>
+<li>The default value for the <code class="docutils literal"><span class="pre">paragraphindent</span></code> has been changed from 2 to 0
+meaning that paragraphs are no longer indented by default.</li>
+<li>#1110: A new configuration value <a class="reference internal" href="config.html#confval-texinfo_no_detailmenu"><code class="xref any std std-confval docutils literal"><span class="pre">texinfo_no_detailmenu</span></code></a> has been
+added for controlling whether a <code class="docutils literal"><span class="pre">&#64;detailmenu</span></code> is added in the &#8220;Top&#8221;
+node&#8217;s menu.</li>
+<li>Detailed menus are no longer created except for the &#8220;Top&#8221; node.</li>
+<li>Fixed an issue where duplicate domain indices would result in invalid
+output.</li>
+</ul>
+</li>
+<li>LaTeX builder:<ul>
+<li>PR#115: Add <code class="docutils literal"><span class="pre">'transition'</span></code> item in <a class="reference internal" href="config.html#confval-latex_elements"><code class="xref any std std-confval docutils literal"><span class="pre">latex_elements</span></code></a> for
+customizing how transitions are displayed. Thanks to Jeff Klukas.</li>
+<li>PR#114: The LaTeX writer now includes the &#8220;cmap&#8221; package by default. The
+<code class="docutils literal"><span class="pre">'cmappkg'</span></code> item in <a class="reference internal" href="config.html#confval-latex_elements"><code class="xref any std std-confval docutils literal"><span class="pre">latex_elements</span></code></a> can be used to control this.
+Thanks to Dmitry Shachnev.</li>
+<li>The <code class="docutils literal"><span class="pre">'fontpkg'</span></code> item in <a class="reference internal" href="config.html#confval-latex_elements"><code class="xref any std std-confval docutils literal"><span class="pre">latex_elements</span></code></a> now defaults to <code class="docutils literal"><span class="pre">''</span></code>
+when the <a class="reference internal" href="config.html#confval-language"><code class="xref std std-confval docutils literal"><span class="pre">language</span></code></a> uses the Cyrillic script.  Suggested by Dmitry
+Shachnev.</li>
+<li>The <a class="reference internal" href="config.html#confval-latex_documents"><code class="xref any std std-confval docutils literal"><span class="pre">latex_documents</span></code></a>, <a class="reference internal" href="config.html#confval-texinfo_documents"><code class="xref any std std-confval docutils literal"><span class="pre">texinfo_documents</span></code></a>, and
+<a class="reference internal" href="config.html#confval-man_pages"><code class="xref any std std-confval docutils literal"><span class="pre">man_pages</span></code></a> configuration values will be set to default values based
+on the <a class="reference internal" href="config.html#confval-master_doc"><code class="xref std std-confval docutils literal"><span class="pre">master_doc</span></code></a> if not explicitly set in <code class="file docutils literal"><span class="pre">conf.py</span></code>.
+Previously, if these values were not set, no output would be generated by
+their respective builders.</li>
+</ul>
+</li>
+<li>Internationalization:<ul>
+<li>Add i18n capabilities for custom templates.  For example: The Sphinx
+reference documentation in doc directory provides a <code class="docutils literal"><span class="pre">sphinx.pot</span></code> file with
+message strings from <code class="docutils literal"><span class="pre">doc/_templates/*.html</span></code> when using <code class="docutils literal"><span class="pre">make</span> <span class="pre">gettext</span></code>.</li>
+<li>PR#61,#703: Add support for non-ASCII filename handling.</li>
+</ul>
+</li>
+<li>Other builders:<ul>
+<li>Added the Docutils-native XML and pseudo-XML builders.  See
+<code class="xref py py-class docutils literal"><span class="pre">XMLBuilder</span></code> and <code class="xref py py-class docutils literal"><span class="pre">PseudoXMLBuilder</span></code>.</li>
+<li>PR#45: The linkcheck builder now checks <code class="docutils literal"><span class="pre">#anchor</span></code>s for existence.</li>
+<li>PR#123, #1106: Add <a class="reference internal" href="config.html#confval-epub_use_index"><code class="xref any std std-confval docutils literal"><span class="pre">epub_use_index</span></code></a> configuration value.  If
+provided, it will be used instead of <a class="reference internal" href="config.html#confval-html_use_index"><code class="xref any std std-confval docutils literal"><span class="pre">html_use_index</span></code></a> for epub
+builder.</li>
+<li>PR#126: Add <a class="reference internal" href="config.html#confval-epub_tocscope"><code class="xref any std std-confval docutils literal"><span class="pre">epub_tocscope</span></code></a> configuration value. The setting
+controls the generation of the epub toc. The user can now also include
+hidden toc entries.</li>
+<li>PR#112: Add <a class="reference internal" href="config.html#confval-epub_show_urls"><code class="xref any std std-confval docutils literal"><span class="pre">epub_show_urls</span></code></a> configuration value.</li>
+</ul>
+</li>
+<li>Extensions:<ul>
+<li>PR#52: <code class="docutils literal"><span class="pre">special_members</span></code> flag to autodoc now behaves like <code class="docutils literal"><span class="pre">members</span></code>.</li>
+<li>PR#47: Added <a class="reference internal" href="ext/linkcode.html#module-sphinx.ext.linkcode" title="sphinx.ext.linkcode: Add external links to source code."><code class="xref py py-mod docutils literal"><span class="pre">sphinx.ext.linkcode</span></code></a> extension.</li>
+<li>PR#25: In inheritance diagrams, the first line of the class docstring
+is now the tooltip for the class.</li>
+</ul>
+</li>
+<li>Command-line interfaces:<ul>
+<li>PR#75: Added <code class="docutils literal"><span class="pre">--follow-links</span></code> option to sphinx-apidoc.</li>
+<li>#869: sphinx-build now has the option <code class="xref std std-option docutils literal"><span class="pre">-T</span></code> for printing the full
+traceback after an unhandled exception.</li>
+<li>sphinx-build now supports the standard <code class="xref std std-option docutils literal"><span class="pre">--help</span></code> and
+<code class="xref std std-option docutils literal"><span class="pre">--version</span></code> options.</li>
+<li>sphinx-build now provides more specific error messages when called with
+invalid options or arguments.</li>
+<li>sphinx-build now has a verbose option <code class="xref std std-option docutils literal"><span class="pre">-v</span></code> which can be repeated for
+greater effect.  A single occurrence provides a slightly more verbose output
+than normal.  Two or more occurrences of this option provides more detailed
+output which may be useful for debugging.</li>
+</ul>
+</li>
+<li>Locales:<ul>
+<li>PR#74: Fix some Russian translation.</li>
+<li>PR#54: Added Norwegian bokmaal translation.</li>
+<li>PR#35: Added Slovak translation.</li>
+<li>PR#28: Added Hungarian translation.</li>
+<li>#1113: Add Hebrew locale.</li>
+<li>#1097: Add Basque locale.</li>
+<li>#1037: Fix typos in Polish translation. Thanks to Jakub Wilk.</li>
+<li>#1012: Update Estonian translation.</li>
+</ul>
+</li>
+<li>Optimizations:<ul>
+<li>Speed up building the search index by caching the results of the word
+stemming routines.  Saves about 20 seconds when building the Python
+documentation.</li>
+<li>PR#108: Add experimental support for parallel building with a new
+<code class="xref std std-option docutils literal"><span class="pre">-j</span></code> option.</li>
+</ul>
+</li>
+</ul>
+</div>
+<div class="section" id="id37">
+<h3>Documentation<a class="headerlink" href="#id37" title="Permalink to this headline">¶</a></h3>
+<ul class="simple">
+<li>PR#88: Added the &#8220;Sphinx Developer&#8217;s Guide&#8221; (<code class="file docutils literal"><span class="pre">doc/devguide.rst</span></code>)
+which outlines the basic development process of the Sphinx project.</li>
+<li>Added a detailed &#8220;Installing Sphinx&#8221; document (<code class="file docutils literal"><span class="pre">doc/install.rst</span></code>).</li>
+</ul>
+</div>
+<div class="section" id="id38">
+<h3>Bugs fixed<a class="headerlink" href="#id38" title="Permalink to this headline">¶</a></h3>
+<ul class="simple">
+<li>PR#124: Fix paragraphs in versionmodified are ignored when it has no
+dangling paragraphs.  Fix wrong html output (nested <code class="docutils literal"><span class="pre">&lt;p&gt;</span></code> tag).  Fix
+versionmodified is not translatable.  Thanks to Nozomu Kaneko.</li>
+<li>PR#111: Respect add_autodoc_attrgetter() even when inherited-members is set.
+Thanks to A. Jesse Jiryu Davis.</li>
+<li>PR#97: Fix footnote handling in translated documents.</li>
+<li>Fix text writer not handling visit_legend for figure directive contents.</li>
+<li>Fix text builder not respecting wide/fullwidth characters: title underline
+width, table layout width and text wrap width.</li>
+<li>Fix leading space in LaTeX table header cells.</li>
+<li>#1132: Fix LaTeX table output for multi-row cells in the first column.</li>
+<li>#1128: Fix Unicode errors when trying to format time strings with a
+non-standard locale.</li>
+<li>#1127: Fix traceback when autodoc tries to tokenize a non-Python file.</li>
+<li>#1126: Fix double-hyphen to en-dash conversion in wrong places such as
+command-line option names in LaTeX.</li>
+<li>#1123: Allow whitespaces in filenames given to <a class="reference internal" href="markup/code.html#directive-literalinclude" title="literalinclude directive"><code class="xref any rst rst-dir docutils literal"><span class="pre">literalinclude</span></code></a>.</li>
+<li>#1120: Added improvements about i18n for themes &#8220;basic&#8221;, &#8220;haiku&#8221; and
+&#8220;scrolls&#8221; that Sphinx built-in. Thanks to Leonardo J. Caballero G.</li>
+<li>#1118: Updated Spanish translation. Thanks to Leonardo J. Caballero G.</li>
+<li>#1117: Handle .pyx files in sphinx-apidoc.</li>
+<li>#1112: Avoid duplicate download files when referenced from documents in
+different ways (absolute/relative).</li>
+<li>#1111: Fix failure to find uppercase words in search when
+<a class="reference internal" href="config.html#confval-html_search_language"><code class="xref any std std-confval docutils literal"><span class="pre">html_search_language</span></code></a> is &#8216;ja&#8217;. Thanks to Tomo Saito.</li>
+<li>#1108: The text writer now correctly numbers enumerated lists with
+non-default start values (based on patch by Ewan Edwards).</li>
+<li>#1102: Support multi-context &#8220;with&#8221; statements in autodoc.</li>
+<li>#1090: Fix gettext not extracting glossary terms.</li>
+<li>#1074: Add environment version info to the generated search index to avoid
+compatibility issues with old builds.</li>
+<li>#1070: Avoid un-pickling issues when running Python 3 and the saved
+environment was created under Python 2.</li>
+<li>#1069: Fixed error caused when autodoc would try to format signatures of
+&#8220;partial&#8221; functions without keyword arguments (patch by Artur Gaspar).</li>
+<li>#1062: sphinx.ext.autodoc use __init__ method signature for class signature.</li>
+<li>#1055: Fix web support with relative path to source directory.</li>
+<li>#1043: Fix sphinx-quickstart asking again for yes/no questions because
+<code class="docutils literal"><span class="pre">input()</span></code> returns values with an extra &#8216;r&#8217; on Python 3.2.0 +
+Windows. Thanks to Régis Décamps.</li>
+<li>#1041: Fix failure of the cpp domain parser to parse a const type with a
+modifier.</li>
+<li>#1038: Fix failure of the cpp domain parser to parse C+11 &#8220;static constexpr&#8221;
+declarations.  Thanks to Jakub Wilk.</li>
+<li>#1029: Fix intersphinx_mapping values not being stable if the mapping has
+plural key/value set with Python 3.3.</li>
+<li>#1028: Fix line block output in the text builder.</li>
+<li>#1024: Improve Makefile/make.bat error message if Sphinx is not found. Thanks
+to Anatoly Techtonik.</li>
+<li>#1018: Fix &#8220;container&#8221; directive handling in the text builder.</li>
+<li>#1015: Stop overriding jQuery contains() in the JavaScript.</li>
+<li>#1010: Make pngmath images transparent by default; IE7+ should handle it.</li>
+<li>#1008: Fix test failures with Python 3.3.</li>
+<li>#995: Fix table-of-contents and page numbering for the LaTeX &#8220;howto&#8221; class.</li>
+<li>#976: Fix gettext does not extract index entries.</li>
+<li>PR#72: #975: Fix gettext not extracting definition terms before docutils 0.10.</li>
+<li>#961: Fix LaTeX output for triple quotes in code snippets.</li>
+<li>#958: Do not preserve <code class="docutils literal"><span class="pre">environment.pickle</span></code> after a failed build.</li>
+<li>#955: Fix i18n transformation.</li>
+<li>#940: Fix gettext does not extract figure caption.</li>
+<li>#920: Fix PIL packaging issue that allowed to import <code class="docutils literal"><span class="pre">Image</span></code> without PIL
+namespace.  Thanks to Marc Schlaich.</li>
+<li>#723: Fix the search function on local files in WebKit based browsers.</li>
+<li>#440: Fix coarse timestamp resolution in some filesystem generating a wrong
+list of outdated files.</li>
+</ul>
+</div>
+</div>
+<div class="section" id="release-1-1-3-mar-10-2012">
+<h2>Release 1.1.3 (Mar 10, 2012)<a class="headerlink" href="#release-1-1-3-mar-10-2012" title="Permalink to this headline">¶</a></h2>
+<ul class="simple">
+<li>PR#40: Fix <code class="docutils literal"><span class="pre">safe_repr</span></code> function to decode bytestrings with non-ASCII
+characters correctly.</li>
+<li>PR#37: Allow configuring sphinx-apidoc via <code class="docutils literal"><span class="pre">SPHINX_APIDOC_OPTIONS</span></code>.</li>
+<li>PR#34: Restore Python 2.4 compatibility.</li>
+<li>PR#36: Make the &#8220;bibliography to TOC&#8221; fix in LaTeX output specific to
+the document class.</li>
+<li>#695: When the highlight language &#8220;python&#8221; is specified explicitly,
+do not try to parse the code to recognize non-Python snippets.</li>
+<li>#859: Fix exception under certain circumstances when not finding
+appropriate objects to link to.</li>
+<li>#860: Do not crash when encountering invalid doctest examples, just
+emit a warning.</li>
+<li>#864: Fix crash with some settings of <a class="reference internal" href="config.html#confval-modindex_common_prefix"><code class="xref any std std-confval docutils literal"><span class="pre">modindex_common_prefix</span></code></a>.</li>
+<li>#862: Fix handling of <code class="docutils literal"><span class="pre">-D</span></code> and <code class="docutils literal"><span class="pre">-A</span></code> options on Python 3.</li>
+<li>#851: Recognize and warn about circular toctrees, instead of running
+into recursion errors.</li>
+<li>#853: Restore compatibility with docutils trunk.</li>
+<li>#852: Fix HtmlHelp index entry links again.</li>
+<li>#854: Fix inheritance_diagram raising attribute errors on builtins.</li>
+<li>#832: Fix crashes when putting comments or lone terms in a glossary.</li>
+<li>#834, #818: Fix HTML help language/encoding mapping for all Sphinx
+supported languages.</li>
+<li>#844: Fix crashes when dealing with Unicode output in doctest extension.</li>
+<li>#831: Provide <code class="docutils literal"><span class="pre">--project</span></code> flag in setup_command as advertised.</li>
+<li>#875: Fix reading config files under Python 3.</li>
+<li>#876: Fix quickstart test under Python 3.</li>
+<li>#870: Fix spurious KeyErrors when removing documents.</li>
+<li>#892: Fix single-HTML builder misbehaving with the master document in a
+subdirectory.</li>
+<li>#873: Fix assertion errors with empty <code class="docutils literal"><span class="pre">only</span></code> directives.</li>
+<li>#816: Fix encoding issues in the Qt help builder.</li>
+</ul>
+</div>
+<div class="section" id="release-1-1-2-nov-1-2011-1-1-1-is-a-silly-version-number-anyway">
+<h2>Release 1.1.2 (Nov 1, 2011) &#8211; 1.1.1 is a silly version number anyway!<a class="headerlink" href="#release-1-1-2-nov-1-2011-1-1-1-is-a-silly-version-number-anyway" title="Permalink to this headline">¶</a></h2>
+<ul class="simple">
+<li>#809: Include custom fixers in the source distribution.</li>
+</ul>
+</div>
+<div class="section" id="release-1-1-1-nov-1-2011">
+<h2>Release 1.1.1 (Nov 1, 2011)<a class="headerlink" href="#release-1-1-1-nov-1-2011" title="Permalink to this headline">¶</a></h2>
+<ul class="simple">
+<li>#791: Fix QtHelp, DevHelp and HtmlHelp index entry links.</li>
+<li>#792: Include &#8220;sphinx-apidoc&#8221; in the source distribution.</li>
+<li>#797: Don&#8217;t crash on a misformatted glossary.</li>
+<li>#801: Make intersphinx work properly without SSL support.</li>
+<li>#805: Make the <code class="docutils literal"><span class="pre">Sphinx.add_index_to_domain</span></code> method work correctly.</li>
+<li>#780: Fix Python 2.5 compatibility.</li>
+</ul>
+</div>
+<div class="section" id="release-1-1-oct-9-2011">
+<h2>Release 1.1 (Oct 9, 2011)<a class="headerlink" href="#release-1-1-oct-9-2011" title="Permalink to this headline">¶</a></h2>
+<div class="section" id="id39">
+<h3>Incompatible changes<a class="headerlink" href="#id39" title="Permalink to this headline">¶</a></h3>
+<ul class="simple">
+<li>The <a class="reference internal" href="domains.html#directive-py:module" title="py:module directive"><code class="xref any rst rst-dir docutils literal"><span class="pre">py:module</span></code></a> directive doesn&#8217;t output its <code class="docutils literal"><span class="pre">platform</span></code> option
+value anymore.  (It was the only thing that the directive did output, and
+therefore quite inconsistent.)</li>
+<li>Removed support for old dependency versions; requirements are now:<ul>
+<li>Pygments &gt;= 1.2</li>
+<li>Docutils &gt;= 0.7</li>
+<li>Jinja2   &gt;= 2.3</li>
+</ul>
+</li>
+</ul>
+</div>
+<div class="section" id="id40">
+<h3>Features added<a class="headerlink" href="#id40" title="Permalink to this headline">¶</a></h3>
+<ul class="simple">
+<li>Added Python 3.x support.</li>
+<li>New builders and subsystems:<ul>
+<li>Added a Texinfo builder.</li>
+<li>Added i18n support for content, a <code class="docutils literal"><span class="pre">gettext</span></code> builder and related
+utilities.</li>
+<li>Added the <code class="docutils literal"><span class="pre">websupport</span></code> library and builder.</li>
+<li>#98: Added a <code class="docutils literal"><span class="pre">sphinx-apidoc</span></code> script that autogenerates a hierarchy
+of source files containing autodoc directives to document modules
+and packages.</li>
+<li>#273: Add an API for adding full-text search support for languages
+other than English.  Add support for Japanese.</li>
+</ul>
+</li>
+<li>Markup:<ul>
+<li>#138: Added an <a class="reference internal" href="markup/misc.html#role-index" title="index role"><code class="xref rst rst-role docutils literal"><span class="pre">index</span></code></a> role, to make inline index entries.</li>
+<li>#454: Added more index markup capabilities: marking see/seealso entries,
+and main entries for a given key.</li>
+<li>#460: Allowed limiting the depth of section numbers for HTML using the
+<a class="reference internal" href="markup/toctree.html#directive-toctree" title="toctree directive"><code class="xref rst rst-dir docutils literal"><span class="pre">toctree</span></code></a>&#8216;s <code class="docutils literal"><span class="pre">numbered</span></code> option.</li>
+<li>#586: Implemented improved <a class="reference internal" href="markup/para.html#directive-glossary" title="glossary directive"><code class="xref rst rst-dir docutils literal"><span class="pre">glossary</span></code></a> markup which allows
+multiple terms per definition.</li>
+<li>#478: Added <a class="reference internal" href="domains.html#directive-py:decorator" title="py:decorator directive"><code class="xref any rst rst-dir docutils literal"><span class="pre">py:decorator</span></code></a> directive to describe decorators.</li>
+<li>C++ domain now supports array definitions.</li>
+<li>C++ domain now supports doc fields (<code class="docutils literal"><span class="pre">:param</span> <span class="pre">x:</span></code> inside directives).</li>
+<li>Section headings in <a class="reference internal" href="markup/misc.html#directive-only" title="only directive"><code class="xref rst rst-dir docutils literal"><span class="pre">only</span></code></a> directives are now correctly
+handled.</li>
+<li>Added <code class="docutils literal"><span class="pre">emphasize-lines</span></code> option to source code directives.</li>
+<li>#678: C++ domain now supports superclasses.</li>
+</ul>
+</li>
+<li>HTML builder:<ul>
+<li>Added <code class="docutils literal"><span class="pre">pyramid</span></code> theme.</li>
+<li>#559: <a class="reference internal" href="config.html#confval-html_add_permalinks"><code class="xref any std std-confval docutils literal"><span class="pre">html_add_permalinks</span></code></a> is now a string giving the
+text to display in permalinks.</li>
+<li>#259: HTML table rows now have even/odd CSS classes to enable
+&#8220;Zebra styling&#8221;.</li>
+<li>#554: Add theme option <code class="docutils literal"><span class="pre">sidebarwidth</span></code> to the basic theme.</li>
+</ul>
+</li>
+<li>Other builders:<ul>
+<li>#516: Added new value of the <a class="reference internal" href="config.html#confval-latex_show_urls"><code class="xref any std std-confval docutils literal"><span class="pre">latex_show_urls</span></code></a> option to
+show the URLs in footnotes.</li>
+<li>#209: Added <a class="reference internal" href="config.html#confval-text_newlines"><code class="xref any std std-confval docutils literal"><span class="pre">text_newlines</span></code></a> and <a class="reference internal" href="config.html#confval-text_sectionchars"><code class="xref any std std-confval docutils literal"><span class="pre">text_sectionchars</span></code></a>
+config values.</li>
+<li>Added <a class="reference internal" href="config.html#confval-man_show_urls"><code class="xref any std std-confval docutils literal"><span class="pre">man_show_urls</span></code></a> config value.</li>
+<li>#472: linkcheck builder: Check links in parallel, use HTTP HEAD
+requests and allow configuring the timeout.  New config values:
+<a class="reference internal" href="config.html#confval-linkcheck_timeout"><code class="xref any std std-confval docutils literal"><span class="pre">linkcheck_timeout</span></code></a> and <a class="reference internal" href="config.html#confval-linkcheck_workers"><code class="xref any std std-confval docutils literal"><span class="pre">linkcheck_workers</span></code></a>.</li>
+<li>#521: Added <a class="reference internal" href="config.html#confval-linkcheck_ignore"><code class="xref any std std-confval docutils literal"><span class="pre">linkcheck_ignore</span></code></a> config value.</li>
+<li>#28: Support row/colspans in tables in the LaTeX builder.</li>
+</ul>
+</li>
+<li>Configuration and extensibility:<ul>
+<li>#537: Added <a class="reference internal" href="config.html#confval-nitpick_ignore"><code class="xref any std std-confval docutils literal"><span class="pre">nitpick_ignore</span></code></a>.</li>
+<li>#306: Added <a class="reference internal" href="extdev/appapi.html#event-env-get-outdated"><code class="xref std std-event docutils literal"><span class="pre">env-get-outdated</span></code></a> event.</li>
+<li><code class="xref py py-meth docutils literal"><span class="pre">Application.add_stylesheet()</span></code> now accepts full URIs.</li>
+</ul>
+</li>
+<li>Autodoc:<ul>
+<li>#564: Add <a class="reference internal" href="ext/autodoc.html#confval-autodoc_docstring_signature"><code class="xref any std std-confval docutils literal"><span class="pre">autodoc_docstring_signature</span></code></a>.  When enabled (the
+default), autodoc retrieves the signature from the first line of the
+docstring, if it is found there.</li>
+<li>#176: Provide <code class="docutils literal"><span class="pre">private-members</span></code> option for autodoc directives.</li>
+<li>#520: Provide <code class="docutils literal"><span class="pre">special-members</span></code> option for autodoc directives.</li>
+<li>#431: Doc comments for attributes can now be given on the same line
+as the assignment.</li>
+<li>#437: autodoc now shows values of class data attributes.</li>
+<li>autodoc now supports documenting the signatures of
+<code class="docutils literal"><span class="pre">functools.partial</span></code> objects.</li>
+</ul>
+</li>
+<li>Other extensions:<ul>
+<li>Added the <a class="reference internal" href="ext/math.html#module-sphinx.ext.mathjax" title="sphinx.ext.mathjax: Render math using JavaScript via MathJax."><code class="xref py py-mod docutils literal"><span class="pre">sphinx.ext.mathjax</span></code></a> extension.</li>
+<li>#443: Allow referencing external graphviz files.</li>
+<li>Added <code class="docutils literal"><span class="pre">inline</span></code> option to graphviz directives, and fixed the
+default (block-style) in LaTeX output.</li>
+<li>#590: Added <code class="docutils literal"><span class="pre">caption</span></code> option to graphviz directives.</li>
+<li>#553: Added <a class="reference internal" href="ext/doctest.html#directive-testcleanup" title="testcleanup directive"><code class="xref any rst rst-dir docutils literal"><span class="pre">testcleanup</span></code></a> blocks in the doctest extension.</li>
+<li>#594: <a class="reference internal" href="config.html#confval-trim_doctest_flags"><code class="xref any std std-confval docutils literal"><span class="pre">trim_doctest_flags</span></code></a> now also removes <code class="docutils literal"><span class="pre">&lt;BLANKLINE&gt;</span></code>
+indicators.</li>
+<li>#367: Added automatic exclusion of hidden members in inheritance
+diagrams, and an option to selectively enable it.</li>
+<li>Added <a class="reference internal" href="ext/math.html#confval-pngmath_add_tooltips"><code class="xref any std std-confval docutils literal"><span class="pre">pngmath_add_tooltips</span></code></a>.</li>
+<li>The math extension displaymath directives now support <code class="docutils literal"><span class="pre">name</span></code> in
+addition to <code class="docutils literal"><span class="pre">label</span></code> for giving the equation label, for compatibility
+with Docutils.</li>
+</ul>
+</li>
+<li>New locales:<ul>
+<li>#221: Added Swedish locale.</li>
+<li>#526: Added Iranian locale.</li>
+<li>#694: Added Latvian locale.</li>
+<li>Added Nepali locale.</li>
+<li>#714: Added Korean locale.</li>
+<li>#766: Added Estonian locale.</li>
+</ul>
+</li>
+<li>Bugs fixed:<ul>
+<li>#778: Fix &#8220;hide search matches&#8221; link on pages linked by search.</li>
+<li>Fix the source positions referenced by the &#8220;viewcode&#8221; extension.</li>
+</ul>
+</li>
+</ul>
+</div>
+</div>
+<div class="section" id="release-1-0-8-sep-23-2011">
+<h2>Release 1.0.8 (Sep 23, 2011)<a class="headerlink" href="#release-1-0-8-sep-23-2011" title="Permalink to this headline">¶</a></h2>
+<ul class="simple">
+<li>#627: Fix tracebacks for AttributeErrors in autosummary generation.</li>
+<li>Fix the <code class="docutils literal"><span class="pre">abbr</span></code> role when the abbreviation has newlines in it.</li>
+<li>#727: Fix the links to search results with custom object types.</li>
+<li>#648: Fix line numbers reported in warnings about undefined
+references.</li>
+<li>#696, #666: Fix C++ array definitions and template arguments
+that are not type names.</li>
+<li>#633: Allow footnotes in section headers in LaTeX output.</li>
+<li>#616: Allow keywords to be linked via intersphinx.</li>
+<li>#613: Allow Unicode characters in production list token names.</li>
+<li>#720: Add dummy visitors for graphviz nodes for text and man.</li>
+<li>#704: Fix image file duplication bug.</li>
+<li>#677: Fix parsing of multiple signatures in C++ domain.</li>
+<li>#637: Ignore Emacs lock files when looking for source files.</li>
+<li>#544: Allow .pyw extension for importable modules in autodoc.</li>
+<li>#700: Use <code class="docutils literal"><span class="pre">$(MAKE)</span></code> in quickstart-generated Makefiles.</li>
+<li>#734: Make sidebar search box width consistent in browsers.</li>
+<li>#644: Fix spacing of centered figures in HTML output.</li>
+<li>#767: Safely encode SphinxError messages when printing them to
+sys.stderr.</li>
+<li>#611: Fix LaTeX output error with a document with no sections but
+a link target.</li>
+<li>Correctly treat built-in method descriptors as methods in autodoc.</li>
+<li>#706: Stop monkeypatching the Python textwrap module.</li>
+<li>#657: viewcode now works correctly with source files that have
+non-ASCII encoding.</li>
+<li>#669: Respect the <code class="docutils literal"><span class="pre">noindex</span></code> flag option in py:module directives.</li>
+<li>#675: Fix IndexErrors when including nonexisting lines with
+<a class="reference internal" href="markup/code.html#directive-literalinclude" title="literalinclude directive"><code class="xref any rst rst-dir docutils literal"><span class="pre">literalinclude</span></code></a>.</li>
+<li>#676: Respect custom function/method parameter separator strings.</li>
+<li>#682: Fix JS incompatibility with jQuery &gt;= 1.5.</li>
+<li>#693: Fix double encoding done when writing HTMLHelp .hhk files.</li>
+<li>#647: Do not apply SmartyPants in parsed-literal blocks.</li>
+<li>C++ domain now supports array definitions.</li>
+</ul>
+</div>
+<div class="section" id="release-1-0-7-jan-15-2011">
+<h2>Release 1.0.7 (Jan 15, 2011)<a class="headerlink" href="#release-1-0-7-jan-15-2011" title="Permalink to this headline">¶</a></h2>
+<ul class="simple">
+<li>#347: Fix wrong generation of directives of static methods in
+autosummary.</li>
+<li>#599: Import PIL as <code class="docutils literal"><span class="pre">from</span> <span class="pre">PIL</span> <span class="pre">import</span> <span class="pre">Image</span></code>.</li>
+<li>#558: Fix longtables with captions in LaTeX output.</li>
+<li>Make token references work as hyperlinks again in LaTeX output.</li>
+<li>#572: Show warnings by default when reference labels cannot be
+found.</li>
+<li>#536: Include line number when complaining about missing reference
+targets in nitpicky mode.</li>
+<li>#590: Fix inline display of graphviz diagrams in LaTeX output.</li>
+<li>#589: Build using app.build() in setup command.</li>
+<li>Fix a bug in the inheritance diagram exception that caused base
+classes to be skipped if one of them is a builtin.</li>
+<li>Fix general index links for C++ domain objects.</li>
+<li>#332: Make admonition boundaries in LaTeX output visible.</li>
+<li>#573: Fix KeyErrors occurring on rebuild after removing a file.</li>
+<li>Fix a traceback when removing files with globbed toctrees.</li>
+<li>If an autodoc object cannot be imported, always re-read the
+document containing the directive on next build.</li>
+<li>If an autodoc object cannot be imported, show the full traceback
+of the import error.</li>
+<li>Fix a bug where the removal of download files and images wasn&#8217;t
+noticed.</li>
+<li>#571: Implement <code class="docutils literal"><span class="pre">~</span></code> cross-reference prefix for the C domain.</li>
+<li>Fix regression of LaTeX output with the fix of #556.</li>
+<li>#568: Fix lookup of class attribute documentation on descriptors
+so that comment documentation now works.</li>
+<li>Fix traceback with <code class="docutils literal"><span class="pre">only</span></code> directives preceded by targets.</li>
+<li>Fix tracebacks occurring for duplicate C++ domain objects.</li>
+<li>Fix JavaScript domain links to objects with <code class="docutils literal"><span class="pre">$</span></code> in their name.</li>
+</ul>
+</div>
+<div class="section" id="release-1-0-6-jan-04-2011">
+<h2>Release 1.0.6 (Jan 04, 2011)<a class="headerlink" href="#release-1-0-6-jan-04-2011" title="Permalink to this headline">¶</a></h2>
+<ul class="simple">
+<li>#581: Fix traceback in Python domain for empty cross-reference
+targets.</li>
+<li>#283: Fix literal block display issues on Chrome browsers.</li>
+<li>#383, #148: Support sorting a limited range of accented characters
+in the general index and the glossary.</li>
+<li>#570: Try decoding <code class="docutils literal"><span class="pre">-D</span></code> and <code class="docutils literal"><span class="pre">-A</span></code> command-line arguments with
+the locale&#8217;s preferred encoding.</li>
+<li>#528: Observe <a class="reference internal" href="config.html#confval-locale_dirs"><code class="xref any std std-confval docutils literal"><span class="pre">locale_dirs</span></code></a> when looking for the JS
+translations file.</li>
+<li>#574: Add special code for better support of Japanese documents
+in the LaTeX builder.</li>
+<li>Regression of #77: If there is only one parameter given with
+<code class="docutils literal"><span class="pre">:param:</span></code> markup, the bullet list is now suppressed again.</li>
+<li>#556: Fix missing paragraph breaks in LaTeX output in certain
+situations.</li>
+<li>#567: Emit the <code class="docutils literal"><span class="pre">autodoc-process-docstring</span></code> event even for objects
+without a docstring so that it can add content.</li>
+<li>#565: In the LaTeX builder, not only literal blocks require different
+table handling, but also quite a few other list-like block elements.</li>
+<li>#515: Fix tracebacks in the viewcode extension for Python objects
+that do not have a valid signature.</li>
+<li>Fix strange reports of line numbers for warnings generated from
+autodoc-included docstrings, due to different behavior depending
+on docutils version.</li>
+<li>Several fixes to the C++ domain.</li>
+</ul>
+</div>
+<div class="section" id="release-1-0-5-nov-12-2010">
+<h2>Release 1.0.5 (Nov 12, 2010)<a class="headerlink" href="#release-1-0-5-nov-12-2010" title="Permalink to this headline">¶</a></h2>
+<ul class="simple">
+<li>#557: Add CSS styles required by docutils 0.7 for aligned images
+and figures.</li>
+<li>In the Makefile generated by LaTeX output, do not delete pdf files
+on clean; they might be required images.</li>
+<li>#535: Fix LaTeX output generated for line blocks.</li>
+<li>#544: Allow <code class="docutils literal"><span class="pre">.pyw</span></code> as a source file extension.</li>
+</ul>
+</div>
+<div class="section" id="release-1-0-4-sep-17-2010">
+<h2>Release 1.0.4 (Sep 17, 2010)<a class="headerlink" href="#release-1-0-4-sep-17-2010" title="Permalink to this headline">¶</a></h2>
+<ul class="simple">
+<li>#524: Open intersphinx inventories in binary mode on Windows,
+since version 2 contains zlib-compressed data.</li>
+<li>#513: Allow giving non-local URIs for JavaScript files, e.g.
+in the JSMath extension.</li>
+<li>#512: Fix traceback when <code class="docutils literal"><span class="pre">intersphinx_mapping</span></code> is empty.</li>
+</ul>
+</div>
+<div class="section" id="release-1-0-3-aug-23-2010">
+<h2>Release 1.0.3 (Aug 23, 2010)<a class="headerlink" href="#release-1-0-3-aug-23-2010" title="Permalink to this headline">¶</a></h2>
+<ul class="simple">
+<li>#495: Fix internal vs. external link distinction for links coming
+from a docutils table-of-contents.</li>
+<li>#494: Fix the <code class="docutils literal"><span class="pre">maxdepth</span></code> option for the <code class="docutils literal"><span class="pre">toctree()</span></code> template
+callable when used with <code class="docutils literal"><span class="pre">collapse=True</span></code>.</li>
+<li>#507: Fix crash parsing Python argument lists containing brackets
+in string literals.</li>
+<li>#501: Fix regression when building LaTeX docs with figures that
+don&#8217;t have captions.</li>
+<li>#510: Fix inheritance diagrams for classes that are not picklable.</li>
+<li>#497: Introduce separate background color for the sidebar collapse
+button, making it easier to see.</li>
+<li>#502, #503, #496: Fix small layout bugs in several builtin themes.</li>
+</ul>
+</div>
+<div class="section" id="release-1-0-2-aug-14-2010">
+<h2>Release 1.0.2 (Aug 14, 2010)<a class="headerlink" href="#release-1-0-2-aug-14-2010" title="Permalink to this headline">¶</a></h2>
+<ul class="simple">
+<li>#490: Fix cross-references to objects of types added by the
+<code class="xref py py-func docutils literal"><span class="pre">add_object_type()</span></code> API function.</li>
+<li>Fix handling of doc field types for different directive types.</li>
+<li>Allow breaking long signatures, continuing with backlash-escaped
+newlines.</li>
+<li>Fix unwanted styling of C domain references (because of a namespace
+clash with Pygments styles).</li>
+<li>Allow references to PEPs and RFCs with explicit anchors.</li>
+<li>#471: Fix LaTeX references to figures.</li>
+<li>#482: When doing a non-exact search, match only the given type
+of object.</li>
+<li>#481: Apply non-exact search for Python reference targets with
+<code class="docutils literal"><span class="pre">.name</span></code> for modules too.</li>
+<li>#484: Fix crash when duplicating a parameter in an info field list.</li>
+<li>#487: Fix setting the default role to one provided by the
+<code class="docutils literal"><span class="pre">oldcmarkup</span></code> extension.</li>
+<li>#488: Fix crash when json-py is installed, which provides a
+<code class="docutils literal"><span class="pre">json</span></code> module but is incompatible to simplejson.</li>
+<li>#480: Fix handling of target naming in intersphinx.</li>
+<li>#486: Fix removal of <code class="docutils literal"><span class="pre">!</span></code> for all cross-reference roles.</li>
+</ul>
+</div>
+<div class="section" id="release-1-0-1-jul-27-2010">
+<h2>Release 1.0.1 (Jul 27, 2010)<a class="headerlink" href="#release-1-0-1-jul-27-2010" title="Permalink to this headline">¶</a></h2>
+<ul class="simple">
+<li>#470: Fix generated target names for reST domain objects; they
+are not in the same namespace.</li>
+<li>#266: Add Bengali language.</li>
+<li>#473: Fix a bug in parsing JavaScript object names.</li>
+<li>#474: Fix building with SingleHTMLBuilder when there is no toctree.</li>
+<li>Fix display names for objects linked to by intersphinx with
+explicit targets.</li>
+<li>Fix building with the JSON builder.</li>
+<li>Fix hyperrefs in object descriptions for LaTeX.</li>
+</ul>
+</div>
+<div class="section" id="release-1-0-jul-23-2010">
+<h2>Release 1.0 (Jul 23, 2010)<a class="headerlink" href="#release-1-0-jul-23-2010" title="Permalink to this headline">¶</a></h2>
+<div class="section" id="id41">
+<h3>Incompatible changes<a class="headerlink" href="#id41" title="Permalink to this headline">¶</a></h3>
+<ul class="simple">
+<li>Support for domains has been added.  A domain is a collection of
+directives and roles that all describe objects belonging together,
+e.g. elements of a programming language.  A few builtin domains are
+provided:<ul>
+<li>Python</li>
+<li>C</li>
+<li>C++</li>
+<li>JavaScript</li>
+<li>reStructuredText</li>
+</ul>
+</li>
+<li>The old markup for defining and linking to C directives is now
+deprecated.  It will not work anymore in future versions without
+activating the <code class="xref py py-mod docutils literal"><span class="pre">oldcmarkup</span></code> extension; in Sphinx
+1.0, it is activated by default.</li>
+<li>Removed support for old dependency versions; requirements are now:<ul>
+<li>docutils &gt;= 0.5</li>
+<li>Jinja2   &gt;= 2.2</li>
+</ul>
+</li>
+<li>Removed deprecated elements:<ul>
+<li><code class="docutils literal"><span class="pre">exclude_dirs</span></code> config value</li>
+<li><code class="docutils literal"><span class="pre">sphinx.builder</span></code> module</li>
+</ul>
+</li>
+</ul>
+</div>
+<div class="section" id="id42">
+<h3>Features added<a class="headerlink" href="#id42" title="Permalink to this headline">¶</a></h3>
+<ul class="simple">
+<li>General:<ul>
+<li>Added a &#8220;nitpicky&#8221; mode that emits warnings for all missing
+references.  It is activated by the <code class="xref std std-option docutils literal"><span class="pre">-n</span></code> command-line switch
+or the <a class="reference internal" href="config.html#confval-nitpicky"><code class="xref any std std-confval docutils literal"><span class="pre">nitpicky</span></code></a> config value.</li>
+<li>Added <code class="docutils literal"><span class="pre">latexpdf</span></code> target in quickstart Makefile.</li>
+</ul>
+</li>
+<li>Markup:<ul>
+<li>The <a class="reference internal" href="markup/inline.html#role-menuselection" title="menuselection role"><code class="xref any rst rst-role docutils literal"><span class="pre">menuselection</span></code></a> and <a class="reference internal" href="markup/inline.html#role-guilabel" title="guilabel role"><code class="xref any rst rst-role docutils literal"><span class="pre">guilabel</span></code></a> roles now
+support ampersand accelerators.</li>
+<li>New more compact doc field syntax is now recognized: <code class="docutils literal"><span class="pre">:param</span> <span class="pre">type</span>
+<span class="pre">name:</span> <span class="pre">description</span></code>.</li>
+<li>Added <code class="docutils literal"><span class="pre">tab-width</span></code> option to <a class="reference internal" href="markup/code.html#directive-literalinclude" title="literalinclude directive"><code class="xref any rst rst-dir docutils literal"><span class="pre">literalinclude</span></code></a> directive.</li>
+<li>Added <code class="docutils literal"><span class="pre">titlesonly</span></code> option to <a class="reference internal" href="markup/toctree.html#directive-toctree" title="toctree directive"><code class="xref rst rst-dir docutils literal"><span class="pre">toctree</span></code></a> directive.</li>
+<li>Added the <code class="docutils literal"><span class="pre">prepend</span></code> and <code class="docutils literal"><span class="pre">append</span></code> options to the
+<a class="reference internal" href="markup/code.html#directive-literalinclude" title="literalinclude directive"><code class="xref any rst rst-dir docutils literal"><span class="pre">literalinclude</span></code></a> directive.</li>
+<li>#284: All docinfo metadata is now put into the document metadata, not
+just the author.</li>
+<li>The <a class="reference internal" href="markup/inline.html#role-ref" title="ref role"><code class="xref any rst rst-role docutils literal"><span class="pre">ref</span></code></a> role can now also reference tables by caption.</li>
+<li>The <a class="reference external" href="http://docutils.sourceforge.net/docs/ref/rst/directives.html#include">include</a> directive now supports absolute paths, which
+are interpreted as relative to the source directory.</li>
+<li>In the Python domain, references like <code class="docutils literal"><span class="pre">:func:`.name`</span></code> now look for
+matching names with any prefix if no direct match is found.</li>
+</ul>
+</li>
+<li>Configuration:<ul>
+<li>Added <a class="reference internal" href="config.html#confval-rst_prolog"><code class="xref any std std-confval docutils literal"><span class="pre">rst_prolog</span></code></a> config value.</li>
+<li>Added <a class="reference internal" href="config.html#confval-html_secnumber_suffix"><code class="xref any std std-confval docutils literal"><span class="pre">html_secnumber_suffix</span></code></a> config value to control
+section numbering format.</li>
+<li>Added <a class="reference internal" href="config.html#confval-html_compact_lists"><code class="xref any std std-confval docutils literal"><span class="pre">html_compact_lists</span></code></a> config value to control
+docutils&#8217; compact lists feature.</li>
+<li>The <a class="reference internal" href="config.html#confval-html_sidebars"><code class="xref any std std-confval docutils literal"><span class="pre">html_sidebars</span></code></a> config value can now contain patterns
+as keys, and the values can be lists that explicitly select which
+sidebar templates should be rendered.  That means that the builtin
+sidebar contents can be included only selectively.</li>
+<li><a class="reference internal" href="config.html#confval-html_static_path"><code class="xref any std std-confval docutils literal"><span class="pre">html_static_path</span></code></a> can now contain single file entries.</li>
+<li>The new universal config value <a class="reference internal" href="config.html#confval-exclude_patterns"><code class="xref any std std-confval docutils literal"><span class="pre">exclude_patterns</span></code></a> makes the
+old <code class="docutils literal"><span class="pre">unused_docs</span></code>, <code class="docutils literal"><span class="pre">exclude_trees</span></code> and
+<code class="docutils literal"><span class="pre">exclude_dirnames</span></code> obsolete.</li>
+<li>Added <a class="reference internal" href="config.html#confval-html_output_encoding"><code class="xref any std std-confval docutils literal"><span class="pre">html_output_encoding</span></code></a> config value.</li>
+<li>Added the <a class="reference internal" href="config.html#confval-latex_docclass"><code class="xref any std std-confval docutils literal"><span class="pre">latex_docclass</span></code></a> config value and made the
+&#8220;twoside&#8221; documentclass option overridable by &#8220;oneside&#8221;.</li>
+<li>Added the <a class="reference internal" href="config.html#confval-trim_doctest_flags"><code class="xref any std std-confval docutils literal"><span class="pre">trim_doctest_flags</span></code></a> config value, which is true
+by default.</li>
+<li>Added <a class="reference internal" href="config.html#confval-html_show_copyright"><code class="xref any std std-confval docutils literal"><span class="pre">html_show_copyright</span></code></a> config value.</li>
+<li>Added <a class="reference internal" href="config.html#confval-latex_show_pagerefs"><code class="xref any std std-confval docutils literal"><span class="pre">latex_show_pagerefs</span></code></a> and <a class="reference internal" href="config.html#confval-latex_show_urls"><code class="xref any std std-confval docutils literal"><span class="pre">latex_show_urls</span></code></a>
+config values.</li>
+<li>The behavior of <a class="reference internal" href="config.html#confval-html_file_suffix"><code class="xref any std std-confval docutils literal"><span class="pre">html_file_suffix</span></code></a> changed slightly: the
+empty string now means &#8220;no suffix&#8221; instead of &#8220;default suffix&#8221;, use
+<code class="docutils literal"><span class="pre">None</span></code> for &#8220;default suffix&#8221;.</li>
+</ul>
+</li>
+<li>New builders:<ul>
+<li>Added a builder for the Epub format.</li>
+<li>Added a builder for manual pages.</li>
+<li>Added a single-file HTML builder.</li>
+</ul>
+</li>
+<li>HTML output:<ul>
+<li>Inline roles now get a CSS class with their name, allowing styles to
+customize their appearance.  Domain-specific roles get two classes,
+<code class="docutils literal"><span class="pre">domain</span></code> and <code class="docutils literal"><span class="pre">domain-rolename</span></code>.</li>
+<li>References now get the class <code class="docutils literal"><span class="pre">internal</span></code> if they are internal to
+the whole project, as opposed to internal to the current page.</li>
+<li>External references can be styled differently with the new
+<code class="docutils literal"><span class="pre">externalrefs</span></code> theme option for the default theme.</li>
+<li>In the default theme, the sidebar can experimentally now be made
+collapsible using the new <code class="docutils literal"><span class="pre">collapsiblesidebar</span></code> theme option.</li>
+<li>#129: Toctrees are now wrapped in a <code class="docutils literal"><span class="pre">div</span></code> tag with class
+<code class="docutils literal"><span class="pre">toctree-wrapper</span></code> in HTML output.</li>
+<li>The <a class="reference internal" href="templating.html#toctree" title="toctree"><code class="xref py py-data docutils literal"><span class="pre">toctree</span></code></a> callable in templates now has a <code class="docutils literal"><span class="pre">maxdepth</span></code>
+keyword argument to control the depth of the generated tree.</li>
+<li>The <a class="reference internal" href="templating.html#toctree" title="toctree"><code class="xref py py-data docutils literal"><span class="pre">toctree</span></code></a> callable in templates now accepts a
+<code class="docutils literal"><span class="pre">titles_only</span></code> keyword argument.</li>
+<li>Added <code class="docutils literal"><span class="pre">htmltitle</span></code> block in layout template.</li>
+<li>In the JavaScript search, allow searching for object names including
+the module name, like <code class="docutils literal"><span class="pre">sys.argv</span></code>.</li>
+<li>Added new theme <code class="docutils literal"><span class="pre">haiku</span></code>, inspired by the Haiku OS user guide.</li>
+<li>Added new theme <code class="docutils literal"><span class="pre">nature</span></code>.</li>
+<li>Added new theme <code class="docutils literal"><span class="pre">agogo</span></code>, created by Andi Albrecht.</li>
+<li>Added new theme <code class="docutils literal"><span class="pre">scrolls</span></code>, created by Armin Ronacher.</li>
+<li>#193: Added a <code class="docutils literal"><span class="pre">visitedlinkcolor</span></code> theme option to the default
+theme.</li>
+<li>#322: Improved responsiveness of the search page by loading the
+search index asynchronously.</li>
+</ul>
+</li>
+<li>Extension API:<ul>
+<li>Added <a class="reference internal" href="extdev/appapi.html#event-html-collect-pages"><code class="xref std std-event docutils literal"><span class="pre">html-collect-pages</span></code></a>.</li>
+<li>Added <a class="reference internal" href="config.html#confval-needs_sphinx"><code class="xref any std std-confval docutils literal"><span class="pre">needs_sphinx</span></code></a> config value and
+<a class="reference internal" href="extdev/appapi.html#sphinx.application.Sphinx.require_sphinx" title="sphinx.application.Sphinx.require_sphinx"><code class="xref py py-meth docutils literal"><span class="pre">require_sphinx()</span></code></a> application API
+method.</li>
+<li>#200: Added <a class="reference internal" href="extdev/appapi.html#sphinx.application.Sphinx.add_stylesheet" title="sphinx.application.Sphinx.add_stylesheet"><code class="xref py py-meth docutils literal"><span class="pre">add_stylesheet()</span></code></a>
+application API method.</li>
+</ul>
+</li>
+<li>Extensions:<ul>
+<li>Added the <a class="reference internal" href="ext/viewcode.html#module-sphinx.ext.viewcode" title="sphinx.ext.viewcode: Add links to a highlighted version of the source code."><code class="xref py py-mod docutils literal"><span class="pre">viewcode</span></code></a> extension.</li>
+<li>Added the <a class="reference internal" href="ext/extlinks.html#module-sphinx.ext.extlinks" title="sphinx.ext.extlinks: Allow inserting external links with common base URLs easily."><code class="xref py py-mod docutils literal"><span class="pre">extlinks</span></code></a> extension.</li>
+<li>Added support for source ordering of members in autodoc, with
+<code class="docutils literal"><span class="pre">autodoc_member_order</span> <span class="pre">=</span> <span class="pre">'bysource'</span></code>.</li>
+<li>Added <a class="reference internal" href="ext/autodoc.html#confval-autodoc_default_flags"><code class="xref any std std-confval docutils literal"><span class="pre">autodoc_default_flags</span></code></a> config value, which can be
+used to select default flags for all autodoc directives.</li>
+<li>Added a way for intersphinx to refer to named labels in other
+projects, and to specify the project you want to link to.</li>
+<li>#280: Autodoc can now document instance attributes assigned in
+<code class="docutils literal"><span class="pre">__init__</span></code> methods.</li>
+<li>Many improvements and fixes to the <a class="reference internal" href="ext/autosummary.html#module-sphinx.ext.autosummary" title="sphinx.ext.autosummary: Generate autodoc summaries"><code class="xref py py-mod docutils literal"><span class="pre">autosummary</span></code></a>
+extension, thanks to Pauli Virtanen.</li>
+<li>#309: The <a class="reference internal" href="ext/graphviz.html#module-sphinx.ext.graphviz" title="sphinx.ext.graphviz: Support for Graphviz graphs."><code class="xref py py-mod docutils literal"><span class="pre">graphviz</span></code></a> extension can now output SVG
+instead of PNG images, controlled by the
+<a class="reference internal" href="ext/graphviz.html#confval-graphviz_output_format"><code class="xref any std std-confval docutils literal"><span class="pre">graphviz_output_format</span></code></a> config value.</li>
+<li>Added <code class="docutils literal"><span class="pre">alt</span></code> option to <a class="reference internal" href="ext/graphviz.html#directive-graphviz" title="graphviz directive"><code class="xref rst rst-dir docutils literal"><span class="pre">graphviz</span></code></a> extension directives.</li>
+<li>Added <code class="docutils literal"><span class="pre">exclude</span></code> argument to <a class="reference internal" href="ext/autodoc.html#sphinx.ext.autodoc.between" title="sphinx.ext.autodoc.between"><code class="xref py py-func docutils literal"><span class="pre">autodoc.between()</span></code></a>.</li>
+</ul>
+</li>
+<li>Translations:<ul>
+<li>Added Croatian translation, thanks to Bojan Mihelač.</li>
+<li>Added Turkish translation, thanks to Firat Ozgul.</li>
+<li>Added Catalan translation, thanks to Pau Fernández.</li>
+<li>Added simplified Chinese translation.</li>
+<li>Added Danish translation, thanks to Hjorth Larsen.</li>
+<li>Added Lithuanian translation, thanks to Dalius Dobravolskas.</li>
+</ul>
+</li>
+<li>Bugs fixed:<ul>
+<li>#445: Fix links to result pages when using the search function
+of HTML built with the <code class="docutils literal"><span class="pre">dirhtml</span></code> builder.</li>
+<li>#444: In templates, properly re-escape values treated with the
+&#8220;striptags&#8221; Jinja filter.</li>
+</ul>
+</li>
+</ul>
+</div>
+</div>
+<div class="section" id="previous-versions">
+<h2>Previous versions<a class="headerlink" href="#previous-versions" title="Permalink to this headline">¶</a></h2>
+<p>The changelog for versions before 1.0 can be found in the file <code class="docutils literal"><span class="pre">CHANGES.old</span></code>
+in the source distribution or <a class="reference external" href="https://github.com/sphinx-doc/sphinx/raw/master/CHANGES.old">at Github</a>.</p>
+</div>
+</div>
+
+
+          </div>
+        </div>
+      </div>
+      <div class="clearer"></div>
+    </div>
+    <div class="related" role="navigation" aria-label="related navigation">
+      <h3>Navigation</h3>
+      <ul>
+        <li class="right" style="margin-right: 10px">
+          <a href="genindex.html" title="General Index"
+             >index</a></li>
+        <li class="right" >
+          <a href="py-modindex.html" title="Python Module Index"
+             >modules</a> |</li>
+        <li class="right" >
+          <a href="examples.html" title="Projects using Sphinx"
+             >next</a> |</li>
+        <li class="right" >
+          <a href="devguide.html" title="Sphinx Developer’s Guide"
+             >previous</a> |</li>
+        <li><a href="index.html">Sphinx home</a>&nbsp;|</li>
+        <li><a href="contents.html">Documentation</a> &raquo;</li>
+ 
+      </ul>
+    </div>
+    <div class="footer" role="contentinfo">
+        &copy; Copyright 2007-2015, Georg Brandl and the Sphinx team.
+      Created using <a href="http://sphinx-doc.org/">Sphinx</a> 1.4a0+/026fde4.
+    </div>
+  </body>
+</html>

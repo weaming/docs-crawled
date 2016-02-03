@@ -1,0 +1,66 @@
+<html lang="en">
+<head>
+<title>Text_IO Extensions - GNAT Reference Manual</title>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+<meta name="description" content="GNAT Reference Manual">
+<meta name="generator" content="makeinfo 4.13">
+<link title="Top" rel="start" href="index.html#Top">
+<link rel="up" href="Text_005fIO.html#Text_005fIO" title="Text_IO">
+<link rel="prev" href="Treating-Text_005fIO-Files-as-Streams.html#Treating-Text_005fIO-Files-as-Streams" title="Treating Text_IO Files as Streams">
+<link rel="next" href="Text_005fIO-Facilities-for-Unbounded-Strings.html#Text_005fIO-Facilities-for-Unbounded-Strings" title="Text_IO Facilities for Unbounded Strings">
+<link href="http://www.gnu.org/software/texinfo/" rel="generator-home" title="Texinfo Homepage">
+<!--
+
+     GNAT Reference Manual , March 24, 2015
+
+     AdaCore
+
+     Copyright (C) 2008-2015, Free Software Foundation
+-->
+<meta http-equiv="Content-Style-Type" content="text/css">
+<style type="text/css"><!--
+  pre.display { font-family:inherit }
+  pre.format  { font-family:inherit }
+  pre.smalldisplay { font-family:inherit; font-size:smaller }
+  pre.smallformat  { font-family:inherit; font-size:smaller }
+  pre.smallexample { font-size:smaller }
+  pre.smalllisp    { font-size:smaller }
+  span.sc    { font-variant:small-caps }
+  span.roman { font-family:serif; font-weight:normal; } 
+  span.sansserif { font-family:sans-serif; font-weight:normal; } 
+--></style>
+</head>
+<body>
+<div class="node">
+<a name="Text_IO-Extensions"></a>
+<a name="Text_005fIO-Extensions"></a>
+<p>
+Next:&nbsp;<a rel="next" accesskey="n" href="Text_005fIO-Facilities-for-Unbounded-Strings.html#Text_005fIO-Facilities-for-Unbounded-Strings">Text_IO Facilities for Unbounded Strings</a>,
+Previous:&nbsp;<a rel="previous" accesskey="p" href="Treating-Text_005fIO-Files-as-Streams.html#Treating-Text_005fIO-Files-as-Streams">Treating Text_IO Files as Streams</a>,
+Up:&nbsp;<a rel="up" accesskey="u" href="Text_005fIO.html#Text_005fIO">Text_IO</a>
+<hr>
+</div>
+
+<p><a name="gnat_005frm_002fthe_005fimplementation_005fof_005fstandard_005fi_005fo-id11"></a><a name="g_t256"></a><a name="gnat_005frm_002fthe_005fimplementation_005fof_005fstandard_005fi_005fo-text_002dio_002dextensions"></a><a name="g_t257"></a>
+
+<h4 class="subsection">11.5.5 Text_IO Extensions</h4>
+
+<p><a name="index-Text_005fIO-extensions-528"></a>
+A package GNAT.IO_Aux in the GNAT library provides some useful extensions
+to the standard <cite>Text_IO</cite> package:
+
+     <ul>
+<li>function File_Exists (Name : String) return Boolean;
+Determines if a file of the given name exists.
+
+     <li>function Get_Line return String;
+Reads a string from the standard input file.  The value returned is exactly
+the length of the line that was read.
+
+     <li>function Get_Line (File : Ada.Text_IO.File_Type) return String;
+Similar, except that the parameter File specifies the file from which
+the string is to be read. 
+</ul>
+
+</body></html>
+

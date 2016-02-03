@@ -1,0 +1,125 @@
+<html lang="en">
+<head>
+<title>Partition-Wide Restrictions - GNAT Reference Manual</title>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+<meta name="description" content="GNAT Reference Manual">
+<meta name="generator" content="makeinfo 4.13">
+<link title="Top" rel="start" href="index.html#Top">
+<link rel="up" href="Standard-and-Implementation-Defined-Restrictions.html#Standard-and-Implementation-Defined-Restrictions" title="Standard and Implementation Defined Restrictions">
+<link rel="next" href="Program-Unit-Level-Restrictions.html#Program-Unit-Level-Restrictions" title="Program Unit Level Restrictions">
+<link href="http://www.gnu.org/software/texinfo/" rel="generator-home" title="Texinfo Homepage">
+<!--
+
+     GNAT Reference Manual , March 24, 2015
+
+     AdaCore
+
+     Copyright (C) 2008-2015, Free Software Foundation
+-->
+<meta http-equiv="Content-Style-Type" content="text/css">
+<style type="text/css"><!--
+  pre.display { font-family:inherit }
+  pre.format  { font-family:inherit }
+  pre.smalldisplay { font-family:inherit; font-size:smaller }
+  pre.smallformat  { font-family:inherit; font-size:smaller }
+  pre.smallexample { font-size:smaller }
+  pre.smalllisp    { font-size:smaller }
+  span.sc    { font-variant:small-caps }
+  span.roman { font-family:serif; font-weight:normal; } 
+  span.sansserif { font-family:sans-serif; font-weight:normal; } 
+--></style>
+</head>
+<body>
+<div class="node">
+<a name="Partition-Wide-Restrictions"></a>
+<a name="Partition_002dWide-Restrictions"></a>
+<p>
+Next:&nbsp;<a rel="next" accesskey="n" href="Program-Unit-Level-Restrictions.html#Program-Unit-Level-Restrictions">Program Unit Level Restrictions</a>,
+Up:&nbsp;<a rel="up" accesskey="u" href="Standard-and-Implementation-Defined-Restrictions.html#Standard-and-Implementation-Defined-Restrictions">Standard and Implementation Defined Restrictions</a>
+<hr>
+</div>
+
+<p><a name="gnat_005frm_002fstandard_005fand_005fimplementation_005fdefined_005frestrictions-partition_002dwide_002drestrictions"></a><a name="g_t165"></a><a name="gnat_005frm_002fstandard_005fand_005fimplementation_005fdefined_005frestrictions-id2"></a><a name="g_t166"></a>
+
+<h3 class="section">5.1 Partition-Wide Restrictions</h3>
+
+<p>There are two separate lists of restriction identifiers. The first
+set requires consistency throughout a partition (in other words, if the
+restriction identifier is used for any compilation unit in the partition,
+then all compilation units in the partition must obey the restriction).
+
+<ul class="menu">
+<li><a accesskey="1" href="Immediate_005fReclamation.html#Immediate_005fReclamation">Immediate_Reclamation</a>
+<li><a accesskey="2" href="Max_005fAsynchronous_005fSelect_005fNesting.html#Max_005fAsynchronous_005fSelect_005fNesting">Max_Asynchronous_Select_Nesting</a>
+<li><a accesskey="3" href="Max_005fEntry_005fQueue_005fLength.html#Max_005fEntry_005fQueue_005fLength">Max_Entry_Queue_Length</a>
+<li><a accesskey="4" href="Max_005fProtected_005fEntries.html#Max_005fProtected_005fEntries">Max_Protected_Entries</a>
+<li><a accesskey="5" href="Max_005fSelect_005fAlternatives.html#Max_005fSelect_005fAlternatives">Max_Select_Alternatives</a>
+<li><a accesskey="6" href="Max_005fStorage_005fAt_005fBlocking.html#Max_005fStorage_005fAt_005fBlocking">Max_Storage_At_Blocking</a>
+<li><a accesskey="7" href="Max_005fTask_005fEntries.html#Max_005fTask_005fEntries">Max_Task_Entries</a>
+<li><a accesskey="8" href="Max_005fTasks.html#Max_005fTasks">Max_Tasks</a>
+<li><a accesskey="9" href="No_005fAbort_005fStatements.html#No_005fAbort_005fStatements">No_Abort_Statements</a>
+<li><a href="No_005fAccess_005fParameter_005fAllocators.html#No_005fAccess_005fParameter_005fAllocators">No_Access_Parameter_Allocators</a>
+<li><a href="No_005fAccess_005fSubprograms.html#No_005fAccess_005fSubprograms">No_Access_Subprograms</a>
+<li><a href="No_005fAllocators.html#No_005fAllocators">No_Allocators</a>
+<li><a href="No_005fAnonymous_005fAllocators.html#No_005fAnonymous_005fAllocators">No_Anonymous_Allocators</a>
+<li><a href="No_005fCalendar.html#No_005fCalendar">No_Calendar</a>
+<li><a href="No_005fCoextensions.html#No_005fCoextensions">No_Coextensions</a>
+<li><a href="No_005fDefault_005fInitialization.html#No_005fDefault_005fInitialization">No_Default_Initialization</a>
+<li><a href="No_005fDelay.html#No_005fDelay">No_Delay</a>
+<li><a href="No_005fDependence.html#No_005fDependence">No_Dependence</a>
+<li><a href="No_005fDirect_005fBoolean_005fOperators.html#No_005fDirect_005fBoolean_005fOperators">No_Direct_Boolean_Operators</a>
+<li><a href="No_005fDispatch.html#No_005fDispatch">No_Dispatch</a>
+<li><a href="No_005fDispatching_005fCalls.html#No_005fDispatching_005fCalls">No_Dispatching_Calls</a>
+<li><a href="No_005fDynamic_005fAttachment.html#No_005fDynamic_005fAttachment">No_Dynamic_Attachment</a>
+<li><a href="No_005fDynamic_005fPriorities.html#No_005fDynamic_005fPriorities">No_Dynamic_Priorities</a>
+<li><a href="No_005fEntry_005fCalls_005fIn_005fElaboration_005fCode.html#No_005fEntry_005fCalls_005fIn_005fElaboration_005fCode">No_Entry_Calls_In_Elaboration_Code</a>
+<li><a href="No_005fEnumeration_005fMaps.html#No_005fEnumeration_005fMaps">No_Enumeration_Maps</a>
+<li><a href="No_005fException_005fHandlers.html#No_005fException_005fHandlers">No_Exception_Handlers</a>
+<li><a href="No_005fException_005fPropagation.html#No_005fException_005fPropagation">No_Exception_Propagation</a>
+<li><a href="No_005fException_005fRegistration.html#No_005fException_005fRegistration">No_Exception_Registration</a>
+<li><a href="No_005fExceptions.html#No_005fExceptions">No_Exceptions</a>
+<li><a href="No_005fFinalization.html#No_005fFinalization">No_Finalization</a>
+<li><a href="No_005fFixed_005fPoint.html#No_005fFixed_005fPoint">No_Fixed_Point</a>
+<li><a href="No_005fFloating_005fPoint.html#No_005fFloating_005fPoint">No_Floating_Point</a>
+<li><a href="No_005fImplicit_005fConditionals.html#No_005fImplicit_005fConditionals">No_Implicit_Conditionals</a>
+<li><a href="No_005fImplicit_005fDynamic_005fCode.html#No_005fImplicit_005fDynamic_005fCode">No_Implicit_Dynamic_Code</a>
+<li><a href="No_005fImplicit_005fHeap_005fAllocations.html#No_005fImplicit_005fHeap_005fAllocations">No_Implicit_Heap_Allocations</a>
+<li><a href="No_005fImplicit_005fLoops.html#No_005fImplicit_005fLoops">No_Implicit_Loops</a>
+<li><a href="No_005fInitialize_005fScalars.html#No_005fInitialize_005fScalars">No_Initialize_Scalars</a>
+<li><a href="No_005fIO.html#No_005fIO">No_IO</a>
+<li><a href="No_005fLocal_005fAllocators.html#No_005fLocal_005fAllocators">No_Local_Allocators</a>
+<li><a href="No_005fLocal_005fProtected_005fObjects.html#No_005fLocal_005fProtected_005fObjects">No_Local_Protected_Objects</a>
+<li><a href="No_005fLocal_005fTiming_005fEvents.html#No_005fLocal_005fTiming_005fEvents">No_Local_Timing_Events</a>
+<li><a href="No_005fLong_005fLong_005fIntegers.html#No_005fLong_005fLong_005fIntegers">No_Long_Long_Integers</a>
+<li><a href="No_005fMultiple_005fElaboration.html#No_005fMultiple_005fElaboration">No_Multiple_Elaboration</a>
+<li><a href="No_005fNested_005fFinalization.html#No_005fNested_005fFinalization">No_Nested_Finalization</a>
+<li><a href="No_005fProtected_005fType_005fAllocators.html#No_005fProtected_005fType_005fAllocators">No_Protected_Type_Allocators</a>
+<li><a href="No_005fProtected_005fTypes.html#No_005fProtected_005fTypes">No_Protected_Types</a>
+<li><a href="No_005fRecursion.html#No_005fRecursion">No_Recursion</a>
+<li><a href="No_005fReentrancy.html#No_005fReentrancy">No_Reentrancy</a>
+<li><a href="No_005fRelative_005fDelay.html#No_005fRelative_005fDelay">No_Relative_Delay</a>
+<li><a href="No_005fRequeue_005fStatements.html#No_005fRequeue_005fStatements">No_Requeue_Statements</a>
+<li><a href="No_005fSecondary_005fStack.html#No_005fSecondary_005fStack">No_Secondary_Stack</a>
+<li><a href="No_005fSelect_005fStatements.html#No_005fSelect_005fStatements">No_Select_Statements</a>
+<li><a href="No_005fSpecific_005fTermination_005fHandlers.html#No_005fSpecific_005fTermination_005fHandlers">No_Specific_Termination_Handlers</a>
+<li><a href="No_005fSpecification_005fof_005fAspect.html#No_005fSpecification_005fof_005fAspect">No_Specification_of_Aspect</a>
+<li><a href="No_005fStandard_005fAllocators_005fAfter_005fElaboration.html#No_005fStandard_005fAllocators_005fAfter_005fElaboration">No_Standard_Allocators_After_Elaboration</a>
+<li><a href="No_005fStandard_005fStorage_005fPools.html#No_005fStandard_005fStorage_005fPools">No_Standard_Storage_Pools</a>
+<li><a href="No_005fStream_005fOptimizations.html#No_005fStream_005fOptimizations">No_Stream_Optimizations</a>
+<li><a href="No_005fStreams.html#No_005fStreams">No_Streams</a>
+<li><a href="No_005fTask_005fAllocators.html#No_005fTask_005fAllocators">No_Task_Allocators</a>
+<li><a href="No_005fTask_005fAttributes_005fPackage.html#No_005fTask_005fAttributes_005fPackage">No_Task_Attributes_Package</a>
+<li><a href="No_005fTask_005fHierarchy.html#No_005fTask_005fHierarchy">No_Task_Hierarchy</a>
+<li><a href="No_005fTask_005fTermination.html#No_005fTask_005fTermination">No_Task_Termination</a>
+<li><a href="No_005fTasking.html#No_005fTasking">No_Tasking</a>
+<li><a href="No_005fTerminate_005fAlternatives.html#No_005fTerminate_005fAlternatives">No_Terminate_Alternatives</a>
+<li><a href="No_005fUnchecked_005fAccess.html#No_005fUnchecked_005fAccess">No_Unchecked_Access</a>
+<li><a href="No_005fUse_005fOf_005fEntity.html#No_005fUse_005fOf_005fEntity">No_Use_Of_Entity</a>
+<li><a href="Simple_005fBarriers.html#Simple_005fBarriers">Simple_Barriers</a>
+<li><a href="Static_005fPriorities.html#Static_005fPriorities">Static_Priorities</a>
+<li><a href="Static_005fStorage_005fSize.html#Static_005fStorage_005fSize">Static_Storage_Size</a>
+
+</ul>
+
+</body></html>
+

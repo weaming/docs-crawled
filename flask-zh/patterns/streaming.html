@@ -1,0 +1,188 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+  "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+
+
+<html xmlns="http://www.w3.org/1999/xhtml">
+  <head>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+    
+    <title>流内容 &mdash; Flask 0.10 文档</title>
+    
+    <link rel="stylesheet" href="../_static/flasky.css" type="text/css" />
+    <link rel="stylesheet" href="../_static/pygments.css" type="text/css" />
+    
+    <script type="text/javascript">
+      var DOCUMENTATION_OPTIONS = {
+        URL_ROOT:    '../',
+        VERSION:     '0.10',
+        COLLAPSE_INDEX: false,
+        FILE_SUFFIX: '.html',
+        HAS_SOURCE:  true
+      };
+    </script>
+    <script type="text/javascript" src="../_static/jquery.js"></script>
+    <script type="text/javascript" src="../_static/underscore.js"></script>
+    <script type="text/javascript" src="../_static/doctools.js"></script>
+    <script type="text/javascript" src="../_static/translations.js"></script>
+    <link rel="top" title="Flask 0.10 文档" href="../index.html" />
+    <link rel="up" title="Flask 方案" href="index.html" />
+    <link rel="next" title="延迟的请求回调" href="deferredcallbacks.html" />
+    <link rel="prev" title="添加一个页面图标" href="favicon.html" />
+   
+  
+  <link rel="apple-touch-icon" href="../_static/touch-icon.png" />
+  
+  <link media="only screen and (max-device-width: 480px)" href="../_static/small_flask.css" type= "text/css" rel="stylesheet" />
+
+  </head>
+  <body role="document">
+    <div class="related" role="navigation" aria-label="related navigation">
+      <h3>导航</h3>
+      <ul>
+        <li class="right" style="margin-right: 10px">
+          <a href="../genindex.html" title="总目录"
+             accesskey="I">索引</a></li>
+        <li class="right" >
+          <a href="deferredcallbacks.html" title="延迟的请求回调"
+             accesskey="N">下一页</a> |</li>
+        <li class="right" >
+          <a href="favicon.html" title="添加一个页面图标"
+             accesskey="P">上一页</a> |</li>
+        <li class="nav-item nav-item-0"><a href="../index.html">Flask 0.10 文档</a> &raquo;</li>
+          <li class="nav-item nav-item-1"><a href="index.html" accesskey="U">Flask 方案</a> &raquo;</li> 
+      </ul>
+    </div>  
+
+    <div class="document">
+      <div class="documentwrapper">
+        <div class="bodywrapper">
+          <div class="body" role="main">
+            
+  <div class="section" id="id1">
+<h1>流内容<a class="headerlink" href="#id1" title="永久链接至标题">¶</a></h1>
+<p>有时候你会需要把大量数据传送到客户端，不在内存中保存这些数据。当你想把运行中产生
+的数据不经过文件系统，而是直接发送给客户端时，应当怎么做呢？</p>
+<p>答案是使用生成器和直接响应。</p>
+<div class="section" id="id2">
+<h2>基本用法<a class="headerlink" href="#id2" title="永久链接至标题">¶</a></h2>
+<p>下面是一个在运行中产生大量 CSV 数据的基本视图函数。其技巧是调用一个内联函数生成
+数据，把这个函数传递给一个响应对象:</p>
+<div class="highlight-python"><div class="highlight"><pre><span class="kn">from</span> <span class="nn">flask</span> <span class="kn">import</span> <span class="n">Response</span>
+
+<span class="nd">@app.route</span><span class="p">(</span><span class="s">&#39;/large.csv&#39;</span><span class="p">)</span>
+<span class="k">def</span> <span class="nf">generate_large_csv</span><span class="p">():</span>
+    <span class="k">def</span> <span class="nf">generate</span><span class="p">():</span>
+        <span class="k">for</span> <span class="n">row</span> <span class="ow">in</span> <span class="n">iter_all_rows</span><span class="p">():</span>
+            <span class="k">yield</span> <span class="s">&#39;,&#39;</span><span class="o">.</span><span class="n">join</span><span class="p">(</span><span class="n">row</span><span class="p">)</span> <span class="o">+</span> <span class="s">&#39;</span><span class="se">\n</span><span class="s">&#39;</span>
+    <span class="k">return</span> <span class="n">Response</span><span class="p">(</span><span class="n">generate</span><span class="p">(),</span> <span class="n">mimetype</span><span class="o">=</span><span class="s">&#39;text/csv&#39;</span><span class="p">)</span>
+</pre></div>
+</div>
+<p>每个 <code class="docutils literal"><span class="pre">yield</span></code> 表达式被直接传送给浏览器。注意，有一些 WSGI 中间件可能会打断流
+内容，因此在使用分析器或者其他工具的调试环境中要小心一些。</p>
+</div>
+<div class="section" id="id3">
+<h2>模板中的流内容<a class="headerlink" href="#id3" title="永久链接至标题">¶</a></h2>
+<p>Jinja2 模板引擎也支持分片渲染模板。这个功能不是直接被 Flask 支持的，因为它太
+特殊了，但是你可以方便地自已来做:</p>
+<div class="highlight-python"><div class="highlight"><pre><span class="kn">from</span> <span class="nn">flask</span> <span class="kn">import</span> <span class="n">Response</span>
+
+<span class="k">def</span> <span class="nf">stream_template</span><span class="p">(</span><span class="n">template_name</span><span class="p">,</span> <span class="o">**</span><span class="n">context</span><span class="p">):</span>
+    <span class="n">app</span><span class="o">.</span><span class="n">update_template_context</span><span class="p">(</span><span class="n">context</span><span class="p">)</span>
+    <span class="n">t</span> <span class="o">=</span> <span class="n">app</span><span class="o">.</span><span class="n">jinja_env</span><span class="o">.</span><span class="n">get_template</span><span class="p">(</span><span class="n">template_name</span><span class="p">)</span>
+    <span class="n">rv</span> <span class="o">=</span> <span class="n">t</span><span class="o">.</span><span class="n">stream</span><span class="p">(</span><span class="n">context</span><span class="p">)</span>
+    <span class="n">rv</span><span class="o">.</span><span class="n">enable_buffering</span><span class="p">(</span><span class="mi">5</span><span class="p">)</span>
+    <span class="k">return</span> <span class="n">rv</span>
+
+<span class="nd">@app.route</span><span class="p">(</span><span class="s">&#39;/my-large-page.html&#39;</span><span class="p">)</span>
+<span class="k">def</span> <span class="nf">render_large_template</span><span class="p">():</span>
+    <span class="n">rows</span> <span class="o">=</span> <span class="n">iter_all_rows</span><span class="p">()</span>
+    <span class="k">return</span> <span class="n">Response</span><span class="p">(</span><span class="n">stream_template</span><span class="p">(</span><span class="s">&#39;the_template.html&#39;</span><span class="p">,</span> <span class="n">rows</span><span class="o">=</span><span class="n">rows</span><span class="p">))</span>
+</pre></div>
+</div>
+<p>上例的技巧是从 Jinja2 环境中获得应用的模板对象，并调用
+<code class="xref py py-meth docutils literal"><span class="pre">stream()</span></code> 来代替 <code class="xref py py-meth docutils literal"><span class="pre">render()</span></code> ，返回
+一个流对象来代替一个字符串。由于我们绕过了 Flask 的模板渲染函数使用了模板对象
+本身，因此我们需要调用 <a class="reference internal" href="../api.html#flask.Flask.update_template_context" title="flask.Flask.update_template_context"><code class="xref py py-meth docutils literal"><span class="pre">update_template_context()</span></code></a> ，以确保
+更新被渲染的内容。这样，模板遍历流内容。由于每次产生内容后，服务器都会把内容
+发送给客户端，因此可能需要缓存来保存内容。我们使用了
+<code class="docutils literal"><span class="pre">rv.enable_buffering(size)</span></code> 来进行缓存。 <code class="docutils literal"><span class="pre">5</span></code> 是一个比较明智的缺省值。</p>
+</div>
+<div class="section" id="id4">
+<h2>环境中的流内容<a class="headerlink" href="#id4" title="永久链接至标题">¶</a></h2>
+<div class="versionadded">
+<p><span class="versionmodified">0.9 新版功能.</span></p>
+</div>
+<p>注意，当你生成流内容时，请求环境已经在函数执行时消失了。 Flask 0.9 为你提供了
+一点帮助，让你可以在生成器运行期间保持请求环境:</p>
+<div class="highlight-python"><div class="highlight"><pre><span class="kn">from</span> <span class="nn">flask</span> <span class="kn">import</span> <span class="n">stream_with_context</span><span class="p">,</span> <span class="n">request</span><span class="p">,</span> <span class="n">Response</span>
+
+<span class="nd">@app.route</span><span class="p">(</span><span class="s">&#39;/stream&#39;</span><span class="p">)</span>
+<span class="k">def</span> <span class="nf">streamed_response</span><span class="p">():</span>
+    <span class="k">def</span> <span class="nf">generate</span><span class="p">():</span>
+        <span class="k">yield</span> <span class="s">&#39;Hello &#39;</span>
+        <span class="k">yield</span> <span class="n">request</span><span class="o">.</span><span class="n">args</span><span class="p">[</span><span class="s">&#39;name&#39;</span><span class="p">]</span>
+        <span class="k">yield</span> <span class="s">&#39;!&#39;</span>
+    <span class="k">return</span> <span class="n">Response</span><span class="p">(</span><span class="n">stream_with_context</span><span class="p">(</span><span class="n">generate</span><span class="p">()))</span>
+</pre></div>
+</div>
+<p>如果没有使用 <a class="reference internal" href="../api.html#flask.stream_with_context" title="flask.stream_with_context"><code class="xref py py-func docutils literal"><span class="pre">stream_with_context()</span></code></a> 函数，那么就会引发
+<a class="reference external" href="http://docs.python.org/dev/library/exceptions.html#RuntimeError" title="(在 Python v3.6)"><code class="xref py py-class docutils literal"><span class="pre">RuntimeError</span></code></a> 错误。</p>
+</div>
+</div>
+
+
+          </div>
+        </div>
+      </div>
+      <div class="sphinxsidebar" role="navigation" aria-label="main navigation">
+        <div class="sphinxsidebarwrapper"><p class="logo"><a href="../index.html">
+  <img class="logo" src="../_static/flask.png" alt="Logo"/>
+</a></p>
+  <h3><a href="../index.html">內容目录</a></h3>
+  <ul>
+<li><a class="reference internal" href="#">流内容</a><ul>
+<li><a class="reference internal" href="#id2">基本用法</a></li>
+<li><a class="reference internal" href="#id3">模板中的流内容</a></li>
+<li><a class="reference internal" href="#id4">环境中的流内容</a></li>
+</ul>
+</li>
+</ul>
+<h3>Related Topics</h3>
+<ul>
+  <li><a href="../index.html">Documentation overview</a><ul>
+  <li><a href="index.html">Flask 方案</a><ul>
+      <li>Previous: <a href="favicon.html" title="上一章">添加一个页面图标</a></li>
+      <li>Next: <a href="deferredcallbacks.html" title="下一章">延迟的请求回调</a></li>
+  </ul></li>
+  </ul></li>
+</ul>
+  <div role="note" aria-label="source link">
+    <h3>本页</h3>
+    <ul class="this-page-menu">
+      <li><a href="../_sources/patterns/streaming.txt"
+            rel="nofollow">显示源代码</a></li>
+    </ul>
+   </div>
+<div id="searchbox" style="display: none" role="search">
+  <h3>快速搜索</h3>
+    <form class="search" action="../search.html" method="get">
+      <input type="text" name="q" />
+      <input type="submit" value="转向" />
+      <input type="hidden" name="check_keywords" value="yes" />
+      <input type="hidden" name="area" value="default" />
+    </form>
+    <p class="searchtip" style="font-size: 90%">
+    输入相关的术语，模块，类或者函数名称进行搜索
+    </p>
+</div>
+<script type="text/javascript">$('#searchbox').show(0);</script>
+        </div>
+      </div>
+      <div class="clearer"></div>
+    </div>
+    <div class="footer">
+      &copy; Copyright 2013, Armin Ronacher.
+      Created using <a href="http://sphinx.pocoo.org/">Sphinx</a>.
+    </div>
+  </body>
+</html>

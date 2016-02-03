@@ -1,0 +1,64 @@
+<html lang="en">
+<head>
+<title>Stream Pointer Positioning&lt;2&gt; - GNAT Reference Manual</title>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+<meta name="description" content="GNAT Reference Manual">
+<meta name="generator" content="makeinfo 4.13">
+<link title="Top" rel="start" href="index.html#Top">
+<link rel="up" href="Wide_005fText_005fIO.html#Wide_005fText_005fIO" title="Wide_Text_IO">
+<link rel="next" href="Reading-and-Writing-Non_002dRegular-Files_003c2_003e.html#Reading-and-Writing-Non_002dRegular-Files_003c2_003e" title="Reading and Writing Non-Regular Files&lt;2&gt;">
+<link href="http://www.gnu.org/software/texinfo/" rel="generator-home" title="Texinfo Homepage">
+<!--
+
+     GNAT Reference Manual , March 24, 2015
+
+     AdaCore
+
+     Copyright (C) 2008-2015, Free Software Foundation
+-->
+<meta http-equiv="Content-Style-Type" content="text/css">
+<style type="text/css"><!--
+  pre.display { font-family:inherit }
+  pre.format  { font-family:inherit }
+  pre.smalldisplay { font-family:inherit; font-size:smaller }
+  pre.smallformat  { font-family:inherit; font-size:smaller }
+  pre.smallexample { font-size:smaller }
+  pre.smalllisp    { font-size:smaller }
+  span.sc    { font-variant:small-caps }
+  span.roman { font-family:serif; font-weight:normal; } 
+  span.sansserif { font-family:sans-serif; font-weight:normal; } 
+--></style>
+</head>
+<body>
+<div class="node">
+<a name="Stream-Pointer-Positioning%3c2%3e"></a>
+<a name="Stream-Pointer-Positioning_003c2_003e"></a>
+<p>
+Next:&nbsp;<a rel="next" accesskey="n" href="Reading-and-Writing-Non_002dRegular-Files_003c2_003e.html#Reading-and-Writing-Non_002dRegular-Files_003c2_003e">Reading and Writing Non-Regular Files&lt;2&gt;</a>,
+Up:&nbsp;<a rel="up" accesskey="u" href="Wide_005fText_005fIO.html#Wide_005fText_005fIO">Wide_Text_IO</a>
+<hr>
+</div>
+
+<p><a name="gnat_005frm_002fthe_005fimplementation_005fof_005fstandard_005fi_005fo-stream_002dpointer_002dpositioning_002d1"></a><a name="g_t25c"></a><a name="gnat_005frm_002fthe_005fimplementation_005fof_005fstandard_005fi_005fo-id14"></a><a name="g_t25d"></a>
+
+<h4 class="subsection">11.6.1 Stream Pointer Positioning</h4>
+
+<p><cite>Ada.Wide_Text_IO</cite> is similar to <cite>Ada.Text_IO</cite> in its handling
+of stream pointer positioning (<a href="24d.html#g_t24d">Text_IO</a>).  There is one additional
+case:
+
+<p>If <cite>Ada.Wide_Text_IO.Look_Ahead</cite> reads a character outside the
+normal lower ASCII set (i.e., a character in the range:
+
+<pre class="example">    Wide_Character'Val (16#0080#) .. Wide_Character'Val (16#FFFF#)
+</pre>
+<p>then although the logical position of the file pointer is unchanged by
+the <cite>Look_Ahead</cite> call, the stream is physically positioned past the
+wide character sequence.  Again this is to avoid the need for buffering
+or backup, and all <cite>Wide_Text_IO</cite> routines check the internal
+indication that this situation has occurred so that this is not visible
+to a normal program using <cite>Wide_Text_IO</cite>.  However, this discrepancy
+can be observed if the wide text file shares a stream with another file.
+
+</body></html>
+

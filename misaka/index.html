@@ -1,0 +1,433 @@
+
+
+<!DOCTYPE html>
+<!--[if IE 8]><html class="no-js lt-ie9" lang="en" > <![endif]-->
+<!--[if gt IE 8]><!--> <html class="no-js" lang="en" > <!--<![endif]-->
+<head>
+  <meta charset="utf-8">
+  
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  
+  <title>Misaka &mdash; Misaka 2.0.0 documentation</title>
+  
+
+  
+  
+
+  
+
+  
+  
+    
+
+  
+
+  
+  
+    <link rel="stylesheet" href="_static/css/theme.css" type="text/css" />
+  
+
+  
+    <link rel="stylesheet" href="_static/customizations.css" type="text/css" />
+  
+
+  
+    <link rel="top" title="Misaka 2.0.0 documentation" href="#"/> 
+
+  
+  <script src="_static/js/modernizr.min.js"></script>
+
+</head>
+
+<body class="wy-body-for-nav" role="document">
+
+  <div class="wy-grid-for-nav">
+
+    
+    <nav data-toggle="wy-nav-shift" class="wy-nav-side">
+      <div class="wy-side-scroll">
+        <div class="wy-side-nav-search">
+          
+
+          
+            <a href="#" class="icon icon-home"> Misaka
+          
+
+          
+          </a>
+
+          
+            
+            
+              <div class="version">
+                2.0.0
+              </div>
+            
+          
+
+          
+<div role="search">
+  <form id="rtd-search-form" class="wy-form" action="search.html" method="get">
+    <input type="text" name="q" placeholder="Search docs" />
+    <input type="hidden" name="check_keywords" value="yes" />
+    <input type="hidden" name="area" value="default" />
+  </form>
+</div>
+
+          
+        </div>
+
+        <div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="main navigation">
+          
+            
+            
+                <!-- Local TOC -->
+                <div class="local-toc"><ul>
+<li><a class="reference internal" href="#">Misaka</a><ul>
+<li><a class="reference internal" href="#installation">Installation</a></li>
+<li><a class="reference internal" href="#usage">Usage</a></li>
+<li><a class="reference internal" href="#tests">Tests</a></li>
+<li><a class="reference internal" href="#api">API</a><ul>
+<li><a class="reference internal" href="#extensions">Extensions</a></li>
+<li><a class="reference internal" href="#html-render-flags">HTML render flags</a></li>
+<li><a class="reference internal" href="#functions">Functions</a></li>
+<li><a class="reference internal" href="#classes">Classes</a></li>
+</ul>
+</li>
+</ul>
+</li>
+</ul>
+</div>
+            
+          
+        </div>
+      </div>
+    </nav>
+
+    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap">
+
+      
+      <nav class="wy-nav-top" role="navigation" aria-label="top navigation">
+        <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
+        <a href="#">Misaka</a>
+      </nav>
+
+
+      
+      <div class="wy-nav-content">
+        <div class="rst-content">
+          
+
+
+
+
+
+<div role="navigation" aria-label="breadcrumbs navigation">
+  <ul class="wy-breadcrumbs">
+    <li><a href="#">Docs</a> &raquo;</li>
+      
+    <li>Misaka</li>
+      <li class="wy-breadcrumbs-aside">
+        
+          
+            <a href="_sources/index.txt" rel="nofollow"> View page source</a>
+          
+        
+      </li>
+  </ul>
+  <hr/>
+</div>
+          <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
+           <div itemprop="articleBody">
+            
+  <div class="section" id="misaka">
+<h1>Misaka<a class="headerlink" href="#misaka" title="Permalink to this headline">¶</a></h1>
+<p>Misaka is a CFFI-based binding for <a class="reference external" href="https://github.com/hoedown/hoedown">Hoedown</a>, a fast markdown processing library
+written in C. It features a fast HTML renderer and functionality to make custom
+renderers (e.g. man pages or LaTeX).</p>
+<p>See the <a class="reference internal" href="changelog.html"><em>Changelog</em></a> for all changes.</p>
+<div class="section" id="installation">
+<h2>Installation<a class="headerlink" href="#installation" title="Permalink to this headline">¶</a></h2>
+<p>Misaka has been tested on CPython 2.6, 2.7, 3.2, 3.3, 3.4, 3.5 and PyPy 2.6.
+CFFI 1.0 or newer is required. This means Misaka will not work on PyPy 2.5
+and older versions.</p>
+<p>If you&#8217;re installing from source and are using Debian or a Debian derivative
+(e.g. Ubuntu) make sure <code class="docutils literal"><span class="pre">python-dev</span></code> and <code class="docutils literal"><span class="pre">libffi-dev</span></code> are installed.</p>
+<p>Install with pip:</p>
+<div class="highlight-python"><div class="highlight"><pre>pip install misaka
+</pre></div>
+</div>
+<p>Or grab the source from Github:</p>
+<div class="highlight-python"><div class="highlight"><pre>git clone https://github.com/FSX/misaka.git
+cd misaka
+python setup.py install
+</pre></div>
+</div>
+<p>Consult the <a class="reference external" href="https://cffi.readthedocs.org/en/latest/installation.html">CFFI documentation</a> if you experience problems installing CFFI.</p>
+</div>
+<div class="section" id="usage">
+<h2>Usage<a class="headerlink" href="#usage" title="Permalink to this headline">¶</a></h2>
+<p>Very simple example:</p>
+<div class="code python highlight-python"><div class="highlight"><pre><span class="kn">import</span> <span class="nn">misaka</span> <span class="kn">as</span> <span class="nn">m</span>
+<span class="k">print</span> <span class="n">m</span><span class="o">.</span><span class="n">html</span><span class="p">(</span><span class="s">&#39;some other text&#39;</span><span class="p">)</span>
+</pre></div>
+</div>
+<p>Or:</p>
+<div class="code python highlight-python"><div class="highlight"><pre><span class="kn">from</span> <span class="nn">misaka</span> <span class="kn">import</span> <span class="n">Markdown</span><span class="p">,</span> <span class="n">HtmlRenderer</span>
+
+<span class="n">rndr</span> <span class="o">=</span> <span class="n">HtmlRenderer</span><span class="p">()</span>
+<span class="n">md</span> <span class="o">=</span> <span class="n">Markdown</span><span class="p">(</span><span class="n">rndr</span><span class="p">)</span>
+
+<span class="k">print</span> <span class="n">md</span><span class="p">(</span><span class="s">&#39;some text&#39;</span><span class="p">)</span>
+</pre></div>
+</div>
+<p>Here&#8217;s a simple example that uses <a class="reference external" href="http://pygments.org">Pygments</a> to highlight code (<a class="reference external" href="https://github.com/FSX/houdini.py">houdini</a> is
+used to escape the HTML):</p>
+<div class="code python highlight-python"><div class="highlight"><pre><span class="kn">import</span> <span class="nn">houdini</span> <span class="kn">as</span> <span class="nn">h</span>
+<span class="kn">import</span> <span class="nn">misaka</span> <span class="kn">as</span> <span class="nn">m</span>
+<span class="kn">from</span> <span class="nn">pygments</span> <span class="kn">import</span> <span class="n">highlight</span>
+<span class="kn">from</span> <span class="nn">pygments.formatters</span> <span class="kn">import</span> <span class="n">HtmlFormatter</span>
+<span class="kn">from</span> <span class="nn">pygments.lexers</span> <span class="kn">import</span> <span class="n">get_lexer_by_name</span>
+
+<span class="k">class</span> <span class="nc">HighlighterRenderer</span><span class="p">(</span><span class="n">m</span><span class="o">.</span><span class="n">HtmlRenderer</span><span class="p">):</span>
+    <span class="k">def</span> <span class="nf">blockcode</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">text</span><span class="p">,</span> <span class="n">lang</span><span class="p">):</span>
+        <span class="k">if</span> <span class="ow">not</span> <span class="n">lang</span><span class="p">:</span>
+            <span class="k">return</span> <span class="s">&#39;</span><span class="se">\n</span><span class="s">&lt;pre&gt;&lt;code&gt;{}&lt;/code&gt;&lt;/pre&gt;</span><span class="se">\n</span><span class="s">&#39;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span>
+                <span class="n">h</span><span class="o">.</span><span class="n">escape_html</span><span class="p">(</span><span class="n">text</span><span class="o">.</span><span class="n">strip</span><span class="p">()))</span>
+
+        <span class="n">lexer</span> <span class="o">=</span> <span class="n">get_lexer_by_name</span><span class="p">(</span><span class="n">lang</span><span class="p">,</span> <span class="n">stripall</span><span class="o">=</span><span class="bp">True</span><span class="p">)</span>
+        <span class="n">formatter</span> <span class="o">=</span> <span class="n">HtmlFormatter</span><span class="p">()</span>
+
+        <span class="k">return</span> <span class="n">highlight</span><span class="p">(</span><span class="n">text</span><span class="p">,</span> <span class="n">lexer</span><span class="p">,</span> <span class="n">formatter</span><span class="p">)</span>
+
+<span class="n">renderer</span> <span class="o">=</span> <span class="n">HighlighterRenderer</span><span class="p">()</span>
+<span class="n">md</span> <span class="o">=</span> <span class="n">m</span><span class="o">.</span><span class="n">Markdown</span><span class="p">(</span><span class="n">renderer</span><span class="p">,</span> <span class="n">extensions</span><span class="o">=</span><span class="p">(</span><span class="s">&#39;fenced-code&#39;</span><span class="p">,))</span>
+
+<span class="k">print</span><span class="p">(</span><span class="n">md</span><span class="p">(</span><span class="s">&quot;&quot;&quot;</span>
+<span class="s">Here is some code:</span>
+
+<span class="s">```python</span>
+<span class="s">print(123)</span>
+<span class="s">```</span>
+
+<span class="s">More code:</span>
+
+<span class="s">    print(123)</span>
+<span class="s">&quot;&quot;&quot;</span><span class="p">))</span>
+</pre></div>
+</div>
+<p>The above code listing subclasses <code class="xref py py-class docutils literal"><span class="pre">HtmlRenderer</span></code> and implements
+a <code class="xref py py-meth docutils literal"><span class="pre">BaseRenderer.blockcode()</span></code> method. See <code class="docutils literal"><span class="pre">tests/test_renderer.py</span></code>
+for a renderer with all its methods implemented.</p>
+</div>
+<div class="section" id="tests">
+<h2>Tests<a class="headerlink" href="#tests" title="Permalink to this headline">¶</a></h2>
+<p><a class="reference external" href="http://tidy.sourceforge.net">tidy</a> is needed to run the tests. <a class="reference external" href="https://testrun.org/tox/">tox</a> can be used to run the tests on
+all supported Python versions with one command.</p>
+<p>Run one of the following commands to install tidy:</p>
+<div class="highlight-python"><div class="highlight"><pre>apt-get install tidy  # Debian and derivatives
+pacman -S tidyhtml    # Arch Linux
+</pre></div>
+</div>
+<p>And run the tests with:</p>
+<div class="highlight-python"><div class="highlight"><pre>python setup.py test
+</pre></div>
+</div>
+<p>It&#8217;s also possible to include or exclude tests. <code class="docutils literal"><span class="pre">-i</span></code> and <code class="docutils literal"><span class="pre">-e</span></code> accept a
+comma separated list of testcases:</p>
+<div class="highlight-python"><div class="highlight"><pre># Only run MarkdownConformanceTest_10
+python setup.py test -i MarkdownConformanceTest_10
+
+# Or everything except MarkdownConformanceTest_10
+python setup.py test -e MarkdownConformanceTest_10
+
+# Or everything except MarkdownConformanceTest_10 and MarkdownConformanceTest_103
+python setup.py test -e MarkdownConformanceTest_10,MarkdownConformanceTest_103
+</pre></div>
+</div>
+<p><code class="docutils literal"><span class="pre">-l</span></code> prints a list of all testcases:</p>
+<div class="highlight-python"><div class="highlight"><pre>$ python setup.py test -l
+[... build output ...]
+MarkdownConformanceTest_10
+MarkdownConformanceTest_103
+BenchmarkLibraries
+ArgsToIntTest
+CustomRendererTest
+SmartypantsTest
+</pre></div>
+</div>
+<p>And <code class="docutils literal"><span class="pre">-b</span></code> runs benchmarks (<code class="docutils literal"><span class="pre">-i</span></code> and <code class="docutils literal"><span class="pre">-e</span></code> can also be used in
+combination with <code class="docutils literal"><span class="pre">-b</span></code>):</p>
+<div class="highlight-python"><div class="highlight"><pre>$ python setup.py test -b
+[... build output ...]
+&gt;&gt; BenchmarkLibraries
+test_hoep                     3270         1.00 s/t     305.91 us/op
+test_markdown                   20         1.23 s/t      61.44 ms/op
+test_markdown2                  10         3.29 s/t     329.34 ms/op
+test_misaka                   3580         1.00 s/t     280.01 us/op
+test_misaka_classes           3190         1.00 s/t     314.00 us/op
+test_mistune                    70         1.04 s/t      14.91 ms/o
+</pre></div>
+</div>
+<p>What you see in the above output are the name, repetitions, total amount of
+time (in seconds) and the time taken for an operation (one repetition).
+A benchmark tries to stay within one second and runs a test for a minimum
+of ten repetitions and tries another ten if there&#8217;s time left.</p>
+</div>
+<div class="section" id="api">
+<h2>API<a class="headerlink" href="#api" title="Permalink to this headline">¶</a></h2>
+<div class="section" id="extensions">
+<h3>Extensions<a class="headerlink" href="#extensions" title="Permalink to this headline">¶</a></h3>
+<table border="1" class="docutils">
+<colgroup>
+<col width="46%" />
+<col width="54%" />
+</colgroup>
+<thead valign="bottom">
+<tr class="row-odd"><th class="head">Name</th>
+<th class="head">Constant</th>
+</tr>
+</thead>
+<tbody valign="top">
+<tr class="row-even"><td>tables</td>
+<td>EXT_TABLES</td>
+</tr>
+<tr class="row-odd"><td>fenced-code</td>
+<td>EXT_FENCED_CODE</td>
+</tr>
+<tr class="row-even"><td>footnotes</td>
+<td>EXT_FOOTNOTES</td>
+</tr>
+<tr class="row-odd"><td>autolink</td>
+<td>EXT_AUTOLINK</td>
+</tr>
+<tr class="row-even"><td>strikethrough</td>
+<td>EXT_STRIKETHROUGH</td>
+</tr>
+<tr class="row-odd"><td>underline</td>
+<td>EXT_UNDERLINE</td>
+</tr>
+<tr class="row-even"><td>highlight</td>
+<td>EXT_HIGHLIGHT</td>
+</tr>
+<tr class="row-odd"><td>quote</td>
+<td>EXT_QUOTE</td>
+</tr>
+<tr class="row-even"><td>superscript</td>
+<td>EXT_SUPERSCRIPT</td>
+</tr>
+<tr class="row-odd"><td>math</td>
+<td>EXT_MATH</td>
+</tr>
+<tr class="row-even"><td>no-intra-emphasis</td>
+<td>EXT_NO_INTRA_EMPHASIS</td>
+</tr>
+<tr class="row-odd"><td>space-headers</td>
+<td>EXT_SPACE_HEADERS</td>
+</tr>
+<tr class="row-even"><td>math-explicit</td>
+<td>EXT_MATH_EXPLICIT</td>
+</tr>
+<tr class="row-odd"><td>disable-indented-code</td>
+<td>EXT_DISABLE_INDENTED_CODE</td>
+</tr>
+</tbody>
+</table>
+</div>
+<div class="section" id="html-render-flags">
+<h3>HTML render flags<a class="headerlink" href="#html-render-flags" title="Permalink to this headline">¶</a></h3>
+<table border="1" class="docutils">
+<colgroup>
+<col width="42%" />
+<col width="58%" />
+</colgroup>
+<thead valign="bottom">
+<tr class="row-odd"><th class="head">Name</th>
+<th class="head">Constant</th>
+</tr>
+</thead>
+<tbody valign="top">
+<tr class="row-even"><td>skip-html</td>
+<td>HTML_SKIP_HTML</td>
+</tr>
+<tr class="row-odd"><td>escape</td>
+<td>HTML_ESCAPE</td>
+</tr>
+<tr class="row-even"><td>hard-wrap</td>
+<td>HTML_HARD_WRAP</td>
+</tr>
+<tr class="row-odd"><td>use-xhtml</td>
+<td>HTML_USE_XHTML</td>
+</tr>
+</tbody>
+</table>
+</div>
+<div class="section" id="functions">
+<h3>Functions<a class="headerlink" href="#functions" title="Permalink to this headline">¶</a></h3>
+</div>
+<div class="section" id="classes">
+<h3>Classes<a class="headerlink" href="#classes" title="Permalink to this headline">¶</a></h3>
+</div>
+</div>
+</div>
+
+
+           </div>
+          </div>
+          <footer>
+  
+
+  <hr/>
+
+  <div role="contentinfo">
+    <p>
+        &copy; Copyright 2011-2015, Frank Smit.
+
+    </p>
+  </div>
+  Built with <a href="http://sphinx-doc.org/">Sphinx</a> using a <a href="https://github.com/snide/sphinx_rtd_theme">theme</a> provided by <a href="https://readthedocs.org">Read the Docs</a>. 
+
+</footer>
+
+        </div>
+      </div>
+
+    </section>
+
+  </div>
+  
+
+
+  
+
+    <script type="text/javascript">
+        var DOCUMENTATION_OPTIONS = {
+            URL_ROOT:'./',
+            VERSION:'2.0.0',
+            COLLAPSE_INDEX:false,
+            FILE_SUFFIX:'.html',
+            HAS_SOURCE:  true
+        };
+    </script>
+      <script type="text/javascript" src="_static/jquery.js"></script>
+      <script type="text/javascript" src="_static/underscore.js"></script>
+      <script type="text/javascript" src="_static/doctools.js"></script>
+
+  
+
+  
+  
+    <script type="text/javascript" src="_static/js/theme.js"></script>
+  
+
+  
+  
+  <script type="text/javascript">
+      jQuery(function () {
+          SphinxRtdTheme.StickyNav.enable();
+      });
+  </script>
+   
+
+</body>
+</html>

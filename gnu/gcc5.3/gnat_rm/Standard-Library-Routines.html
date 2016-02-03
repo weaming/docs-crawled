@@ -1,0 +1,721 @@
+<html lang="en">
+<head>
+<title>Standard Library Routines - GNAT Reference Manual</title>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+<meta name="description" content="GNAT Reference Manual">
+<meta name="generator" content="makeinfo 4.13">
+<link title="Top" rel="start" href="index.html#Top">
+<link rel="prev" href="Representation-Clauses-and-Pragmas.html#Representation-Clauses-and-Pragmas" title="Representation Clauses and Pragmas">
+<link rel="next" href="The-Implementation-of-Standard-I_002fO.html#The-Implementation-of-Standard-I_002fO" title="The Implementation of Standard I/O">
+<link href="http://www.gnu.org/software/texinfo/" rel="generator-home" title="Texinfo Homepage">
+<!--
+
+     GNAT Reference Manual , March 24, 2015
+
+     AdaCore
+
+     Copyright (C) 2008-2015, Free Software Foundation
+-->
+<meta http-equiv="Content-Style-Type" content="text/css">
+<style type="text/css"><!--
+  pre.display { font-family:inherit }
+  pre.format  { font-family:inherit }
+  pre.smalldisplay { font-family:inherit; font-size:smaller }
+  pre.smallformat  { font-family:inherit; font-size:smaller }
+  pre.smallexample { font-size:smaller }
+  pre.smalllisp    { font-size:smaller }
+  span.sc    { font-variant:small-caps }
+  span.roman { font-family:serif; font-weight:normal; } 
+  span.sansserif { font-family:sans-serif; font-weight:normal; } 
+--></style>
+</head>
+<body>
+<div class="node">
+<a name="Standard-Library-Routines"></a>
+<p>
+Next:&nbsp;<a rel="next" accesskey="n" href="The-Implementation-of-Standard-I_002fO.html#The-Implementation-of-Standard-I_002fO">The Implementation of Standard I/O</a>,
+Previous:&nbsp;<a rel="previous" accesskey="p" href="Representation-Clauses-and-Pragmas.html#Representation-Clauses-and-Pragmas">Representation Clauses and Pragmas</a>,
+Up:&nbsp;<a rel="up" accesskey="u" href="index.html#Top">Top</a>
+<hr>
+</div>
+
+<p><a name="gnat_005frm_002fstandard_005flibrary_005froutines-standard_002dlibrary_002droutines"></a><a name="e"></a><a name="gnat_005frm_002fstandard_005flibrary_005froutines-doc"></a><a name="g_t240"></a><a name="gnat_005frm_002fstandard_005flibrary_005froutines-id1"></a><a name="g_t241"></a>
+
+<h2 class="chapter">10 Standard Library Routines</h2>
+
+<p>The Ada Reference Manual contains in Annex A a full description of an
+extensive set of standard library routines that can be used in any Ada
+program, and which must be provided by all Ada compilers.  They are
+analogous to the standard C library used by C programs.
+
+<p>GNAT implements all of the facilities described in annex A, and for most
+purposes the description in the Ada Reference Manual, or appropriate Ada
+text book, will be sufficient for making use of these facilities.
+
+<p>In the case of the input-output facilities,
+<a href="f.html#f">The Implementation of Standard I/O</a>,
+gives details on exactly how GNAT interfaces to the
+file system.  For the remaining packages, the Ada Reference Manual
+should be sufficient.  The following is a list of the packages included,
+together with a brief description of the functionality that is provided.
+
+<p>For completeness, references are included to other predefined library
+routines defined in other sections of the Ada Reference Manual (these are
+cross-indexed from Annex A). For further details see the relevant
+package declarations in the run-time library. In particular, a few units
+are not implemented, as marked by the presence of pragma Unimplemented_Unit,
+and in this case the package declaration contains comments explaining why
+the unit is not implemented.
+
+     <dl>
+<dt><code>Ada</code> `(A.2)'<dd>
+This is a parent package for all the standard library packages.  It is
+usually included implicitly in your program, and itself contains no
+useful data or routines.
+
+     <br><dt><code>Ada.Assertions</code> `(11.4.2)'<dd>
+<cite>Assertions</cite> provides the <cite>Assert</cite> subprograms, and also
+the declaration of the <cite>Assertion_Error</cite> exception.
+
+     <br><dt><code>Ada.Asynchronous_Task_Control</code> `(D.11)'<dd>
+<cite>Asynchronous_Task_Control</cite> provides low level facilities for task
+synchronization. It is typically not implemented. See package spec for details.
+
+     <br><dt><code>Ada.Calendar</code> `(9.6)'<dd>
+<cite>Calendar</cite> provides time of day access, and routines for
+manipulating times and durations.
+
+     <br><dt><code>Ada.Calendar.Arithmetic</code> `(9.6.1)'<dd>
+This package provides additional arithmetic
+operations for <cite>Calendar</cite>.
+
+     <br><dt><code>Ada.Calendar.Formatting</code> `(9.6.1)'<dd>
+This package provides formatting operations for <cite>Calendar</cite>.
+
+     <br><dt><code>Ada.Calendar.Time_Zones</code> `(9.6.1)'<dd>
+This package provides additional <cite>Calendar</cite> facilities
+for handling time zones.
+
+     <br><dt><code>Ada.Characters</code> `(A.3.1)'<dd>
+This is a dummy parent package that contains no useful entities
+
+     <br><dt><code>Ada.Characters.Conversions</code> `(A.3.2)'<dd>
+This package provides character conversion functions.
+
+     <br><dt><code>Ada.Characters.Handling</code> `(A.3.2)'<dd>
+This package provides some basic character handling capabilities,
+including classification functions for classes of characters (e.g., test
+for letters, or digits).
+
+     <br><dt><code>Ada.Characters.Latin_1</code> `(A.3.3)'<dd>
+This package includes a complete set of definitions of the characters
+that appear in type CHARACTER.  It is useful for writing programs that
+will run in international environments.  For example, if you want an
+upper case E with an acute accent in a string, it is often better to use
+the definition of <cite>UC_E_Acute</cite> in this package.  Then your program
+will print in an understandable manner even if your environment does not
+support these extended characters.
+
+     <br><dt><code>Ada.Command_Line</code> `(A.15)'<dd>
+This package provides access to the command line parameters and the name
+of the current program (analogous to the use of <cite>argc</cite> and <cite>argv</cite>
+in C), and also allows the exit status for the program to be set in a
+system-independent manner.
+
+     <br><dt><code>Ada.Complex_Text_IO</code> `(G.1.3)'<dd>
+This package provides text input and output of complex numbers.
+
+     <br><dt><code>Ada.Containers</code> `(A.18.1)'<dd>
+A top level package providing a few basic definitions used by all the
+following specific child packages that provide specific kinds of
+containers. 
+</dl>
+
+<p><code>Ada.Containers.Bounded_Priority_Queues</code> `(A.18.31)'
+
+<p><code>Ada.Containers.Bounded_Synchronized_Queues</code> `(A.18.29)'
+
+<p><code>Ada.Containers.Doubly_Linked_Lists</code> `(A.18.3)'
+
+<p><code>Ada.Containers.Generic_Array_Sort</code> `(A.18.26)'
+
+<p><code>Ada.Containers.Generic_Constrained_Array_Sort</code> `(A.18.26)'
+
+<p><code>Ada.Containers.Generic_Sort</code> `(A.18.26)'
+
+<p><code>Ada.Containers.Hashed_Maps</code> `(A.18.5)'
+
+<p><code>Ada.Containers.Hashed_Sets</code> `(A.18.8)'
+
+<p><code>Ada.Containers.Indefinite_Doubly_Linked_Lists</code> `(A.18.12)'
+
+<p><code>Ada.Containers.Indefinite_Hashed_Maps</code> `(A.18.13)'
+
+<p><code>Ada.Containers.Indefinite_Hashed_Sets</code> `(A.18.15)'
+
+<p><code>Ada.Containers.Indefinite_Holders</code> `(A.18.18)'
+
+<p><code>Ada.Containers.Indefinite_Multiway_Trees</code> `(A.18.17)'
+
+<p><code>Ada.Containers.Indefinite_Ordered_Maps</code> `(A.18.14)'
+
+<p><code>Ada.Containers.Indefinite_Ordered_Sets</code> `(A.18.16)'
+
+<p><code>Ada.Containers.Indefinite_Vectors</code> `(A.18.11)'
+
+<p><code>Ada.Containers.Multiway_Trees</code> `(A.18.10)'
+
+<p><code>Ada.Containers.Ordered_Maps</code> `(A.18.6)'
+
+<p><code>Ada.Containers.Ordered_Sets</code> `(A.18.9)'
+
+<p><code>Ada.Containers.Synchronized_Queue_Interfaces</code> `(A.18.27)'
+
+<p><code>Ada.Containers.Unbounded_Priority_Queues</code> `(A.18.30)'
+
+<p><code>Ada.Containers.Unbounded_Synchronized_Queues</code> `(A.18.28)'
+
+<p><code>Ada.Containers.Vectors</code> `(A.18.2)'
+
+     <dl>
+<dt><code>Ada.Directories</code> `(A.16)'<dd>
+This package provides operations on directories.
+
+     <br><dt><code>Ada.Directories.Hierarchical_File_Names</code> `(A.16.1)'<dd>
+This package provides additional directory operations handling
+hiearchical file names.
+
+     <br><dt><code>Ada.Directories.Information</code> `(A.16)'<dd>
+This is an implementation defined package for additional directory
+operations, which is not implemented in GNAT.
+
+     <br><dt><code>Ada.Decimal</code> `(F.2)'<dd>
+This package provides constants describing the range of decimal numbers
+implemented, and also a decimal divide routine (analogous to the COBOL
+verb DIVIDE ... GIVING ... REMAINDER ...)
+
+     <br><dt><code>Ada.Direct_IO</code> `(A.8.4)'<dd>
+This package provides input-output using a model of a set of records of
+fixed-length, containing an arbitrary definite Ada type, indexed by an
+integer record number.
+
+     <br><dt><code>Ada.Dispatching</code> `(D.2.1)'<dd>
+A parent package containing definitions for task dispatching operations.
+
+     <br><dt><code>Ada.Dispatching.EDF</code> `(D.2.6)'<dd>
+Not implemented in GNAT.
+
+     <br><dt><code>Ada.Dispatching.Non_Preemptive</code> `(D.2.4)'<dd>
+Not implemented in GNAT.
+
+     <br><dt><code>Ada.Dispatching.Round_Robin</code> `(D.2.5)'<dd>
+Not implemented in GNAT.
+
+     <br><dt><code>Ada.Dynamic_Priorities</code> `(D.5)'<dd>
+This package allows the priorities of a task to be adjusted dynamically
+as the task is running.
+
+     <br><dt><code>Ada.Environment_Variables</code> `(A.17)'<dd>
+This package provides facilities for accessing environment variables.
+
+     <br><dt><code>Ada.Exceptions</code> `(11.4.1)'<dd>
+This package provides additional information on exceptions, and also
+contains facilities for treating exceptions as data objects, and raising
+exceptions with associated messages.
+
+     <br><dt><code>Ada.Execution_Time</code> `(D.14)'<dd>
+Not implemented in GNAT.
+
+     <br><dt><code>Ada.Execution_Time.Group_Budgets</code> `(D.14.2)'<dd>
+Not implemented in GNAT.
+
+     <br><dt><code>Ada.Execution_Time.Timers</code> `(D.14.1)''<dd>
+Not implemented in GNAT.
+
+     <br><dt><code>Ada.Finalization</code> `(7.6)'<dd>
+This package contains the declarations and subprograms to support the
+use of controlled types, providing for automatic initialization and
+finalization (analogous to the constructors and destructors of C++).
+
+     <br><dt><code>Ada.Float_Text_IO</code> `(A.10.9)'<dd>
+A library level instantiation of Text_IO.Float_IO for type Float.
+
+     <br><dt><code>Ada.Float_Wide_Text_IO</code> `(A.10.9)'<dd>
+A library level instantiation of Wide_Text_IO.Float_IO for type Float.
+
+     <br><dt><code>Ada.Float_Wide_Wide_Text_IO</code> `(A.10.9)'<dd>
+A library level instantiation of Wide_Wide_Text_IO.Float_IO for type Float.
+
+     <br><dt><code>Ada.Integer_Text_IO</code> `(A.10.9)'<dd>
+A library level instantiation of Text_IO.Integer_IO for type Integer.
+
+     <br><dt><code>Ada.Integer_Wide_Text_IO</code> `(A.10.9)'<dd>
+A library level instantiation of Wide_Text_IO.Integer_IO for type Integer.
+
+     <br><dt><code>Ada.Integer_Wide_Wide_Text_IO</code> `(A.10.9)'<dd>
+A library level instantiation of Wide_Wide_Text_IO.Integer_IO for type Integer.
+
+     <br><dt><code>Ada.Interrupts</code> `(C.3.2)'<dd>
+This package provides facilities for interfacing to interrupts, which
+includes the set of signals or conditions that can be raised and
+recognized as interrupts.
+
+     <br><dt><code>Ada.Interrupts.Names</code> `(C.3.2)'<dd>
+This package provides the set of interrupt names (actually signal
+or condition names) that can be handled by GNAT.
+
+     <br><dt><code>Ada.IO_Exceptions</code> `(A.13)'<dd>
+This package defines the set of exceptions that can be raised by use of
+the standard IO packages.
+
+     <br><dt><code>Ada.Iterator_Interfaces</code> `(5.5.1)'<dd>
+This package provides a generic interface to generalized iterators.
+
+     <br><dt><code>Ada.Locales</code> `(A.19)'<dd>
+This package provides declarations providing information (Language
+and Country) about the current locale.
+
+     <br><dt><code>Ada.Numerics</code><dd>
+This package contains some standard constants and exceptions used
+throughout the numerics packages.  Note that the constants pi and e are
+defined here, and it is better to use these definitions than rolling
+your own.
+
+     <br><dt><code>Ada.Numerics.Complex_Arrays</code> `(G.3.2)'<dd>
+Provides operations on arrays of complex numbers.
+
+     <br><dt><code>Ada.Numerics.Complex_Elementary_Functions</code><dd>
+Provides the implementation of standard elementary functions (such as
+log and trigonometric functions) operating on complex numbers using the
+standard <cite>Float</cite> and the <cite>Complex</cite> and <cite>Imaginary</cite> types
+created by the package <cite>Numerics.Complex_Types</cite>.
+
+     <br><dt><code>Ada.Numerics.Complex_Types</code><dd>
+This is a predefined instantiation of
+<cite>Numerics.Generic_Complex_Types</cite> using <cite>Standard.Float</cite> to
+build the type <cite>Complex</cite> and <cite>Imaginary</cite>.
+
+     <br><dt><code>Ada.Numerics.Discrete_Random</code><dd>
+This generic package provides a random number generator suitable for generating
+uniformly distributed values of a specified discrete subtype.
+
+     <br><dt><code>Ada.Numerics.Float_Random</code><dd>
+This package provides a random number generator suitable for generating
+uniformly distributed floating point values in the unit interval.
+
+     <br><dt><code>Ada.Numerics.Generic_Complex_Elementary_Functions</code><dd>
+This is a generic version of the package that provides the
+implementation of standard elementary functions (such as log and
+trigonometric functions) for an arbitrary complex type.
+
+     <p>The following predefined instantiations of this package are provided:
+
+          <ul>
+<li><code>Short_Float</code>
+
+          <p><cite>Ada.Numerics.Short_Complex_Elementary_Functions</cite>
+
+          <li><code>Float</code>
+
+          <p><cite>Ada.Numerics.Complex_Elementary_Functions</cite>
+
+          <li><code>Long_Float</code>
+
+          <p><cite>Ada.Numerics.Long_Complex_Elementary_Functions</cite>
+</ul>
+
+     <br><dt><code>Ada.Numerics.Generic_Complex_Types</code><dd>
+This is a generic package that allows the creation of complex types,
+with associated complex arithmetic operations.
+
+     <p>The following predefined instantiations of this package exist
+
+          <ul>
+<li><code>Short_Float</code>
+
+          <p><cite>Ada.Numerics.Short_Complex_Complex_Types</cite>
+
+          <li><code>Float</code>
+
+          <p><cite>Ada.Numerics.Complex_Complex_Types</cite>
+
+          <li><code>Long_Float</code>
+
+          <p><cite>Ada.Numerics.Long_Complex_Complex_Types</cite>
+</ul>
+
+     <br><dt><code>Ada.Numerics.Generic_Elementary_Functions</code><dd>
+This is a generic package that provides the implementation of standard
+elementary functions (such as log an trigonometric functions) for an
+arbitrary float type.
+
+     <p>The following predefined instantiations of this package exist
+
+          <ul>
+<li><code>Short_Float</code>
+
+          <p><cite>Ada.Numerics.Short_Elementary_Functions</cite>
+
+          <li><code>Float</code>
+
+          <p><cite>Ada.Numerics.Elementary_Functions</cite>
+
+          <li><code>Long_Float</code>
+
+          <p><cite>Ada.Numerics.Long_Elementary_Functions</cite>
+</ul>
+
+     <br><dt><code>Ada.Numerics.Generic_Real_Arrays</code> `(G.3.1)'<dd>
+Generic operations on arrays of reals
+
+     <br><dt><code>Ada.Numerics.Real_Arrays</code> `(G.3.1)'<dd>
+Preinstantiation of Ada.Numerics.Generic_Real_Arrays (Float).
+
+     <br><dt><code>Ada.Real_Time</code> `(D.8)'<dd>
+This package provides facilities similar to those of <cite>Calendar</cite>, but
+operating with a finer clock suitable for real time control. Note that
+annex D requires that there be no backward clock jumps, and GNAT generally
+guarantees this behavior, but of course if the external clock on which
+the GNAT runtime depends is deliberately reset by some external event,
+then such a backward jump may occur.
+
+     <br><dt><code>Ada.Real_Time.Timing_Events</code> `(D.15)'<dd>
+Not implemented in GNAT.
+
+     <br><dt><code>Ada.Sequential_IO</code> `(A.8.1)'<dd>
+This package provides input-output facilities for sequential files,
+which can contain a sequence of values of a single type, which can be
+any Ada type, including indefinite (unconstrained) types.
+
+     <br><dt><code>Ada.Storage_IO</code> `(A.9)'<dd>
+This package provides a facility for mapping arbitrary Ada types to and
+from a storage buffer.  It is primarily intended for the creation of new
+IO packages.
+
+     <br><dt><code>Ada.Streams</code> `(13.13.1)'<dd>
+This is a generic package that provides the basic support for the
+concept of streams as used by the stream attributes (<cite>Input</cite>,
+<cite>Output</cite>, <cite>Read</cite> and <cite>Write</cite>).
+
+     <br><dt><code>Ada.Streams.Stream_IO</code> `(A.12.1)'<dd>
+This package is a specialization of the type <cite>Streams</cite> defined in
+package <cite>Streams</cite> together with a set of operations providing
+Stream_IO capability.  The Stream_IO model permits both random and
+sequential access to a file which can contain an arbitrary set of values
+of one or more Ada types.
+
+     <br><dt><code>Ada.Strings</code> `(A.4.1)'<dd>
+This package provides some basic constants used by the string handling
+packages.
+
+     <br><dt><code>Ada.Strings.Bounded</code> `(A.4.4)'<dd>
+This package provides facilities for handling variable length
+strings.  The bounded model requires a maximum length.  It is thus
+somewhat more limited than the unbounded model, but avoids the use of
+dynamic allocation or finalization.
+
+     <br><dt><code>Ada.Strings.Bounded.Equal_Case_Insensitive</code> `(A.4.10)'<dd>
+Provides case-insensitive comparisons of bounded strings
+
+     <br><dt><code>Ada.Strings.Bounded.Hash</code> `(A.4.9)'<dd>
+This package provides a generic hash function for bounded strings
+
+     <br><dt><code>Ada.Strings.Bounded.Hash_Case_Insensitive</code> `(A.4.9)'<dd>
+This package provides a generic hash function for bounded strings that
+converts the string to be hashed to lower case.
+
+     <br><dt><code>Ada.Strings.Bounded.Less_Case_Insensitive</code> `(A.4.10)'<dd>
+This package provides a comparison function for bounded strings that works
+in a case insensitive manner by converting to lower case before the comparison.
+
+     <br><dt><code>Ada.Strings.Fixed</code> `(A.4.3)'<dd>
+This package provides facilities for handling fixed length strings.
+
+     <br><dt><code>Ada.Strings.Fixed.Equal_Case_Insensitive</code> `(A.4.10)'<dd>
+This package provides an equality function for fixed strings that compares
+the strings after converting both to lower case.
+
+     <br><dt><code>Ada.Strings.Fixed.Hash_Case_Insensitive</code> `(A.4.9)'<dd>
+This package provides a case insensitive hash function for fixed strings that
+converts the string to lower case before computing the hash.
+
+     <br><dt><code>Ada.Strings.Fixed.Less_Case_Insensitive</code> `(A.4.10)'<dd>
+This package provides a comparison function for fixed strings that works
+in a case insensitive manner by converting to lower case before the comparison.
+
+     <br><dt><code>Ada.Strings.Hash</code> `(A.4.9)'<dd>
+This package provides a hash function for strings.
+
+     <br><dt><code>Ada.Strings.Hash_Case_Insensitive</code> `(A.4.9)'<dd>
+This package provides a hash function for strings that is case insensitive. 
+The string is converted to lower case before computing the hash.
+
+     <br><dt><code>Ada.Strings.Less_Case_Insensitive</code> `(A.4.10)'<dd>
+This package provides a comparison function for\strings that works
+in a case insensitive manner by converting to lower case before the comparison.
+
+     <br><dt><code>Ada.Strings.Maps</code> `(A.4.2)'<dd>
+This package provides facilities for handling character mappings and
+arbitrarily defined subsets of characters.  For instance it is useful in
+defining specialized translation tables.
+
+     <br><dt><code>Ada.Strings.Maps.Constants</code> `(A.4.6)'<dd>
+This package provides a standard set of predefined mappings and
+predefined character sets.  For example, the standard upper to lower case
+conversion table is found in this package.  Note that upper to lower case
+conversion is non-trivial if you want to take the entire set of
+characters, including extended characters like E with an acute accent,
+into account.  You should use the mappings in this package (rather than
+adding 32 yourself) to do case mappings.
+
+     <br><dt><code>Ada.Strings.Unbounded</code> `(A.4.5)'<dd>
+This package provides facilities for handling variable length
+strings.  The unbounded model allows arbitrary length strings, but
+requires the use of dynamic allocation and finalization.
+
+     <br><dt><code>Ada.Strings.Unbounded.Equal_Case_Insensitive</code> `(A.4.10)'<dd>
+Provides case-insensitive comparisons of unbounded strings
+
+     <br><dt><code>Ada.Strings.Unbounded.Hash</code> `(A.4.9)'<dd>
+This package provides a generic hash function for unbounded strings
+
+     <br><dt><code>Ada.Strings.Unbounded.Hash_Case_Insensitive</code> `(A.4.9)'<dd>
+This package provides a generic hash function for unbounded strings that
+converts the string to be hashed to lower case.
+
+     <br><dt><code>Ada.Strings.Unbounded.Less_Case_Insensitive</code> `(A.4.10)'<dd>
+This package provides a comparison function for unbounded strings that works
+in a case insensitive manner by converting to lower case before the comparison.
+
+     <br><dt><code>Ada.Strings.UTF_Encoding</code> `(A.4.11)'<dd>
+This package provides basic definitions for dealing with UTF-encoded strings.
+
+     <br><dt><code>Ada.Strings.UTF_Encoding.Conversions</code> `(A.4.11)'<dd>
+This package provides conversion functions for UTF-encoded strings. 
+</dl>
+
+<p><code>Ada.Strings.UTF_Encoding.Strings</code> `(A.4.11)'
+
+<p><code>Ada.Strings.UTF_Encoding.Wide_Strings</code> `(A.4.11)'
+
+     <dl>
+<dt><code>Ada.Strings.UTF_Encoding.Wide_Wide_Strings</code> `(A.4.11)'<dd>
+These packages provide facilities for handling UTF encodings for
+Strings, Wide_Strings and Wide_Wide_Strings. 
+</dl>
+
+<p><code>Ada.Strings.Wide_Bounded</code> `(A.4.7)'
+
+<p><code>Ada.Strings.Wide_Fixed</code> `(A.4.7)'
+
+<p><code>Ada.Strings.Wide_Maps</code> `(A.4.7)'
+
+     <dl>
+<dt><code>Ada.Strings.Wide_Unbounded</code> `(A.4.7)'<dd>
+These packages provide analogous capabilities to the corresponding
+packages without <code>Wide_</code> in the name, but operate with the types
+<cite>Wide_String</cite> and <cite>Wide_Character</cite> instead of <cite>String</cite>
+and <cite>Character</cite>. Versions of all the child packages are available. 
+</dl>
+
+<p><code>Ada.Strings.Wide_Wide_Bounded</code> `(A.4.7)'
+
+<p><code>Ada.Strings.Wide_Wide_Fixed</code> `(A.4.7)'
+
+<p><code>Ada.Strings.Wide_Wide_Maps</code> `(A.4.7)'
+
+     <dl>
+<dt><code>Ada.Strings.Wide_Wide_Unbounded</code> `(A.4.7)'<dd>
+These packages provide analogous capabilities to the corresponding
+packages without <code>Wide_</code> in the name, but operate with the types
+<cite>Wide_Wide_String</cite> and <cite>Wide_Wide_Character</cite> instead
+of <cite>String</cite> and <cite>Character</cite>.
+
+     <br><dt><code>Ada.Synchronous_Barriers</code> `(D.10.1)'<dd>
+This package provides facilities for synchronizing tasks at a low level
+with barriers.
+
+     <br><dt><code>Ada.Synchronous_Task_Control</code> `(D.10)'<dd>
+This package provides some standard facilities for controlling task
+communication in a synchronous manner.
+
+     <br><dt><code>Ada.Synchronous_Task_Control.EDF</code> `(D.10)'<dd>
+Not implemented in GNAT.
+
+     <br><dt><code>Ada.Tags</code><dd>
+This package contains definitions for manipulation of the tags of tagged
+values.
+
+     <br><dt><code>Ada.Tags.Generic_Dispatching_Constructor</code> `(3.9)'<dd>
+This package provides a way of constructing tagged class-wide values given
+only the tag value.
+
+     <br><dt><code>Ada.Task_Attributes</code> `(C.7.2)'<dd>
+This package provides the capability of associating arbitrary
+task-specific data with separate tasks.
+
+     <br><dt><code>Ada.Task_Identifification</code> `(C.7.1)'<dd>
+This package provides capabilities for task identification.
+
+     <br><dt><code>Ada.Task_Termination</code> `(C.7.3)'<dd>
+This package provides control over task termination.
+
+     <br><dt><code>Ada.Text_IO</code><dd>
+This package provides basic text input-output capabilities for
+character, string and numeric data.  The subpackages of this
+package are listed next. Note that although these are defined
+as subpackages in the RM, they are actually transparently
+implemented as child packages in GNAT, meaning that they
+are only loaded if needed.
+
+     <br><dt><code>Ada.Text_IO.Decimal_IO</code><dd>
+Provides input-output facilities for decimal fixed-point types
+
+     <br><dt><code>Ada.Text_IO.Enumeration_IO</code><dd>
+Provides input-output facilities for enumeration types.
+
+     <br><dt><code>Ada.Text_IO.Fixed_IO</code><dd>
+Provides input-output facilities for ordinary fixed-point types.
+
+     <br><dt><code>Ada.Text_IO.Float_IO</code><dd>
+Provides input-output facilities for float types.  The following
+predefined instantiations of this generic package are available:
+
+          <ul>
+<li><code>Short_Float</code>
+
+          <p><cite>Short_Float_Text_IO</cite>
+
+          <li><code>Float</code>
+
+          <p><cite>Float_Text_IO</cite>
+
+          <li><code>Long_Float</code>
+
+          <p><cite>Long_Float_Text_IO</cite>
+</ul>
+
+     <br><dt><code>Ada.Text_IO.Integer_IO</code><dd>
+Provides input-output facilities for integer types.  The following
+predefined instantiations of this generic package are available:
+
+          <ul>
+<li><code>Short_Short_Integer</code>
+
+          <p><cite>Ada.Short_Short_Integer_Text_IO</cite>
+
+          <li><code>Short_Integer</code>
+
+          <p><cite>Ada.Short_Integer_Text_IO</cite>
+
+          <li><code>Integer</code>
+
+          <p><cite>Ada.Integer_Text_IO</cite>
+
+          <li><code>Long_Integer</code>
+
+          <p><cite>Ada.Long_Integer_Text_IO</cite>
+
+          <li><code>Long_Long_Integer</code>
+
+          <p><cite>Ada.Long_Long_Integer_Text_IO</cite>
+</ul>
+
+     <br><dt><code>Ada.Text_IO.Modular_IO</code><dd>
+Provides input-output facilities for modular (unsigned) types.
+
+     <br><dt><code>Ada.Text_IO.Bounded_IO (A.10.11)</code><dd>
+Provides input-output facilities for bounded strings.
+
+     <br><dt><code>Ada.Text_IO.Complex_IO (G.1.3)</code><dd>
+This package provides basic text input-output capabilities for complex
+data.
+
+     <br><dt><code>Ada.Text_IO.Editing (F.3.3)</code><dd>
+This package contains routines for edited output, analogous to the use
+of pictures in COBOL.  The picture formats used by this package are a
+close copy of the facility in COBOL.
+
+     <br><dt><code>Ada.Text_IO.Text_Streams (A.12.2)</code><dd>
+This package provides a facility that allows Text_IO files to be treated
+as streams, so that the stream attributes can be used for writing
+arbitrary data, including binary data, to Text_IO files.
+
+     <br><dt><code>Ada.Text_IO.Unbounded_IO (A.10.12)</code><dd>
+This package provides input-output facilities for unbounded strings.
+
+     <br><dt><code>Ada.Unchecked_Conversion (13.9)</code><dd>
+This generic package allows arbitrary conversion from one type to
+another of the same size, providing for breaking the type safety in
+special circumstances.
+
+     <p>If the types have the same Size (more accurately the same Value_Size),
+then the effect is simply to transfer the bits from the source to the
+target type without any modification.  This usage is well defined, and
+for simple types whose representation is typically the same across
+all implementations, gives a portable method of performing such
+conversions.
+
+     <p>If the types do not have the same size, then the result is implementation
+defined, and thus may be non-portable.  The following describes how GNAT
+handles such unchecked conversion cases.
+
+     <p>If the types are of different sizes, and are both discrete types, then
+the effect is of a normal type conversion without any constraint checking. 
+In particular if the result type has a larger size, the result will be
+zero or sign extended.  If the result type has a smaller size, the result
+will be truncated by ignoring high order bits.
+
+     <p>If the types are of different sizes, and are not both discrete types,
+then the conversion works as though pointers were created to the source
+and target, and the pointer value is converted.  The effect is that bits
+are copied from successive low order storage units and bits of the source
+up to the length of the target type.
+
+     <p>A warning is issued if the lengths differ, since the effect in this
+case is implementation dependent, and the above behavior may not match
+that of some other compiler.
+
+     <p>A pointer to one type may be converted to a pointer to another type using
+unchecked conversion.  The only case in which the effect is undefined is
+when one or both pointers are pointers to unconstrained array types.  In
+this case, the bounds information may get incorrectly transferred, and in
+particular, GNAT uses double size pointers for such types, and it is
+meaningless to convert between such pointer types.  GNAT will issue a
+warning if the alignment of the target designated type is more strict
+than the alignment of the source designated type (since the result may
+be unaligned in this case).
+
+     <p>A pointer other than a pointer to an unconstrained array type may be
+converted to and from System.Address.  Such usage is common in Ada 83
+programs, but note that Ada.Address_To_Access_Conversions is the
+preferred method of performing such conversions in Ada 95 and Ada 2005. 
+Neither
+unchecked conversion nor Ada.Address_To_Access_Conversions should be
+used in conjunction with pointers to unconstrained objects, since
+the bounds information cannot be handled correctly in this case.
+
+     <br><dt><code>Ada.Unchecked_Deallocation</code> `(13.11.2)'<dd>
+This generic package allows explicit freeing of storage previously
+allocated by use of an allocator.
+
+     <br><dt><code>Ada.Wide_Text_IO</code> `(A.11)'<dd>
+This package is similar to <cite>Ada.Text_IO</cite>, except that the external
+file supports wide character representations, and the internal types are
+<cite>Wide_Character</cite> and <cite>Wide_String</cite> instead of <cite>Character</cite>
+and <cite>String</cite>. The corresponding set of nested packages and child
+packages are defined.
+
+     <br><dt><code>Ada.Wide_Wide_Text_IO</code> `(A.11)'<dd>
+This package is similar to <cite>Ada.Text_IO</cite>, except that the external
+file supports wide character representations, and the internal types are
+<cite>Wide_Character</cite> and <cite>Wide_String</cite> instead of <cite>Character</cite>
+and <cite>String</cite>. The corresponding set of nested packages and child
+packages are defined. 
+</dl>
+
+<p>For packages in Interfaces and System, all the RM defined packages are
+available in GNAT, see the Ada 2012 RM for full details.
+
+</body></html>
+

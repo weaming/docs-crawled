@@ -1,0 +1,87 @@
+<html lang="en">
+<head>
+<title>Running and Debugging Ada Programs - GNAT User's Guide for Native Platforms</title>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+<meta name="description" content="GNAT User's Guide for Native Platforms">
+<meta name="generator" content="makeinfo 4.13">
+<link title="Top" rel="start" href="index.html#Top">
+<link rel="up" href="GNAT-and-Program-Execution.html#GNAT-and-Program-Execution" title="GNAT and Program Execution">
+<link rel="next" href="Code-Coverage-and-Profiling.html#Code-Coverage-and-Profiling" title="Code Coverage and Profiling">
+<link href="http://www.gnu.org/software/texinfo/" rel="generator-home" title="Texinfo Homepage">
+<!--
+
+     GNAT User's Guide for Native Platforms , March 24, 2015
+
+     AdaCore
+
+     Copyright (C) 2008-2015, Free Software Foundation
+-->
+<meta http-equiv="Content-Style-Type" content="text/css">
+<style type="text/css"><!--
+  pre.display { font-family:inherit }
+  pre.format  { font-family:inherit }
+  pre.smalldisplay { font-family:inherit; font-size:smaller }
+  pre.smallformat  { font-family:inherit; font-size:smaller }
+  pre.smallexample { font-size:smaller }
+  pre.smalllisp    { font-size:smaller }
+  span.sc    { font-variant:small-caps }
+  span.roman { font-family:serif; font-weight:normal; } 
+  span.sansserif { font-family:sans-serif; font-weight:normal; } 
+--></style>
+</head>
+<body>
+<div class="node">
+<a name="Running-and-Debugging-Ada-Programs"></a>
+<p>
+Next:&nbsp;<a rel="next" accesskey="n" href="Code-Coverage-and-Profiling.html#Code-Coverage-and-Profiling">Code Coverage and Profiling</a>,
+Up:&nbsp;<a rel="up" accesskey="u" href="GNAT-and-Program-Execution.html#GNAT-and-Program-Execution">GNAT and Program Execution</a>
+<hr>
+</div>
+
+<p><a name="gnat_005fugn_002fgnat_005fand_005fprogram_005fexecution-id2"></a><a name="g_t1f0"></a><a name="gnat_005fugn_002fgnat_005fand_005fprogram_005fexecution-running_002dand_002ddebugging_002dada_002dprograms"></a><a name="g_t26"></a>
+
+<h3 class="section">8.1 Running and Debugging Ada Programs</h3>
+
+<p><a name="index-Debugging-949"></a>
+This section discusses how to debug Ada programs.
+
+<p>An incorrect Ada program may be handled in three ways by the GNAT compiler:
+
+     <ul>
+<li>The illegality may be a violation of the static semantics of Ada. In
+that case GNAT diagnoses the constructs in the program that are illegal. 
+It is then a straightforward matter for the user to modify those parts of
+the program.
+
+     <li>The illegality may be a violation of the dynamic semantics of Ada. In
+that case the program compiles and executes, but may generate incorrect
+results, or may terminate abnormally with some exception.
+
+     <li>When presented with a program that contains convoluted errors, GNAT
+itself may terminate abnormally without providing full diagnostics on
+the incorrect user program. 
+</ul>
+
+<p><a name="index-Debugger-950"></a>
+<a name="index-gdb-951"></a>
+
+<ul class="menu">
+<li><a accesskey="1" href="The-GNAT-Debugger-GDB.html#The-GNAT-Debugger-GDB">The GNAT Debugger GDB</a>
+<li><a accesskey="2" href="Running-GDB.html#Running-GDB">Running GDB</a>
+<li><a accesskey="3" href="Introduction-to-GDB-Commands.html#Introduction-to-GDB-Commands">Introduction to GDB Commands</a>
+<li><a accesskey="4" href="Using-Ada-Expressions.html#Using-Ada-Expressions">Using Ada Expressions</a>
+<li><a accesskey="5" href="Calling-User_002dDefined-Subprograms.html#Calling-User_002dDefined-Subprograms">Calling User-Defined Subprograms</a>
+<li><a accesskey="6" href="Using-the-next-Command-in-a-Function.html#Using-the-next-Command-in-a-Function">Using the next Command in a Function</a>
+<li><a accesskey="7" href="Stopping-When-Ada-Exceptions-Are-Raised.html#Stopping-When-Ada-Exceptions-Are-Raised">Stopping When Ada Exceptions Are Raised</a>
+<li><a accesskey="8" href="Ada-Tasks.html#Ada-Tasks">Ada Tasks</a>
+<li><a accesskey="9" href="Debugging-Generic-Units.html#Debugging-Generic-Units">Debugging Generic Units</a>
+<li><a href="Remote-Debugging-with-gdbserver.html#Remote-Debugging-with-gdbserver">Remote Debugging with gdbserver</a>
+<li><a href="GNAT-Abnormal-Termination-or-Failure-to-Terminate.html#GNAT-Abnormal-Termination-or-Failure-to-Terminate">GNAT Abnormal Termination or Failure to Terminate</a>
+<li><a href="Naming-Conventions-for-GNAT-Source-Files.html#Naming-Conventions-for-GNAT-Source-Files">Naming Conventions for GNAT Source Files</a>
+<li><a href="Getting-Internal-Debugging-Information.html#Getting-Internal-Debugging-Information">Getting Internal Debugging Information</a>
+<li><a href="Stack-Traceback.html#Stack-Traceback">Stack Traceback</a>
+
+</ul>
+
+</body></html>
+

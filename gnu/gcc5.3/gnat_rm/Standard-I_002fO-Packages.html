@@ -1,0 +1,95 @@
+<html lang="en">
+<head>
+<title>Standard I/O Packages - GNAT Reference Manual</title>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+<meta name="description" content="GNAT Reference Manual">
+<meta name="generator" content="makeinfo 4.13">
+<link title="Top" rel="start" href="index.html#Top">
+<link rel="up" href="The-Implementation-of-Standard-I_002fO.html#The-Implementation-of-Standard-I_002fO" title="The Implementation of Standard I/O">
+<link rel="next" href="FORM-Strings.html#FORM-Strings" title="FORM Strings">
+<link href="http://www.gnu.org/software/texinfo/" rel="generator-home" title="Texinfo Homepage">
+<!--
+
+     GNAT Reference Manual , March 24, 2015
+
+     AdaCore
+
+     Copyright (C) 2008-2015, Free Software Foundation
+-->
+<meta http-equiv="Content-Style-Type" content="text/css">
+<style type="text/css"><!--
+  pre.display { font-family:inherit }
+  pre.format  { font-family:inherit }
+  pre.smalldisplay { font-family:inherit; font-size:smaller }
+  pre.smallformat  { font-family:inherit; font-size:smaller }
+  pre.smallexample { font-size:smaller }
+  pre.smalllisp    { font-size:smaller }
+  span.sc    { font-variant:small-caps }
+  span.roman { font-family:serif; font-weight:normal; } 
+  span.sansserif { font-family:sans-serif; font-weight:normal; } 
+--></style>
+</head>
+<body>
+<div class="node">
+<a name="Standard-I%2fO-Packages"></a>
+<a name="Standard-I_002fO-Packages"></a>
+<p>
+Next:&nbsp;<a rel="next" accesskey="n" href="FORM-Strings.html#FORM-Strings">FORM Strings</a>,
+Up:&nbsp;<a rel="up" accesskey="u" href="The-Implementation-of-Standard-I_002fO.html#The-Implementation-of-Standard-I_002fO">The Implementation of Standard I/O</a>
+<hr>
+</div>
+
+<p><a name="gnat_005frm_002fthe_005fimplementation_005fof_005fstandard_005fi_005fo-standard_002di_002do_002dpackages"></a><a name="g_t244"></a><a name="gnat_005frm_002fthe_005fimplementation_005fof_005fstandard_005fi_005fo-id2"></a><a name="g_t245"></a>
+
+<h3 class="section">11.1 Standard I/O Packages</h3>
+
+<p>The Standard I/O packages described in Annex A for
+
+     <ul>
+<li>Ada.Text_IO
+
+     <li>Ada.Text_IO.Complex_IO
+
+     <li>Ada.Text_IO.Text_Streams
+
+     <li>Ada.Wide_Text_IO
+
+     <li>Ada.Wide_Text_IO.Complex_IO
+
+     <li>Ada.Wide_Text_IO.Text_Streams
+
+     <li>Ada.Wide_Wide_Text_IO
+
+     <li>Ada.Wide_Wide_Text_IO.Complex_IO
+
+     <li>Ada.Wide_Wide_Text_IO.Text_Streams
+
+     <li>Ada.Stream_IO
+
+     <li>Ada.Sequential_IO
+
+     <li>Ada.Direct_IO
+</ul>
+
+<p>are implemented using the C
+library streams facility; where
+
+     <ul>
+<li>All files are opened using <cite>fopen</cite>.
+
+     <li>All input/output operations use <cite>fread</cite>/<cite>fwrite</cite>. 
+</ul>
+
+<p>There is no internal buffering of any kind at the Ada library level. The only
+buffering is that provided at the system level in the implementation of the
+library routines that support streams. This facilitates shared use of these
+streams by mixed language programs. Note though that system level buffering is
+explicitly enabled at elaboration of the standard I/O packages and that can
+have an impact on mixed language programs, in particular those using I/O before
+calling the Ada elaboration routine (e.g., adainit). It is recommended to call
+the Ada elaboration routine before performing any I/O or when impractical,
+flush the common I/O streams and in particular Standard_Output before
+elaborating the Ada code.
+
+</body></html>
+

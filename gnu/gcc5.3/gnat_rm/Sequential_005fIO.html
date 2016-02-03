@@ -1,0 +1,89 @@
+<html lang="en">
+<head>
+<title>Sequential_IO - GNAT Reference Manual</title>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+<meta name="description" content="GNAT Reference Manual">
+<meta name="generator" content="makeinfo 4.13">
+<link title="Top" rel="start" href="index.html#Top">
+<link rel="up" href="The-Implementation-of-Standard-I_002fO.html#The-Implementation-of-Standard-I_002fO" title="The Implementation of Standard I/O">
+<link rel="prev" href="Direct_005fIO.html#Direct_005fIO" title="Direct_IO">
+<link rel="next" href="Text_005fIO.html#Text_005fIO" title="Text_IO">
+<link href="http://www.gnu.org/software/texinfo/" rel="generator-home" title="Texinfo Homepage">
+<!--
+
+     GNAT Reference Manual , March 24, 2015
+
+     AdaCore
+
+     Copyright (C) 2008-2015, Free Software Foundation
+-->
+<meta http-equiv="Content-Style-Type" content="text/css">
+<style type="text/css"><!--
+  pre.display { font-family:inherit }
+  pre.format  { font-family:inherit }
+  pre.smalldisplay { font-family:inherit; font-size:smaller }
+  pre.smallformat  { font-family:inherit; font-size:smaller }
+  pre.smallexample { font-size:smaller }
+  pre.smalllisp    { font-size:smaller }
+  span.sc    { font-variant:small-caps }
+  span.roman { font-family:serif; font-weight:normal; } 
+  span.sansserif { font-family:sans-serif; font-weight:normal; } 
+--></style>
+</head>
+<body>
+<div class="node">
+<a name="Sequential_IO"></a>
+<a name="Sequential_005fIO"></a>
+<p>
+Next:&nbsp;<a rel="next" accesskey="n" href="Text_005fIO.html#Text_005fIO">Text_IO</a>,
+Previous:&nbsp;<a rel="previous" accesskey="p" href="Direct_005fIO.html#Direct_005fIO">Direct_IO</a>,
+Up:&nbsp;<a rel="up" accesskey="u" href="The-Implementation-of-Standard-I_002fO.html#The-Implementation-of-Standard-I_002fO">The Implementation of Standard I/O</a>
+<hr>
+</div>
+
+<p><a name="gnat_005frm_002fthe_005fimplementation_005fof_005fstandard_005fi_005fo-sequential_002dio"></a><a name="g_t24a"></a><a name="gnat_005frm_002fthe_005fimplementation_005fof_005fstandard_005fi_005fo-id5"></a><a name="g_t24b"></a>
+
+<h3 class="section">11.4 Sequential_IO</h3>
+
+<p>Sequential_IO may be instantiated with either a definite (constrained)
+or indefinite (unconstrained) type.
+
+<p>For the definite type case, the elements written to the file are simply
+the memory images of the data values with no control information of any
+kind.  The resulting file should be read using the same type, no validity
+checking is performed on input.
+
+<p>For the indefinite type case, the elements written consist of two
+parts.  First is the size of the data item, written as the memory image
+of a <cite>Interfaces.C.size_t</cite> value, followed by the memory image of
+the data value.  The resulting file can only be read using the same
+(unconstrained) type.  Normal assignment checks are performed on these
+read operations, and if these checks fail, <cite>Data_Error</cite> is
+raised.  In particular, in the array case, the lengths must match, and in
+the variant record case, if the variable for a particular read operation
+is constrained, the discriminants must match.
+
+<p>Note that it is not possible to use Sequential_IO to write variable
+length array items, and then read the data back into different length
+arrays.  For example, the following will raise <cite>Data_Error</cite>:
+
+<pre class="example">    package IO is new Sequential_IO (String);
+    F : IO.File_Type;
+    S : String (1..4);
+    ...
+    IO.Create (F)
+    IO.Write (F, "hello!")
+    IO.Reset (F, Mode=&gt;In_File);
+    IO.Read (F, S);
+    Put_Line (S);
+</pre>
+<p>On some Ada implementations, this will print <cite>hell</cite>, but the program is
+clearly incorrect, since there is only one element in the file, and that
+element is the string <cite>hello!</cite>.
+
+<p>In Ada 95 and Ada 2005, this kind of behavior can be legitimately achieved
+using Stream_IO, and this is the preferred mechanism.  In particular, the
+above program fragment rewritten to use Stream_IO will work correctly.
+
+</body></html>
+

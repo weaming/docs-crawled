@@ -1,0 +1,87 @@
+<html lang="en">
+<head>
+<title>RM 13 9 14-17 Unchecked Conversion - GNAT Reference Manual</title>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+<meta name="description" content="GNAT Reference Manual">
+<meta name="generator" content="makeinfo 4.13">
+<link title="Top" rel="start" href="index.html#Top">
+<link rel="up" href="Implementation-Advice.html#Implementation-Advice" title="Implementation Advice">
+<link rel="prev" href="RM-13-7-1-16-Address-Operations.html#RM-13-7-1-16-Address-Operations" title="RM 13 7 1 16 Address Operations">
+<link rel="next" href="RM-13-11-23_002d25-Implicit-Heap-Usage.html#RM-13-11-23_002d25-Implicit-Heap-Usage" title="RM 13 11 23-25 Implicit Heap Usage">
+<link href="http://www.gnu.org/software/texinfo/" rel="generator-home" title="Texinfo Homepage">
+<!--
+
+     GNAT Reference Manual , March 24, 2015
+
+     AdaCore
+
+     Copyright (C) 2008-2015, Free Software Foundation
+-->
+<meta http-equiv="Content-Style-Type" content="text/css">
+<style type="text/css"><!--
+  pre.display { font-family:inherit }
+  pre.format  { font-family:inherit }
+  pre.smalldisplay { font-family:inherit; font-size:smaller }
+  pre.smallformat  { font-family:inherit; font-size:smaller }
+  pre.smallexample { font-size:smaller }
+  pre.smalllisp    { font-size:smaller }
+  span.sc    { font-variant:small-caps }
+  span.roman { font-family:serif; font-weight:normal; } 
+  span.sansserif { font-family:sans-serif; font-weight:normal; } 
+--></style>
+</head>
+<body>
+<div class="node">
+<a name="RM-13-9-14-17-Unchecked-Conversion"></a>
+<a name="RM-13-9-14_002d17-Unchecked-Conversion"></a>
+<p>
+Next:&nbsp;<a rel="next" accesskey="n" href="RM-13-11-23_002d25-Implicit-Heap-Usage.html#RM-13-11-23_002d25-Implicit-Heap-Usage">RM 13 11 23-25 Implicit Heap Usage</a>,
+Previous:&nbsp;<a rel="previous" accesskey="p" href="RM-13-7-1-16-Address-Operations.html#RM-13-7-1-16-Address-Operations">RM 13 7 1 16 Address Operations</a>,
+Up:&nbsp;<a rel="up" accesskey="u" href="Implementation-Advice.html#Implementation-Advice">Implementation Advice</a>
+<hr>
+</div>
+
+<p><a name="gnat_005frm_002fimplementation_005fadvice-rm_002d13_002d9_002d14_002d17_002dunchecked_002dconversion"></a><a name="g_t1d9"></a>
+
+<h3 class="section">6.29 RM 13.9(14-17): Unchecked Conversion</h3>
+
+<blockquote>
+
+<p>"The <cite>Size</cite> of an array object should not include its bounds; hence,
+the bounds should not be part of the converted data." 
+</blockquote>
+
+<p>Followed.
+
+<blockquote>
+
+<p>"The implementation should not generate unnecessary run-time checks to
+ensure that the representation of <cite>S</cite> is a representation of the
+target type.  It should take advantage of the permission to return by
+reference when possible.  Restrictions on unchecked conversions should be
+avoided unless required by the target environment." 
+</blockquote>
+
+<p>Followed.  There are no restrictions on unchecked conversion.  A warning is
+generated if the source and target types do not have the same size since
+the semantics in this case may be target dependent.
+
+<blockquote>
+
+<p>"The recommended level of support for unchecked conversions is:
+
+<p>Unchecked conversions should be supported and should be reversible in
+the cases where this clause defines the result.  To enable meaningful use
+of unchecked conversion, a contiguous representation should be used for
+elementary subtypes, for statically constrained array subtypes whose
+component subtype is one of the subtypes described in this paragraph,
+and for record subtypes without discriminants whose component subtypes
+are described in this paragraph." 
+</blockquote>
+
+<p>Followed.
+
+<p><a name="index-Heap-usage-411"></a><a name="index-implicit-412"></a>
+
+</body></html>
+

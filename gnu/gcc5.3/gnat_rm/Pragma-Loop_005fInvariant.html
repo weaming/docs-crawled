@@ -1,0 +1,75 @@
+<html lang="en">
+<head>
+<title>Pragma Loop_Invariant - GNAT Reference Manual</title>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+<meta name="description" content="GNAT Reference Manual">
+<meta name="generator" content="makeinfo 4.13">
+<link title="Top" rel="start" href="index.html#Top">
+<link rel="up" href="Implementation-Defined-Pragmas.html#Implementation-Defined-Pragmas" title="Implementation Defined Pragmas">
+<link rel="prev" href="Pragma-Lock_005fFree.html#Pragma-Lock_005fFree" title="Pragma Lock_Free">
+<link rel="next" href="Pragma-Loop_005fOptimize.html#Pragma-Loop_005fOptimize" title="Pragma Loop_Optimize">
+<link href="http://www.gnu.org/software/texinfo/" rel="generator-home" title="Texinfo Homepage">
+<!--
+
+     GNAT Reference Manual , March 24, 2015
+
+     AdaCore
+
+     Copyright (C) 2008-2015, Free Software Foundation
+-->
+<meta http-equiv="Content-Style-Type" content="text/css">
+<style type="text/css"><!--
+  pre.display { font-family:inherit }
+  pre.format  { font-family:inherit }
+  pre.smalldisplay { font-family:inherit; font-size:smaller }
+  pre.smallformat  { font-family:inherit; font-size:smaller }
+  pre.smallexample { font-size:smaller }
+  pre.smalllisp    { font-size:smaller }
+  span.sc    { font-variant:small-caps }
+  span.roman { font-family:serif; font-weight:normal; } 
+  span.sansserif { font-family:sans-serif; font-weight:normal; } 
+--></style>
+</head>
+<body>
+<div class="node">
+<a name="Pragma-Loop_Invariant"></a>
+<a name="Pragma-Loop_005fInvariant"></a>
+<p>
+Next:&nbsp;<a rel="next" accesskey="n" href="Pragma-Loop_005fOptimize.html#Pragma-Loop_005fOptimize">Pragma Loop_Optimize</a>,
+Previous:&nbsp;<a rel="previous" accesskey="p" href="Pragma-Lock_005fFree.html#Pragma-Lock_005fFree">Pragma Lock_Free</a>,
+Up:&nbsp;<a rel="up" accesskey="u" href="Implementation-Defined-Pragmas.html#Implementation-Defined-Pragmas">Implementation Defined Pragmas</a>
+<hr>
+</div>
+
+<p><a name="gnat_005frm_002fimplementation_005fdefined_005fpragmas-pragma_002dloop_002dinvariant"></a><a name="g_t7e"></a>
+
+<h3 class="section">2.99 Pragma Loop_Invariant</h3>
+
+<p>Syntax:
+
+<pre class="example">    pragma Loop_Invariant ( boolean_EXPRESSION );
+</pre>
+<p>The effect of this pragma is similar to that of pragma <cite>Assert</cite>,
+except that in an <cite>Assertion_Policy</cite> pragma, the identifier
+<cite>Loop_Invariant</cite> is used to control whether it is ignored or checked
+(or disabled).
+
+<p><cite>Loop_Invariant</cite> can only appear as one of the items in the sequence
+of statements of a loop body, or nested inside block statements that
+appear in the sequence of statements of a loop body. 
+The intention is that it be used to
+represent a "loop invariant" assertion, i.e. something that is true each
+time through the loop, and which can be used to show that the loop is
+achieving its purpose.
+
+<p>Multiple <cite>Loop_Invariant</cite> and <cite>Loop_Variant</cite> pragmas that
+apply to the same loop should be grouped in the same sequence of
+statements.
+
+<p>To aid in writing such invariants, the special attribute <cite>Loop_Entry</cite>
+may be used to refer to the value of an expression on entry to the loop. This
+attribute can only be used within the expression of a <cite>Loop_Invariant</cite>
+pragma. For full details, see documentation of attribute <cite>Loop_Entry</cite>.
+
+</body></html>
+

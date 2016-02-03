@@ -1,0 +1,979 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+  "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+
+
+<html xmlns="http://www.w3.org/1999/xhtml">
+  <head>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+    
+    <title>Events &mdash; Supervisor 4.0.0.dev0 documentation</title>
+    
+    <link rel="stylesheet" href="_static/repoze.css" type="text/css" />
+    <link rel="stylesheet" href="_static/pygments.css" type="text/css" />
+    
+    <script type="text/javascript">
+      var DOCUMENTATION_OPTIONS = {
+        URL_ROOT:    './',
+        VERSION:     '4.0.0.dev0',
+        COLLAPSE_INDEX: false,
+        FILE_SUFFIX: '.html',
+        HAS_SOURCE:  true
+      };
+    </script>
+    <script type="text/javascript" src="_static/jquery.js"></script>
+    <script type="text/javascript" src="_static/underscore.js"></script>
+    <script type="text/javascript" src="_static/doctools.js"></script>
+    <link rel="top" title="Supervisor 4.0.0.dev0 documentation" href="index.html" />
+    <link rel="next" title="Extending Supervisor’s XML-RPC API" href="xmlrpc.html" />
+    <link rel="prev" title="Logging" href="logging.html" />
+   
+  
+  <meta name="viewport" content="width=device-width, initial-scale=0.9, maximum-scale=0.9" />
+
+  </head>
+  <body role="document">  
+
+    <div class="document">
+      <div class="documentwrapper">
+        <div class="bodywrapper">
+          <div class="body" role="main">
+            
+  <div class="section" id="events">
+<span id="id1"></span><h1>Events<a class="headerlink" href="#events" title="Permalink to this headline">¶</a></h1>
+<p>Events are an advanced feature of Supervisor introduced in version
+3.0.  You don&#8217;t need to understand events if you simply want to use
+Supervisor as a mechanism to restart crashed processes or as a system
+to manually control process state.  You do need to understand events
+if you want to use Supervisor as part of a process
+monitoring/notification framework.</p>
+<div class="section" id="event-listeners-and-event-notifications">
+<h2>Event Listeners and Event Notifications<a class="headerlink" href="#event-listeners-and-event-notifications" title="Permalink to this headline">¶</a></h2>
+<p>Supervisor provides a way for a specially written program (which it
+runs as a subprocess) called an &#8220;event listener&#8221; to subscribe to
+&#8220;event notifications&#8221;.  An event notification implies that something
+happened related to a subprocess controlled by <strong class="program">supervisord</strong>
+or to <strong class="program">supervisord</strong> itself.  Event notifications are grouped
+into types in order to make it possible for event listeners to
+subscribe to a limited subset of event notifications.  Supervisor
+continually emits event notifications as its running even if there are
+no listeners configured.  If a listener is configured and subscribed
+to an event type that is emitted during a <strong class="program">supervisord</strong>
+lifetime, that listener will be notified.</p>
+<p>The purpose of the event notification/subscription system is to
+provide a mechanism for arbitrary code to be run (e.g. send an email,
+make an HTTP request, etc) when some condition is met.  That condition
+usually has to do with subprocess state.  For instance, you may want
+to notify someone via email when a process crashes and is restarted by
+Supervisor.</p>
+<p>The event notification protocol is based on communication via a
+subprocess&#8217; stdin and stdout.  Supervisor sends specially-formatted
+input to an event listener process&#8217; stdin and expects
+specially-formatted output from an event listener&#8217;s stdout, forming a
+request-response cycle.  A protocol agreed upon between supervisor and
+the listener&#8217;s implementer allows listeners to process event
+notifications.  Event listeners can be written in any language
+supported by the platform you&#8217;re using to run Supervisor.  Although
+event listeners may be written in any language, there is special
+library support for Python in the form of a
+<code class="xref py py-mod docutils literal"><span class="pre">supervisor.childutils</span></code> module, which makes creating event
+listeners in Python slightly easier than in other languages.</p>
+<div class="section" id="configuring-an-event-listener">
+<h3>Configuring an Event Listener<a class="headerlink" href="#configuring-an-event-listener" title="Permalink to this headline">¶</a></h3>
+<p>A supervisor event listener is specified via a <code class="docutils literal"><span class="pre">[eventlistener:x]</span></code>
+section in the configuration file.  Supervisor <code class="docutils literal"><span class="pre">[eventlistener:x]</span></code>
+sections are treated almost exactly like supervisor <code class="docutils literal"><span class="pre">[program:x]</span></code>
+section with the respect to the keys allowed in their configuration
+except that Supervisor does not respect &#8220;capture mode&#8221; output from
+event listener processes (ie. event listeners cannot be
+<code class="docutils literal"><span class="pre">PROCESS_COMMUNICATIONS_EVENT</span></code> event generators).  Therefore it is
+an error to specify <code class="docutils literal"><span class="pre">stdout_capture_maxbytes</span></code> or
+<code class="docutils literal"><span class="pre">stderr_capture_maxbytes</span></code> in the configuration of an eventlistener.
+There is no artificial constraint on the number of eventlistener
+sections that can be placed into the configuration file.</p>
+<p>When an <code class="docutils literal"><span class="pre">[eventlistener:x]</span></code> section is defined, it actually defines
+a &#8220;pool&#8221;, where the number of event listeners in the pool is
+determined by the <code class="docutils literal"><span class="pre">numprocs</span></code> value within the section.</p>
+<p>The <code class="docutils literal"><span class="pre">events</span></code> parameter of the <code class="docutils literal"><span class="pre">[eventlistener:x]</span></code> section
+specifies the events that will be sent to a listener pool.  A
+well-written event listener will ignore events that it cannot process,
+but there is no guarantee that a specific event listener won&#8217;t crash
+as a result of receiving an event type it cannot handle.  Therefore,
+depending on the listener implementation, it may be important to
+specify in the configuration that it may receive only certain types of
+events.  The implementor of the event listener is the only person who
+can tell you what these are (and therefore what value to put in the
+&lt;code&gt;events&lt;/code&gt; configuration).  Examples of eventlistener
+configurations that can be placed in <code class="docutils literal"><span class="pre">supervisord.conf</span></code> are as
+follows.</p>
+<div class="highlight-ini"><div class="highlight"><pre><span class="k">[eventlistener:memmon]</span>
+<span class="na">command</span><span class="o">=</span><span class="s">memmon -a 200MB -m bob@example.com</span>
+<span class="na">events</span><span class="o">=</span><span class="s">TICK_60</span>
+</pre></div>
+</div>
+<div class="highlight-ini"><div class="highlight"><pre><span class="k">[eventlistener:mylistener]</span>
+<span class="na">command</span><span class="o">=</span><span class="s">my_custom_listener.py</span>
+<span class="na">events</span><span class="o">=</span><span class="s">PROCESS_STATE,TICK_60</span>
+</pre></div>
+</div>
+<div class="admonition note">
+<p class="first admonition-title">Note</p>
+<p class="last">An advanced feature, specifying an alternate &#8220;result handler&#8221; for a
+pool, can be specified via the <code class="docutils literal"><span class="pre">result_handler</span></code> parameter of an
+<code class="docutils literal"><span class="pre">[eventlistener:x]</span></code> section in the form of a <a class="reference external" href="http://peak.telecommunity.com/DevCenter/PkgResources">pkg_resources</a> &#8220;entry
+point&#8221; string.  The default result handler is
+<code class="docutils literal"><span class="pre">supervisord.dispatchers:default_handler</span></code>.  Creating an alternate
+result handler is not currently documented.</p>
+</div>
+<p>When an event notification is sent by supervisor, all event listener
+pools which are subscribed to receive events for the event&#8217;s type
+(filtered by the <code class="docutils literal"><span class="pre">events</span></code> value in the eventlistener
+section) will be found.  One of the listeners in each listener pool
+will receive the event notification (any &#8220;available&#8221; listener).</p>
+<p>Every process in an event listener pool is treated equally by
+supervisor.  If a process in the pool is unavailable (because it is
+already processing an event, because it has crashed, or because it has
+elected to removed itself from the pool), supervisor will choose
+another process from the pool.  If the event cannot be sent because
+all listeners in the pool are &#8220;busy&#8221;, the event will be buffered and
+notification will be retried later.  &#8220;Later&#8221; is defined as &#8220;the next
+time that the <strong class="program">supervisord</strong> select loop executes&#8221;.  For
+satisfactory event processing performance, you should configure a pool
+with as many event listener processes as appropriate to handle your
+event load.  This can only be determined empirically for any given
+workload, there is no &#8220;magic number&#8221; but to help you determine the
+optimal number of listeners in a given pool, Supervisor will emit
+warning messages to its activity log when an event cannot be sent
+immediately due to pool congestion.  There is no artificial constraint
+placed on the number of processes that can be in a pool, it is limited
+only by your platform constraints.</p>
+<p>A listener pool has an event buffer queue.  The queue is sized via the
+listener pool&#8217;s <code class="docutils literal"><span class="pre">buffer_size</span></code> config file option.  If the queue is
+full and supervisor attempts to buffer an event, supervisor will throw
+away the oldest event in the buffer and log an error.</p>
+</div>
+<div class="section" id="writing-an-event-listener">
+<h3>Writing an Event Listener<a class="headerlink" href="#writing-an-event-listener" title="Permalink to this headline">¶</a></h3>
+<p>An event listener implementation is a program that is willing to
+accept structured input on its stdin stream and produce structured
+output on its stdout stream.  An event listener implementation should
+operate in &#8220;unbuffered&#8221; mode or should flush its stdout every time it
+needs to communicate back to the supervisord process.  Event listeners
+can be written to be long-running or may exit after a single request
+(depending on the implementation and the <code class="docutils literal"><span class="pre">autorestart</span></code> parameter in
+the eventlistener&#8217;s configuration).</p>
+<p>An event listener can send arbitrary output to its stderr, which will
+be logged or ignored by supervisord depending on the stderr-related
+logfile configuration in its <code class="docutils literal"><span class="pre">[eventlistener:x]</span></code> section.</p>
+<div class="section" id="event-notification-protocol">
+<h4>Event Notification Protocol<a class="headerlink" href="#event-notification-protocol" title="Permalink to this headline">¶</a></h4>
+<p>When supervisord sends a notification to an event listener process,
+the listener will first be sent a single &#8220;header&#8221; line on its
+stdin. The composition of the line is a set of colon-separated tokens
+(each of which represents a key-value pair) separated from each other
+by a single space.  The line is terminated with a <code class="docutils literal"><span class="pre">\n</span></code> (linefeed)
+character.  The tokens on the line are not guaranteed to be in any
+particular order.  The types of tokens currently defined are in the
+table below.</p>
+<div class="section" id="header-tokens">
+<h5>Header Tokens<a class="headerlink" href="#header-tokens" title="Permalink to this headline">¶</a></h5>
+<table border="1" class="docutils">
+<colgroup>
+<col width="15%" />
+<col width="60%" />
+<col width="25%" />
+</colgroup>
+<thead valign="bottom">
+<tr class="row-odd"><th class="head">Key</th>
+<th class="head">Description</th>
+<th class="head">Example</th>
+</tr>
+</thead>
+<tbody valign="top">
+<tr class="row-even"><td>ver</td>
+<td>The event system protocol version</td>
+<td>3.0</td>
+</tr>
+<tr class="row-odd"><td>server</td>
+<td>The identifier of the supervisord sending the
+event (see config file <code class="docutils literal"><span class="pre">[supervisord]</span></code>
+section <code class="docutils literal"><span class="pre">identifier</span></code> value.</td>
+<td>&nbsp;</td>
+</tr>
+<tr class="row-even"><td>serial</td>
+<td>An integer assigned to each event.  No two
+events generated during the lifetime of
+a <strong class="program">supervisord</strong> process will have
+the same serial number.  The value is useful
+for functional testing and detecting event
+ordering anomalies.</td>
+<td>30</td>
+</tr>
+<tr class="row-odd"><td>pool</td>
+<td>The name of the event listener pool which
+generated this event.</td>
+<td>myeventpool</td>
+</tr>
+<tr class="row-even"><td>pooolserial</td>
+<td>An integer assigned to each event by the
+eventlistener pool which it is being sent
+from.  No two events generated by the same
+eventlister pool during the lifetime of a
+<strong class="program">supervisord</strong> process will have the
+same <code class="docutils literal"><span class="pre">poolserial</span></code> number.  This value can
+be used to detect event ordering anomalies.</td>
+<td>30</td>
+</tr>
+<tr class="row-odd"><td>eventname</td>
+<td>The specific event type name (see
+<a class="reference internal" href="#event-types"><span>Event Types</span></a>)</td>
+<td>TICK_5</td>
+</tr>
+<tr class="row-even"><td>len</td>
+<td>An integer indicating the number of bytes in
+the event payload, aka the <code class="docutils literal"><span class="pre">PAYLOAD_LENGTH</span></code></td>
+<td>22</td>
+</tr>
+</tbody>
+</table>
+<p>An example of a complete header line is as follows.</p>
+<div class="highlight-text"><div class="highlight"><pre>ver:3.0 server:supervisor serial:21 pool:listener poolserial:10 eventname:PROCESS_COMMUNICATION_STDOUT len:54
+</pre></div>
+</div>
+<p>Directly following the linefeed character in the header is the event
+payload.  It consists of <code class="docutils literal"><span class="pre">PAYLOAD_LENGTH</span></code> bytes representing a
+serialization of the event data.  See <a class="reference internal" href="#event-types"><span>Event Types</span></a> for the
+specific event data serialization definitions.</p>
+<p>An example payload for a <code class="docutils literal"><span class="pre">PROCESS_COMMUNICATION_STDOUT</span></code> event
+notification is as follows.</p>
+<div class="highlight-text"><div class="highlight"><pre>processname:foo groupname:bar pid:123
+This is the data that was sent between the tags
+</pre></div>
+</div>
+<p>The payload structure of any given event is determined only by the
+event&#8217;s type.</p>
+</div>
+</div>
+<div class="section" id="event-listener-states">
+<h4>Event Listener States<a class="headerlink" href="#event-listener-states" title="Permalink to this headline">¶</a></h4>
+<p>An event listener process has three possible states that are
+maintained by supervisord:</p>
+<table border="1" class="docutils">
+<colgroup>
+<col width="39%" />
+<col width="61%" />
+</colgroup>
+<thead valign="bottom">
+<tr class="row-odd"><th class="head">Name</th>
+<th class="head">Description</th>
+</tr>
+</thead>
+<tbody valign="top">
+<tr class="row-even"><td>ACKNOWLEDGED</td>
+<td>The event listener has acknowledged (accepted
+or rejected) an event send.</td>
+</tr>
+<tr class="row-odd"><td>READY</td>
+<td>Event notificatons may be sent to this event
+listener</td>
+</tr>
+<tr class="row-even"><td>BUSY</td>
+<td>Event notifications may not be sent to this
+event listener.</td>
+</tr>
+</tbody>
+</table>
+<p>When an event listener process first starts, supervisor automatically
+places it into the <code class="docutils literal"><span class="pre">ACKNOWLEDGED</span></code> state to allow for startup
+activities or guard against startup failures (hangs).  Until the
+listener sends a <code class="docutils literal"><span class="pre">READY\n</span></code> string to its stdout, it will stay in
+this state.</p>
+<p>When supervisor sends an event notification to a listener in the
+<code class="docutils literal"><span class="pre">READY</span></code> state, the listener will be placed into the <code class="docutils literal"><span class="pre">BUSY</span></code> state
+until it receives an <code class="docutils literal"><span class="pre">OK</span></code> or <code class="docutils literal"><span class="pre">FAIL</span></code> response from the listener, at
+which time, the listener will be transitioned back into the
+<code class="docutils literal"><span class="pre">ACKNOWLEDGED</span></code> state.</p>
+</div>
+<div class="section" id="event-listener-notification-protocol">
+<h4>Event Listener Notification Protocol<a class="headerlink" href="#event-listener-notification-protocol" title="Permalink to this headline">¶</a></h4>
+<p>Supervisor will notify an event listener in the <code class="docutils literal"><span class="pre">READY</span></code> state of an
+event by sending data to the stdin of the process.  Supervisor will
+never send anything to the stdin of an event listener process while
+that process is in the <code class="docutils literal"><span class="pre">BUSY</span></code> or <code class="docutils literal"><span class="pre">ACKNOWLEDGED</span></code> state.  Supervisor
+starts by sending the header.</p>
+<p>Once it has processed the header, the event listener implementation
+should read <code class="docutils literal"><span class="pre">PAYLOAD_LENGTH</span></code> bytes from its stdin, perform an
+arbitrary action based on the values in the header and the data parsed
+out of the serialization.  It is free to block for an arbitrary amount
+of time while doing this.  Supervisor will continue processing
+normally as it waits for a response and it will send other events of
+the same type to other listener processes in the same pool as
+necessary.</p>
+<p>After the event listener has processed the event serialization, in
+order to notify supervisord about the result, it should send back a
+result structure on its stdout.  A result structure is the word
+&#8220;RESULT&#8221;, followed by a space, followed by the result length, followed
+by a line feed, followed by the result content.  For example,
+<code class="docutils literal"><span class="pre">RESULT</span> <span class="pre">2\nOK</span></code> is the result &#8220;OK&#8221;.  Conventionally, an event
+listener will use either <code class="docutils literal"><span class="pre">OK</span></code> or <code class="docutils literal"><span class="pre">FAIL</span></code> as the result content.
+These strings have special meaning to the default result handler.</p>
+<p>If the default result handler receives <code class="docutils literal"><span class="pre">OK</span></code> as result content, it
+will assume that the listener processed the event notification
+successfully.  If it receives <code class="docutils literal"><span class="pre">FAIL</span></code>, it will assume that the
+listener has failed to process the event, and the event will be
+rebuffered and sent again at a later time.  The event listener may
+reject the event for any reason by returning a <code class="docutils literal"><span class="pre">FAIL</span></code> result.  This
+does not indicate a problem with the event data or the event listener.
+Once an <code class="docutils literal"><span class="pre">OK</span></code> or <code class="docutils literal"><span class="pre">FAIL</span></code> result is received by supervisord, the
+event listener is placed into the <code class="docutils literal"><span class="pre">ACKNOWLEDGED</span></code> state.</p>
+<p>Once the listener is in the <code class="docutils literal"><span class="pre">ACKNOWLEDGED</span></code> state, it may either exit
+(and subsequently may be restarted by supervisor if its
+<code class="docutils literal"><span class="pre">autorestart</span></code> config parameter is <code class="docutils literal"><span class="pre">true</span></code>), or it may continue
+running.  If it continues to run, in order to be placed back into the
+<code class="docutils literal"><span class="pre">READY</span></code> state by supervisord, it must send a <code class="docutils literal"><span class="pre">READY</span></code> token
+followed immediately by a line feed to its stdout.</p>
+</div>
+<div class="section" id="example-event-listener-implementation">
+<h4>Example Event Listener Implementation<a class="headerlink" href="#example-event-listener-implementation" title="Permalink to this headline">¶</a></h4>
+<p>A Python implementation of a &#8220;long-running&#8221; event listener which
+accepts an event notification, prints the header and payload to its
+stderr, and responds with an <code class="docutils literal"><span class="pre">OK</span></code> result, and then subsequently a
+<code class="docutils literal"><span class="pre">READY</span></code> is as follows.</p>
+<div class="highlight-python"><div class="highlight"><pre><span class="kn">import</span> <span class="nn">sys</span>
+
+<span class="k">def</span> <span class="nf">write_stdout</span><span class="p">(</span><span class="n">s</span><span class="p">):</span>
+    <span class="c"># only eventlistener protocol messages may be sent to stdout</span>
+    <span class="n">sys</span><span class="o">.</span><span class="n">stdout</span><span class="o">.</span><span class="n">write</span><span class="p">(</span><span class="n">s</span><span class="p">)</span>
+    <span class="n">sys</span><span class="o">.</span><span class="n">stdout</span><span class="o">.</span><span class="n">flush</span><span class="p">()</span>
+
+<span class="k">def</span> <span class="nf">write_stderr</span><span class="p">(</span><span class="n">s</span><span class="p">):</span>
+    <span class="n">sys</span><span class="o">.</span><span class="n">stderr</span><span class="o">.</span><span class="n">write</span><span class="p">(</span><span class="n">s</span><span class="p">)</span>
+    <span class="n">sys</span><span class="o">.</span><span class="n">stderr</span><span class="o">.</span><span class="n">flush</span><span class="p">()</span>
+
+<span class="k">def</span> <span class="nf">main</span><span class="p">():</span>
+    <span class="k">while</span> <span class="mi">1</span><span class="p">:</span>
+        <span class="c"># transition from ACKNOWLEDGED to READY</span>
+        <span class="n">write_stdout</span><span class="p">(</span><span class="s">&#39;READY</span><span class="se">\n</span><span class="s">&#39;</span><span class="p">)</span>
+
+        <span class="c"># read header line and print it to stderr</span>
+        <span class="n">line</span> <span class="o">=</span> <span class="n">sys</span><span class="o">.</span><span class="n">stdin</span><span class="o">.</span><span class="n">readline</span><span class="p">()</span>
+        <span class="n">write_stderr</span><span class="p">(</span><span class="n">line</span><span class="p">)</span>
+
+        <span class="c"># read event payload and print it to stderr</span>
+        <span class="n">headers</span> <span class="o">=</span> <span class="nb">dict</span><span class="p">([</span> <span class="n">x</span><span class="o">.</span><span class="n">split</span><span class="p">(</span><span class="s">&#39;:&#39;</span><span class="p">)</span> <span class="k">for</span> <span class="n">x</span> <span class="ow">in</span> <span class="n">line</span><span class="o">.</span><span class="n">split</span><span class="p">()</span> <span class="p">])</span>
+        <span class="n">data</span> <span class="o">=</span> <span class="n">sys</span><span class="o">.</span><span class="n">stdin</span><span class="o">.</span><span class="n">read</span><span class="p">(</span><span class="nb">int</span><span class="p">(</span><span class="n">headers</span><span class="p">[</span><span class="s">&#39;len&#39;</span><span class="p">]))</span>
+        <span class="n">write_stderr</span><span class="p">(</span><span class="n">data</span><span class="p">)</span>
+
+        <span class="c"># transition from READY to ACKNOWLEDGED</span>
+        <span class="n">write_stdout</span><span class="p">(</span><span class="s">&#39;RESULT 2</span><span class="se">\n</span><span class="s">OK&#39;</span><span class="p">)</span>
+
+<span class="k">if</span> <span class="n">__name__</span> <span class="o">==</span> <span class="s">&#39;__main__&#39;</span><span class="p">:</span>
+    <span class="n">main</span><span class="p">()</span>
+</pre></div>
+</div>
+<p>Other sample event listeners are present within the <a class="reference internal" href="glossary.html#term-superlance"><span class="xref std std-term">superlance</span></a>
+package, including one which can monitor supervisor subprocesses and
+restart a process if it is using &#8220;too much&#8221; memory.</p>
+</div>
+<div class="section" id="event-listener-error-conditions">
+<h4>Event Listener Error Conditions<a class="headerlink" href="#event-listener-error-conditions" title="Permalink to this headline">¶</a></h4>
+<p>If the event listener process dies while the event is being
+transmitted to its stdin, or if it dies before sending an result
+structure back to supervisord, the event is assumed to not be
+processed and will be rebuffered by supervisord and sent again later.</p>
+<p>If an event listener sends data to its stdout which supervisor does
+not recognize as an appropriate response based on the state that the
+event listener is in, the event listener will be placed into the
+<code class="docutils literal"><span class="pre">UNKNOWN</span></code> state, and no further event notifications will be sent to
+it.  If an event was being processed by the listener during this time,
+it will be rebuffered and sent again later.</p>
+</div>
+<div class="section" id="miscellaneous">
+<h4>Miscellaneous<a class="headerlink" href="#miscellaneous" title="Permalink to this headline">¶</a></h4>
+<p>Event listeners may use the Supervisor XML-RPC interface to call &#8220;back
+in&#8221; to Supervisor.  As such, event listeners can impact the state of a
+Supervisor subprocess as a result of receiving an event notification.
+For example, you may want to generate an event every few minutes
+related to process usage of Supervisor-controlled subprocesses, and if
+any of those processes exceed some memory threshold, you would like
+to restart it.  You would write a program that caused supervisor to
+generate <code class="docutils literal"><span class="pre">PROCESS_COMMUNICATION</span></code> events every so often with memory
+information in them, and an event listener to perform an action based
+on processing the data it receives from these events.</p>
+</div>
+</div>
+</div>
+<div class="section" id="event-types">
+<span id="id2"></span><h2>Event Types<a class="headerlink" href="#event-types" title="Permalink to this headline">¶</a></h2>
+<p>The event types are a controlled set, defined by Supervisor itself.
+There is no way to add an event type without changing
+<strong class="program">supervisord</strong> itself.  This is typically not a problem,
+though, because metadata is attached to events that can be used by
+event listeners as additional filter criterion, in conjunction with
+its type.</p>
+<p>Event types that may be subscribed to by event listeners are
+predefined by supervisor and fall into several major categories,
+including &#8220;process state change&#8221;, &#8220;process communication&#8221;, and
+&#8220;supervisor state change&#8221; events. Below are tables describing
+these event types.</p>
+<p>In the below list, we indicate that some event types have a &#8220;body&#8221;
+which is a a <em>token set</em>.  A token set consists of a set of charaters
+with space-separated tokens.  Each token represents a key-value pair.
+The key and value are separated by a colon.  For example:</p>
+<div class="highlight-text"><div class="highlight"><pre>processname:cat groupname:cat from_state:STOPPED
+</pre></div>
+</div>
+<p>Token sets do not have a linefeed or carriage return character at
+their end.</p>
+<div class="section" id="event-event-type">
+<h3><code class="docutils literal"><span class="pre">EVENT</span></code> Event Type<a class="headerlink" href="#event-event-type" title="Permalink to this headline">¶</a></h3>
+<p>The base event type.  This event type is abstract.  It will never be
+sent directly.  Subscribing to this event type will cause a subscriber
+to receive all event notifications emitted by Supervisor.</p>
+<p><em>Name</em>: <code class="docutils literal"><span class="pre">EVENT</span></code></p>
+<p><em>Subtype Of</em>: N/A</p>
+<p><em>Body Description</em>: N/A</p>
+</div>
+<div class="section" id="process-state-event-type">
+<h3><code class="docutils literal"><span class="pre">PROCESS_STATE</span></code> Event Type<a class="headerlink" href="#process-state-event-type" title="Permalink to this headline">¶</a></h3>
+<p>This process type indicates a process has moved from one state to
+another.  See <a class="reference internal" href="subprocess.html#process-states"><span>Process States</span></a> for a description of the states
+that a process moves through during its lifetime.  This event type is
+abstract, it will never be sent directly.  Subscribing to this event
+type will cause a subscriber to receive event notifications of all the
+event types that are subtypes of <code class="docutils literal"><span class="pre">PROCESS_STATE</span></code>.</p>
+<p><em>Name</em>: <code class="docutils literal"><span class="pre">PROCESS_STATE</span></code></p>
+<p><em>Subtype Of</em>: <code class="docutils literal"><span class="pre">EVENT</span></code></p>
+<div class="section" id="body-description">
+<h4>Body Description<a class="headerlink" href="#body-description" title="Permalink to this headline">¶</a></h4>
+<p>All subtypes of <code class="docutils literal"><span class="pre">PROCESS_STATE</span></code> have a body which is a token set.
+Additionally, each <code class="docutils literal"><span class="pre">PROCESS_STATE</span></code> subtype&#8217;s token set has a default
+set of key/value pairs: <code class="docutils literal"><span class="pre">processname</span></code>, <code class="docutils literal"><span class="pre">groupname</span></code>, and
+<code class="docutils literal"><span class="pre">from_state</span></code>.  <code class="docutils literal"><span class="pre">processname</span></code> represents the process name which
+supervisor knows this process as. <code class="docutils literal"><span class="pre">groupname</span></code> represents the name of
+the supervisord group which this process is in.  <code class="docutils literal"><span class="pre">from_state</span></code> is the
+name of the state from which this process is transitioning (the new
+state is implied by the concrete event type).  Concrete subtypes may
+include additional key/value pairs in the token set.</p>
+</div>
+</div>
+<div class="section" id="process-state-starting-event-type">
+<h3><code class="docutils literal"><span class="pre">PROCESS_STATE_STARTING</span></code> Event Type<a class="headerlink" href="#process-state-starting-event-type" title="Permalink to this headline">¶</a></h3>
+<p>Indicates a process has moved from a state to the STARTING state.</p>
+<p><em>Name</em>: <code class="docutils literal"><span class="pre">PROCESS_STATE_STARTING</span></code></p>
+<p><em>Subtype Of</em>: <code class="docutils literal"><span class="pre">PROCESS_STATE</span></code></p>
+<div class="section" id="id3">
+<h4>Body Description<a class="headerlink" href="#id3" title="Permalink to this headline">¶</a></h4>
+<p>This body is a token set.  It has the default set of key/value pairs
+plus an additional <code class="docutils literal"><span class="pre">tries</span></code> key.  <code class="docutils literal"><span class="pre">tries</span></code> represents the number of
+times this process has entered this state before transitioning to
+RUNNING or FATAL (it will never be larger than the &#8220;startretries&#8221;
+parameter of the process).  For example:</p>
+<div class="highlight-text"><div class="highlight"><pre>processname:cat groupname:cat from_state:STOPPED tries:0
+</pre></div>
+</div>
+</div>
+</div>
+<div class="section" id="process-state-running-event-type">
+<h3><code class="docutils literal"><span class="pre">PROCESS_STATE_RUNNING</span></code> Event Type<a class="headerlink" href="#process-state-running-event-type" title="Permalink to this headline">¶</a></h3>
+<p>Indicates a process has moved from the <code class="docutils literal"><span class="pre">STARTING</span></code> state to the
+<code class="docutils literal"><span class="pre">RUNNING</span></code> state.  This means that the process has successfully
+started as far as Supervisor is concerned.</p>
+<p><em>Name</em>: <code class="docutils literal"><span class="pre">PROCESS_STATE_RUNNING</span></code></p>
+<p><em>Subtype Of</em>: <code class="docutils literal"><span class="pre">PROCESS_STATE</span></code></p>
+<div class="section" id="id4">
+<h4>Body Description<a class="headerlink" href="#id4" title="Permalink to this headline">¶</a></h4>
+<p>This body is a token set.  It has the default set of key/value pairs
+plus an additional <code class="docutils literal"><span class="pre">pid</span></code> key.  &lt;code&gt;pid&lt;/code&gt; represents the UNIX
+process id of the process that was started.  For example:</p>
+<div class="highlight-text"><div class="highlight"><pre>processname:cat groupname:cat from_state:STARTING pid:2766
+</pre></div>
+</div>
+</div>
+</div>
+<div class="section" id="process-state-backoff-event-type">
+<h3><code class="docutils literal"><span class="pre">PROCESS_STATE_BACKOFF</span></code> Event Type<a class="headerlink" href="#process-state-backoff-event-type" title="Permalink to this headline">¶</a></h3>
+<p>Indicates a process has moved from the <code class="docutils literal"><span class="pre">STARTING</span></code> state to the
+<code class="docutils literal"><span class="pre">BACKOFF</span></code> state.  This means that the process did not successfully
+enter the RUNNING state, and Supervisor is going to try to restart it
+unless it has exceeded its &#8220;startretries&#8221; configuration limit.</p>
+<p><em>Name</em>: <code class="docutils literal"><span class="pre">PROCESS_STATE_BACKOFF</span></code></p>
+<p><em>Subtype Of</em>: <code class="docutils literal"><span class="pre">PROCESS_STATE</span></code></p>
+<div class="section" id="id5">
+<h4>Body Description<a class="headerlink" href="#id5" title="Permalink to this headline">¶</a></h4>
+<p>This body is a token set.  It has the default set of key/value pairs
+plus an additional <code class="docutils literal"><span class="pre">tries</span></code> key.  <code class="docutils literal"><span class="pre">tries</span></code> represents the number of
+times this process has entered this state before transitioning to
+<code class="docutils literal"><span class="pre">RUNNING</span></code> or <code class="docutils literal"><span class="pre">FATAL</span></code> (it will never be larger than the
+&#8220;startretries&#8221; parameter of the process).  For example:</p>
+<div class="highlight-text"><div class="highlight"><pre>processname:cat groupname:cat from_state:STOPPED tries:0
+</pre></div>
+</div>
+</div>
+</div>
+<div class="section" id="process-state-stopping-event-type">
+<h3><code class="docutils literal"><span class="pre">PROCESS_STATE_STOPPING</span></code> Event Type<a class="headerlink" href="#process-state-stopping-event-type" title="Permalink to this headline">¶</a></h3>
+<p>Indicates a process has moved from either the <code class="docutils literal"><span class="pre">RUNNING</span></code> state or the
+<code class="docutils literal"><span class="pre">STARTING</span></code> state to the <code class="docutils literal"><span class="pre">STOPPING</span></code> state.</p>
+<p><em>Name</em>: <code class="docutils literal"><span class="pre">PROCESS_STATE_STOPPING</span></code></p>
+<p><em>Subtype Of</em>: <code class="docutils literal"><span class="pre">PROCESS_STATE</span></code></p>
+<div class="section" id="id6">
+<h4>Body Description<a class="headerlink" href="#id6" title="Permalink to this headline">¶</a></h4>
+<p>This body is a token set.  It has the default set of key/value pairs
+plus an additional <code class="docutils literal"><span class="pre">pid</span></code> key.  <code class="docutils literal"><span class="pre">pid</span></code> represents the UNIX process
+id of the process that was started.  For example:</p>
+<div class="highlight-text"><div class="highlight"><pre>processname:cat groupname:cat from_state:STARTING pid:2766
+</pre></div>
+</div>
+</div>
+</div>
+<div class="section" id="process-state-exited-event-type">
+<h3><code class="docutils literal"><span class="pre">PROCESS_STATE_EXITED</span></code> Event Type<a class="headerlink" href="#process-state-exited-event-type" title="Permalink to this headline">¶</a></h3>
+<p>Indicates a process has moved from the <code class="docutils literal"><span class="pre">RUNNING</span></code> state to the
+<code class="docutils literal"><span class="pre">EXITED</span></code> state.</p>
+<p><em>Name</em>: <code class="docutils literal"><span class="pre">PROCESS_STATE_EXITED</span></code></p>
+<p><em>Subtype Of</em>: <code class="docutils literal"><span class="pre">PROCESS_STATE</span></code></p>
+<div class="section" id="id7">
+<h4>Body Description<a class="headerlink" href="#id7" title="Permalink to this headline">¶</a></h4>
+<p>This body is a token set.  It has the default set of key/value pairs
+plus two additional keys: <code class="docutils literal"><span class="pre">pid</span></code> and <code class="docutils literal"><span class="pre">expected</span></code>.  <code class="docutils literal"><span class="pre">pid</span></code>
+represents the UNIX process id of the process that exited.
+<code class="docutils literal"><span class="pre">expected</span></code> represents whether the process exited with an expected
+exit code or not.  It will be <code class="docutils literal"><span class="pre">0</span></code> if the exit code was unexpected,
+or <code class="docutils literal"><span class="pre">1</span></code> if the exit code was expected. For example:</p>
+<div class="highlight-text"><div class="highlight"><pre>processname:cat groupname:cat from_state:RUNNING expected:0 pid:2766
+</pre></div>
+</div>
+</div>
+</div>
+<div class="section" id="process-state-stopped-event-type">
+<h3><code class="docutils literal"><span class="pre">PROCESS_STATE_STOPPED</span></code> Event Type<a class="headerlink" href="#process-state-stopped-event-type" title="Permalink to this headline">¶</a></h3>
+<p>Indicates a process has moved from the <code class="docutils literal"><span class="pre">STOPPING</span></code> state to the
+<code class="docutils literal"><span class="pre">STOPPED</span></code> state.</p>
+<p><em>Name</em>: <code class="docutils literal"><span class="pre">PROCESS_STATE_STOPPED</span></code></p>
+<p><em>Subtype Of</em>: <code class="docutils literal"><span class="pre">PROCESS_STATE</span></code></p>
+<div class="section" id="id8">
+<h4>Body Description<a class="headerlink" href="#id8" title="Permalink to this headline">¶</a></h4>
+<p>This body is a token set.  It has the default set of key/value pairs
+plus an additional <code class="docutils literal"><span class="pre">pid</span></code> key.  <code class="docutils literal"><span class="pre">pid</span></code> represents the UNIX process
+id of the process that was started.  For example:</p>
+<div class="highlight-text"><div class="highlight"><pre>processname:cat groupname:cat from_state:STOPPING pid:2766
+</pre></div>
+</div>
+</div>
+</div>
+<div class="section" id="process-state-fatal-event-type">
+<h3><code class="docutils literal"><span class="pre">PROCESS_STATE_FATAL</span></code> Event Type<a class="headerlink" href="#process-state-fatal-event-type" title="Permalink to this headline">¶</a></h3>
+<p>Indicates a process has moved from the <code class="docutils literal"><span class="pre">BACKOFF</span></code> state to the
+<code class="docutils literal"><span class="pre">FATAL</span></code> state.  This means that Supervisor tried <code class="docutils literal"><span class="pre">startretries</span></code>
+number of times unsuccessfully to start the process, and gave up
+attempting to restart it.</p>
+<p><em>Name</em>: <code class="docutils literal"><span class="pre">PROCESS_STATE_FATAL</span></code></p>
+<p><em>Subtype Of</em>: <code class="docutils literal"><span class="pre">PROCESS_STATE</span></code></p>
+<div class="section" id="id9">
+<h4>Body Description<a class="headerlink" href="#id9" title="Permalink to this headline">¶</a></h4>
+<p>This event type is a token set with the default key/value pairs.  For
+example:</p>
+<div class="highlight-text"><div class="highlight"><pre>processname:cat groupname:cat from_state:BACKOFF
+</pre></div>
+</div>
+</div>
+</div>
+<div class="section" id="process-state-unknown-event-type">
+<h3><code class="docutils literal"><span class="pre">PROCESS_STATE_UNKNOWN</span></code> Event Type<a class="headerlink" href="#process-state-unknown-event-type" title="Permalink to this headline">¶</a></h3>
+<p>Indicates a process has moved from any state to the <code class="docutils literal"><span class="pre">UNKNOWN</span></code> state
+(indicates an error in <strong class="program">supervisord</strong>).  This state transition
+will only happen if <strong class="program">supervisord</strong> itself has a programming
+error.</p>
+<p><em>Name</em>: <code class="docutils literal"><span class="pre">PROCESS_STATE_UNKNOWN</span></code></p>
+<p><em>Subtype Of</em>: <code class="docutils literal"><span class="pre">PROCESS_STATE</span></code></p>
+<div class="section" id="id10">
+<h4>Body Description<a class="headerlink" href="#id10" title="Permalink to this headline">¶</a></h4>
+<p>This event type is a token set with the default key/value pairs.  For
+example:</p>
+<div class="highlight-text"><div class="highlight"><pre>processname:cat groupname:cat from_state:BACKOFF
+</pre></div>
+</div>
+</div>
+</div>
+<div class="section" id="remote-communication-event-type">
+<h3><code class="docutils literal"><span class="pre">REMOTE_COMMUNICATION</span></code> Event Type<a class="headerlink" href="#remote-communication-event-type" title="Permalink to this headline">¶</a></h3>
+<p>An event type raised when the <code class="docutils literal"><span class="pre">supervisor.sendRemoteCommEvent()</span></code>
+method is called on Supervisor&#8217;s RPC interface.  The <code class="docutils literal"><span class="pre">type</span></code> and
+<code class="docutils literal"><span class="pre">data</span></code> are arguments of the RPC method.</p>
+<p><em>Name</em>: <code class="docutils literal"><span class="pre">REMOTE_COMMUNICATION</span></code></p>
+<p><em>Subtype Of</em>: <code class="docutils literal"><span class="pre">EVENT</span></code></p>
+<div class="section" id="id11">
+<h4>Body Description<a class="headerlink" href="#id11" title="Permalink to this headline">¶</a></h4>
+<div class="highlight-text"><div class="highlight"><pre>type:type
+data
+</pre></div>
+</div>
+</div>
+</div>
+<div class="section" id="process-log-event-type">
+<h3><code class="docutils literal"><span class="pre">PROCESS_LOG</span></code> Event Type<a class="headerlink" href="#process-log-event-type" title="Permalink to this headline">¶</a></h3>
+<p>An event type emitted when a process writes to stdout or stderr.  The
+event will only be emitted if the file descriptor is not in capture
+mode and if <code class="docutils literal"><span class="pre">stdout_events_enabled</span></code> or <code class="docutils literal"><span class="pre">stderr_events_enabled</span></code>
+config options are set to <code class="docutils literal"><span class="pre">true</span></code>.  This event type is abstract, it
+will never be sent directly.  Subscribing to this event type will
+cause a subscriber to receive event notifications for all subtypes of
+<code class="docutils literal"><span class="pre">PROCESS_LOG</span></code>.</p>
+<p><em>Name</em>: <code class="docutils literal"><span class="pre">PROCESS_LOG</span></code></p>
+<p><em>Subtype Of</em>: <code class="docutils literal"><span class="pre">EVENT</span></code></p>
+<p><em>Body Description</em>: N/A</p>
+</div>
+<div class="section" id="process-log-stdout-event-type">
+<h3><code class="docutils literal"><span class="pre">PROCESS_LOG_STDOUT</span></code> Event Type<a class="headerlink" href="#process-log-stdout-event-type" title="Permalink to this headline">¶</a></h3>
+<p>Indicates a process has written to its stdout file descriptor.  The
+event will only be emitted if the file descriptor is not in capture
+mode and if the <code class="docutils literal"><span class="pre">stdout_events_enabled</span></code> config option is set to
+<code class="docutils literal"><span class="pre">true</span></code>.</p>
+<p><em>Name</em>: <code class="docutils literal"><span class="pre">PROCESS_LOG_STDOUT</span></code></p>
+<p><em>Subtype Of</em>: <code class="docutils literal"><span class="pre">PROCESS_LOG</span></code></p>
+<div class="section" id="id12">
+<h4>Body Description<a class="headerlink" href="#id12" title="Permalink to this headline">¶</a></h4>
+<div class="highlight-text"><div class="highlight"><pre>processname:name groupname:name pid:pid
+data
+</pre></div>
+</div>
+</div>
+</div>
+<div class="section" id="process-log-stderr-event-type">
+<h3><code class="docutils literal"><span class="pre">PROCESS_LOG_STDERR</span></code> Event Type<a class="headerlink" href="#process-log-stderr-event-type" title="Permalink to this headline">¶</a></h3>
+<p>Indicates a process has written to its stderr file descriptor.  The
+event will only be emitted if the file descriptor is not in capture
+mode and if the <code class="docutils literal"><span class="pre">stderr_events_enabled</span></code> config option is set to
+<code class="docutils literal"><span class="pre">true</span></code>.</p>
+<p><em>Name</em>: <code class="docutils literal"><span class="pre">PROCESS_LOG_STDERR</span></code></p>
+<p><em>Subtype Of</em>: <code class="docutils literal"><span class="pre">PROCESS_LOG</span></code></p>
+<div class="section" id="id13">
+<h4>Body Description<a class="headerlink" href="#id13" title="Permalink to this headline">¶</a></h4>
+<div class="highlight-text"><div class="highlight"><pre>processname:name groupname:name pid:pid
+data
+</pre></div>
+</div>
+</div>
+</div>
+<div class="section" id="process-communication-event-type">
+<h3><code class="docutils literal"><span class="pre">PROCESS_COMMUNICATION</span></code> Event Type<a class="headerlink" href="#process-communication-event-type" title="Permalink to this headline">¶</a></h3>
+<p>An event type raised when any process attempts to send information
+between <code class="docutils literal"><span class="pre">&lt;!--XSUPERVISOR:BEGIN--&gt;</span></code> and <code class="docutils literal"><span class="pre">&lt;!--XSUPERVISOR:END--&gt;</span></code>
+tags in its output.  This event type is abstract, it will never be
+sent directly.  Subscribing to this event type will cause a subscriber
+to receive event notifications for all subtypes of
+<code class="docutils literal"><span class="pre">PROCESS_COMMUNICATION</span></code>.</p>
+<p><em>Name</em>: <code class="docutils literal"><span class="pre">PROCESS_COMMUNICATION</span></code></p>
+<p><em>Subtype Of</em>: <code class="docutils literal"><span class="pre">EVENT</span></code></p>
+<p><em>Body Description</em>: N/A</p>
+</div>
+<div class="section" id="process-communication-stdout-event-type">
+<h3><code class="docutils literal"><span class="pre">PROCESS_COMMUNICATION_STDOUT</span></code> Event Type<a class="headerlink" href="#process-communication-stdout-event-type" title="Permalink to this headline">¶</a></h3>
+<p>Indicates a process has sent a message to Supervisor on its stdout
+file descriptor.</p>
+<p><em>Name</em>: <code class="docutils literal"><span class="pre">PROCESS_COMMUNICATION_STDOUT</span></code></p>
+<p><em>Subtype Of</em>: <code class="docutils literal"><span class="pre">PROCESS_COMMUNICATION</span></code></p>
+<div class="section" id="id14">
+<h4>Body Description<a class="headerlink" href="#id14" title="Permalink to this headline">¶</a></h4>
+<div class="highlight-text"><div class="highlight"><pre>processname:name groupname:name pid:pid
+data
+</pre></div>
+</div>
+</div>
+</div>
+<div class="section" id="process-communication-stderr-event-type">
+<h3><code class="docutils literal"><span class="pre">PROCESS_COMMUNICATION_STDERR</span></code> Event Type<a class="headerlink" href="#process-communication-stderr-event-type" title="Permalink to this headline">¶</a></h3>
+<p>Indicates a process has sent a message to Supervisor on its stderr
+file descriptor.</p>
+<p><em>Name</em>: <code class="docutils literal"><span class="pre">PROCESS_COMMUNICATION_STDERR</span></code></p>
+<p><em>Subtype Of</em>: <code class="docutils literal"><span class="pre">PROCESS_COMMUNICATION</span></code></p>
+<div class="section" id="id15">
+<h4>Body Description<a class="headerlink" href="#id15" title="Permalink to this headline">¶</a></h4>
+<div class="highlight-text"><div class="highlight"><pre>processname:name groupname:name pid:pid
+data
+</pre></div>
+</div>
+</div>
+</div>
+<div class="section" id="supervisor-state-change-event-type">
+<h3><code class="docutils literal"><span class="pre">SUPERVISOR_STATE_CHANGE</span></code> Event Type<a class="headerlink" href="#supervisor-state-change-event-type" title="Permalink to this headline">¶</a></h3>
+<p>An event type raised when the state of the <strong class="program">supervisord</strong>
+process changes.  This type is abstract, it will never be sent
+directly.  Subscribing to this event type will cause a subscriber to
+receive event notifications of all the subtypes of
+<code class="docutils literal"><span class="pre">SUPERVISOR_STATE_CHANGE</span></code>.</p>
+<p><em>Name</em>: <code class="docutils literal"><span class="pre">SUPERVISOR_STATE_CHANGE</span></code></p>
+<p><em>Subtype Of</em>: <code class="docutils literal"><span class="pre">EVENT</span></code></p>
+<p><em>Body Description</em>: N/A</p>
+</div>
+<div class="section" id="supervisor-state-change-running-event-type">
+<h3><code class="docutils literal"><span class="pre">SUPERVISOR_STATE_CHANGE_RUNNING</span></code> Event Type<a class="headerlink" href="#supervisor-state-change-running-event-type" title="Permalink to this headline">¶</a></h3>
+<p>Indicates that <strong class="program">supervisord</strong> has started.</p>
+<p><em>Name</em>: <code class="docutils literal"><span class="pre">SUPERVISOR_STATE_CHANGE_RUNNING</span></code></p>
+<p><em>Subtype Of</em>: <code class="docutils literal"><span class="pre">SUPERVISOR_STATE_CHANGE</span></code></p>
+<p><em>Body Description</em>: Empty string</p>
+</div>
+<div class="section" id="supervisor-state-change-stopping-event-type">
+<h3><code class="docutils literal"><span class="pre">SUPERVISOR_STATE_CHANGE_STOPPING</span></code> Event Type<a class="headerlink" href="#supervisor-state-change-stopping-event-type" title="Permalink to this headline">¶</a></h3>
+<p>Indicates that <strong class="program">supervisord</strong> is stopping.</p>
+<p><em>Name</em>: <code class="docutils literal"><span class="pre">SUPERVISOR_STATE_CHANGE_STOPPING</span></code></p>
+<p><em>Subtype Of</em>: <code class="docutils literal"><span class="pre">SUPERVISOR_STATE_CHANGE</span></code></p>
+<p><em>Body Description</em>: Empty string</p>
+</div>
+<div class="section" id="tick-event-type">
+<h3><code class="docutils literal"><span class="pre">TICK</span></code> Event Type<a class="headerlink" href="#tick-event-type" title="Permalink to this headline">¶</a></h3>
+<p>An event type that may be subscribed to for event listeners to receive
+&#8220;wake-up&#8221; notifications every N seconds.  This event type is abstract,
+it will never be sent directly.  Subscribing to this event type will
+cause a subscriber to receive event notifications for all subtypes of
+<code class="docutils literal"><span class="pre">TICK</span></code>.</p>
+<p>Note that the only <code class="docutils literal"><span class="pre">TICK</span></code> events available are the ones listed below.
+You cannot subscribe to an arbitrary <code class="docutils literal"><span class="pre">TICK</span></code> interval. If you need an
+interval not provided below, you can subscribe to one of the shorter
+intervals given below and keep track of the time between runs in your
+event listener.</p>
+<p><em>Name</em>: <code class="docutils literal"><span class="pre">TICK</span></code></p>
+<p><em>Subtype Of</em>: <code class="docutils literal"><span class="pre">EVENT</span></code></p>
+<p><em>Body Description</em>: N/A</p>
+</div>
+<div class="section" id="tick-5-event-type">
+<h3><code class="docutils literal"><span class="pre">TICK_5</span></code> Event Type<a class="headerlink" href="#tick-5-event-type" title="Permalink to this headline">¶</a></h3>
+<p>An event type that may be subscribed to for event listeners to receive
+&#8220;wake-up&#8221; notifications every 5 seconds.</p>
+<p><em>Name</em>: <code class="docutils literal"><span class="pre">TICK_5</span></code></p>
+<p><em>Subtype Of</em>: <code class="docutils literal"><span class="pre">TICK</span></code></p>
+<div class="section" id="id16">
+<h4>Body Description<a class="headerlink" href="#id16" title="Permalink to this headline">¶</a></h4>
+<p>This event type is a token set with a single key: &#8220;when&#8221;, which
+indicates the epoch time for which the tick was sent.</p>
+<div class="highlight-text"><div class="highlight"><pre>when:1201063880
+</pre></div>
+</div>
+</div>
+</div>
+<div class="section" id="tick-60-event-type">
+<h3><code class="docutils literal"><span class="pre">TICK_60</span></code> Event Type<a class="headerlink" href="#tick-60-event-type" title="Permalink to this headline">¶</a></h3>
+<p>An event type that may be subscribed to for event listeners to receive
+&#8220;wake-up&#8221; notifications every 60 seconds.</p>
+<p><em>Name</em>: <code class="docutils literal"><span class="pre">TICK_60</span></code></p>
+<p><em>Subtype Of</em>: <code class="docutils literal"><span class="pre">TICK</span></code></p>
+<div class="section" id="id17">
+<h4>Body Description<a class="headerlink" href="#id17" title="Permalink to this headline">¶</a></h4>
+<p>This event type is a token set with a single key: &#8220;when&#8221;, which
+indicates the epoch time for which the tick was sent.</p>
+<div class="highlight-text"><div class="highlight"><pre>when:1201063880
+</pre></div>
+</div>
+</div>
+</div>
+<div class="section" id="tick-3600-event-type">
+<h3><code class="docutils literal"><span class="pre">TICK_3600</span></code> Event Type<a class="headerlink" href="#tick-3600-event-type" title="Permalink to this headline">¶</a></h3>
+<p>An event type that may be subscribed to for event listeners to receive
+&#8220;wake-up&#8221; notifications every 3600 seconds (1 hour).</p>
+<p><em>Name</em>: <code class="docutils literal"><span class="pre">TICK_3600</span></code></p>
+<p><em>Subtype Of</em>: <code class="docutils literal"><span class="pre">TICK</span></code></p>
+<div class="section" id="id18">
+<h4>Body Description<a class="headerlink" href="#id18" title="Permalink to this headline">¶</a></h4>
+<p>This event type is a token set with a single key: &#8220;when&#8221;, which
+indicates the epoch time for which the tick was sent.</p>
+<div class="highlight-text"><div class="highlight"><pre>when:1201063880
+</pre></div>
+</div>
+</div>
+</div>
+<div class="section" id="process-group-event-type">
+<h3><code class="docutils literal"><span class="pre">PROCESS_GROUP</span></code> Event Type<a class="headerlink" href="#process-group-event-type" title="Permalink to this headline">¶</a></h3>
+<p>An event type raised when a process group is added to or removed from
+Supervisor.  This type is abstract, it will never be sent
+directly.  Subscribing to this event type will cause a subscriber to
+receive event notifications of all the subtypes of
+<code class="docutils literal"><span class="pre">PROCESS_GROUP</span></code>.</p>
+<p><em>Name</em>: <code class="docutils literal"><span class="pre">PROCESS_GROUP</span></code></p>
+<p><em>Subtype Of</em>: <code class="docutils literal"><span class="pre">EVENT</span></code></p>
+<p><em>Body Description</em>: N/A</p>
+</div>
+<div class="section" id="process-group-added-event-type">
+<h3><code class="docutils literal"><span class="pre">PROCESS_GROUP_ADDED</span></code> Event Type<a class="headerlink" href="#process-group-added-event-type" title="Permalink to this headline">¶</a></h3>
+<p>Indicates that a process group has been added to Supervisor&#8217;s configuration.</p>
+<p><em>Name</em>: <code class="docutils literal"><span class="pre">PROCESS_GROUP_ADDED</span></code></p>
+<p><em>Subtype Of</em>: <code class="docutils literal"><span class="pre">PROCESS_GROUP</span></code></p>
+<p><em>Body Description</em>: This body is a token set with just a groupname key/value.</p>
+<div class="highlight-text"><div class="highlight"><pre>groupname:cat
+</pre></div>
+</div>
+</div>
+<div class="section" id="process-group-removed-event-type">
+<h3><code class="docutils literal"><span class="pre">PROCESS_GROUP_REMOVED</span></code> Event Type<a class="headerlink" href="#process-group-removed-event-type" title="Permalink to this headline">¶</a></h3>
+<p>Indicates that a process group has been removed from Supervisor&#8217;s configuration.</p>
+<p><em>Name</em>: <code class="docutils literal"><span class="pre">PROCESS_GROUP_REMOVED</span></code></p>
+<p><em>Subtype Of</em>: <code class="docutils literal"><span class="pre">PROCESS_GROUP</span></code></p>
+<p><em>Body Description</em>: This body is a token set with just a groupname key/value.</p>
+<div class="highlight-text"><div class="highlight"><pre>groupname:cat
+</pre></div>
+</div>
+</div>
+</div>
+</div>
+
+
+          </div>
+        </div>
+      </div>
+      <div class="sphinxsidebar" role="navigation" aria-label="main navigation">
+        <div class="sphinxsidebarwrapper">
+            <p class="logo"><a href="index.html">
+              <img class="logo" src="_static/logo_hi.gif" alt="Logo"/>
+            </a></p>
+  <h3><a href="index.html">Table Of Contents</a></h3>
+  <ul>
+<li><a class="reference internal" href="#">Events</a><ul>
+<li><a class="reference internal" href="#event-listeners-and-event-notifications">Event Listeners and Event Notifications</a><ul>
+<li><a class="reference internal" href="#configuring-an-event-listener">Configuring an Event Listener</a></li>
+<li><a class="reference internal" href="#writing-an-event-listener">Writing an Event Listener</a><ul>
+<li><a class="reference internal" href="#event-notification-protocol">Event Notification Protocol</a><ul>
+<li><a class="reference internal" href="#header-tokens">Header Tokens</a></li>
+</ul>
+</li>
+<li><a class="reference internal" href="#event-listener-states">Event Listener States</a></li>
+<li><a class="reference internal" href="#event-listener-notification-protocol">Event Listener Notification Protocol</a></li>
+<li><a class="reference internal" href="#example-event-listener-implementation">Example Event Listener Implementation</a></li>
+<li><a class="reference internal" href="#event-listener-error-conditions">Event Listener Error Conditions</a></li>
+<li><a class="reference internal" href="#miscellaneous">Miscellaneous</a></li>
+</ul>
+</li>
+</ul>
+</li>
+<li><a class="reference internal" href="#event-types">Event Types</a><ul>
+<li><a class="reference internal" href="#event-event-type"><code class="docutils literal"><span class="pre">EVENT</span></code> Event Type</a></li>
+<li><a class="reference internal" href="#process-state-event-type"><code class="docutils literal"><span class="pre">PROCESS_STATE</span></code> Event Type</a><ul>
+<li><a class="reference internal" href="#body-description">Body Description</a></li>
+</ul>
+</li>
+<li><a class="reference internal" href="#process-state-starting-event-type"><code class="docutils literal"><span class="pre">PROCESS_STATE_STARTING</span></code> Event Type</a><ul>
+<li><a class="reference internal" href="#id3">Body Description</a></li>
+</ul>
+</li>
+<li><a class="reference internal" href="#process-state-running-event-type"><code class="docutils literal"><span class="pre">PROCESS_STATE_RUNNING</span></code> Event Type</a><ul>
+<li><a class="reference internal" href="#id4">Body Description</a></li>
+</ul>
+</li>
+<li><a class="reference internal" href="#process-state-backoff-event-type"><code class="docutils literal"><span class="pre">PROCESS_STATE_BACKOFF</span></code> Event Type</a><ul>
+<li><a class="reference internal" href="#id5">Body Description</a></li>
+</ul>
+</li>
+<li><a class="reference internal" href="#process-state-stopping-event-type"><code class="docutils literal"><span class="pre">PROCESS_STATE_STOPPING</span></code> Event Type</a><ul>
+<li><a class="reference internal" href="#id6">Body Description</a></li>
+</ul>
+</li>
+<li><a class="reference internal" href="#process-state-exited-event-type"><code class="docutils literal"><span class="pre">PROCESS_STATE_EXITED</span></code> Event Type</a><ul>
+<li><a class="reference internal" href="#id7">Body Description</a></li>
+</ul>
+</li>
+<li><a class="reference internal" href="#process-state-stopped-event-type"><code class="docutils literal"><span class="pre">PROCESS_STATE_STOPPED</span></code> Event Type</a><ul>
+<li><a class="reference internal" href="#id8">Body Description</a></li>
+</ul>
+</li>
+<li><a class="reference internal" href="#process-state-fatal-event-type"><code class="docutils literal"><span class="pre">PROCESS_STATE_FATAL</span></code> Event Type</a><ul>
+<li><a class="reference internal" href="#id9">Body Description</a></li>
+</ul>
+</li>
+<li><a class="reference internal" href="#process-state-unknown-event-type"><code class="docutils literal"><span class="pre">PROCESS_STATE_UNKNOWN</span></code> Event Type</a><ul>
+<li><a class="reference internal" href="#id10">Body Description</a></li>
+</ul>
+</li>
+<li><a class="reference internal" href="#remote-communication-event-type"><code class="docutils literal"><span class="pre">REMOTE_COMMUNICATION</span></code> Event Type</a><ul>
+<li><a class="reference internal" href="#id11">Body Description</a></li>
+</ul>
+</li>
+<li><a class="reference internal" href="#process-log-event-type"><code class="docutils literal"><span class="pre">PROCESS_LOG</span></code> Event Type</a></li>
+<li><a class="reference internal" href="#process-log-stdout-event-type"><code class="docutils literal"><span class="pre">PROCESS_LOG_STDOUT</span></code> Event Type</a><ul>
+<li><a class="reference internal" href="#id12">Body Description</a></li>
+</ul>
+</li>
+<li><a class="reference internal" href="#process-log-stderr-event-type"><code class="docutils literal"><span class="pre">PROCESS_LOG_STDERR</span></code> Event Type</a><ul>
+<li><a class="reference internal" href="#id13">Body Description</a></li>
+</ul>
+</li>
+<li><a class="reference internal" href="#process-communication-event-type"><code class="docutils literal"><span class="pre">PROCESS_COMMUNICATION</span></code> Event Type</a></li>
+<li><a class="reference internal" href="#process-communication-stdout-event-type"><code class="docutils literal"><span class="pre">PROCESS_COMMUNICATION_STDOUT</span></code> Event Type</a><ul>
+<li><a class="reference internal" href="#id14">Body Description</a></li>
+</ul>
+</li>
+<li><a class="reference internal" href="#process-communication-stderr-event-type"><code class="docutils literal"><span class="pre">PROCESS_COMMUNICATION_STDERR</span></code> Event Type</a><ul>
+<li><a class="reference internal" href="#id15">Body Description</a></li>
+</ul>
+</li>
+<li><a class="reference internal" href="#supervisor-state-change-event-type"><code class="docutils literal"><span class="pre">SUPERVISOR_STATE_CHANGE</span></code> Event Type</a></li>
+<li><a class="reference internal" href="#supervisor-state-change-running-event-type"><code class="docutils literal"><span class="pre">SUPERVISOR_STATE_CHANGE_RUNNING</span></code> Event Type</a></li>
+<li><a class="reference internal" href="#supervisor-state-change-stopping-event-type"><code class="docutils literal"><span class="pre">SUPERVISOR_STATE_CHANGE_STOPPING</span></code> Event Type</a></li>
+<li><a class="reference internal" href="#tick-event-type"><code class="docutils literal"><span class="pre">TICK</span></code> Event Type</a></li>
+<li><a class="reference internal" href="#tick-5-event-type"><code class="docutils literal"><span class="pre">TICK_5</span></code> Event Type</a><ul>
+<li><a class="reference internal" href="#id16">Body Description</a></li>
+</ul>
+</li>
+<li><a class="reference internal" href="#tick-60-event-type"><code class="docutils literal"><span class="pre">TICK_60</span></code> Event Type</a><ul>
+<li><a class="reference internal" href="#id17">Body Description</a></li>
+</ul>
+</li>
+<li><a class="reference internal" href="#tick-3600-event-type"><code class="docutils literal"><span class="pre">TICK_3600</span></code> Event Type</a><ul>
+<li><a class="reference internal" href="#id18">Body Description</a></li>
+</ul>
+</li>
+<li><a class="reference internal" href="#process-group-event-type"><code class="docutils literal"><span class="pre">PROCESS_GROUP</span></code> Event Type</a></li>
+<li><a class="reference internal" href="#process-group-added-event-type"><code class="docutils literal"><span class="pre">PROCESS_GROUP_ADDED</span></code> Event Type</a></li>
+<li><a class="reference internal" href="#process-group-removed-event-type"><code class="docutils literal"><span class="pre">PROCESS_GROUP_REMOVED</span></code> Event Type</a></li>
+</ul>
+</li>
+</ul>
+</li>
+</ul>
+<div class="relations">
+<h3>Related Topics</h3>
+<ul>
+  <li><a href="index.html">Documentation overview</a><ul>
+      <li>Previous: <a href="logging.html" title="previous chapter">Logging</a></li>
+      <li>Next: <a href="xmlrpc.html" title="next chapter">Extending Supervisor&#8217;s XML-RPC API</a></li>
+  </ul></li>
+</ul>
+</div>
+  <div role="note" aria-label="source link">
+    <h3>This Page</h3>
+    <ul class="this-page-menu">
+      <li><a href="_sources/events.txt"
+            rel="nofollow">Show Source</a></li>
+    </ul>
+   </div>
+<div id="searchbox" style="display: none" role="search">
+  <h3>Quick search</h3>
+    <form class="search" action="search.html" method="get">
+      <input type="text" name="q" />
+      <input type="submit" value="Go" />
+      <input type="hidden" name="check_keywords" value="yes" />
+      <input type="hidden" name="area" value="default" />
+    </form>
+    <p class="searchtip" style="font-size: 90%">
+    Enter search terms or a module, class or function name.
+    </p>
+</div>
+<script type="text/javascript">$('#searchbox').show(0);</script>
+        </div>
+      </div>
+      <div class="clearer"></div>
+    </div>
+    <div class="footer">
+      &copy;2004-2016, Agendaless Consulting and Contributors.
+      
+      |
+      Powered by <a href="http://sphinx-doc.org/">Sphinx 1.3.3</a>
+      &amp; <a href="https://github.com/bitprophet/alabaster">Alabaster 0.7.7</a>
+      
+      |
+      <a href="_sources/events.txt"
+          rel="nofollow">Page source</a>
+    </div>
+
+    
+
+    
+  </body>
+</html>

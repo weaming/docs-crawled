@@ -1,0 +1,79 @@
+<html lang="en">
+<head>
+<title>GNU Classpath Properties - Guide to GNU gcj</title>
+<meta http-equiv="Content-Type" content="text/html">
+<meta name="description" content="Guide to GNU gcj">
+<meta name="generator" content="makeinfo 4.13">
+<link title="Top" rel="start" href="index.html#Top">
+<link rel="up" href="System-properties.html#System-properties" title="System properties">
+<link rel="prev" href="Standard-Properties.html#Standard-Properties" title="Standard Properties">
+<link rel="next" href="libgcj-Runtime-Properties.html#libgcj-Runtime-Properties" title="libgcj Runtime Properties">
+<link href="http://www.gnu.org/software/texinfo/" rel="generator-home" title="Texinfo Homepage">
+<!--
+Copyright (C) 2001-2015 Free Software Foundation, Inc.
+
+Permission is granted to copy, distribute and/or modify this document
+under the terms of the GNU Free Documentation License, Version 1.3 or
+any later version published by the Free Software Foundation; with no
+Invariant Sections, the Front-Cover Texts being (a) (see below), and
+with the Back-Cover Texts being (b) (see below).
+A copy of the license is included in the
+section entitled ``GNU Free Documentation License''.
+
+
+(a) The FSF's Front-Cover Text is:
+
+     A GNU Manual
+
+(b) The FSF's Back-Cover Text is:
+
+     You have freedom to copy and modify this GNU Manual, like GNU
+     software.  Copies published by the Free Software Foundation raise
+     funds for GNU development.
+-->
+<meta http-equiv="Content-Style-Type" content="text/css">
+<style type="text/css"><!--
+  pre.display { font-family:inherit }
+  pre.format  { font-family:inherit }
+  pre.smalldisplay { font-family:inherit; font-size:smaller }
+  pre.smallformat  { font-family:inherit; font-size:smaller }
+  pre.smallexample { font-size:smaller }
+  pre.smalllisp    { font-size:smaller }
+  span.sc    { font-variant:small-caps }
+  span.roman { font-family:serif; font-weight:normal; } 
+  span.sansserif { font-family:sans-serif; font-weight:normal; } 
+--></style>
+</head>
+<body>
+<div class="node">
+<a name="GNU-Classpath-Properties"></a>
+<p>
+Next:&nbsp;<a rel="next" accesskey="n" href="libgcj-Runtime-Properties.html#libgcj-Runtime-Properties">libgcj Runtime Properties</a>,
+Previous:&nbsp;<a rel="previous" accesskey="p" href="Standard-Properties.html#Standard-Properties">Standard Properties</a>,
+Up:&nbsp;<a rel="up" accesskey="u" href="System-properties.html#System-properties">System properties</a>
+<hr>
+</div>
+
+<h3 class="section">12.2 GNU Classpath Properties</h3>
+
+<p><code>libgcj</code> is based on the GNU Classpath (Essential Libraries for Java) a
+GNU project to create free core class libraries for use with virtual machines
+and compilers for the Java language.  The following properties are common to
+libraries based on GNU Classpath.
+
+     <dl>
+<dt><code>gcj.dumpobject</code><dd>Enables printing serialization debugging by the <code>java.io.ObjectInput</code> and
+<code>java.io.ObjectOutput</code> classes when set to something else then the empty
+string.  Only used when running a debug build of the library.
+
+     <br><dt><code>gnu.classpath.vm.shortname</code><dd>This is a succinct name of the virtual machine.  For <code>libgcj</code>,
+this will always be &lsquo;<samp><span class="samp">libgcj</span></samp>&rsquo;.
+
+     <br><dt><code>gnu.classpath.home.url</code><dd>A base URL used for finding system property files (e.g.,
+<samp><span class="file">classpath.security</span></samp>).  By default this is a &lsquo;<samp><span class="samp">file:</span></samp>&rsquo; URL
+pointing to the <samp><span class="file">lib</span></samp> directory under &lsquo;<samp><span class="samp">java.home</span></samp>&rsquo;.
+
+   </dl>
+
+   </body></html>
+

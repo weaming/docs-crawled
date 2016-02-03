@@ -1,0 +1,121 @@
+<html lang="en">
+<head>
+<title>Pragma Component_Alignment - GNAT Reference Manual</title>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+<meta name="description" content="GNAT Reference Manual">
+<meta name="generator" content="makeinfo 4.13">
+<link title="Top" rel="start" href="index.html#Top">
+<link rel="up" href="Implementation-Defined-Pragmas.html#Implementation-Defined-Pragmas" title="Implementation Defined Pragmas">
+<link rel="prev" href="Pragma-Complex_005fRepresentation.html#Pragma-Complex_005fRepresentation" title="Pragma Complex_Representation">
+<link rel="next" href="Pragma-Contract_005fCases.html#Pragma-Contract_005fCases" title="Pragma Contract_Cases">
+<link href="http://www.gnu.org/software/texinfo/" rel="generator-home" title="Texinfo Homepage">
+<!--
+
+     GNAT Reference Manual , March 24, 2015
+
+     AdaCore
+
+     Copyright (C) 2008-2015, Free Software Foundation
+-->
+<meta http-equiv="Content-Style-Type" content="text/css">
+<style type="text/css"><!--
+  pre.display { font-family:inherit }
+  pre.format  { font-family:inherit }
+  pre.smalldisplay { font-family:inherit; font-size:smaller }
+  pre.smallformat  { font-family:inherit; font-size:smaller }
+  pre.smallexample { font-size:smaller }
+  pre.smalllisp    { font-size:smaller }
+  span.sc    { font-variant:small-caps }
+  span.roman { font-family:serif; font-weight:normal; } 
+  span.sansserif { font-family:sans-serif; font-weight:normal; } 
+--></style>
+</head>
+<body>
+<div class="node">
+<a name="Pragma-Component_Alignment"></a>
+<a name="Pragma-Component_005fAlignment"></a>
+<p>
+Next:&nbsp;<a rel="next" accesskey="n" href="Pragma-Contract_005fCases.html#Pragma-Contract_005fCases">Pragma Contract_Cases</a>,
+Previous:&nbsp;<a rel="previous" accesskey="p" href="Pragma-Complex_005fRepresentation.html#Pragma-Complex_005fRepresentation">Pragma Complex_Representation</a>,
+Up:&nbsp;<a rel="up" accesskey="u" href="Implementation-Defined-Pragmas.html#Implementation-Defined-Pragmas">Implementation Defined Pragmas</a>
+<hr>
+</div>
+
+<p><a name="gnat_005frm_002fimplementation_005fdefined_005fpragmas-pragma_002dcomponent_002dalignment"></a><a name="g_t3b"></a>
+
+<h3 class="section">2.33 Pragma Component_Alignment</h3>
+
+<p><a name="index-Alignments-of-components-22"></a>
+<a name="index-Pragma-Component_005fAlignment-23"></a>
+Syntax:
+
+<pre class="example">    pragma Component_Alignment (
+         [Form =&gt;] ALIGNMENT_CHOICE
+      [, [Name =&gt;] type_LOCAL_NAME]);
+    
+    ALIGNMENT_CHOICE ::=
+      Component_Size
+    | Component_Size_4
+    | Storage_Unit
+    | Default
+</pre>
+<p>Specifies the alignment of components in array or record types. 
+The meaning of the <cite>Form</cite> argument is as follows:
+
+<blockquote>
+
+<p><a name="index-Component_005fSize-_0028in-pragma-Component_005fAlignment_0029-24"></a></blockquote>
+
+     <dl>
+<dt>`Component_Size'<dd>
+Aligns scalar components and subcomponents of the array or record type
+on boundaries appropriate to their inherent size (naturally
+aligned).  For example, 1-byte components are aligned on byte boundaries,
+2-byte integer components are aligned on 2-byte boundaries, 4-byte
+integer components are aligned on 4-byte boundaries and so on.  These
+alignment rules correspond to the normal rules for C compilers on all
+machines except the VAX.
+
+     <p><a name="index-Component_005fSize_005f4-_0028in-pragma-Component_005fAlignment_0029-25"></a>
+<br><dt>`Component_Size_4'<dd>
+Naturally aligns components with a size of four or fewer
+bytes.  Components that are larger than 4 bytes are placed on the next
+4-byte boundary.
+
+     <p><a name="index-Storage_005fUnit-_0028in-pragma-Component_005fAlignment_0029-26"></a>
+<br><dt>`Storage_Unit'<dd>
+Specifies that array or record components are byte aligned, i.e.,
+aligned on boundaries determined by the value of the constant
+<cite>System.Storage_Unit</cite>.
+
+     <p><a name="index-Default-_0028in-pragma-Component_005fAlignment_0029-27"></a>
+<br><dt>`Default'<dd>
+Specifies that array or record components are aligned on default
+boundaries, appropriate to the underlying hardware or operating system or
+both. The <cite>Default</cite> choice is the same as <cite>Component_Size</cite> (natural
+alignment). 
+</dl>
+
+<p>If the <cite>Name</cite> parameter is present, <cite>type_LOCAL_NAME</cite> must
+refer to a local record or array type, and the specified alignment
+choice applies to the specified type.  The use of
+<cite>Component_Alignment</cite> together with a pragma <cite>Pack</cite> causes the
+<cite>Component_Alignment</cite> pragma to be ignored.  The use of
+<cite>Component_Alignment</cite> together with a record representation clause
+is only effective for fields not specified by the representation clause.
+
+<p>If the <cite>Name</cite> parameter is absent, the pragma can be used as either
+a configuration pragma, in which case it applies to one or more units in
+accordance with the normal rules for configuration pragmas, or it can be
+used within a declarative part, in which case it applies to types that
+are declared within this declarative part, or within any nested scope
+within this declarative part.  In either case it specifies the alignment
+to be applied to any record or array type which has otherwise standard
+representation.
+
+<p>If the alignment for a record or array type is not specified (using
+pragma <cite>Pack</cite>, pragma <cite>Component_Alignment</cite>, or a record rep
+clause), the GNAT uses the default alignment as described previously.
+
+</body></html>
+

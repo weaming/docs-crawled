@@ -1,0 +1,106 @@
+<html lang="en">
+<head>
+<title>Object and Exec Directory - GNAT User's Guide for Native Platforms</title>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+<meta name="description" content="GNAT User's Guide for Native Platforms">
+<meta name="generator" content="makeinfo 4.13">
+<link title="Top" rel="start" href="index.html#Top">
+<link rel="up" href="Building-With-Projects.html#Building-With-Projects" title="Building With Projects">
+<link rel="prev" href="Duplicate-Sources-in-Projects.html#Duplicate-Sources-in-Projects" title="Duplicate Sources in Projects">
+<link rel="next" href="Main-Subprograms.html#Main-Subprograms" title="Main Subprograms">
+<link href="http://www.gnu.org/software/texinfo/" rel="generator-home" title="Texinfo Homepage">
+<!--
+
+     GNAT User's Guide for Native Platforms , March 24, 2015
+
+     AdaCore
+
+     Copyright (C) 2008-2015, Free Software Foundation
+-->
+<meta http-equiv="Content-Style-Type" content="text/css">
+<style type="text/css"><!--
+  pre.display { font-family:inherit }
+  pre.format  { font-family:inherit }
+  pre.smalldisplay { font-family:inherit; font-size:smaller }
+  pre.smallformat  { font-family:inherit; font-size:smaller }
+  pre.smallexample { font-size:smaller }
+  pre.smalllisp    { font-size:smaller }
+  span.sc    { font-variant:small-caps }
+  span.roman { font-family:serif; font-weight:normal; } 
+  span.sansserif { font-family:sans-serif; font-weight:normal; } 
+--></style>
+</head>
+<body>
+<div class="node">
+<a name="Object-and-Exec-Directory"></a>
+<p>
+Next:&nbsp;<a rel="next" accesskey="n" href="Main-Subprograms.html#Main-Subprograms">Main Subprograms</a>,
+Previous:&nbsp;<a rel="previous" accesskey="p" href="Duplicate-Sources-in-Projects.html#Duplicate-Sources-in-Projects">Duplicate Sources in Projects</a>,
+Up:&nbsp;<a rel="up" accesskey="u" href="Building-With-Projects.html#Building-With-Projects">Building With Projects</a>
+<hr>
+</div>
+
+<p><a name="gnat_005fugn_002fgnat_005fproject_005fmanager-object_002dand_002dexec_002ddirectory"></a><a name="g_t15a"></a><a name="gnat_005fugn_002fgnat_005fproject_005fmanager-id5"></a><a name="g_t15b"></a>
+
+<h4 class="subsection">5.2.3 Object and Exec Directory</h4>
+
+<p>The next step when writing a project is to indicate where the compiler should
+put the object files. In fact, the compiler and other tools might create
+several different kind of files (for GNAT, there is the object file and the ALI
+file for instance). One of the important concepts in projects is that most
+tools may consider source directories as read-only and do not attempt to create
+new or temporary files there. Instead, all files are created in the object
+directory. It is of course not true for project-aware IDEs, whose purpose it is
+to create the source files.
+
+<p><a name="index-Object_005fDir-_0028GNAT-Project-Manager_0029-790"></a>
+The object directory is specified through the `Object_Dir' attribute. 
+Its value is the path to the object directory, either absolute or
+relative to the directory containing the project file. This
+directory must already exist and be readable and writable, although
+some tools have a switch to create the directory if needed (See
+the switch <cite>-p</cite> for `gnatmake'
+and `gprbuild').
+
+<p>If the attribute <cite>Object_Dir</cite> is not specified, it defaults to
+the project directory, that is the directory containing the project file.
+
+<p>For our example, we can specify the object dir in this way:
+
+<!-- code-block: ada-project -->
+<!-- project Build is -->
+<!-- for Source_Dirs use ("common"); -->
+<!-- for Object_Dir use "obj";   -  <<<< -->
+<!-- end Build; -->
+<p>As mentioned earlier, there is a single object directory per project. As a
+result, if you have an existing system where the object files are spread across
+several directories, you can either move all of them into the same directory if
+you want to build it with a single project file, or study the section on
+subsystems (see <a href="14e.html#g_t14e">Organizing Projects into Subsystems</a>) to see how each
+separate object directory can be associated with one of the subsystems
+constituting the application.
+
+<p>When the `linker' is called, it usually creates an executable. By
+default, this executable is placed in the object directory of the project. It
+might be convenient to store it in its own directory.
+
+<p><a name="index-Exec_005fDir-_0028GNAT-Project-Manager_0029-791"></a>
+This can be done through the <cite>Exec_Dir</cite> attribute, which, like
+`Object_Dir' contains a single absolute or relative path and must point to
+an existing and writable directory, unless you ask the tool to create it on
+your behalf. When not specified, It defaults to the object directory and
+therefore to the project file's directory if neither `Object_Dir' nor
+`Exec_Dir' was specified.
+
+<p>In the case of the example, let's place the executable in the root
+of the hierarchy, ie the same directory as <code>build.gpr</code>. Hence
+the project file is now
+
+<!-- code-block: ada-project -->
+<!-- project Build is -->
+<!-- for Source_Dirs use ("common"); -->
+<!-- for Object_Dir use "obj"; -->
+<!-- for Exec_Dir use ".";  -   <<<< -->
+<!-- end Build; -->
+</body></html>
+

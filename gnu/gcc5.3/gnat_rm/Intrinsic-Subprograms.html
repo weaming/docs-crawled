@@ -1,0 +1,76 @@
+<html lang="en">
+<head>
+<title>Intrinsic Subprograms - GNAT Reference Manual</title>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+<meta name="description" content="GNAT Reference Manual">
+<meta name="generator" content="makeinfo 4.13">
+<link title="Top" rel="start" href="index.html#Top">
+<link rel="prev" href="Implementation-Defined-Characteristics.html#Implementation-Defined-Characteristics" title="Implementation Defined Characteristics">
+<link rel="next" href="Representation-Clauses-and-Pragmas.html#Representation-Clauses-and-Pragmas" title="Representation Clauses and Pragmas">
+<link href="http://www.gnu.org/software/texinfo/" rel="generator-home" title="Texinfo Homepage">
+<!--
+
+     GNAT Reference Manual , March 24, 2015
+
+     AdaCore
+
+     Copyright (C) 2008-2015, Free Software Foundation
+-->
+<meta http-equiv="Content-Style-Type" content="text/css">
+<style type="text/css"><!--
+  pre.display { font-family:inherit }
+  pre.format  { font-family:inherit }
+  pre.smalldisplay { font-family:inherit; font-size:smaller }
+  pre.smallformat  { font-family:inherit; font-size:smaller }
+  pre.smallexample { font-size:smaller }
+  pre.smalllisp    { font-size:smaller }
+  span.sc    { font-variant:small-caps }
+  span.roman { font-family:serif; font-weight:normal; } 
+  span.sansserif { font-family:sans-serif; font-weight:normal; } 
+--></style>
+</head>
+<body>
+<div class="node">
+<a name="Intrinsic-Subprograms"></a>
+<p>
+Next:&nbsp;<a rel="next" accesskey="n" href="Representation-Clauses-and-Pragmas.html#Representation-Clauses-and-Pragmas">Representation Clauses and Pragmas</a>,
+Previous:&nbsp;<a rel="previous" accesskey="p" href="Implementation-Defined-Characteristics.html#Implementation-Defined-Characteristics">Implementation Defined Characteristics</a>,
+Up:&nbsp;<a rel="up" accesskey="u" href="index.html#Top">Top</a>
+<hr>
+</div>
+
+<p><a name="gnat_005frm_002fintrinsic_005fsubprograms-doc"></a><a name="g_t200"></a><a name="gnat_005frm_002fintrinsic_005fsubprograms-intrinsic_002dsubprograms"></a><a name="c"></a><a name="gnat_005frm_002fintrinsic_005fsubprograms-id1"></a><a name="g_t201"></a>
+
+<h2 class="chapter">8 Intrinsic Subprograms</h2>
+
+<p><a name="index-Intrinsic-Subprograms-458"></a>
+GNAT allows a user application program to write the declaration:
+
+<pre class="example">    pragma Import (Intrinsic, name);
+</pre>
+<p>providing that the name corresponds to one of the implemented intrinsic
+subprograms in GNAT, and that the parameter profile of the referenced
+subprogram meets the requirements.  This chapter describes the set of
+implemented intrinsic subprograms, and the requirements on parameter profiles. 
+Note that no body is supplied; as with other uses of pragma Import, the
+body is supplied elsewhere (in this case by the compiler itself).  Note
+that any use of this feature is potentially non-portable, since the
+Ada standard does not require Ada compilers to implement this feature.
+
+<ul class="menu">
+<li><a accesskey="1" href="Intrinsic-Operators.html#Intrinsic-Operators">Intrinsic Operators</a>
+<li><a accesskey="2" href="Compilation_005fDate.html#Compilation_005fDate">Compilation_Date</a>
+<li><a accesskey="3" href="Compilation_005fTime.html#Compilation_005fTime">Compilation_Time</a>
+<li><a accesskey="4" href="Enclosing_005fEntity.html#Enclosing_005fEntity">Enclosing_Entity</a>
+<li><a accesskey="5" href="Exception_005fInformation.html#Exception_005fInformation">Exception_Information</a>
+<li><a accesskey="6" href="Exception_005fMessage.html#Exception_005fMessage">Exception_Message</a>
+<li><a accesskey="7" href="Exception_005fName.html#Exception_005fName">Exception_Name</a>
+<li><a accesskey="8" href="File.html#File">File</a>
+<li><a accesskey="9" href="Line.html#Line">Line</a>
+<li><a href="Shifts-and-Rotates.html#Shifts-and-Rotates">Shifts and Rotates</a>
+<li><a href="Source_005fLocation.html#Source_005fLocation">Source_Location</a>
+
+</ul>
+
+</body></html>
+

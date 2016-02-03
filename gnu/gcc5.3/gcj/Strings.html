@@ -1,0 +1,106 @@
+<html lang="en">
+<head>
+<title>Strings - Guide to GNU gcj</title>
+<meta http-equiv="Content-Type" content="text/html">
+<meta name="description" content="Guide to GNU gcj">
+<meta name="generator" content="makeinfo 4.13">
+<link title="Top" rel="start" href="index.html#Top">
+<link rel="up" href="About-CNI.html#About-CNI" title="About CNI">
+<link rel="prev" href="Methods.html#Methods" title="Methods">
+<link rel="next" href="Mixing-with-C_002b_002b.html#Mixing-with-C_002b_002b" title="Mixing with C++">
+<link href="http://www.gnu.org/software/texinfo/" rel="generator-home" title="Texinfo Homepage">
+<!--
+Copyright (C) 2001-2015 Free Software Foundation, Inc.
+
+Permission is granted to copy, distribute and/or modify this document
+under the terms of the GNU Free Documentation License, Version 1.3 or
+any later version published by the Free Software Foundation; with no
+Invariant Sections, the Front-Cover Texts being (a) (see below), and
+with the Back-Cover Texts being (b) (see below).
+A copy of the license is included in the
+section entitled ``GNU Free Documentation License''.
+
+
+(a) The FSF's Front-Cover Text is:
+
+     A GNU Manual
+
+(b) The FSF's Back-Cover Text is:
+
+     You have freedom to copy and modify this GNU Manual, like GNU
+     software.  Copies published by the Free Software Foundation raise
+     funds for GNU development.
+-->
+<meta http-equiv="Content-Style-Type" content="text/css">
+<style type="text/css"><!--
+  pre.display { font-family:inherit }
+  pre.format  { font-family:inherit }
+  pre.smalldisplay { font-family:inherit; font-size:smaller }
+  pre.smallformat  { font-family:inherit; font-size:smaller }
+  pre.smallexample { font-size:smaller }
+  pre.smalllisp    { font-size:smaller }
+  span.sc    { font-variant:small-caps }
+  span.roman { font-family:serif; font-weight:normal; } 
+  span.sansserif { font-family:sans-serif; font-weight:normal; } 
+--></style>
+</head>
+<body>
+<div class="node">
+<a name="Strings"></a>
+<p>
+Next:&nbsp;<a rel="next" accesskey="n" href="Mixing-with-C_002b_002b.html#Mixing-with-C_002b_002b">Mixing with C++</a>,
+Previous:&nbsp;<a rel="previous" accesskey="p" href="Methods.html#Methods">Methods</a>,
+Up:&nbsp;<a rel="up" accesskey="u" href="About-CNI.html#About-CNI">About CNI</a>
+<hr>
+</div>
+
+<h3 class="section">11.12 Strings</h3>
+
+<p><acronym>CNI</acronym> provides a number of utility functions for
+working with Java Java <code>String</code> objects. 
+The names and interfaces are analogous to those of <acronym>JNI</acronym>.
+
+<div class="defun">
+&mdash; Function: jstring <b>JvNewString</b> (<var>const jchar* chars, jsize len</var>)<var><a name="index-JvNewString-17"></a></var><br>
+<blockquote><p>Returns a Java <code>String</code> object with characters from the array of
+Unicode characters <var>chars</var> up to the index <var>len</var> in that array. 
+</p></blockquote></div>
+
+<div class="defun">
+&mdash; Function: jstring <b>JvNewStringLatin1</b> (<var>const char* bytes, jsize len</var>)<var><a name="index-JvNewStringLatin1-18"></a></var><br>
+<blockquote><p>Returns a Java <code>String</code> made up of <var>len</var> bytes from <var>bytes</var>. 
+</p></blockquote></div>
+
+<div class="defun">
+&mdash; Function: jstring <b>JvNewStringLatin1</b> (<var>const char* bytes</var>)<var><a name="index-JvNewStringLatin1-19"></a></var><br>
+<blockquote><p>As above but the length of the <code>String</code> is <code>strlen(</code><var>bytes</var><code>)</code>. 
+</p></blockquote></div>
+
+<div class="defun">
+&mdash; Function: jstring <b>JvNewStringUTF</b> (<var>const char* bytes</var>)<var><a name="index-JvNewStringUTF-20"></a></var><br>
+<blockquote><p>Returns a <code>String</code> which is made up of the UTF encoded characters
+present in the C string <var>bytes</var>. 
+</p></blockquote></div>
+
+<div class="defun">
+&mdash; Function: jchar* <b>JvGetStringChars</b> (<var>jstring str</var>)<var><a name="index-JvGetStringChars-21"></a></var><br>
+<blockquote><p>Returns a pointer to an array of characters making up the <code>String</code> <var>str</var>. 
+</p></blockquote></div>
+
+<div class="defun">
+&mdash; Function: int <b>JvGetStringUTFLength</b> (<var>jstring str</var>)<var><a name="index-JvGetStringUTFLength-22"></a></var><br>
+<blockquote><p>Returns the number of bytes required to encode the contents of the
+<code>String</code> <var>str</var> in UTF-8. 
+</p></blockquote></div>
+
+<div class="defun">
+&mdash; Function: jsize <b>JvGetStringUTFRegion</b> (<var>jstring str, jsize start, jsize len, char* buf</var>)<var><a name="index-JvGetStringUTFRegion-23"></a></var><br>
+<blockquote><p>Puts the UTF-8 encoding of a region of the <code>String</code> <var>str</var> into
+the buffer <code>buf</code>.  The region to fetch is marked by <var>start</var> and <var>len</var>.
+
+        <p>Note that <var>buf</var> is a buffer, not a C string.  It is <em>not</em>
+null terminated. 
+</p></blockquote></div>
+
+   </body></html>
+

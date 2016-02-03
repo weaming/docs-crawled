@@ -1,0 +1,6 @@
+<map id="Graphical Class Hierarchy" name="Graphical Class Hierarchy">
+<area shape="rect" id="node1" href="$a00156.html" title="Base class for for std::find() variants. " alt="" coords="5,75,160,100"/>
+<area shape="rect" id="node2" href="$a00152.html" title="Selects the constant block size variant for std::find(). " alt="" coords="208,5,365,44"/>
+<area shape="rect" id="node3" href="$a00154.html" title="Selects the equal splitting variant for std::find(). " alt="" coords="215,68,358,107"/>
+<area shape="rect" id="node4" href="$a00157.html" title="Selects the growing block size variant for std::find(). " alt="" coords="209,131,364,169"/>
+</map>

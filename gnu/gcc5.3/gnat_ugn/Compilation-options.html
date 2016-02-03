@@ -1,0 +1,80 @@
+<html lang="en">
+<head>
+<title>Compilation options - GNAT User's Guide for Native Platforms</title>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+<meta name="description" content="GNAT User's Guide for Native Platforms">
+<meta name="generator" content="makeinfo 4.13">
+<link title="Top" rel="start" href="index.html#Top">
+<link rel="up" href="Reducing-Size-of-Executables-with-Unused-Subprogram_002fData-Elimination.html#Reducing-Size-of-Executables-with-Unused-Subprogram_002fData-Elimination" title="Reducing Size of Executables with Unused Subprogram/Data Elimination">
+<link rel="prev" href="About-unused-subprogram_002fdata-elimination.html#About-unused-subprogram_002fdata-elimination" title="About unused subprogram/data elimination">
+<link rel="next" href="Example-of-unused-subprogram_002fdata-elimination.html#Example-of-unused-subprogram_002fdata-elimination" title="Example of unused subprogram/data elimination">
+<link href="http://www.gnu.org/software/texinfo/" rel="generator-home" title="Texinfo Homepage">
+<!--
+
+     GNAT User's Guide for Native Platforms , March 24, 2015
+
+     AdaCore
+
+     Copyright (C) 2008-2015, Free Software Foundation
+-->
+<meta http-equiv="Content-Style-Type" content="text/css">
+<style type="text/css"><!--
+  pre.display { font-family:inherit }
+  pre.format  { font-family:inherit }
+  pre.smalldisplay { font-family:inherit; font-size:smaller }
+  pre.smallformat  { font-family:inherit; font-size:smaller }
+  pre.smallexample { font-size:smaller }
+  pre.smalllisp    { font-size:smaller }
+  span.sc    { font-variant:small-caps }
+  span.roman { font-family:serif; font-weight:normal; } 
+  span.sansserif { font-family:sans-serif; font-weight:normal; } 
+--></style>
+</head>
+<body>
+<div class="node">
+<a name="Compilation-options"></a>
+<p>
+Next:&nbsp;<a rel="next" accesskey="n" href="Example-of-unused-subprogram_002fdata-elimination.html#Example-of-unused-subprogram_002fdata-elimination">Example of unused subprogram/data elimination</a>,
+Previous:&nbsp;<a rel="previous" accesskey="p" href="About-unused-subprogram_002fdata-elimination.html#About-unused-subprogram_002fdata-elimination">About unused subprogram/data elimination</a>,
+Up:&nbsp;<a rel="up" accesskey="u" href="Reducing-Size-of-Executables-with-Unused-Subprogram_002fData-Elimination.html#Reducing-Size-of-Executables-with-Unused-Subprogram_002fData-Elimination">Reducing Size of Executables with Unused Subprogram/Data Elimination</a>
+<hr>
+</div>
+
+<p><a name="gnat_005fugn_002fgnat_005fand_005fprogram_005fexecution-id45"></a><a name="g_t244"></a><a name="gnat_005fugn_002fgnat_005fand_005fprogram_005fexecution-compilation_002doptions"></a><a name="g_t245"></a>
+
+<h5 class="subsubsection">8.3.3.2 Compilation options</h5>
+
+<p>The operation of eliminating the unused code and data from the final executable
+is directly performed by the linker.
+
+<p><a name="index-g_t_002dffunction_002dsections-_0028gcc_0029-1021"></a>
+<a name="index-g_t_002dfdata_002dsections-_0028gcc_0029-1022"></a>
+In order to do this, it has to work with objects compiled with the
+following options:
+`-ffunction-sections' `-fdata-sections'.
+
+<p>These options are usable with C and Ada files. 
+They will place respectively each
+function or data in a separate section in the resulting object file.
+
+<p>Once the objects and static libraries are created with these options, the
+linker can perform the dead code elimination. You can do this by setting
+the `-Wl,&ndash;gc-sections' option to gcc command or in the
+`-largs' section of `gnatmake'. This will perform a
+garbage collection of code and data never referenced.
+
+<p>If the linker performs a partial link (`-r' linker option), then you
+will need to provide the entry point using the `-e' / `&ndash;entry'
+linker option.
+
+<p>Note that objects compiled without the `-ffunction-sections' and
+`-fdata-sections' options can still be linked with the executable. 
+However, no dead code elimination will be performed on those objects (they will
+be linked as is).
+
+<p>The GNAT static library is now compiled with -ffunction-sections and
+-fdata-sections on some platforms. This allows you to eliminate the unused code
+and data of the GNAT library from your executable.
+
+</body></html>
+

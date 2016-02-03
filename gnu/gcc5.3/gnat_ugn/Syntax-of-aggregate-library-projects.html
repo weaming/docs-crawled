@@ -1,0 +1,95 @@
+<html lang="en">
+<head>
+<title>Syntax of aggregate library projects - GNAT User's Guide for Native Platforms</title>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+<meta name="description" content="GNAT User's Guide for Native Platforms">
+<meta name="generator" content="makeinfo 4.13">
+<link title="Top" rel="start" href="index.html#Top">
+<link rel="up" href="Aggregate-Library-Projects.html#Aggregate-Library-Projects" title="Aggregate Library Projects">
+<link rel="prev" href="Building-aggregate-library-projects.html#Building-aggregate-library-projects" title="Building aggregate library projects">
+<link href="http://www.gnu.org/software/texinfo/" rel="generator-home" title="Texinfo Homepage">
+<!--
+
+     GNAT User's Guide for Native Platforms , March 24, 2015
+
+     AdaCore
+
+     Copyright (C) 2008-2015, Free Software Foundation
+-->
+<meta http-equiv="Content-Style-Type" content="text/css">
+<style type="text/css"><!--
+  pre.display { font-family:inherit }
+  pre.format  { font-family:inherit }
+  pre.smalldisplay { font-family:inherit; font-size:smaller }
+  pre.smallformat  { font-family:inherit; font-size:smaller }
+  pre.smallexample { font-size:smaller }
+  pre.smalllisp    { font-size:smaller }
+  span.sc    { font-variant:small-caps }
+  span.roman { font-family:serif; font-weight:normal; } 
+  span.sansserif { font-family:sans-serif; font-weight:normal; } 
+--></style>
+</head>
+<body>
+<div class="node">
+<a name="Syntax-of-aggregate-library-projects"></a>
+<p>
+Previous:&nbsp;<a rel="previous" accesskey="p" href="Building-aggregate-library-projects.html#Building-aggregate-library-projects">Building aggregate library projects</a>,
+Up:&nbsp;<a rel="up" accesskey="u" href="Aggregate-Library-Projects.html#Aggregate-Library-Projects">Aggregate Library Projects</a>
+<hr>
+</div>
+
+<p><a name="gnat_005fugn_002fgnat_005fproject_005fmanager-syntax_002dof_002daggregate_002dlibrary_002dprojects"></a><a name="g_t192"></a><a name="gnat_005fugn_002fgnat_005fproject_005fmanager-id36"></a><a name="g_t193"></a>
+
+<h4 class="subsection">5.8.2 Syntax of aggregate library projects</h4>
+
+<p>An aggregate library project follows the general syntax of project
+files. The recommended extension is still <code>.gpr</code>. However, a special
+<cite>aggregate library</cite> qualifier must be put before the keyword
+<cite>project</cite>.
+
+<p>An aggregate library project cannot `with' any other project
+(standard or aggregate), except an abstract project which can be used
+to share attribute values.
+
+<p>An aggregate library project does not have any source files directly (only
+through other standard projects). Therefore a number of the standard
+attributes and packages are forbidden in an aggregate library
+project. Here is the (non exhaustive) list:
+
+     <ul>
+<li>Languages
+
+     <li>Source_Files, Source_List_File and other attributes dealing with
+list of sources.
+
+     <li>Source_Dirs, Exec_Dir and Object_Dir
+
+     <li>Main
+
+     <li>Roots
+
+     <li>Externally_Built
+
+     <li>Inherit_Source_Path
+
+     <li>Excluded_Source_Dirs
+
+     <li>Locally_Removed_Files
+
+     <li>Excluded_Source_Files
+
+     <li>Excluded_Source_List_File
+
+     <li>Interfaces
+</ul>
+
+<p>The only package that is authorized (albeit optional) is Builder.
+
+<p>The Project_Files attribute (See <a href="16e.html#g_t16e">Aggregate Projects</a>) is used to
+described the aggregated projects whose object files have to be
+included into the aggregate library. The environment variables
+<cite>ADA_PROJECT_PATH</cite>, <cite>GPR_PROJECT_PATH</cite> and
+<cite>GPR_PROJECT_PATH_FILE</cite> are not used to find the project files.
+
+</body></html>
+

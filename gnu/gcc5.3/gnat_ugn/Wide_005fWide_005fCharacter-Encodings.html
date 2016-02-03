@@ -1,0 +1,86 @@
+<html lang="en">
+<head>
+<title>Wide_Wide_Character Encodings - GNAT User's Guide for Native Platforms</title>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+<meta name="description" content="GNAT User's Guide for Native Platforms">
+<meta name="generator" content="makeinfo 4.13">
+<link title="Top" rel="start" href="index.html#Top">
+<link rel="up" href="Foreign-Language-Representation.html#Foreign-Language-Representation" title="Foreign Language Representation">
+<link rel="prev" href="Wide_005fCharacter-Encodings.html#Wide_005fCharacter-Encodings" title="Wide_Character Encodings">
+<link href="http://www.gnu.org/software/texinfo/" rel="generator-home" title="Texinfo Homepage">
+<!--
+
+     GNAT User's Guide for Native Platforms , March 24, 2015
+
+     AdaCore
+
+     Copyright (C) 2008-2015, Free Software Foundation
+-->
+<meta http-equiv="Content-Style-Type" content="text/css">
+<style type="text/css"><!--
+  pre.display { font-family:inherit }
+  pre.format  { font-family:inherit }
+  pre.smalldisplay { font-family:inherit; font-size:smaller }
+  pre.smallformat  { font-family:inherit; font-size:smaller }
+  pre.smallexample { font-size:smaller }
+  pre.smalllisp    { font-size:smaller }
+  span.sc    { font-variant:small-caps }
+  span.roman { font-family:serif; font-weight:normal; } 
+  span.sansserif { font-family:sans-serif; font-weight:normal; } 
+--></style>
+</head>
+<body>
+<div class="node">
+<a name="Wide_Wide_Character-Encodings"></a>
+<a name="Wide_005fWide_005fCharacter-Encodings"></a>
+<p>
+Previous:&nbsp;<a rel="previous" accesskey="p" href="Wide_005fCharacter-Encodings.html#Wide_005fCharacter-Encodings">Wide_Character Encodings</a>,
+Up:&nbsp;<a rel="up" accesskey="u" href="Foreign-Language-Representation.html#Foreign-Language-Representation">Foreign Language Representation</a>
+<hr>
+</div>
+
+<p><a name="gnat_005fugn_002fthe_005fgnat_005fcompilation_005fmodel-id7"></a><a name="g_t51"></a><a name="gnat_005fugn_002fthe_005fgnat_005fcompilation_005fmodel-wide_002dwide_002dcharacter_002dencodings"></a><a name="g_t52"></a>
+
+<h4 class="subsection">3.2.4 Wide_Wide_Character Encodings</h4>
+
+<p>GNAT allows wide wide character codes to appear in character and string
+literals, and also optionally in identifiers, by means of the following
+possible encoding schemes:
+
+     <dl>
+<dt>`UTF-8 Coding'<dd>
+A wide character is represented using
+UCS Transformation Format 8 (UTF-8) as defined in Annex R of ISO
+10646-1/Am.2. Depending on the character value, the representation
+of character codes with values greater than 16#FFFF# is a
+is a four, five, or six byte sequence:
+
+     <pre class="example">         16#01_0000#-16#10_FFFF#:     11110xxx 10xxxxxx 10xxxxxx
+                                      10xxxxxx
+         16#0020_0000#-16#03FF_FFFF#: 111110xx 10xxxxxx 10xxxxxx
+                                      10xxxxxx 10xxxxxx
+         16#0400_0000#-16#7FFF_FFFF#: 1111110x 10xxxxxx 10xxxxxx
+                                      10xxxxxx 10xxxxxx 10xxxxxx
+</pre>
+     <p>where the <cite>xxx</cite> bits correspond to the left-padded bits of the
+32-bit character value.
+
+     <br><dt>`Brackets Coding'<dd>
+In this encoding, a wide wide character is represented by the following ten or
+twelve byte character sequence:
+
+     <pre class="example">         [ " a b c d e f " ]
+         [ " a b c d e f g h " ]
+</pre>
+     <p>where <cite>a-h</cite> are the six or eight hexadecimal
+characters (using uppercase letters) of the wide wide character code. For
+example, ["1F4567"] is used to represent the wide wide character with code
+<cite>16#001F_4567#</cite>.
+
+     <p>This scheme is compatible with use of the full Wide_Wide_Character set,
+and is also the method used for wide wide character encoding in some standard
+ACATS (Ada Conformity Assessment Test Suite) test suite distributions. 
+</dl>
+
+</body></html>
+

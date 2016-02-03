@@ -1,0 +1,140 @@
+<html lang="en">
+<head>
+<title>Compiling Programs - GNAT User's Guide for Native Platforms</title>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+<meta name="description" content="GNAT User's Guide for Native Platforms">
+<meta name="generator" content="makeinfo 4.13">
+<link title="Top" rel="start" href="index.html#Top">
+<link rel="up" href="Compiling-with-gcc.html#Compiling-with-gcc" title="Compiling with gcc">
+<link rel="next" href="Search-Paths-and-the-Run_002dTime-Library-RTL.html#Search-Paths-and-the-Run_002dTime-Library-RTL" title="Search Paths and the Run-Time Library RTL">
+<link href="http://www.gnu.org/software/texinfo/" rel="generator-home" title="Texinfo Homepage">
+<!--
+
+     GNAT User's Guide for Native Platforms , March 24, 2015
+
+     AdaCore
+
+     Copyright (C) 2008-2015, Free Software Foundation
+-->
+<meta http-equiv="Content-Style-Type" content="text/css">
+<style type="text/css"><!--
+  pre.display { font-family:inherit }
+  pre.format  { font-family:inherit }
+  pre.smalldisplay { font-family:inherit; font-size:smaller }
+  pre.smallformat  { font-family:inherit; font-size:smaller }
+  pre.smallexample { font-size:smaller }
+  pre.smalllisp    { font-size:smaller }
+  span.sc    { font-variant:small-caps }
+  span.roman { font-family:serif; font-weight:normal; } 
+  span.sansserif { font-family:sans-serif; font-weight:normal; } 
+--></style>
+</head>
+<body>
+<div class="node">
+<a name="Compiling-Programs"></a>
+<p>
+Next:&nbsp;<a rel="next" accesskey="n" href="Search-Paths-and-the-Run_002dTime-Library-RTL.html#Search-Paths-and-the-Run_002dTime-Library-RTL">Search Paths and the Run-Time Library RTL</a>,
+Up:&nbsp;<a rel="up" accesskey="u" href="Compiling-with-gcc.html#Compiling-with-gcc">Compiling with gcc</a>
+<hr>
+</div>
+
+<p><a name="gnat_005fugn_002fbuilding_005fexecutable_005fprograms_005fwith_005fgnat-compiling_002dprograms"></a><a name="ed"></a><a name="gnat_005fugn_002fbuilding_005fexecutable_005fprograms_005fwith_005fgnat-id9"></a><a name="ee"></a>
+
+<h4 class="subsection">4.2.1 Compiling Programs</h4>
+
+<p>The first step in creating an executable program is to compile the units
+of the program using the `gcc' command. You must compile the
+following files:
+
+     <ul>
+<li>the body file (<code>.adb</code>) for a library level subprogram or generic
+subprogram
+
+     <li>the spec file (<code>.ads</code>) for a library level package or generic
+package that has no body
+
+     <li>the body file (<code>.adb</code>) for a library level package
+or generic package that has a body
+</ul>
+
+<p>You need `not' compile the following files
+
+     <ul>
+<li>the spec of a library unit which has a body
+
+     <li>subunits
+</ul>
+
+<p>because they are compiled as part of compiling related units. GNAT
+package specs
+when the corresponding body is compiled, and subunits when the parent is
+compiled.
+
+<p><a name="index-cannot-generate-code-239"></a>
+If you attempt to compile any of these files, you will get one of the
+following error messages (where <cite>fff</cite> is the name of the file you
+compiled):
+
+<blockquote>
+
+<pre class="example">    cannot generate code for file `fff` (package spec)
+    to check package spec, use -gnatc
+    
+    cannot generate code for file `fff` (missing subunits)
+    to check parent unit, use -gnatc
+    
+    cannot generate code for file `fff` (subprogram spec)
+    to check subprogram spec, use -gnatc
+    
+    cannot generate code for file `fff` (subunit)
+    to check subunit, use -gnatc
+</pre>
+</blockquote>
+
+<p>As indicated by the above error messages, if you want to submit
+one of these files to the compiler to check for correct semantics
+without generating code, then use the `-gnatc' switch.
+
+<p>The basic command for compiling a file containing an Ada unit is:
+
+<pre class="example">    $ gcc -c [switches] &lt;file name&gt;
+</pre>
+<p>where <cite>file name</cite> is the name of the Ada file (usually
+having an extension <code>.ads</code> for a spec or <code>.adb</code> for a body). 
+You specify the
+<code>-c</code> switch to tell `gcc' to compile, but not link, the file. 
+The result of a successful compilation is an object file, which has the
+same name as the source file but an extension of <code>.o</code> and an Ada
+Library Information (ALI) file, which also has the same name as the
+source file, but with <code>.ali</code> as the extension. GNAT creates these
+two output files in the current directory, but you may specify a source
+file in any directory using an absolute or relative path specification
+containing the directory information.
+
+<p><a name="index-gnat1-240"></a>
+`gcc' is actually a driver program that looks at the extensions of
+the file arguments and loads the appropriate compiler. For example, the
+GNU C compiler is <code>cc1</code>, and the Ada compiler is <code>gnat1</code>. 
+These programs are in directories known to the driver program (in some
+configurations via environment variables you set), but need not be in
+your path. The `gcc' driver also calls the assembler and any other
+utilities needed to complete the generation of the required object
+files.
+
+<p>It is possible to supply several file names on the same `gcc'
+command. This causes `gcc' to call the appropriate compiler for
+each file. For example, the following command lists two separate
+files to be compiled:
+
+<pre class="example">    $ gcc -c x.adb y.adb
+</pre>
+<p>calls <cite>gnat1</cite> (the Ada compiler) twice to compile <code>x.adb</code> and
+<code>y.adb</code>. 
+The compiler generates two object files <code>x.o</code> and <code>y.o</code>
+and the two ALI files <code>x.ali</code> and <code>y.ali</code>.
+
+<p>Any switches apply to all the files listed, see <a href="ef.html#ef">Compiler Switches</a> for a
+list of available `gcc' switches.
+
+</body></html>
+

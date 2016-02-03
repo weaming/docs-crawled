@@ -1,0 +1,61 @@
+<html lang="en">
+<head>
+<title>Pragma Suppress_All - GNAT Reference Manual</title>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+<meta name="description" content="GNAT Reference Manual">
+<meta name="generator" content="makeinfo 4.13">
+<link title="Top" rel="start" href="index.html#Top">
+<link rel="up" href="Implementation-Defined-Pragmas.html#Implementation-Defined-Pragmas" title="Implementation Defined Pragmas">
+<link rel="prev" href="Pragma-Suppress.html#Pragma-Suppress" title="Pragma Suppress">
+<link rel="next" href="Pragma-Suppress_005fDebug_005fInfo.html#Pragma-Suppress_005fDebug_005fInfo" title="Pragma Suppress_Debug_Info">
+<link href="http://www.gnu.org/software/texinfo/" rel="generator-home" title="Texinfo Homepage">
+<!--
+
+     GNAT Reference Manual , March 24, 2015
+
+     AdaCore
+
+     Copyright (C) 2008-2015, Free Software Foundation
+-->
+<meta http-equiv="Content-Style-Type" content="text/css">
+<style type="text/css"><!--
+  pre.display { font-family:inherit }
+  pre.format  { font-family:inherit }
+  pre.smalldisplay { font-family:inherit; font-size:smaller }
+  pre.smallformat  { font-family:inherit; font-size:smaller }
+  pre.smallexample { font-size:smaller }
+  pre.smalllisp    { font-size:smaller }
+  span.sc    { font-variant:small-caps }
+  span.roman { font-family:serif; font-weight:normal; } 
+  span.sansserif { font-family:sans-serif; font-weight:normal; } 
+--></style>
+</head>
+<body>
+<div class="node">
+<a name="Pragma-Suppress_All"></a>
+<a name="Pragma-Suppress_005fAll"></a>
+<p>
+Next:&nbsp;<a rel="next" accesskey="n" href="Pragma-Suppress_005fDebug_005fInfo.html#Pragma-Suppress_005fDebug_005fInfo">Pragma Suppress_Debug_Info</a>,
+Previous:&nbsp;<a rel="previous" accesskey="p" href="Pragma-Suppress.html#Pragma-Suppress">Pragma Suppress</a>,
+Up:&nbsp;<a rel="up" accesskey="u" href="Implementation-Defined-Pragmas.html#Implementation-Defined-Pragmas">Implementation Defined Pragmas</a>
+<hr>
+</div>
+
+<p><a name="gnat_005frm_002fimplementation_005fdefined_005fpragmas-pragma_002dsuppress_002dall"></a><a name="c3"></a>
+
+<h3 class="section">2.164 Pragma Suppress_All</h3>
+
+<p>Syntax:
+
+<pre class="example">    pragma Suppress_All;
+</pre>
+<p>This pragma can appear anywhere within a unit. 
+The effect is to apply <cite>Suppress (All_Checks)</cite> to the unit
+in which it appears.  This pragma is implemented for compatibility with DEC
+Ada 83 usage where it appears at the end of a unit, and for compatibility
+with Rational Ada, where it appears as a program unit pragma. 
+The use of the standard Ada pragma <cite>Suppress (All_Checks)</cite>
+as a normal configuration pragma is the preferred usage in GNAT.
+
+</body></html>
+

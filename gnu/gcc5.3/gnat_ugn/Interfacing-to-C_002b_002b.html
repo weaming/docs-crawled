@@ -1,0 +1,69 @@
+<html lang="en">
+<head>
+<title>Interfacing to C++ - GNAT User's Guide for Native Platforms</title>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+<meta name="description" content="GNAT User's Guide for Native Platforms">
+<meta name="generator" content="makeinfo 4.13">
+<link title="Top" rel="start" href="index.html#Top">
+<link rel="up" href="Building-Mixed-Ada-and-C_002b_002b-Programs.html#Building-Mixed-Ada-and-C_002b_002b-Programs" title="Building Mixed Ada and C++ Programs">
+<link rel="next" href="Linking-a-Mixed-C_002b_002b-_0026-Ada-Program.html#Linking-a-Mixed-C_002b_002b-_0026-Ada-Program" title="Linking a Mixed C++ &amp; Ada Program">
+<link href="http://www.gnu.org/software/texinfo/" rel="generator-home" title="Texinfo Homepage">
+<!--
+
+     GNAT User's Guide for Native Platforms , March 24, 2015
+
+     AdaCore
+
+     Copyright (C) 2008-2015, Free Software Foundation
+-->
+<meta http-equiv="Content-Style-Type" content="text/css">
+<style type="text/css"><!--
+  pre.display { font-family:inherit }
+  pre.format  { font-family:inherit }
+  pre.smalldisplay { font-family:inherit; font-size:smaller }
+  pre.smallformat  { font-family:inherit; font-size:smaller }
+  pre.smallexample { font-size:smaller }
+  pre.smalllisp    { font-size:smaller }
+  span.sc    { font-variant:small-caps }
+  span.roman { font-family:serif; font-weight:normal; } 
+  span.sansserif { font-family:sans-serif; font-weight:normal; } 
+--></style>
+</head>
+<body>
+<div class="node">
+<a name="Interfacing-to-C++"></a>
+<a name="Interfacing-to-C_002b_002b"></a>
+<p>
+Next:&nbsp;<a rel="next" accesskey="n" href="Linking-a-Mixed-C_002b_002b-_0026-Ada-Program.html#Linking-a-Mixed-C_002b_002b-_0026-Ada-Program">Linking a Mixed C++ &amp; Ada Program</a>,
+Up:&nbsp;<a rel="up" accesskey="u" href="Building-Mixed-Ada-and-C_002b_002b-Programs.html#Building-Mixed-Ada-and-C_002b_002b-Programs">Building Mixed Ada and C++ Programs</a>
+<hr>
+</div>
+
+<p><a name="gnat_005fugn_002fthe_005fgnat_005fcompilation_005fmodel-id65"></a><a name="bf"></a><a name="gnat_005fugn_002fthe_005fgnat_005fcompilation_005fmodel-id66"></a><a name="c0"></a>
+
+<h5 class="subsubsection">3.11.3.1 Interfacing to C++</h5>
+
+<p>GNAT supports interfacing with the G++ compiler (or any C++ compiler
+generating code that is compatible with the G++ Application Binary
+Interface &mdash;see &lt;<code>http://www.codesourcery.com/archives/cxx-abi</code>&gt;).
+
+<p>Interfacing can be done at 3 levels: simple data, subprograms, and
+classes. In the first two cases, GNAT offers a specific <cite>Convention C_Plus_Plus</cite>
+(or <cite>CPP</cite>) that behaves exactly like <cite>Convention C</cite>. 
+Usually, C++ mangles the names of subprograms. To generate proper mangled
+names automatically, see <a href="1b.html#g_t1b">Generating Ada Bindings for C and C++ headers</a>). 
+This problem can also be addressed manually in two ways:
+
+     <ul>
+<li>by modifying the C++ code in order to force a C convention using
+the <cite>extern "C"</cite> syntax.
+
+     <li>by figuring out the mangled name (using e.g. `nm') and using it as the
+Link_Name argument of the pragma import. 
+</ul>
+
+<p>Interfacing at the class level can be achieved by using the GNAT specific
+pragmas such as <cite>CPP_Constructor</cite>.  See the <cite>GNAT_Reference_Manual</cite> for additional information.
+
+</body></html>
+

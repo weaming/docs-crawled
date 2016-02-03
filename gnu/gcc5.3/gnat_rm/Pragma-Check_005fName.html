@@ -1,0 +1,75 @@
+<html lang="en">
+<head>
+<title>Pragma Check_Name - GNAT Reference Manual</title>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+<meta name="description" content="GNAT Reference Manual">
+<meta name="generator" content="makeinfo 4.13">
+<link title="Top" rel="start" href="index.html#Top">
+<link rel="up" href="Implementation-Defined-Pragmas.html#Implementation-Defined-Pragmas" title="Implementation Defined Pragmas">
+<link rel="prev" href="Pragma-Check_005fFloat_005fOverflow.html#Pragma-Check_005fFloat_005fOverflow" title="Pragma Check_Float_Overflow">
+<link rel="next" href="Pragma-Check_005fPolicy.html#Pragma-Check_005fPolicy" title="Pragma Check_Policy">
+<link href="http://www.gnu.org/software/texinfo/" rel="generator-home" title="Texinfo Homepage">
+<!--
+
+     GNAT Reference Manual , March 24, 2015
+
+     AdaCore
+
+     Copyright (C) 2008-2015, Free Software Foundation
+-->
+<meta http-equiv="Content-Style-Type" content="text/css">
+<style type="text/css"><!--
+  pre.display { font-family:inherit }
+  pre.format  { font-family:inherit }
+  pre.smalldisplay { font-family:inherit; font-size:smaller }
+  pre.smallformat  { font-family:inherit; font-size:smaller }
+  pre.smallexample { font-size:smaller }
+  pre.smalllisp    { font-size:smaller }
+  span.sc    { font-variant:small-caps }
+  span.roman { font-family:serif; font-weight:normal; } 
+  span.sansserif { font-family:sans-serif; font-weight:normal; } 
+--></style>
+</head>
+<body>
+<div class="node">
+<a name="Pragma-Check_Name"></a>
+<a name="Pragma-Check_005fName"></a>
+<p>
+Next:&nbsp;<a rel="next" accesskey="n" href="Pragma-Check_005fPolicy.html#Pragma-Check_005fPolicy">Pragma Check_Policy</a>,
+Previous:&nbsp;<a rel="previous" accesskey="p" href="Pragma-Check_005fFloat_005fOverflow.html#Pragma-Check_005fFloat_005fOverflow">Pragma Check_Float_Overflow</a>,
+Up:&nbsp;<a rel="up" accesskey="u" href="Implementation-Defined-Pragmas.html#Implementation-Defined-Pragmas">Implementation Defined Pragmas</a>
+<hr>
+</div>
+
+<p><a name="gnat_005frm_002fimplementation_005fdefined_005fpragmas-pragma_002dcheck_002dname"></a><a name="g_t30"></a>
+
+<h3 class="section">2.22 Pragma Check_Name</h3>
+
+<p><a name="index-Defining-check-names-14"></a>
+<a name="index-Check-names-15"></a><a name="index-defining-16"></a>
+Syntax:
+
+<pre class="example">    pragma Check_Name (check_name_IDENTIFIER);
+</pre>
+<p>This is a configuration pragma that defines a new implementation
+defined check name (unless IDENTIFIER matches one of the predefined
+check names, in which case the pragma has no effect). Check names
+are global to a partition, so if two or more configuration pragmas
+are present in a partition mentioning the same name, only one new
+check name is introduced.
+
+<p>An implementation defined check name introduced with this pragma may
+be used in only three contexts: <cite>pragma Suppress</cite>,
+<cite>pragma Unsuppress</cite>,
+and as the prefix of a <cite>Check_Name'Enabled</cite> attribute reference. For
+any of these three cases, the check name must be visible. A check
+name is visible if it is in the configuration pragmas applying to
+the current unit, or if it appears at the start of any unit that
+is part of the dependency set of the current unit (e.g., units that
+are mentioned in <cite>with</cite> clauses).
+
+<p>Check names introduced by this pragma are subject to control by compiler
+switches (in particular -gnatp) in the usual manner.
+
+</body></html>
+

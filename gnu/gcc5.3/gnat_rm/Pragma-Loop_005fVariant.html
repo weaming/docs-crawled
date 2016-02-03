@@ -1,0 +1,87 @@
+<html lang="en">
+<head>
+<title>Pragma Loop_Variant - GNAT Reference Manual</title>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+<meta name="description" content="GNAT Reference Manual">
+<meta name="generator" content="makeinfo 4.13">
+<link title="Top" rel="start" href="index.html#Top">
+<link rel="up" href="Implementation-Defined-Pragmas.html#Implementation-Defined-Pragmas" title="Implementation Defined Pragmas">
+<link rel="prev" href="Pragma-Loop_005fOptimize.html#Pragma-Loop_005fOptimize" title="Pragma Loop_Optimize">
+<link rel="next" href="Pragma-Machine_005fAttribute.html#Pragma-Machine_005fAttribute" title="Pragma Machine_Attribute">
+<link href="http://www.gnu.org/software/texinfo/" rel="generator-home" title="Texinfo Homepage">
+<!--
+
+     GNAT Reference Manual , March 24, 2015
+
+     AdaCore
+
+     Copyright (C) 2008-2015, Free Software Foundation
+-->
+<meta http-equiv="Content-Style-Type" content="text/css">
+<style type="text/css"><!--
+  pre.display { font-family:inherit }
+  pre.format  { font-family:inherit }
+  pre.smalldisplay { font-family:inherit; font-size:smaller }
+  pre.smallformat  { font-family:inherit; font-size:smaller }
+  pre.smallexample { font-size:smaller }
+  pre.smalllisp    { font-size:smaller }
+  span.sc    { font-variant:small-caps }
+  span.roman { font-family:serif; font-weight:normal; } 
+  span.sansserif { font-family:sans-serif; font-weight:normal; } 
+--></style>
+</head>
+<body>
+<div class="node">
+<a name="Pragma-Loop_Variant"></a>
+<a name="Pragma-Loop_005fVariant"></a>
+<p>
+Next:&nbsp;<a rel="next" accesskey="n" href="Pragma-Machine_005fAttribute.html#Pragma-Machine_005fAttribute">Pragma Machine_Attribute</a>,
+Previous:&nbsp;<a rel="previous" accesskey="p" href="Pragma-Loop_005fOptimize.html#Pragma-Loop_005fOptimize">Pragma Loop_Optimize</a>,
+Up:&nbsp;<a rel="up" accesskey="u" href="Implementation-Defined-Pragmas.html#Implementation-Defined-Pragmas">Implementation Defined Pragmas</a>
+<hr>
+</div>
+
+<p><a name="gnat_005frm_002fimplementation_005fdefined_005fpragmas-pragma_002dloop_002dvariant"></a><a name="g_t80"></a>
+
+<h3 class="section">2.101 Pragma Loop_Variant</h3>
+
+<p>Syntax:
+
+<pre class="example">    pragma Loop_Variant ( LOOP_VARIANT_ITEM {, LOOP_VARIANT_ITEM } );
+    LOOP_VARIANT_ITEM ::= CHANGE_DIRECTION =&gt; discrete_EXPRESSION
+    CHANGE_DIRECTION ::= Increases | Decreases
+</pre>
+<p><cite>Loop_Variant</cite> can only appear as one of the items in the sequence
+of statements of a loop body, or nested inside block statements that
+appear in the sequence of statements of a loop body. 
+It allows the specification of quantities which must always
+decrease or increase in successive iterations of the loop. In its simplest
+form, just one expression is specified, whose value must increase or decrease
+on each iteration of the loop.
+
+<p>In a more complex form, multiple arguments can be given which are intepreted
+in a nesting lexicographic manner. For example:
+
+<pre class="example">    pragma Loop_Variant (Increases =&gt; X, Decreases =&gt; Y);
+</pre>
+<p>specifies that each time through the loop either X increases, or X stays
+the same and Y decreases. A <cite>Loop_Variant</cite> pragma ensures that the
+loop is making progress. It can be useful in helping to show informally
+or prove formally that the loop always terminates.
+
+<p><cite>Loop_Variant</cite> is an assertion whose effect can be controlled using
+an <cite>Assertion_Policy</cite> with a check name of <cite>Loop_Variant</cite>. The
+policy can be <cite>Check</cite> to enable the loop variant check, <cite>Ignore</cite>
+to ignore the check (in which case the pragma has no effect on the program),
+or <cite>Disable</cite> in which case the pragma is not even checked for correct
+syntax.
+
+<p>Multiple <cite>Loop_Invariant</cite> and <cite>Loop_Variant</cite> pragmas that
+apply to the same loop should be grouped in the same sequence of
+statements.
+
+<p>The <cite>Loop_Entry</cite> attribute may be used within the expressions of the
+<cite>Loop_Variant</cite> pragma to refer to values on entry to the loop.
+
+</body></html>
+

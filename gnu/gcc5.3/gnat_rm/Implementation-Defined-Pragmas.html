@@ -1,0 +1,258 @@
+<html lang="en">
+<head>
+<title>Implementation Defined Pragmas - GNAT Reference Manual</title>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+<meta name="description" content="GNAT Reference Manual">
+<meta name="generator" content="makeinfo 4.13">
+<link title="Top" rel="start" href="index.html#Top">
+<link rel="prev" href="About-This-Guide.html#About-This-Guide" title="About This Guide">
+<link rel="next" href="Implementation-Defined-Aspects.html#Implementation-Defined-Aspects" title="Implementation Defined Aspects">
+<link href="http://www.gnu.org/software/texinfo/" rel="generator-home" title="Texinfo Homepage">
+<!--
+
+     GNAT Reference Manual , March 24, 2015
+
+     AdaCore
+
+     Copyright (C) 2008-2015, Free Software Foundation
+-->
+<meta http-equiv="Content-Style-Type" content="text/css">
+<style type="text/css"><!--
+  pre.display { font-family:inherit }
+  pre.format  { font-family:inherit }
+  pre.smalldisplay { font-family:inherit; font-size:smaller }
+  pre.smallformat  { font-family:inherit; font-size:smaller }
+  pre.smallexample { font-size:smaller }
+  pre.smalllisp    { font-size:smaller }
+  span.sc    { font-variant:small-caps }
+  span.roman { font-family:serif; font-weight:normal; } 
+  span.sansserif { font-family:sans-serif; font-weight:normal; } 
+--></style>
+</head>
+<body>
+<div class="node">
+<a name="Implementation-Defined-Pragmas"></a>
+<p>
+Next:&nbsp;<a rel="next" accesskey="n" href="Implementation-Defined-Aspects.html#Implementation-Defined-Aspects">Implementation Defined Aspects</a>,
+Previous:&nbsp;<a rel="previous" accesskey="p" href="About-This-Guide.html#About-This-Guide">About This Guide</a>,
+Up:&nbsp;<a rel="up" accesskey="u" href="index.html#Top">Top</a>
+<hr>
+</div>
+
+<p><a name="gnat_005frm_002fimplementation_005fdefined_005fpragmas-implementation_002ddefined_002dpragmas"></a><a name="g_t7"></a><a name="gnat_005frm_002fimplementation_005fdefined_005fpragmas-doc"></a><a name="g_t19"></a><a name="gnat_005frm_002fimplementation_005fdefined_005fpragmas-id1"></a><a name="g_t1a"></a>
+
+<h2 class="chapter">2 Implementation Defined Pragmas</h2>
+
+<p>Ada defines a set of pragmas that can be used to supply additional
+information to the compiler.  These language defined pragmas are
+implemented in GNAT and work as described in the Ada Reference Manual.
+
+<p>In addition, Ada allows implementations to define additional pragmas
+whose meaning is defined by the implementation.  GNAT provides a number
+of these implementation-defined pragmas, which can be used to extend
+and enhance the functionality of the compiler.  This section of the GNAT
+Reference Manual describes these additional pragmas.
+
+<p>Note that any program using these pragmas might not be portable to other
+compilers (although GNAT implements this set of pragmas on all
+platforms).  Therefore if portability to other compilers is an important
+consideration, the use of these pragmas should be minimized.
+
+<ul class="menu">
+<li><a accesskey="1" href="Pragma-Abort_005fDefer.html#Pragma-Abort_005fDefer">Pragma Abort_Defer</a>
+<li><a accesskey="2" href="Pragma-Abstract_005fState.html#Pragma-Abstract_005fState">Pragma Abstract_State</a>
+<li><a accesskey="3" href="Pragma-Ada_005f83.html#Pragma-Ada_005f83">Pragma Ada_83</a>
+<li><a accesskey="4" href="Pragma-Ada_005f95.html#Pragma-Ada_005f95">Pragma Ada_95</a>
+<li><a accesskey="5" href="Pragma-Ada_005f05.html#Pragma-Ada_005f05">Pragma Ada_05</a>
+<li><a accesskey="6" href="Pragma-Ada_005f2005.html#Pragma-Ada_005f2005">Pragma Ada_2005</a>
+<li><a accesskey="7" href="Pragma-Ada_005f12.html#Pragma-Ada_005f12">Pragma Ada_12</a>
+<li><a accesskey="8" href="Pragma-Ada_005f2012.html#Pragma-Ada_005f2012">Pragma Ada_2012</a>
+<li><a accesskey="9" href="Pragma-Allow_005fInteger_005fAddress.html#Pragma-Allow_005fInteger_005fAddress">Pragma Allow_Integer_Address</a>
+<li><a href="Pragma-Annotate.html#Pragma-Annotate">Pragma Annotate</a>
+<li><a href="Pragma-Assert.html#Pragma-Assert">Pragma Assert</a>
+<li><a href="Pragma-Assert_005fAnd_005fCut.html#Pragma-Assert_005fAnd_005fCut">Pragma Assert_And_Cut</a>
+<li><a href="Pragma-Assertion_005fPolicy.html#Pragma-Assertion_005fPolicy">Pragma Assertion_Policy</a>
+<li><a href="Pragma-Assume.html#Pragma-Assume">Pragma Assume</a>
+<li><a href="Pragma-Assume_005fNo_005fInvalid_005fValues.html#Pragma-Assume_005fNo_005fInvalid_005fValues">Pragma Assume_No_Invalid_Values</a>
+<li><a href="Pragma-Async_005fReaders.html#Pragma-Async_005fReaders">Pragma Async_Readers</a>
+<li><a href="Pragma-Async_005fWriters.html#Pragma-Async_005fWriters">Pragma Async_Writers</a>
+<li><a href="Pragma-Attribute_005fDefinition.html#Pragma-Attribute_005fDefinition">Pragma Attribute_Definition</a>
+<li><a href="Pragma-C_005fPass_005fBy_005fCopy.html#Pragma-C_005fPass_005fBy_005fCopy">Pragma C_Pass_By_Copy</a>
+<li><a href="Pragma-Check.html#Pragma-Check">Pragma Check</a>
+<li><a href="Pragma-Check_005fFloat_005fOverflow.html#Pragma-Check_005fFloat_005fOverflow">Pragma Check_Float_Overflow</a>
+<li><a href="Pragma-Check_005fName.html#Pragma-Check_005fName">Pragma Check_Name</a>
+<li><a href="Pragma-Check_005fPolicy.html#Pragma-Check_005fPolicy">Pragma Check_Policy</a>
+<li><a href="Pragma-CIL_005fConstructor.html#Pragma-CIL_005fConstructor">Pragma CIL_Constructor</a>
+<li><a href="Pragma-Comment.html#Pragma-Comment">Pragma Comment</a>
+<li><a href="Pragma-Common_005fObject.html#Pragma-Common_005fObject">Pragma Common_Object</a>
+<li><a href="Pragma-Compile_005fTime_005fError.html#Pragma-Compile_005fTime_005fError">Pragma Compile_Time_Error</a>
+<li><a href="Pragma-Compile_005fTime_005fWarning.html#Pragma-Compile_005fTime_005fWarning">Pragma Compile_Time_Warning</a>
+<li><a href="Pragma-Compiler_005fUnit.html#Pragma-Compiler_005fUnit">Pragma Compiler_Unit</a>
+<li><a href="Pragma-Compiler_005fUnit_005fWarning.html#Pragma-Compiler_005fUnit_005fWarning">Pragma Compiler_Unit_Warning</a>
+<li><a href="Pragma-Complete_005fRepresentation.html#Pragma-Complete_005fRepresentation">Pragma Complete_Representation</a>
+<li><a href="Pragma-Complex_005fRepresentation.html#Pragma-Complex_005fRepresentation">Pragma Complex_Representation</a>
+<li><a href="Pragma-Component_005fAlignment.html#Pragma-Component_005fAlignment">Pragma Component_Alignment</a>
+<li><a href="Pragma-Contract_005fCases.html#Pragma-Contract_005fCases">Pragma Contract_Cases</a>
+<li><a href="Pragma-Convention_005fIdentifier.html#Pragma-Convention_005fIdentifier">Pragma Convention_Identifier</a>
+<li><a href="Pragma-CPP_005fClass.html#Pragma-CPP_005fClass">Pragma CPP_Class</a>
+<li><a href="Pragma-CPP_005fConstructor.html#Pragma-CPP_005fConstructor">Pragma CPP_Constructor</a>
+<li><a href="Pragma-CPP_005fVirtual.html#Pragma-CPP_005fVirtual">Pragma CPP_Virtual</a>
+<li><a href="Pragma-CPP_005fVtable.html#Pragma-CPP_005fVtable">Pragma CPP_Vtable</a>
+<li><a href="Pragma-CPU.html#Pragma-CPU">Pragma CPU</a>
+<li><a href="Pragma-Debug.html#Pragma-Debug">Pragma Debug</a>
+<li><a href="Pragma-Debug_005fPolicy.html#Pragma-Debug_005fPolicy">Pragma Debug_Policy</a>
+<li><a href="Pragma-Default_005fScalar_005fStorage_005fOrder.html#Pragma-Default_005fScalar_005fStorage_005fOrder">Pragma Default_Scalar_Storage_Order</a>
+<li><a href="Pragma-Default_005fStorage_005fPool.html#Pragma-Default_005fStorage_005fPool">Pragma Default_Storage_Pool</a>
+<li><a href="Pragma-Depends.html#Pragma-Depends">Pragma Depends</a>
+<li><a href="Pragma-Detect_005fBlocking.html#Pragma-Detect_005fBlocking">Pragma Detect_Blocking</a>
+<li><a href="Pragma-Disable_005fAtomic_005fSynchronization.html#Pragma-Disable_005fAtomic_005fSynchronization">Pragma Disable_Atomic_Synchronization</a>
+<li><a href="Pragma-Dispatching_005fDomain.html#Pragma-Dispatching_005fDomain">Pragma Dispatching_Domain</a>
+<li><a href="Pragma-Effective_005fReads.html#Pragma-Effective_005fReads">Pragma Effective_Reads</a>
+<li><a href="Pragma-Effective_005fWrites.html#Pragma-Effective_005fWrites">Pragma Effective_Writes</a>
+<li><a href="Pragma-Elaboration_005fChecks.html#Pragma-Elaboration_005fChecks">Pragma Elaboration_Checks</a>
+<li><a href="Pragma-Eliminate.html#Pragma-Eliminate">Pragma Eliminate</a>
+<li><a href="Pragma-Enable_005fAtomic_005fSynchronization.html#Pragma-Enable_005fAtomic_005fSynchronization">Pragma Enable_Atomic_Synchronization</a>
+<li><a href="Pragma-Export_005fFunction.html#Pragma-Export_005fFunction">Pragma Export_Function</a>
+<li><a href="Pragma-Export_005fObject.html#Pragma-Export_005fObject">Pragma Export_Object</a>
+<li><a href="Pragma-Export_005fProcedure.html#Pragma-Export_005fProcedure">Pragma Export_Procedure</a>
+<li><a href="Pragma-Export_005fValue.html#Pragma-Export_005fValue">Pragma Export_Value</a>
+<li><a href="Pragma-Export_005fValued_005fProcedure.html#Pragma-Export_005fValued_005fProcedure">Pragma Export_Valued_Procedure</a>
+<li><a href="Pragma-Extend_005fSystem.html#Pragma-Extend_005fSystem">Pragma Extend_System</a>
+<li><a href="Pragma-Extensions_005fAllowed.html#Pragma-Extensions_005fAllowed">Pragma Extensions_Allowed</a>
+<li><a href="Pragma-External.html#Pragma-External">Pragma External</a>
+<li><a href="Pragma-External_005fName_005fCasing.html#Pragma-External_005fName_005fCasing">Pragma External_Name_Casing</a>
+<li><a href="Pragma-Fast_005fMath.html#Pragma-Fast_005fMath">Pragma Fast_Math</a>
+<li><a href="Pragma-Favor_005fTop_005fLevel.html#Pragma-Favor_005fTop_005fLevel">Pragma Favor_Top_Level</a>
+<li><a href="Pragma-Finalize_005fStorage_005fOnly.html#Pragma-Finalize_005fStorage_005fOnly">Pragma Finalize_Storage_Only</a>
+<li><a href="Pragma-Float_005fRepresentation.html#Pragma-Float_005fRepresentation">Pragma Float_Representation</a>
+<li><a href="Pragma-Global.html#Pragma-Global">Pragma Global</a>
+<li><a href="Pragma-Ident.html#Pragma-Ident">Pragma Ident</a>
+<li><a href="Pragma-Ignore_005fPragma.html#Pragma-Ignore_005fPragma">Pragma Ignore_Pragma</a>
+<li><a href="Pragma-Implementation_005fDefined.html#Pragma-Implementation_005fDefined">Pragma Implementation_Defined</a>
+<li><a href="Pragma-Implemented.html#Pragma-Implemented">Pragma Implemented</a>
+<li><a href="Pragma-Implicit_005fPacking.html#Pragma-Implicit_005fPacking">Pragma Implicit_Packing</a>
+<li><a href="Pragma-Import_005fFunction.html#Pragma-Import_005fFunction">Pragma Import_Function</a>
+<li><a href="Pragma-Import_005fObject.html#Pragma-Import_005fObject">Pragma Import_Object</a>
+<li><a href="Pragma-Import_005fProcedure.html#Pragma-Import_005fProcedure">Pragma Import_Procedure</a>
+<li><a href="Pragma-Import_005fValued_005fProcedure.html#Pragma-Import_005fValued_005fProcedure">Pragma Import_Valued_Procedure</a>
+<li><a href="Pragma-Independent.html#Pragma-Independent">Pragma Independent</a>
+<li><a href="Pragma-Independent_005fComponents.html#Pragma-Independent_005fComponents">Pragma Independent_Components</a>
+<li><a href="Pragma-Initial_005fCondition.html#Pragma-Initial_005fCondition">Pragma Initial_Condition</a>
+<li><a href="Pragma-Initialize_005fScalars.html#Pragma-Initialize_005fScalars">Pragma Initialize_Scalars</a>
+<li><a href="Pragma-Initializes.html#Pragma-Initializes">Pragma Initializes</a>
+<li><a href="Pragma-Inline_005fAlways.html#Pragma-Inline_005fAlways">Pragma Inline_Always</a>
+<li><a href="Pragma-Inline_005fGeneric.html#Pragma-Inline_005fGeneric">Pragma Inline_Generic</a>
+<li><a href="Pragma-Interface.html#Pragma-Interface">Pragma Interface</a>
+<li><a href="Pragma-Interface_005fName.html#Pragma-Interface_005fName">Pragma Interface_Name</a>
+<li><a href="Pragma-Interrupt_005fHandler.html#Pragma-Interrupt_005fHandler">Pragma Interrupt_Handler</a>
+<li><a href="Pragma-Interrupt_005fState.html#Pragma-Interrupt_005fState">Pragma Interrupt_State</a>
+<li><a href="Pragma-Invariant.html#Pragma-Invariant">Pragma Invariant</a>
+<li><a href="Pragma-Java_005fConstructor.html#Pragma-Java_005fConstructor">Pragma Java_Constructor</a>
+<li><a href="Pragma-Java_005fInterface.html#Pragma-Java_005fInterface">Pragma Java_Interface</a>
+<li><a href="Pragma-Keep_005fNames.html#Pragma-Keep_005fNames">Pragma Keep_Names</a>
+<li><a href="Pragma-License.html#Pragma-License">Pragma License</a>
+<li><a href="Pragma-Link_005fWith.html#Pragma-Link_005fWith">Pragma Link_With</a>
+<li><a href="Pragma-Linker_005fAlias.html#Pragma-Linker_005fAlias">Pragma Linker_Alias</a>
+<li><a href="Pragma-Linker_005fConstructor.html#Pragma-Linker_005fConstructor">Pragma Linker_Constructor</a>
+<li><a href="Pragma-Linker_005fDestructor.html#Pragma-Linker_005fDestructor">Pragma Linker_Destructor</a>
+<li><a href="Pragma-Linker_005fSection.html#Pragma-Linker_005fSection">Pragma Linker_Section</a>
+<li><a href="Pragma-Lock_005fFree.html#Pragma-Lock_005fFree">Pragma Lock_Free</a>
+<li><a href="Pragma-Loop_005fInvariant.html#Pragma-Loop_005fInvariant">Pragma Loop_Invariant</a>
+<li><a href="Pragma-Loop_005fOptimize.html#Pragma-Loop_005fOptimize">Pragma Loop_Optimize</a>
+<li><a href="Pragma-Loop_005fVariant.html#Pragma-Loop_005fVariant">Pragma Loop_Variant</a>
+<li><a href="Pragma-Machine_005fAttribute.html#Pragma-Machine_005fAttribute">Pragma Machine_Attribute</a>
+<li><a href="Pragma-Main.html#Pragma-Main">Pragma Main</a>
+<li><a href="Pragma-Main_005fStorage.html#Pragma-Main_005fStorage">Pragma Main_Storage</a>
+<li><a href="Pragma-No_005fBody.html#Pragma-No_005fBody">Pragma No_Body</a>
+<li><a href="Pragma-No_005fElaboration_005fCode_005fAll.html#Pragma-No_005fElaboration_005fCode_005fAll">Pragma No_Elaboration_Code_All</a>
+<li><a href="Pragma-No_005fInline.html#Pragma-No_005fInline">Pragma No_Inline</a>
+<li><a href="Pragma-No_005fReturn.html#Pragma-No_005fReturn">Pragma No_Return</a>
+<li><a href="Pragma-No_005fRun_005fTime.html#Pragma-No_005fRun_005fTime">Pragma No_Run_Time</a>
+<li><a href="Pragma-No_005fStrict_005fAliasing.html#Pragma-No_005fStrict_005fAliasing">Pragma No_Strict_Aliasing</a>
+<li><a href="Pragma-No_005fTagged_005fStreams.html#Pragma-No_005fTagged_005fStreams">Pragma No_Tagged_Streams</a>
+<li><a href="Pragma-Normalize_005fScalars.html#Pragma-Normalize_005fScalars">Pragma Normalize_Scalars</a>
+<li><a href="Pragma-Obsolescent.html#Pragma-Obsolescent">Pragma Obsolescent</a>
+<li><a href="Pragma-Optimize_005fAlignment.html#Pragma-Optimize_005fAlignment">Pragma Optimize_Alignment</a>
+<li><a href="Pragma-Ordered.html#Pragma-Ordered">Pragma Ordered</a>
+<li><a href="Pragma-Overflow_005fMode.html#Pragma-Overflow_005fMode">Pragma Overflow_Mode</a>
+<li><a href="Pragma-Overriding_005fRenamings.html#Pragma-Overriding_005fRenamings">Pragma Overriding_Renamings</a>
+<li><a href="Pragma-Partition_005fElaboration_005fPolicy.html#Pragma-Partition_005fElaboration_005fPolicy">Pragma Partition_Elaboration_Policy</a>
+<li><a href="Pragma-Part_005fOf.html#Pragma-Part_005fOf">Pragma Part_Of</a>
+<li><a href="Pragma-Passive.html#Pragma-Passive">Pragma Passive</a>
+<li><a href="Pragma-Persistent_005fBSS.html#Pragma-Persistent_005fBSS">Pragma Persistent_BSS</a>
+<li><a href="Pragma-Polling.html#Pragma-Polling">Pragma Polling</a>
+<li><a href="Pragma-Post.html#Pragma-Post">Pragma Post</a>
+<li><a href="Pragma-Postcondition.html#Pragma-Postcondition">Pragma Postcondition</a>
+<li><a href="Pragma-Post_005fClass.html#Pragma-Post_005fClass">Pragma Post_Class</a>
+<li><a href="Pragma-Pre.html#Pragma-Pre">Pragma Pre</a>
+<li><a href="Pragma-Precondition.html#Pragma-Precondition">Pragma Precondition</a>
+<li><a href="Pragma-Predicate.html#Pragma-Predicate">Pragma Predicate</a>
+<li><a href="Pragma-Preelaborable_005fInitialization.html#Pragma-Preelaborable_005fInitialization">Pragma Preelaborable_Initialization</a>
+<li><a href="Pragma-Prefix_005fException_005fMessages.html#Pragma-Prefix_005fException_005fMessages">Pragma Prefix_Exception_Messages</a>
+<li><a href="Pragma-Pre_005fClass.html#Pragma-Pre_005fClass">Pragma Pre_Class</a>
+<li><a href="Pragma-Priority_005fSpecific_005fDispatching.html#Pragma-Priority_005fSpecific_005fDispatching">Pragma Priority_Specific_Dispatching</a>
+<li><a href="Pragma-Profile.html#Pragma-Profile">Pragma Profile</a>
+<li><a href="Pragma-Profile_005fWarnings.html#Pragma-Profile_005fWarnings">Pragma Profile_Warnings</a>
+<li><a href="Pragma-Propagate_005fExceptions.html#Pragma-Propagate_005fExceptions">Pragma Propagate_Exceptions</a>
+<li><a href="Pragma-Provide_005fShift_005fOperators.html#Pragma-Provide_005fShift_005fOperators">Pragma Provide_Shift_Operators</a>
+<li><a href="Pragma-Psect_005fObject.html#Pragma-Psect_005fObject">Pragma Psect_Object</a>
+<li><a href="Pragma-Pure_005fFunction.html#Pragma-Pure_005fFunction">Pragma Pure_Function</a>
+<li><a href="Pragma-Rational.html#Pragma-Rational">Pragma Rational</a>
+<li><a href="Pragma-Ravenscar.html#Pragma-Ravenscar">Pragma Ravenscar</a>
+<li><a href="Pragma-Refined_005fDepends.html#Pragma-Refined_005fDepends">Pragma Refined_Depends</a>
+<li><a href="Pragma-Refined_005fGlobal.html#Pragma-Refined_005fGlobal">Pragma Refined_Global</a>
+<li><a href="Pragma-Refined_005fPost.html#Pragma-Refined_005fPost">Pragma Refined_Post</a>
+<li><a href="Pragma-Refined_005fState.html#Pragma-Refined_005fState">Pragma Refined_State</a>
+<li><a href="Pragma-Relative_005fDeadline.html#Pragma-Relative_005fDeadline">Pragma Relative_Deadline</a>
+<li><a href="Pragma-Remote_005fAccess_005fType.html#Pragma-Remote_005fAccess_005fType">Pragma Remote_Access_Type</a>
+<li><a href="Pragma-Restricted_005fRun_005fTime.html#Pragma-Restricted_005fRun_005fTime">Pragma Restricted_Run_Time</a>
+<li><a href="Pragma-Restriction_005fWarnings.html#Pragma-Restriction_005fWarnings">Pragma Restriction_Warnings</a>
+<li><a href="Pragma-Reviewable.html#Pragma-Reviewable">Pragma Reviewable</a>
+<li><a href="Pragma-Share_005fGeneric.html#Pragma-Share_005fGeneric">Pragma Share_Generic</a>
+<li><a href="Pragma-Shared.html#Pragma-Shared">Pragma Shared</a>
+<li><a href="Pragma-Short_005fCircuit_005fAnd_005fOr.html#Pragma-Short_005fCircuit_005fAnd_005fOr">Pragma Short_Circuit_And_Or</a>
+<li><a href="Pragma-Short_005fDescriptors.html#Pragma-Short_005fDescriptors">Pragma Short_Descriptors</a>
+<li><a href="Pragma-Simple_005fStorage_005fPool_005fType.html#Pragma-Simple_005fStorage_005fPool_005fType">Pragma Simple_Storage_Pool_Type</a>
+<li><a href="Pragma-Source_005fFile_005fName.html#Pragma-Source_005fFile_005fName">Pragma Source_File_Name</a>
+<li><a href="Pragma-Source_005fFile_005fName_005fProject.html#Pragma-Source_005fFile_005fName_005fProject">Pragma Source_File_Name_Project</a>
+<li><a href="Pragma-Source_005fReference.html#Pragma-Source_005fReference">Pragma Source_Reference</a>
+<li><a href="Pragma-SPARK_005fMode.html#Pragma-SPARK_005fMode">Pragma SPARK_Mode</a>
+<li><a href="Pragma-Static_005fElaboration_005fDesired.html#Pragma-Static_005fElaboration_005fDesired">Pragma Static_Elaboration_Desired</a>
+<li><a href="Pragma-Stream_005fConvert.html#Pragma-Stream_005fConvert">Pragma Stream_Convert</a>
+<li><a href="Pragma-Style_005fChecks.html#Pragma-Style_005fChecks">Pragma Style_Checks</a>
+<li><a href="Pragma-Subtitle.html#Pragma-Subtitle">Pragma Subtitle</a>
+<li><a href="Pragma-Suppress.html#Pragma-Suppress">Pragma Suppress</a>
+<li><a href="Pragma-Suppress_005fAll.html#Pragma-Suppress_005fAll">Pragma Suppress_All</a>
+<li><a href="Pragma-Suppress_005fDebug_005fInfo.html#Pragma-Suppress_005fDebug_005fInfo">Pragma Suppress_Debug_Info</a>
+<li><a href="Pragma-Suppress_005fException_005fLocations.html#Pragma-Suppress_005fException_005fLocations">Pragma Suppress_Exception_Locations</a>
+<li><a href="Pragma-Suppress_005fInitialization.html#Pragma-Suppress_005fInitialization">Pragma Suppress_Initialization</a>
+<li><a href="Pragma-Task_005fName.html#Pragma-Task_005fName">Pragma Task_Name</a>
+<li><a href="Pragma-Task_005fStorage.html#Pragma-Task_005fStorage">Pragma Task_Storage</a>
+<li><a href="Pragma-Test_005fCase.html#Pragma-Test_005fCase">Pragma Test_Case</a>
+<li><a href="Pragma-Thread_005fLocal_005fStorage.html#Pragma-Thread_005fLocal_005fStorage">Pragma Thread_Local_Storage</a>
+<li><a href="Pragma-Time_005fSlice.html#Pragma-Time_005fSlice">Pragma Time_Slice</a>
+<li><a href="Pragma-Title.html#Pragma-Title">Pragma Title</a>
+<li><a href="Pragma-Type_005fInvariant.html#Pragma-Type_005fInvariant">Pragma Type_Invariant</a>
+<li><a href="Pragma-Type_005fInvariant_005fClass.html#Pragma-Type_005fInvariant_005fClass">Pragma Type_Invariant_Class</a>
+<li><a href="Pragma-Unchecked_005fUnion.html#Pragma-Unchecked_005fUnion">Pragma Unchecked_Union</a>
+<li><a href="Pragma-Unevaluated_005fUse_005fOf_005fOld.html#Pragma-Unevaluated_005fUse_005fOf_005fOld">Pragma Unevaluated_Use_Of_Old</a>
+<li><a href="Pragma-Unimplemented_005fUnit.html#Pragma-Unimplemented_005fUnit">Pragma Unimplemented_Unit</a>
+<li><a href="Pragma-Universal_005fAliasing.html#Pragma-Universal_005fAliasing">Pragma Universal_Aliasing</a>
+<li><a href="Pragma-Universal_005fData.html#Pragma-Universal_005fData">Pragma Universal_Data</a>
+<li><a href="Pragma-Unmodified.html#Pragma-Unmodified">Pragma Unmodified</a>
+<li><a href="Pragma-Unreferenced.html#Pragma-Unreferenced">Pragma Unreferenced</a>
+<li><a href="Pragma-Unreferenced_005fObjects.html#Pragma-Unreferenced_005fObjects">Pragma Unreferenced_Objects</a>
+<li><a href="Pragma-Unreserve_005fAll_005fInterrupts.html#Pragma-Unreserve_005fAll_005fInterrupts">Pragma Unreserve_All_Interrupts</a>
+<li><a href="Pragma-Unsuppress.html#Pragma-Unsuppress">Pragma Unsuppress</a>
+<li><a href="Pragma-Use_005fVADS_005fSize.html#Pragma-Use_005fVADS_005fSize">Pragma Use_VADS_Size</a>
+<li><a href="Pragma-Validity_005fChecks.html#Pragma-Validity_005fChecks">Pragma Validity_Checks</a>
+<li><a href="Pragma-Volatile.html#Pragma-Volatile">Pragma Volatile</a>
+<li><a href="Pragma-Warning_005fAs_005fError.html#Pragma-Warning_005fAs_005fError">Pragma Warning_As_Error</a>
+<li><a href="Pragma-Warnings.html#Pragma-Warnings">Pragma Warnings</a>
+<li><a href="Pragma-Weak_005fExternal.html#Pragma-Weak_005fExternal">Pragma Weak_External</a>
+<li><a href="Pragma-Wide_005fCharacter_005fEncoding.html#Pragma-Wide_005fCharacter_005fEncoding">Pragma Wide_Character_Encoding</a>
+
+</ul>
+
+</body></html>
+

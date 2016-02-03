@@ -1,0 +1,218 @@
+<html lang="en">
+<head>
+<title>Attribute Unrestricted_Access - GNAT Reference Manual</title>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+<meta name="description" content="GNAT Reference Manual">
+<meta name="generator" content="makeinfo 4.13">
+<link title="Top" rel="start" href="index.html#Top">
+<link rel="up" href="Implementation-Defined-Attributes.html#Implementation-Defined-Attributes" title="Implementation Defined Attributes">
+<link rel="prev" href="Attribute-Universal_005fLiteral_005fString.html#Attribute-Universal_005fLiteral_005fString" title="Attribute Universal_Literal_String">
+<link rel="next" href="Attribute-Update.html#Attribute-Update" title="Attribute Update">
+<link href="http://www.gnu.org/software/texinfo/" rel="generator-home" title="Texinfo Homepage">
+<!--
+
+     GNAT Reference Manual , March 24, 2015
+
+     AdaCore
+
+     Copyright (C) 2008-2015, Free Software Foundation
+-->
+<meta http-equiv="Content-Style-Type" content="text/css">
+<style type="text/css"><!--
+  pre.display { font-family:inherit }
+  pre.format  { font-family:inherit }
+  pre.smalldisplay { font-family:inherit; font-size:smaller }
+  pre.smallformat  { font-family:inherit; font-size:smaller }
+  pre.smallexample { font-size:smaller }
+  pre.smalllisp    { font-size:smaller }
+  span.sc    { font-variant:small-caps }
+  span.roman { font-family:serif; font-weight:normal; } 
+  span.sansserif { font-family:sans-serif; font-weight:normal; } 
+--></style>
+</head>
+<body>
+<div class="node">
+<a name="Attribute-Unrestricted_Access"></a>
+<a name="Attribute-Unrestricted_005fAccess"></a>
+<p>
+Next:&nbsp;<a rel="next" accesskey="n" href="Attribute-Update.html#Attribute-Update">Attribute Update</a>,
+Previous:&nbsp;<a rel="previous" accesskey="p" href="Attribute-Universal_005fLiteral_005fString.html#Attribute-Universal_005fLiteral_005fString">Attribute Universal_Literal_String</a>,
+Up:&nbsp;<a rel="up" accesskey="u" href="Implementation-Defined-Attributes.html#Implementation-Defined-Attributes">Implementation Defined Attributes</a>
+<hr>
+</div>
+
+<p><a name="gnat_005frm_002fimplementation_005fdefined_005fattributes-attribute_002dunrestricted_002daccess"></a><a name="g_t15c"></a>
+
+<h3 class="section">4.68 Attribute Unrestricted_Access</h3>
+
+<p><a name="index-Access-272"></a><a name="index-unrestricted-273"></a>
+<a name="index-Unrestricted_005fAccess-274"></a>
+The <cite>Unrestricted_Access</cite> attribute is similar to <cite>Access</cite>
+except that all accessibility and aliased view checks are omitted.  This
+is a user-beware attribute.
+
+<p>For objects, it is similar to <cite>Address</cite>, for which it is a
+desirable replacement where the value desired is an access type. 
+In other words, its effect is similar to first applying the
+<cite>Address</cite> attribute and then doing an unchecked conversion to a
+desired access type.
+
+<p>For subprograms, <cite>P'Unrestricted_Access</cite> may be used where
+<cite>P'Access</cite> would be illegal, to construct a value of a
+less-nested named access type that designates a more-nested
+subprogram. This value may be used in indirect calls, so long as the
+more-nested subprogram still exists; once the subprogram containing it
+has returned, such calls are erroneous. For example:
+
+<pre class="example">    package body P is
+    
+       type Less_Nested is not null access procedure;
+       Global : Less_Nested;
+    
+       procedure P1 is
+       begin
+          Global.all;
+       end P1;
+    
+       procedure P2 is
+          Local_Var : Integer;
+    
+          procedure More_Nested is
+          begin
+             ... Local_Var ...
+          end More_Nested;
+       begin
+          Global := More_Nested'Unrestricted_Access;
+          P1;
+       end P2;
+    
+    end P;
+</pre>
+<p>When P1 is called from P2, the call via Global is OK, but if P1 were
+called after P2 returns, it would be an erroneous use of a dangling
+pointer.
+
+<p>For objects, it is possible to use <cite>Unrestricted_Access</cite> for any
+type. However, if the result is of an access-to-unconstrained array
+subtype, then the resulting pointer has the same scope as the context
+of the attribute, and must not be returned to some enclosing scope. 
+For instance, if a function uses <cite>Unrestricted_Access</cite> to create
+an access-to-unconstrained-array and returns that value to the caller,
+the result will involve dangling pointers. In addition, it is only
+valid to create pointers to unconstrained arrays using this attribute
+if the pointer has the normal default 'fat' representation where a
+pointer has two components, one points to the array and one points to
+the bounds. If a size clause is used to force 'thin' representation
+for a pointer to unconstrained where there is only space for a single
+pointer, then the resulting pointer is not usable.
+
+<p>In the simple case where a direct use of Unrestricted_Access attempts
+to make a thin pointer for a non-aliased object, the compiler will
+reject the use as illegal, as shown in the following example:
+
+<pre class="example">    with System; use System;
+    procedure SliceUA2 is
+       type A is access all String;
+       for A'Size use Standard'Address_Size;
+    
+       procedure P (Arg : A) is
+       begin
+          null;
+       end P;
+    
+       X : String := "hello world!";
+       X2 : aliased String := "hello world!";
+    
+       AV : A := X'Unrestricted_Access;    -- ERROR
+                 |
+    &gt;&gt;&gt; illegal use of Unrestricted_Access attribute
+    &gt;&gt;&gt; attempt to generate thin pointer to unaliased object
+    
+    begin
+       P (X'Unrestricted_Access);          -- ERROR
+          |
+    &gt;&gt;&gt; illegal use of Unrestricted_Access attribute
+    &gt;&gt;&gt; attempt to generate thin pointer to unaliased object
+    
+       P (X(7 .. 12)'Unrestricted_Access); -- ERROR
+          |
+    &gt;&gt;&gt; illegal use of Unrestricted_Access attribute
+    &gt;&gt;&gt; attempt to generate thin pointer to unaliased object
+    
+       P (X2'Unrestricted_Access);         -- OK
+    end;
+</pre>
+<p>but other cases cannot be detected by the compiler, and are
+considered to be erroneous. Consider the following example:
+
+<pre class="example">    with System; use System;
+    with System; use System;
+    procedure SliceUA is
+       type AF is access all String;
+    
+       type A is access all String;
+       for A'Size use Standard'Address_Size;
+    
+       procedure P (Arg : A) is
+       begin
+          if Arg'Length /= 6 then
+             raise Program_Error;
+          end if;
+       end P;
+    
+       X : String := "hello world!";
+       Y : AF := X (7 .. 12)'Unrestricted_Access;
+    
+    begin
+       P (A (Y));
+    end;
+</pre>
+<p>A normal unconstrained array value
+or a constrained array object marked as aliased has the bounds in memory
+just before the array, so a thin pointer can retrieve both the data and
+the bounds.  But in this case, the non-aliased object <cite>X</cite> does not have the
+bounds before the string.  If the size clause for type <cite>A</cite>
+were not present, then the pointer
+would be a fat pointer, where one component is a pointer to the bounds,
+and all would be well.  But with the size clause present, the conversion from
+fat pointer to thin pointer in the call loses the bounds, and so this
+is erroneous, and the program likely raises a <cite>Program_Error</cite> exception.
+
+<p>In general, it is advisable to completely
+avoid mixing the use of thin pointers and the use of
+<cite>Unrestricted_Access</cite> where the designated type is an
+unconstrained array.  The use of thin pointers should be restricted to
+cases of porting legacy code that implicitly assumes the size of pointers,
+and such code should not in any case be using this attribute.
+
+<p>Another erroneous situation arises if the attribute is
+applied to a constant. The resulting pointer can be used to access the
+constant, but the effect of trying to modify a constant in this manner
+is not well-defined. Consider this example:
+
+<pre class="example">    P : constant Integer := 4;
+    type R is access all Integer;
+    RV : R := P'Unrestricted_Access;
+    ..
+    RV.all := 3;
+</pre>
+<p>Here we attempt to modify the constant P from 4 to 3, but the compiler may
+or may not notice this attempt, and subsequent references to P may yield
+either the value 3 or the value 4 or the assignment may blow up if the
+compiler decides to put P in read-only memory. One particular case where
+<cite>Unrestricted_Access</cite> can be used in this way is to modify the
+value of an <cite>IN</cite> parameter:
+
+<pre class="example">    procedure K (S : in String) is
+       type R is access all Character;
+       RV : R := S (3)'Unrestricted_Access;
+    begin
+       RV.all := 'a';
+    end;
+</pre>
+<p>In general this is a risky approach. It may appear to "work" but such uses of
+<cite>Unrestricted_Access</cite> are potentially non-portable, even from one version
+of <cite>GNAT</cite> to another, so are best avoided if possible.
+
+</body></html>
+

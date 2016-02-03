@@ -1,0 +1,125 @@
+<html lang="en">
+<head>
+<title>Search Paths and the Run-Time Library RTL - GNAT User's Guide for Native Platforms</title>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+<meta name="description" content="GNAT User's Guide for Native Platforms">
+<meta name="generator" content="makeinfo 4.13">
+<link title="Top" rel="start" href="index.html#Top">
+<link rel="up" href="Compiling-with-gcc.html#Compiling-with-gcc" title="Compiling with gcc">
+<link rel="prev" href="Compiling-Programs.html#Compiling-Programs" title="Compiling Programs">
+<link rel="next" href="Order-of-Compilation-Issues.html#Order-of-Compilation-Issues" title="Order of Compilation Issues">
+<link href="http://www.gnu.org/software/texinfo/" rel="generator-home" title="Texinfo Homepage">
+<!--
+
+     GNAT User's Guide for Native Platforms , March 24, 2015
+
+     AdaCore
+
+     Copyright (C) 2008-2015, Free Software Foundation
+-->
+<meta http-equiv="Content-Style-Type" content="text/css">
+<style type="text/css"><!--
+  pre.display { font-family:inherit }
+  pre.format  { font-family:inherit }
+  pre.smalldisplay { font-family:inherit; font-size:smaller }
+  pre.smallformat  { font-family:inherit; font-size:smaller }
+  pre.smallexample { font-size:smaller }
+  pre.smalllisp    { font-size:smaller }
+  span.sc    { font-variant:small-caps }
+  span.roman { font-family:serif; font-weight:normal; } 
+  span.sansserif { font-family:sans-serif; font-weight:normal; } 
+--></style>
+</head>
+<body>
+<div class="node">
+<a name="Search-Paths-and-the-Run-Time-Library-RTL"></a>
+<a name="Search-Paths-and-the-Run_002dTime-Library-RTL"></a>
+<p>
+Next:&nbsp;<a rel="next" accesskey="n" href="Order-of-Compilation-Issues.html#Order-of-Compilation-Issues">Order of Compilation Issues</a>,
+Previous:&nbsp;<a rel="previous" accesskey="p" href="Compiling-Programs.html#Compiling-Programs">Compiling Programs</a>,
+Up:&nbsp;<a rel="up" accesskey="u" href="Compiling-with-gcc.html#Compiling-with-gcc">Compiling with gcc</a>
+<hr>
+</div>
+
+<p><a name="gnat_005fugn_002fbuilding_005fexecutable_005fprograms_005fwith_005fgnat-id10"></a><a name="f0"></a><a name="gnat_005fugn_002fbuilding_005fexecutable_005fprograms_005fwith_005fgnat-search_002dpaths_002dand_002dthe_002drun_002dtime_002dlibrary_002drtl"></a><a name="g_t8e"></a>
+
+<h4 class="subsection">4.2.2 Search Paths and the Run-Time Library (RTL)</h4>
+
+<p>With the GNAT source-based library system, the compiler must be able to
+find source files for units that are needed by the unit being compiled. 
+Search paths are used to guide this process.
+
+<p>The compiler compiles one source file whose name must be given
+explicitly on the command line. In other words, no searching is done
+for this file. To find all other source files that are needed (the most
+common being the specs of units), the compiler examines the following
+directories, in the following order:
+
+     <ul>
+<li>The directory containing the source file of the main unit being compiled
+(the file name on the command line).
+
+     <li>Each directory named by an `-I' switch given on the `gcc'
+command line, in the order given.
+
+     <p><a name="index-ADA_005fPRJ_005fINCLUDE_005fFILE-241"></a>
+<li>Each of the directories listed in the text file whose name is given
+by the
+<a name="index-ADA_005fPRJ_005fINCLUDE_005fFILE-242"></a><a name="index-environment-variable_003b-ADA_005fPRJ_005fINCLUDE_005fFILE-243"></a><code>ADA_PRJ_INCLUDE_FILE</code> environment variable. 
+<a name="index-ADA_005fPRJ_005fINCLUDE_005fFILE-244"></a><a name="index-environment-variable_003b-ADA_005fPRJ_005fINCLUDE_005fFILE-245"></a><code>ADA_PRJ_INCLUDE_FILE</code> is normally set by gnatmake or by the gnat
+driver when project files are used. It should not normally be set
+by other means.
+
+     <p><a name="index-ADA_005fINCLUDE_005fPATH-246"></a>
+<li>Each of the directories listed in the value of the
+<a name="index-ADA_005fINCLUDE_005fPATH-247"></a><a name="index-environment-variable_003b-ADA_005fINCLUDE_005fPATH-248"></a><code>ADA_INCLUDE_PATH</code> environment variable. 
+Construct this value
+exactly as the
+<a name="index-PATH-249"></a><a name="index-environment-variable_003b-PATH-250"></a><code>PATH</code> environment variable: a list of directory
+names separated by colons (semicolons when working with the NT version).
+
+     <li>The content of the <code>ada_source_path</code> file which is part of the GNAT
+installation tree and is used to store standard libraries such as the
+GNAT Run Time Library (RTL) source files. 
+<a href="8b.html#g_t8b">Installing a library</a>
+</ul>
+
+<p>Specifying the switch `-I-'
+inhibits the use of the directory
+containing the source file named in the command line. You can still
+have this directory on your search path, but in this case it must be
+explicitly requested with a `-I' switch.
+
+<p>Specifying the switch `-nostdinc'
+inhibits the search of the default location for the GNAT Run Time
+Library (RTL) source files.
+
+<p>The compiler outputs its object files and ALI files in the current
+working directory. 
+Caution: The object file can be redirected with the `-o' switch;
+however, `gcc' and <cite>gnat1</cite> have not been coordinated on this
+so the <code>ALI</code> file will not go to the right place. Therefore, you should
+avoid using the `-o' switch.
+
+<p><a name="index-System_002eIO-251"></a>
+The packages <cite>Ada</cite>, <cite>System</cite>, and <cite>Interfaces</cite> and their
+children make up the GNAT RTL, together with the simple <cite>System.IO</cite>
+package used in the <cite>"Hello World"</cite> example. The sources for these units
+are needed by the compiler and are kept together in one directory. Not
+all of the bodies are needed, but all of the sources are kept together
+anyway. In a normal installation, you need not specify these directory
+names when compiling or binding. Either the environment variables or
+the built-in defaults cause these files to be found.
+
+<p>In addition to the language-defined hierarchies (<cite>System</cite>, <cite>Ada</cite> and
+<cite>Interfaces</cite>), the GNAT distribution provides a fourth hierarchy,
+consisting of child units of <cite>GNAT</cite>. This is a collection of generally
+useful types, subprograms, etc. See the <cite>GNAT_Reference_Manual</cite>
+for further details.
+
+<p>Besides simplifying access to the RTL, a major use of search paths is
+in compiling sources from multiple directories. This can make
+development environments much more flexible.
+
+</body></html>
+

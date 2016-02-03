@@ -1,0 +1,176 @@
+<html lang="en">
+<head>
+<title>Switches for gnatchop - GNAT User's Guide for Native Platforms</title>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+<meta name="description" content="GNAT User's Guide for Native Platforms">
+<meta name="generator" content="makeinfo 4.13">
+<link title="Top" rel="start" href="index.html#Top">
+<link rel="up" href="Renaming-Files-with-gnatchop.html#Renaming-Files-with-gnatchop" title="Renaming Files with gnatchop">
+<link rel="prev" href="Command-Line-for-gnatchop.html#Command-Line-for-gnatchop" title="Command Line for gnatchop">
+<link rel="next" href="Examples-of-gnatchop-Usage.html#Examples-of-gnatchop-Usage" title="Examples of gnatchop Usage">
+<link href="http://www.gnu.org/software/texinfo/" rel="generator-home" title="Texinfo Homepage">
+<!--
+
+     GNAT User's Guide for Native Platforms , March 24, 2015
+
+     AdaCore
+
+     Copyright (C) 2008-2015, Free Software Foundation
+-->
+<meta http-equiv="Content-Style-Type" content="text/css">
+<style type="text/css"><!--
+  pre.display { font-family:inherit }
+  pre.format  { font-family:inherit }
+  pre.smalldisplay { font-family:inherit; font-size:smaller }
+  pre.smallformat  { font-family:inherit; font-size:smaller }
+  pre.smallexample { font-size:smaller }
+  pre.smalllisp    { font-size:smaller }
+  span.sc    { font-variant:small-caps }
+  span.roman { font-family:serif; font-weight:normal; } 
+  span.sansserif { font-family:sans-serif; font-weight:normal; } 
+--></style>
+</head>
+<body>
+<div class="node">
+<a name="Switches-for-gnatchop"></a>
+<p>
+Next:&nbsp;<a rel="next" accesskey="n" href="Examples-of-gnatchop-Usage.html#Examples-of-gnatchop-Usage">Examples of gnatchop Usage</a>,
+Previous:&nbsp;<a rel="previous" accesskey="p" href="Command-Line-for-gnatchop.html#Command-Line-for-gnatchop">Command Line for gnatchop</a>,
+Up:&nbsp;<a rel="up" accesskey="u" href="Renaming-Files-with-gnatchop.html#Renaming-Files-with-gnatchop">Renaming Files with gnatchop</a>
+<hr>
+</div>
+
+<p><a name="gnat_005fugn_002fthe_005fgnat_005fcompilation_005fmodel-switches_002dfor_002dgnatchop"></a><a name="g_t75"></a><a name="gnat_005fugn_002fthe_005fgnat_005fcompilation_005fmodel-id26"></a><a name="g_t76"></a>
+
+<h5 class="subsubsection">3.3.6.4 Switches for <cite>gnatchop</cite></h5>
+
+<p>`gnatchop' recognizes the following switches:
+
+<p><a name="index-g_t_002d_002dversion-_0028gnatchop_0029-58"></a>
+
+     <dl>
+<dt><code>--version</code><dd>
+Display Copyright and version, then exit disregarding all other options. 
+</dl>
+
+<p><a name="index-g_t_002d_002dhelp-_0028gnatchop_0029-59"></a>
+
+     <dl>
+<dt><code>--help</code><dd>
+If `&ndash;version' was not used, display usage, then exit disregarding
+all other options. 
+</dl>
+
+<p><a name="index-g_t_002dc-_0028gnatchop_0029-60"></a>
+
+     <dl>
+<dt><code>-c</code><dd>
+Causes <cite>gnatchop</cite> to operate in compilation mode, in which
+configuration pragmas are handled according to strict RM rules. See
+previous section for a full description of this mode.
+
+     <br><dt><code>-gnat`xxx'</code><dd>
+This passes the given `-gnat`xxx*` switch to `gnat` which is
+used to parse the given file. Not all `xxx` options make sense,
+but for example, the use of *-gnati2' allows <cite>gnatchop</cite> to
+process a source file that uses Latin-2 coding for identifiers.
+
+     <br><dt><code>-h</code><dd>
+Causes <cite>gnatchop</cite> to generate a brief help summary to the standard
+output file showing usage information. 
+</dl>
+
+<p><a name="index-g_t_002dk-_0028gnatchop_0029-61"></a>
+
+     <dl>
+<dt><code>-k`mm'</code><dd>
+Limit generated file names to the specified number <cite>mm</cite>
+of characters. 
+This is useful if the
+resulting set of files is required to be interoperable with systems
+which limit the length of file names. 
+No space is allowed between the `-k' and the numeric value. The numeric
+value may be omitted in which case a default of `-k8',
+suitable for use
+with DOS-like file systems, is used. If no `-k' switch
+is present then
+there is no limit on the length of file names. 
+</dl>
+
+<p><a name="index-g_t_002dp-_0028gnatchop_0029-62"></a>
+
+     <dl>
+<dt><code>-p</code><dd>
+Causes the file modification time stamp of the input file to be
+preserved and used for the time stamp of the output file(s). This may be
+useful for preserving coherency of time stamps in an environment where
+<cite>gnatchop</cite> is used as part of a standard build process. 
+</dl>
+
+<p><a name="index-g_t_002dq-_0028gnatchop_0029-63"></a>
+
+     <dl>
+<dt><code>-q</code><dd>
+Causes output of informational messages indicating the set of generated
+files to be suppressed. Warnings and error messages are unaffected. 
+</dl>
+
+<p><a name="index-g_t_002dr-_0028gnatchop_0029-64"></a>
+<a name="index-Source_005fReference-pragmas-65"></a>
+
+     <dl>
+<dt><code>-r</code><dd>
+Generate <cite>Source_Reference</cite> pragmas. Use this switch if the output
+files are regarded as temporary and development is to be done in terms
+of the original unchopped file. This switch causes
+<cite>Source_Reference</cite> pragmas to be inserted into each of the
+generated files to refers back to the original file name and line number. 
+The result is that all error messages refer back to the original
+unchopped file. 
+In addition, the debugging information placed into the object file (when
+the `-g' switch of `gcc' or `gnatmake' is
+specified)
+also refers back to this original file so that tools like profilers and
+debuggers will give information in terms of the original unchopped file.
+
+     <p>If the original file to be chopped itself contains
+a <cite>Source_Reference</cite>
+pragma referencing a third file, then gnatchop respects
+this pragma, and the generated <cite>Source_Reference</cite> pragmas
+in the chopped file refer to the original file, with appropriate
+line numbers. This is particularly useful when <cite>gnatchop</cite>
+is used in conjunction with <cite>gnatprep</cite> to compile files that
+contain preprocessing statements and multiple units. 
+</dl>
+
+<p><a name="index-g_t_002dv-_0028gnatchop_0029-66"></a>
+
+     <dl>
+<dt><code>-v</code><dd>
+Causes <cite>gnatchop</cite> to operate in verbose mode. The version
+number and copyright notice are output, as well as exact copies of
+the gnat1 commands spawned to obtain the chop control information. 
+</dl>
+
+<p><a name="index-g_t_002dw-_0028gnatchop_0029-67"></a>
+
+     <dl>
+<dt><code>-w</code><dd>
+Overwrite existing file names. Normally <cite>gnatchop</cite> regards it as a
+fatal error if there is already a file with the same name as a
+file it would otherwise output, in other words if the files to be
+chopped contain duplicated units. This switch bypasses this
+check, and causes all but the last instance of such duplicated
+units to be skipped. 
+</dl>
+
+<p><a name="index-g_t_002d_002dGCC_003d-_0028gnatchop_0029-68"></a>
+
+     <dl>
+<dt><code>--GCC=`xxxx'</code><dd>
+Specify the path of the GNAT parser to be used. When this switch is used,
+no attempt is made to add the prefix to the GNAT parser executable. 
+</dl>
+
+</body></html>
+

@@ -1,0 +1,65 @@
+<html lang="en">
+<head>
+<title>Pragma Compile_Time_Warning - GNAT Reference Manual</title>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+<meta name="description" content="GNAT Reference Manual">
+<meta name="generator" content="makeinfo 4.13">
+<link title="Top" rel="start" href="index.html#Top">
+<link rel="up" href="Implementation-Defined-Pragmas.html#Implementation-Defined-Pragmas" title="Implementation Defined Pragmas">
+<link rel="prev" href="Pragma-Compile_005fTime_005fError.html#Pragma-Compile_005fTime_005fError" title="Pragma Compile_Time_Error">
+<link rel="next" href="Pragma-Compiler_005fUnit.html#Pragma-Compiler_005fUnit" title="Pragma Compiler_Unit">
+<link href="http://www.gnu.org/software/texinfo/" rel="generator-home" title="Texinfo Homepage">
+<!--
+
+     GNAT Reference Manual , March 24, 2015
+
+     AdaCore
+
+     Copyright (C) 2008-2015, Free Software Foundation
+-->
+<meta http-equiv="Content-Style-Type" content="text/css">
+<style type="text/css"><!--
+  pre.display { font-family:inherit }
+  pre.format  { font-family:inherit }
+  pre.smalldisplay { font-family:inherit; font-size:smaller }
+  pre.smallformat  { font-family:inherit; font-size:smaller }
+  pre.smallexample { font-size:smaller }
+  pre.smalllisp    { font-size:smaller }
+  span.sc    { font-variant:small-caps }
+  span.roman { font-family:serif; font-weight:normal; } 
+  span.sansserif { font-family:sans-serif; font-weight:normal; } 
+--></style>
+</head>
+<body>
+<div class="node">
+<a name="Pragma-Compile_Time_Warning"></a>
+<a name="Pragma-Compile_005fTime_005fWarning"></a>
+<p>
+Next:&nbsp;<a rel="next" accesskey="n" href="Pragma-Compiler_005fUnit.html#Pragma-Compiler_005fUnit">Pragma Compiler_Unit</a>,
+Previous:&nbsp;<a rel="previous" accesskey="p" href="Pragma-Compile_005fTime_005fError.html#Pragma-Compile_005fTime_005fError">Pragma Compile_Time_Error</a>,
+Up:&nbsp;<a rel="up" accesskey="u" href="Implementation-Defined-Pragmas.html#Implementation-Defined-Pragmas">Implementation Defined Pragmas</a>
+<hr>
+</div>
+
+<p><a name="gnat_005frm_002fimplementation_005fdefined_005fpragmas-pragma_002dcompile_002dtime_002dwarning"></a><a name="g_t36"></a>
+
+<h3 class="section">2.28 Pragma Compile_Time_Warning</h3>
+
+<p>Syntax:
+
+<pre class="example">    pragma Compile_Time_Warning
+             (boolean_EXPRESSION, static_string_EXPRESSION);
+</pre>
+<p>Same as pragma Compile_Time_Error, except a warning is issued instead
+of an error message. Note that if this pragma is used in a package that
+is with'ed by a client, the client will get the warning even though it
+is issued by a with'ed package (normally warnings in with'ed units are
+suppressed, but this is a special exception to that rule).
+
+<p>One typical use is within a generic where compile time known characteristics
+of formal parameters are tested, and warnings given appropriately. Another use
+with a first parameter of True is to warn a client about use of a package,
+for example that it is not fully implemented.
+
+</body></html>
+

@@ -1,0 +1,135 @@
+<html lang="en">
+<head>
+<title>Pragma Obsolescent - GNAT Reference Manual</title>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+<meta name="description" content="GNAT Reference Manual">
+<meta name="generator" content="makeinfo 4.13">
+<link title="Top" rel="start" href="index.html#Top">
+<link rel="up" href="Implementation-Defined-Pragmas.html#Implementation-Defined-Pragmas" title="Implementation Defined Pragmas">
+<link rel="prev" href="Pragma-Normalize_005fScalars.html#Pragma-Normalize_005fScalars" title="Pragma Normalize_Scalars">
+<link rel="next" href="Pragma-Optimize_005fAlignment.html#Pragma-Optimize_005fAlignment" title="Pragma Optimize_Alignment">
+<link href="http://www.gnu.org/software/texinfo/" rel="generator-home" title="Texinfo Homepage">
+<!--
+
+     GNAT Reference Manual , March 24, 2015
+
+     AdaCore
+
+     Copyright (C) 2008-2015, Free Software Foundation
+-->
+<meta http-equiv="Content-Style-Type" content="text/css">
+<style type="text/css"><!--
+  pre.display { font-family:inherit }
+  pre.format  { font-family:inherit }
+  pre.smalldisplay { font-family:inherit; font-size:smaller }
+  pre.smallformat  { font-family:inherit; font-size:smaller }
+  pre.smallexample { font-size:smaller }
+  pre.smalllisp    { font-size:smaller }
+  span.sc    { font-variant:small-caps }
+  span.roman { font-family:serif; font-weight:normal; } 
+  span.sansserif { font-family:sans-serif; font-weight:normal; } 
+--></style>
+</head>
+<body>
+<div class="node">
+<a name="Pragma-Obsolescent"></a>
+<p>
+Next:&nbsp;<a rel="next" accesskey="n" href="Pragma-Optimize_005fAlignment.html#Pragma-Optimize_005fAlignment">Pragma Optimize_Alignment</a>,
+Previous:&nbsp;<a rel="previous" accesskey="p" href="Pragma-Normalize_005fScalars.html#Pragma-Normalize_005fScalars">Pragma Normalize_Scalars</a>,
+Up:&nbsp;<a rel="up" accesskey="u" href="Implementation-Defined-Pragmas.html#Implementation-Defined-Pragmas">Implementation Defined Pragmas</a>
+<hr>
+</div>
+
+<p><a name="gnat_005frm_002fimplementation_005fdefined_005fpragmas-pragma_002dobsolescent"></a><a name="g_t8c"></a><a name="gnat_005frm_002fimplementation_005fdefined_005fpragmas-id2"></a><a name="g_t8d"></a>
+
+<h3 class="section">2.113 Pragma Obsolescent</h3>
+
+<p>Syntax:
+
+<pre class="example">    pragma Obsolescent;
+    
+    pragma Obsolescent (
+      [Message =&gt;] static_string_EXPRESSION
+    [,[Version =&gt;] Ada_05]]);
+    
+    pragma Obsolescent (
+      [Entity  =&gt;] NAME
+    [,[Message =&gt;] static_string_EXPRESSION
+    [,[Version =&gt;] Ada_05]] );
+</pre>
+<p>This pragma can occur immediately following a declaration of an entity,
+including the case of a record component. If no Entity argument is present,
+then this declaration is the one to which the pragma applies. If an Entity
+parameter is present, it must either match the name of the entity in this
+declaration, or alternatively, the pragma can immediately follow an enumeration
+type declaration, where the Entity argument names one of the enumeration
+literals.
+
+<p>This pragma is used to indicate that the named entity
+is considered obsolescent and should not be used. Typically this is
+used when an API must be modified by eventually removing or modifying
+existing subprograms or other entities. The pragma can be used at an
+intermediate stage when the entity is still present, but will be
+removed later.
+
+<p>The effect of this pragma is to output a warning message on a reference to
+an entity thus marked that the subprogram is obsolescent if the appropriate
+warning option in the compiler is activated. If the Message parameter is
+present, then a second warning message is given containing this text. In
+addition, a reference to the entity is considered to be a violation of pragma
+Restrictions (No_Obsolescent_Features).
+
+<p>This pragma can also be used as a program unit pragma for a package,
+in which case the entity name is the name of the package, and the
+pragma indicates that the entire package is considered
+obsolescent. In this case a client <cite>with</cite>'ing such a package
+violates the restriction, and the <cite>with</cite> statement is
+flagged with warnings if the warning option is set.
+
+<p>If the Version parameter is present (which must be exactly
+the identifier Ada_05, no other argument is allowed), then the
+indication of obsolescence applies only when compiling in Ada 2005
+mode. This is primarily intended for dealing with the situations
+in the predefined library where subprograms or packages
+have become defined as obsolescent in Ada 2005
+(e.g., in Ada.Characters.Handling), but may be used anywhere.
+
+<p>The following examples show typical uses of this pragma:
+
+<pre class="example">    package p is
+       pragma Obsolescent (p, Message =&gt; "use pp instead of p");
+    end p;
+    
+    package q is
+       procedure q2;
+       pragma Obsolescent ("use q2new instead");
+    
+       type R is new integer;
+       pragma Obsolescent
+         (Entity  =&gt; R,
+          Message =&gt; "use RR in Ada 2005",
+          Version =&gt; Ada_05);
+    
+       type M is record
+          F1 : Integer;
+          F2 : Integer;
+          pragma Obsolescent;
+          F3 : Integer;
+       end record;
+    
+       type E is (a, bc, 'd', quack);
+       pragma Obsolescent (Entity =&gt; bc)
+       pragma Obsolescent (Entity =&gt; 'd')
+    
+       function "+"
+         (a, b : character) return character;
+       pragma Obsolescent (Entity =&gt; "+");
+    end;
+</pre>
+<p>Note that, as for all pragmas, if you use a pragma argument identifier,
+then all subsequent parameters must also use a pragma argument identifier. 
+So if you specify "Entity =&gt;" for the Entity argument, and a Message
+argument is present, it must be preceded by "Message =&gt;".
+
+</body></html>
+

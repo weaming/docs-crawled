@@ -1,0 +1,67 @@
+<html lang="en">
+<head>
+<title>Aggregates with static bounds - GNAT Reference Manual</title>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+<meta name="description" content="GNAT Reference Manual">
+<meta name="generator" content="makeinfo 4.13">
+<link title="Top" rel="start" href="index.html#Top">
+<link rel="up" href="Code-Generation-for-Array-Aggregates.html#Code-Generation-for-Array-Aggregates" title="Code Generation for Array Aggregates">
+<link rel="prev" href="Constant-aggregates-with-unconstrained-nominal-types.html#Constant-aggregates-with-unconstrained-nominal-types" title="Constant aggregates with unconstrained nominal types">
+<link rel="next" href="Aggregates-with-non_002dstatic-bounds.html#Aggregates-with-non_002dstatic-bounds" title="Aggregates with non-static bounds">
+<link href="http://www.gnu.org/software/texinfo/" rel="generator-home" title="Texinfo Homepage">
+<!--
+
+     GNAT Reference Manual , March 24, 2015
+
+     AdaCore
+
+     Copyright (C) 2008-2015, Free Software Foundation
+-->
+<meta http-equiv="Content-Style-Type" content="text/css">
+<style type="text/css"><!--
+  pre.display { font-family:inherit }
+  pre.format  { font-family:inherit }
+  pre.smalldisplay { font-family:inherit; font-size:smaller }
+  pre.smallformat  { font-family:inherit; font-size:smaller }
+  pre.smallexample { font-size:smaller }
+  pre.smalllisp    { font-size:smaller }
+  span.sc    { font-variant:small-caps }
+  span.roman { font-family:serif; font-weight:normal; } 
+  span.sansserif { font-family:sans-serif; font-weight:normal; } 
+--></style>
+</head>
+<body>
+<div class="node">
+<a name="Aggregates-with-static-bounds"></a>
+<p>
+Next:&nbsp;<a rel="next" accesskey="n" href="Aggregates-with-non_002dstatic-bounds.html#Aggregates-with-non_002dstatic-bounds">Aggregates with non-static bounds</a>,
+Previous:&nbsp;<a rel="previous" accesskey="p" href="Constant-aggregates-with-unconstrained-nominal-types.html#Constant-aggregates-with-unconstrained-nominal-types">Constant aggregates with unconstrained nominal types</a>,
+Up:&nbsp;<a rel="up" accesskey="u" href="Code-Generation-for-Array-Aggregates.html#Code-Generation-for-Array-Aggregates">Code Generation for Array Aggregates</a>
+<hr>
+</div>
+
+<p><a name="gnat_005frm_002fimplementation_005fof_005fspecific_005fada_005ffeatures-id10"></a><a name="g_t3bd"></a><a name="gnat_005frm_002fimplementation_005fof_005fspecific_005fada_005ffeatures-aggregates_002dwith_002dstatic_002dbounds"></a><a name="g_t3be"></a>
+
+<h4 class="subsection">15.4.3 Aggregates with static bounds</h4>
+
+<p>In all previous examples the aggregate was the initial (and immutable) value
+of a constant.  If the aggregate initializes a variable, then code is generated
+for it as a combination of individual assignments and loops over the target
+object.  The declarations
+
+<pre class="example">    Cr_Var1 : One_Dim := (2, 5, 7, 11, 0, 0, 0, 0, 0, 0);
+    Cr_Var2 : One_Dim := (others &gt; -1);
+</pre>
+<p>generate the equivalent of
+
+<pre class="example">    Cr_Var1 (1) := 2;
+    Cr_Var1 (2) := 3;
+    Cr_Var1 (3) := 5;
+    Cr_Var1 (4) := 11;
+    
+    for I in Cr_Var2'range loop
+       Cr_Var2 (I) := -1;
+    end loop;
+</pre>
+</body></html>
+

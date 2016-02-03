@@ -1,0 +1,134 @@
+<html lang="en">
+<head>
+<title>Stdcall Calling Convention - GNAT User's Guide for Native Platforms</title>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+<meta name="description" content="GNAT User's Guide for Native Platforms">
+<meta name="generator" content="makeinfo 4.13">
+<link title="Top" rel="start" href="index.html#Top">
+<link rel="up" href="Windows-Calling-Conventions.html#Windows-Calling-Conventions" title="Windows Calling Conventions">
+<link rel="prev" href="C-Calling-Convention.html#C-Calling-Convention" title="C Calling Convention">
+<link rel="next" href="Win32-Calling-Convention.html#Win32-Calling-Convention" title="Win32 Calling Convention">
+<link href="http://www.gnu.org/software/texinfo/" rel="generator-home" title="Texinfo Homepage">
+<!--
+
+     GNAT User's Guide for Native Platforms , March 24, 2015
+
+     AdaCore
+
+     Copyright (C) 2008-2015, Free Software Foundation
+-->
+<meta http-equiv="Content-Style-Type" content="text/css">
+<style type="text/css"><!--
+  pre.display { font-family:inherit }
+  pre.format  { font-family:inherit }
+  pre.smalldisplay { font-family:inherit; font-size:smaller }
+  pre.smallformat  { font-family:inherit; font-size:smaller }
+  pre.smallexample { font-size:smaller }
+  pre.smalllisp    { font-size:smaller }
+  span.sc    { font-variant:small-caps }
+  span.roman { font-family:serif; font-weight:normal; } 
+  span.sansserif { font-family:sans-serif; font-weight:normal; } 
+--></style>
+</head>
+<body>
+<div class="node">
+<a name="Stdcall-Calling-Convention"></a>
+<p>
+Next:&nbsp;<a rel="next" accesskey="n" href="Win32-Calling-Convention.html#Win32-Calling-Convention">Win32 Calling Convention</a>,
+Previous:&nbsp;<a rel="previous" accesskey="p" href="C-Calling-Convention.html#C-Calling-Convention">C Calling Convention</a>,
+Up:&nbsp;<a rel="up" accesskey="u" href="Windows-Calling-Conventions.html#Windows-Calling-Conventions">Windows Calling Conventions</a>
+<hr>
+</div>
+
+<p><a name="gnat_005fugn_002fplatform_005fspecific_005finformation-stdcall_002dcalling_002dconvention"></a><a name="g_t278"></a><a name="gnat_005fugn_002fplatform_005fspecific_005finformation-id17"></a><a name="g_t279"></a>
+
+<h5 class="subsubsection">9.3.5.3 <cite>Stdcall</cite> Calling Convention</h5>
+
+<p>This convention, which was the calling convention used for Pascal
+programs, is used by Microsoft for all the routines in the Win32 API for
+efficiency reasons. It must be used to import any routine for which this
+convention was specified.
+
+<p>In the <cite>Stdcall</cite> calling convention subprogram parameters are pushed
+on the stack by the caller from right to left. The callee (and not the
+caller) is in charge of cleaning the stack on routine exit. In addition,
+the name of a routine with <cite>Stdcall</cite> calling convention is mangled by
+adding a leading underscore (as for the <cite>C</cite> calling convention) and a
+trailing <code>@`nn'</code>, where <cite>nn</cite> is the overall size (in
+bytes) of the parameters passed to the routine.
+
+<p>The name to use on the Ada side when importing a C routine with a
+<cite>Stdcall</cite> calling convention is the name of the C routine. The leading
+underscore and trailing <code>@`nn'</code> are added automatically by
+the compiler. For instance the Win32 function:
+
+<blockquote>
+
+<pre class="example">    APIENTRY int get_val (long);
+</pre>
+</blockquote>
+
+<p>should be imported from Ada as follows:
+
+<blockquote>
+
+<pre class="example">    function Get_Val (V : Interfaces.C.long) return Interfaces.C.int;
+    pragma Import (Stdcall, Get_Val);
+    --  On the x86 a long is 4 bytes, so the Link_Name is "_get_val@4"
+</pre>
+</blockquote>
+
+<p>As for the <cite>C</cite> calling convention, when the <cite>External_Name</cite>
+parameter is missing, it is taken to be the name of the Ada entity in lower
+case. If instead of writing the above import pragma you write:
+
+<blockquote>
+
+<pre class="example">    function Get_Val (V : Interfaces.C.long) return Interfaces.C.int;
+    pragma Import (Stdcall, Get_Val, External_Name =&gt; "retrieve_val");
+</pre>
+</blockquote>
+
+<p>then the imported routine is <cite>_retrieve_val@4</cite>. However, if instead
+of specifying the <cite>External_Name</cite> parameter you specify the
+<cite>Link_Name</cite> as in the following example:
+
+<blockquote>
+
+<pre class="example">    function Get_Val (V : Interfaces.C.long) return Interfaces.C.int;
+    pragma Import (Stdcall, Get_Val, Link_Name =&gt; "retrieve_val");
+</pre>
+</blockquote>
+
+<p>then the imported routine is <cite>retrieve_val</cite>, that is, there is no
+decoration at all. No leading underscore and no Stdcall suffix
+<code>@`nn'</code>.
+
+<p>This is especially important as in some special cases a DLL's entry
+point name lacks a trailing <code>@`nn'</code> while the exported
+name generated for a call has it.
+
+<p>It is also possible to import variables defined in a DLL by using an
+import pragma for a variable. As an example, if a DLL contains a
+variable defined as:
+
+<blockquote>
+
+<pre class="example">    int my_var;
+</pre>
+</blockquote>
+
+<p>then, to access this variable from Ada you should write:
+
+<blockquote>
+
+<pre class="example">    My_Var : Interfaces.C.int;
+    pragma Import (Stdcall, My_Var);
+</pre>
+</blockquote>
+
+<p>Note that to ease building cross-platform bindings this convention
+will be handled as a <cite>C</cite> calling convention on non-Windows platforms.
+
+</body></html>
+

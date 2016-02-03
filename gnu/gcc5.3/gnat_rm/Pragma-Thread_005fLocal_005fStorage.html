@@ -1,0 +1,73 @@
+<html lang="en">
+<head>
+<title>Pragma Thread_Local_Storage - GNAT Reference Manual</title>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+<meta name="description" content="GNAT Reference Manual">
+<meta name="generator" content="makeinfo 4.13">
+<link title="Top" rel="start" href="index.html#Top">
+<link rel="up" href="Implementation-Defined-Pragmas.html#Implementation-Defined-Pragmas" title="Implementation Defined Pragmas">
+<link rel="prev" href="Pragma-Test_005fCase.html#Pragma-Test_005fCase" title="Pragma Test_Case">
+<link rel="next" href="Pragma-Time_005fSlice.html#Pragma-Time_005fSlice" title="Pragma Time_Slice">
+<link href="http://www.gnu.org/software/texinfo/" rel="generator-home" title="Texinfo Homepage">
+<!--
+
+     GNAT Reference Manual , March 24, 2015
+
+     AdaCore
+
+     Copyright (C) 2008-2015, Free Software Foundation
+-->
+<meta http-equiv="Content-Style-Type" content="text/css">
+<style type="text/css"><!--
+  pre.display { font-family:inherit }
+  pre.format  { font-family:inherit }
+  pre.smalldisplay { font-family:inherit; font-size:smaller }
+  pre.smallformat  { font-family:inherit; font-size:smaller }
+  pre.smallexample { font-size:smaller }
+  pre.smalllisp    { font-size:smaller }
+  span.sc    { font-variant:small-caps }
+  span.roman { font-family:serif; font-weight:normal; } 
+  span.sansserif { font-family:sans-serif; font-weight:normal; } 
+--></style>
+</head>
+<body>
+<div class="node">
+<a name="Pragma-Thread_Local_Storage"></a>
+<a name="Pragma-Thread_005fLocal_005fStorage"></a>
+<p>
+Next:&nbsp;<a rel="next" accesskey="n" href="Pragma-Time_005fSlice.html#Pragma-Time_005fSlice">Pragma Time_Slice</a>,
+Previous:&nbsp;<a rel="previous" accesskey="p" href="Pragma-Test_005fCase.html#Pragma-Test_005fCase">Pragma Test_Case</a>,
+Up:&nbsp;<a rel="up" accesskey="u" href="Implementation-Defined-Pragmas.html#Implementation-Defined-Pragmas">Implementation Defined Pragmas</a>
+<hr>
+</div>
+
+<p><a name="gnat_005frm_002fimplementation_005fdefined_005fpragmas-pragma_002dthread_002dlocal_002dstorage"></a><a name="ca"></a>
+
+<h3 class="section">2.171 Pragma Thread_Local_Storage</h3>
+
+<p><a name="index-Task-specific-storage-93"></a>
+<a name="index-TLS-_0028Thread-Local-Storage_0029-94"></a>
+<a name="index-Task_005fAttributes-95"></a>
+Syntax:
+
+<pre class="example">    pragma Thread_Local_Storage ([Entity =&gt;] LOCAL_NAME);
+</pre>
+<p>This pragma specifies that the specified entity, which must be
+a variable declared in a library level package, is to be marked as
+"Thread Local Storage" (<cite>TLS</cite>). On systems supporting this (which
+include Solaris, GNU/Linux and VxWorks 6), this causes each thread
+(and hence each Ada task) to see a distinct copy of the variable.
+
+<p>The variable may not have default initialization, and if there is
+an explicit initialization, it must be either <cite>null</cite> for an
+access variable, or a static expression for a scalar variable. 
+This provides a low level mechanism similar to that provided by
+the <cite>Ada.Task_Attributes</cite> package, but much more efficient
+and is also useful in writing interface code that will interact
+with foreign threads.
+
+<p>If this pragma is used on a system where <cite>TLS</cite> is not supported,
+then an error message will be generated and the program will be rejected.
+
+</body></html>
+

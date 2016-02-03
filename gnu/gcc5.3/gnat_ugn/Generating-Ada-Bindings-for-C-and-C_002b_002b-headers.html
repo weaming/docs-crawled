@@ -1,0 +1,83 @@
+<html lang="en">
+<head>
+<title>Generating Ada Bindings for C and C++ headers - GNAT User's Guide for Native Platforms</title>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+<meta name="description" content="GNAT User's Guide for Native Platforms">
+<meta name="generator" content="makeinfo 4.13">
+<link title="Top" rel="start" href="index.html#Top">
+<link rel="up" href="Mixed-Language-Programming.html#Mixed-Language-Programming" title="Mixed Language Programming">
+<link rel="prev" href="Building-Mixed-Ada-and-C_002b_002b-Programs.html#Building-Mixed-Ada-and-C_002b_002b-Programs" title="Building Mixed Ada and C++ Programs">
+<link href="http://www.gnu.org/software/texinfo/" rel="generator-home" title="Texinfo Homepage">
+<!--
+
+     GNAT User's Guide for Native Platforms , March 24, 2015
+
+     AdaCore
+
+     Copyright (C) 2008-2015, Free Software Foundation
+-->
+<meta http-equiv="Content-Style-Type" content="text/css">
+<style type="text/css"><!--
+  pre.display { font-family:inherit }
+  pre.format  { font-family:inherit }
+  pre.smalldisplay { font-family:inherit; font-size:smaller }
+  pre.smallformat  { font-family:inherit; font-size:smaller }
+  pre.smallexample { font-size:smaller }
+  pre.smalllisp    { font-size:smaller }
+  span.sc    { font-variant:small-caps }
+  span.roman { font-family:serif; font-weight:normal; } 
+  span.sansserif { font-family:sans-serif; font-weight:normal; } 
+--></style>
+</head>
+<body>
+<div class="node">
+<a name="Generating-Ada-Bindings-for-C-and-C++-headers"></a>
+<a name="Generating-Ada-Bindings-for-C-and-C_002b_002b-headers"></a>
+<p>
+Previous:&nbsp;<a rel="previous" accesskey="p" href="Building-Mixed-Ada-and-C_002b_002b-Programs.html#Building-Mixed-Ada-and-C_002b_002b-Programs">Building Mixed Ada and C++ Programs</a>,
+Up:&nbsp;<a rel="up" accesskey="u" href="Mixed-Language-Programming.html#Mixed-Language-Programming">Mixed Language Programming</a>
+<hr>
+</div>
+
+<p><a name="gnat_005fugn_002fthe_005fgnat_005fcompilation_005fmodel-id70"></a><a name="c9"></a><a name="gnat_005fugn_002fthe_005fgnat_005fcompilation_005fmodel-generating_002dada_002dbindings_002dfor_002dc_002dand_002dc_002dheaders"></a><a name="g_t1b"></a>
+
+<h4 class="subsection">3.11.4 Generating Ada Bindings for C and C++ headers</h4>
+
+<p><a name="index-Binding-generation-_0028for-C-and-C_002b_002b-headers_0029-162"></a>
+<a name="index-C-headers-_0028binding-generation_0029-163"></a>
+<a name="index-C_002b_002b-headers-_0028binding-generation_0029-164"></a>
+GNAT includes a binding generator for C and C++ headers which is
+intended to do 95% of the tedious work of generating Ada specs from C
+or C++ header files.
+
+<p>Note that this capability is not intended to generate 100% correct Ada specs,
+and will is some cases require manual adjustments, although it can often
+be used out of the box in practice.
+
+<p>Some of the known limitations include:
+
+     <ul>
+<li>only very simple character constant macros are translated into Ada
+constants. Function macros (macros with arguments) are partially translated
+as comments, to be completed manually if needed.
+
+     <li>some extensions (e.g. vector types) are not supported
+
+     <li>pointers to pointers or complex structures are mapped to System.Address
+
+     <li>identifiers with identical name (except casing) will generate compilation
+errors (e.g. <cite>shm_get</cite> vs <cite>SHM_GET</cite>). 
+</ul>
+
+<p>The code generated is using the Ada 2005 syntax, which makes it
+easier to interface with other languages than previous versions of Ada.
+
+<ul class="menu">
+<li><a accesskey="1" href="Running-the-binding-generator.html#Running-the-binding-generator">Running the binding generator</a>
+<li><a accesskey="2" href="Generating-bindings-for-C_002b_002b-headers.html#Generating-bindings-for-C_002b_002b-headers">Generating bindings for C++ headers</a>
+<li><a accesskey="3" href="Switches.html#Switches">Switches</a>
+
+</ul>
+
+</body></html>
+

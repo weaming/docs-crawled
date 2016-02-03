@@ -1,0 +1,92 @@
+<html lang="en">
+<head>
+<title>Pragma Validity_Checks - GNAT Reference Manual</title>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+<meta name="description" content="GNAT Reference Manual">
+<meta name="generator" content="makeinfo 4.13">
+<link title="Top" rel="start" href="index.html#Top">
+<link rel="up" href="Implementation-Defined-Pragmas.html#Implementation-Defined-Pragmas" title="Implementation Defined Pragmas">
+<link rel="prev" href="Pragma-Use_005fVADS_005fSize.html#Pragma-Use_005fVADS_005fSize" title="Pragma Use_VADS_Size">
+<link rel="next" href="Pragma-Volatile.html#Pragma-Volatile" title="Pragma Volatile">
+<link href="http://www.gnu.org/software/texinfo/" rel="generator-home" title="Texinfo Homepage">
+<!--
+
+     GNAT Reference Manual , March 24, 2015
+
+     AdaCore
+
+     Copyright (C) 2008-2015, Free Software Foundation
+-->
+<meta http-equiv="Content-Style-Type" content="text/css">
+<style type="text/css"><!--
+  pre.display { font-family:inherit }
+  pre.format  { font-family:inherit }
+  pre.smalldisplay { font-family:inherit; font-size:smaller }
+  pre.smallformat  { font-family:inherit; font-size:smaller }
+  pre.smallexample { font-size:smaller }
+  pre.smalllisp    { font-size:smaller }
+  span.sc    { font-variant:small-caps }
+  span.roman { font-family:serif; font-weight:normal; } 
+  span.sansserif { font-family:sans-serif; font-weight:normal; } 
+--></style>
+</head>
+<body>
+<div class="node">
+<a name="Pragma-Validity_Checks"></a>
+<a name="Pragma-Validity_005fChecks"></a>
+<p>
+Next:&nbsp;<a rel="next" accesskey="n" href="Pragma-Volatile.html#Pragma-Volatile">Pragma Volatile</a>,
+Previous:&nbsp;<a rel="previous" accesskey="p" href="Pragma-Use_005fVADS_005fSize.html#Pragma-Use_005fVADS_005fSize">Pragma Use_VADS_Size</a>,
+Up:&nbsp;<a rel="up" accesskey="u" href="Implementation-Defined-Pragmas.html#Implementation-Defined-Pragmas">Implementation Defined Pragmas</a>
+<hr>
+</div>
+
+<p><a name="gnat_005frm_002fimplementation_005fdefined_005fpragmas-pragma_002dvalidity_002dchecks"></a><a name="da"></a>
+
+<h3 class="section">2.187 Pragma Validity_Checks</h3>
+
+<p>Syntax:
+
+<pre class="example">    pragma Validity_Checks (string_LITERAL | ALL_CHECKS | On | Off);
+</pre>
+<p>This pragma is used in conjunction with compiler switches to control the
+built-in validity checking provided by GNAT.  The compiler switches, if set
+provide an initial setting for the switches, and this pragma may be used
+to modify these settings, or the settings may be provided entirely by
+the use of the pragma.  This pragma can be used anywhere that a pragma
+is legal, including use as a configuration pragma (including use in
+the <code>gnat.adc</code> file).
+
+<p>The form with a string literal specifies which validity options are to be
+activated.  The validity checks are first set to include only the default
+reference manual settings, and then a string of letters in the string
+specifies the exact set of options required.  The form of this string
+is exactly as described for the `-gnatVx' compiler switch (see the
+GNAT User's Guide for details).  For example the following two
+methods can be used to enable validity checking for mode <cite>in</cite> and
+<cite>in out</cite> subprogram parameters:
+
+     <ul>
+<li>
+     <pre class="example">         pragma Validity_Checks ("im");
+</pre>
+     <li>
+     <pre class="example">         $ gcc -c -gnatVim ...
+</pre>
+     </ul>
+
+<p>The form ALL_CHECKS activates all standard checks (its use is equivalent
+to the use of the <cite>gnatva</cite> switch.
+
+<p>The forms with <cite>Off</cite> and <cite>On</cite>
+can be used to temporarily disable validity checks
+as shown in the following example:
+
+<pre class="example">    pragma Validity_Checks ("c"); -- validity checks for copies
+    pragma Validity_Checks (Off); -- turn off validity checks
+    A := B;                       -- B will not be validity checked
+    pragma Validity_Checks (On);  -- turn validity checks back on
+    A := C;                       -- C will be validity checked
+</pre>
+</body></html>
+

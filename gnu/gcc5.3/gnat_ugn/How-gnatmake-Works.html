@@ -1,0 +1,90 @@
+<html lang="en">
+<head>
+<title>How gnatmake Works - GNAT User's Guide for Native Platforms</title>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+<meta name="description" content="GNAT User's Guide for Native Platforms">
+<meta name="generator" content="makeinfo 4.13">
+<link title="Top" rel="start" href="index.html#Top">
+<link rel="up" href="Building-with-gnatmake.html#Building-with-gnatmake" title="Building with gnatmake">
+<link rel="prev" href="Notes-on-the-Command-Line.html#Notes-on-the-Command-Line" title="Notes on the Command Line">
+<link rel="next" href="Examples-of-gnatmake-Usage.html#Examples-of-gnatmake-Usage" title="Examples of gnatmake Usage">
+<link href="http://www.gnu.org/software/texinfo/" rel="generator-home" title="Texinfo Homepage">
+<!--
+
+     GNAT User's Guide for Native Platforms , March 24, 2015
+
+     AdaCore
+
+     Copyright (C) 2008-2015, Free Software Foundation
+-->
+<meta http-equiv="Content-Style-Type" content="text/css">
+<style type="text/css"><!--
+  pre.display { font-family:inherit }
+  pre.format  { font-family:inherit }
+  pre.smalldisplay { font-family:inherit; font-size:smaller }
+  pre.smallformat  { font-family:inherit; font-size:smaller }
+  pre.smallexample { font-size:smaller }
+  pre.smalllisp    { font-size:smaller }
+  span.sc    { font-variant:small-caps }
+  span.roman { font-family:serif; font-weight:normal; } 
+  span.sansserif { font-family:sans-serif; font-weight:normal; } 
+--></style>
+</head>
+<body>
+<div class="node">
+<a name="How-gnatmake-Works"></a>
+<p>
+Next:&nbsp;<a rel="next" accesskey="n" href="Examples-of-gnatmake-Usage.html#Examples-of-gnatmake-Usage">Examples of gnatmake Usage</a>,
+Previous:&nbsp;<a rel="previous" accesskey="p" href="Notes-on-the-Command-Line.html#Notes-on-the-Command-Line">Notes on the Command Line</a>,
+Up:&nbsp;<a rel="up" accesskey="u" href="Building-with-gnatmake.html#Building-with-gnatmake">Building with gnatmake</a>
+<hr>
+</div>
+
+<p><a name="gnat_005fugn_002fbuilding_005fexecutable_005fprograms_005fwith_005fgnat-id6"></a><a name="e8"></a><a name="gnat_005fugn_002fbuilding_005fexecutable_005fprograms_005fwith_005fgnat-how_002dgnatmake_002dworks"></a><a name="e9"></a>
+
+<h4 class="subsection">4.1.5 How `gnatmake' Works</h4>
+
+<p>Generally `gnatmake' automatically performs all necessary
+recompilations and you don't need to worry about how it works. However,
+it may be useful to have some basic understanding of the `gnatmake'
+approach and in particular to understand how it uses the results of
+previous compilations without incorrectly depending on them.
+
+<p>First a definition: an object file is considered `up to date' if the
+corresponding ALI file exists and if all the source files listed in the
+dependency section of this ALI file have time stamps matching those in
+the ALI file. This means that neither the source file itself nor any
+files that it depends on have been modified, and hence there is no need
+to recompile this file.
+
+<p>`gnatmake' works by first checking if the specified main unit is up
+to date. If so, no compilations are required for the main unit. If not,
+`gnatmake' compiles the main program to build a new ALI file that
+reflects the latest sources. Then the ALI file of the main unit is
+examined to find all the source files on which the main program depends,
+and `gnatmake' recursively applies the above procedure on all these
+files.
+
+<p>This process ensures that `gnatmake' only trusts the dependencies
+in an existing ALI file if they are known to be correct. Otherwise it
+always recompiles to determine a new, guaranteed accurate set of
+dependencies. As a result the program is compiled 'upside down' from what may
+be more familiar as the required order of compilation in some other Ada
+systems. In particular, clients are compiled before the units on which
+they depend. The ability of GNAT to compile in any order is critical in
+allowing an order of compilation to be chosen that guarantees that
+`gnatmake' will recompute a correct set of new dependencies if
+necessary.
+
+<p>When invoking `gnatmake' with several <cite>file_names</cite>, if a unit is
+imported by several of the executables, it will be recompiled at most once.
+
+<p>Note: when using non-standard naming conventions
+(<a href="37.html#g_t37">Using Other File Names</a>), changing through a configuration pragmas
+file the version of a source and invoking `gnatmake' to recompile may
+have no effect, if the previous version of the source is still accessible
+by `gnatmake'. It may be necessary to use the switch
+-f.
+
+</body></html>
+

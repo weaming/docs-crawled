@@ -1,0 +1,85 @@
+<html lang="en">
+<head>
+<title>Using gnatprep - GNAT User's Guide for Native Platforms</title>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+<meta name="description" content="GNAT User's Guide for Native Platforms">
+<meta name="generator" content="makeinfo 4.13">
+<link title="Top" rel="start" href="index.html#Top">
+<link rel="up" href="Preprocessing-with-gnatprep.html#Preprocessing-with-gnatprep" title="Preprocessing with gnatprep">
+<link rel="prev" href="Preprocessing-Symbols.html#Preprocessing-Symbols" title="Preprocessing Symbols">
+<link rel="next" href="Switches-for-gnatprep.html#Switches-for-gnatprep" title="Switches for gnatprep">
+<link href="http://www.gnu.org/software/texinfo/" rel="generator-home" title="Texinfo Homepage">
+<!--
+
+     GNAT User's Guide for Native Platforms , March 24, 2015
+
+     AdaCore
+
+     Copyright (C) 2008-2015, Free Software Foundation
+-->
+<meta http-equiv="Content-Style-Type" content="text/css">
+<style type="text/css"><!--
+  pre.display { font-family:inherit }
+  pre.format  { font-family:inherit }
+  pre.smalldisplay { font-family:inherit; font-size:smaller }
+  pre.smallformat  { font-family:inherit; font-size:smaller }
+  pre.smallexample { font-size:smaller }
+  pre.smalllisp    { font-size:smaller }
+  span.sc    { font-variant:small-caps }
+  span.roman { font-family:serif; font-weight:normal; } 
+  span.sansserif { font-family:sans-serif; font-weight:normal; } 
+--></style>
+</head>
+<body>
+<div class="node">
+<a name="Using-gnatprep"></a>
+<p>
+Next:&nbsp;<a rel="next" accesskey="n" href="Switches-for-gnatprep.html#Switches-for-gnatprep">Switches for gnatprep</a>,
+Previous:&nbsp;<a rel="previous" accesskey="p" href="Preprocessing-Symbols.html#Preprocessing-Symbols">Preprocessing Symbols</a>,
+Up:&nbsp;<a rel="up" accesskey="u" href="Preprocessing-with-gnatprep.html#Preprocessing-with-gnatprep">Preprocessing with gnatprep</a>
+<hr>
+</div>
+
+<p><a name="gnat_005fugn_002fthe_005fgnat_005fcompilation_005fmodel-using_002dgnatprep"></a><a name="ae"></a><a name="gnat_005fugn_002fthe_005fgnat_005fcompilation_005fmodel-id56"></a><a name="af"></a>
+
+<h5 class="subsubsection">3.10.2.2 Using <cite>gnatprep</cite></h5>
+
+<p>To call <cite>gnatprep</cite> use:
+
+<pre class="example">    $ gnatprep [`switches`] `infile` `outfile` [`deffile`]
+</pre>
+<p>where
+
+     <ul>
+<li>
+          <dl>
+<dt>`switches'<dd>
+is an optional sequence of switches as described in the next section. 
+</dl>
+
+     <li>
+          <dl>
+<dt>`infile'<dd>
+is the full name of the input file, which is an Ada source
+file containing preprocessor directives. 
+</dl>
+
+     <li>
+          <dl>
+<dt>`outfile'<dd>
+is the full name of the output file, which is an Ada source
+in standard Ada form. When used with GNAT, this file name will
+normally have an ads or adb suffix. 
+</dl>
+
+     <li>
+          <dl>
+<dt>`deffile'<dd>
+is the full name of a text file containing definitions of
+preprocessing symbols to be referenced by the preprocessor. This argument is
+optional, and can be replaced by the use of the `-D' switch. 
+</dl>
+     </ul>
+
+</body></html>
+

@@ -1,0 +1,7 @@
+<map id="Graphical Class Hierarchy" name="Graphical Class Hierarchy">
+<area shape="rect" id="node1" href="$a00253.html" title="__gnu_pbds::detail\l::left_child_next_sibling\l_heap\&lt; Value_Type, Cmp_Fn,\l _Alloc::size_type, _Alloc \&gt;" alt="" coords="5,81,195,147"/>
+<area shape="rect" id="node2" href="$a00205.html" title="Base class for binomial heap. " alt="" coords="247,40,401,105"/>
+<area shape="rect" id="node5" href="$a00305.html" title="__gnu_pbds::detail\l::thin_heap\&lt; Value_Type,\l Cmp_Fn, _Alloc \&gt;" alt="" coords="243,129,405,181"/>
+<area shape="rect" id="node3" href="$a00204.html" title="__gnu_pbds::detail\l::binomial_heap\&lt; Value\l_Type, Cmp_Fn, _Alloc \&gt;" alt="" coords="453,5,612,57"/>
+<area shape="rect" id="node4" href="$a00296.html" title="__gnu_pbds::detail\l::rc_binomial_heap\&lt;\l Value_Type, Cmp_Fn,\l _Alloc \&gt;" alt="" coords="459,81,606,147"/>
+</map>

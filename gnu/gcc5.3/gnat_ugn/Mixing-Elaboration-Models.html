@@ -1,0 +1,100 @@
+<html lang="en">
+<head>
+<title>Mixing Elaboration Models - GNAT User's Guide for Native Platforms</title>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+<meta name="description" content="GNAT User's Guide for Native Platforms">
+<meta name="generator" content="makeinfo 4.13">
+<link title="Top" rel="start" href="index.html#Top">
+<link rel="up" href="Elaboration-Order-Handling-in-GNAT.html#Elaboration-Order-Handling-in-GNAT" title="Elaboration Order Handling in GNAT">
+<link rel="prev" href="Elaboration-Issues-for-Library-Tasks.html#Elaboration-Issues-for-Library-Tasks" title="Elaboration Issues for Library Tasks">
+<link rel="next" href="What-to-Do-If-the-Default-Elaboration-Behavior-Fails.html#What-to-Do-If-the-Default-Elaboration-Behavior-Fails" title="What to Do If the Default Elaboration Behavior Fails">
+<link href="http://www.gnu.org/software/texinfo/" rel="generator-home" title="Texinfo Homepage">
+<!--
+
+     GNAT User's Guide for Native Platforms , March 24, 2015
+
+     AdaCore
+
+     Copyright (C) 2008-2015, Free Software Foundation
+-->
+<meta http-equiv="Content-Style-Type" content="text/css">
+<style type="text/css"><!--
+  pre.display { font-family:inherit }
+  pre.format  { font-family:inherit }
+  pre.smalldisplay { font-family:inherit; font-size:smaller }
+  pre.smallformat  { font-family:inherit; font-size:smaller }
+  pre.smallexample { font-size:smaller }
+  pre.smalllisp    { font-size:smaller }
+  span.sc    { font-variant:small-caps }
+  span.roman { font-family:serif; font-weight:normal; } 
+  span.sansserif { font-family:sans-serif; font-weight:normal; } 
+--></style>
+</head>
+<body>
+<div class="node">
+<a name="Mixing-Elaboration-Models"></a>
+<p>
+Next:&nbsp;<a rel="next" accesskey="n" href="What-to-Do-If-the-Default-Elaboration-Behavior-Fails.html#What-to-Do-If-the-Default-Elaboration-Behavior-Fails">What to Do If the Default Elaboration Behavior Fails</a>,
+Previous:&nbsp;<a rel="previous" accesskey="p" href="Elaboration-Issues-for-Library-Tasks.html#Elaboration-Issues-for-Library-Tasks">Elaboration Issues for Library Tasks</a>,
+Up:&nbsp;<a rel="up" accesskey="u" href="Elaboration-Order-Handling-in-GNAT.html#Elaboration-Order-Handling-in-GNAT">Elaboration Order Handling in GNAT</a>
+<hr>
+</div>
+
+<p><a name="gnat_005fugn_002felaboration_005forder_005fhandling_005fin_005fgnat-id10"></a><a name="g_t2c1"></a><a name="gnat_005fugn_002felaboration_005forder_005fhandling_005fin_005fgnat-mixing_002delaboration_002dmodels"></a><a name="g_t2c2"></a>
+
+<h3 class="section">11.9 Mixing Elaboration Models</h3>
+
+<p>So far, we have assumed that the entire program is either compiled
+using the dynamic model or static model, ensuring consistency. It
+is possible to mix the two models, but rules have to be followed
+if this mixing is done to ensure that elaboration checks are not
+omitted.
+
+<p>The basic rule is that
+`a unit compiled with the static model cannot
+be |withed| by a unit compiled with the dynamic model'. 
+The reason for this is that in the static model, a unit assumes that
+its clients guarantee to use (the equivalent of) pragma
+<cite>Elaborate_All</cite> so that no elaboration checks are required
+in inner subprograms, and this assumption is violated if the
+client is compiled with dynamic checks.
+
+<p>The precise rule is as follows. A unit that is compiled with dynamic
+checks can only `with' a unit that meets at least one of the
+following criteria:
+
+     <ul>
+<li>The `with'ed unit is itself compiled with dynamic elaboration
+checks (that is with the `-gnatE' switch.
+
+     <li>The `with'ed unit is an internal GNAT implementation unit from
+the System, Interfaces, Ada, or GNAT hierarchies.
+
+     <li>The `with'ed unit has pragma Preelaborate or pragma Pure.
+
+     <li>The `with'ing unit (that is the client) has an explicit pragma
+<cite>Elaborate_All</cite> for the `with'ed unit. 
+</ul>
+
+<p>If this rule is violated, that is if a unit with dynamic elaboration
+checks `with's a unit that does not meet one of the above four
+criteria, then the binder (<cite>gnatbind</cite>) will issue a warning
+similar to that in the following example:
+
+<pre class="example">    warning: "x.ads" has dynamic elaboration checks and with's
+    warning:   "y.ads" which has static elaboration checks
+</pre>
+<p>These warnings indicate that the rule has been violated, and that as a result
+elaboration checks may be missed in the resulting executable file. 
+This warning may be suppressed using the `-ws' binder switch
+in the usual manner.
+
+<p>One useful application of this mixing rule is in the case of a subsystem
+which does not itself `with' units from the remainder of the
+application. In this case, the entire subsystem can be compiled with
+dynamic checks to resolve a circularity in the subsystem, while
+allowing the main application that uses this subsystem to be compiled
+using the more reliable default static model.
+
+</body></html>
+

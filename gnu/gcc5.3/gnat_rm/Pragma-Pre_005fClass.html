@@ -1,0 +1,74 @@
+<html lang="en">
+<head>
+<title>Pragma Pre_Class - GNAT Reference Manual</title>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+<meta name="description" content="GNAT Reference Manual">
+<meta name="generator" content="makeinfo 4.13">
+<link title="Top" rel="start" href="index.html#Top">
+<link rel="up" href="Implementation-Defined-Pragmas.html#Implementation-Defined-Pragmas" title="Implementation Defined Pragmas">
+<link rel="prev" href="Pragma-Prefix_005fException_005fMessages.html#Pragma-Prefix_005fException_005fMessages" title="Pragma Prefix_Exception_Messages">
+<link rel="next" href="Pragma-Priority_005fSpecific_005fDispatching.html#Pragma-Priority_005fSpecific_005fDispatching" title="Pragma Priority_Specific_Dispatching">
+<link href="http://www.gnu.org/software/texinfo/" rel="generator-home" title="Texinfo Homepage">
+<!--
+
+     GNAT Reference Manual , March 24, 2015
+
+     AdaCore
+
+     Copyright (C) 2008-2015, Free Software Foundation
+-->
+<meta http-equiv="Content-Style-Type" content="text/css">
+<style type="text/css"><!--
+  pre.display { font-family:inherit }
+  pre.format  { font-family:inherit }
+  pre.smalldisplay { font-family:inherit; font-size:smaller }
+  pre.smallformat  { font-family:inherit; font-size:smaller }
+  pre.smallexample { font-size:smaller }
+  pre.smalllisp    { font-size:smaller }
+  span.sc    { font-variant:small-caps }
+  span.roman { font-family:serif; font-weight:normal; } 
+  span.sansserif { font-family:sans-serif; font-weight:normal; } 
+--></style>
+</head>
+<body>
+<div class="node">
+<a name="Pragma-Pre_Class"></a>
+<a name="Pragma-Pre_005fClass"></a>
+<p>
+Next:&nbsp;<a rel="next" accesskey="n" href="Pragma-Priority_005fSpecific_005fDispatching.html#Pragma-Priority_005fSpecific_005fDispatching">Pragma Priority_Specific_Dispatching</a>,
+Previous:&nbsp;<a rel="previous" accesskey="p" href="Pragma-Prefix_005fException_005fMessages.html#Pragma-Prefix_005fException_005fMessages">Pragma Prefix_Exception_Messages</a>,
+Up:&nbsp;<a rel="up" accesskey="u" href="Implementation-Defined-Pragmas.html#Implementation-Defined-Pragmas">Implementation Defined Pragmas</a>
+<hr>
+</div>
+
+<p><a name="gnat_005frm_002fimplementation_005fdefined_005fpragmas-pragma_002dpre_002dclass"></a><a name="g_t9f"></a>
+
+<h3 class="section">2.131 Pragma Pre_Class</h3>
+
+<p><a name="index-Pre_005fClass-81"></a>
+<a name="index-Checks-82"></a><a name="index-preconditions-83"></a>
+Syntax:
+
+<pre class="example">    pragma Pre_Class (Boolean_Expression);
+</pre>
+<p>The <cite>Pre_Class</cite> pragma is intended to be an exact replacement for
+the language-defined
+<cite>Pre'Class</cite> aspect, and shares its restrictions and semantics. 
+It must appear either immediately following the corresponding
+subprogram declaration (only other pragmas may intervene), or
+if there is no separate subprogram declaration, then it can
+appear at the start of the declarations in a subprogram body
+(preceded only by other pragmas).
+
+<p>Note: This pragma is called <cite>Pre_Class</cite> rather than
+<cite>Pre'Class</cite> because the latter would not be strictly
+conforming to the allowed syntax for pragmas. The motivation
+for providing pragmas equivalent to the aspects is to allow a program
+to be written using the pragmas, and then compiled if necessary
+using an Ada compiler that does not recognize the pragmas or
+aspects, but is prepared to ignore the pragmas. The assertion
+policy that controls this pragma is <cite>Pre'Class</cite>, not
+<cite>Pre_Class</cite>.
+
+</body></html>
+

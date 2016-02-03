@@ -1,0 +1,311 @@
+<html lang="en">
+<head>
+<title>Value_Size and Object_Size Clauses - GNAT Reference Manual</title>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+<meta name="description" content="GNAT Reference Manual">
+<meta name="generator" content="makeinfo 4.13">
+<link title="Top" rel="start" href="index.html#Top">
+<link rel="up" href="Representation-Clauses-and-Pragmas.html#Representation-Clauses-and-Pragmas" title="Representation Clauses and Pragmas">
+<link rel="prev" href="Biased-Representation.html#Biased-Representation" title="Biased Representation">
+<link rel="next" href="Component_005fSize-Clauses.html#Component_005fSize-Clauses" title="Component_Size Clauses">
+<link href="http://www.gnu.org/software/texinfo/" rel="generator-home" title="Texinfo Homepage">
+<!--
+
+     GNAT Reference Manual , March 24, 2015
+
+     AdaCore
+
+     Copyright (C) 2008-2015, Free Software Foundation
+-->
+<meta http-equiv="Content-Style-Type" content="text/css">
+<style type="text/css"><!--
+  pre.display { font-family:inherit }
+  pre.format  { font-family:inherit }
+  pre.smalldisplay { font-family:inherit; font-size:smaller }
+  pre.smallformat  { font-family:inherit; font-size:smaller }
+  pre.smallexample { font-size:smaller }
+  pre.smalllisp    { font-size:smaller }
+  span.sc    { font-variant:small-caps }
+  span.roman { font-family:serif; font-weight:normal; } 
+  span.sansserif { font-family:sans-serif; font-weight:normal; } 
+--></style>
+</head>
+<body>
+<div class="node">
+<a name="Value_Size-and-Object_Size-Clauses"></a>
+<a name="Value_005fSize-and-Object_005fSize-Clauses"></a>
+<p>
+Next:&nbsp;<a rel="next" accesskey="n" href="Component_005fSize-Clauses.html#Component_005fSize-Clauses">Component_Size Clauses</a>,
+Previous:&nbsp;<a rel="previous" accesskey="p" href="Biased-Representation.html#Biased-Representation">Biased Representation</a>,
+Up:&nbsp;<a rel="up" accesskey="u" href="Representation-Clauses-and-Pragmas.html#Representation-Clauses-and-Pragmas">Representation Clauses and Pragmas</a>
+<hr>
+</div>
+
+<p><a name="gnat_005frm_002frepresentation_005fclauses_005fand_005fpragmas-id7"></a><a name="g_t224"></a><a name="gnat_005frm_002frepresentation_005fclauses_005fand_005fpragmas-value_002dsize_002dand_002dobject_002dsize_002dclauses"></a><a name="g_t225"></a>
+
+<h3 class="section">9.6 Value_Size and Object_Size Clauses</h3>
+
+<p><a name="index-Value_005fSize-493"></a>
+<a name="index-Object_005fSize-494"></a>
+<a name="index-Size-495"></a><a name="index-of-objects-496"></a>
+In Ada 95 and Ada 2005, <cite>T'Size</cite> for a type <cite>T</cite> is the minimum
+number of bits required to hold values of type <cite>T</cite>. 
+Although this interpretation was allowed in Ada 83, it was not required,
+and this requirement in practice can cause some significant difficulties. 
+For example, in most Ada 83 compilers, <cite>Natural'Size</cite> was 32. 
+However, in Ada 95 and Ada 2005,
+<cite>Natural'Size</cite> is
+typically 31.  This means that code may change in behavior when moving
+from Ada 83 to Ada 95 or Ada 2005.  For example, consider:
+
+<pre class="example">    type Rec is record;
+       A : Natural;
+       B : Natural;
+    end record;
+    
+    for Rec use record
+       at 0  range 0 .. Natural'Size - 1;
+       at 0  range Natural'Size .. 2 * Natural'Size - 1;
+    end record;
+</pre>
+<p>In the above code, since the typical size of <cite>Natural</cite> objects
+is 32 bits and <cite>Natural'Size</cite> is 31, the above code can cause
+unexpected inefficient packing in Ada 95 and Ada 2005, and in general
+there are cases where the fact that the object size can exceed the
+size of the type causes surprises.
+
+<p>To help get around this problem GNAT provides two implementation
+defined attributes, <cite>Value_Size</cite> and <cite>Object_Size</cite>.  When
+applied to a type, these attributes yield the size of the type
+(corresponding to the RM defined size attribute), and the size of
+objects of the type respectively.
+
+<p>The <cite>Object_Size</cite> is used for determining the default size of
+objects and components.  This size value can be referred to using the
+<cite>Object_Size</cite> attribute.  The phrase 'is used' here means that it is
+the basis of the determination of the size.  The backend is free to
+pad this up if necessary for efficiency, e.g., an 8-bit stand-alone
+character might be stored in 32 bits on a machine with no efficient
+byte access instructions such as the Alpha.
+
+<p>The default rules for the value of <cite>Object_Size</cite> for
+discrete types are as follows:
+
+     <ul>
+<li>The <cite>Object_Size</cite> for base subtypes reflect the natural hardware
+size in bits (run the compiler with `-gnatS' to find those values
+for numeric types). Enumeration types and fixed-point base subtypes have
+8, 16, 32 or 64 bits for this size, depending on the range of values
+to be stored.
+
+     <li>The <cite>Object_Size</cite> of a subtype is the same as the
+<cite>Object_Size</cite> of
+the type from which it is obtained.
+
+     <li>The <cite>Object_Size</cite> of a derived base type is copied from the parent
+base type, and the <cite>Object_Size</cite> of a derived first subtype is copied
+from the parent first subtype. 
+</ul>
+
+<p>The <cite>Value_Size</cite> attribute
+is the (minimum) number of bits required to store a value
+of the type. 
+This value is used to determine how tightly to pack
+records or arrays with components of this type, and also affects
+the semantics of unchecked conversion (unchecked conversions where
+the <cite>Value_Size</cite> values differ generate a warning, and are potentially
+target dependent).
+
+<p>The default rules for the value of <cite>Value_Size</cite> are as follows:
+
+     <ul>
+<li>The <cite>Value_Size</cite> for a base subtype is the minimum number of bits
+required to store all values of the type (including the sign bit
+only if negative values are possible).
+
+     <li>If a subtype statically matches the first subtype of a given type, then it has
+by default the same <cite>Value_Size</cite> as the first subtype.  This is a
+consequence of RM 13.1(14): "if two subtypes statically match,
+then their subtype-specific aspects are the same".)
+
+     <li>All other subtypes have a <cite>Value_Size</cite> corresponding to the minimum
+number of bits required to store all values of the subtype.  For
+dynamic bounds, it is assumed that the value can range down or up
+to the corresponding bound of the ancestor
+</ul>
+
+<p>The RM defined attribute <cite>Size</cite> corresponds to the
+<cite>Value_Size</cite> attribute.
+
+<p>The <cite>Size</cite> attribute may be defined for a first-named subtype.  This sets
+the <cite>Value_Size</cite> of
+the first-named subtype to the given value, and the
+<cite>Object_Size</cite> of this first-named subtype to the given value padded up
+to an appropriate boundary.  It is a consequence of the default rules
+above that this <cite>Object_Size</cite> will apply to all further subtypes.  On the
+other hand, <cite>Value_Size</cite> is affected only for the first subtype, any
+dynamic subtypes obtained from it directly, and any statically matching
+subtypes.  The <cite>Value_Size</cite> of any other static subtypes is not affected.
+
+<p><cite>Value_Size</cite> and
+<cite>Object_Size</cite> may be explicitly set for any subtype using
+an attribute definition clause.  Note that the use of these attributes
+can cause the RM 13.1(14) rule to be violated.  If two access types
+reference aliased objects whose subtypes have differing <cite>Object_Size</cite>
+values as a result of explicit attribute definition clauses, then it
+is illegal to convert from one access subtype to the other. For a more
+complete description of this additional legality rule, see the
+description of the <cite>Object_Size</cite> attribute.
+
+<p>At the implementation level, Esize stores the Object_Size and the
+RM_Size field stores the <cite>Value_Size</cite> (and hence the value of the
+<cite>Size</cite> attribute,
+which, as noted above, is equivalent to <cite>Value_Size</cite>).
+
+<p>To get a feel for the difference, consider the following examples (note
+that in each case the base is <cite>Short_Short_Integer</cite> with a size of 8):
+
+<p><table summary=""><tr align="left"><th valign="top">
+Type or subtype declaration
+
+<p></th><th valign="top">
+
+<p>Object_Size
+
+<p></th><th valign="top">
+
+<p>Value_Size
+
+<p><br></th></tr><tr align="left"><td valign="top">
+<code>type x1 is range 0 .. 5;</code>
+
+<p></td><td valign="top">
+
+<p>8
+
+<p></td><td valign="top">
+
+<p>3
+
+<p><br></td></tr><tr align="left"><td valign="top">
+<code>type x2 is range 0 .. 5;</code>
+<code>for x2'size use 12;</code>
+
+<p></td><td valign="top">
+
+<p>16
+
+<p></td><td valign="top">
+
+<p>12
+
+<p><br></td></tr><tr align="left"><td valign="top">
+<code>subtype x3 is x2 range 0 .. 3;</code>
+
+<p></td><td valign="top">
+
+<p>16
+
+<p></td><td valign="top">
+
+<p>2
+
+<p><br></td></tr><tr align="left"><td valign="top">
+<code>subtype x4 is x2'base range 0 .. 10;</code>
+
+<p></td><td valign="top">
+
+<p>8
+
+<p></td><td valign="top">
+
+<p>4
+
+<p><br></td></tr><tr align="left"><td valign="top">
+<code>subtype x5 is x2 range 0 .. dynamic;</code>
+
+<p></td><td valign="top">
+
+<p>16
+
+<p></td><td valign="top">
+
+<p>3*
+
+<p><br></td></tr><tr align="left"><td valign="top">
+<code>subtype x6 is x2'base range 0 .. dynamic;</code>
+
+<p></td><td valign="top">
+
+<p>8
+
+<p></td><td valign="top">
+
+<p>3*
+
+<br></td></tr></table>
+
+<p>Note: the entries marked '3*' are not actually specified by the Ada
+Reference Manual, but it seems in the spirit of the RM rules to allocate
+the minimum number of bits (here 3, given the range for <cite>x2</cite>)
+known to be large enough to hold the given range of values.
+
+<p>So far, so good, but GNAT has to obey the RM rules, so the question is
+under what conditions must the RM <cite>Size</cite> be used. 
+The following is a list
+of the occasions on which the RM <cite>Size</cite> must be used:
+
+     <ul>
+<li>Component size for packed arrays or records
+
+     <li>Value of the attribute <cite>Size</cite> for a type
+
+     <li>Warning about sizes not matching for unchecked conversion
+</ul>
+
+<p>For record types, the <cite>Object_Size</cite> is always a multiple of the
+alignment of the type (this is true for all types). In some cases the
+<cite>Value_Size</cite> can be smaller. Consider:
+
+<pre class="example">    type R is record
+      X : Integer;
+      Y : Character;
+    end record;
+</pre>
+<p>On a typical 32-bit architecture, the X component will be four bytes, and
+require four-byte alignment, and the Y component will be one byte. In this
+case <cite>R'Value_Size</cite> will be 40 (bits) since this is the minimum size
+required to store a value of this type, and for example, it is permissible
+to have a component of type R in an outer array whose component size is
+specified to be 48 bits. However, <cite>R'Object_Size</cite> will be 64 (bits),
+since it must be rounded up so that this value is a multiple of the
+alignment (4 bytes = 32 bits).
+
+<p>For all other types, the <cite>Object_Size</cite>
+and Value_Size are the same (and equivalent to the RM attribute <cite>Size</cite>). 
+Only <cite>Size</cite> may be specified for such types.
+
+<p>Note that <cite>Value_Size</cite> can be used to force biased representation
+for a particular subtype. Consider this example:
+
+<pre class="example">    type R is (A, B, C, D, E, F);
+    subtype RAB is R range A .. B;
+    subtype REF is R range E .. F;
+</pre>
+<p>By default, <cite>RAB</cite>
+has a size of 1 (sufficient to accommodate the representation
+of <cite>A</cite> and <cite>B</cite>, 0 and 1), and <cite>REF</cite>
+has a size of 3 (sufficient to accommodate the representation
+of <cite>E</cite> and <cite>F</cite>, 4 and 5). But if we add the
+following <cite>Value_Size</cite> attribute definition clause:
+
+<pre class="example">    for REF'Value_Size use 1;
+</pre>
+<p>then biased representation is forced for <cite>REF</cite>,
+and 0 will represent <cite>E</cite> and 1 will represent <cite>F</cite>. 
+A warning is issued when a <cite>Value_Size</cite> attribute
+definition clause forces biased representation. This
+warning can be turned off using <cite>-gnatw.B</cite>.
+
+</body></html>
+

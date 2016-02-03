@@ -1,0 +1,116 @@
+<html lang="en">
+<head>
+<title>Pragma Eliminate - GNAT Reference Manual</title>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+<meta name="description" content="GNAT Reference Manual">
+<meta name="generator" content="makeinfo 4.13">
+<link title="Top" rel="start" href="index.html#Top">
+<link rel="up" href="Implementation-Defined-Pragmas.html#Implementation-Defined-Pragmas" title="Implementation Defined Pragmas">
+<link rel="prev" href="Pragma-Elaboration_005fChecks.html#Pragma-Elaboration_005fChecks" title="Pragma Elaboration_Checks">
+<link rel="next" href="Pragma-Enable_005fAtomic_005fSynchronization.html#Pragma-Enable_005fAtomic_005fSynchronization" title="Pragma Enable_Atomic_Synchronization">
+<link href="http://www.gnu.org/software/texinfo/" rel="generator-home" title="Texinfo Homepage">
+<!--
+
+     GNAT Reference Manual , March 24, 2015
+
+     AdaCore
+
+     Copyright (C) 2008-2015, Free Software Foundation
+-->
+<meta http-equiv="Content-Style-Type" content="text/css">
+<style type="text/css"><!--
+  pre.display { font-family:inherit }
+  pre.format  { font-family:inherit }
+  pre.smalldisplay { font-family:inherit; font-size:smaller }
+  pre.smallformat  { font-family:inherit; font-size:smaller }
+  pre.smallexample { font-size:smaller }
+  pre.smalllisp    { font-size:smaller }
+  span.sc    { font-variant:small-caps }
+  span.roman { font-family:serif; font-weight:normal; } 
+  span.sansserif { font-family:sans-serif; font-weight:normal; } 
+--></style>
+</head>
+<body>
+<div class="node">
+<a name="Pragma-Eliminate"></a>
+<p>
+Next:&nbsp;<a rel="next" accesskey="n" href="Pragma-Enable_005fAtomic_005fSynchronization.html#Pragma-Enable_005fAtomic_005fSynchronization">Pragma Enable_Atomic_Synchronization</a>,
+Previous:&nbsp;<a rel="previous" accesskey="p" href="Pragma-Elaboration_005fChecks.html#Pragma-Elaboration_005fChecks">Pragma Elaboration_Checks</a>,
+Up:&nbsp;<a rel="up" accesskey="u" href="Implementation-Defined-Pragmas.html#Implementation-Defined-Pragmas">Implementation Defined Pragmas</a>
+<hr>
+</div>
+
+<p><a name="gnat_005frm_002fimplementation_005fdefined_005fpragmas-pragma_002deliminate"></a><a name="g_t4f"></a>
+
+<h3 class="section">2.52 Pragma Eliminate</h3>
+
+<p><a name="index-Elimination-of-unused-subprograms-40"></a>
+Syntax:
+
+<pre class="example">    pragma Eliminate ([Entity          =&gt;] DEFINING_DESIGNATOR,
+                      [Source_Location =&gt;] STRING_LITERAL);
+</pre>
+<p>The string literal given for the source location is a string which
+specifies the line number of the occurrence of the entity, using
+the syntax for SOURCE_TRACE given below:
+
+<pre class="example">    SOURCE_TRACE     ::= SOURCE_REFERENCE [LBRACKET SOURCE_TRACE RBRACKET]
+    
+    LBRACKET         ::= [
+    RBRACKET         ::= ]
+    
+    SOURCE_REFERENCE ::= FILE_NAME : LINE_NUMBER
+    
+    LINE_NUMBER      ::= DIGIT {DIGIT}
+</pre>
+<p>Spaces around the colon in a <cite>Source_Reference</cite> are optional.
+
+<p>The <cite>DEFINING_DESIGNATOR</cite> matches the defining designator used in an
+explicit subprogram declaration, where the <cite>entity</cite> name in this
+designator appears on the source line specified by the source location.
+
+<p>The source trace that is given as the <cite>Source_Location</cite> shall obey the
+following rules. The <cite>FILE_NAME</cite> is the short name (with no directory
+information) of an Ada source file, given using exactly the required syntax
+for the underlying file system (e.g. case is important if the underlying
+operating system is case sensitive). <cite>LINE_NUMBER</cite> gives the line
+number of the occurrence of the <cite>entity</cite>
+as a decimal literal without an exponent or point. If an <cite>entity</cite> is not
+declared in a generic instantiation (this includes generic subprogram
+instances), the source trace includes only one source reference. If an entity
+is declared inside a generic instantiation, its source trace (when parsing
+from left to right) starts with the source location of the declaration of the
+entity in the generic unit and ends with the source location of the
+instantiation (it is given in square brackets). This approach is recursively
+used in case of nested instantiations: the rightmost (nested most deeply in
+square brackets) element of the source trace is the location of the outermost
+instantiation, the next to left element is the location of the next (first
+nested) instantiation in the code of the corresponding generic unit, and so
+on, and the leftmost element (that is out of any square brackets) is the
+location of the declaration of the entity to eliminate in a generic unit.
+
+<p>Note that the <cite>Source_Location</cite> argument specifies which of a set of
+similarly named entities is being eliminated, dealing both with overloading,
+and also appearance of the same entity name in different scopes.
+
+<p>This pragma indicates that the given entity is not used in the program to be
+compiled and built. The effect of the pragma is to allow the compiler to
+eliminate the code or data associated with the named entity. Any reference to
+an eliminated entity causes a compile-time or link-time error.
+
+<p>The intention of pragma <cite>Eliminate</cite> is to allow a program to be compiled
+in a system-independent manner, with unused entities eliminated, without
+needing to modify the source text. Normally the required set of
+<cite>Eliminate</cite> pragmas is constructed automatically using the gnatelim tool.
+
+<p>Any source file change that removes, splits, or
+adds lines may make the set of Eliminate pragmas invalid because their
+<cite>Source_Location</cite> argument values may get out of date.
+
+<p>Pragma <cite>Eliminate</cite> may be used where the referenced entity is a dispatching
+operation. In this case all the subprograms to which the given operation can
+dispatch are considered to be unused (are never called as a result of a direct
+or a dispatching call).
+
+</body></html>
+

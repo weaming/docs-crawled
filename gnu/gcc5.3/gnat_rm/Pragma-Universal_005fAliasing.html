@@ -1,0 +1,61 @@
+<html lang="en">
+<head>
+<title>Pragma Universal_Aliasing - GNAT Reference Manual</title>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+<meta name="description" content="GNAT Reference Manual">
+<meta name="generator" content="makeinfo 4.13">
+<link title="Top" rel="start" href="index.html#Top">
+<link rel="up" href="Implementation-Defined-Pragmas.html#Implementation-Defined-Pragmas" title="Implementation Defined Pragmas">
+<link rel="prev" href="Pragma-Unimplemented_005fUnit.html#Pragma-Unimplemented_005fUnit" title="Pragma Unimplemented_Unit">
+<link rel="next" href="Pragma-Universal_005fData.html#Pragma-Universal_005fData" title="Pragma Universal_Data">
+<link href="http://www.gnu.org/software/texinfo/" rel="generator-home" title="Texinfo Homepage">
+<!--
+
+     GNAT Reference Manual , March 24, 2015
+
+     AdaCore
+
+     Copyright (C) 2008-2015, Free Software Foundation
+-->
+<meta http-equiv="Content-Style-Type" content="text/css">
+<style type="text/css"><!--
+  pre.display { font-family:inherit }
+  pre.format  { font-family:inherit }
+  pre.smalldisplay { font-family:inherit; font-size:smaller }
+  pre.smallformat  { font-family:inherit; font-size:smaller }
+  pre.smallexample { font-size:smaller }
+  pre.smalllisp    { font-size:smaller }
+  span.sc    { font-variant:small-caps }
+  span.roman { font-family:serif; font-weight:normal; } 
+  span.sansserif { font-family:sans-serif; font-weight:normal; } 
+--></style>
+</head>
+<body>
+<div class="node">
+<a name="Pragma-Universal_Aliasing"></a>
+<a name="Pragma-Universal_005fAliasing"></a>
+<p>
+Next:&nbsp;<a rel="next" accesskey="n" href="Pragma-Universal_005fData.html#Pragma-Universal_005fData">Pragma Universal_Data</a>,
+Previous:&nbsp;<a rel="previous" accesskey="p" href="Pragma-Unimplemented_005fUnit.html#Pragma-Unimplemented_005fUnit">Pragma Unimplemented_Unit</a>,
+Up:&nbsp;<a rel="up" accesskey="u" href="Implementation-Defined-Pragmas.html#Implementation-Defined-Pragmas">Implementation Defined Pragmas</a>
+<hr>
+</div>
+
+<p><a name="gnat_005frm_002fimplementation_005fdefined_005fpragmas-pragma_002duniversal_002daliasing"></a><a name="d2"></a>
+
+<h3 class="section">2.179 Pragma Universal_Aliasing</h3>
+
+<p>Syntax:
+
+<pre class="example">    pragma Universal_Aliasing [([Entity =&gt;] type_LOCAL_NAME)];
+</pre>
+<p><cite>type_LOCAL_NAME</cite> must refer to a type declaration in the current
+declarative part.  The effect is to inhibit strict type-based aliasing
+optimization for the given type.  In other words, the effect is as though
+access types designating this type were subject to pragma No_Strict_Aliasing. 
+For a detailed description of the strict aliasing optimization, and the
+situations in which it must be suppressed, see the section on
+<cite>Optimization and Strict Aliasing</cite> in the <cite>GNAT User's Guide</cite>.
+
+</body></html>
+

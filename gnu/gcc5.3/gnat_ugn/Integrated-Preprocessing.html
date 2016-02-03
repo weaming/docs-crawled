@@ -1,0 +1,189 @@
+<html lang="en">
+<head>
+<title>Integrated Preprocessing - GNAT User's Guide for Native Platforms</title>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+<meta name="description" content="GNAT User's Guide for Native Platforms">
+<meta name="generator" content="makeinfo 4.13">
+<link title="Top" rel="start" href="index.html#Top">
+<link rel="up" href="Conditional-Compilation.html#Conditional-Compilation" title="Conditional Compilation">
+<link rel="prev" href="Preprocessing-with-gnatprep.html#Preprocessing-with-gnatprep" title="Preprocessing with gnatprep">
+<link href="http://www.gnu.org/software/texinfo/" rel="generator-home" title="Texinfo Homepage">
+<!--
+
+     GNAT User's Guide for Native Platforms , March 24, 2015
+
+     AdaCore
+
+     Copyright (C) 2008-2015, Free Software Foundation
+-->
+<meta http-equiv="Content-Style-Type" content="text/css">
+<style type="text/css"><!--
+  pre.display { font-family:inherit }
+  pre.format  { font-family:inherit }
+  pre.smalldisplay { font-family:inherit; font-size:smaller }
+  pre.smallformat  { font-family:inherit; font-size:smaller }
+  pre.smallexample { font-size:smaller }
+  pre.smalllisp    { font-size:smaller }
+  span.sc    { font-variant:small-caps }
+  span.roman { font-family:serif; font-weight:normal; } 
+  span.sansserif { font-family:sans-serif; font-weight:normal; } 
+--></style>
+</head>
+<body>
+<div class="node">
+<a name="Integrated-Preprocessing"></a>
+<p>
+Previous:&nbsp;<a rel="previous" accesskey="p" href="Preprocessing-with-gnatprep.html#Preprocessing-with-gnatprep">Preprocessing with gnatprep</a>,
+Up:&nbsp;<a rel="up" accesskey="u" href="Conditional-Compilation.html#Conditional-Compilation">Conditional Compilation</a>
+<hr>
+</div>
+
+<p><a name="gnat_005fugn_002fthe_005fgnat_005fcompilation_005fmodel-id60"></a><a name="b6"></a><a name="gnat_005fugn_002fthe_005fgnat_005fcompilation_005fmodel-integrated_002dpreprocessing"></a><a name="g_t1a"></a>
+
+<h4 class="subsection">3.10.3 Integrated Preprocessing</h4>
+
+<p>GNAT sources may be preprocessed immediately before compilation. 
+In this case, the actual
+text of the source is not the text of the source file, but is derived from it
+through a process called preprocessing. Integrated preprocessing is specified
+through switches `-gnatep' and/or `-gnateD'. `-gnatep'
+indicates, through a text file, the preprocessing data to be used. 
+<code>-gnateD</code> specifies or modifies the values of preprocessing symbol. 
+Note that integrated preprocessing applies only to Ada source files, it is
+not available for configuration pragma files.
+
+<p>Note that when integrated preprocessing is used, the output from the
+preprocessor is not written to any external file. Instead it is passed
+internally to the compiler. If you need to preserve the result of
+preprocessing in a file, then you should use `gnatprep'
+to perform the desired preprocessing in stand-alone mode.
+
+<p>It is recommended that `gnatmake' switch -s should be
+used when Integrated Preprocessing is used. The reason is that preprocessing
+with another Preprocessing Data file without changing the sources will
+not trigger recompilation without this switch.
+
+<p>Note that `gnatmake' switch -m will almost
+always trigger recompilation for sources that are preprocessed,
+because `gnatmake' cannot compute the checksum of the source after
+preprocessing.
+
+<p>The actual preprocessing function is described in detail in section
+<a href="19.html#g_t19">Preprocessing with gnatprep</a>. This section only describes how integrated
+preprocessing is triggered and parameterized.
+
+<p><a name="index-g_t_002dgnatep-_0028gcc_0029-114"></a>
+
+     <dl>
+<dt><code>-gnatep=`file'</code><dd>
+This switch indicates to the compiler the file name (without directory
+information) of the preprocessor data file to use. The preprocessor data file
+should be found in the source directories. Note that when the compiler is
+called by a builder such as (`gnatmake' with a project
+file, if the object directory is not also a source directory, the builder needs
+to be called with `-x'.
+
+     <p>A preprocessing data file is a text file with significant lines indicating
+how should be preprocessed either a specific source or all sources not
+mentioned in other lines. A significant line is a nonempty, non-comment line. 
+Comments are similar to Ada comments.
+
+     <p>Each significant line starts with either a literal string or the character '*'. 
+A literal string is the file name (without directory information) of the source
+to preprocess. A character '*' indicates the preprocessing for all the sources
+that are not specified explicitly on other lines (order of the lines is not
+significant). It is an error to have two lines with the same file name or two
+lines starting with the character '*'.
+
+     <p>After the file name or the character '*', another optional literal string
+indicating the file name of the definition file to be used for preprocessing
+(<a href="b2.html#b2">Form of Definitions File</a>). The definition files are found by the
+compiler in one of the source directories. In some cases, when compiling
+a source in a directory other than the current directory, if the definition
+file is in the current directory, it may be necessary to add the current
+directory as a source directory through switch -I., otherwise
+the compiler would not find the definition file.
+
+     <p>Then, optionally, switches similar to those of <cite>gnatprep</cite> may
+be found. Those switches are:
+
+          <dl>
+<dt><code>-b</code><dd>
+Causes both preprocessor lines and the lines deleted by
+preprocessing to be replaced by blank lines, preserving the line number. 
+This switch is always implied; however, if specified after `-c'
+it cancels the effect of `-c'.
+
+          <br><dt><code>-c</code><dd>
+Causes both preprocessor lines and the lines deleted
+by preprocessing to be retained as comments marked
+with the special string '<cite>&ndash;!</cite>'.
+
+          <br><dt><code>-Dsymbol=`value'</code><dd>
+Define or redefine a symbol, associated with value. A symbol is an Ada
+identifier, or an Ada reserved word, with the exception of <cite>if</cite>,
+<cite>else</cite>, <cite>elsif</cite>, <cite>end</cite>, <cite>and</cite>, <cite>or</cite> and <cite>then</cite>. 
+<cite>value</cite> is either a literal string, an Ada identifier or any Ada reserved
+word. A symbol declared with this switch replaces a symbol with the
+same name defined in a definition file.
+
+          <br><dt><code>-s</code><dd>
+Causes a sorted list of symbol names and values to be
+listed on the standard output file.
+
+          <br><dt><code>-u</code><dd>
+Causes undefined symbols to be treated as having the value <cite>FALSE</cite>
+in the context
+of a preprocessor test. In the absence of this option, an undefined symbol in
+a <cite>#if</cite> or <cite>#elsif</cite> test will be treated as an error. 
+</dl>
+
+     <p>Examples of valid lines in a preprocessor data file:
+
+     <pre class="example">         "toto.adb"  "prep.def" -u
+         --  preprocess "toto.adb", using definition file "prep.def",
+         --  undefined symbol are False.
+         
+         * -c -DVERSION=V101
+         --  preprocess all other sources without a definition file;
+         --  suppressed lined are commented; symbol VERSION has the value V101.
+         
+         "titi.adb" "prep2.def" -s
+         --  preprocess "titi.adb", using definition file "prep2.def";
+         --  list all symbols with their values.
+</pre>
+     </dl>
+
+<p><a name="index-g_t_002dgnateD-_0028gcc_0029-115"></a>
+
+     <dl>
+<dt><code>-gnateDsymbol[=value]</code><dd>
+Define or redefine a preprocessing symbol, associated with value. If no value
+is given on the command line, then the value of the symbol is <cite>True</cite>. 
+A symbol is an identifier, following normal Ada (case-insensitive)
+rules for its syntax, and value is either an arbitrary string between double
+quotes or any sequence (including an empty sequence) of characters from the
+set (letters, digits, period, underline). 
+Ada reserved words may be used as symbols, with the exceptions of <cite>if</cite>,
+<cite>else</cite>, <cite>elsif</cite>, <cite>end</cite>, <cite>and</cite>, <cite>or</cite> and <cite>then</cite>.
+
+     <p>Examples:
+
+     <pre class="example">         -gnateDToto=Titi
+         -gnateDFoo
+         -gnateDFoo=\"Foo-Bar\"
+</pre>
+     <p>A symbol declared with this switch on the command line replaces a
+symbol with the same name either in a definition file or specified with a
+switch -D in the preprocessor data file.
+
+     <p>This switch is similar to switch `-D' of <cite>gnatprep</cite>.
+
+     <br><dt><code>-gnateG</code><dd>
+When integrated preprocessing is performed and the preprocessor modifies
+the source text, write the result of this preprocessing into a file
+&lt;source&gt;.prep. 
+</dl>
+
+</body></html>
+

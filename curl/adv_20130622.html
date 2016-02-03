@@ -1,0 +1,110 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
+<HTML>
+<HEAD> <TITLE>cURL - Security Advisory (libcurl URL decode buffer boundary flaw)</TITLE>
+<meta content="text/html; charset=UTF-8" http-equiv="Content-Type">
+<link rel="stylesheet" type="text/css" href="http://curl.haxx.se/curl.css">
+<link rel="shortcut icon" href="http://curl.haxx.se/favicon.ico">
+<link rel="STYLESHEET" type="text/css" href="http://curl.haxx.se/manpage.css">
+</HEAD>
+<body bgcolor="#ffffff" text="#000000">
+<div class="main">
+<div class="menu">
+<a href="index.html" class="menuitem" title="Documentation main page">Docs Overview</a>
+</div>
+<div class="contents">
+<div class="where"><a href="http://curl.haxx.se/">cURL</a> / <a href="index.html">Docs</a> / <a href="security.html">Security</a> / <b>libcurl URL decode buffer boundary flaw</b></div>
+<h1> libcurl URL decode buffer boundary flaw </h1>
+<div class="relatedbox">
+<b>Related:</b>
+<br><a href="http://curl.haxx.se/changes.html">Changelog</a>
+<br><a href="faq.html">FAQ</a>
+<br><a href="http://curl.haxx.se/dev/security.html">Security dev process</a>
+<br><a href="vulnerabilities.html">Vulnerabilities Table</a>
+</div>
+<pre>
+                   libcurl URL decode buffer boundary flaw
+                   =======================================
+&nbsp;
+Project cURL Security Advisory, June 22nd 2013
+http://curl.haxx.se/docs/security.html
+&nbsp;
+1. VULNERABILITY
+&nbsp;
+  libcurl is vulnerable to a case of bad checking of the input data which may
+  lead to heap corruption.
+&nbsp;
+  The function curl_easy_unescape() decodes URL encoded strings to raw binary
+  data. URL encoded octets are represented with %HH combinations where HH is a
+  two-digit hexadecimal number. The decoded string is written to an allocated
+  memory area that the function returns to the caller.
+&nbsp;
+  The function takes a source string and a length parameter, and if the length
+  provided is 0 the function will instead use strlen() to figure out how much
+  data to parse.
+&nbsp;
+  The "%HH" parser wrongly only considered the case where a zero byte would
+  terminate the input. If a length-limited buffer was passed in which ended
+  with a '%' character which was followed by two hexadecimal digits outside of
+  the buffer libcurl was allowed to parse alas without a terminating zero,
+  libcurl would still parse that sequence as well. The counter for remaining
+  data to handle would then be decreased too much and wrap to become a very
+  large integer and the copying would go on too long and the destination
+  buffer that is allocated on the heap would get overwritten.
+&nbsp;
+  We consider it unlikely that programs allow user-provided strings unfiltered
+  into this function. Also, only the not zero-terminated input string use case
+  is affected by this flaw. Exploiting this flaw for gain is probably possible
+  for specific circumstances but we consider the general risk for this to be
+  low.
+&nbsp;
+  The curl command line tool is not affected by this problem as it doesn't use
+  this function.
+&nbsp;
+  There are no known exploits available at this time.
+&nbsp;
+  The Common Vulnerabilities and Exposures (CVE) project has assigned the name
+  CVE-2013-2174 to this issue.
+&nbsp;
+2. AFFECTED VERSIONS
+&nbsp;
+  Affected versions: from libcurl 7.7 to and including 7.30.0
+  Not affected versions: libcurl before 7.7 and &gt;= 7.31.0
+&nbsp;
+  libcurl is used by many applications, but not always advertised as such!
+&nbsp;
+3. THE SOLUTION
+&nbsp;
+  libcurl 7.31.0 implements a proper check that the following hexdigits are
+  within the provided input length.
+&nbsp;
+4. RECOMMENDATIONS
+&nbsp;
+  We suggest you take one of the following actions immediately, in order of
+  preference:
+&nbsp;
+  A - Upgrade to curl and libcurl 7.31.0
+&nbsp;
+  B - Apply this patch and rebuild libcurl
+&nbsp;
+      http://curl.haxx.se/libcurl-unescape.patch
+&nbsp;
+  C - Double-check your curl_easy_unescape() usage (for example use it with
+      the 'length' argument set to 0), or avoid using that function
+&nbsp;
+5. TIME LINE
+&nbsp;
+  Vulnerability found by Timo Sirainen. Patched by Daniel Stenberg.
+&nbsp;
+  It was reported to the curl project on May 19th 2013. We contacted
+  linux-distros on June 12th.
+&nbsp;
+  curl 7.31.0 was released on June 22nd 2013, coordinated with the
+  publication of this advisory.
+&nbsp;
+6. CREDITS
+&nbsp;
+  Reported by Timo Sirainen. Thanks a lot!
+</pre>
+</div>
+</div>
+</body> </html>

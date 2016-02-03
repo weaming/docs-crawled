@@ -1,0 +1,125 @@
+<html lang="en">
+<head>
+<title>Pragma License - GNAT Reference Manual</title>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+<meta name="description" content="GNAT Reference Manual">
+<meta name="generator" content="makeinfo 4.13">
+<link title="Top" rel="start" href="index.html#Top">
+<link rel="up" href="Implementation-Defined-Pragmas.html#Implementation-Defined-Pragmas" title="Implementation Defined Pragmas">
+<link rel="prev" href="Pragma-Keep_005fNames.html#Pragma-Keep_005fNames" title="Pragma Keep_Names">
+<link rel="next" href="Pragma-Link_005fWith.html#Pragma-Link_005fWith" title="Pragma Link_With">
+<link href="http://www.gnu.org/software/texinfo/" rel="generator-home" title="Texinfo Homepage">
+<!--
+
+     GNAT Reference Manual , March 24, 2015
+
+     AdaCore
+
+     Copyright (C) 2008-2015, Free Software Foundation
+-->
+<meta http-equiv="Content-Style-Type" content="text/css">
+<style type="text/css"><!--
+  pre.display { font-family:inherit }
+  pre.format  { font-family:inherit }
+  pre.smalldisplay { font-family:inherit; font-size:smaller }
+  pre.smallformat  { font-family:inherit; font-size:smaller }
+  pre.smallexample { font-size:smaller }
+  pre.smalllisp    { font-size:smaller }
+  span.sc    { font-variant:small-caps }
+  span.roman { font-family:serif; font-weight:normal; } 
+  span.sansserif { font-family:sans-serif; font-weight:normal; } 
+--></style>
+</head>
+<body>
+<div class="node">
+<a name="Pragma-License"></a>
+<p>
+Next:&nbsp;<a rel="next" accesskey="n" href="Pragma-Link_005fWith.html#Pragma-Link_005fWith">Pragma Link_With</a>,
+Previous:&nbsp;<a rel="previous" accesskey="p" href="Pragma-Keep_005fNames.html#Pragma-Keep_005fNames">Pragma Keep_Names</a>,
+Up:&nbsp;<a rel="up" accesskey="u" href="Implementation-Defined-Pragmas.html#Implementation-Defined-Pragmas">Implementation Defined Pragmas</a>
+<hr>
+</div>
+
+<p><a name="gnat_005frm_002fimplementation_005fdefined_005fpragmas-pragma_002dlicense"></a><a name="g_t77"></a>
+
+<h3 class="section">2.92 Pragma License</h3>
+
+<p><a name="index-License-checking-58"></a>
+Syntax:
+
+<pre class="example">    pragma License (Unrestricted | GPL | Modified_GPL | Restricted);
+</pre>
+<p>This pragma is provided to allow automated checking for appropriate license
+conditions with respect to the standard and modified GPL.  A pragma
+<cite>License</cite>, which is a configuration pragma that typically appears at
+the start of a source file or in a separate <code>gnat.adc</code> file, specifies
+the licensing conditions of a unit as follows:
+
+     <ul>
+<li>Unrestricted
+This is used for a unit that can be freely used with no license restrictions. 
+Examples of such units are public domain units, and units from the Ada
+Reference Manual.
+
+     <li>GPL
+This is used for a unit that is licensed under the unmodified GPL, and which
+therefore cannot be <cite>with</cite>'ed by a restricted unit.
+
+     <li>Modified_GPL
+This is used for a unit licensed under the GNAT modified GPL that includes
+a special exception paragraph that specifically permits the inclusion of
+the unit in programs without requiring the entire program to be released
+under the GPL.
+
+     <li>Restricted
+This is used for a unit that is restricted in that it is not permitted to
+depend on units that are licensed under the GPL.  Typical examples are
+proprietary code that is to be released under more restrictive license
+conditions.  Note that restricted units are permitted to <cite>with</cite> units
+which are licensed under the modified GPL (this is the whole point of the
+modified GPL). 
+</ul>
+
+<p>Normally a unit with no <cite>License</cite> pragma is considered to have an
+unknown license, and no checking is done.  However, standard GNAT headers
+are recognized, and license information is derived from them as follows.
+
+<p>A GNAT license header starts with a line containing 78 hyphens.  The following
+comment text is searched for the appearance of any of the following strings.
+
+<p>If the string 'GNU General Public License' is found, then the unit is assumed
+to have GPL license, unless the string 'As a special exception' follows, in
+which case the license is assumed to be modified GPL.
+
+<p>If one of the strings
+'This specification is adapted from the Ada Semantic Interface' or
+'This specification is derived from the Ada Reference Manual' is found
+then the unit is assumed to be unrestricted.
+
+<p>These default actions means that a program with a restricted license pragma
+will automatically get warnings if a GPL unit is inappropriately
+<cite>with</cite>'ed.  For example, the program:
+
+<pre class="example">    with Sem_Ch3;
+    with GNAT.Sockets;
+    procedure Secret_Stuff is
+      ...
+    end Secret_Stuff
+</pre>
+<p>if compiled with pragma <cite>License</cite> (<cite>Restricted</cite>) in a
+<code>gnat.adc</code> file will generate the warning:
+
+<pre class="example">    1.  with Sem_Ch3;
+            |
+       &gt;&gt;&gt; license of withed unit "Sem_Ch3" is incompatible
+    
+    2.  with GNAT.Sockets;
+    3.  procedure Secret_Stuff is
+</pre>
+<p>Here we get a warning on <cite>Sem_Ch3</cite> since it is part of the GNAT
+compiler and is licensed under the
+GPL, but no warning for <cite>GNAT.Sockets</cite> which is part of the GNAT
+run time, and is therefore licensed under the modified GPL.
+
+</body></html>
+

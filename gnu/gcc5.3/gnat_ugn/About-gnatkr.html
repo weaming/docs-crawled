@@ -1,0 +1,75 @@
+<html lang="en">
+<head>
+<title>About gnatkr - GNAT User's Guide for Native Platforms</title>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+<meta name="description" content="GNAT User's Guide for Native Platforms">
+<meta name="generator" content="makeinfo 4.13">
+<link title="Top" rel="start" href="index.html#Top">
+<link rel="up" href="File-Name-Krunching-with-gnatkr.html#File-Name-Krunching-with-gnatkr" title="File Name Krunching with gnatkr">
+<link rel="next" href="Using-gnatkr.html#Using-gnatkr" title="Using gnatkr">
+<link href="http://www.gnu.org/software/texinfo/" rel="generator-home" title="Texinfo Homepage">
+<!--
+
+     GNAT User's Guide for Native Platforms , March 24, 2015
+
+     AdaCore
+
+     Copyright (C) 2008-2015, Free Software Foundation
+-->
+<meta http-equiv="Content-Style-Type" content="text/css">
+<style type="text/css"><!--
+  pre.display { font-family:inherit }
+  pre.format  { font-family:inherit }
+  pre.smalldisplay { font-family:inherit; font-size:smaller }
+  pre.smallformat  { font-family:inherit; font-size:smaller }
+  pre.smallexample { font-size:smaller }
+  pre.smalllisp    { font-size:smaller }
+  span.sc    { font-variant:small-caps }
+  span.roman { font-family:serif; font-weight:normal; } 
+  span.sansserif { font-family:sans-serif; font-weight:normal; } 
+--></style>
+</head>
+<body>
+<div class="node">
+<a name="About-gnatkr"></a>
+<p>
+Next:&nbsp;<a rel="next" accesskey="n" href="Using-gnatkr.html#Using-gnatkr">Using gnatkr</a>,
+Up:&nbsp;<a rel="up" accesskey="u" href="File-Name-Krunching-with-gnatkr.html#File-Name-Krunching-with-gnatkr">File Name Krunching with gnatkr</a>
+<hr>
+</div>
+
+<p><a name="gnat_005fugn_002fthe_005fgnat_005fcompilation_005fmodel-id18"></a><a name="g_t67"></a><a name="gnat_005fugn_002fthe_005fgnat_005fcompilation_005fmodel-about_002dgnatkr"></a><a name="g_t68"></a>
+
+<h5 class="subsubsection">3.3.5.1 About <cite>gnatkr</cite></h5>
+
+<p>The default file naming rule in GNAT
+is that the file name must be derived from
+the unit name. The exact default rule is as follows:
+
+     <ul>
+<li>Take the unit name and replace all dots by hyphens.
+
+     <li>If such a replacement occurs in the
+second character position of a name, and the first character is
+<code>a</code>, <code>g</code>, <code>s</code>, or <code>i</code>,
+then replace the dot by the character
+<code>~</code> (tilde)
+instead of a minus.
+
+     <p>The reason for this exception is to avoid clashes
+with the standard names for children of System, Ada, Interfaces,
+and GNAT, which use the prefixes
+<code>s-</code>, <code>a-</code>, <code>i-</code>, and <code>g-</code>,
+respectively. 
+</ul>
+
+<p>The <code>-gnatk`nn'</code>
+switch of the compiler activates a 'krunching'
+circuit that limits file names to nn characters (where nn is a decimal
+integer).
+
+<p>The <cite>gnatkr</cite> utility can be used to determine the krunched name for
+a given file, when krunched to a specified maximum length.
+
+</body></html>
+

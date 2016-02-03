@@ -1,0 +1,99 @@
+<html lang="en">
+<head>
+<title>Pragma Unreferenced - GNAT Reference Manual</title>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+<meta name="description" content="GNAT Reference Manual">
+<meta name="generator" content="makeinfo 4.13">
+<link title="Top" rel="start" href="index.html#Top">
+<link rel="up" href="Implementation-Defined-Pragmas.html#Implementation-Defined-Pragmas" title="Implementation Defined Pragmas">
+<link rel="prev" href="Pragma-Unmodified.html#Pragma-Unmodified" title="Pragma Unmodified">
+<link rel="next" href="Pragma-Unreferenced_005fObjects.html#Pragma-Unreferenced_005fObjects" title="Pragma Unreferenced_Objects">
+<link href="http://www.gnu.org/software/texinfo/" rel="generator-home" title="Texinfo Homepage">
+<!--
+
+     GNAT Reference Manual , March 24, 2015
+
+     AdaCore
+
+     Copyright (C) 2008-2015, Free Software Foundation
+-->
+<meta http-equiv="Content-Style-Type" content="text/css">
+<style type="text/css"><!--
+  pre.display { font-family:inherit }
+  pre.format  { font-family:inherit }
+  pre.smalldisplay { font-family:inherit; font-size:smaller }
+  pre.smallformat  { font-family:inherit; font-size:smaller }
+  pre.smallexample { font-size:smaller }
+  pre.smalllisp    { font-size:smaller }
+  span.sc    { font-variant:small-caps }
+  span.roman { font-family:serif; font-weight:normal; } 
+  span.sansserif { font-family:sans-serif; font-weight:normal; } 
+--></style>
+</head>
+<body>
+<div class="node">
+<a name="Pragma-Unreferenced"></a>
+<p>
+Next:&nbsp;<a rel="next" accesskey="n" href="Pragma-Unreferenced_005fObjects.html#Pragma-Unreferenced_005fObjects">Pragma Unreferenced_Objects</a>,
+Previous:&nbsp;<a rel="previous" accesskey="p" href="Pragma-Unmodified.html#Pragma-Unmodified">Pragma Unmodified</a>,
+Up:&nbsp;<a rel="up" accesskey="u" href="Implementation-Defined-Pragmas.html#Implementation-Defined-Pragmas">Implementation Defined Pragmas</a>
+<hr>
+</div>
+
+<p><a name="gnat_005frm_002fimplementation_005fdefined_005fpragmas-pragma_002dunreferenced"></a><a name="d5"></a>
+
+<h3 class="section">2.182 Pragma Unreferenced</h3>
+
+<p><a name="index-Warnings-102"></a><a name="index-unreferenced-103"></a>
+Syntax:
+
+<pre class="example">    pragma Unreferenced (LOCAL_NAME {, LOCAL_NAME});
+    pragma Unreferenced (library_unit_NAME {, library_unit_NAME});
+</pre>
+<p>This pragma signals that the entities whose names are listed are
+deliberately not referenced in the current source unit after the
+occurrence of the pragma. This
+suppresses warnings about the
+entities being unreferenced, and in addition a warning will be
+generated if one of these entities is in fact subsequently referenced in the
+same unit as the pragma (or in the corresponding body, or one
+of its subunits).
+
+<p>This is particularly useful for clearly signaling that a particular
+parameter is not referenced in some particular subprogram implementation
+and that this is deliberate. It can also be useful in the case of
+objects declared only for their initialization or finalization side
+effects.
+
+<p>If <cite>LOCAL_NAME</cite> identifies more than one matching homonym in the
+current scope, then the entity most recently declared is the one to which
+the pragma applies. Note that in the case of accept formals, the pragma
+Unreferenced may appear immediately after the keyword <cite>do</cite> which
+allows the indication of whether or not accept formals are referenced
+or not to be given individually for each accept statement.
+
+<p>The left hand side of an assignment does not count as a reference for the
+purpose of this pragma. Thus it is fine to assign to an entity for which
+pragma Unreferenced is given.
+
+<p>Note that if a warning is desired for all calls to a given subprogram,
+regardless of whether they occur in the same unit as the subprogram
+declaration, then this pragma should not be used (calls from another
+unit would not be flagged); pragma Obsolescent can be used instead
+for this purpose, see <a href="8c.html#g_t8c">Pragma Obsolescent</a>.
+
+<p>The second form of pragma <cite>Unreferenced</cite> is used within a context
+clause. In this case the arguments must be unit names of units previously
+mentioned in <cite>with</cite> clauses (similar to the usage of pragma
+<cite>Elaborate_All</cite>. The effect is to suppress warnings about unreferenced
+units and unreferenced entities within these units.
+
+<p>For the variable case, warnings are never given for unreferenced variables
+whose name contains one of the substrings
+<cite>DISCARD, DUMMY, IGNORE, JUNK, UNUSED</cite> in any casing. Such names
+are typically to be used in cases where such warnings are expected. 
+Thus it is never necessary to use <cite>pragma Unreferenced</cite> for such
+variables, though it is harmless to do so.
+
+</body></html>
+

@@ -1,0 +1,91 @@
+<html lang="en">
+<head>
+<title>Pragma Weak_External - GNAT Reference Manual</title>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+<meta name="description" content="GNAT Reference Manual">
+<meta name="generator" content="makeinfo 4.13">
+<link title="Top" rel="start" href="index.html#Top">
+<link rel="up" href="Implementation-Defined-Pragmas.html#Implementation-Defined-Pragmas" title="Implementation Defined Pragmas">
+<link rel="prev" href="Pragma-Warnings.html#Pragma-Warnings" title="Pragma Warnings">
+<link rel="next" href="Pragma-Wide_005fCharacter_005fEncoding.html#Pragma-Wide_005fCharacter_005fEncoding" title="Pragma Wide_Character_Encoding">
+<link href="http://www.gnu.org/software/texinfo/" rel="generator-home" title="Texinfo Homepage">
+<!--
+
+     GNAT Reference Manual , March 24, 2015
+
+     AdaCore
+
+     Copyright (C) 2008-2015, Free Software Foundation
+-->
+<meta http-equiv="Content-Style-Type" content="text/css">
+<style type="text/css"><!--
+  pre.display { font-family:inherit }
+  pre.format  { font-family:inherit }
+  pre.smalldisplay { font-family:inherit; font-size:smaller }
+  pre.smallformat  { font-family:inherit; font-size:smaller }
+  pre.smallexample { font-size:smaller }
+  pre.smalllisp    { font-size:smaller }
+  span.sc    { font-variant:small-caps }
+  span.roman { font-family:serif; font-weight:normal; } 
+  span.sansserif { font-family:sans-serif; font-weight:normal; } 
+--></style>
+</head>
+<body>
+<div class="node">
+<a name="Pragma-Weak_External"></a>
+<a name="Pragma-Weak_005fExternal"></a>
+<p>
+Next:&nbsp;<a rel="next" accesskey="n" href="Pragma-Wide_005fCharacter_005fEncoding.html#Pragma-Wide_005fCharacter_005fEncoding">Pragma Wide_Character_Encoding</a>,
+Previous:&nbsp;<a rel="previous" accesskey="p" href="Pragma-Warnings.html#Pragma-Warnings">Pragma Warnings</a>,
+Up:&nbsp;<a rel="up" accesskey="u" href="Implementation-Defined-Pragmas.html#Implementation-Defined-Pragmas">Implementation Defined Pragmas</a>
+<hr>
+</div>
+
+<p><a name="gnat_005frm_002fimplementation_005fdefined_005fpragmas-pragma_002dweak_002dexternal"></a><a name="df"></a>
+
+<h3 class="section">2.191 Pragma Weak_External</h3>
+
+<p>Syntax:
+
+<pre class="example">    pragma Weak_External ([Entity =&gt;] LOCAL_NAME);
+</pre>
+<p><cite>LOCAL_NAME</cite> must refer to an object that is declared at the library
+level. This pragma specifies that the given entity should be marked as a
+weak symbol for the linker. It is equivalent to <cite>__attribute__((weak))</cite>
+in GNU C and causes <cite>LOCAL_NAME</cite> to be emitted as a weak symbol instead
+of a regular symbol, that is to say a symbol that does not have to be
+resolved by the linker if used in conjunction with a pragma Import.
+
+<p>When a weak symbol is not resolved by the linker, its address is set to
+zero. This is useful in writing interfaces to external modules that may
+or may not be linked in the final executable, for example depending on
+configuration settings.
+
+<p>If a program references at run time an entity to which this pragma has been
+applied, and the corresponding symbol was not resolved at link time, then
+the execution of the program is erroneous. It is not erroneous to take the
+Address of such an entity, for example to guard potential references,
+as shown in the example below.
+
+<p>Some file formats do not support weak symbols so not all target machines
+support this pragma.
+
+<pre class="example">    --  Example of the use of pragma Weak_External
+    
+    package External_Module is
+      key : Integer;
+      pragma Import (C, key);
+      pragma Weak_External (key);
+      function Present return boolean;
+    end External_Module;
+    
+    with System; use System;
+    package body External_Module is
+      function Present return boolean is
+      begin
+        return key'Address /= System.Null_Address;
+      end Present;
+    end External_Module;
+</pre>
+</body></html>
+

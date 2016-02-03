@@ -1,0 +1,87 @@
+<html lang="en">
+<head>
+<title>The Cross-Referencing Tools gnatxref and gnatfind - GNAT User's Guide for Native Platforms</title>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+<meta name="description" content="GNAT User's Guide for Native Platforms">
+<meta name="generator" content="makeinfo 4.13">
+<link title="Top" rel="start" href="index.html#Top">
+<link rel="up" href="GNAT-Utility-Programs.html#GNAT-Utility-Programs" title="GNAT Utility Programs">
+<link rel="prev" href="The-GNAT-Library-Browser-gnatls.html#The-GNAT-Library-Browser-gnatls" title="The GNAT Library Browser gnatls">
+<link rel="next" href="The-Ada-to-HTML-Converter-gnathtml.html#The-Ada-to-HTML-Converter-gnathtml" title="The Ada to HTML Converter gnathtml">
+<link href="http://www.gnu.org/software/texinfo/" rel="generator-home" title="Texinfo Homepage">
+<!--
+
+     GNAT User's Guide for Native Platforms , March 24, 2015
+
+     AdaCore
+
+     Copyright (C) 2008-2015, Free Software Foundation
+-->
+<meta http-equiv="Content-Style-Type" content="text/css">
+<style type="text/css"><!--
+  pre.display { font-family:inherit }
+  pre.format  { font-family:inherit }
+  pre.smalldisplay { font-family:inherit; font-size:smaller }
+  pre.smallformat  { font-family:inherit; font-size:smaller }
+  pre.smallexample { font-size:smaller }
+  pre.smalllisp    { font-size:smaller }
+  span.sc    { font-variant:small-caps }
+  span.roman { font-family:serif; font-weight:normal; } 
+  span.sansserif { font-family:sans-serif; font-weight:normal; } 
+--></style>
+</head>
+<body>
+<div class="node">
+<a name="The-Cross-Referencing-Tools-gnatxref-and-gnatfind"></a>
+<a name="The-Cross_002dReferencing-Tools-gnatxref-and-gnatfind"></a>
+<p>
+Next:&nbsp;<a rel="next" accesskey="n" href="The-Ada-to-HTML-Converter-gnathtml.html#The-Ada-to-HTML-Converter-gnathtml">The Ada to HTML Converter gnathtml</a>,
+Previous:&nbsp;<a rel="previous" accesskey="p" href="The-GNAT-Library-Browser-gnatls.html#The-GNAT-Library-Browser-gnatls">The GNAT Library Browser gnatls</a>,
+Up:&nbsp;<a rel="up" accesskey="u" href="GNAT-Utility-Programs.html#GNAT-Utility-Programs">GNAT Utility Programs</a>
+<hr>
+</div>
+
+<p><a name="gnat_005fugn_002fgnat_005futility_005fprograms-the_002dcross_002dreferencing_002dtools_002dgnatxref_002dand_002dgnatfind"></a><a name="g_t24"></a><a name="gnat_005fugn_002fgnat_005futility_005fprograms-id9"></a><a name="g_t1da"></a>
+
+<h3 class="section">7.3 The Cross-Referencing Tools <cite>gnatxref</cite> and <cite>gnatfind</cite></h3>
+
+<p><a name="index-gnatxref-902"></a>
+<a name="index-gnatfind-903"></a>
+The compiler generates cross-referencing information (unless
+you set the <code>-gnatx</code> switch), which are saved in the <code>.ali</code> files. 
+This information indicates where in the source each entity is declared and
+referenced. Note that entities in package Standard are not included, but
+entities in all other predefined units are included in the output.
+
+<p>Before using any of these two tools, you need to compile successfully your
+application, so that GNAT gets a chance to generate the cross-referencing
+information.
+
+<p>The two tools <cite>gnatxref</cite> and <cite>gnatfind</cite> take advantage of this
+information to provide the user with the capability to easily locate the
+declaration and references to an entity. These tools are quite similar,
+the difference being that <cite>gnatfind</cite> is intended for locating
+definitions and/or references to a specified entity or entities, whereas
+<cite>gnatxref</cite> is oriented to generating a full report of all
+cross-references.
+
+<p>To use these tools, you must not compile your application using the
+`-gnatx' switch on the `gnatmake' command line
+(see <a href="1d.html#g_t1d">Building with gnatmake</a>). Otherwise, cross-referencing
+information will not be generated.
+
+<p>Note: to invoke <cite>gnatxref</cite> or <cite>gnatfind</cite> with a project file,
+use the <cite>gnat</cite> driver (see <a href="11f.html#g_t11f">The GNAT Driver and Project Files</a>).
+
+<ul class="menu">
+<li><a accesskey="1" href="gnatxref-Switches.html#gnatxref-Switches">gnatxref Switches</a>
+<li><a accesskey="2" href="gnatfind-Switches.html#gnatfind-Switches">gnatfind Switches</a>
+<li><a accesskey="3" href="Project-Files-for-gnatxref-and-gnatfind.html#Project-Files-for-gnatxref-and-gnatfind">Project Files for gnatxref and gnatfind</a>
+<li><a accesskey="4" href="Regular-Expressions-in-gnatfind-and-gnatxref.html#Regular-Expressions-in-gnatfind-and-gnatxref">Regular Expressions in gnatfind and gnatxref</a>
+<li><a accesskey="5" href="Examples-of-gnatxref-Usage.html#Examples-of-gnatxref-Usage">Examples of gnatxref Usage</a>
+<li><a accesskey="6" href="Examples-of-gnatfind-Usage.html#Examples-of-gnatfind-Usage">Examples of gnatfind Usage</a>
+
+</ul>
+
+</body></html>
+

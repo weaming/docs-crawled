@@ -1,0 +1,173 @@
+<html lang="en">
+<head>
+<title>A Simple Example of Inline Assembler - GNAT User's Guide for Native Platforms</title>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+<meta name="description" content="GNAT User's Guide for Native Platforms">
+<meta name="generator" content="makeinfo 4.13">
+<link title="Top" rel="start" href="index.html#Top">
+<link rel="up" href="Inline-Assembler.html#Inline-Assembler" title="Inline Assembler">
+<link rel="prev" href="Basic-Assembler-Syntax.html#Basic-Assembler-Syntax" title="Basic Assembler Syntax">
+<link rel="next" href="Output-Variables-in-Inline-Assembler.html#Output-Variables-in-Inline-Assembler" title="Output Variables in Inline Assembler">
+<link href="http://www.gnu.org/software/texinfo/" rel="generator-home" title="Texinfo Homepage">
+<!--
+
+     GNAT User's Guide for Native Platforms , March 24, 2015
+
+     AdaCore
+
+     Copyright (C) 2008-2015, Free Software Foundation
+-->
+<meta http-equiv="Content-Style-Type" content="text/css">
+<style type="text/css"><!--
+  pre.display { font-family:inherit }
+  pre.format  { font-family:inherit }
+  pre.smalldisplay { font-family:inherit; font-size:smaller }
+  pre.smallformat  { font-family:inherit; font-size:smaller }
+  pre.smallexample { font-size:smaller }
+  pre.smalllisp    { font-size:smaller }
+  span.sc    { font-variant:small-caps }
+  span.roman { font-family:serif; font-weight:normal; } 
+  span.sansserif { font-family:sans-serif; font-weight:normal; } 
+--></style>
+</head>
+<body>
+<div class="node">
+<a name="A-Simple-Example-of-Inline-Assembler"></a>
+<p>
+Next:&nbsp;<a rel="next" accesskey="n" href="Output-Variables-in-Inline-Assembler.html#Output-Variables-in-Inline-Assembler">Output Variables in Inline Assembler</a>,
+Previous:&nbsp;<a rel="previous" accesskey="p" href="Basic-Assembler-Syntax.html#Basic-Assembler-Syntax">Basic Assembler Syntax</a>,
+Up:&nbsp;<a rel="up" accesskey="u" href="Inline-Assembler.html#Inline-Assembler">Inline Assembler</a>
+<hr>
+</div>
+
+<p><a name="gnat_005fugn_002finline_005fassembler-a_002dsimple_002dexample_002dof_002dinline_002dassembler"></a><a name="g_t2d0"></a><a name="gnat_005fugn_002finline_005fassembler-id3"></a><a name="g_t2d1"></a>
+
+<h3 class="section">12.2 A Simple Example of Inline Assembler</h3>
+
+<p>The following example will generate a single assembly language statement,
+<cite>nop</cite>, which does nothing.  Despite its lack of run-time effect,
+the example will be useful in illustrating the basics of
+the Inline Assembler facility.
+
+<blockquote>
+
+<pre class="example">    with System.Machine_Code; use System.Machine_Code;
+    procedure Nothing is
+    begin
+       Asm ("nop");
+    end Nothing;
+</pre>
+</blockquote>
+
+<p><cite>Asm</cite> is a procedure declared in package <cite>System.Machine_Code</cite>;
+here it takes one parameter, a `template string' that must be a static
+expression and that will form the generated instruction. 
+<cite>Asm</cite> may be regarded as a compile-time procedure that parses
+the template string and additional parameters (none here),
+from which it generates a sequence of assembly language instructions.
+
+<p>The examples in this chapter will illustrate several of the forms
+for invoking <cite>Asm</cite>; a complete specification of the syntax
+is found in the <cite>Machine_Code_Insertions</cite> section of the
+<cite>GNAT Reference Manual</cite>.
+
+<p>Under the standard GNAT conventions, the <cite>Nothing</cite> procedure
+should be in a file named <code>nothing.adb</code>. 
+You can build the executable in the usual way:
+
+<blockquote>
+
+<pre class="example">    $ gnatmake nothing
+</pre>
+</blockquote>
+
+<p>However, the interesting aspect of this example is not its run-time behavior
+but rather the generated assembly code. 
+To see this output, invoke the compiler as follows:
+
+<blockquote>
+
+<pre class="example">    $  gcc -c -S -fomit-frame-pointer -gnatp nothing.adb
+</pre>
+</blockquote>
+
+<p>where the options are:
+
+     <ul>
+<li>
+          <dl>
+<dt><code>-c</code><dd>
+compile only (no bind or link)
+</dl>
+
+     <li>
+          <dl>
+<dt><code>-S</code><dd>
+generate assembler listing
+</dl>
+
+     <li>
+          <dl>
+<dt><code>-fomit-frame-pointer</code><dd>
+do not set up separate stack frames
+</dl>
+
+     <li>
+          <dl>
+<dt><code>-gnatp</code><dd>
+do not add runtime checks
+</dl>
+     </ul>
+
+<p>This gives a human-readable assembler version of the code. The resulting
+file will have the same name as the Ada source file, but with a <cite>.s</cite>
+extension. In our example, the file <code>nothing.s</code> has the following
+contents:
+
+<blockquote>
+
+<pre class="example">    .file "nothing.adb"
+    gcc2_compiled.:
+    ___gnu_compiled_ada:
+    .text
+       .align 4
+    .globl __ada_nothing
+    __ada_nothing:
+    #APP
+       nop
+    #NO_APP
+       jmp L1
+       .align 2,0x90
+    L1:
+       ret
+</pre>
+</blockquote>
+
+<p>The assembly code you included is clearly indicated by
+the compiler, between the <cite>#APP</cite> and <cite>#NO_APP</cite>
+delimiters. The character before the 'APP' and 'NOAPP'
+can differ on different targets. For example, GNU/Linux uses '#APP' while
+on NT you will see '/APP'.
+
+<p>If you make a mistake in your assembler code (such as using the
+wrong size modifier, or using a wrong operand for the instruction) GNAT
+will report this error in a temporary file, which will be deleted when
+the compilation is finished.  Generating an assembler file will help
+in such cases, since you can assemble this file separately using the
+`as' assembler that comes with gcc.
+
+<p>Assembling the file using the command
+
+<blockquote>
+
+<pre class="example">    $ as nothing.s
+</pre>
+</blockquote>
+
+<p>will give you error messages whose lines correspond to the assembler
+input file, so you can easily find and correct any mistakes you made. 
+If there are no errors, `as' will generate an object file
+<code>nothing.out</code>.
+
+</body></html>
+

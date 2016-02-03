@@ -1,0 +1,148 @@
+<html lang="en">
+<head>
+<title>Arrays - Guide to GNU gcj</title>
+<meta http-equiv="Content-Type" content="text/html">
+<meta name="description" content="Guide to GNU gcj">
+<meta name="generator" content="makeinfo 4.13">
+<link title="Top" rel="start" href="index.html#Top">
+<link rel="up" href="About-CNI.html#About-CNI" title="About CNI">
+<link rel="prev" href="Memory-allocation.html#Memory-allocation" title="Memory allocation">
+<link rel="next" href="Methods.html#Methods" title="Methods">
+<link href="http://www.gnu.org/software/texinfo/" rel="generator-home" title="Texinfo Homepage">
+<!--
+Copyright (C) 2001-2015 Free Software Foundation, Inc.
+
+Permission is granted to copy, distribute and/or modify this document
+under the terms of the GNU Free Documentation License, Version 1.3 or
+any later version published by the Free Software Foundation; with no
+Invariant Sections, the Front-Cover Texts being (a) (see below), and
+with the Back-Cover Texts being (b) (see below).
+A copy of the license is included in the
+section entitled ``GNU Free Documentation License''.
+
+
+(a) The FSF's Front-Cover Text is:
+
+     A GNU Manual
+
+(b) The FSF's Back-Cover Text is:
+
+     You have freedom to copy and modify this GNU Manual, like GNU
+     software.  Copies published by the Free Software Foundation raise
+     funds for GNU development.
+-->
+<meta http-equiv="Content-Style-Type" content="text/css">
+<style type="text/css"><!--
+  pre.display { font-family:inherit }
+  pre.format  { font-family:inherit }
+  pre.smalldisplay { font-family:inherit; font-size:smaller }
+  pre.smallformat  { font-family:inherit; font-size:smaller }
+  pre.smallexample { font-size:smaller }
+  pre.smalllisp    { font-size:smaller }
+  span.sc    { font-variant:small-caps }
+  span.roman { font-family:serif; font-weight:normal; } 
+  span.sansserif { font-family:sans-serif; font-weight:normal; } 
+--></style>
+</head>
+<body>
+<div class="node">
+<a name="Arrays"></a>
+<p>
+Next:&nbsp;<a rel="next" accesskey="n" href="Methods.html#Methods">Methods</a>,
+Previous:&nbsp;<a rel="previous" accesskey="p" href="Memory-allocation.html#Memory-allocation">Memory allocation</a>,
+Up:&nbsp;<a rel="up" accesskey="u" href="About-CNI.html#About-CNI">About CNI</a>
+<hr>
+</div>
+
+<h3 class="section">11.10 Arrays</h3>
+
+<p>While in many ways Java is similar to C and C++, it is quite different
+in its treatment of arrays.  C arrays are based on the idea of pointer
+arithmetic, which would be incompatible with Java's security
+requirements.  Java arrays are true objects (array types inherit from
+<code>java.lang.Object</code>).  An array-valued variable is one that
+contains a reference (pointer) to an array object.
+
+   <p>Referencing a Java array in C++ code is done using the
+<code>JArray</code> template, which as defined as follows:
+
+<pre class="example">     class __JArray : public java::lang::Object
+     {
+     public:
+       int length;
+     };
+     
+     template&lt;class T&gt;
+     class JArray : public __JArray
+     {
+       T data[0];
+     public:
+       T&amp; operator[](jint i) { return data[i]; }
+     };
+</pre>
+   <p>There are a number of <code>typedef</code>s which correspond to <code>typedef</code>s
+from the <acronym>JNI</acronym>.  Each is the type of an array holding objects
+of the relevant type:
+
+<pre class="example">     typedef __JArray *jarray;
+     typedef JArray&lt;jobject&gt; *jobjectArray;
+     typedef JArray&lt;jboolean&gt; *jbooleanArray;
+     typedef JArray&lt;jbyte&gt; *jbyteArray;
+     typedef JArray&lt;jchar&gt; *jcharArray;
+     typedef JArray&lt;jshort&gt; *jshortArray;
+     typedef JArray&lt;jint&gt; *jintArray;
+     typedef JArray&lt;jlong&gt; *jlongArray;
+     typedef JArray&lt;jfloat&gt; *jfloatArray;
+     typedef JArray&lt;jdouble&gt; *jdoubleArray;
+</pre>
+   <div class="defun">
+&mdash; Method on template&lt;class T&gt;: T* <b>elements</b> (<var>JArray&lt;T&gt; array</var>)<var><a name="index-elements-on-template_003cclass-T_003e-13"></a></var><br>
+<blockquote><p>This template function can be used to get a pointer to the elements of
+the <code>array</code>.  For instance, you can fetch a pointer to the
+integers that make up an <code>int[]</code> like so:
+
+     <pre class="example">          extern jintArray foo;
+          jint *intp = elements (foo);
+</pre>
+        <p>The name of this function may change in the future. 
+</p></blockquote></div>
+
+<div class="defun">
+&mdash; Function: jobjectArray <b>JvNewObjectArray</b> (<var>jsize length, jclass klass, jobject init</var>)<var><a name="index-JvNewObjectArray-14"></a></var><br>
+<blockquote><p>This creates a new array whose elements have reference type. 
+<code>klass</code> is the type of elements of the array and
+<code>init</code> is the initial value put into every slot in the array. 
+</p></blockquote></div>
+
+<pre class="example">     using namespace java::lang;
+     JArray&lt;String *&gt; *array
+       = (JArray&lt;String *&gt; *) JvNewObjectArray(length, &amp;String::class$, NULL);
+</pre>
+   <h4 class="subsection">11.10.1 Creating arrays</h4>
+
+<p>For each primitive type there is a function which can be used to
+create a new array of that type.  The name of the function is of the
+form:
+
+<pre class="example">     JvNew<var>Type</var>Array
+</pre>
+   <p class="noindent">For example:
+
+<pre class="example">     JvNewBooleanArray
+</pre>
+   <p class="noindent">can be used to create an array of Java primitive boolean types.
+
+<p class="noindent">The following function definition is the template for all such functions:
+
+<div class="defun">
+&mdash; Function: jbooleanArray <b>JvNewBooleanArray</b> (<var>jint length</var>)<var><a name="index-JvNewBooleanArray-15"></a></var><br>
+<blockquote><p>Creates an array <var>length</var> indices long. 
+</p></blockquote></div>
+
+<div class="defun">
+&mdash; Function: jsize <b>JvGetArrayLength</b> (<var>jarray array</var>)<var><a name="index-JvGetArrayLength-16"></a></var><br>
+<blockquote><p>Returns the length of the <var>array</var>. 
+</p></blockquote></div>
+
+   </body></html>
+

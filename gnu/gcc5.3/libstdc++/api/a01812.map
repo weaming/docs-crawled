@@ -1,0 +1,5 @@
+<map id="__gnu_pbds::container_error" name="__gnu_pbds::container_error">
+<area shape="rect" id="node2" href="$a00340.html" title="An entry cannot be inserted into a container object for logical reasons (not, e.g., if memory is unabvailable, in which case the allocator_type&#39;s exception will be thrown). " alt="" coords="5,92,132,131"/>
+<area shape="rect" id="node3" href="$a00341.html" title="A join cannot be performed logical reasons (i.e., the ranges of the two container objects being joine..." alt="" coords="156,99,307,124"/>
+<area shape="rect" id="node4" href="$a00359.html" title="A container cannot be resized. " alt="" coords="331,92,462,131"/>
+</map>

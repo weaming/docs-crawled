@@ -1,0 +1,137 @@
+<html lang="en">
+<head>
+<title>Bit_Order Clauses - GNAT Reference Manual</title>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+<meta name="description" content="GNAT Reference Manual">
+<meta name="generator" content="makeinfo 4.13">
+<link title="Top" rel="start" href="index.html#Top">
+<link rel="up" href="Representation-Clauses-and-Pragmas.html#Representation-Clauses-and-Pragmas" title="Representation Clauses and Pragmas">
+<link rel="prev" href="Component_005fSize-Clauses.html#Component_005fSize-Clauses" title="Component_Size Clauses">
+<link rel="next" href="Effect-of-Bit_005fOrder-on-Byte-Ordering.html#Effect-of-Bit_005fOrder-on-Byte-Ordering" title="Effect of Bit_Order on Byte Ordering">
+<link href="http://www.gnu.org/software/texinfo/" rel="generator-home" title="Texinfo Homepage">
+<!--
+
+     GNAT Reference Manual , March 24, 2015
+
+     AdaCore
+
+     Copyright (C) 2008-2015, Free Software Foundation
+-->
+<meta http-equiv="Content-Style-Type" content="text/css">
+<style type="text/css"><!--
+  pre.display { font-family:inherit }
+  pre.format  { font-family:inherit }
+  pre.smalldisplay { font-family:inherit; font-size:smaller }
+  pre.smallformat  { font-family:inherit; font-size:smaller }
+  pre.smallexample { font-size:smaller }
+  pre.smalllisp    { font-size:smaller }
+  span.sc    { font-variant:small-caps }
+  span.roman { font-family:serif; font-weight:normal; } 
+  span.sansserif { font-family:sans-serif; font-weight:normal; } 
+--></style>
+</head>
+<body>
+<div class="node">
+<a name="Bit_Order-Clauses"></a>
+<a name="Bit_005fOrder-Clauses"></a>
+<p>
+Next:&nbsp;<a rel="next" accesskey="n" href="Effect-of-Bit_005fOrder-on-Byte-Ordering.html#Effect-of-Bit_005fOrder-on-Byte-Ordering">Effect of Bit_Order on Byte Ordering</a>,
+Previous:&nbsp;<a rel="previous" accesskey="p" href="Component_005fSize-Clauses.html#Component_005fSize-Clauses">Component_Size Clauses</a>,
+Up:&nbsp;<a rel="up" accesskey="u" href="Representation-Clauses-and-Pragmas.html#Representation-Clauses-and-Pragmas">Representation Clauses and Pragmas</a>
+<hr>
+</div>
+
+<p><a name="gnat_005frm_002frepresentation_005fclauses_005fand_005fpragmas-bit_002dorder_002dclauses"></a><a name="g_t228"></a><a name="gnat_005frm_002frepresentation_005fclauses_005fand_005fpragmas-id9"></a><a name="g_t229"></a>
+
+<h3 class="section">9.8 Bit_Order Clauses</h3>
+
+<p><a name="index-Bit_005fOrder-Clause-498"></a>
+<a name="index-bit-ordering-499"></a>
+<a name="index-ordering-500"></a><a name="index-of-bits-501"></a>
+For record subtypes, GNAT permits the specification of the <cite>Bit_Order</cite>
+attribute.  The specification may either correspond to the default bit
+order for the target, in which case the specification has no effect and
+places no additional restrictions, or it may be for the non-standard
+setting (that is the opposite of the default).
+
+<p>In the case where the non-standard value is specified, the effect is
+to renumber bits within each byte, but the ordering of bytes is not
+affected.  There are certain
+restrictions placed on component clauses as follows:
+
+     <ul>
+<li>Components fitting within a single storage unit.
+
+     <p>These are unrestricted, and the effect is merely to renumber bits.  For
+example if we are on a little-endian machine with <cite>Low_Order_First</cite>
+being the default, then the following two declarations have exactly
+the same effect:
+
+     <pre class="example">         type R1 is record
+            A : Boolean;
+            B : Integer range 1 .. 120;
+         end record;
+         
+         for R1 use record
+            A at 0 range 0 .. 0;
+            B at 0 range 1 .. 7;
+         end record;
+         
+         type R2 is record
+            A : Boolean;
+            B : Integer range 1 .. 120;
+         end record;
+         
+         for R2'Bit_Order use High_Order_First;
+         
+         for R2 use record
+            A at 0 range 7 .. 7;
+            B at 0 range 0 .. 6;
+         end record;
+</pre>
+     <p>The useful application here is to write the second declaration with the
+<cite>Bit_Order</cite> attribute definition clause, and know that it will be treated
+the same, regardless of whether the target is little-endian or big-endian.
+
+     <li>Components occupying an integral number of bytes.
+
+     <p>These are components that exactly fit in two or more bytes.  Such component
+declarations are allowed, but have no effect, since it is important to realize
+that the <cite>Bit_Order</cite> specification does not affect the ordering of bytes. 
+In particular, the following attempt at getting an endian-independent integer
+does not work:
+
+     <pre class="example">         type R2 is record
+            A : Integer;
+         end record;
+         
+         for R2'Bit_Order use High_Order_First;
+         
+         for R2 use record
+            A at 0 range 0 .. 31;
+         end record;
+</pre>
+     <p>This declaration will result in a little-endian integer on a
+little-endian machine, and a big-endian integer on a big-endian machine. 
+If byte flipping is required for interoperability between big- and
+little-endian machines, this must be explicitly programmed.  This capability
+is not provided by <cite>Bit_Order</cite>.
+
+     <li>Components that are positioned across byte boundaries
+
+     <p>but do not occupy an integral number of bytes.  Given that bytes are not
+reordered, such fields would occupy a non-contiguous sequence of bits
+in memory, requiring non-trivial code to reassemble.  They are for this
+reason not permitted, and any component clause specifying such a layout
+will be flagged as illegal by GNAT. 
+</ul>
+
+<p>Since the misconception that Bit_Order automatically deals with all
+endian-related incompatibilities is a common one, the specification of
+a component field that is an integral number of bytes will always
+generate a warning.  This warning may be suppressed using <cite>pragma Warnings (Off)</cite>
+if desired.  The following section contains additional
+details regarding the issue of byte ordering.
+
+</body></html>
+

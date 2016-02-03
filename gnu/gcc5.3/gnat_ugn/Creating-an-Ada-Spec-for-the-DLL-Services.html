@@ -1,0 +1,79 @@
+<html lang="en">
+<head>
+<title>Creating an Ada Spec for the DLL Services - GNAT User's Guide for Native Platforms</title>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+<meta name="description" content="GNAT User's Guide for Native Platforms">
+<meta name="generator" content="makeinfo 4.13">
+<link title="Top" rel="start" href="index.html#Top">
+<link rel="up" href="Using-DLLs-with-GNAT.html#Using-DLLs-with-GNAT" title="Using DLLs with GNAT">
+<link rel="next" href="Creating-an-Import-Library.html#Creating-an-Import-Library" title="Creating an Import Library">
+<link href="http://www.gnu.org/software/texinfo/" rel="generator-home" title="Texinfo Homepage">
+<!--
+
+     GNAT User's Guide for Native Platforms , March 24, 2015
+
+     AdaCore
+
+     Copyright (C) 2008-2015, Free Software Foundation
+-->
+<meta http-equiv="Content-Style-Type" content="text/css">
+<style type="text/css"><!--
+  pre.display { font-family:inherit }
+  pre.format  { font-family:inherit }
+  pre.smalldisplay { font-family:inherit; font-size:smaller }
+  pre.smallformat  { font-family:inherit; font-size:smaller }
+  pre.smallexample { font-size:smaller }
+  pre.smalllisp    { font-size:smaller }
+  span.sc    { font-variant:small-caps }
+  span.roman { font-family:serif; font-weight:normal; } 
+  span.sansserif { font-family:sans-serif; font-weight:normal; } 
+--></style>
+</head>
+<body>
+<div class="node">
+<a name="Creating-an-Ada-Spec-for-the-DLL-Services"></a>
+<p>
+Next:&nbsp;<a rel="next" accesskey="n" href="Creating-an-Import-Library.html#Creating-an-Import-Library">Creating an Import Library</a>,
+Up:&nbsp;<a rel="up" accesskey="u" href="Using-DLLs-with-GNAT.html#Using-DLLs-with-GNAT">Using DLLs with GNAT</a>
+<hr>
+</div>
+
+<p><a name="gnat_005fugn_002fplatform_005fspecific_005finformation-creating_002dan_002dada_002dspec_002dfor_002dthe_002ddll_002dservices"></a><a name="g_t282"></a><a name="gnat_005fugn_002fplatform_005fspecific_005finformation-id22"></a><a name="g_t283"></a>
+
+<h5 class="subsubsection">9.3.5.8 Creating an Ada Spec for the DLL Services</h5>
+
+<p>A DLL typically comes with a C/C++ header file which provides the
+definitions of the routines and variables exported by the DLL. The Ada
+equivalent of this header file is a package spec that contains definitions
+for the imported entities. If the DLL you intend to use does not come with
+an Ada spec you have to generate one such spec yourself. For example if
+the header file of <code>API.dll</code> is a file <code>api.h</code> containing the
+following two definitions:
+
+<blockquote>
+
+<pre class="example">    int some_var;
+    int get (char *);
+</pre>
+</blockquote>
+
+<p>then the equivalent Ada spec could be:
+
+<blockquote>
+
+<pre class="example">    with Interfaces.C.Strings;
+    package API is
+       use Interfaces;
+    
+       Some_Var : C.int;
+       function Get (Str : C.Strings.Chars_Ptr) return C.int;
+    
+    private
+       pragma Import (C, Get);
+       pragma Import (DLL, Some_Var);
+    end API;
+</pre>
+</blockquote>
+
+</body></html>
+

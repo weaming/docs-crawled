@@ -1,0 +1,95 @@
+<html lang="en">
+<head>
+<title>Use of Address Clauses for Memory-Mapped I/O - GNAT Reference Manual</title>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+<meta name="description" content="GNAT Reference Manual">
+<meta name="generator" content="makeinfo 4.13">
+<link title="Top" rel="start" href="index.html#Top">
+<link rel="up" href="Representation-Clauses-and-Pragmas.html#Representation-Clauses-and-Pragmas" title="Representation Clauses and Pragmas">
+<link rel="prev" href="Address-Clauses.html#Address-Clauses" title="Address Clauses">
+<link rel="next" href="Effect-of-Convention-on-Representation.html#Effect-of-Convention-on-Representation" title="Effect of Convention on Representation">
+<link href="http://www.gnu.org/software/texinfo/" rel="generator-home" title="Texinfo Homepage">
+<!--
+
+     GNAT Reference Manual , March 24, 2015
+
+     AdaCore
+
+     Copyright (C) 2008-2015, Free Software Foundation
+-->
+<meta http-equiv="Content-Style-Type" content="text/css">
+<style type="text/css"><!--
+  pre.display { font-family:inherit }
+  pre.format  { font-family:inherit }
+  pre.smalldisplay { font-family:inherit; font-size:smaller }
+  pre.smallformat  { font-family:inherit; font-size:smaller }
+  pre.smallexample { font-size:smaller }
+  pre.smalllisp    { font-size:smaller }
+  span.sc    { font-variant:small-caps }
+  span.roman { font-family:serif; font-weight:normal; } 
+  span.sansserif { font-family:sans-serif; font-weight:normal; } 
+--></style>
+</head>
+<body>
+<div class="node">
+<a name="Use-of-Address-Clauses-for-Memory-Mapped-I%2fO"></a>
+<a name="Use-of-Address-Clauses-for-Memory_002dMapped-I_002fO"></a>
+<p>
+Next:&nbsp;<a rel="next" accesskey="n" href="Effect-of-Convention-on-Representation.html#Effect-of-Convention-on-Representation">Effect of Convention on Representation</a>,
+Previous:&nbsp;<a rel="previous" accesskey="p" href="Address-Clauses.html#Address-Clauses">Address Clauses</a>,
+Up:&nbsp;<a rel="up" accesskey="u" href="Representation-Clauses-and-Pragmas.html#Representation-Clauses-and-Pragmas">Representation Clauses and Pragmas</a>
+<hr>
+</div>
+
+<p><a name="gnat_005frm_002frepresentation_005fclauses_005fand_005fpragmas-id17"></a><a name="g_t238"></a><a name="gnat_005frm_002frepresentation_005fclauses_005fand_005fpragmas-use_002dof_002daddress_002dclauses_002dfor_002dmemory_002dmapped_002di_002do"></a><a name="g_t239"></a>
+
+<h3 class="section">9.16 Use of Address Clauses for Memory-Mapped I/O</h3>
+
+<p><a name="index-Memory_002dmapped-I_002fO-518"></a>
+A common pattern is to use an address clause to map an atomic variable to
+a location in memory that corresponds to a memory-mapped I/O operation or
+operations, for example:
+
+<pre class="example">    type Mem_Word is record
+       A,B,C,D : Byte;
+    end record;
+    pragma Atomic (Mem_Word);
+    for Mem_Word_Size use 32;
+    
+    Mem : Mem_Word;
+    for Mem'Address use some-address;
+    ...
+    Temp := Mem;
+    Temp.A := 32;
+    Mem := Temp;
+</pre>
+<p>For a full access (reference or modification) of the variable (Mem) in
+this case, as in the above examples, GNAT guarantees that the entire atomic
+word will be accessed. It is not clear whether the RM requires this. For
+example in the above, can the compiler reference only the Mem.A field as
+an optimization? Whatever the answer to this question is, GNAT makes the
+guarantee that for such a reference, the entire word is read or written.
+
+<p>A problem arises with a component access such as:
+
+<pre class="example">    Mem.A := 32;
+</pre>
+<p>Note that the component A is not declared as atomic. This means that it is
+not clear what this assignment means. It could correspond to full word read
+and write as given in the first example, or on architectures that supported
+such an operation it might be a single byte store instruction. The RM does
+not have anything to say in this situation, and GNAT does not make any
+guarantee. The code generated may vary from target to target. GNAT will issue
+a warning in such a case:
+
+<pre class="example">    Mem.A := 32;
+    |
+    &gt;&gt;&gt; warning: access to non-atomic component of atomic array,
+        may cause unexpected accesses to atomic object
+</pre>
+<p>It is best to be explicit in this situation, by either declaring the
+components to be atomic if you want the byte store, or explicitly writing
+the full word access sequence if that is what the hardware requires.
+
+</body></html>
+

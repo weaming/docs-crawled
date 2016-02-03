@@ -1,0 +1,61 @@
+<html lang="en">
+<head>
+<title>RM C 3 28 Interrupt Support - GNAT Reference Manual</title>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+<meta name="description" content="GNAT Reference Manual">
+<meta name="generator" content="makeinfo 4.13">
+<link title="Top" rel="start" href="index.html#Top">
+<link rel="up" href="Implementation-Advice.html#Implementation-Advice" title="Implementation Advice">
+<link rel="prev" href="RM-C-1-10_002d16-Access-to-Machine-Operations.html#RM-C-1-10_002d16-Access-to-Machine-Operations" title="RM C 1 10-16 Access to Machine Operations">
+<link rel="next" href="RM-C-3-1-20_002d21-Protected-Procedure-Handlers.html#RM-C-3-1-20_002d21-Protected-Procedure-Handlers" title="RM C 3 1 20-21 Protected Procedure Handlers">
+<link href="http://www.gnu.org/software/texinfo/" rel="generator-home" title="Texinfo Homepage">
+<!--
+
+     GNAT Reference Manual , March 24, 2015
+
+     AdaCore
+
+     Copyright (C) 2008-2015, Free Software Foundation
+-->
+<meta http-equiv="Content-Style-Type" content="text/css">
+<style type="text/css"><!--
+  pre.display { font-family:inherit }
+  pre.format  { font-family:inherit }
+  pre.smalldisplay { font-family:inherit; font-size:smaller }
+  pre.smallformat  { font-family:inherit; font-size:smaller }
+  pre.smallexample { font-size:smaller }
+  pre.smalllisp    { font-size:smaller }
+  span.sc    { font-variant:small-caps }
+  span.roman { font-family:serif; font-weight:normal; } 
+  span.sansserif { font-family:sans-serif; font-weight:normal; } 
+--></style>
+</head>
+<body>
+<div class="node">
+<a name="RM-C-3-28-Interrupt-Support"></a>
+<p>
+Next:&nbsp;<a rel="next" accesskey="n" href="RM-C-3-1-20_002d21-Protected-Procedure-Handlers.html#RM-C-3-1-20_002d21-Protected-Procedure-Handlers">RM C 3 1 20-21 Protected Procedure Handlers</a>,
+Previous:&nbsp;<a rel="previous" accesskey="p" href="RM-C-1-10_002d16-Access-to-Machine-Operations.html#RM-C-1-10_002d16-Access-to-Machine-Operations">RM C 1 10-16 Access to Machine Operations</a>,
+Up:&nbsp;<a rel="up" accesskey="u" href="Implementation-Advice.html#Implementation-Advice">Implementation Advice</a>
+<hr>
+</div>
+
+<p><a name="gnat_005frm_002fimplementation_005fadvice-rm_002dc_002d3_002d28_002dinterrupt_002dsupport"></a><a name="g_t1e9"></a>
+
+<h3 class="section">6.45 RM C.3(28): Interrupt Support</h3>
+
+<blockquote>
+
+<p>"If the <cite>Ceiling_Locking</cite> policy is not in effect, the
+implementation should provide means for the application to specify which
+interrupts are to be blocked during protected actions, if the underlying
+system allows for a finer-grain control of interrupt blocking." 
+</blockquote>
+
+<p>Followed.  The underlying system does not allow for finer-grain control
+of interrupt blocking.
+
+<p><a name="index-Protected-procedure-handlers-434"></a>
+
+</body></html>
+

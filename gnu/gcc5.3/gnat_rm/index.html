@@ -1,0 +1,1745 @@
+<html lang="en">
+<head>
+<title>GNAT Reference Manual</title>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+<meta name="description" content="GNAT Reference Manual">
+<meta name="generator" content="makeinfo 4.13">
+<link title="Top" rel="start" href="#Top">
+<link href="http://www.gnu.org/software/texinfo/" rel="generator-home" title="Texinfo Homepage">
+<!--
+
+     GNAT Reference Manual , March 24, 2015
+
+     AdaCore
+
+     Copyright (C) 2008-2015, Free Software Foundation
+-->
+<meta http-equiv="Content-Style-Type" content="text/css">
+<style type="text/css"><!--
+  pre.display { font-family:inherit }
+  pre.format  { font-family:inherit }
+  pre.smalldisplay { font-family:inherit; font-size:smaller }
+  pre.smallformat  { font-family:inherit; font-size:smaller }
+  pre.smallexample { font-size:smaller }
+  pre.smalllisp    { font-size:smaller }
+  span.sc    { font-variant:small-caps }
+  span.roman { font-family:serif; font-weight:normal; } 
+  span.sansserif { font-family:sans-serif; font-weight:normal; } 
+--></style>
+</head>
+<body>
+<h1 class="settitle">GNAT Reference Manual</h1>
+<div class="contents">
+<h2>Table of Contents</h2>
+<ul>
+<li><a name="toc_Top" href="index.html#Top">GNAT Reference Manual</a>
+<li><a name="toc_About-This-Guide" href="About-This-Guide.html#About-This-Guide">1 About This Guide</a>
+<ul>
+<li><a href="What-This-Reference-Manual-Contains.html#What-This-Reference-Manual-Contains">1.1 What This Reference Manual Contains</a>
+<li><a href="Conventions.html#Conventions">1.2 Conventions</a>
+<li><a href="Related-Information.html#Related-Information">1.3 Related Information</a>
+</li></ul>
+<li><a name="toc_Implementation-Defined-Pragmas" href="Implementation-Defined-Pragmas.html#Implementation-Defined-Pragmas">2 Implementation Defined Pragmas</a>
+<ul>
+<li><a href="Pragma-Abort_005fDefer.html#Pragma-Abort_005fDefer">2.1 Pragma Abort_Defer</a>
+<li><a href="Pragma-Abstract_005fState.html#Pragma-Abstract_005fState">2.2 Pragma Abstract_State</a>
+<li><a href="Pragma-Ada_005f83.html#Pragma-Ada_005f83">2.3 Pragma Ada_83</a>
+<li><a href="Pragma-Ada_005f95.html#Pragma-Ada_005f95">2.4 Pragma Ada_95</a>
+<li><a href="Pragma-Ada_005f05.html#Pragma-Ada_005f05">2.5 Pragma Ada_05</a>
+<li><a href="Pragma-Ada_005f2005.html#Pragma-Ada_005f2005">2.6 Pragma Ada_2005</a>
+<li><a href="Pragma-Ada_005f12.html#Pragma-Ada_005f12">2.7 Pragma Ada_12</a>
+<li><a href="Pragma-Ada_005f2012.html#Pragma-Ada_005f2012">2.8 Pragma Ada_2012</a>
+<li><a href="Pragma-Allow_005fInteger_005fAddress.html#Pragma-Allow_005fInteger_005fAddress">2.9 Pragma Allow_Integer_Address</a>
+<li><a href="Pragma-Annotate.html#Pragma-Annotate">2.10 Pragma Annotate</a>
+<li><a href="Pragma-Assert.html#Pragma-Assert">2.11 Pragma Assert</a>
+<li><a href="Pragma-Assert_005fAnd_005fCut.html#Pragma-Assert_005fAnd_005fCut">2.12 Pragma Assert_And_Cut</a>
+<li><a href="Pragma-Assertion_005fPolicy.html#Pragma-Assertion_005fPolicy">2.13 Pragma Assertion_Policy</a>
+<li><a href="Pragma-Assume.html#Pragma-Assume">2.14 Pragma Assume</a>
+<li><a href="Pragma-Assume_005fNo_005fInvalid_005fValues.html#Pragma-Assume_005fNo_005fInvalid_005fValues">2.15 Pragma Assume_No_Invalid_Values</a>
+<li><a href="Pragma-Async_005fReaders.html#Pragma-Async_005fReaders">2.16 Pragma Async_Readers</a>
+<li><a href="Pragma-Async_005fWriters.html#Pragma-Async_005fWriters">2.17 Pragma Async_Writers</a>
+<li><a href="Pragma-Attribute_005fDefinition.html#Pragma-Attribute_005fDefinition">2.18 Pragma Attribute_Definition</a>
+<li><a href="Pragma-C_005fPass_005fBy_005fCopy.html#Pragma-C_005fPass_005fBy_005fCopy">2.19 Pragma C_Pass_By_Copy</a>
+<li><a href="Pragma-Check.html#Pragma-Check">2.20 Pragma Check</a>
+<li><a href="Pragma-Check_005fFloat_005fOverflow.html#Pragma-Check_005fFloat_005fOverflow">2.21 Pragma Check_Float_Overflow</a>
+<li><a href="Pragma-Check_005fName.html#Pragma-Check_005fName">2.22 Pragma Check_Name</a>
+<li><a href="Pragma-Check_005fPolicy.html#Pragma-Check_005fPolicy">2.23 Pragma Check_Policy</a>
+<li><a href="Pragma-CIL_005fConstructor.html#Pragma-CIL_005fConstructor">2.24 Pragma CIL_Constructor</a>
+<li><a href="Pragma-Comment.html#Pragma-Comment">2.25 Pragma Comment</a>
+<li><a href="Pragma-Common_005fObject.html#Pragma-Common_005fObject">2.26 Pragma Common_Object</a>
+<li><a href="Pragma-Compile_005fTime_005fError.html#Pragma-Compile_005fTime_005fError">2.27 Pragma Compile_Time_Error</a>
+<li><a href="Pragma-Compile_005fTime_005fWarning.html#Pragma-Compile_005fTime_005fWarning">2.28 Pragma Compile_Time_Warning</a>
+<li><a href="Pragma-Compiler_005fUnit.html#Pragma-Compiler_005fUnit">2.29 Pragma Compiler_Unit</a>
+<li><a href="Pragma-Compiler_005fUnit_005fWarning.html#Pragma-Compiler_005fUnit_005fWarning">2.30 Pragma Compiler_Unit_Warning</a>
+<li><a href="Pragma-Complete_005fRepresentation.html#Pragma-Complete_005fRepresentation">2.31 Pragma Complete_Representation</a>
+<li><a href="Pragma-Complex_005fRepresentation.html#Pragma-Complex_005fRepresentation">2.32 Pragma Complex_Representation</a>
+<li><a href="Pragma-Component_005fAlignment.html#Pragma-Component_005fAlignment">2.33 Pragma Component_Alignment</a>
+<li><a href="Pragma-Contract_005fCases.html#Pragma-Contract_005fCases">2.34 Pragma Contract_Cases</a>
+<li><a href="Pragma-Convention_005fIdentifier.html#Pragma-Convention_005fIdentifier">2.35 Pragma Convention_Identifier</a>
+<li><a href="Pragma-CPP_005fClass.html#Pragma-CPP_005fClass">2.36 Pragma CPP_Class</a>
+<li><a href="Pragma-CPP_005fConstructor.html#Pragma-CPP_005fConstructor">2.37 Pragma CPP_Constructor</a>
+<li><a href="Pragma-CPP_005fVirtual.html#Pragma-CPP_005fVirtual">2.38 Pragma CPP_Virtual</a>
+<li><a href="Pragma-CPP_005fVtable.html#Pragma-CPP_005fVtable">2.39 Pragma CPP_Vtable</a>
+<li><a href="Pragma-CPU.html#Pragma-CPU">2.40 Pragma CPU</a>
+<li><a href="Pragma-Debug.html#Pragma-Debug">2.41 Pragma Debug</a>
+<li><a href="Pragma-Debug_005fPolicy.html#Pragma-Debug_005fPolicy">2.42 Pragma Debug_Policy</a>
+<li><a href="Pragma-Default_005fScalar_005fStorage_005fOrder.html#Pragma-Default_005fScalar_005fStorage_005fOrder">2.43 Pragma Default_Scalar_Storage_Order</a>
+<li><a href="Pragma-Default_005fStorage_005fPool.html#Pragma-Default_005fStorage_005fPool">2.44 Pragma Default_Storage_Pool</a>
+<li><a href="Pragma-Depends.html#Pragma-Depends">2.45 Pragma Depends</a>
+<li><a href="Pragma-Detect_005fBlocking.html#Pragma-Detect_005fBlocking">2.46 Pragma Detect_Blocking</a>
+<li><a href="Pragma-Disable_005fAtomic_005fSynchronization.html#Pragma-Disable_005fAtomic_005fSynchronization">2.47 Pragma Disable_Atomic_Synchronization</a>
+<li><a href="Pragma-Dispatching_005fDomain.html#Pragma-Dispatching_005fDomain">2.48 Pragma Dispatching_Domain</a>
+<li><a href="Pragma-Effective_005fReads.html#Pragma-Effective_005fReads">2.49 Pragma Effective_Reads</a>
+<li><a href="Pragma-Effective_005fWrites.html#Pragma-Effective_005fWrites">2.50 Pragma Effective_Writes</a>
+<li><a href="Pragma-Elaboration_005fChecks.html#Pragma-Elaboration_005fChecks">2.51 Pragma Elaboration_Checks</a>
+<li><a href="Pragma-Eliminate.html#Pragma-Eliminate">2.52 Pragma Eliminate</a>
+<li><a href="Pragma-Enable_005fAtomic_005fSynchronization.html#Pragma-Enable_005fAtomic_005fSynchronization">2.53 Pragma Enable_Atomic_Synchronization</a>
+<li><a href="Pragma-Export_005fFunction.html#Pragma-Export_005fFunction">2.54 Pragma Export_Function</a>
+<li><a href="Pragma-Export_005fObject.html#Pragma-Export_005fObject">2.55 Pragma Export_Object</a>
+<li><a href="Pragma-Export_005fProcedure.html#Pragma-Export_005fProcedure">2.56 Pragma Export_Procedure</a>
+<li><a href="Pragma-Export_005fValue.html#Pragma-Export_005fValue">2.57 Pragma Export_Value</a>
+<li><a href="Pragma-Export_005fValued_005fProcedure.html#Pragma-Export_005fValued_005fProcedure">2.58 Pragma Export_Valued_Procedure</a>
+<li><a href="Pragma-Extend_005fSystem.html#Pragma-Extend_005fSystem">2.59 Pragma Extend_System</a>
+<li><a href="Pragma-Extensions_005fAllowed.html#Pragma-Extensions_005fAllowed">2.60 Pragma Extensions_Allowed</a>
+<li><a href="Pragma-External.html#Pragma-External">2.61 Pragma External</a>
+<li><a href="Pragma-External_005fName_005fCasing.html#Pragma-External_005fName_005fCasing">2.62 Pragma External_Name_Casing</a>
+<li><a href="Pragma-Fast_005fMath.html#Pragma-Fast_005fMath">2.63 Pragma Fast_Math</a>
+<li><a href="Pragma-Favor_005fTop_005fLevel.html#Pragma-Favor_005fTop_005fLevel">2.64 Pragma Favor_Top_Level</a>
+<li><a href="Pragma-Finalize_005fStorage_005fOnly.html#Pragma-Finalize_005fStorage_005fOnly">2.65 Pragma Finalize_Storage_Only</a>
+<li><a href="Pragma-Float_005fRepresentation.html#Pragma-Float_005fRepresentation">2.66 Pragma Float_Representation</a>
+<li><a href="Pragma-Global.html#Pragma-Global">2.67 Pragma Global</a>
+<li><a href="Pragma-Ident.html#Pragma-Ident">2.68 Pragma Ident</a>
+<li><a href="Pragma-Ignore_005fPragma.html#Pragma-Ignore_005fPragma">2.69 Pragma Ignore_Pragma</a>
+<li><a href="Pragma-Implementation_005fDefined.html#Pragma-Implementation_005fDefined">2.70 Pragma Implementation_Defined</a>
+<li><a href="Pragma-Implemented.html#Pragma-Implemented">2.71 Pragma Implemented</a>
+<li><a href="Pragma-Implicit_005fPacking.html#Pragma-Implicit_005fPacking">2.72 Pragma Implicit_Packing</a>
+<li><a href="Pragma-Import_005fFunction.html#Pragma-Import_005fFunction">2.73 Pragma Import_Function</a>
+<li><a href="Pragma-Import_005fObject.html#Pragma-Import_005fObject">2.74 Pragma Import_Object</a>
+<li><a href="Pragma-Import_005fProcedure.html#Pragma-Import_005fProcedure">2.75 Pragma Import_Procedure</a>
+<li><a href="Pragma-Import_005fValued_005fProcedure.html#Pragma-Import_005fValued_005fProcedure">2.76 Pragma Import_Valued_Procedure</a>
+<li><a href="Pragma-Independent.html#Pragma-Independent">2.77 Pragma Independent</a>
+<li><a href="Pragma-Independent_005fComponents.html#Pragma-Independent_005fComponents">2.78 Pragma Independent_Components</a>
+<li><a href="Pragma-Initial_005fCondition.html#Pragma-Initial_005fCondition">2.79 Pragma Initial_Condition</a>
+<li><a href="Pragma-Initialize_005fScalars.html#Pragma-Initialize_005fScalars">2.80 Pragma Initialize_Scalars</a>
+<li><a href="Pragma-Initializes.html#Pragma-Initializes">2.81 Pragma Initializes</a>
+<li><a href="Pragma-Inline_005fAlways.html#Pragma-Inline_005fAlways">2.82 Pragma Inline_Always</a>
+<li><a href="Pragma-Inline_005fGeneric.html#Pragma-Inline_005fGeneric">2.83 Pragma Inline_Generic</a>
+<li><a href="Pragma-Interface.html#Pragma-Interface">2.84 Pragma Interface</a>
+<li><a href="Pragma-Interface_005fName.html#Pragma-Interface_005fName">2.85 Pragma Interface_Name</a>
+<li><a href="Pragma-Interrupt_005fHandler.html#Pragma-Interrupt_005fHandler">2.86 Pragma Interrupt_Handler</a>
+<li><a href="Pragma-Interrupt_005fState.html#Pragma-Interrupt_005fState">2.87 Pragma Interrupt_State</a>
+<li><a href="Pragma-Invariant.html#Pragma-Invariant">2.88 Pragma Invariant</a>
+<li><a href="Pragma-Java_005fConstructor.html#Pragma-Java_005fConstructor">2.89 Pragma Java_Constructor</a>
+<li><a href="Pragma-Java_005fInterface.html#Pragma-Java_005fInterface">2.90 Pragma Java_Interface</a>
+<li><a href="Pragma-Keep_005fNames.html#Pragma-Keep_005fNames">2.91 Pragma Keep_Names</a>
+<li><a href="Pragma-License.html#Pragma-License">2.92 Pragma License</a>
+<li><a href="Pragma-Link_005fWith.html#Pragma-Link_005fWith">2.93 Pragma Link_With</a>
+<li><a href="Pragma-Linker_005fAlias.html#Pragma-Linker_005fAlias">2.94 Pragma Linker_Alias</a>
+<li><a href="Pragma-Linker_005fConstructor.html#Pragma-Linker_005fConstructor">2.95 Pragma Linker_Constructor</a>
+<li><a href="Pragma-Linker_005fDestructor.html#Pragma-Linker_005fDestructor">2.96 Pragma Linker_Destructor</a>
+<li><a href="Pragma-Linker_005fSection.html#Pragma-Linker_005fSection">2.97 Pragma Linker_Section</a>
+<li><a href="Pragma-Lock_005fFree.html#Pragma-Lock_005fFree">2.98 Pragma Lock_Free</a>
+<li><a href="Pragma-Loop_005fInvariant.html#Pragma-Loop_005fInvariant">2.99 Pragma Loop_Invariant</a>
+<li><a href="Pragma-Loop_005fOptimize.html#Pragma-Loop_005fOptimize">2.100 Pragma Loop_Optimize</a>
+<li><a href="Pragma-Loop_005fVariant.html#Pragma-Loop_005fVariant">2.101 Pragma Loop_Variant</a>
+<li><a href="Pragma-Machine_005fAttribute.html#Pragma-Machine_005fAttribute">2.102 Pragma Machine_Attribute</a>
+<li><a href="Pragma-Main.html#Pragma-Main">2.103 Pragma Main</a>
+<li><a href="Pragma-Main_005fStorage.html#Pragma-Main_005fStorage">2.104 Pragma Main_Storage</a>
+<li><a href="Pragma-No_005fBody.html#Pragma-No_005fBody">2.105 Pragma No_Body</a>
+<li><a href="Pragma-No_005fElaboration_005fCode_005fAll.html#Pragma-No_005fElaboration_005fCode_005fAll">2.106 Pragma No_Elaboration_Code_All</a>
+<li><a href="Pragma-No_005fInline.html#Pragma-No_005fInline">2.107 Pragma No_Inline</a>
+<li><a href="Pragma-No_005fReturn.html#Pragma-No_005fReturn">2.108 Pragma No_Return</a>
+<li><a href="Pragma-No_005fRun_005fTime.html#Pragma-No_005fRun_005fTime">2.109 Pragma No_Run_Time</a>
+<li><a href="Pragma-No_005fStrict_005fAliasing.html#Pragma-No_005fStrict_005fAliasing">2.110 Pragma No_Strict_Aliasing</a>
+<li><a href="Pragma-No_005fTagged_005fStreams.html#Pragma-No_005fTagged_005fStreams">2.111 Pragma No_Tagged_Streams</a>
+<li><a href="Pragma-Normalize_005fScalars.html#Pragma-Normalize_005fScalars">2.112 Pragma Normalize_Scalars</a>
+<li><a href="Pragma-Obsolescent.html#Pragma-Obsolescent">2.113 Pragma Obsolescent</a>
+<li><a href="Pragma-Optimize_005fAlignment.html#Pragma-Optimize_005fAlignment">2.114 Pragma Optimize_Alignment</a>
+<li><a href="Pragma-Ordered.html#Pragma-Ordered">2.115 Pragma Ordered</a>
+<li><a href="Pragma-Overflow_005fMode.html#Pragma-Overflow_005fMode">2.116 Pragma Overflow_Mode</a>
+<li><a href="Pragma-Overriding_005fRenamings.html#Pragma-Overriding_005fRenamings">2.117 Pragma Overriding_Renamings</a>
+<li><a href="Pragma-Partition_005fElaboration_005fPolicy.html#Pragma-Partition_005fElaboration_005fPolicy">2.118 Pragma Partition_Elaboration_Policy</a>
+<li><a href="Pragma-Part_005fOf.html#Pragma-Part_005fOf">2.119 Pragma Part_Of</a>
+<li><a href="Pragma-Passive.html#Pragma-Passive">2.120 Pragma Passive</a>
+<li><a href="Pragma-Persistent_005fBSS.html#Pragma-Persistent_005fBSS">2.121 Pragma Persistent_BSS</a>
+<li><a href="Pragma-Polling.html#Pragma-Polling">2.122 Pragma Polling</a>
+<li><a href="Pragma-Post.html#Pragma-Post">2.123 Pragma Post</a>
+<li><a href="Pragma-Postcondition.html#Pragma-Postcondition">2.124 Pragma Postcondition</a>
+<li><a href="Pragma-Post_005fClass.html#Pragma-Post_005fClass">2.125 Pragma Post_Class</a>
+<li><a href="Pragma-Pre.html#Pragma-Pre">2.126 Pragma Pre</a>
+<li><a href="Pragma-Precondition.html#Pragma-Precondition">2.127 Pragma Precondition</a>
+<li><a href="Pragma-Predicate.html#Pragma-Predicate">2.128 Pragma Predicate</a>
+<li><a href="Pragma-Preelaborable_005fInitialization.html#Pragma-Preelaborable_005fInitialization">2.129 Pragma Preelaborable_Initialization</a>
+<li><a href="Pragma-Prefix_005fException_005fMessages.html#Pragma-Prefix_005fException_005fMessages">2.130 Pragma Prefix_Exception_Messages</a>
+<li><a href="Pragma-Pre_005fClass.html#Pragma-Pre_005fClass">2.131 Pragma Pre_Class</a>
+<li><a href="Pragma-Priority_005fSpecific_005fDispatching.html#Pragma-Priority_005fSpecific_005fDispatching">2.132 Pragma Priority_Specific_Dispatching</a>
+<li><a href="Pragma-Profile.html#Pragma-Profile">2.133 Pragma Profile</a>
+<li><a href="Pragma-Profile_005fWarnings.html#Pragma-Profile_005fWarnings">2.134 Pragma Profile_Warnings</a>
+<li><a href="Pragma-Propagate_005fExceptions.html#Pragma-Propagate_005fExceptions">2.135 Pragma Propagate_Exceptions</a>
+<li><a href="Pragma-Provide_005fShift_005fOperators.html#Pragma-Provide_005fShift_005fOperators">2.136 Pragma Provide_Shift_Operators</a>
+<li><a href="Pragma-Psect_005fObject.html#Pragma-Psect_005fObject">2.137 Pragma Psect_Object</a>
+<li><a href="Pragma-Pure_005fFunction.html#Pragma-Pure_005fFunction">2.138 Pragma Pure_Function</a>
+<li><a href="Pragma-Rational.html#Pragma-Rational">2.139 Pragma Rational</a>
+<li><a href="Pragma-Ravenscar.html#Pragma-Ravenscar">2.140 Pragma Ravenscar</a>
+<li><a href="Pragma-Refined_005fDepends.html#Pragma-Refined_005fDepends">2.141 Pragma Refined_Depends</a>
+<li><a href="Pragma-Refined_005fGlobal.html#Pragma-Refined_005fGlobal">2.142 Pragma Refined_Global</a>
+<li><a href="Pragma-Refined_005fPost.html#Pragma-Refined_005fPost">2.143 Pragma Refined_Post</a>
+<li><a href="Pragma-Refined_005fState.html#Pragma-Refined_005fState">2.144 Pragma Refined_State</a>
+<li><a href="Pragma-Relative_005fDeadline.html#Pragma-Relative_005fDeadline">2.145 Pragma Relative_Deadline</a>
+<li><a href="Pragma-Remote_005fAccess_005fType.html#Pragma-Remote_005fAccess_005fType">2.146 Pragma Remote_Access_Type</a>
+<li><a href="Pragma-Restricted_005fRun_005fTime.html#Pragma-Restricted_005fRun_005fTime">2.147 Pragma Restricted_Run_Time</a>
+<li><a href="Pragma-Restriction_005fWarnings.html#Pragma-Restriction_005fWarnings">2.148 Pragma Restriction_Warnings</a>
+<li><a href="Pragma-Reviewable.html#Pragma-Reviewable">2.149 Pragma Reviewable</a>
+<li><a href="Pragma-Share_005fGeneric.html#Pragma-Share_005fGeneric">2.150 Pragma Share_Generic</a>
+<li><a href="Pragma-Shared.html#Pragma-Shared">2.151 Pragma Shared</a>
+<li><a href="Pragma-Short_005fCircuit_005fAnd_005fOr.html#Pragma-Short_005fCircuit_005fAnd_005fOr">2.152 Pragma Short_Circuit_And_Or</a>
+<li><a href="Pragma-Short_005fDescriptors.html#Pragma-Short_005fDescriptors">2.153 Pragma Short_Descriptors</a>
+<li><a href="Pragma-Simple_005fStorage_005fPool_005fType.html#Pragma-Simple_005fStorage_005fPool_005fType">2.154 Pragma Simple_Storage_Pool_Type</a>
+<li><a href="Pragma-Source_005fFile_005fName.html#Pragma-Source_005fFile_005fName">2.155 Pragma Source_File_Name</a>
+<li><a href="Pragma-Source_005fFile_005fName_005fProject.html#Pragma-Source_005fFile_005fName_005fProject">2.156 Pragma Source_File_Name_Project</a>
+<li><a href="Pragma-Source_005fReference.html#Pragma-Source_005fReference">2.157 Pragma Source_Reference</a>
+<li><a href="Pragma-SPARK_005fMode.html#Pragma-SPARK_005fMode">2.158 Pragma SPARK_Mode</a>
+<li><a href="Pragma-Static_005fElaboration_005fDesired.html#Pragma-Static_005fElaboration_005fDesired">2.159 Pragma Static_Elaboration_Desired</a>
+<li><a href="Pragma-Stream_005fConvert.html#Pragma-Stream_005fConvert">2.160 Pragma Stream_Convert</a>
+<li><a href="Pragma-Style_005fChecks.html#Pragma-Style_005fChecks">2.161 Pragma Style_Checks</a>
+<li><a href="Pragma-Subtitle.html#Pragma-Subtitle">2.162 Pragma Subtitle</a>
+<li><a href="Pragma-Suppress.html#Pragma-Suppress">2.163 Pragma Suppress</a>
+<li><a href="Pragma-Suppress_005fAll.html#Pragma-Suppress_005fAll">2.164 Pragma Suppress_All</a>
+<li><a href="Pragma-Suppress_005fDebug_005fInfo.html#Pragma-Suppress_005fDebug_005fInfo">2.165 Pragma Suppress_Debug_Info</a>
+<li><a href="Pragma-Suppress_005fException_005fLocations.html#Pragma-Suppress_005fException_005fLocations">2.166 Pragma Suppress_Exception_Locations</a>
+<li><a href="Pragma-Suppress_005fInitialization.html#Pragma-Suppress_005fInitialization">2.167 Pragma Suppress_Initialization</a>
+<li><a href="Pragma-Task_005fName.html#Pragma-Task_005fName">2.168 Pragma Task_Name</a>
+<li><a href="Pragma-Task_005fStorage.html#Pragma-Task_005fStorage">2.169 Pragma Task_Storage</a>
+<li><a href="Pragma-Test_005fCase.html#Pragma-Test_005fCase">2.170 Pragma Test_Case</a>
+<li><a href="Pragma-Thread_005fLocal_005fStorage.html#Pragma-Thread_005fLocal_005fStorage">2.171 Pragma Thread_Local_Storage</a>
+<li><a href="Pragma-Time_005fSlice.html#Pragma-Time_005fSlice">2.172 Pragma Time_Slice</a>
+<li><a href="Pragma-Title.html#Pragma-Title">2.173 Pragma Title</a>
+<li><a href="Pragma-Type_005fInvariant.html#Pragma-Type_005fInvariant">2.174 Pragma Type_Invariant</a>
+<li><a href="Pragma-Type_005fInvariant_005fClass.html#Pragma-Type_005fInvariant_005fClass">2.175 Pragma Type_Invariant_Class</a>
+<li><a href="Pragma-Unchecked_005fUnion.html#Pragma-Unchecked_005fUnion">2.176 Pragma Unchecked_Union</a>
+<li><a href="Pragma-Unevaluated_005fUse_005fOf_005fOld.html#Pragma-Unevaluated_005fUse_005fOf_005fOld">2.177 Pragma Unevaluated_Use_Of_Old</a>
+<li><a href="Pragma-Unimplemented_005fUnit.html#Pragma-Unimplemented_005fUnit">2.178 Pragma Unimplemented_Unit</a>
+<li><a href="Pragma-Universal_005fAliasing.html#Pragma-Universal_005fAliasing">2.179 Pragma Universal_Aliasing</a>
+<li><a href="Pragma-Universal_005fData.html#Pragma-Universal_005fData">2.180 Pragma Universal_Data</a>
+<li><a href="Pragma-Unmodified.html#Pragma-Unmodified">2.181 Pragma Unmodified</a>
+<li><a href="Pragma-Unreferenced.html#Pragma-Unreferenced">2.182 Pragma Unreferenced</a>
+<li><a href="Pragma-Unreferenced_005fObjects.html#Pragma-Unreferenced_005fObjects">2.183 Pragma Unreferenced_Objects</a>
+<li><a href="Pragma-Unreserve_005fAll_005fInterrupts.html#Pragma-Unreserve_005fAll_005fInterrupts">2.184 Pragma Unreserve_All_Interrupts</a>
+<li><a href="Pragma-Unsuppress.html#Pragma-Unsuppress">2.185 Pragma Unsuppress</a>
+<li><a href="Pragma-Use_005fVADS_005fSize.html#Pragma-Use_005fVADS_005fSize">2.186 Pragma Use_VADS_Size</a>
+<li><a href="Pragma-Validity_005fChecks.html#Pragma-Validity_005fChecks">2.187 Pragma Validity_Checks</a>
+<li><a href="Pragma-Volatile.html#Pragma-Volatile">2.188 Pragma Volatile</a>
+<li><a href="Pragma-Warning_005fAs_005fError.html#Pragma-Warning_005fAs_005fError">2.189 Pragma Warning_As_Error</a>
+<li><a href="Pragma-Warnings.html#Pragma-Warnings">2.190 Pragma Warnings</a>
+<li><a href="Pragma-Weak_005fExternal.html#Pragma-Weak_005fExternal">2.191 Pragma Weak_External</a>
+<li><a href="Pragma-Wide_005fCharacter_005fEncoding.html#Pragma-Wide_005fCharacter_005fEncoding">2.192 Pragma Wide_Character_Encoding</a>
+</li></ul>
+<li><a name="toc_Implementation-Defined-Aspects" href="Implementation-Defined-Aspects.html#Implementation-Defined-Aspects">3 Implementation Defined Aspects</a>
+<ul>
+<li><a href="Aspect-Abstract_005fState.html#Aspect-Abstract_005fState">3.1 Aspect Abstract_State</a>
+<li><a href="Annotate.html#Annotate">3.2 Annotate</a>
+<li><a href="Aspect-Async_005fReaders.html#Aspect-Async_005fReaders">3.3 Aspect Async_Readers</a>
+<li><a href="Aspect-Async_005fWriters.html#Aspect-Async_005fWriters">3.4 Aspect Async_Writers</a>
+<li><a href="Aspect-Contract_005fCases.html#Aspect-Contract_005fCases">3.5 Aspect Contract_Cases</a>
+<li><a href="Aspect-Depends.html#Aspect-Depends">3.6 Aspect Depends</a>
+<li><a href="Aspect-Dimension.html#Aspect-Dimension">3.7 Aspect Dimension</a>
+<li><a href="Aspect-Dimension_005fSystem.html#Aspect-Dimension_005fSystem">3.8 Aspect Dimension_System</a>
+<li><a href="Aspect-Effective_005fReads.html#Aspect-Effective_005fReads">3.9 Aspect Effective_Reads</a>
+<li><a href="Aspect-Effective_005fWrites.html#Aspect-Effective_005fWrites">3.10 Aspect Effective_Writes</a>
+<li><a href="Aspect-Favor_005fTop_005fLevel.html#Aspect-Favor_005fTop_005fLevel">3.11 Aspect Favor_Top_Level</a>
+<li><a href="Aspect-Global.html#Aspect-Global">3.12 Aspect Global</a>
+<li><a href="Aspect-Initial_005fCondition.html#Aspect-Initial_005fCondition">3.13 Aspect Initial_Condition</a>
+<li><a href="Aspect-Initializes.html#Aspect-Initializes">3.14 Aspect Initializes</a>
+<li><a href="Aspect-Inline_005fAlways.html#Aspect-Inline_005fAlways">3.15 Aspect Inline_Always</a>
+<li><a href="Aspect-Invariant.html#Aspect-Invariant">3.16 Aspect Invariant</a>
+<li><a href="Aspect-Invariant_0027Class.html#Aspect-Invariant_0027Class">3.17 Aspect Invariant'Class</a>
+<li><a href="Aspect-Iterable.html#Aspect-Iterable">3.18 Aspect Iterable</a>
+<li><a href="Aspect-Linker_005fSection.html#Aspect-Linker_005fSection">3.19 Aspect Linker_Section</a>
+<li><a href="Aspect-Lock_005fFree.html#Aspect-Lock_005fFree">3.20 Aspect Lock_Free</a>
+<li><a href="Aspect-No_005fElaboration_005fCode_005fAll.html#Aspect-No_005fElaboration_005fCode_005fAll">3.21 Aspect No_Elaboration_Code_All</a>
+<li><a href="Aspect-No_005fTagged_005fStreams.html#Aspect-No_005fTagged_005fStreams">3.22 Aspect No_Tagged_Streams</a>
+<li><a href="Aspect-Object_005fSize.html#Aspect-Object_005fSize">3.23 Aspect Object_Size</a>
+<li><a href="Aspect-Obsolescent.html#Aspect-Obsolescent">3.24 Aspect Obsolescent</a>
+<li><a href="Aspect-Part_005fOf.html#Aspect-Part_005fOf">3.25 Aspect Part_Of</a>
+<li><a href="Aspect-Persistent_005fBSS.html#Aspect-Persistent_005fBSS">3.26 Aspect Persistent_BSS</a>
+<li><a href="Aspect-Predicate.html#Aspect-Predicate">3.27 Aspect Predicate</a>
+<li><a href="Aspect-Pure_005fFunction.html#Aspect-Pure_005fFunction">3.28 Aspect Pure_Function</a>
+<li><a href="Aspect-Refined_005fDepends.html#Aspect-Refined_005fDepends">3.29 Aspect Refined_Depends</a>
+<li><a href="Aspect-Refined_005fGlobal.html#Aspect-Refined_005fGlobal">3.30 Aspect Refined_Global</a>
+<li><a href="Aspect-Refined_005fPost.html#Aspect-Refined_005fPost">3.31 Aspect Refined_Post</a>
+<li><a href="Aspect-Refined_005fState.html#Aspect-Refined_005fState">3.32 Aspect Refined_State</a>
+<li><a href="Aspect-Remote_005fAccess_005fType.html#Aspect-Remote_005fAccess_005fType">3.33 Aspect Remote_Access_Type</a>
+<li><a href="Aspect-Scalar_005fStorage_005fOrder.html#Aspect-Scalar_005fStorage_005fOrder">3.34 Aspect Scalar_Storage_Order</a>
+<li><a href="Aspect-Shared.html#Aspect-Shared">3.35 Aspect Shared</a>
+<li><a href="Aspect-Simple_005fStorage_005fPool.html#Aspect-Simple_005fStorage_005fPool">3.36 Aspect Simple_Storage_Pool</a>
+<li><a href="Aspect-Simple_005fStorage_005fPool_005fType.html#Aspect-Simple_005fStorage_005fPool_005fType">3.37 Aspect Simple_Storage_Pool_Type</a>
+<li><a href="Aspect-SPARK_005fMode.html#Aspect-SPARK_005fMode">3.38 Aspect SPARK_Mode</a>
+<li><a href="Aspect-Suppress_005fDebug_005fInfo.html#Aspect-Suppress_005fDebug_005fInfo">3.39 Aspect Suppress_Debug_Info</a>
+<li><a href="Aspect-Suppress_005fInitialization.html#Aspect-Suppress_005fInitialization">3.40 Aspect Suppress_Initialization</a>
+<li><a href="Aspect-Test_005fCase.html#Aspect-Test_005fCase">3.41 Aspect Test_Case</a>
+<li><a href="Aspect-Thread_005fLocal_005fStorage.html#Aspect-Thread_005fLocal_005fStorage">3.42 Aspect Thread_Local_Storage</a>
+<li><a href="Aspect-Universal_005fAliasing.html#Aspect-Universal_005fAliasing">3.43 Aspect Universal_Aliasing</a>
+<li><a href="Aspect-Universal_005fData.html#Aspect-Universal_005fData">3.44 Aspect Universal_Data</a>
+<li><a href="Aspect-Unmodified.html#Aspect-Unmodified">3.45 Aspect Unmodified</a>
+<li><a href="Aspect-Unreferenced.html#Aspect-Unreferenced">3.46 Aspect Unreferenced</a>
+<li><a href="Aspect-Unreferenced_005fObjects.html#Aspect-Unreferenced_005fObjects">3.47 Aspect Unreferenced_Objects</a>
+<li><a href="Aspect-Value_005fSize.html#Aspect-Value_005fSize">3.48 Aspect Value_Size</a>
+<li><a href="Aspect-Warnings.html#Aspect-Warnings">3.49 Aspect Warnings</a>
+</li></ul>
+<li><a name="toc_Implementation-Defined-Attributes" href="Implementation-Defined-Attributes.html#Implementation-Defined-Attributes">4 Implementation Defined Attributes</a>
+<ul>
+<li><a href="Attribute-Abort_005fSignal.html#Attribute-Abort_005fSignal">4.1 Attribute Abort_Signal</a>
+<li><a href="Attribute-Address_005fSize.html#Attribute-Address_005fSize">4.2 Attribute Address_Size</a>
+<li><a href="Attribute-Asm_005fInput.html#Attribute-Asm_005fInput">4.3 Attribute Asm_Input</a>
+<li><a href="Attribute-Asm_005fOutput.html#Attribute-Asm_005fOutput">4.4 Attribute Asm_Output</a>
+<li><a href="Attribute-Atomic_005fAlways_005fLock_005fFree.html#Attribute-Atomic_005fAlways_005fLock_005fFree">4.5 Attribute Atomic_Always_Lock_Free</a>
+<li><a href="Attribute-Bit.html#Attribute-Bit">4.6 Attribute Bit</a>
+<li><a href="Attribute-Bit_005fPosition.html#Attribute-Bit_005fPosition">4.7 Attribute Bit_Position</a>
+<li><a href="Attribute-Code_005fAddress.html#Attribute-Code_005fAddress">4.8 Attribute Code_Address</a>
+<li><a href="Attribute-Compiler_005fVersion.html#Attribute-Compiler_005fVersion">4.9 Attribute Compiler_Version</a>
+<li><a href="Attribute-Constrained.html#Attribute-Constrained">4.10 Attribute Constrained</a>
+<li><a href="Attribute-Default_005fBit_005fOrder.html#Attribute-Default_005fBit_005fOrder">4.11 Attribute Default_Bit_Order</a>
+<li><a href="Attribute-Default_005fScalar_005fStorage_005fOrder.html#Attribute-Default_005fScalar_005fStorage_005fOrder">4.12 Attribute Default_Scalar_Storage_Order</a>
+<li><a href="Attribute-Deref.html#Attribute-Deref">4.13 Attribute Deref</a>
+<li><a href="Attribute-Descriptor_005fSize.html#Attribute-Descriptor_005fSize">4.14 Attribute Descriptor_Size</a>
+<li><a href="Attribute-Elaborated.html#Attribute-Elaborated">4.15 Attribute Elaborated</a>
+<li><a href="Attribute-Elab_005fBody.html#Attribute-Elab_005fBody">4.16 Attribute Elab_Body</a>
+<li><a href="Attribute-Elab_005fSpec.html#Attribute-Elab_005fSpec">4.17 Attribute Elab_Spec</a>
+<li><a href="Attribute-Elab_005fSubp_005fBody.html#Attribute-Elab_005fSubp_005fBody">4.18 Attribute Elab_Subp_Body</a>
+<li><a href="Attribute-Emax.html#Attribute-Emax">4.19 Attribute Emax</a>
+<li><a href="Attribute-Enabled.html#Attribute-Enabled">4.20 Attribute Enabled</a>
+<li><a href="Attribute-Enum_005fRep.html#Attribute-Enum_005fRep">4.21 Attribute Enum_Rep</a>
+<li><a href="Attribute-Enum_005fVal.html#Attribute-Enum_005fVal">4.22 Attribute Enum_Val</a>
+<li><a href="Attribute-Epsilon.html#Attribute-Epsilon">4.23 Attribute Epsilon</a>
+<li><a href="Attribute-Fast_005fMath.html#Attribute-Fast_005fMath">4.24 Attribute Fast_Math</a>
+<li><a href="Attribute-Fixed_005fValue.html#Attribute-Fixed_005fValue">4.25 Attribute Fixed_Value</a>
+<li><a href="Attribute-From_005fAny.html#Attribute-From_005fAny">4.26 Attribute From_Any</a>
+<li><a href="Attribute-Has_005fAccess_005fValues.html#Attribute-Has_005fAccess_005fValues">4.27 Attribute Has_Access_Values</a>
+<li><a href="Attribute-Has_005fDiscriminants.html#Attribute-Has_005fDiscriminants">4.28 Attribute Has_Discriminants</a>
+<li><a href="Attribute-Img.html#Attribute-Img">4.29 Attribute Img</a>
+<li><a href="Attribute-Integer_005fValue.html#Attribute-Integer_005fValue">4.30 Attribute Integer_Value</a>
+<li><a href="Attribute-Invalid_005fValue.html#Attribute-Invalid_005fValue">4.31 Attribute Invalid_Value</a>
+<li><a href="Attribute-Iterable.html#Attribute-Iterable">4.32 Attribute Iterable</a>
+<li><a href="Attribute-Large.html#Attribute-Large">4.33 Attribute Large</a>
+<li><a href="Attribute-Library_005fLevel.html#Attribute-Library_005fLevel">4.34 Attribute Library_Level</a>
+<li><a href="Attribute-Lock_005fFree.html#Attribute-Lock_005fFree">4.35 Attribute Lock_Free</a>
+<li><a href="Attribute-Loop_005fEntry.html#Attribute-Loop_005fEntry">4.36 Attribute Loop_Entry</a>
+<li><a href="Attribute-Machine_005fSize.html#Attribute-Machine_005fSize">4.37 Attribute Machine_Size</a>
+<li><a href="Attribute-Mantissa.html#Attribute-Mantissa">4.38 Attribute Mantissa</a>
+<li><a href="Attribute-Maximum_005fAlignment.html#Attribute-Maximum_005fAlignment">4.39 Attribute Maximum_Alignment</a>
+<li><a href="Attribute-Mechanism_005fCode.html#Attribute-Mechanism_005fCode">4.40 Attribute Mechanism_Code</a>
+<li><a href="Attribute-Null_005fParameter.html#Attribute-Null_005fParameter">4.41 Attribute Null_Parameter</a>
+<li><a href="Attribute-Object_005fSize.html#Attribute-Object_005fSize">4.42 Attribute Object_Size</a>
+<li><a href="Attribute-Old.html#Attribute-Old">4.43 Attribute Old</a>
+<li><a href="Attribute-Passed_005fBy_005fReference.html#Attribute-Passed_005fBy_005fReference">4.44 Attribute Passed_By_Reference</a>
+<li><a href="Attribute-Pool_005fAddress.html#Attribute-Pool_005fAddress">4.45 Attribute Pool_Address</a>
+<li><a href="Attribute-Range_005fLength.html#Attribute-Range_005fLength">4.46 Attribute Range_Length</a>
+<li><a href="Attribute-Ref.html#Attribute-Ref">4.47 Attribute Ref</a>
+<li><a href="Attribute-Restriction_005fSet.html#Attribute-Restriction_005fSet">4.48 Attribute Restriction_Set</a>
+<li><a href="Attribute-Result.html#Attribute-Result">4.49 Attribute Result</a>
+<li><a href="Attribute-Safe_005fEmax.html#Attribute-Safe_005fEmax">4.50 Attribute Safe_Emax</a>
+<li><a href="Attribute-Safe_005fLarge.html#Attribute-Safe_005fLarge">4.51 Attribute Safe_Large</a>
+<li><a href="Attribute-Safe_005fSmall.html#Attribute-Safe_005fSmall">4.52 Attribute Safe_Small</a>
+<li><a href="Attribute-Scalar_005fStorage_005fOrder.html#Attribute-Scalar_005fStorage_005fOrder">4.53 Attribute Scalar_Storage_Order</a>
+<li><a href="Attribute-Simple_005fStorage_005fPool.html#Attribute-Simple_005fStorage_005fPool">4.54 Attribute Simple_Storage_Pool</a>
+<li><a href="Attribute-Small.html#Attribute-Small">4.55 Attribute Small</a>
+<li><a href="Attribute-Storage_005fUnit.html#Attribute-Storage_005fUnit">4.56 Attribute Storage_Unit</a>
+<li><a href="Attribute-Stub_005fType.html#Attribute-Stub_005fType">4.57 Attribute Stub_Type</a>
+<li><a href="Attribute-System_005fAllocator_005fAlignment.html#Attribute-System_005fAllocator_005fAlignment">4.58 Attribute System_Allocator_Alignment</a>
+<li><a href="Attribute-Target_005fName.html#Attribute-Target_005fName">4.59 Attribute Target_Name</a>
+<li><a href="Attribute-To_005fAddress.html#Attribute-To_005fAddress">4.60 Attribute To_Address</a>
+<li><a href="Attribute-To_005fAny.html#Attribute-To_005fAny">4.61 Attribute To_Any</a>
+<li><a href="Attribute-Type_005fClass.html#Attribute-Type_005fClass">4.62 Attribute Type_Class</a>
+<li><a href="Attribute-Type_005fKey.html#Attribute-Type_005fKey">4.63 Attribute Type_Key</a>
+<li><a href="Attribute-TypeCode.html#Attribute-TypeCode">4.64 Attribute TypeCode</a>
+<li><a href="Attribute-UET_005fAddress.html#Attribute-UET_005fAddress">4.65 Attribute UET_Address</a>
+<li><a href="Attribute-Unconstrained_005fArray.html#Attribute-Unconstrained_005fArray">4.66 Attribute Unconstrained_Array</a>
+<li><a href="Attribute-Universal_005fLiteral_005fString.html#Attribute-Universal_005fLiteral_005fString">4.67 Attribute Universal_Literal_String</a>
+<li><a href="Attribute-Unrestricted_005fAccess.html#Attribute-Unrestricted_005fAccess">4.68 Attribute Unrestricted_Access</a>
+<li><a href="Attribute-Update.html#Attribute-Update">4.69 Attribute Update</a>
+<li><a href="Attribute-Valid_005fScalars.html#Attribute-Valid_005fScalars">4.70 Attribute Valid_Scalars</a>
+<li><a href="Attribute-VADS_005fSize.html#Attribute-VADS_005fSize">4.71 Attribute VADS_Size</a>
+<li><a href="Attribute-Value_005fSize.html#Attribute-Value_005fSize">4.72 Attribute Value_Size</a>
+<li><a href="Attribute-Wchar_005fT_005fSize.html#Attribute-Wchar_005fT_005fSize">4.73 Attribute Wchar_T_Size</a>
+<li><a href="Attribute-Word_005fSize.html#Attribute-Word_005fSize">4.74 Attribute Word_Size</a>
+</li></ul>
+<li><a name="toc_Standard-and-Implementation-Defined-Restrictions" href="Standard-and-Implementation-Defined-Restrictions.html#Standard-and-Implementation-Defined-Restrictions">5 Standard and Implementation Defined Restrictions</a>
+<ul>
+<li><a href="Partition_002dWide-Restrictions.html#Partition_002dWide-Restrictions">5.1 Partition-Wide Restrictions</a>
+<ul>
+<li><a href="Immediate_005fReclamation.html#Immediate_005fReclamation">5.1.1 Immediate_Reclamation</a>
+<li><a href="Max_005fAsynchronous_005fSelect_005fNesting.html#Max_005fAsynchronous_005fSelect_005fNesting">5.1.2 Max_Asynchronous_Select_Nesting</a>
+<li><a href="Max_005fEntry_005fQueue_005fLength.html#Max_005fEntry_005fQueue_005fLength">5.1.3 Max_Entry_Queue_Length</a>
+<li><a href="Max_005fProtected_005fEntries.html#Max_005fProtected_005fEntries">5.1.4 Max_Protected_Entries</a>
+<li><a href="Max_005fSelect_005fAlternatives.html#Max_005fSelect_005fAlternatives">5.1.5 Max_Select_Alternatives</a>
+<li><a href="Max_005fStorage_005fAt_005fBlocking.html#Max_005fStorage_005fAt_005fBlocking">5.1.6 Max_Storage_At_Blocking</a>
+<li><a href="Max_005fTask_005fEntries.html#Max_005fTask_005fEntries">5.1.7 Max_Task_Entries</a>
+<li><a href="Max_005fTasks.html#Max_005fTasks">5.1.8 Max_Tasks</a>
+<li><a href="No_005fAbort_005fStatements.html#No_005fAbort_005fStatements">5.1.9 No_Abort_Statements</a>
+<li><a href="No_005fAccess_005fParameter_005fAllocators.html#No_005fAccess_005fParameter_005fAllocators">5.1.10 No_Access_Parameter_Allocators</a>
+<li><a href="No_005fAccess_005fSubprograms.html#No_005fAccess_005fSubprograms">5.1.11 No_Access_Subprograms</a>
+<li><a href="No_005fAllocators.html#No_005fAllocators">5.1.12 No_Allocators</a>
+<li><a href="No_005fAnonymous_005fAllocators.html#No_005fAnonymous_005fAllocators">5.1.13 No_Anonymous_Allocators</a>
+<li><a href="No_005fCalendar.html#No_005fCalendar">5.1.14 No_Calendar</a>
+<li><a href="No_005fCoextensions.html#No_005fCoextensions">5.1.15 No_Coextensions</a>
+<li><a href="No_005fDefault_005fInitialization.html#No_005fDefault_005fInitialization">5.1.16 No_Default_Initialization</a>
+<li><a href="No_005fDelay.html#No_005fDelay">5.1.17 No_Delay</a>
+<li><a href="No_005fDependence.html#No_005fDependence">5.1.18 No_Dependence</a>
+<li><a href="No_005fDirect_005fBoolean_005fOperators.html#No_005fDirect_005fBoolean_005fOperators">5.1.19 No_Direct_Boolean_Operators</a>
+<li><a href="No_005fDispatch.html#No_005fDispatch">5.1.20 No_Dispatch</a>
+<li><a href="No_005fDispatching_005fCalls.html#No_005fDispatching_005fCalls">5.1.21 No_Dispatching_Calls</a>
+<li><a href="No_005fDynamic_005fAttachment.html#No_005fDynamic_005fAttachment">5.1.22 No_Dynamic_Attachment</a>
+<li><a href="No_005fDynamic_005fPriorities.html#No_005fDynamic_005fPriorities">5.1.23 No_Dynamic_Priorities</a>
+<li><a href="No_005fEntry_005fCalls_005fIn_005fElaboration_005fCode.html#No_005fEntry_005fCalls_005fIn_005fElaboration_005fCode">5.1.24 No_Entry_Calls_In_Elaboration_Code</a>
+<li><a href="No_005fEnumeration_005fMaps.html#No_005fEnumeration_005fMaps">5.1.25 No_Enumeration_Maps</a>
+<li><a href="No_005fException_005fHandlers.html#No_005fException_005fHandlers">5.1.26 No_Exception_Handlers</a>
+<li><a href="No_005fException_005fPropagation.html#No_005fException_005fPropagation">5.1.27 No_Exception_Propagation</a>
+<li><a href="No_005fException_005fRegistration.html#No_005fException_005fRegistration">5.1.28 No_Exception_Registration</a>
+<li><a href="No_005fExceptions.html#No_005fExceptions">5.1.29 No_Exceptions</a>
+<li><a href="No_005fFinalization.html#No_005fFinalization">5.1.30 No_Finalization</a>
+<li><a href="No_005fFixed_005fPoint.html#No_005fFixed_005fPoint">5.1.31 No_Fixed_Point</a>
+<li><a href="No_005fFloating_005fPoint.html#No_005fFloating_005fPoint">5.1.32 No_Floating_Point</a>
+<li><a href="No_005fImplicit_005fConditionals.html#No_005fImplicit_005fConditionals">5.1.33 No_Implicit_Conditionals</a>
+<li><a href="No_005fImplicit_005fDynamic_005fCode.html#No_005fImplicit_005fDynamic_005fCode">5.1.34 No_Implicit_Dynamic_Code</a>
+<li><a href="No_005fImplicit_005fHeap_005fAllocations.html#No_005fImplicit_005fHeap_005fAllocations">5.1.35 No_Implicit_Heap_Allocations</a>
+<li><a href="No_005fImplicit_005fLoops.html#No_005fImplicit_005fLoops">5.1.36 No_Implicit_Loops</a>
+<li><a href="No_005fInitialize_005fScalars.html#No_005fInitialize_005fScalars">5.1.37 No_Initialize_Scalars</a>
+<li><a href="No_005fIO.html#No_005fIO">5.1.38 No_IO</a>
+<li><a href="No_005fLocal_005fAllocators.html#No_005fLocal_005fAllocators">5.1.39 No_Local_Allocators</a>
+<li><a href="No_005fLocal_005fProtected_005fObjects.html#No_005fLocal_005fProtected_005fObjects">5.1.40 No_Local_Protected_Objects</a>
+<li><a href="No_005fLocal_005fTiming_005fEvents.html#No_005fLocal_005fTiming_005fEvents">5.1.41 No_Local_Timing_Events</a>
+<li><a href="No_005fLong_005fLong_005fIntegers.html#No_005fLong_005fLong_005fIntegers">5.1.42 No_Long_Long_Integers</a>
+<li><a href="No_005fMultiple_005fElaboration.html#No_005fMultiple_005fElaboration">5.1.43 No_Multiple_Elaboration</a>
+<li><a href="No_005fNested_005fFinalization.html#No_005fNested_005fFinalization">5.1.44 No_Nested_Finalization</a>
+<li><a href="No_005fProtected_005fType_005fAllocators.html#No_005fProtected_005fType_005fAllocators">5.1.45 No_Protected_Type_Allocators</a>
+<li><a href="No_005fProtected_005fTypes.html#No_005fProtected_005fTypes">5.1.46 No_Protected_Types</a>
+<li><a href="No_005fRecursion.html#No_005fRecursion">5.1.47 No_Recursion</a>
+<li><a href="No_005fReentrancy.html#No_005fReentrancy">5.1.48 No_Reentrancy</a>
+<li><a href="No_005fRelative_005fDelay.html#No_005fRelative_005fDelay">5.1.49 No_Relative_Delay</a>
+<li><a href="No_005fRequeue_005fStatements.html#No_005fRequeue_005fStatements">5.1.50 No_Requeue_Statements</a>
+<li><a href="No_005fSecondary_005fStack.html#No_005fSecondary_005fStack">5.1.51 No_Secondary_Stack</a>
+<li><a href="No_005fSelect_005fStatements.html#No_005fSelect_005fStatements">5.1.52 No_Select_Statements</a>
+<li><a href="No_005fSpecific_005fTermination_005fHandlers.html#No_005fSpecific_005fTermination_005fHandlers">5.1.53 No_Specific_Termination_Handlers</a>
+<li><a href="No_005fSpecification_005fof_005fAspect.html#No_005fSpecification_005fof_005fAspect">5.1.54 No_Specification_of_Aspect</a>
+<li><a href="No_005fStandard_005fAllocators_005fAfter_005fElaboration.html#No_005fStandard_005fAllocators_005fAfter_005fElaboration">5.1.55 No_Standard_Allocators_After_Elaboration</a>
+<li><a href="No_005fStandard_005fStorage_005fPools.html#No_005fStandard_005fStorage_005fPools">5.1.56 No_Standard_Storage_Pools</a>
+<li><a href="No_005fStream_005fOptimizations.html#No_005fStream_005fOptimizations">5.1.57 No_Stream_Optimizations</a>
+<li><a href="No_005fStreams.html#No_005fStreams">5.1.58 No_Streams</a>
+<li><a href="No_005fTask_005fAllocators.html#No_005fTask_005fAllocators">5.1.59 No_Task_Allocators</a>
+<li><a href="No_005fTask_005fAttributes_005fPackage.html#No_005fTask_005fAttributes_005fPackage">5.1.60 No_Task_Attributes_Package</a>
+<li><a href="No_005fTask_005fHierarchy.html#No_005fTask_005fHierarchy">5.1.61 No_Task_Hierarchy</a>
+<li><a href="No_005fTask_005fTermination.html#No_005fTask_005fTermination">5.1.62 No_Task_Termination</a>
+<li><a href="No_005fTasking.html#No_005fTasking">5.1.63 No_Tasking</a>
+<li><a href="No_005fTerminate_005fAlternatives.html#No_005fTerminate_005fAlternatives">5.1.64 No_Terminate_Alternatives</a>
+<li><a href="No_005fUnchecked_005fAccess.html#No_005fUnchecked_005fAccess">5.1.65 No_Unchecked_Access</a>
+<li><a href="No_005fUse_005fOf_005fEntity.html#No_005fUse_005fOf_005fEntity">5.1.66 No_Use_Of_Entity</a>
+<li><a href="Simple_005fBarriers.html#Simple_005fBarriers">5.1.67 Simple_Barriers</a>
+<li><a href="Static_005fPriorities.html#Static_005fPriorities">5.1.68 Static_Priorities</a>
+<li><a href="Static_005fStorage_005fSize.html#Static_005fStorage_005fSize">5.1.69 Static_Storage_Size</a>
+</li></ul>
+<li><a href="Program-Unit-Level-Restrictions.html#Program-Unit-Level-Restrictions">5.2 Program Unit Level Restrictions</a>
+<ul>
+<li><a href="No_005fElaboration_005fCode.html#No_005fElaboration_005fCode">5.2.1 No_Elaboration_Code</a>
+<li><a href="No_005fEntry_005fQueue.html#No_005fEntry_005fQueue">5.2.2 No_Entry_Queue</a>
+<li><a href="No_005fImplementation_005fAspect_005fSpecifications.html#No_005fImplementation_005fAspect_005fSpecifications">5.2.3 No_Implementation_Aspect_Specifications</a>
+<li><a href="No_005fImplementation_005fAttributes.html#No_005fImplementation_005fAttributes">5.2.4 No_Implementation_Attributes</a>
+<li><a href="No_005fImplementation_005fIdentifiers.html#No_005fImplementation_005fIdentifiers">5.2.5 No_Implementation_Identifiers</a>
+<li><a href="No_005fImplementation_005fPragmas.html#No_005fImplementation_005fPragmas">5.2.6 No_Implementation_Pragmas</a>
+<li><a href="No_005fImplementation_005fRestrictions.html#No_005fImplementation_005fRestrictions">5.2.7 No_Implementation_Restrictions</a>
+<li><a href="No_005fImplementation_005fUnits.html#No_005fImplementation_005fUnits">5.2.8 No_Implementation_Units</a>
+<li><a href="No_005fImplicit_005fAliasing.html#No_005fImplicit_005fAliasing">5.2.9 No_Implicit_Aliasing</a>
+<li><a href="No_005fObsolescent_005fFeatures.html#No_005fObsolescent_005fFeatures">5.2.10 No_Obsolescent_Features</a>
+<li><a href="No_005fWide_005fCharacters.html#No_005fWide_005fCharacters">5.2.11 No_Wide_Characters</a>
+<li><a href="SPARK_005f05.html#SPARK_005f05">5.2.12 SPARK_05</a>
+</li></ul>
+</li></ul>
+<li><a name="toc_Implementation-Advice" href="Implementation-Advice.html#Implementation-Advice">6 Implementation Advice</a>
+<ul>
+<li><a href="RM-1-1-3-20-Error-Detection.html#RM-1-1-3-20-Error-Detection">6.1 RM 1.1.3(20): Error Detection</a>
+<li><a href="RM-1-1-3-31-Child-Units.html#RM-1-1-3-31-Child-Units">6.2 RM 1.1.3(31): Child Units</a>
+<li><a href="RM-1-1-5-12-Bounded-Errors.html#RM-1-1-5-12-Bounded-Errors">6.3 RM 1.1.5(12): Bounded Errors</a>
+<li><a href="RM-2-8-16-Pragmas.html#RM-2-8-16-Pragmas">6.4 RM 2.8(16): Pragmas</a>
+<li><a href="RM-2-8-17_002d19-Pragmas.html#RM-2-8-17_002d19-Pragmas">6.5 RM 2.8(17-19): Pragmas</a>
+<li><a href="RM-3-5-2-5-Alternative-Character-Sets.html#RM-3-5-2-5-Alternative-Character-Sets">6.6 RM 3.5.2(5): Alternative Character Sets</a>
+<li><a href="RM-3-5-4-28-Integer-Types.html#RM-3-5-4-28-Integer-Types">6.7 RM 3.5.4(28): Integer Types</a>
+<li><a href="RM-3-5-4-29-Integer-Types.html#RM-3-5-4-29-Integer-Types">6.8 RM 3.5.4(29): Integer Types</a>
+<li><a href="RM-3-5-5-8-Enumeration-Values.html#RM-3-5-5-8-Enumeration-Values">6.9 RM 3.5.5(8): Enumeration Values</a>
+<li><a href="RM-3-5-7-17-Float-Types.html#RM-3-5-7-17-Float-Types">6.10 RM 3.5.7(17): Float Types</a>
+<li><a href="RM-3-6-2-11-Multidimensional-Arrays.html#RM-3-6-2-11-Multidimensional-Arrays">6.11 RM 3.6.2(11): Multidimensional Arrays</a>
+<li><a href="RM-9-6-30_002d31-Duration_0027Small.html#RM-9-6-30_002d31-Duration_0027Small">6.12 RM 9.6(30-31): Duration'Small</a>
+<li><a href="RM-10-2-1-12-Consistent-Representation.html#RM-10-2-1-12-Consistent-Representation">6.13 RM 10.2.1(12): Consistent Representation</a>
+<li><a href="RM-11-4-1-19-Exception-Information.html#RM-11-4-1-19-Exception-Information">6.14 RM 11.4.1(19): Exception Information</a>
+<li><a href="RM-11-5-28-Suppression-of-Checks.html#RM-11-5-28-Suppression-of-Checks">6.15 RM 11.5(28): Suppression of Checks</a>
+<li><a href="RM-13-1-21_002d24-Representation-Clauses.html#RM-13-1-21_002d24-Representation-Clauses">6.16 RM 13.1 (21-24): Representation Clauses</a>
+<li><a href="RM-13-2-6_002d8-Packed-Types.html#RM-13-2-6_002d8-Packed-Types">6.17 RM 13.2(6-8): Packed Types</a>
+<li><a href="RM-13-3-14_002d19-Address-Clauses.html#RM-13-3-14_002d19-Address-Clauses">6.18 RM 13.3(14-19): Address Clauses</a>
+<li><a href="RM-13-3-29_002d35-Alignment-Clauses.html#RM-13-3-29_002d35-Alignment-Clauses">6.19 RM 13.3(29-35): Alignment Clauses</a>
+<li><a href="RM-13-3-42_002d43-Size-Clauses.html#RM-13-3-42_002d43-Size-Clauses">6.20 RM 13.3(42-43): Size Clauses</a>
+<li><a href="RM-13-3-50_002d56-Size-Clauses.html#RM-13-3-50_002d56-Size-Clauses">6.21 RM 13.3(50-56): Size Clauses</a>
+<li><a href="RM-13-3-71_002d73-Component-Size-Clauses.html#RM-13-3-71_002d73-Component-Size-Clauses">6.22 RM 13.3(71-73): Component Size Clauses</a>
+<li><a href="RM-13-4-9_002d10-Enumeration-Representation-Clauses.html#RM-13-4-9_002d10-Enumeration-Representation-Clauses">6.23 RM 13.4(9-10): Enumeration Representation Clauses</a>
+<li><a href="RM-13-5-1-17_002d22-Record-Representation-Clauses.html#RM-13-5-1-17_002d22-Record-Representation-Clauses">6.24 RM 13.5.1(17-22): Record Representation Clauses</a>
+<li><a href="RM-13-5-2-5-Storage-Place-Attributes.html#RM-13-5-2-5-Storage-Place-Attributes">6.25 RM 13.5.2(5): Storage Place Attributes</a>
+<li><a href="RM-13-5-3-7_002d8-Bit-Ordering.html#RM-13-5-3-7_002d8-Bit-Ordering">6.26 RM 13.5.3(7-8): Bit Ordering</a>
+<li><a href="RM-13-7-37-Address-as-Private.html#RM-13-7-37-Address-as-Private">6.27 RM 13.7(37): Address as Private</a>
+<li><a href="RM-13-7-1-16-Address-Operations.html#RM-13-7-1-16-Address-Operations">6.28 RM 13.7.1(16): Address Operations</a>
+<li><a href="RM-13-9-14_002d17-Unchecked-Conversion.html#RM-13-9-14_002d17-Unchecked-Conversion">6.29 RM 13.9(14-17): Unchecked Conversion</a>
+<li><a href="RM-13-11-23_002d25-Implicit-Heap-Usage.html#RM-13-11-23_002d25-Implicit-Heap-Usage">6.30 RM 13.11(23-25): Implicit Heap Usage</a>
+<li><a href="RM-13-11-2-17-Unchecked-Deallocation.html#RM-13-11-2-17-Unchecked-Deallocation">6.31 RM 13.11.2(17): Unchecked Deallocation</a>
+<li><a href="RM-13-13-2-17-Stream-Oriented-Attributes.html#RM-13-13-2-17-Stream-Oriented-Attributes">6.32 RM 13.13.2(17): Stream Oriented Attributes</a>
+<li><a href="RM-A-1-52-Names-of-Predefined-Numeric-Types.html#RM-A-1-52-Names-of-Predefined-Numeric-Types">6.33 RM A.1(52): Names of Predefined Numeric Types</a>
+<li><a href="RM-A-3-2-49-Ada-Characters-Handling.html#RM-A-3-2-49-Ada-Characters-Handling">6.34 RM A.3.2(49): <cite>Ada.Characters.Handling</cite></a>
+<li><a href="RM-A-4-4-106-Bounded_002dLength-String-Handling.html#RM-A-4-4-106-Bounded_002dLength-String-Handling">6.35 RM A.4.4(106): Bounded-Length String Handling</a>
+<li><a href="RM-A-5-2-46_002d47-Random-Number-Generation.html#RM-A-5-2-46_002d47-Random-Number-Generation">6.36 RM A.5.2(46-47): Random Number Generation</a>
+<li><a href="RM-A-10-7-23-Get_005fImmediate.html#RM-A-10-7-23-Get_005fImmediate">6.37 RM A.10.7(23): <cite>Get_Immediate</cite></a>
+<li><a href="RM-B-1-39_002d41-Pragma-Export.html#RM-B-1-39_002d41-Pragma-Export">6.38 RM B.1(39-41): Pragma <cite>Export</cite></a>
+<li><a href="RM-B-2-12_002d13-Package-Interfaces.html#RM-B-2-12_002d13-Package-Interfaces">6.39 RM B.2(12-13): Package <cite>Interfaces</cite></a>
+<li><a href="RM-B-3-63_002d71-Interfacing-with-C.html#RM-B-3-63_002d71-Interfacing-with-C">6.40 RM B.3(63-71): Interfacing with C</a>
+<li><a href="RM-B-4-95_002d98-Interfacing-with-COBOL.html#RM-B-4-95_002d98-Interfacing-with-COBOL">6.41 RM B.4(95-98): Interfacing with COBOL</a>
+<li><a href="RM-B-5-22_002d26-Interfacing-with-Fortran.html#RM-B-5-22_002d26-Interfacing-with-Fortran">6.42 RM B.5(22-26): Interfacing with Fortran</a>
+<li><a href="RM-C-1-3_002d5-Access-to-Machine-Operations.html#RM-C-1-3_002d5-Access-to-Machine-Operations">6.43 RM C.1(3-5): Access to Machine Operations</a>
+<li><a href="RM-C-1-10_002d16-Access-to-Machine-Operations.html#RM-C-1-10_002d16-Access-to-Machine-Operations">6.44 RM C.1(10-16): Access to Machine Operations</a>
+<li><a href="RM-C-3-28-Interrupt-Support.html#RM-C-3-28-Interrupt-Support">6.45 RM C.3(28): Interrupt Support</a>
+<li><a href="RM-C-3-1-20_002d21-Protected-Procedure-Handlers.html#RM-C-3-1-20_002d21-Protected-Procedure-Handlers">6.46 RM C.3.1(20-21): Protected Procedure Handlers</a>
+<li><a href="RM-C-3-2-25-Package-Interrupts.html#RM-C-3-2-25-Package-Interrupts">6.47 RM C.3.2(25): Package <cite>Interrupts</cite></a>
+<li><a href="RM-C-4-14-Pre_002delaboration-Requirements.html#RM-C-4-14-Pre_002delaboration-Requirements">6.48 RM C.4(14): Pre-elaboration Requirements</a>
+<li><a href="RM-C-5-8-Pragma-Discard_005fNames.html#RM-C-5-8-Pragma-Discard_005fNames">6.49 RM C.5(8): Pragma <cite>Discard_Names</cite></a>
+<li><a href="RM-C-7-2-30-The-Package-Task_005fAttributes.html#RM-C-7-2-30-The-Package-Task_005fAttributes">6.50 RM C.7.2(30): The Package Task_Attributes</a>
+<li><a href="RM-D-3-17-Locking-Policies.html#RM-D-3-17-Locking-Policies">6.51 RM D.3(17): Locking Policies</a>
+<li><a href="RM-D-4-16-Entry-Queuing-Policies.html#RM-D-4-16-Entry-Queuing-Policies">6.52 RM D.4(16): Entry Queuing Policies</a>
+<li><a href="RM-D-6-9_002d10-Preemptive-Abort.html#RM-D-6-9_002d10-Preemptive-Abort">6.53 RM D.6(9-10): Preemptive Abort</a>
+<li><a href="RM-D-7-21-Tasking-Restrictions.html#RM-D-7-21-Tasking-Restrictions">6.54 RM D.7(21): Tasking Restrictions</a>
+<li><a href="RM-D-8-47_002d49-Monotonic-Time.html#RM-D-8-47_002d49-Monotonic-Time">6.55 RM D.8(47-49): Monotonic Time</a>
+<li><a href="RM-E-5-28_002d29-Partition-Communication-Subsystem.html#RM-E-5-28_002d29-Partition-Communication-Subsystem">6.56 RM E.5(28-29): Partition Communication Subsystem</a>
+<li><a href="RM-F-7-COBOL-Support.html#RM-F-7-COBOL-Support">6.57 RM F(7): COBOL Support</a>
+<li><a href="RM-F-1-2-Decimal-Radix-Support.html#RM-F-1-2-Decimal-Radix-Support">6.58 RM F.1(2): Decimal Radix Support</a>
+<li><a href="RM-G-Numerics.html#RM-G-Numerics">6.59 RM G: Numerics</a>
+<li><a href="RM-G-1-1-56_002d58-Complex-Types.html#RM-G-1-1-56_002d58-Complex-Types">6.60 RM G.1.1(56-58): Complex Types</a>
+<li><a href="RM-G-1-2-49-Complex-Elementary-Functions.html#RM-G-1-2-49-Complex-Elementary-Functions">6.61 RM G.1.2(49): Complex Elementary Functions</a>
+<li><a href="RM-G-2-4-19-Accuracy-Requirements.html#RM-G-2-4-19-Accuracy-Requirements">6.62 RM G.2.4(19): Accuracy Requirements</a>
+<li><a href="RM-G-2-6-15-Complex-Arithmetic-Accuracy.html#RM-G-2-6-15-Complex-Arithmetic-Accuracy">6.63 RM G.2.6(15): Complex Arithmetic Accuracy</a>
+<li><a href="RM-H-6-15_002f2-Pragma-Partition_005fElaboration_005fPolicy.html#RM-H-6-15_002f2-Pragma-Partition_005fElaboration_005fPolicy">6.64 RM H.6(15/2): Pragma Partition_Elaboration_Policy</a>
+</li></ul>
+<li><a name="toc_Implementation-Defined-Characteristics" href="Implementation-Defined-Characteristics.html#Implementation-Defined-Characteristics">7 Implementation Defined Characteristics</a>
+<li><a name="toc_Intrinsic-Subprograms" href="Intrinsic-Subprograms.html#Intrinsic-Subprograms">8 Intrinsic Subprograms</a>
+<ul>
+<li><a href="Intrinsic-Operators.html#Intrinsic-Operators">8.1 Intrinsic Operators</a>
+<li><a href="Compilation_005fDate.html#Compilation_005fDate">8.2 Compilation_Date</a>
+<li><a href="Compilation_005fTime.html#Compilation_005fTime">8.3 Compilation_Time</a>
+<li><a href="Enclosing_005fEntity.html#Enclosing_005fEntity">8.4 Enclosing_Entity</a>
+<li><a href="Exception_005fInformation.html#Exception_005fInformation">8.5 Exception_Information</a>
+<li><a href="Exception_005fMessage.html#Exception_005fMessage">8.6 Exception_Message</a>
+<li><a href="Exception_005fName.html#Exception_005fName">8.7 Exception_Name</a>
+<li><a href="File.html#File">8.8 File</a>
+<li><a href="Line.html#Line">8.9 Line</a>
+<li><a href="Shifts-and-Rotates.html#Shifts-and-Rotates">8.10 Shifts and Rotates</a>
+<li><a href="Source_005fLocation.html#Source_005fLocation">8.11 Source_Location</a>
+</li></ul>
+<li><a name="toc_Representation-Clauses-and-Pragmas" href="Representation-Clauses-and-Pragmas.html#Representation-Clauses-and-Pragmas">9 Representation Clauses and Pragmas</a>
+<ul>
+<li><a href="Alignment-Clauses.html#Alignment-Clauses">9.1 Alignment Clauses</a>
+<li><a href="Size-Clauses.html#Size-Clauses">9.2 Size Clauses</a>
+<li><a href="Storage_005fSize-Clauses.html#Storage_005fSize-Clauses">9.3 Storage_Size Clauses</a>
+<li><a href="Size-of-Variant-Record-Objects.html#Size-of-Variant-Record-Objects">9.4 Size of Variant Record Objects</a>
+<li><a href="Biased-Representation.html#Biased-Representation">9.5 Biased Representation</a>
+<li><a href="Value_005fSize-and-Object_005fSize-Clauses.html#Value_005fSize-and-Object_005fSize-Clauses">9.6 Value_Size and Object_Size Clauses</a>
+<li><a href="Component_005fSize-Clauses.html#Component_005fSize-Clauses">9.7 Component_Size Clauses</a>
+<li><a href="Bit_005fOrder-Clauses.html#Bit_005fOrder-Clauses">9.8 Bit_Order Clauses</a>
+<li><a href="Effect-of-Bit_005fOrder-on-Byte-Ordering.html#Effect-of-Bit_005fOrder-on-Byte-Ordering">9.9 Effect of Bit_Order on Byte Ordering</a>
+<li><a href="Pragma-Pack-for-Arrays.html#Pragma-Pack-for-Arrays">9.10 Pragma Pack for Arrays</a>
+<li><a href="Pragma-Pack-for-Records.html#Pragma-Pack-for-Records">9.11 Pragma Pack for Records</a>
+<li><a href="Record-Representation-Clauses.html#Record-Representation-Clauses">9.12 Record Representation Clauses</a>
+<li><a href="Handling-of-Records-with-Holes.html#Handling-of-Records-with-Holes">9.13 Handling of Records with Holes</a>
+<li><a href="Enumeration-Clauses.html#Enumeration-Clauses">9.14 Enumeration Clauses</a>
+<li><a href="Address-Clauses.html#Address-Clauses">9.15 Address Clauses</a>
+<li><a href="Use-of-Address-Clauses-for-Memory_002dMapped-I_002fO.html#Use-of-Address-Clauses-for-Memory_002dMapped-I_002fO">9.16 Use of Address Clauses for Memory-Mapped I/O</a>
+<li><a href="Effect-of-Convention-on-Representation.html#Effect-of-Convention-on-Representation">9.17 Effect of Convention on Representation</a>
+<li><a href="Conventions-and-Anonymous-Access-Types.html#Conventions-and-Anonymous-Access-Types">9.18 Conventions and Anonymous Access Types</a>
+<li><a href="Determining-the-Representations-chosen-by-GNAT.html#Determining-the-Representations-chosen-by-GNAT">9.19 Determining the Representations chosen by GNAT</a>
+</li></ul>
+<li><a name="toc_Standard-Library-Routines" href="Standard-Library-Routines.html#Standard-Library-Routines">10 Standard Library Routines</a>
+<li><a name="toc_The-Implementation-of-Standard-I_002fO" href="The-Implementation-of-Standard-I_002fO.html#The-Implementation-of-Standard-I_002fO">11 The Implementation of Standard I/O</a>
+<ul>
+<li><a href="Standard-I_002fO-Packages.html#Standard-I_002fO-Packages">11.1 Standard I/O Packages</a>
+<li><a href="FORM-Strings.html#FORM-Strings">11.2 FORM Strings</a>
+<li><a href="Direct_005fIO.html#Direct_005fIO">11.3 Direct_IO</a>
+<li><a href="Sequential_005fIO.html#Sequential_005fIO">11.4 Sequential_IO</a>
+<li><a href="Text_005fIO.html#Text_005fIO">11.5 Text_IO</a>
+<ul>
+<li><a href="Stream-Pointer-Positioning.html#Stream-Pointer-Positioning">11.5.1 Stream Pointer Positioning</a>
+<li><a href="Reading-and-Writing-Non_002dRegular-Files.html#Reading-and-Writing-Non_002dRegular-Files">11.5.2 Reading and Writing Non-Regular Files</a>
+<li><a href="Get_005fImmediate.html#Get_005fImmediate">11.5.3 Get_Immediate</a>
+<li><a href="Treating-Text_005fIO-Files-as-Streams.html#Treating-Text_005fIO-Files-as-Streams">11.5.4 Treating Text_IO Files as Streams</a>
+<li><a href="Text_005fIO-Extensions.html#Text_005fIO-Extensions">11.5.5 Text_IO Extensions</a>
+<li><a href="Text_005fIO-Facilities-for-Unbounded-Strings.html#Text_005fIO-Facilities-for-Unbounded-Strings">11.5.6 Text_IO Facilities for Unbounded Strings</a>
+</li></ul>
+<li><a href="Wide_005fText_005fIO.html#Wide_005fText_005fIO">11.6 Wide_Text_IO</a>
+<ul>
+<li><a href="Stream-Pointer-Positioning_003c2_003e.html#Stream-Pointer-Positioning_003c2_003e">11.6.1 Stream Pointer Positioning</a>
+<li><a href="Reading-and-Writing-Non_002dRegular-Files_003c2_003e.html#Reading-and-Writing-Non_002dRegular-Files_003c2_003e">11.6.2 Reading and Writing Non-Regular Files</a>
+</li></ul>
+<li><a href="Wide_005fWide_005fText_005fIO.html#Wide_005fWide_005fText_005fIO">11.7 Wide_Wide_Text_IO</a>
+<ul>
+<li><a href="Stream-Pointer-Positioning_003c3_003e.html#Stream-Pointer-Positioning_003c3_003e">11.7.1 Stream Pointer Positioning</a>
+<li><a href="Reading-and-Writing-Non_002dRegular-Files_003c3_003e.html#Reading-and-Writing-Non_002dRegular-Files_003c3_003e">11.7.2 Reading and Writing Non-Regular Files</a>
+</li></ul>
+<li><a href="Stream_005fIO.html#Stream_005fIO">11.8 Stream_IO</a>
+<li><a href="Text-Translation.html#Text-Translation">11.9 Text Translation</a>
+<li><a href="Shared-Files.html#Shared-Files">11.10 Shared Files</a>
+<li><a href="Filenames-encoding.html#Filenames-encoding">11.11 Filenames encoding</a>
+<li><a href="File-content-encoding.html#File-content-encoding">11.12 File content encoding</a>
+<li><a href="Open-Modes.html#Open-Modes">11.13 Open Modes</a>
+<li><a href="Operations-on-C-Streams.html#Operations-on-C-Streams">11.14 Operations on C Streams</a>
+<li><a href="Interfacing-to-C-Streams.html#Interfacing-to-C-Streams">11.15 Interfacing to C Streams</a>
+</li></ul>
+<li><a name="toc_The-GNAT-Library" href="The-GNAT-Library.html#The-GNAT-Library">12 The GNAT Library</a>
+<ul>
+<li><a href="Ada-Characters-Latin_005f9-a_002dchlat9-ads.html#Ada-Characters-Latin_005f9-a_002dchlat9-ads">12.1 <cite>Ada.Characters.Latin_9</cite> (<code>a-chlat9.ads</code>)</a>
+<li><a href="Ada-Characters-Wide_005fLatin_005f1-a_002dcwila1-ads.html#Ada-Characters-Wide_005fLatin_005f1-a_002dcwila1-ads">12.2 <cite>Ada.Characters.Wide_Latin_1</cite> (<code>a-cwila1.ads</code>)</a>
+<li><a href="Ada-Characters-Wide_005fLatin_005f9-a_002dcwila1-ads.html#Ada-Characters-Wide_005fLatin_005f9-a_002dcwila1-ads">12.3 <cite>Ada.Characters.Wide_Latin_9</cite> (<code>a-cwila1.ads</code>)</a>
+<li><a href="Ada-Characters-Wide_005fWide_005fLatin_005f1-a_002dchzla1-ads.html#Ada-Characters-Wide_005fWide_005fLatin_005f1-a_002dchzla1-ads">12.4 <cite>Ada.Characters.Wide_Wide_Latin_1</cite> (<code>a-chzla1.ads</code>)</a>
+<li><a href="Ada-Characters-Wide_005fWide_005fLatin_005f9-a_002dchzla9-ads.html#Ada-Characters-Wide_005fWide_005fLatin_005f9-a_002dchzla9-ads">12.5 <cite>Ada.Characters.Wide_Wide_Latin_9</cite> (<code>a-chzla9.ads</code>)</a>
+<li><a href="Ada-Containers-Formal_005fDoubly_005fLinked_005fLists-a_002dcfdlli-ads.html#Ada-Containers-Formal_005fDoubly_005fLinked_005fLists-a_002dcfdlli-ads">12.6 <cite>Ada.Containers.Formal_Doubly_Linked_Lists</cite> (<code>a-cfdlli.ads</code>)</a>
+<li><a href="Ada-Containers-Formal_005fHashed_005fMaps-a_002dcfhama-ads.html#Ada-Containers-Formal_005fHashed_005fMaps-a_002dcfhama-ads">12.7 <cite>Ada.Containers.Formal_Hashed_Maps</cite> (<code>a-cfhama.ads</code>)</a>
+<li><a href="Ada-Containers-Formal_005fHashed_005fSets-a_002dcfhase-ads.html#Ada-Containers-Formal_005fHashed_005fSets-a_002dcfhase-ads">12.8 <cite>Ada.Containers.Formal_Hashed_Sets</cite> (<code>a-cfhase.ads</code>)</a>
+<li><a href="Ada-Containers-Formal_005fOrdered_005fMaps-a_002dcforma-ads.html#Ada-Containers-Formal_005fOrdered_005fMaps-a_002dcforma-ads">12.9 <cite>Ada.Containers.Formal_Ordered_Maps</cite> (<code>a-cforma.ads</code>)</a>
+<li><a href="Ada-Containers-Formal_005fOrdered_005fSets-a_002dcforse-ads.html#Ada-Containers-Formal_005fOrdered_005fSets-a_002dcforse-ads">12.10 <cite>Ada.Containers.Formal_Ordered_Sets</cite> (<code>a-cforse.ads</code>)</a>
+<li><a href="Ada-Containers-Formal_005fVectors-a_002dcofove-ads.html#Ada-Containers-Formal_005fVectors-a_002dcofove-ads">12.11 <cite>Ada.Containers.Formal_Vectors</cite> (<code>a-cofove.ads</code>)</a>
+<li><a href="Ada-Containers-Formal_005fIndefinite_005fVectors-a_002dcfinve-ads.html#Ada-Containers-Formal_005fIndefinite_005fVectors-a_002dcfinve-ads">12.12 <cite>Ada.Containers.Formal_Indefinite_Vectors</cite> (<code>a-cfinve.ads</code>)</a>
+<li><a href="Ada-Containers-Bounded_005fHolders-a_002dcoboho-ads.html#Ada-Containers-Bounded_005fHolders-a_002dcoboho-ads">12.13 <cite>Ada.Containers.Bounded_Holders</cite> (<code>a-coboho.ads</code>)</a>
+<li><a href="Ada-Command_005fLine-Environment-a_002dcolien-ads.html#Ada-Command_005fLine-Environment-a_002dcolien-ads">12.14 <cite>Ada.Command_Line.Environment</cite> (<code>a-colien.ads</code>)</a>
+<li><a href="Ada-Command_005fLine-Remove-a_002dcolire-ads.html#Ada-Command_005fLine-Remove-a_002dcolire-ads">12.15 <cite>Ada.Command_Line.Remove</cite> (<code>a-colire.ads</code>)</a>
+<li><a href="Ada-Command_005fLine-Response_005fFile-a_002dclrefi-ads.html#Ada-Command_005fLine-Response_005fFile-a_002dclrefi-ads">12.16 <cite>Ada.Command_Line.Response_File</cite> (<code>a-clrefi.ads</code>)</a>
+<li><a href="Ada-Direct_005fIO-C_005fStreams-a_002ddiocst-ads.html#Ada-Direct_005fIO-C_005fStreams-a_002ddiocst-ads">12.17 <cite>Ada.Direct_IO.C_Streams</cite> (<code>a-diocst.ads</code>)</a>
+<li><a href="Ada-Exceptions-Is_005fNull_005fOccurrence-a_002deinuoc-ads.html#Ada-Exceptions-Is_005fNull_005fOccurrence-a_002deinuoc-ads">12.18 <cite>Ada.Exceptions.Is_Null_Occurrence</cite> (<code>a-einuoc.ads</code>)</a>
+<li><a href="Ada-Exceptions-Last_005fChance_005fHandler-a_002delchha-ads.html#Ada-Exceptions-Last_005fChance_005fHandler-a_002delchha-ads">12.19 <cite>Ada.Exceptions.Last_Chance_Handler</cite> (<code>a-elchha.ads</code>)</a>
+<li><a href="Ada-Exceptions-Traceback-a_002dexctra-ads.html#Ada-Exceptions-Traceback-a_002dexctra-ads">12.20 <cite>Ada.Exceptions.Traceback</cite> (<code>a-exctra.ads</code>)</a>
+<li><a href="Ada-Sequential_005fIO-C_005fStreams-a_002dsiocst-ads.html#Ada-Sequential_005fIO-C_005fStreams-a_002dsiocst-ads">12.21 <cite>Ada.Sequential_IO.C_Streams</cite> (<code>a-siocst.ads</code>)</a>
+<li><a href="Ada-Streams-Stream_005fIO-C_005fStreams-a_002dssicst-ads.html#Ada-Streams-Stream_005fIO-C_005fStreams-a_002dssicst-ads">12.22 <cite>Ada.Streams.Stream_IO.C_Streams</cite> (<code>a-ssicst.ads</code>)</a>
+<li><a href="Ada-Strings-Unbounded-Text_005fIO-a_002dsuteio-ads.html#Ada-Strings-Unbounded-Text_005fIO-a_002dsuteio-ads">12.23 <cite>Ada.Strings.Unbounded.Text_IO</cite> (<code>a-suteio.ads</code>)</a>
+<li><a href="Ada-Strings-Wide_005fUnbounded-Wide_005fText_005fIO-a_002dswuwti-ads.html#Ada-Strings-Wide_005fUnbounded-Wide_005fText_005fIO-a_002dswuwti-ads">12.24 <cite>Ada.Strings.Wide_Unbounded.Wide_Text_IO</cite> (<code>a-swuwti.ads</code>)</a>
+<li><a href="Ada-Strings-Wide_005fWide_005fUnbounded-Wide_005fWide_005fText_005fIO-a_002dszuzti-ads.html#Ada-Strings-Wide_005fWide_005fUnbounded-Wide_005fWide_005fText_005fIO-a_002dszuzti-ads">12.25 <cite>Ada.Strings.Wide_Wide_Unbounded.Wide_Wide_Text_IO</cite> (<code>a-szuzti.ads</code>)</a>
+<li><a href="Ada-Text_005fIO-C_005fStreams-a_002dtiocst-ads.html#Ada-Text_005fIO-C_005fStreams-a_002dtiocst-ads">12.26 <cite>Ada.Text_IO.C_Streams</cite> (<code>a-tiocst.ads</code>)</a>
+<li><a href="Ada-Text_005fIO-Reset_005fStandard_005fFiles-a_002dtirsfi-ads.html#Ada-Text_005fIO-Reset_005fStandard_005fFiles-a_002dtirsfi-ads">12.27 <cite>Ada.Text_IO.Reset_Standard_Files</cite> (<code>a-tirsfi.ads</code>)</a>
+<li><a href="Ada-Wide_005fCharacters-Unicode-a_002dwichun-ads.html#Ada-Wide_005fCharacters-Unicode-a_002dwichun-ads">12.28 <cite>Ada.Wide_Characters.Unicode</cite> (<code>a-wichun.ads</code>)</a>
+<li><a href="Ada-Wide_005fText_005fIO-C_005fStreams-a_002dwtcstr-ads.html#Ada-Wide_005fText_005fIO-C_005fStreams-a_002dwtcstr-ads">12.29 <cite>Ada.Wide_Text_IO.C_Streams</cite> (<code>a-wtcstr.ads</code>)</a>
+<li><a href="Ada-Wide_005fText_005fIO-Reset_005fStandard_005fFiles-a_002dwrstfi-ads.html#Ada-Wide_005fText_005fIO-Reset_005fStandard_005fFiles-a_002dwrstfi-ads">12.30 <cite>Ada.Wide_Text_IO.Reset_Standard_Files</cite> (<code>a-wrstfi.ads</code>)</a>
+<li><a href="Ada-Wide_005fWide_005fCharacters-Unicode-a_002dzchuni-ads.html#Ada-Wide_005fWide_005fCharacters-Unicode-a_002dzchuni-ads">12.31 <cite>Ada.Wide_Wide_Characters.Unicode</cite> (<code>a-zchuni.ads</code>)</a>
+<li><a href="Ada-Wide_005fWide_005fText_005fIO-C_005fStreams-a_002dztcstr-ads.html#Ada-Wide_005fWide_005fText_005fIO-C_005fStreams-a_002dztcstr-ads">12.32 <cite>Ada.Wide_Wide_Text_IO.C_Streams</cite> (<code>a-ztcstr.ads</code>)</a>
+<li><a href="Ada-Wide_005fWide_005fText_005fIO-Reset_005fStandard_005fFiles-a_002dzrstfi-ads.html#Ada-Wide_005fWide_005fText_005fIO-Reset_005fStandard_005fFiles-a_002dzrstfi-ads">12.33 <cite>Ada.Wide_Wide_Text_IO.Reset_Standard_Files</cite> (<code>a-zrstfi.ads</code>)</a>
+<li><a href="GNAT-Altivec-g_002daltive-ads.html#GNAT-Altivec-g_002daltive-ads">12.34 <cite>GNAT.Altivec</cite> (<code>g-altive.ads</code>)</a>
+<li><a href="GNAT-Altivec-Conversions-g_002daltcon-ads.html#GNAT-Altivec-Conversions-g_002daltcon-ads">12.35 <cite>GNAT.Altivec.Conversions</cite> (<code>g-altcon.ads</code>)</a>
+<li><a href="GNAT-Altivec-Vector_005fOperations-g_002dalveop-ads.html#GNAT-Altivec-Vector_005fOperations-g_002dalveop-ads">12.36 <cite>GNAT.Altivec.Vector_Operations</cite> (<code>g-alveop.ads</code>)</a>
+<li><a href="GNAT-Altivec-Vector_005fTypes-g_002dalvety-ads.html#GNAT-Altivec-Vector_005fTypes-g_002dalvety-ads">12.37 <cite>GNAT.Altivec.Vector_Types</cite> (<code>g-alvety.ads</code>)</a>
+<li><a href="GNAT-Altivec-Vector_005fViews-g_002dalvevi-ads.html#GNAT-Altivec-Vector_005fViews-g_002dalvevi-ads">12.38 <cite>GNAT.Altivec.Vector_Views</cite> (<code>g-alvevi.ads</code>)</a>
+<li><a href="GNAT-Array_005fSplit-g_002darrspl-ads.html#GNAT-Array_005fSplit-g_002darrspl-ads">12.39 <cite>GNAT.Array_Split</cite> (<code>g-arrspl.ads</code>)</a>
+<li><a href="GNAT-AWK-g_002dawk-ads.html#GNAT-AWK-g_002dawk-ads">12.40 <cite>GNAT.AWK</cite> (<code>g-awk.ads</code>)</a>
+<li><a href="GNAT-Bounded_005fBuffers-g_002dboubuf-ads.html#GNAT-Bounded_005fBuffers-g_002dboubuf-ads">12.41 <cite>GNAT.Bounded_Buffers</cite> (<code>g-boubuf.ads</code>)</a>
+<li><a href="GNAT-Bounded_005fMailboxes-g_002dboumai-ads.html#GNAT-Bounded_005fMailboxes-g_002dboumai-ads">12.42 <cite>GNAT.Bounded_Mailboxes</cite> (<code>g-boumai.ads</code>)</a>
+<li><a href="GNAT-Bubble_005fSort-g_002dbubsor-ads.html#GNAT-Bubble_005fSort-g_002dbubsor-ads">12.43 <cite>GNAT.Bubble_Sort</cite> (<code>g-bubsor.ads</code>)</a>
+<li><a href="GNAT-Bubble_005fSort_005fA-g_002dbusora-ads.html#GNAT-Bubble_005fSort_005fA-g_002dbusora-ads">12.44 <cite>GNAT.Bubble_Sort_A</cite> (<code>g-busora.ads</code>)</a>
+<li><a href="GNAT-Bubble_005fSort_005fG-g_002dbusorg-ads.html#GNAT-Bubble_005fSort_005fG-g_002dbusorg-ads">12.45 <cite>GNAT.Bubble_Sort_G</cite> (<code>g-busorg.ads</code>)</a>
+<li><a href="GNAT-Byte_005fOrder_005fMark-g_002dbyorma-ads.html#GNAT-Byte_005fOrder_005fMark-g_002dbyorma-ads">12.46 <cite>GNAT.Byte_Order_Mark</cite> (<code>g-byorma.ads</code>)</a>
+<li><a href="GNAT-Byte_005fSwapping-g_002dbytswa-ads.html#GNAT-Byte_005fSwapping-g_002dbytswa-ads">12.47 <cite>GNAT.Byte_Swapping</cite> (<code>g-bytswa.ads</code>)</a>
+<li><a href="GNAT-Calendar-g_002dcalend-ads.html#GNAT-Calendar-g_002dcalend-ads">12.48 <cite>GNAT.Calendar</cite> (<code>g-calend.ads</code>)</a>
+<li><a href="GNAT-Calendar-Time_005fIO-g_002dcatiio-ads.html#GNAT-Calendar-Time_005fIO-g_002dcatiio-ads">12.49 <cite>GNAT.Calendar.Time_IO</cite> (<code>g-catiio.ads</code>)</a>
+<li><a href="GNAT-CRC32-g_002dcrc32-ads.html#GNAT-CRC32-g_002dcrc32-ads">12.50 <cite>GNAT.CRC32</cite> (<code>g-crc32.ads</code>)</a>
+<li><a href="GNAT-Case_005fUtil-g_002dcasuti-ads.html#GNAT-Case_005fUtil-g_002dcasuti-ads">12.51 <cite>GNAT.Case_Util</cite> (<code>g-casuti.ads</code>)</a>
+<li><a href="GNAT-CGI-g_002dcgi-ads.html#GNAT-CGI-g_002dcgi-ads">12.52 <cite>GNAT.CGI</cite> (<code>g-cgi.ads</code>)</a>
+<li><a href="GNAT-CGI-Cookie-g_002dcgicoo-ads.html#GNAT-CGI-Cookie-g_002dcgicoo-ads">12.53 <cite>GNAT.CGI.Cookie</cite> (<code>g-cgicoo.ads</code>)</a>
+<li><a href="GNAT-CGI-Debug-g_002dcgideb-ads.html#GNAT-CGI-Debug-g_002dcgideb-ads">12.54 <cite>GNAT.CGI.Debug</cite> (<code>g-cgideb.ads</code>)</a>
+<li><a href="GNAT-Command_005fLine-g_002dcomlin-ads.html#GNAT-Command_005fLine-g_002dcomlin-ads">12.55 <cite>GNAT.Command_Line</cite> (<code>g-comlin.ads</code>)</a>
+<li><a href="GNAT-Compiler_005fVersion-g_002dcomver-ads.html#GNAT-Compiler_005fVersion-g_002dcomver-ads">12.56 <cite>GNAT.Compiler_Version</cite> (<code>g-comver.ads</code>)</a>
+<li><a href="GNAT-Ctrl_005fC-g_002dctrl_005fc-ads.html#GNAT-Ctrl_005fC-g_002dctrl_005fc-ads">12.57 <cite>GNAT.Ctrl_C</cite> (<code>g-ctrl_c.ads</code>)</a>
+<li><a href="GNAT-Current_005fException-g_002dcurexc-ads.html#GNAT-Current_005fException-g_002dcurexc-ads">12.58 <cite>GNAT.Current_Exception</cite> (<code>g-curexc.ads</code>)</a>
+<li><a href="GNAT-Debug_005fPools-g_002ddebpoo-ads.html#GNAT-Debug_005fPools-g_002ddebpoo-ads">12.59 <cite>GNAT.Debug_Pools</cite> (<code>g-debpoo.ads</code>)</a>
+<li><a href="GNAT-Debug_005fUtilities-g_002ddebuti-ads.html#GNAT-Debug_005fUtilities-g_002ddebuti-ads">12.60 <cite>GNAT.Debug_Utilities</cite> (<code>g-debuti.ads</code>)</a>
+<li><a href="GNAT-Decode_005fString-g_002ddecstr-ads.html#GNAT-Decode_005fString-g_002ddecstr-ads">12.61 <cite>GNAT.Decode_String</cite> (<code>g-decstr.ads</code>)</a>
+<li><a href="GNAT-Decode_005fUTF8_005fString-g_002ddeutst-ads.html#GNAT-Decode_005fUTF8_005fString-g_002ddeutst-ads">12.62 <cite>GNAT.Decode_UTF8_String</cite> (<code>g-deutst.ads</code>)</a>
+<li><a href="GNAT-Directory_005fOperations-g_002ddirope-ads.html#GNAT-Directory_005fOperations-g_002ddirope-ads">12.63 <cite>GNAT.Directory_Operations</cite> (<code>g-dirope.ads</code>)</a>
+<li><a href="GNAT-Directory_005fOperations-Iteration-g_002ddiopit-ads.html#GNAT-Directory_005fOperations-Iteration-g_002ddiopit-ads">12.64 <cite>GNAT.Directory_Operations.Iteration</cite> (<code>g-diopit.ads</code>)</a>
+<li><a href="GNAT-Dynamic_005fHTables-g_002ddynhta-ads.html#GNAT-Dynamic_005fHTables-g_002ddynhta-ads">12.65 <cite>GNAT.Dynamic_HTables</cite> (<code>g-dynhta.ads</code>)</a>
+<li><a href="GNAT-Dynamic_005fTables-g_002ddyntab-ads.html#GNAT-Dynamic_005fTables-g_002ddyntab-ads">12.66 <cite>GNAT.Dynamic_Tables</cite> (<code>g-dyntab.ads</code>)</a>
+<li><a href="GNAT-Encode_005fString-g_002dencstr-ads.html#GNAT-Encode_005fString-g_002dencstr-ads">12.67 <cite>GNAT.Encode_String</cite> (<code>g-encstr.ads</code>)</a>
+<li><a href="GNAT-Encode_005fUTF8_005fString-g_002denutst-ads.html#GNAT-Encode_005fUTF8_005fString-g_002denutst-ads">12.68 <cite>GNAT.Encode_UTF8_String</cite> (<code>g-enutst.ads</code>)</a>
+<li><a href="GNAT-Exception_005fActions-g_002dexcact-ads.html#GNAT-Exception_005fActions-g_002dexcact-ads">12.69 <cite>GNAT.Exception_Actions</cite> (<code>g-excact.ads</code>)</a>
+<li><a href="GNAT-Exception_005fTraces-g_002dexctra-ads.html#GNAT-Exception_005fTraces-g_002dexctra-ads">12.70 <cite>GNAT.Exception_Traces</cite> (<code>g-exctra.ads</code>)</a>
+<li><a href="GNAT-Exceptions-g_002dexpect-ads.html#GNAT-Exceptions-g_002dexpect-ads">12.71 <cite>GNAT.Exceptions</cite> (<code>g-expect.ads</code>)</a>
+<li><a href="GNAT-Expect-g_002dexpect-ads.html#GNAT-Expect-g_002dexpect-ads">12.72 <cite>GNAT.Expect</cite> (<code>g-expect.ads</code>)</a>
+<li><a href="GNAT-Expect-TTY-g_002dexptty-ads.html#GNAT-Expect-TTY-g_002dexptty-ads">12.73 <cite>GNAT.Expect.TTY</cite> (<code>g-exptty.ads</code>)</a>
+<li><a href="GNAT-Float_005fControl-g_002dflocon-ads.html#GNAT-Float_005fControl-g_002dflocon-ads">12.74 <cite>GNAT.Float_Control</cite> (<code>g-flocon.ads</code>)</a>
+<li><a href="GNAT-Formatted_005fString-g_002dforstr-ads.html#GNAT-Formatted_005fString-g_002dforstr-ads">12.75 <cite>GNAT.Formatted_String</cite> (<code>g-forstr.ads</code>)</a>
+<li><a href="GNAT-Heap_005fSort-g_002dheasor-ads.html#GNAT-Heap_005fSort-g_002dheasor-ads">12.76 <cite>GNAT.Heap_Sort</cite> (<code>g-heasor.ads</code>)</a>
+<li><a href="GNAT-Heap_005fSort_005fA-g_002dhesora-ads.html#GNAT-Heap_005fSort_005fA-g_002dhesora-ads">12.77 <cite>GNAT.Heap_Sort_A</cite> (<code>g-hesora.ads</code>)</a>
+<li><a href="GNAT-Heap_005fSort_005fG-g_002dhesorg-ads.html#GNAT-Heap_005fSort_005fG-g_002dhesorg-ads">12.78 <cite>GNAT.Heap_Sort_G</cite> (<code>g-hesorg.ads</code>)</a>
+<li><a href="GNAT-HTable-g_002dhtable-ads.html#GNAT-HTable-g_002dhtable-ads">12.79 <cite>GNAT.HTable</cite> (<code>g-htable.ads</code>)</a>
+<li><a href="GNAT-IO-g_002dio-ads.html#GNAT-IO-g_002dio-ads">12.80 <cite>GNAT.IO</cite> (<code>g-io.ads</code>)</a>
+<li><a href="GNAT-IO_005fAux-g_002dio_005faux-ads.html#GNAT-IO_005fAux-g_002dio_005faux-ads">12.81 <cite>GNAT.IO_Aux</cite> (<code>g-io_aux.ads</code>)</a>
+<li><a href="GNAT-Lock_005fFiles-g_002dlocfil-ads.html#GNAT-Lock_005fFiles-g_002dlocfil-ads">12.82 <cite>GNAT.Lock_Files</cite> (<code>g-locfil.ads</code>)</a>
+<li><a href="GNAT-MBBS_005fDiscrete_005fRandom-g_002dmbdira-ads.html#GNAT-MBBS_005fDiscrete_005fRandom-g_002dmbdira-ads">12.83 <cite>GNAT.MBBS_Discrete_Random</cite> (<code>g-mbdira.ads</code>)</a>
+<li><a href="GNAT-MBBS_005fFloat_005fRandom-g_002dmbflra-ads.html#GNAT-MBBS_005fFloat_005fRandom-g_002dmbflra-ads">12.84 <cite>GNAT.MBBS_Float_Random</cite> (<code>g-mbflra.ads</code>)</a>
+<li><a href="GNAT-MD5-g_002dmd5-ads.html#GNAT-MD5-g_002dmd5-ads">12.85 <cite>GNAT.MD5</cite> (<code>g-md5.ads</code>)</a>
+<li><a href="GNAT-Memory_005fDump-g_002dmemdum-ads.html#GNAT-Memory_005fDump-g_002dmemdum-ads">12.86 <cite>GNAT.Memory_Dump</cite> (<code>g-memdum.ads</code>)</a>
+<li><a href="GNAT-Most_005fRecent_005fException-g_002dmoreex-ads.html#GNAT-Most_005fRecent_005fException-g_002dmoreex-ads">12.87 <cite>GNAT.Most_Recent_Exception</cite> (<code>g-moreex.ads</code>)</a>
+<li><a href="GNAT-OS_005fLib-g_002dos_005flib-ads.html#GNAT-OS_005fLib-g_002dos_005flib-ads">12.88 <cite>GNAT.OS_Lib</cite> (<code>g-os_lib.ads</code>)</a>
+<li><a href="GNAT-Perfect_005fHash_005fGenerators-g_002dpehage-ads.html#GNAT-Perfect_005fHash_005fGenerators-g_002dpehage-ads">12.89 <cite>GNAT.Perfect_Hash_Generators</cite> (<code>g-pehage.ads</code>)</a>
+<li><a href="GNAT-Random_005fNumbers-g_002drannum-ads.html#GNAT-Random_005fNumbers-g_002drannum-ads">12.90 <cite>GNAT.Random_Numbers</cite> (<code>g-rannum.ads</code>)</a>
+<li><a href="GNAT-Regexp-g_002dregexp-ads.html#GNAT-Regexp-g_002dregexp-ads">12.91 <cite>GNAT.Regexp</cite> (<code>g-regexp.ads</code>)</a>
+<li><a href="GNAT-Registry-g_002dregist-ads.html#GNAT-Registry-g_002dregist-ads">12.92 <cite>GNAT.Registry</cite> (<code>g-regist.ads</code>)</a>
+<li><a href="GNAT-Regpat-g_002dregpat-ads.html#GNAT-Regpat-g_002dregpat-ads">12.93 <cite>GNAT.Regpat</cite> (<code>g-regpat.ads</code>)</a>
+<li><a href="GNAT-Rewrite_005fData-g_002drewdat-ads.html#GNAT-Rewrite_005fData-g_002drewdat-ads">12.94 <cite>GNAT.Rewrite_Data</cite> (<code>g-rewdat.ads</code>)</a>
+<li><a href="GNAT-Secondary_005fStack_005fInfo-g_002dsestin-ads.html#GNAT-Secondary_005fStack_005fInfo-g_002dsestin-ads">12.95 <cite>GNAT.Secondary_Stack_Info</cite> (<code>g-sestin.ads</code>)</a>
+<li><a href="GNAT-Semaphores-g_002dsemaph-ads.html#GNAT-Semaphores-g_002dsemaph-ads">12.96 <cite>GNAT.Semaphores</cite> (<code>g-semaph.ads</code>)</a>
+<li><a href="GNAT-Serial_005fCommunications-g_002dsercom-ads.html#GNAT-Serial_005fCommunications-g_002dsercom-ads">12.97 <cite>GNAT.Serial_Communications</cite> (<code>g-sercom.ads</code>)</a>
+<li><a href="GNAT-SHA1-g_002dsha1-ads.html#GNAT-SHA1-g_002dsha1-ads">12.98 <cite>GNAT.SHA1</cite> (<code>g-sha1.ads</code>)</a>
+<li><a href="GNAT-SHA224-g_002dsha224-ads.html#GNAT-SHA224-g_002dsha224-ads">12.99 <cite>GNAT.SHA224</cite> (<code>g-sha224.ads</code>)</a>
+<li><a href="GNAT-SHA256-g_002dsha256-ads.html#GNAT-SHA256-g_002dsha256-ads">12.100 <cite>GNAT.SHA256</cite> (<code>g-sha256.ads</code>)</a>
+<li><a href="GNAT-SHA384-g_002dsha384-ads.html#GNAT-SHA384-g_002dsha384-ads">12.101 <cite>GNAT.SHA384</cite> (<code>g-sha384.ads</code>)</a>
+<li><a href="GNAT-SHA512-g_002dsha512-ads.html#GNAT-SHA512-g_002dsha512-ads">12.102 <cite>GNAT.SHA512</cite> (<code>g-sha512.ads</code>)</a>
+<li><a href="GNAT-Signals-g_002dsignal-ads.html#GNAT-Signals-g_002dsignal-ads">12.103 <cite>GNAT.Signals</cite> (<code>g-signal.ads</code>)</a>
+<li><a href="GNAT-Sockets-g_002dsocket-ads.html#GNAT-Sockets-g_002dsocket-ads">12.104 <cite>GNAT.Sockets</cite> (<code>g-socket.ads</code>)</a>
+<li><a href="GNAT-Source_005fInfo-g_002dsouinf-ads.html#GNAT-Source_005fInfo-g_002dsouinf-ads">12.105 <cite>GNAT.Source_Info</cite> (<code>g-souinf.ads</code>)</a>
+<li><a href="GNAT-Spelling_005fChecker-g_002dspeche-ads.html#GNAT-Spelling_005fChecker-g_002dspeche-ads">12.106 <cite>GNAT.Spelling_Checker</cite> (<code>g-speche.ads</code>)</a>
+<li><a href="GNAT-Spelling_005fChecker_005fGeneric-g_002dspchge-ads.html#GNAT-Spelling_005fChecker_005fGeneric-g_002dspchge-ads">12.107 <cite>GNAT.Spelling_Checker_Generic</cite> (<code>g-spchge.ads</code>)</a>
+<li><a href="GNAT-Spitbol-Patterns-g_002dspipat-ads.html#GNAT-Spitbol-Patterns-g_002dspipat-ads">12.108 <cite>GNAT.Spitbol.Patterns</cite> (<code>g-spipat.ads</code>)</a>
+<li><a href="GNAT-Spitbol-g_002dspitbo-ads.html#GNAT-Spitbol-g_002dspitbo-ads">12.109 <cite>GNAT.Spitbol</cite> (<code>g-spitbo.ads</code>)</a>
+<li><a href="GNAT-Spitbol-Table_005fBoolean-g_002dsptabo-ads.html#GNAT-Spitbol-Table_005fBoolean-g_002dsptabo-ads">12.110 <cite>GNAT.Spitbol.Table_Boolean</cite> (<code>g-sptabo.ads</code>)</a>
+<li><a href="GNAT-Spitbol-Table_005fInteger-g_002dsptain-ads.html#GNAT-Spitbol-Table_005fInteger-g_002dsptain-ads">12.111 <cite>GNAT.Spitbol.Table_Integer</cite> (<code>g-sptain.ads</code>)</a>
+<li><a href="GNAT-Spitbol-Table_005fVString-g_002dsptavs-ads.html#GNAT-Spitbol-Table_005fVString-g_002dsptavs-ads">12.112 <cite>GNAT.Spitbol.Table_VString</cite> (<code>g-sptavs.ads</code>)</a>
+<li><a href="GNAT-SSE-g_002dsse-ads.html#GNAT-SSE-g_002dsse-ads">12.113 <cite>GNAT.SSE</cite> (<code>g-sse.ads</code>)</a>
+<li><a href="GNAT-SSE-Vector_005fTypes-g_002dssvety-ads.html#GNAT-SSE-Vector_005fTypes-g_002dssvety-ads">12.114 <cite>GNAT.SSE.Vector_Types</cite> (<code>g-ssvety.ads</code>)</a>
+<li><a href="GNAT-Strings-g_002dstring-ads.html#GNAT-Strings-g_002dstring-ads">12.115 <cite>GNAT.Strings</cite> (<code>g-string.ads</code>)</a>
+<li><a href="GNAT-String_005fSplit-g_002dstrspl-ads.html#GNAT-String_005fSplit-g_002dstrspl-ads">12.116 <cite>GNAT.String_Split</cite> (<code>g-strspl.ads</code>)</a>
+<li><a href="GNAT-Table-g_002dtable-ads.html#GNAT-Table-g_002dtable-ads">12.117 <cite>GNAT.Table</cite> (<code>g-table.ads</code>)</a>
+<li><a href="GNAT-Task_005fLock-g_002dtasloc-ads.html#GNAT-Task_005fLock-g_002dtasloc-ads">12.118 <cite>GNAT.Task_Lock</cite> (<code>g-tasloc.ads</code>)</a>
+<li><a href="GNAT-Time_005fStamp-g_002dtimsta-ads.html#GNAT-Time_005fStamp-g_002dtimsta-ads">12.119 <cite>GNAT.Time_Stamp</cite> (<code>g-timsta.ads</code>)</a>
+<li><a href="GNAT-Threads-g_002dthread-ads.html#GNAT-Threads-g_002dthread-ads">12.120 <cite>GNAT.Threads</cite> (<code>g-thread.ads</code>)</a>
+<li><a href="GNAT-Traceback-g_002dtraceb-ads.html#GNAT-Traceback-g_002dtraceb-ads">12.121 <cite>GNAT.Traceback</cite> (<code>g-traceb.ads</code>)</a>
+<li><a href="GNAT-Traceback-Symbolic-g_002dtrasym-ads.html#GNAT-Traceback-Symbolic-g_002dtrasym-ads">12.122 <cite>GNAT.Traceback.Symbolic</cite> (<code>g-trasym.ads</code>)</a>
+<li><a href="GNAT-UTF_005f32-g_002dtable-ads.html#GNAT-UTF_005f32-g_002dtable-ads">12.123 <cite>GNAT.UTF_32</cite> (<code>g-table.ads</code>)</a>
+<li><a href="GNAT-Wide_005fSpelling_005fChecker-g_002du3spch-ads.html#GNAT-Wide_005fSpelling_005fChecker-g_002du3spch-ads">12.124 <cite>GNAT.Wide_Spelling_Checker</cite> (<code>g-u3spch.ads</code>)</a>
+<li><a href="GNAT-Wide_005fSpelling_005fChecker-g_002dwispch-ads.html#GNAT-Wide_005fSpelling_005fChecker-g_002dwispch-ads">12.125 <cite>GNAT.Wide_Spelling_Checker</cite> (<code>g-wispch.ads</code>)</a>
+<li><a href="GNAT-Wide_005fString_005fSplit-g_002dwistsp-ads.html#GNAT-Wide_005fString_005fSplit-g_002dwistsp-ads">12.126 <cite>GNAT.Wide_String_Split</cite> (<code>g-wistsp.ads</code>)</a>
+<li><a href="GNAT-Wide_005fWide_005fSpelling_005fChecker-g_002dzspche-ads.html#GNAT-Wide_005fWide_005fSpelling_005fChecker-g_002dzspche-ads">12.127 <cite>GNAT.Wide_Wide_Spelling_Checker</cite> (<code>g-zspche.ads</code>)</a>
+<li><a href="GNAT-Wide_005fWide_005fString_005fSplit-g_002dzistsp-ads.html#GNAT-Wide_005fWide_005fString_005fSplit-g_002dzistsp-ads">12.128 <cite>GNAT.Wide_Wide_String_Split</cite> (<code>g-zistsp.ads</code>)</a>
+<li><a href="Interfaces-C-Extensions-i_002dcexten-ads.html#Interfaces-C-Extensions-i_002dcexten-ads">12.129 <cite>Interfaces.C.Extensions</cite> (<code>i-cexten.ads</code>)</a>
+<li><a href="Interfaces-C-Streams-i_002dcstrea-ads.html#Interfaces-C-Streams-i_002dcstrea-ads">12.130 <cite>Interfaces.C.Streams</cite> (<code>i-cstrea.ads</code>)</a>
+<li><a href="Interfaces-Packed_005fDecimal-i_002dpacdec-ads.html#Interfaces-Packed_005fDecimal-i_002dpacdec-ads">12.131 <cite>Interfaces.Packed_Decimal</cite> (<code>i-pacdec.ads</code>)</a>
+<li><a href="Interfaces-VxWorks-i_002dvxwork-ads.html#Interfaces-VxWorks-i_002dvxwork-ads">12.132 <cite>Interfaces.VxWorks</cite> (<code>i-vxwork.ads</code>)</a>
+<li><a href="Interfaces-VxWorks-IO-i_002dvxwoio-ads.html#Interfaces-VxWorks-IO-i_002dvxwoio-ads">12.133 <cite>Interfaces.VxWorks.IO</cite> (<code>i-vxwoio.ads</code>)</a>
+<li><a href="System-Address_005fImage-s_002daddima-ads.html#System-Address_005fImage-s_002daddima-ads">12.134 <cite>System.Address_Image</cite> (<code>s-addima.ads</code>)</a>
+<li><a href="System-Assertions-s_002dassert-ads.html#System-Assertions-s_002dassert-ads">12.135 <cite>System.Assertions</cite> (<code>s-assert.ads</code>)</a>
+<li><a href="System-Atomic_005fCounters-s_002datocou-ads.html#System-Atomic_005fCounters-s_002datocou-ads">12.136 <cite>System.Atomic_Counters</cite> (<code>s-atocou.ads</code>)</a>
+<li><a href="System-Memory-s_002dmemory-ads.html#System-Memory-s_002dmemory-ads">12.137 <cite>System.Memory</cite> (<code>s-memory.ads</code>)</a>
+<li><a href="System-Multiprocessors-s_002dmultip-ads.html#System-Multiprocessors-s_002dmultip-ads">12.138 <cite>System.Multiprocessors</cite> (<code>s-multip.ads</code>)</a>
+<li><a href="System-Multiprocessors-Dispatching_005fDomains-s_002dmudido-ads.html#System-Multiprocessors-Dispatching_005fDomains-s_002dmudido-ads">12.139 <cite>System.Multiprocessors.Dispatching_Domains</cite> (<code>s-mudido.ads</code>)</a>
+<li><a href="System-Partition_005fInterface-s_002dparint-ads.html#System-Partition_005fInterface-s_002dparint-ads">12.140 <cite>System.Partition_Interface</cite> (<code>s-parint.ads</code>)</a>
+<li><a href="System-Pool_005fGlobal-s_002dpooglo-ads.html#System-Pool_005fGlobal-s_002dpooglo-ads">12.141 <cite>System.Pool_Global</cite> (<code>s-pooglo.ads</code>)</a>
+<li><a href="System-Pool_005fLocal-s_002dpooloc-ads.html#System-Pool_005fLocal-s_002dpooloc-ads">12.142 <cite>System.Pool_Local</cite> (<code>s-pooloc.ads</code>)</a>
+<li><a href="System-Restrictions-s_002drestri-ads.html#System-Restrictions-s_002drestri-ads">12.143 <cite>System.Restrictions</cite> (<code>s-restri.ads</code>)</a>
+<li><a href="System-Rident-s_002drident-ads.html#System-Rident-s_002drident-ads">12.144 <cite>System.Rident</cite> (<code>s-rident.ads</code>)</a>
+<li><a href="System-Strings-Stream_005fOps-s_002dststop-ads.html#System-Strings-Stream_005fOps-s_002dststop-ads">12.145 <cite>System.Strings.Stream_Ops</cite> (<code>s-ststop.ads</code>)</a>
+<li><a href="System-Unsigned_005fTypes-s_002dunstyp-ads.html#System-Unsigned_005fTypes-s_002dunstyp-ads">12.146 <cite>System.Unsigned_Types</cite> (<code>s-unstyp.ads</code>)</a>
+<li><a href="System-Wch_005fCnv-s_002dwchcnv-ads.html#System-Wch_005fCnv-s_002dwchcnv-ads">12.147 <cite>System.Wch_Cnv</cite> (<code>s-wchcnv.ads</code>)</a>
+<li><a href="System-Wch_005fCon-s_002dwchcon-ads.html#System-Wch_005fCon-s_002dwchcon-ads">12.148 <cite>System.Wch_Con</cite> (<code>s-wchcon.ads</code>)</a>
+</li></ul>
+<li><a name="toc_Interfacing-to-Other-Languages" href="Interfacing-to-Other-Languages.html#Interfacing-to-Other-Languages">13 Interfacing to Other Languages</a>
+<ul>
+<li><a href="Interfacing-to-C.html#Interfacing-to-C">13.1 Interfacing to C</a>
+<li><a href="Interfacing-to-C_002b_002b.html#Interfacing-to-C_002b_002b">13.2 Interfacing to C++</a>
+<li><a href="Interfacing-to-COBOL.html#Interfacing-to-COBOL">13.3 Interfacing to COBOL</a>
+<li><a href="Interfacing-to-Fortran.html#Interfacing-to-Fortran">13.4 Interfacing to Fortran</a>
+<li><a href="Interfacing-to-non_002dGNAT-Ada-code.html#Interfacing-to-non_002dGNAT-Ada-code">13.5 Interfacing to non-GNAT Ada code</a>
+</li></ul>
+<li><a name="toc_Specialized-Needs-Annexes" href="Specialized-Needs-Annexes.html#Specialized-Needs-Annexes">14 Specialized Needs Annexes</a>
+<li><a name="toc_Implementation-of-Specific-Ada-Features" href="Implementation-of-Specific-Ada-Features.html#Implementation-of-Specific-Ada-Features">15 Implementation of Specific Ada Features</a>
+<ul>
+<li><a href="Machine-Code-Insertions.html#Machine-Code-Insertions">15.1 Machine Code Insertions</a>
+<li><a href="GNAT-Implementation-of-Tasking.html#GNAT-Implementation-of-Tasking">15.2 GNAT Implementation of Tasking</a>
+<ul>
+<li><a href="Mapping-Ada-Tasks-onto-the-Underlying-Kernel-Threads.html#Mapping-Ada-Tasks-onto-the-Underlying-Kernel-Threads">15.2.1 Mapping Ada Tasks onto the Underlying Kernel Threads</a>
+<li><a href="Ensuring-Compliance-with-the-Real_002dTime-Annex.html#Ensuring-Compliance-with-the-Real_002dTime-Annex">15.2.2 Ensuring Compliance with the Real-Time Annex</a>
+</li></ul>
+<li><a href="GNAT-Implementation-of-Shared-Passive-Packages.html#GNAT-Implementation-of-Shared-Passive-Packages">15.3 GNAT Implementation of Shared Passive Packages</a>
+<li><a href="Code-Generation-for-Array-Aggregates.html#Code-Generation-for-Array-Aggregates">15.4 Code Generation for Array Aggregates</a>
+<ul>
+<li><a href="Static-constant-aggregates-with-static-bounds.html#Static-constant-aggregates-with-static-bounds">15.4.1 Static constant aggregates with static bounds</a>
+<li><a href="Constant-aggregates-with-unconstrained-nominal-types.html#Constant-aggregates-with-unconstrained-nominal-types">15.4.2 Constant aggregates with unconstrained nominal types</a>
+<li><a href="Aggregates-with-static-bounds.html#Aggregates-with-static-bounds">15.4.3 Aggregates with static bounds</a>
+<li><a href="Aggregates-with-non_002dstatic-bounds.html#Aggregates-with-non_002dstatic-bounds">15.4.4 Aggregates with non-static bounds</a>
+<li><a href="Aggregates-in-assignment-statements.html#Aggregates-in-assignment-statements">15.4.5 Aggregates in assignment statements</a>
+</li></ul>
+<li><a href="The-Size-of-Discriminated-Records-with-Default-Discriminants.html#The-Size-of-Discriminated-Records-with-Default-Discriminants">15.5 The Size of Discriminated Records with Default Discriminants</a>
+<li><a href="Strict-Conformance-to-the-Ada-Reference-Manual.html#Strict-Conformance-to-the-Ada-Reference-Manual">15.6 Strict Conformance to the Ada Reference Manual</a>
+</li></ul>
+<li><a name="toc_Implementation-of-Ada-2012-Features" href="Implementation-of-Ada-2012-Features.html#Implementation-of-Ada-2012-Features">16 Implementation of Ada 2012 Features</a>
+<li><a name="toc_Obsolescent-Features" href="Obsolescent-Features.html#Obsolescent-Features">17 Obsolescent Features</a>
+<ul>
+<li><a href="pragma-No_005fRun_005fTime.html#pragma-No_005fRun_005fTime">17.1 pragma No_Run_Time</a>
+<li><a href="pragma-Ravenscar.html#pragma-Ravenscar">17.2 pragma Ravenscar</a>
+<li><a href="pragma-Restricted_005fRun_005fTime.html#pragma-Restricted_005fRun_005fTime">17.3 pragma Restricted_Run_Time</a>
+<li><a href="pragma-Task_005fInfo.html#pragma-Task_005fInfo">17.4 pragma Task_Info</a>
+<li><a href="package-System-Task_005fInfo-s_002dtasinf-ads.html#package-System-Task_005fInfo-s_002dtasinf-ads">17.5 package System.Task_Info (<code>s-tasinf.ads</code>)</a>
+</li></ul>
+<li><a name="toc_Compatibility-and-Porting-Guide" href="Compatibility-and-Porting-Guide.html#Compatibility-and-Porting-Guide">18 Compatibility and Porting Guide</a>
+<ul>
+<li><a href="Writing-Portable-Fixed_002dPoint-Declarations.html#Writing-Portable-Fixed_002dPoint-Declarations">18.1 Writing Portable Fixed-Point Declarations</a>
+<li><a href="Compatibility-with-Ada-83.html#Compatibility-with-Ada-83">18.2 Compatibility with Ada 83</a>
+<ul>
+<li><a href="Legal-Ada-83-programs-that-are-illegal-in-Ada-95.html#Legal-Ada-83-programs-that-are-illegal-in-Ada-95">18.2.1 Legal Ada 83 programs that are illegal in Ada 95</a>
+<li><a href="More-deterministic-semantics.html#More-deterministic-semantics">18.2.2 More deterministic semantics</a>
+<li><a href="Changed-semantics.html#Changed-semantics">18.2.3 Changed semantics</a>
+<li><a href="Other-language-compatibility-issues.html#Other-language-compatibility-issues">18.2.4 Other language compatibility issues</a>
+</li></ul>
+<li><a href="Compatibility-between-Ada-95-and-Ada-2005.html#Compatibility-between-Ada-95-and-Ada-2005">18.3 Compatibility between Ada 95 and Ada 2005</a>
+<li><a href="Implementation_002ddependent-characteristics.html#Implementation_002ddependent-characteristics">18.4 Implementation-dependent characteristics</a>
+<ul>
+<li><a href="Implementation_002ddefined-pragmas.html#Implementation_002ddefined-pragmas">18.4.1 Implementation-defined pragmas</a>
+<li><a href="Implementation_002ddefined-attributes.html#Implementation_002ddefined-attributes">18.4.2 Implementation-defined attributes</a>
+<li><a href="Libraries.html#Libraries">18.4.3 Libraries</a>
+<li><a href="Elaboration-order.html#Elaboration-order">18.4.4 Elaboration order</a>
+<li><a href="Target_002dspecific-aspects.html#Target_002dspecific-aspects">18.4.5 Target-specific aspects</a>
+</li></ul>
+<li><a href="Compatibility-with-Other-Ada-Systems.html#Compatibility-with-Other-Ada-Systems">18.5 Compatibility with Other Ada Systems</a>
+<li><a href="Representation-Clauses.html#Representation-Clauses">18.6 Representation Clauses</a>
+<li><a href="Compatibility-with-HP-Ada-83.html#Compatibility-with-HP-Ada-83">18.7 Compatibility with HP Ada 83</a>
+</li></ul>
+<li><a name="toc_GNU-Free-Documentation-License" href="GNU-Free-Documentation-License.html#GNU-Free-Documentation-License">19 GNU Free Documentation License</a>
+<li><a name="toc_Index" href="Index.html#Index">Index</a>
+</li></ul>
+</div>
+
+
+
+<!-- %** start of user preamble -->
+<!-- %** end of user preamble -->
+<div class="node">
+<a name="Top"></a>
+<p>
+Next:&nbsp;<a rel="next" accesskey="n" href="About-This-Guide.html#About-This-Guide">About This Guide</a>,
+Up:&nbsp;<a rel="up" accesskey="u" href="../index.html#dir">(dir)</a>
+<hr>
+</div>
+
+<h2 class="unnumbered">GNAT Reference Manual</h2>
+
+<blockquote>
+GNAT Reference Manual , March 24, 2015
+
+<p>AdaCore
+
+<p>Copyright &copy; 2008-2015, Free Software Foundation
+</blockquote>
+
+<!-- %**start of body -->
+<p><a name="gnat_005frm-doc"></a><a name="g_t0"></a>`GNAT, The GNU Ada Development Environment'
+
+<!-- Copyright (C) 2001-2015 Free Software Foundation, Inc. -->
+<!-- This is part of the GCC manual. -->
+<!-- For copying conditions, see the file gcc.texi. -->
+<!-- Version number and development mode. -->
+<!-- version-GCC is @set to the base GCC version number. -->
+<!-- DEVELOPMENT is @set for an in-development version, @clear for a -->
+<!-- release version (corresponding to ``experimental''/anything else -->
+<!-- in gcc/DEV-PHASE). -->
+<!-- Common macros to support generating man pages: -->
+<!-- Makeinfo handles the above macro OK, TeX needs manual line breaks; -->
+<!-- they get lost at some point in handling the macro.  But if @macro is -->
+<!-- used here rather than @alias, it produces double line breaks. -->
+<!-- For FSF printing, define FSFPRINT.  Also update the ISBN and last -->
+<!-- printing date for the manual being printed. -->
+<!-- @set FSFPRINT -->
+<!-- Macro to generate a "For the N.N.N version" subtitle on the title -->
+<!-- page of TeX documentation.  This macro should be used in the -->
+<!-- titlepage environment after the title and any other subtitles have -->
+<!-- been placed, and before any authors are placed. -->
+<p>GCC version 5.3.0<br>
+AdaCore
+
+<p>Permission is granted to copy, distribute and/or modify this document
+under the terms of the GNU Free Documentation License, Version 1.3 or
+any later version published by the Free Software Foundation; with no
+Invariant Sections, with the Front-Cover Texts being "GNAT Reference
+Manual", and with no Back-Cover Texts.  A copy of the license is
+included in the section entitled <a href="1.html#g_t1">GNU Free Documentation License</a>.
+
+<ul class="menu">
+<li><a accesskey="1" href="About-This-Guide.html#About-This-Guide">About This Guide</a>
+<li><a accesskey="2" href="Implementation-Defined-Pragmas.html#Implementation-Defined-Pragmas">Implementation Defined Pragmas</a>
+<li><a accesskey="3" href="Implementation-Defined-Aspects.html#Implementation-Defined-Aspects">Implementation Defined Aspects</a>
+<li><a accesskey="4" href="Implementation-Defined-Attributes.html#Implementation-Defined-Attributes">Implementation Defined Attributes</a>
+<li><a accesskey="5" href="Standard-and-Implementation-Defined-Restrictions.html#Standard-and-Implementation-Defined-Restrictions">Standard and Implementation Defined Restrictions</a>
+<li><a accesskey="6" href="Implementation-Advice.html#Implementation-Advice">Implementation Advice</a>
+<li><a accesskey="7" href="Implementation-Defined-Characteristics.html#Implementation-Defined-Characteristics">Implementation Defined Characteristics</a>
+<li><a accesskey="8" href="Intrinsic-Subprograms.html#Intrinsic-Subprograms">Intrinsic Subprograms</a>
+<li><a accesskey="9" href="Representation-Clauses-and-Pragmas.html#Representation-Clauses-and-Pragmas">Representation Clauses and Pragmas</a>
+<li><a href="Standard-Library-Routines.html#Standard-Library-Routines">Standard Library Routines</a>
+<li><a href="The-Implementation-of-Standard-I_002fO.html#The-Implementation-of-Standard-I_002fO">The Implementation of Standard I/O</a>
+<li><a href="The-GNAT-Library.html#The-GNAT-Library">The GNAT Library</a>
+<li><a href="Interfacing-to-Other-Languages.html#Interfacing-to-Other-Languages">Interfacing to Other Languages</a>
+<li><a href="Specialized-Needs-Annexes.html#Specialized-Needs-Annexes">Specialized Needs Annexes</a>
+<li><a href="Implementation-of-Specific-Ada-Features.html#Implementation-of-Specific-Ada-Features">Implementation of Specific Ada Features</a>
+<li><a href="Implementation-of-Ada-2012-Features.html#Implementation-of-Ada-2012-Features">Implementation of Ada 2012 Features</a>
+<li><a href="Obsolescent-Features.html#Obsolescent-Features">Obsolescent Features</a>
+<li><a href="Compatibility-and-Porting-Guide.html#Compatibility-and-Porting-Guide">Compatibility and Porting Guide</a>
+<li><a href="GNU-Free-Documentation-License.html#GNU-Free-Documentation-License">GNU Free Documentation License</a>
+<li><a href="Index.html#Index">Index</a>
+
+</li></ul>
+<p>--- The Detailed Node Listing ---
+
+<p>About This Guide
+
+</p>
+<ul class="menu">
+<li><a href="What-This-Reference-Manual-Contains.html#What-This-Reference-Manual-Contains">What This Reference Manual Contains</a>
+<li><a href="Conventions.html#Conventions">Conventions</a>
+<li><a href="Related-Information.html#Related-Information">Related Information</a>
+
+</li></ul>
+<p>Implementation Defined Pragmas
+
+</p>
+<ul class="menu">
+<li><a href="Pragma-Abort_005fDefer.html#Pragma-Abort_005fDefer">Pragma Abort_Defer</a>
+<li><a href="Pragma-Abstract_005fState.html#Pragma-Abstract_005fState">Pragma Abstract_State</a>
+<li><a href="Pragma-Ada_005f83.html#Pragma-Ada_005f83">Pragma Ada_83</a>
+<li><a href="Pragma-Ada_005f95.html#Pragma-Ada_005f95">Pragma Ada_95</a>
+<li><a href="Pragma-Ada_005f05.html#Pragma-Ada_005f05">Pragma Ada_05</a>
+<li><a href="Pragma-Ada_005f2005.html#Pragma-Ada_005f2005">Pragma Ada_2005</a>
+<li><a href="Pragma-Ada_005f12.html#Pragma-Ada_005f12">Pragma Ada_12</a>
+<li><a href="Pragma-Ada_005f2012.html#Pragma-Ada_005f2012">Pragma Ada_2012</a>
+<li><a href="Pragma-Allow_005fInteger_005fAddress.html#Pragma-Allow_005fInteger_005fAddress">Pragma Allow_Integer_Address</a>
+<li><a href="Pragma-Annotate.html#Pragma-Annotate">Pragma Annotate</a>
+<li><a href="Pragma-Assert.html#Pragma-Assert">Pragma Assert</a>
+<li><a href="Pragma-Assert_005fAnd_005fCut.html#Pragma-Assert_005fAnd_005fCut">Pragma Assert_And_Cut</a>
+<li><a href="Pragma-Assertion_005fPolicy.html#Pragma-Assertion_005fPolicy">Pragma Assertion_Policy</a>
+<li><a href="Pragma-Assume.html#Pragma-Assume">Pragma Assume</a>
+<li><a href="Pragma-Assume_005fNo_005fInvalid_005fValues.html#Pragma-Assume_005fNo_005fInvalid_005fValues">Pragma Assume_No_Invalid_Values</a>
+<li><a href="Pragma-Async_005fReaders.html#Pragma-Async_005fReaders">Pragma Async_Readers</a>
+<li><a href="Pragma-Async_005fWriters.html#Pragma-Async_005fWriters">Pragma Async_Writers</a>
+<li><a href="Pragma-Attribute_005fDefinition.html#Pragma-Attribute_005fDefinition">Pragma Attribute_Definition</a>
+<li><a href="Pragma-C_005fPass_005fBy_005fCopy.html#Pragma-C_005fPass_005fBy_005fCopy">Pragma C_Pass_By_Copy</a>
+<li><a href="Pragma-Check.html#Pragma-Check">Pragma Check</a>
+<li><a href="Pragma-Check_005fFloat_005fOverflow.html#Pragma-Check_005fFloat_005fOverflow">Pragma Check_Float_Overflow</a>
+<li><a href="Pragma-Check_005fName.html#Pragma-Check_005fName">Pragma Check_Name</a>
+<li><a href="Pragma-Check_005fPolicy.html#Pragma-Check_005fPolicy">Pragma Check_Policy</a>
+<li><a href="Pragma-CIL_005fConstructor.html#Pragma-CIL_005fConstructor">Pragma CIL_Constructor</a>
+<li><a href="Pragma-Comment.html#Pragma-Comment">Pragma Comment</a>
+<li><a href="Pragma-Common_005fObject.html#Pragma-Common_005fObject">Pragma Common_Object</a>
+<li><a href="Pragma-Compile_005fTime_005fError.html#Pragma-Compile_005fTime_005fError">Pragma Compile_Time_Error</a>
+<li><a href="Pragma-Compile_005fTime_005fWarning.html#Pragma-Compile_005fTime_005fWarning">Pragma Compile_Time_Warning</a>
+<li><a href="Pragma-Compiler_005fUnit.html#Pragma-Compiler_005fUnit">Pragma Compiler_Unit</a>
+<li><a href="Pragma-Compiler_005fUnit_005fWarning.html#Pragma-Compiler_005fUnit_005fWarning">Pragma Compiler_Unit_Warning</a>
+<li><a href="Pragma-Complete_005fRepresentation.html#Pragma-Complete_005fRepresentation">Pragma Complete_Representation</a>
+<li><a href="Pragma-Complex_005fRepresentation.html#Pragma-Complex_005fRepresentation">Pragma Complex_Representation</a>
+<li><a href="Pragma-Component_005fAlignment.html#Pragma-Component_005fAlignment">Pragma Component_Alignment</a>
+<li><a href="Pragma-Contract_005fCases.html#Pragma-Contract_005fCases">Pragma Contract_Cases</a>
+<li><a href="Pragma-Convention_005fIdentifier.html#Pragma-Convention_005fIdentifier">Pragma Convention_Identifier</a>
+<li><a href="Pragma-CPP_005fClass.html#Pragma-CPP_005fClass">Pragma CPP_Class</a>
+<li><a href="Pragma-CPP_005fConstructor.html#Pragma-CPP_005fConstructor">Pragma CPP_Constructor</a>
+<li><a href="Pragma-CPP_005fVirtual.html#Pragma-CPP_005fVirtual">Pragma CPP_Virtual</a>
+<li><a href="Pragma-CPP_005fVtable.html#Pragma-CPP_005fVtable">Pragma CPP_Vtable</a>
+<li><a href="Pragma-CPU.html#Pragma-CPU">Pragma CPU</a>
+<li><a href="Pragma-Debug.html#Pragma-Debug">Pragma Debug</a>
+<li><a href="Pragma-Debug_005fPolicy.html#Pragma-Debug_005fPolicy">Pragma Debug_Policy</a>
+<li><a href="Pragma-Default_005fScalar_005fStorage_005fOrder.html#Pragma-Default_005fScalar_005fStorage_005fOrder">Pragma Default_Scalar_Storage_Order</a>
+<li><a href="Pragma-Default_005fStorage_005fPool.html#Pragma-Default_005fStorage_005fPool">Pragma Default_Storage_Pool</a>
+<li><a href="Pragma-Depends.html#Pragma-Depends">Pragma Depends</a>
+<li><a href="Pragma-Detect_005fBlocking.html#Pragma-Detect_005fBlocking">Pragma Detect_Blocking</a>
+<li><a href="Pragma-Disable_005fAtomic_005fSynchronization.html#Pragma-Disable_005fAtomic_005fSynchronization">Pragma Disable_Atomic_Synchronization</a>
+<li><a href="Pragma-Dispatching_005fDomain.html#Pragma-Dispatching_005fDomain">Pragma Dispatching_Domain</a>
+<li><a href="Pragma-Effective_005fReads.html#Pragma-Effective_005fReads">Pragma Effective_Reads</a>
+<li><a href="Pragma-Effective_005fWrites.html#Pragma-Effective_005fWrites">Pragma Effective_Writes</a>
+<li><a href="Pragma-Elaboration_005fChecks.html#Pragma-Elaboration_005fChecks">Pragma Elaboration_Checks</a>
+<li><a href="Pragma-Eliminate.html#Pragma-Eliminate">Pragma Eliminate</a>
+<li><a href="Pragma-Enable_005fAtomic_005fSynchronization.html#Pragma-Enable_005fAtomic_005fSynchronization">Pragma Enable_Atomic_Synchronization</a>
+<li><a href="Pragma-Export_005fFunction.html#Pragma-Export_005fFunction">Pragma Export_Function</a>
+<li><a href="Pragma-Export_005fObject.html#Pragma-Export_005fObject">Pragma Export_Object</a>
+<li><a href="Pragma-Export_005fProcedure.html#Pragma-Export_005fProcedure">Pragma Export_Procedure</a>
+<li><a href="Pragma-Export_005fValue.html#Pragma-Export_005fValue">Pragma Export_Value</a>
+<li><a href="Pragma-Export_005fValued_005fProcedure.html#Pragma-Export_005fValued_005fProcedure">Pragma Export_Valued_Procedure</a>
+<li><a href="Pragma-Extend_005fSystem.html#Pragma-Extend_005fSystem">Pragma Extend_System</a>
+<li><a href="Pragma-Extensions_005fAllowed.html#Pragma-Extensions_005fAllowed">Pragma Extensions_Allowed</a>
+<li><a href="Pragma-External.html#Pragma-External">Pragma External</a>
+<li><a href="Pragma-External_005fName_005fCasing.html#Pragma-External_005fName_005fCasing">Pragma External_Name_Casing</a>
+<li><a href="Pragma-Fast_005fMath.html#Pragma-Fast_005fMath">Pragma Fast_Math</a>
+<li><a href="Pragma-Favor_005fTop_005fLevel.html#Pragma-Favor_005fTop_005fLevel">Pragma Favor_Top_Level</a>
+<li><a href="Pragma-Finalize_005fStorage_005fOnly.html#Pragma-Finalize_005fStorage_005fOnly">Pragma Finalize_Storage_Only</a>
+<li><a href="Pragma-Float_005fRepresentation.html#Pragma-Float_005fRepresentation">Pragma Float_Representation</a>
+<li><a href="Pragma-Global.html#Pragma-Global">Pragma Global</a>
+<li><a href="Pragma-Ident.html#Pragma-Ident">Pragma Ident</a>
+<li><a href="Pragma-Ignore_005fPragma.html#Pragma-Ignore_005fPragma">Pragma Ignore_Pragma</a>
+<li><a href="Pragma-Implementation_005fDefined.html#Pragma-Implementation_005fDefined">Pragma Implementation_Defined</a>
+<li><a href="Pragma-Implemented.html#Pragma-Implemented">Pragma Implemented</a>
+<li><a href="Pragma-Implicit_005fPacking.html#Pragma-Implicit_005fPacking">Pragma Implicit_Packing</a>
+<li><a href="Pragma-Import_005fFunction.html#Pragma-Import_005fFunction">Pragma Import_Function</a>
+<li><a href="Pragma-Import_005fObject.html#Pragma-Import_005fObject">Pragma Import_Object</a>
+<li><a href="Pragma-Import_005fProcedure.html#Pragma-Import_005fProcedure">Pragma Import_Procedure</a>
+<li><a href="Pragma-Import_005fValued_005fProcedure.html#Pragma-Import_005fValued_005fProcedure">Pragma Import_Valued_Procedure</a>
+<li><a href="Pragma-Independent.html#Pragma-Independent">Pragma Independent</a>
+<li><a href="Pragma-Independent_005fComponents.html#Pragma-Independent_005fComponents">Pragma Independent_Components</a>
+<li><a href="Pragma-Initial_005fCondition.html#Pragma-Initial_005fCondition">Pragma Initial_Condition</a>
+<li><a href="Pragma-Initialize_005fScalars.html#Pragma-Initialize_005fScalars">Pragma Initialize_Scalars</a>
+<li><a href="Pragma-Initializes.html#Pragma-Initializes">Pragma Initializes</a>
+<li><a href="Pragma-Inline_005fAlways.html#Pragma-Inline_005fAlways">Pragma Inline_Always</a>
+<li><a href="Pragma-Inline_005fGeneric.html#Pragma-Inline_005fGeneric">Pragma Inline_Generic</a>
+<li><a href="Pragma-Interface.html#Pragma-Interface">Pragma Interface</a>
+<li><a href="Pragma-Interface_005fName.html#Pragma-Interface_005fName">Pragma Interface_Name</a>
+<li><a href="Pragma-Interrupt_005fHandler.html#Pragma-Interrupt_005fHandler">Pragma Interrupt_Handler</a>
+<li><a href="Pragma-Interrupt_005fState.html#Pragma-Interrupt_005fState">Pragma Interrupt_State</a>
+<li><a href="Pragma-Invariant.html#Pragma-Invariant">Pragma Invariant</a>
+<li><a href="Pragma-Java_005fConstructor.html#Pragma-Java_005fConstructor">Pragma Java_Constructor</a>
+<li><a href="Pragma-Java_005fInterface.html#Pragma-Java_005fInterface">Pragma Java_Interface</a>
+<li><a href="Pragma-Keep_005fNames.html#Pragma-Keep_005fNames">Pragma Keep_Names</a>
+<li><a href="Pragma-License.html#Pragma-License">Pragma License</a>
+<li><a href="Pragma-Link_005fWith.html#Pragma-Link_005fWith">Pragma Link_With</a>
+<li><a href="Pragma-Linker_005fAlias.html#Pragma-Linker_005fAlias">Pragma Linker_Alias</a>
+<li><a href="Pragma-Linker_005fConstructor.html#Pragma-Linker_005fConstructor">Pragma Linker_Constructor</a>
+<li><a href="Pragma-Linker_005fDestructor.html#Pragma-Linker_005fDestructor">Pragma Linker_Destructor</a>
+<li><a href="Pragma-Linker_005fSection.html#Pragma-Linker_005fSection">Pragma Linker_Section</a>
+<li><a href="Pragma-Lock_005fFree.html#Pragma-Lock_005fFree">Pragma Lock_Free</a>
+<li><a href="Pragma-Loop_005fInvariant.html#Pragma-Loop_005fInvariant">Pragma Loop_Invariant</a>
+<li><a href="Pragma-Loop_005fOptimize.html#Pragma-Loop_005fOptimize">Pragma Loop_Optimize</a>
+<li><a href="Pragma-Loop_005fVariant.html#Pragma-Loop_005fVariant">Pragma Loop_Variant</a>
+<li><a href="Pragma-Machine_005fAttribute.html#Pragma-Machine_005fAttribute">Pragma Machine_Attribute</a>
+<li><a href="Pragma-Main.html#Pragma-Main">Pragma Main</a>
+<li><a href="Pragma-Main_005fStorage.html#Pragma-Main_005fStorage">Pragma Main_Storage</a>
+<li><a href="Pragma-No_005fBody.html#Pragma-No_005fBody">Pragma No_Body</a>
+<li><a href="Pragma-No_005fElaboration_005fCode_005fAll.html#Pragma-No_005fElaboration_005fCode_005fAll">Pragma No_Elaboration_Code_All</a>
+<li><a href="Pragma-No_005fInline.html#Pragma-No_005fInline">Pragma No_Inline</a>
+<li><a href="Pragma-No_005fReturn.html#Pragma-No_005fReturn">Pragma No_Return</a>
+<li><a href="Pragma-No_005fRun_005fTime.html#Pragma-No_005fRun_005fTime">Pragma No_Run_Time</a>
+<li><a href="Pragma-No_005fStrict_005fAliasing.html#Pragma-No_005fStrict_005fAliasing">Pragma No_Strict_Aliasing</a>
+<li><a href="Pragma-No_005fTagged_005fStreams.html#Pragma-No_005fTagged_005fStreams">Pragma No_Tagged_Streams</a>
+<li><a href="Pragma-Normalize_005fScalars.html#Pragma-Normalize_005fScalars">Pragma Normalize_Scalars</a>
+<li><a href="Pragma-Obsolescent.html#Pragma-Obsolescent">Pragma Obsolescent</a>
+<li><a href="Pragma-Optimize_005fAlignment.html#Pragma-Optimize_005fAlignment">Pragma Optimize_Alignment</a>
+<li><a href="Pragma-Ordered.html#Pragma-Ordered">Pragma Ordered</a>
+<li><a href="Pragma-Overflow_005fMode.html#Pragma-Overflow_005fMode">Pragma Overflow_Mode</a>
+<li><a href="Pragma-Overriding_005fRenamings.html#Pragma-Overriding_005fRenamings">Pragma Overriding_Renamings</a>
+<li><a href="Pragma-Partition_005fElaboration_005fPolicy.html#Pragma-Partition_005fElaboration_005fPolicy">Pragma Partition_Elaboration_Policy</a>
+<li><a href="Pragma-Part_005fOf.html#Pragma-Part_005fOf">Pragma Part_Of</a>
+<li><a href="Pragma-Passive.html#Pragma-Passive">Pragma Passive</a>
+<li><a href="Pragma-Persistent_005fBSS.html#Pragma-Persistent_005fBSS">Pragma Persistent_BSS</a>
+<li><a href="Pragma-Polling.html#Pragma-Polling">Pragma Polling</a>
+<li><a href="Pragma-Post.html#Pragma-Post">Pragma Post</a>
+<li><a href="Pragma-Postcondition.html#Pragma-Postcondition">Pragma Postcondition</a>
+<li><a href="Pragma-Post_005fClass.html#Pragma-Post_005fClass">Pragma Post_Class</a>
+<li><a href="Pragma-Pre.html#Pragma-Pre">Pragma Pre</a>
+<li><a href="Pragma-Precondition.html#Pragma-Precondition">Pragma Precondition</a>
+<li><a href="Pragma-Predicate.html#Pragma-Predicate">Pragma Predicate</a>
+<li><a href="Pragma-Preelaborable_005fInitialization.html#Pragma-Preelaborable_005fInitialization">Pragma Preelaborable_Initialization</a>
+<li><a href="Pragma-Prefix_005fException_005fMessages.html#Pragma-Prefix_005fException_005fMessages">Pragma Prefix_Exception_Messages</a>
+<li><a href="Pragma-Pre_005fClass.html#Pragma-Pre_005fClass">Pragma Pre_Class</a>
+<li><a href="Pragma-Priority_005fSpecific_005fDispatching.html#Pragma-Priority_005fSpecific_005fDispatching">Pragma Priority_Specific_Dispatching</a>
+<li><a href="Pragma-Profile.html#Pragma-Profile">Pragma Profile</a>
+<li><a href="Pragma-Profile_005fWarnings.html#Pragma-Profile_005fWarnings">Pragma Profile_Warnings</a>
+<li><a href="Pragma-Propagate_005fExceptions.html#Pragma-Propagate_005fExceptions">Pragma Propagate_Exceptions</a>
+<li><a href="Pragma-Provide_005fShift_005fOperators.html#Pragma-Provide_005fShift_005fOperators">Pragma Provide_Shift_Operators</a>
+<li><a href="Pragma-Psect_005fObject.html#Pragma-Psect_005fObject">Pragma Psect_Object</a>
+<li><a href="Pragma-Pure_005fFunction.html#Pragma-Pure_005fFunction">Pragma Pure_Function</a>
+<li><a href="Pragma-Rational.html#Pragma-Rational">Pragma Rational</a>
+<li><a href="Pragma-Ravenscar.html#Pragma-Ravenscar">Pragma Ravenscar</a>
+<li><a href="Pragma-Refined_005fDepends.html#Pragma-Refined_005fDepends">Pragma Refined_Depends</a>
+<li><a href="Pragma-Refined_005fGlobal.html#Pragma-Refined_005fGlobal">Pragma Refined_Global</a>
+<li><a href="Pragma-Refined_005fPost.html#Pragma-Refined_005fPost">Pragma Refined_Post</a>
+<li><a href="Pragma-Refined_005fState.html#Pragma-Refined_005fState">Pragma Refined_State</a>
+<li><a href="Pragma-Relative_005fDeadline.html#Pragma-Relative_005fDeadline">Pragma Relative_Deadline</a>
+<li><a href="Pragma-Remote_005fAccess_005fType.html#Pragma-Remote_005fAccess_005fType">Pragma Remote_Access_Type</a>
+<li><a href="Pragma-Restricted_005fRun_005fTime.html#Pragma-Restricted_005fRun_005fTime">Pragma Restricted_Run_Time</a>
+<li><a href="Pragma-Restriction_005fWarnings.html#Pragma-Restriction_005fWarnings">Pragma Restriction_Warnings</a>
+<li><a href="Pragma-Reviewable.html#Pragma-Reviewable">Pragma Reviewable</a>
+<li><a href="Pragma-Share_005fGeneric.html#Pragma-Share_005fGeneric">Pragma Share_Generic</a>
+<li><a href="Pragma-Shared.html#Pragma-Shared">Pragma Shared</a>
+<li><a href="Pragma-Short_005fCircuit_005fAnd_005fOr.html#Pragma-Short_005fCircuit_005fAnd_005fOr">Pragma Short_Circuit_And_Or</a>
+<li><a href="Pragma-Short_005fDescriptors.html#Pragma-Short_005fDescriptors">Pragma Short_Descriptors</a>
+<li><a href="Pragma-Simple_005fStorage_005fPool_005fType.html#Pragma-Simple_005fStorage_005fPool_005fType">Pragma Simple_Storage_Pool_Type</a>
+<li><a href="Pragma-Source_005fFile_005fName.html#Pragma-Source_005fFile_005fName">Pragma Source_File_Name</a>
+<li><a href="Pragma-Source_005fFile_005fName_005fProject.html#Pragma-Source_005fFile_005fName_005fProject">Pragma Source_File_Name_Project</a>
+<li><a href="Pragma-Source_005fReference.html#Pragma-Source_005fReference">Pragma Source_Reference</a>
+<li><a href="Pragma-SPARK_005fMode.html#Pragma-SPARK_005fMode">Pragma SPARK_Mode</a>
+<li><a href="Pragma-Static_005fElaboration_005fDesired.html#Pragma-Static_005fElaboration_005fDesired">Pragma Static_Elaboration_Desired</a>
+<li><a href="Pragma-Stream_005fConvert.html#Pragma-Stream_005fConvert">Pragma Stream_Convert</a>
+<li><a href="Pragma-Style_005fChecks.html#Pragma-Style_005fChecks">Pragma Style_Checks</a>
+<li><a href="Pragma-Subtitle.html#Pragma-Subtitle">Pragma Subtitle</a>
+<li><a href="Pragma-Suppress.html#Pragma-Suppress">Pragma Suppress</a>
+<li><a href="Pragma-Suppress_005fAll.html#Pragma-Suppress_005fAll">Pragma Suppress_All</a>
+<li><a href="Pragma-Suppress_005fDebug_005fInfo.html#Pragma-Suppress_005fDebug_005fInfo">Pragma Suppress_Debug_Info</a>
+<li><a href="Pragma-Suppress_005fException_005fLocations.html#Pragma-Suppress_005fException_005fLocations">Pragma Suppress_Exception_Locations</a>
+<li><a href="Pragma-Suppress_005fInitialization.html#Pragma-Suppress_005fInitialization">Pragma Suppress_Initialization</a>
+<li><a href="Pragma-Task_005fName.html#Pragma-Task_005fName">Pragma Task_Name</a>
+<li><a href="Pragma-Task_005fStorage.html#Pragma-Task_005fStorage">Pragma Task_Storage</a>
+<li><a href="Pragma-Test_005fCase.html#Pragma-Test_005fCase">Pragma Test_Case</a>
+<li><a href="Pragma-Thread_005fLocal_005fStorage.html#Pragma-Thread_005fLocal_005fStorage">Pragma Thread_Local_Storage</a>
+<li><a href="Pragma-Time_005fSlice.html#Pragma-Time_005fSlice">Pragma Time_Slice</a>
+<li><a href="Pragma-Title.html#Pragma-Title">Pragma Title</a>
+<li><a href="Pragma-Type_005fInvariant.html#Pragma-Type_005fInvariant">Pragma Type_Invariant</a>
+<li><a href="Pragma-Type_005fInvariant_005fClass.html#Pragma-Type_005fInvariant_005fClass">Pragma Type_Invariant_Class</a>
+<li><a href="Pragma-Unchecked_005fUnion.html#Pragma-Unchecked_005fUnion">Pragma Unchecked_Union</a>
+<li><a href="Pragma-Unevaluated_005fUse_005fOf_005fOld.html#Pragma-Unevaluated_005fUse_005fOf_005fOld">Pragma Unevaluated_Use_Of_Old</a>
+<li><a href="Pragma-Unimplemented_005fUnit.html#Pragma-Unimplemented_005fUnit">Pragma Unimplemented_Unit</a>
+<li><a href="Pragma-Universal_005fAliasing.html#Pragma-Universal_005fAliasing">Pragma Universal_Aliasing</a>
+<li><a href="Pragma-Universal_005fData.html#Pragma-Universal_005fData">Pragma Universal_Data</a>
+<li><a href="Pragma-Unmodified.html#Pragma-Unmodified">Pragma Unmodified</a>
+<li><a href="Pragma-Unreferenced.html#Pragma-Unreferenced">Pragma Unreferenced</a>
+<li><a href="Pragma-Unreferenced_005fObjects.html#Pragma-Unreferenced_005fObjects">Pragma Unreferenced_Objects</a>
+<li><a href="Pragma-Unreserve_005fAll_005fInterrupts.html#Pragma-Unreserve_005fAll_005fInterrupts">Pragma Unreserve_All_Interrupts</a>
+<li><a href="Pragma-Unsuppress.html#Pragma-Unsuppress">Pragma Unsuppress</a>
+<li><a href="Pragma-Use_005fVADS_005fSize.html#Pragma-Use_005fVADS_005fSize">Pragma Use_VADS_Size</a>
+<li><a href="Pragma-Validity_005fChecks.html#Pragma-Validity_005fChecks">Pragma Validity_Checks</a>
+<li><a href="Pragma-Volatile.html#Pragma-Volatile">Pragma Volatile</a>
+<li><a href="Pragma-Warning_005fAs_005fError.html#Pragma-Warning_005fAs_005fError">Pragma Warning_As_Error</a>
+<li><a href="Pragma-Warnings.html#Pragma-Warnings">Pragma Warnings</a>
+<li><a href="Pragma-Weak_005fExternal.html#Pragma-Weak_005fExternal">Pragma Weak_External</a>
+<li><a href="Pragma-Wide_005fCharacter_005fEncoding.html#Pragma-Wide_005fCharacter_005fEncoding">Pragma Wide_Character_Encoding</a>
+
+</li></ul>
+<p>Implementation Defined Aspects
+
+</p>
+<ul class="menu">
+<li><a href="Aspect-Abstract_005fState.html#Aspect-Abstract_005fState">Aspect Abstract_State</a>
+<li><a href="Annotate.html#Annotate">Annotate</a>
+<li><a href="Aspect-Async_005fReaders.html#Aspect-Async_005fReaders">Aspect Async_Readers</a>
+<li><a href="Aspect-Async_005fWriters.html#Aspect-Async_005fWriters">Aspect Async_Writers</a>
+<li><a href="Aspect-Contract_005fCases.html#Aspect-Contract_005fCases">Aspect Contract_Cases</a>
+<li><a href="Aspect-Depends.html#Aspect-Depends">Aspect Depends</a>
+<li><a href="Aspect-Dimension.html#Aspect-Dimension">Aspect Dimension</a>
+<li><a href="Aspect-Dimension_005fSystem.html#Aspect-Dimension_005fSystem">Aspect Dimension_System</a>
+<li><a href="Aspect-Effective_005fReads.html#Aspect-Effective_005fReads">Aspect Effective_Reads</a>
+<li><a href="Aspect-Effective_005fWrites.html#Aspect-Effective_005fWrites">Aspect Effective_Writes</a>
+<li><a href="Aspect-Favor_005fTop_005fLevel.html#Aspect-Favor_005fTop_005fLevel">Aspect Favor_Top_Level</a>
+<li><a href="Aspect-Global.html#Aspect-Global">Aspect Global</a>
+<li><a href="Aspect-Initial_005fCondition.html#Aspect-Initial_005fCondition">Aspect Initial_Condition</a>
+<li><a href="Aspect-Initializes.html#Aspect-Initializes">Aspect Initializes</a>
+<li><a href="Aspect-Inline_005fAlways.html#Aspect-Inline_005fAlways">Aspect Inline_Always</a>
+<li><a href="Aspect-Invariant.html#Aspect-Invariant">Aspect Invariant</a>
+<li><a href="Aspect-Invariant_0027Class.html#Aspect-Invariant_0027Class">Aspect Invariant'Class</a>
+<li><a href="Aspect-Iterable.html#Aspect-Iterable">Aspect Iterable</a>
+<li><a href="Aspect-Linker_005fSection.html#Aspect-Linker_005fSection">Aspect Linker_Section</a>
+<li><a href="Aspect-Lock_005fFree.html#Aspect-Lock_005fFree">Aspect Lock_Free</a>
+<li><a href="Aspect-No_005fElaboration_005fCode_005fAll.html#Aspect-No_005fElaboration_005fCode_005fAll">Aspect No_Elaboration_Code_All</a>
+<li><a href="Aspect-No_005fTagged_005fStreams.html#Aspect-No_005fTagged_005fStreams">Aspect No_Tagged_Streams</a>
+<li><a href="Aspect-Object_005fSize.html#Aspect-Object_005fSize">Aspect Object_Size</a>
+<li><a href="Aspect-Obsolescent.html#Aspect-Obsolescent">Aspect Obsolescent</a>
+<li><a href="Aspect-Part_005fOf.html#Aspect-Part_005fOf">Aspect Part_Of</a>
+<li><a href="Aspect-Persistent_005fBSS.html#Aspect-Persistent_005fBSS">Aspect Persistent_BSS</a>
+<li><a href="Aspect-Predicate.html#Aspect-Predicate">Aspect Predicate</a>
+<li><a href="Aspect-Pure_005fFunction.html#Aspect-Pure_005fFunction">Aspect Pure_Function</a>
+<li><a href="Aspect-Refined_005fDepends.html#Aspect-Refined_005fDepends">Aspect Refined_Depends</a>
+<li><a href="Aspect-Refined_005fGlobal.html#Aspect-Refined_005fGlobal">Aspect Refined_Global</a>
+<li><a href="Aspect-Refined_005fPost.html#Aspect-Refined_005fPost">Aspect Refined_Post</a>
+<li><a href="Aspect-Refined_005fState.html#Aspect-Refined_005fState">Aspect Refined_State</a>
+<li><a href="Aspect-Remote_005fAccess_005fType.html#Aspect-Remote_005fAccess_005fType">Aspect Remote_Access_Type</a>
+<li><a href="Aspect-Scalar_005fStorage_005fOrder.html#Aspect-Scalar_005fStorage_005fOrder">Aspect Scalar_Storage_Order</a>
+<li><a href="Aspect-Shared.html#Aspect-Shared">Aspect Shared</a>
+<li><a href="Aspect-Simple_005fStorage_005fPool.html#Aspect-Simple_005fStorage_005fPool">Aspect Simple_Storage_Pool</a>
+<li><a href="Aspect-Simple_005fStorage_005fPool_005fType.html#Aspect-Simple_005fStorage_005fPool_005fType">Aspect Simple_Storage_Pool_Type</a>
+<li><a href="Aspect-SPARK_005fMode.html#Aspect-SPARK_005fMode">Aspect SPARK_Mode</a>
+<li><a href="Aspect-Suppress_005fDebug_005fInfo.html#Aspect-Suppress_005fDebug_005fInfo">Aspect Suppress_Debug_Info</a>
+<li><a href="Aspect-Suppress_005fInitialization.html#Aspect-Suppress_005fInitialization">Aspect Suppress_Initialization</a>
+<li><a href="Aspect-Test_005fCase.html#Aspect-Test_005fCase">Aspect Test_Case</a>
+<li><a href="Aspect-Thread_005fLocal_005fStorage.html#Aspect-Thread_005fLocal_005fStorage">Aspect Thread_Local_Storage</a>
+<li><a href="Aspect-Universal_005fAliasing.html#Aspect-Universal_005fAliasing">Aspect Universal_Aliasing</a>
+<li><a href="Aspect-Universal_005fData.html#Aspect-Universal_005fData">Aspect Universal_Data</a>
+<li><a href="Aspect-Unmodified.html#Aspect-Unmodified">Aspect Unmodified</a>
+<li><a href="Aspect-Unreferenced.html#Aspect-Unreferenced">Aspect Unreferenced</a>
+<li><a href="Aspect-Unreferenced_005fObjects.html#Aspect-Unreferenced_005fObjects">Aspect Unreferenced_Objects</a>
+<li><a href="Aspect-Value_005fSize.html#Aspect-Value_005fSize">Aspect Value_Size</a>
+<li><a href="Aspect-Warnings.html#Aspect-Warnings">Aspect Warnings</a>
+
+</li></ul>
+<p>Implementation Defined Attributes
+
+</p>
+<ul class="menu">
+<li><a href="Attribute-Abort_005fSignal.html#Attribute-Abort_005fSignal">Attribute Abort_Signal</a>
+<li><a href="Attribute-Address_005fSize.html#Attribute-Address_005fSize">Attribute Address_Size</a>
+<li><a href="Attribute-Asm_005fInput.html#Attribute-Asm_005fInput">Attribute Asm_Input</a>
+<li><a href="Attribute-Asm_005fOutput.html#Attribute-Asm_005fOutput">Attribute Asm_Output</a>
+<li><a href="Attribute-Atomic_005fAlways_005fLock_005fFree.html#Attribute-Atomic_005fAlways_005fLock_005fFree">Attribute Atomic_Always_Lock_Free</a>
+<li><a href="Attribute-Bit.html#Attribute-Bit">Attribute Bit</a>
+<li><a href="Attribute-Bit_005fPosition.html#Attribute-Bit_005fPosition">Attribute Bit_Position</a>
+<li><a href="Attribute-Code_005fAddress.html#Attribute-Code_005fAddress">Attribute Code_Address</a>
+<li><a href="Attribute-Compiler_005fVersion.html#Attribute-Compiler_005fVersion">Attribute Compiler_Version</a>
+<li><a href="Attribute-Constrained.html#Attribute-Constrained">Attribute Constrained</a>
+<li><a href="Attribute-Default_005fBit_005fOrder.html#Attribute-Default_005fBit_005fOrder">Attribute Default_Bit_Order</a>
+<li><a href="Attribute-Default_005fScalar_005fStorage_005fOrder.html#Attribute-Default_005fScalar_005fStorage_005fOrder">Attribute Default_Scalar_Storage_Order</a>
+<li><a href="Attribute-Deref.html#Attribute-Deref">Attribute Deref</a>
+<li><a href="Attribute-Descriptor_005fSize.html#Attribute-Descriptor_005fSize">Attribute Descriptor_Size</a>
+<li><a href="Attribute-Elaborated.html#Attribute-Elaborated">Attribute Elaborated</a>
+<li><a href="Attribute-Elab_005fBody.html#Attribute-Elab_005fBody">Attribute Elab_Body</a>
+<li><a href="Attribute-Elab_005fSpec.html#Attribute-Elab_005fSpec">Attribute Elab_Spec</a>
+<li><a href="Attribute-Elab_005fSubp_005fBody.html#Attribute-Elab_005fSubp_005fBody">Attribute Elab_Subp_Body</a>
+<li><a href="Attribute-Emax.html#Attribute-Emax">Attribute Emax</a>
+<li><a href="Attribute-Enabled.html#Attribute-Enabled">Attribute Enabled</a>
+<li><a href="Attribute-Enum_005fRep.html#Attribute-Enum_005fRep">Attribute Enum_Rep</a>
+<li><a href="Attribute-Enum_005fVal.html#Attribute-Enum_005fVal">Attribute Enum_Val</a>
+<li><a href="Attribute-Epsilon.html#Attribute-Epsilon">Attribute Epsilon</a>
+<li><a href="Attribute-Fast_005fMath.html#Attribute-Fast_005fMath">Attribute Fast_Math</a>
+<li><a href="Attribute-Fixed_005fValue.html#Attribute-Fixed_005fValue">Attribute Fixed_Value</a>
+<li><a href="Attribute-From_005fAny.html#Attribute-From_005fAny">Attribute From_Any</a>
+<li><a href="Attribute-Has_005fAccess_005fValues.html#Attribute-Has_005fAccess_005fValues">Attribute Has_Access_Values</a>
+<li><a href="Attribute-Has_005fDiscriminants.html#Attribute-Has_005fDiscriminants">Attribute Has_Discriminants</a>
+<li><a href="Attribute-Img.html#Attribute-Img">Attribute Img</a>
+<li><a href="Attribute-Integer_005fValue.html#Attribute-Integer_005fValue">Attribute Integer_Value</a>
+<li><a href="Attribute-Invalid_005fValue.html#Attribute-Invalid_005fValue">Attribute Invalid_Value</a>
+<li><a href="Attribute-Iterable.html#Attribute-Iterable">Attribute Iterable</a>
+<li><a href="Attribute-Large.html#Attribute-Large">Attribute Large</a>
+<li><a href="Attribute-Library_005fLevel.html#Attribute-Library_005fLevel">Attribute Library_Level</a>
+<li><a href="Attribute-Lock_005fFree.html#Attribute-Lock_005fFree">Attribute Lock_Free</a>
+<li><a href="Attribute-Loop_005fEntry.html#Attribute-Loop_005fEntry">Attribute Loop_Entry</a>
+<li><a href="Attribute-Machine_005fSize.html#Attribute-Machine_005fSize">Attribute Machine_Size</a>
+<li><a href="Attribute-Mantissa.html#Attribute-Mantissa">Attribute Mantissa</a>
+<li><a href="Attribute-Maximum_005fAlignment.html#Attribute-Maximum_005fAlignment">Attribute Maximum_Alignment</a>
+<li><a href="Attribute-Mechanism_005fCode.html#Attribute-Mechanism_005fCode">Attribute Mechanism_Code</a>
+<li><a href="Attribute-Null_005fParameter.html#Attribute-Null_005fParameter">Attribute Null_Parameter</a>
+<li><a href="Attribute-Object_005fSize.html#Attribute-Object_005fSize">Attribute Object_Size</a>
+<li><a href="Attribute-Old.html#Attribute-Old">Attribute Old</a>
+<li><a href="Attribute-Passed_005fBy_005fReference.html#Attribute-Passed_005fBy_005fReference">Attribute Passed_By_Reference</a>
+<li><a href="Attribute-Pool_005fAddress.html#Attribute-Pool_005fAddress">Attribute Pool_Address</a>
+<li><a href="Attribute-Range_005fLength.html#Attribute-Range_005fLength">Attribute Range_Length</a>
+<li><a href="Attribute-Ref.html#Attribute-Ref">Attribute Ref</a>
+<li><a href="Attribute-Restriction_005fSet.html#Attribute-Restriction_005fSet">Attribute Restriction_Set</a>
+<li><a href="Attribute-Result.html#Attribute-Result">Attribute Result</a>
+<li><a href="Attribute-Safe_005fEmax.html#Attribute-Safe_005fEmax">Attribute Safe_Emax</a>
+<li><a href="Attribute-Safe_005fLarge.html#Attribute-Safe_005fLarge">Attribute Safe_Large</a>
+<li><a href="Attribute-Safe_005fSmall.html#Attribute-Safe_005fSmall">Attribute Safe_Small</a>
+<li><a href="Attribute-Scalar_005fStorage_005fOrder.html#Attribute-Scalar_005fStorage_005fOrder">Attribute Scalar_Storage_Order</a>
+<li><a href="Attribute-Simple_005fStorage_005fPool.html#Attribute-Simple_005fStorage_005fPool">Attribute Simple_Storage_Pool</a>
+<li><a href="Attribute-Small.html#Attribute-Small">Attribute Small</a>
+<li><a href="Attribute-Storage_005fUnit.html#Attribute-Storage_005fUnit">Attribute Storage_Unit</a>
+<li><a href="Attribute-Stub_005fType.html#Attribute-Stub_005fType">Attribute Stub_Type</a>
+<li><a href="Attribute-System_005fAllocator_005fAlignment.html#Attribute-System_005fAllocator_005fAlignment">Attribute System_Allocator_Alignment</a>
+<li><a href="Attribute-Target_005fName.html#Attribute-Target_005fName">Attribute Target_Name</a>
+<li><a href="Attribute-To_005fAddress.html#Attribute-To_005fAddress">Attribute To_Address</a>
+<li><a href="Attribute-To_005fAny.html#Attribute-To_005fAny">Attribute To_Any</a>
+<li><a href="Attribute-Type_005fClass.html#Attribute-Type_005fClass">Attribute Type_Class</a>
+<li><a href="Attribute-Type_005fKey.html#Attribute-Type_005fKey">Attribute Type_Key</a>
+<li><a href="Attribute-TypeCode.html#Attribute-TypeCode">Attribute TypeCode</a>
+<li><a href="Attribute-UET_005fAddress.html#Attribute-UET_005fAddress">Attribute UET_Address</a>
+<li><a href="Attribute-Unconstrained_005fArray.html#Attribute-Unconstrained_005fArray">Attribute Unconstrained_Array</a>
+<li><a href="Attribute-Universal_005fLiteral_005fString.html#Attribute-Universal_005fLiteral_005fString">Attribute Universal_Literal_String</a>
+<li><a href="Attribute-Unrestricted_005fAccess.html#Attribute-Unrestricted_005fAccess">Attribute Unrestricted_Access</a>
+<li><a href="Attribute-Update.html#Attribute-Update">Attribute Update</a>
+<li><a href="Attribute-Valid_005fScalars.html#Attribute-Valid_005fScalars">Attribute Valid_Scalars</a>
+<li><a href="Attribute-VADS_005fSize.html#Attribute-VADS_005fSize">Attribute VADS_Size</a>
+<li><a href="Attribute-Value_005fSize.html#Attribute-Value_005fSize">Attribute Value_Size</a>
+<li><a href="Attribute-Wchar_005fT_005fSize.html#Attribute-Wchar_005fT_005fSize">Attribute Wchar_T_Size</a>
+<li><a href="Attribute-Word_005fSize.html#Attribute-Word_005fSize">Attribute Word_Size</a>
+
+</li></ul>
+<p>Standard and Implementation Defined Restrictions
+
+</p>
+<ul class="menu">
+<li><a href="Partition_002dWide-Restrictions.html#Partition_002dWide-Restrictions">Partition-Wide Restrictions</a>
+<li><a href="Program-Unit-Level-Restrictions.html#Program-Unit-Level-Restrictions">Program Unit Level Restrictions</a>
+
+</li></ul>
+<p>Partition-Wide Restrictions
+
+</p>
+<ul class="menu">
+<li><a href="Immediate_005fReclamation.html#Immediate_005fReclamation">Immediate_Reclamation</a>
+<li><a href="Max_005fAsynchronous_005fSelect_005fNesting.html#Max_005fAsynchronous_005fSelect_005fNesting">Max_Asynchronous_Select_Nesting</a>
+<li><a href="Max_005fEntry_005fQueue_005fLength.html#Max_005fEntry_005fQueue_005fLength">Max_Entry_Queue_Length</a>
+<li><a href="Max_005fProtected_005fEntries.html#Max_005fProtected_005fEntries">Max_Protected_Entries</a>
+<li><a href="Max_005fSelect_005fAlternatives.html#Max_005fSelect_005fAlternatives">Max_Select_Alternatives</a>
+<li><a href="Max_005fStorage_005fAt_005fBlocking.html#Max_005fStorage_005fAt_005fBlocking">Max_Storage_At_Blocking</a>
+<li><a href="Max_005fTask_005fEntries.html#Max_005fTask_005fEntries">Max_Task_Entries</a>
+<li><a href="Max_005fTasks.html#Max_005fTasks">Max_Tasks</a>
+<li><a href="No_005fAbort_005fStatements.html#No_005fAbort_005fStatements">No_Abort_Statements</a>
+<li><a href="No_005fAccess_005fParameter_005fAllocators.html#No_005fAccess_005fParameter_005fAllocators">No_Access_Parameter_Allocators</a>
+<li><a href="No_005fAccess_005fSubprograms.html#No_005fAccess_005fSubprograms">No_Access_Subprograms</a>
+<li><a href="No_005fAllocators.html#No_005fAllocators">No_Allocators</a>
+<li><a href="No_005fAnonymous_005fAllocators.html#No_005fAnonymous_005fAllocators">No_Anonymous_Allocators</a>
+<li><a href="No_005fCalendar.html#No_005fCalendar">No_Calendar</a>
+<li><a href="No_005fCoextensions.html#No_005fCoextensions">No_Coextensions</a>
+<li><a href="No_005fDefault_005fInitialization.html#No_005fDefault_005fInitialization">No_Default_Initialization</a>
+<li><a href="No_005fDelay.html#No_005fDelay">No_Delay</a>
+<li><a href="No_005fDependence.html#No_005fDependence">No_Dependence</a>
+<li><a href="No_005fDirect_005fBoolean_005fOperators.html#No_005fDirect_005fBoolean_005fOperators">No_Direct_Boolean_Operators</a>
+<li><a href="No_005fDispatch.html#No_005fDispatch">No_Dispatch</a>
+<li><a href="No_005fDispatching_005fCalls.html#No_005fDispatching_005fCalls">No_Dispatching_Calls</a>
+<li><a href="No_005fDynamic_005fAttachment.html#No_005fDynamic_005fAttachment">No_Dynamic_Attachment</a>
+<li><a href="No_005fDynamic_005fPriorities.html#No_005fDynamic_005fPriorities">No_Dynamic_Priorities</a>
+<li><a href="No_005fEntry_005fCalls_005fIn_005fElaboration_005fCode.html#No_005fEntry_005fCalls_005fIn_005fElaboration_005fCode">No_Entry_Calls_In_Elaboration_Code</a>
+<li><a href="No_005fEnumeration_005fMaps.html#No_005fEnumeration_005fMaps">No_Enumeration_Maps</a>
+<li><a href="No_005fException_005fHandlers.html#No_005fException_005fHandlers">No_Exception_Handlers</a>
+<li><a href="No_005fException_005fPropagation.html#No_005fException_005fPropagation">No_Exception_Propagation</a>
+<li><a href="No_005fException_005fRegistration.html#No_005fException_005fRegistration">No_Exception_Registration</a>
+<li><a href="No_005fExceptions.html#No_005fExceptions">No_Exceptions</a>
+<li><a href="No_005fFinalization.html#No_005fFinalization">No_Finalization</a>
+<li><a href="No_005fFixed_005fPoint.html#No_005fFixed_005fPoint">No_Fixed_Point</a>
+<li><a href="No_005fFloating_005fPoint.html#No_005fFloating_005fPoint">No_Floating_Point</a>
+<li><a href="No_005fImplicit_005fConditionals.html#No_005fImplicit_005fConditionals">No_Implicit_Conditionals</a>
+<li><a href="No_005fImplicit_005fDynamic_005fCode.html#No_005fImplicit_005fDynamic_005fCode">No_Implicit_Dynamic_Code</a>
+<li><a href="No_005fImplicit_005fHeap_005fAllocations.html#No_005fImplicit_005fHeap_005fAllocations">No_Implicit_Heap_Allocations</a>
+<li><a href="No_005fImplicit_005fLoops.html#No_005fImplicit_005fLoops">No_Implicit_Loops</a>
+<li><a href="No_005fInitialize_005fScalars.html#No_005fInitialize_005fScalars">No_Initialize_Scalars</a>
+<li><a href="No_005fIO.html#No_005fIO">No_IO</a>
+<li><a href="No_005fLocal_005fAllocators.html#No_005fLocal_005fAllocators">No_Local_Allocators</a>
+<li><a href="No_005fLocal_005fProtected_005fObjects.html#No_005fLocal_005fProtected_005fObjects">No_Local_Protected_Objects</a>
+<li><a href="No_005fLocal_005fTiming_005fEvents.html#No_005fLocal_005fTiming_005fEvents">No_Local_Timing_Events</a>
+<li><a href="No_005fLong_005fLong_005fIntegers.html#No_005fLong_005fLong_005fIntegers">No_Long_Long_Integers</a>
+<li><a href="No_005fMultiple_005fElaboration.html#No_005fMultiple_005fElaboration">No_Multiple_Elaboration</a>
+<li><a href="No_005fNested_005fFinalization.html#No_005fNested_005fFinalization">No_Nested_Finalization</a>
+<li><a href="No_005fProtected_005fType_005fAllocators.html#No_005fProtected_005fType_005fAllocators">No_Protected_Type_Allocators</a>
+<li><a href="No_005fProtected_005fTypes.html#No_005fProtected_005fTypes">No_Protected_Types</a>
+<li><a href="No_005fRecursion.html#No_005fRecursion">No_Recursion</a>
+<li><a href="No_005fReentrancy.html#No_005fReentrancy">No_Reentrancy</a>
+<li><a href="No_005fRelative_005fDelay.html#No_005fRelative_005fDelay">No_Relative_Delay</a>
+<li><a href="No_005fRequeue_005fStatements.html#No_005fRequeue_005fStatements">No_Requeue_Statements</a>
+<li><a href="No_005fSecondary_005fStack.html#No_005fSecondary_005fStack">No_Secondary_Stack</a>
+<li><a href="No_005fSelect_005fStatements.html#No_005fSelect_005fStatements">No_Select_Statements</a>
+<li><a href="No_005fSpecific_005fTermination_005fHandlers.html#No_005fSpecific_005fTermination_005fHandlers">No_Specific_Termination_Handlers</a>
+<li><a href="No_005fSpecification_005fof_005fAspect.html#No_005fSpecification_005fof_005fAspect">No_Specification_of_Aspect</a>
+<li><a href="No_005fStandard_005fAllocators_005fAfter_005fElaboration.html#No_005fStandard_005fAllocators_005fAfter_005fElaboration">No_Standard_Allocators_After_Elaboration</a>
+<li><a href="No_005fStandard_005fStorage_005fPools.html#No_005fStandard_005fStorage_005fPools">No_Standard_Storage_Pools</a>
+<li><a href="No_005fStream_005fOptimizations.html#No_005fStream_005fOptimizations">No_Stream_Optimizations</a>
+<li><a href="No_005fStreams.html#No_005fStreams">No_Streams</a>
+<li><a href="No_005fTask_005fAllocators.html#No_005fTask_005fAllocators">No_Task_Allocators</a>
+<li><a href="No_005fTask_005fAttributes_005fPackage.html#No_005fTask_005fAttributes_005fPackage">No_Task_Attributes_Package</a>
+<li><a href="No_005fTask_005fHierarchy.html#No_005fTask_005fHierarchy">No_Task_Hierarchy</a>
+<li><a href="No_005fTask_005fTermination.html#No_005fTask_005fTermination">No_Task_Termination</a>
+<li><a href="No_005fTasking.html#No_005fTasking">No_Tasking</a>
+<li><a href="No_005fTerminate_005fAlternatives.html#No_005fTerminate_005fAlternatives">No_Terminate_Alternatives</a>
+<li><a href="No_005fUnchecked_005fAccess.html#No_005fUnchecked_005fAccess">No_Unchecked_Access</a>
+<li><a href="No_005fUse_005fOf_005fEntity.html#No_005fUse_005fOf_005fEntity">No_Use_Of_Entity</a>
+<li><a href="Simple_005fBarriers.html#Simple_005fBarriers">Simple_Barriers</a>
+<li><a href="Static_005fPriorities.html#Static_005fPriorities">Static_Priorities</a>
+<li><a href="Static_005fStorage_005fSize.html#Static_005fStorage_005fSize">Static_Storage_Size</a>
+
+</li></ul>
+<p>Program Unit Level Restrictions
+
+</p>
+<ul class="menu">
+<li><a href="No_005fElaboration_005fCode.html#No_005fElaboration_005fCode">No_Elaboration_Code</a>
+<li><a href="No_005fEntry_005fQueue.html#No_005fEntry_005fQueue">No_Entry_Queue</a>
+<li><a href="No_005fImplementation_005fAspect_005fSpecifications.html#No_005fImplementation_005fAspect_005fSpecifications">No_Implementation_Aspect_Specifications</a>
+<li><a href="No_005fImplementation_005fAttributes.html#No_005fImplementation_005fAttributes">No_Implementation_Attributes</a>
+<li><a href="No_005fImplementation_005fIdentifiers.html#No_005fImplementation_005fIdentifiers">No_Implementation_Identifiers</a>
+<li><a href="No_005fImplementation_005fPragmas.html#No_005fImplementation_005fPragmas">No_Implementation_Pragmas</a>
+<li><a href="No_005fImplementation_005fRestrictions.html#No_005fImplementation_005fRestrictions">No_Implementation_Restrictions</a>
+<li><a href="No_005fImplementation_005fUnits.html#No_005fImplementation_005fUnits">No_Implementation_Units</a>
+<li><a href="No_005fImplicit_005fAliasing.html#No_005fImplicit_005fAliasing">No_Implicit_Aliasing</a>
+<li><a href="No_005fObsolescent_005fFeatures.html#No_005fObsolescent_005fFeatures">No_Obsolescent_Features</a>
+<li><a href="No_005fWide_005fCharacters.html#No_005fWide_005fCharacters">No_Wide_Characters</a>
+<li><a href="SPARK_005f05.html#SPARK_005f05">SPARK_05</a>
+
+</li></ul>
+<p>Implementation Advice
+
+</p>
+<ul class="menu">
+<li><a href="RM-1-1-3-20-Error-Detection.html#RM-1-1-3-20-Error-Detection">RM 1.1.3(20); Error Detection</a>
+<li><a href="RM-1-1-3-31-Child-Units.html#RM-1-1-3-31-Child-Units">RM 1.1.3(31); Child Units</a>
+<li><a href="RM-1-1-5-12-Bounded-Errors.html#RM-1-1-5-12-Bounded-Errors">RM 1.1.5(12); Bounded Errors</a>
+<li><a href="RM-2-8-16-Pragmas.html#RM-2-8-16-Pragmas">RM 2.8(16); Pragmas</a>
+<li><a href="RM-2-8-17_002d19-Pragmas.html#RM-2-8-17_002d19-Pragmas">RM 2.8(17-19); Pragmas</a>
+<li><a href="RM-3-5-2-5-Alternative-Character-Sets.html#RM-3-5-2-5-Alternative-Character-Sets">RM 3.5.2(5); Alternative Character Sets</a>
+<li><a href="RM-3-5-4-28-Integer-Types.html#RM-3-5-4-28-Integer-Types">RM 3.5.4(28); Integer Types</a>
+<li><a href="RM-3-5-4-29-Integer-Types.html#RM-3-5-4-29-Integer-Types">RM 3.5.4(29); Integer Types</a>
+<li><a href="RM-3-5-5-8-Enumeration-Values.html#RM-3-5-5-8-Enumeration-Values">RM 3.5.5(8); Enumeration Values</a>
+<li><a href="RM-3-5-7-17-Float-Types.html#RM-3-5-7-17-Float-Types">RM 3.5.7(17); Float Types</a>
+<li><a href="RM-3-6-2-11-Multidimensional-Arrays.html#RM-3-6-2-11-Multidimensional-Arrays">RM 3.6.2(11); Multidimensional Arrays</a>
+<li><a href="RM-9-6-30_002d31-Duration_0027Small.html#RM-9-6-30_002d31-Duration_0027Small">RM 9.6(30-31); Duration'Small</a>
+<li><a href="RM-10-2-1-12-Consistent-Representation.html#RM-10-2-1-12-Consistent-Representation">RM 10.2.1(12); Consistent Representation</a>
+<li><a href="RM-11-4-1-19-Exception-Information.html#RM-11-4-1-19-Exception-Information">RM 11.4.1(19); Exception Information</a>
+<li><a href="RM-11-5-28-Suppression-of-Checks.html#RM-11-5-28-Suppression-of-Checks">RM 11.5(28); Suppression of Checks</a>
+<li><a href="RM-13-1-21_002d24-Representation-Clauses.html#RM-13-1-21_002d24-Representation-Clauses">RM 13.1 (21-24); Representation Clauses</a>
+<li><a href="RM-13-2-6_002d8-Packed-Types.html#RM-13-2-6_002d8-Packed-Types">RM 13.2(6-8); Packed Types</a>
+<li><a href="RM-13-3-14_002d19-Address-Clauses.html#RM-13-3-14_002d19-Address-Clauses">RM 13.3(14-19); Address Clauses</a>
+<li><a href="RM-13-3-29_002d35-Alignment-Clauses.html#RM-13-3-29_002d35-Alignment-Clauses">RM 13.3(29-35); Alignment Clauses</a>
+<li><a href="RM-13-3-42_002d43-Size-Clauses.html#RM-13-3-42_002d43-Size-Clauses">RM 13.3(42-43); Size Clauses</a>
+<li><a href="RM-13-3-50_002d56-Size-Clauses.html#RM-13-3-50_002d56-Size-Clauses">RM 13.3(50-56); Size Clauses</a>
+<li><a href="RM-13-3-71_002d73-Component-Size-Clauses.html#RM-13-3-71_002d73-Component-Size-Clauses">RM 13.3(71-73); Component Size Clauses</a>
+<li><a href="RM-13-4-9_002d10-Enumeration-Representation-Clauses.html#RM-13-4-9_002d10-Enumeration-Representation-Clauses">RM 13.4(9-10); Enumeration Representation Clauses</a>
+<li><a href="RM-13-5-1-17_002d22-Record-Representation-Clauses.html#RM-13-5-1-17_002d22-Record-Representation-Clauses">RM 13.5.1(17-22); Record Representation Clauses</a>
+<li><a href="RM-13-5-2-5-Storage-Place-Attributes.html#RM-13-5-2-5-Storage-Place-Attributes">RM 13.5.2(5); Storage Place Attributes</a>
+<li><a href="RM-13-5-3-7_002d8-Bit-Ordering.html#RM-13-5-3-7_002d8-Bit-Ordering">RM 13.5.3(7-8); Bit Ordering</a>
+<li><a href="RM-13-7-37-Address-as-Private.html#RM-13-7-37-Address-as-Private">RM 13.7(37); Address as Private</a>
+<li><a href="RM-13-7-1-16-Address-Operations.html#RM-13-7-1-16-Address-Operations">RM 13.7.1(16); Address Operations</a>
+<li><a href="RM-13-9-14_002d17-Unchecked-Conversion.html#RM-13-9-14_002d17-Unchecked-Conversion">RM 13.9(14-17); Unchecked Conversion</a>
+<li><a href="RM-13-11-23_002d25-Implicit-Heap-Usage.html#RM-13-11-23_002d25-Implicit-Heap-Usage">RM 13.11(23-25); Implicit Heap Usage</a>
+<li><a href="RM-13-11-2-17-Unchecked-Deallocation.html#RM-13-11-2-17-Unchecked-Deallocation">RM 13.11.2(17); Unchecked Deallocation</a>
+<li><a href="RM-13-13-2-17-Stream-Oriented-Attributes.html#RM-13-13-2-17-Stream-Oriented-Attributes">RM 13.13.2(17); Stream Oriented Attributes</a>
+<li><a href="RM-A-1-52-Names-of-Predefined-Numeric-Types.html#RM-A-1-52-Names-of-Predefined-Numeric-Types">RM A.1(52); Names of Predefined Numeric Types</a>
+<li><a href="RM-A-3-2-49-Ada-Characters-Handling.html#RM-A-3-2-49-Ada-Characters-Handling">RM A.3.2(49); Ada.Characters.Handling</a>
+<li><a href="RM-A-4-4-106-Bounded_002dLength-String-Handling.html#RM-A-4-4-106-Bounded_002dLength-String-Handling">RM A.4.4(106); Bounded-Length String Handling</a>
+<li><a href="RM-A-5-2-46_002d47-Random-Number-Generation.html#RM-A-5-2-46_002d47-Random-Number-Generation">RM A.5.2(46-47); Random Number Generation</a>
+<li><a href="RM-A-10-7-23-Get_005fImmediate.html#RM-A-10-7-23-Get_005fImmediate">RM A.10.7(23); Get_Immediate</a>
+<li><a href="RM-B-1-39_002d41-Pragma-Export.html#RM-B-1-39_002d41-Pragma-Export">RM B.1(39-41); Pragma Export</a>
+<li><a href="RM-B-2-12_002d13-Package-Interfaces.html#RM-B-2-12_002d13-Package-Interfaces">RM B.2(12-13); Package Interfaces</a>
+<li><a href="RM-B-3-63_002d71-Interfacing-with-C.html#RM-B-3-63_002d71-Interfacing-with-C">RM B.3(63-71); Interfacing with C</a>
+<li><a href="RM-B-4-95_002d98-Interfacing-with-COBOL.html#RM-B-4-95_002d98-Interfacing-with-COBOL">RM B.4(95-98); Interfacing with COBOL</a>
+<li><a href="RM-B-5-22_002d26-Interfacing-with-Fortran.html#RM-B-5-22_002d26-Interfacing-with-Fortran">RM B.5(22-26); Interfacing with Fortran</a>
+<li><a href="RM-C-1-3_002d5-Access-to-Machine-Operations.html#RM-C-1-3_002d5-Access-to-Machine-Operations">RM C.1(3-5); Access to Machine Operations</a>
+<li><a href="RM-C-1-10_002d16-Access-to-Machine-Operations.html#RM-C-1-10_002d16-Access-to-Machine-Operations">RM C.1(10-16); Access to Machine Operations</a>
+<li><a href="RM-C-3-28-Interrupt-Support.html#RM-C-3-28-Interrupt-Support">RM C.3(28); Interrupt Support</a>
+<li><a href="RM-C-3-1-20_002d21-Protected-Procedure-Handlers.html#RM-C-3-1-20_002d21-Protected-Procedure-Handlers">RM C.3.1(20-21); Protected Procedure Handlers</a>
+<li><a href="RM-C-3-2-25-Package-Interrupts.html#RM-C-3-2-25-Package-Interrupts">RM C.3.2(25); Package Interrupts</a>
+<li><a href="RM-C-4-14-Pre_002delaboration-Requirements.html#RM-C-4-14-Pre_002delaboration-Requirements">RM C.4(14); Pre-elaboration Requirements</a>
+<li><a href="RM-C-5-8-Pragma-Discard_005fNames.html#RM-C-5-8-Pragma-Discard_005fNames">RM C.5(8); Pragma Discard_Names</a>
+<li><a href="RM-C-7-2-30-The-Package-Task_005fAttributes.html#RM-C-7-2-30-The-Package-Task_005fAttributes">RM C.7.2(30); The Package Task_Attributes</a>
+<li><a href="RM-D-3-17-Locking-Policies.html#RM-D-3-17-Locking-Policies">RM D.3(17); Locking Policies</a>
+<li><a href="RM-D-4-16-Entry-Queuing-Policies.html#RM-D-4-16-Entry-Queuing-Policies">RM D.4(16); Entry Queuing Policies</a>
+<li><a href="RM-D-6-9_002d10-Preemptive-Abort.html#RM-D-6-9_002d10-Preemptive-Abort">RM D.6(9-10); Preemptive Abort</a>
+<li><a href="RM-D-7-21-Tasking-Restrictions.html#RM-D-7-21-Tasking-Restrictions">RM D.7(21); Tasking Restrictions</a>
+<li><a href="RM-D-8-47_002d49-Monotonic-Time.html#RM-D-8-47_002d49-Monotonic-Time">RM D.8(47-49); Monotonic Time</a>
+<li><a href="RM-E-5-28_002d29-Partition-Communication-Subsystem.html#RM-E-5-28_002d29-Partition-Communication-Subsystem">RM E.5(28-29); Partition Communication Subsystem</a>
+<li><a href="RM-F-7-COBOL-Support.html#RM-F-7-COBOL-Support">RM F(7); COBOL Support</a>
+<li><a href="RM-F-1-2-Decimal-Radix-Support.html#RM-F-1-2-Decimal-Radix-Support">RM F.1(2); Decimal Radix Support</a>
+<li><a href="RM-G-Numerics.html#RM-G-Numerics">RM G; Numerics</a>
+<li><a href="RM-G-1-1-56_002d58-Complex-Types.html#RM-G-1-1-56_002d58-Complex-Types">RM G.1.1(56-58); Complex Types</a>
+<li><a href="RM-G-1-2-49-Complex-Elementary-Functions.html#RM-G-1-2-49-Complex-Elementary-Functions">RM G.1.2(49); Complex Elementary Functions</a>
+<li><a href="RM-G-2-4-19-Accuracy-Requirements.html#RM-G-2-4-19-Accuracy-Requirements">RM G.2.4(19); Accuracy Requirements</a>
+<li><a href="RM-G-2-6-15-Complex-Arithmetic-Accuracy.html#RM-G-2-6-15-Complex-Arithmetic-Accuracy">RM G.2.6(15); Complex Arithmetic Accuracy</a>
+<li><a href="RM-H-6-15_002f2-Pragma-Partition_005fElaboration_005fPolicy.html#RM-H-6-15_002f2-Pragma-Partition_005fElaboration_005fPolicy">RM H.6(15/2); Pragma Partition_Elaboration_Policy</a>
+
+</li></ul>
+<p>Intrinsic Subprograms
+
+</p>
+<ul class="menu">
+<li><a href="Intrinsic-Operators.html#Intrinsic-Operators">Intrinsic Operators</a>
+<li><a href="Compilation_005fDate.html#Compilation_005fDate">Compilation_Date</a>
+<li><a href="Compilation_005fTime.html#Compilation_005fTime">Compilation_Time</a>
+<li><a href="Enclosing_005fEntity.html#Enclosing_005fEntity">Enclosing_Entity</a>
+<li><a href="Exception_005fInformation.html#Exception_005fInformation">Exception_Information</a>
+<li><a href="Exception_005fMessage.html#Exception_005fMessage">Exception_Message</a>
+<li><a href="Exception_005fName.html#Exception_005fName">Exception_Name</a>
+<li><a href="File.html#File">File</a>
+<li><a href="Line.html#Line">Line</a>
+<li><a href="Shifts-and-Rotates.html#Shifts-and-Rotates">Shifts and Rotates</a>
+<li><a href="Source_005fLocation.html#Source_005fLocation">Source_Location</a>
+
+</li></ul>
+<p>Representation Clauses and Pragmas
+
+</p>
+<ul class="menu">
+<li><a href="Alignment-Clauses.html#Alignment-Clauses">Alignment Clauses</a>
+<li><a href="Size-Clauses.html#Size-Clauses">Size Clauses</a>
+<li><a href="Storage_005fSize-Clauses.html#Storage_005fSize-Clauses">Storage_Size Clauses</a>
+<li><a href="Size-of-Variant-Record-Objects.html#Size-of-Variant-Record-Objects">Size of Variant Record Objects</a>
+<li><a href="Biased-Representation.html#Biased-Representation">Biased Representation</a>
+<li><a href="Value_005fSize-and-Object_005fSize-Clauses.html#Value_005fSize-and-Object_005fSize-Clauses">Value_Size and Object_Size Clauses</a>
+<li><a href="Component_005fSize-Clauses.html#Component_005fSize-Clauses">Component_Size Clauses</a>
+<li><a href="Bit_005fOrder-Clauses.html#Bit_005fOrder-Clauses">Bit_Order Clauses</a>
+<li><a href="Effect-of-Bit_005fOrder-on-Byte-Ordering.html#Effect-of-Bit_005fOrder-on-Byte-Ordering">Effect of Bit_Order on Byte Ordering</a>
+<li><a href="Pragma-Pack-for-Arrays.html#Pragma-Pack-for-Arrays">Pragma Pack for Arrays</a>
+<li><a href="Pragma-Pack-for-Records.html#Pragma-Pack-for-Records">Pragma Pack for Records</a>
+<li><a href="Record-Representation-Clauses.html#Record-Representation-Clauses">Record Representation Clauses</a>
+<li><a href="Handling-of-Records-with-Holes.html#Handling-of-Records-with-Holes">Handling of Records with Holes</a>
+<li><a href="Enumeration-Clauses.html#Enumeration-Clauses">Enumeration Clauses</a>
+<li><a href="Address-Clauses.html#Address-Clauses">Address Clauses</a>
+<li><a href="Use-of-Address-Clauses-for-Memory_002dMapped-I_002fO.html#Use-of-Address-Clauses-for-Memory_002dMapped-I_002fO">Use of Address Clauses for Memory-Mapped I/O</a>
+<li><a href="Effect-of-Convention-on-Representation.html#Effect-of-Convention-on-Representation">Effect of Convention on Representation</a>
+<li><a href="Conventions-and-Anonymous-Access-Types.html#Conventions-and-Anonymous-Access-Types">Conventions and Anonymous Access Types</a>
+<li><a href="Determining-the-Representations-chosen-by-GNAT.html#Determining-the-Representations-chosen-by-GNAT">Determining the Representations chosen by GNAT</a>
+
+</li></ul>
+<p>The Implementation of Standard I/O
+
+</p>
+<ul class="menu">
+<li><a href="Standard-I_002fO-Packages.html#Standard-I_002fO-Packages">Standard I/O Packages</a>
+<li><a href="FORM-Strings.html#FORM-Strings">FORM Strings</a>
+<li><a href="Direct_005fIO.html#Direct_005fIO">Direct_IO</a>
+<li><a href="Sequential_005fIO.html#Sequential_005fIO">Sequential_IO</a>
+<li><a href="Text_005fIO.html#Text_005fIO">Text_IO</a>
+<li><a href="Wide_005fText_005fIO.html#Wide_005fText_005fIO">Wide_Text_IO</a>
+<li><a href="Wide_005fWide_005fText_005fIO.html#Wide_005fWide_005fText_005fIO">Wide_Wide_Text_IO</a>
+<li><a href="Stream_005fIO.html#Stream_005fIO">Stream_IO</a>
+<li><a href="Text-Translation.html#Text-Translation">Text Translation</a>
+<li><a href="Shared-Files.html#Shared-Files">Shared Files</a>
+<li><a href="Filenames-encoding.html#Filenames-encoding">Filenames encoding</a>
+<li><a href="File-content-encoding.html#File-content-encoding">File content encoding</a>
+<li><a href="Open-Modes.html#Open-Modes">Open Modes</a>
+<li><a href="Operations-on-C-Streams.html#Operations-on-C-Streams">Operations on C Streams</a>
+<li><a href="Interfacing-to-C-Streams.html#Interfacing-to-C-Streams">Interfacing to C Streams</a>
+
+</li></ul>
+<p>Text_IO
+
+</p>
+<ul class="menu">
+<li><a href="Stream-Pointer-Positioning.html#Stream-Pointer-Positioning">Stream Pointer Positioning</a>
+<li><a href="Reading-and-Writing-Non_002dRegular-Files.html#Reading-and-Writing-Non_002dRegular-Files">Reading and Writing Non-Regular Files</a>
+<li><a href="Get_005fImmediate.html#Get_005fImmediate">Get_Immediate</a>
+<li><a href="Treating-Text_005fIO-Files-as-Streams.html#Treating-Text_005fIO-Files-as-Streams">Treating Text_IO Files as Streams</a>
+<li><a href="Text_005fIO-Extensions.html#Text_005fIO-Extensions">Text_IO Extensions</a>
+<li><a href="Text_005fIO-Facilities-for-Unbounded-Strings.html#Text_005fIO-Facilities-for-Unbounded-Strings">Text_IO Facilities for Unbounded Strings</a>
+
+</li></ul>
+<p>Wide_Text_IO
+
+</p>
+<ul class="menu">
+<li><a href="Stream-Pointer-Positioning_003c2_003e.html#Stream-Pointer-Positioning_003c2_003e">Stream Pointer Positioning</a>
+<li><a href="Reading-and-Writing-Non_002dRegular-Files_003c2_003e.html#Reading-and-Writing-Non_002dRegular-Files_003c2_003e">Reading and Writing Non-Regular Files</a>
+
+</li></ul>
+<p>Wide_Wide_Text_IO
+
+</p>
+<ul class="menu">
+<li><a href="Stream-Pointer-Positioning_003c3_003e.html#Stream-Pointer-Positioning_003c3_003e">Stream Pointer Positioning</a>
+<li><a href="Reading-and-Writing-Non_002dRegular-Files_003c3_003e.html#Reading-and-Writing-Non_002dRegular-Files_003c3_003e">Reading and Writing Non-Regular Files</a>
+
+</li></ul>
+<p>The GNAT Library
+
+</p>
+<ul class="menu">
+<li><a href="Ada-Characters-Latin_005f9-a_002dchlat9-ads.html#Ada-Characters-Latin_005f9-a_002dchlat9-ads">Ada.Characters.Latin_9 (a-chlat9.ads)</a>
+<li><a href="Ada-Characters-Wide_005fLatin_005f1-a_002dcwila1-ads.html#Ada-Characters-Wide_005fLatin_005f1-a_002dcwila1-ads">Ada.Characters.Wide_Latin_1 (a-cwila1.ads)</a>
+<li><a href="Ada-Characters-Wide_005fLatin_005f9-a_002dcwila1-ads.html#Ada-Characters-Wide_005fLatin_005f9-a_002dcwila1-ads">Ada.Characters.Wide_Latin_9 (a-cwila1.ads)</a>
+<li><a href="Ada-Characters-Wide_005fWide_005fLatin_005f1-a_002dchzla1-ads.html#Ada-Characters-Wide_005fWide_005fLatin_005f1-a_002dchzla1-ads">Ada.Characters.Wide_Wide_Latin_1 (a-chzla1.ads)</a>
+<li><a href="Ada-Characters-Wide_005fWide_005fLatin_005f9-a_002dchzla9-ads.html#Ada-Characters-Wide_005fWide_005fLatin_005f9-a_002dchzla9-ads">Ada.Characters.Wide_Wide_Latin_9 (a-chzla9.ads)</a>
+<li><a href="Ada-Containers-Formal_005fDoubly_005fLinked_005fLists-a_002dcfdlli-ads.html#Ada-Containers-Formal_005fDoubly_005fLinked_005fLists-a_002dcfdlli-ads">Ada.Containers.Formal_Doubly_Linked_Lists (a-cfdlli.ads)</a>
+<li><a href="Ada-Containers-Formal_005fHashed_005fMaps-a_002dcfhama-ads.html#Ada-Containers-Formal_005fHashed_005fMaps-a_002dcfhama-ads">Ada.Containers.Formal_Hashed_Maps (a-cfhama.ads)</a>
+<li><a href="Ada-Containers-Formal_005fHashed_005fSets-a_002dcfhase-ads.html#Ada-Containers-Formal_005fHashed_005fSets-a_002dcfhase-ads">Ada.Containers.Formal_Hashed_Sets (a-cfhase.ads)</a>
+<li><a href="Ada-Containers-Formal_005fOrdered_005fMaps-a_002dcforma-ads.html#Ada-Containers-Formal_005fOrdered_005fMaps-a_002dcforma-ads">Ada.Containers.Formal_Ordered_Maps (a-cforma.ads)</a>
+<li><a href="Ada-Containers-Formal_005fOrdered_005fSets-a_002dcforse-ads.html#Ada-Containers-Formal_005fOrdered_005fSets-a_002dcforse-ads">Ada.Containers.Formal_Ordered_Sets (a-cforse.ads)</a>
+<li><a href="Ada-Containers-Formal_005fVectors-a_002dcofove-ads.html#Ada-Containers-Formal_005fVectors-a_002dcofove-ads">Ada.Containers.Formal_Vectors (a-cofove.ads)</a>
+<li><a href="Ada-Containers-Formal_005fIndefinite_005fVectors-a_002dcfinve-ads.html#Ada-Containers-Formal_005fIndefinite_005fVectors-a_002dcfinve-ads">Ada.Containers.Formal_Indefinite_Vectors (a-cfinve.ads)</a>
+<li><a href="Ada-Containers-Bounded_005fHolders-a_002dcoboho-ads.html#Ada-Containers-Bounded_005fHolders-a_002dcoboho-ads">Ada.Containers.Bounded_Holders (a-coboho.ads)</a>
+<li><a href="Ada-Command_005fLine-Environment-a_002dcolien-ads.html#Ada-Command_005fLine-Environment-a_002dcolien-ads">Ada.Command_Line.Environment (a-colien.ads)</a>
+<li><a href="Ada-Command_005fLine-Remove-a_002dcolire-ads.html#Ada-Command_005fLine-Remove-a_002dcolire-ads">Ada.Command_Line.Remove (a-colire.ads)</a>
+<li><a href="Ada-Command_005fLine-Response_005fFile-a_002dclrefi-ads.html#Ada-Command_005fLine-Response_005fFile-a_002dclrefi-ads">Ada.Command_Line.Response_File (a-clrefi.ads)</a>
+<li><a href="Ada-Direct_005fIO-C_005fStreams-a_002ddiocst-ads.html#Ada-Direct_005fIO-C_005fStreams-a_002ddiocst-ads">Ada.Direct_IO.C_Streams (a-diocst.ads)</a>
+<li><a href="Ada-Exceptions-Is_005fNull_005fOccurrence-a_002deinuoc-ads.html#Ada-Exceptions-Is_005fNull_005fOccurrence-a_002deinuoc-ads">Ada.Exceptions.Is_Null_Occurrence (a-einuoc.ads)</a>
+<li><a href="Ada-Exceptions-Last_005fChance_005fHandler-a_002delchha-ads.html#Ada-Exceptions-Last_005fChance_005fHandler-a_002delchha-ads">Ada.Exceptions.Last_Chance_Handler (a-elchha.ads)</a>
+<li><a href="Ada-Exceptions-Traceback-a_002dexctra-ads.html#Ada-Exceptions-Traceback-a_002dexctra-ads">Ada.Exceptions.Traceback (a-exctra.ads)</a>
+<li><a href="Ada-Sequential_005fIO-C_005fStreams-a_002dsiocst-ads.html#Ada-Sequential_005fIO-C_005fStreams-a_002dsiocst-ads">Ada.Sequential_IO.C_Streams (a-siocst.ads)</a>
+<li><a href="Ada-Streams-Stream_005fIO-C_005fStreams-a_002dssicst-ads.html#Ada-Streams-Stream_005fIO-C_005fStreams-a_002dssicst-ads">Ada.Streams.Stream_IO.C_Streams (a-ssicst.ads)</a>
+<li><a href="Ada-Strings-Unbounded-Text_005fIO-a_002dsuteio-ads.html#Ada-Strings-Unbounded-Text_005fIO-a_002dsuteio-ads">Ada.Strings.Unbounded.Text_IO (a-suteio.ads)</a>
+<li><a href="Ada-Strings-Wide_005fUnbounded-Wide_005fText_005fIO-a_002dswuwti-ads.html#Ada-Strings-Wide_005fUnbounded-Wide_005fText_005fIO-a_002dswuwti-ads">Ada.Strings.Wide_Unbounded.Wide_Text_IO (a-swuwti.ads)</a>
+<li><a href="Ada-Strings-Wide_005fWide_005fUnbounded-Wide_005fWide_005fText_005fIO-a_002dszuzti-ads.html#Ada-Strings-Wide_005fWide_005fUnbounded-Wide_005fWide_005fText_005fIO-a_002dszuzti-ads">Ada.Strings.Wide_Wide_Unbounded.Wide_Wide_Text_IO (a-szuzti.ads)</a>
+<li><a href="Ada-Text_005fIO-C_005fStreams-a_002dtiocst-ads.html#Ada-Text_005fIO-C_005fStreams-a_002dtiocst-ads">Ada.Text_IO.C_Streams (a-tiocst.ads)</a>
+<li><a href="Ada-Text_005fIO-Reset_005fStandard_005fFiles-a_002dtirsfi-ads.html#Ada-Text_005fIO-Reset_005fStandard_005fFiles-a_002dtirsfi-ads">Ada.Text_IO.Reset_Standard_Files (a-tirsfi.ads)</a>
+<li><a href="Ada-Wide_005fCharacters-Unicode-a_002dwichun-ads.html#Ada-Wide_005fCharacters-Unicode-a_002dwichun-ads">Ada.Wide_Characters.Unicode (a-wichun.ads)</a>
+<li><a href="Ada-Wide_005fText_005fIO-C_005fStreams-a_002dwtcstr-ads.html#Ada-Wide_005fText_005fIO-C_005fStreams-a_002dwtcstr-ads">Ada.Wide_Text_IO.C_Streams (a-wtcstr.ads)</a>
+<li><a href="Ada-Wide_005fText_005fIO-Reset_005fStandard_005fFiles-a_002dwrstfi-ads.html#Ada-Wide_005fText_005fIO-Reset_005fStandard_005fFiles-a_002dwrstfi-ads">Ada.Wide_Text_IO.Reset_Standard_Files (a-wrstfi.ads)</a>
+<li><a href="Ada-Wide_005fWide_005fCharacters-Unicode-a_002dzchuni-ads.html#Ada-Wide_005fWide_005fCharacters-Unicode-a_002dzchuni-ads">Ada.Wide_Wide_Characters.Unicode (a-zchuni.ads)</a>
+<li><a href="Ada-Wide_005fWide_005fText_005fIO-C_005fStreams-a_002dztcstr-ads.html#Ada-Wide_005fWide_005fText_005fIO-C_005fStreams-a_002dztcstr-ads">Ada.Wide_Wide_Text_IO.C_Streams (a-ztcstr.ads)</a>
+<li><a href="Ada-Wide_005fWide_005fText_005fIO-Reset_005fStandard_005fFiles-a_002dzrstfi-ads.html#Ada-Wide_005fWide_005fText_005fIO-Reset_005fStandard_005fFiles-a_002dzrstfi-ads">Ada.Wide_Wide_Text_IO.Reset_Standard_Files (a-zrstfi.ads)</a>
+<li><a href="GNAT-Altivec-g_002daltive-ads.html#GNAT-Altivec-g_002daltive-ads">GNAT.Altivec (g-altive.ads)</a>
+<li><a href="GNAT-Altivec-Conversions-g_002daltcon-ads.html#GNAT-Altivec-Conversions-g_002daltcon-ads">GNAT.Altivec.Conversions (g-altcon.ads)</a>
+<li><a href="GNAT-Altivec-Vector_005fOperations-g_002dalveop-ads.html#GNAT-Altivec-Vector_005fOperations-g_002dalveop-ads">GNAT.Altivec.Vector_Operations (g-alveop.ads)</a>
+<li><a href="GNAT-Altivec-Vector_005fTypes-g_002dalvety-ads.html#GNAT-Altivec-Vector_005fTypes-g_002dalvety-ads">GNAT.Altivec.Vector_Types (g-alvety.ads)</a>
+<li><a href="GNAT-Altivec-Vector_005fViews-g_002dalvevi-ads.html#GNAT-Altivec-Vector_005fViews-g_002dalvevi-ads">GNAT.Altivec.Vector_Views (g-alvevi.ads)</a>
+<li><a href="GNAT-Array_005fSplit-g_002darrspl-ads.html#GNAT-Array_005fSplit-g_002darrspl-ads">GNAT.Array_Split (g-arrspl.ads)</a>
+<li><a href="GNAT-AWK-g_002dawk-ads.html#GNAT-AWK-g_002dawk-ads">GNAT.AWK (g-awk.ads)</a>
+<li><a href="GNAT-Bounded_005fBuffers-g_002dboubuf-ads.html#GNAT-Bounded_005fBuffers-g_002dboubuf-ads">GNAT.Bounded_Buffers (g-boubuf.ads)</a>
+<li><a href="GNAT-Bounded_005fMailboxes-g_002dboumai-ads.html#GNAT-Bounded_005fMailboxes-g_002dboumai-ads">GNAT.Bounded_Mailboxes (g-boumai.ads)</a>
+<li><a href="GNAT-Bubble_005fSort-g_002dbubsor-ads.html#GNAT-Bubble_005fSort-g_002dbubsor-ads">GNAT.Bubble_Sort (g-bubsor.ads)</a>
+<li><a href="GNAT-Bubble_005fSort_005fA-g_002dbusora-ads.html#GNAT-Bubble_005fSort_005fA-g_002dbusora-ads">GNAT.Bubble_Sort_A (g-busora.ads)</a>
+<li><a href="GNAT-Bubble_005fSort_005fG-g_002dbusorg-ads.html#GNAT-Bubble_005fSort_005fG-g_002dbusorg-ads">GNAT.Bubble_Sort_G (g-busorg.ads)</a>
+<li><a href="GNAT-Byte_005fOrder_005fMark-g_002dbyorma-ads.html#GNAT-Byte_005fOrder_005fMark-g_002dbyorma-ads">GNAT.Byte_Order_Mark (g-byorma.ads)</a>
+<li><a href="GNAT-Byte_005fSwapping-g_002dbytswa-ads.html#GNAT-Byte_005fSwapping-g_002dbytswa-ads">GNAT.Byte_Swapping (g-bytswa.ads)</a>
+<li><a href="GNAT-Calendar-g_002dcalend-ads.html#GNAT-Calendar-g_002dcalend-ads">GNAT.Calendar (g-calend.ads)</a>
+<li><a href="GNAT-Calendar-Time_005fIO-g_002dcatiio-ads.html#GNAT-Calendar-Time_005fIO-g_002dcatiio-ads">GNAT.Calendar.Time_IO (g-catiio.ads)</a>
+<li><a href="GNAT-CRC32-g_002dcrc32-ads.html#GNAT-CRC32-g_002dcrc32-ads">GNAT.CRC32 (g-crc32.ads)</a>
+<li><a href="GNAT-Case_005fUtil-g_002dcasuti-ads.html#GNAT-Case_005fUtil-g_002dcasuti-ads">GNAT.Case_Util (g-casuti.ads)</a>
+<li><a href="GNAT-CGI-g_002dcgi-ads.html#GNAT-CGI-g_002dcgi-ads">GNAT.CGI (g-cgi.ads)</a>
+<li><a href="GNAT-CGI-Cookie-g_002dcgicoo-ads.html#GNAT-CGI-Cookie-g_002dcgicoo-ads">GNAT.CGI.Cookie (g-cgicoo.ads)</a>
+<li><a href="GNAT-CGI-Debug-g_002dcgideb-ads.html#GNAT-CGI-Debug-g_002dcgideb-ads">GNAT.CGI.Debug (g-cgideb.ads)</a>
+<li><a href="GNAT-Command_005fLine-g_002dcomlin-ads.html#GNAT-Command_005fLine-g_002dcomlin-ads">GNAT.Command_Line (g-comlin.ads)</a>
+<li><a href="GNAT-Compiler_005fVersion-g_002dcomver-ads.html#GNAT-Compiler_005fVersion-g_002dcomver-ads">GNAT.Compiler_Version (g-comver.ads)</a>
+<li><a href="GNAT-Ctrl_005fC-g_002dctrl_005fc-ads.html#GNAT-Ctrl_005fC-g_002dctrl_005fc-ads">GNAT.Ctrl_C (g-ctrl_c.ads)</a>
+<li><a href="GNAT-Current_005fException-g_002dcurexc-ads.html#GNAT-Current_005fException-g_002dcurexc-ads">GNAT.Current_Exception (g-curexc.ads)</a>
+<li><a href="GNAT-Debug_005fPools-g_002ddebpoo-ads.html#GNAT-Debug_005fPools-g_002ddebpoo-ads">GNAT.Debug_Pools (g-debpoo.ads)</a>
+<li><a href="GNAT-Debug_005fUtilities-g_002ddebuti-ads.html#GNAT-Debug_005fUtilities-g_002ddebuti-ads">GNAT.Debug_Utilities (g-debuti.ads)</a>
+<li><a href="GNAT-Decode_005fString-g_002ddecstr-ads.html#GNAT-Decode_005fString-g_002ddecstr-ads">GNAT.Decode_String (g-decstr.ads)</a>
+<li><a href="GNAT-Decode_005fUTF8_005fString-g_002ddeutst-ads.html#GNAT-Decode_005fUTF8_005fString-g_002ddeutst-ads">GNAT.Decode_UTF8_String (g-deutst.ads)</a>
+<li><a href="GNAT-Directory_005fOperations-g_002ddirope-ads.html#GNAT-Directory_005fOperations-g_002ddirope-ads">GNAT.Directory_Operations (g-dirope.ads)</a>
+<li><a href="GNAT-Directory_005fOperations-Iteration-g_002ddiopit-ads.html#GNAT-Directory_005fOperations-Iteration-g_002ddiopit-ads">GNAT.Directory_Operations.Iteration (g-diopit.ads)</a>
+<li><a href="GNAT-Dynamic_005fHTables-g_002ddynhta-ads.html#GNAT-Dynamic_005fHTables-g_002ddynhta-ads">GNAT.Dynamic_HTables (g-dynhta.ads)</a>
+<li><a href="GNAT-Dynamic_005fTables-g_002ddyntab-ads.html#GNAT-Dynamic_005fTables-g_002ddyntab-ads">GNAT.Dynamic_Tables (g-dyntab.ads)</a>
+<li><a href="GNAT-Encode_005fString-g_002dencstr-ads.html#GNAT-Encode_005fString-g_002dencstr-ads">GNAT.Encode_String (g-encstr.ads)</a>
+<li><a href="GNAT-Encode_005fUTF8_005fString-g_002denutst-ads.html#GNAT-Encode_005fUTF8_005fString-g_002denutst-ads">GNAT.Encode_UTF8_String (g-enutst.ads)</a>
+<li><a href="GNAT-Exception_005fActions-g_002dexcact-ads.html#GNAT-Exception_005fActions-g_002dexcact-ads">GNAT.Exception_Actions (g-excact.ads)</a>
+<li><a href="GNAT-Exception_005fTraces-g_002dexctra-ads.html#GNAT-Exception_005fTraces-g_002dexctra-ads">GNAT.Exception_Traces (g-exctra.ads)</a>
+<li><a href="GNAT-Exceptions-g_002dexpect-ads.html#GNAT-Exceptions-g_002dexpect-ads">GNAT.Exceptions (g-expect.ads)</a>
+<li><a href="GNAT-Expect-g_002dexpect-ads.html#GNAT-Expect-g_002dexpect-ads">GNAT.Expect (g-expect.ads)</a>
+<li><a href="GNAT-Expect-TTY-g_002dexptty-ads.html#GNAT-Expect-TTY-g_002dexptty-ads">GNAT.Expect.TTY (g-exptty.ads)</a>
+<li><a href="GNAT-Float_005fControl-g_002dflocon-ads.html#GNAT-Float_005fControl-g_002dflocon-ads">GNAT.Float_Control (g-flocon.ads)</a>
+<li><a href="GNAT-Formatted_005fString-g_002dforstr-ads.html#GNAT-Formatted_005fString-g_002dforstr-ads">GNAT.Formatted_String (g-forstr.ads)</a>
+<li><a href="GNAT-Heap_005fSort-g_002dheasor-ads.html#GNAT-Heap_005fSort-g_002dheasor-ads">GNAT.Heap_Sort (g-heasor.ads)</a>
+<li><a href="GNAT-Heap_005fSort_005fA-g_002dhesora-ads.html#GNAT-Heap_005fSort_005fA-g_002dhesora-ads">GNAT.Heap_Sort_A (g-hesora.ads)</a>
+<li><a href="GNAT-Heap_005fSort_005fG-g_002dhesorg-ads.html#GNAT-Heap_005fSort_005fG-g_002dhesorg-ads">GNAT.Heap_Sort_G (g-hesorg.ads)</a>
+<li><a href="GNAT-HTable-g_002dhtable-ads.html#GNAT-HTable-g_002dhtable-ads">GNAT.HTable (g-htable.ads)</a>
+<li><a href="GNAT-IO-g_002dio-ads.html#GNAT-IO-g_002dio-ads">GNAT.IO (g-io.ads)</a>
+<li><a href="GNAT-IO_005fAux-g_002dio_005faux-ads.html#GNAT-IO_005fAux-g_002dio_005faux-ads">GNAT.IO_Aux (g-io_aux.ads)</a>
+<li><a href="GNAT-Lock_005fFiles-g_002dlocfil-ads.html#GNAT-Lock_005fFiles-g_002dlocfil-ads">GNAT.Lock_Files (g-locfil.ads)</a>
+<li><a href="GNAT-MBBS_005fDiscrete_005fRandom-g_002dmbdira-ads.html#GNAT-MBBS_005fDiscrete_005fRandom-g_002dmbdira-ads">GNAT.MBBS_Discrete_Random (g-mbdira.ads)</a>
+<li><a href="GNAT-MBBS_005fFloat_005fRandom-g_002dmbflra-ads.html#GNAT-MBBS_005fFloat_005fRandom-g_002dmbflra-ads">GNAT.MBBS_Float_Random (g-mbflra.ads)</a>
+<li><a href="GNAT-MD5-g_002dmd5-ads.html#GNAT-MD5-g_002dmd5-ads">GNAT.MD5 (g-md5.ads)</a>
+<li><a href="GNAT-Memory_005fDump-g_002dmemdum-ads.html#GNAT-Memory_005fDump-g_002dmemdum-ads">GNAT.Memory_Dump (g-memdum.ads)</a>
+<li><a href="GNAT-Most_005fRecent_005fException-g_002dmoreex-ads.html#GNAT-Most_005fRecent_005fException-g_002dmoreex-ads">GNAT.Most_Recent_Exception (g-moreex.ads)</a>
+<li><a href="GNAT-OS_005fLib-g_002dos_005flib-ads.html#GNAT-OS_005fLib-g_002dos_005flib-ads">GNAT.OS_Lib (g-os_lib.ads)</a>
+<li><a href="GNAT-Perfect_005fHash_005fGenerators-g_002dpehage-ads.html#GNAT-Perfect_005fHash_005fGenerators-g_002dpehage-ads">GNAT.Perfect_Hash_Generators (g-pehage.ads)</a>
+<li><a href="GNAT-Random_005fNumbers-g_002drannum-ads.html#GNAT-Random_005fNumbers-g_002drannum-ads">GNAT.Random_Numbers (g-rannum.ads)</a>
+<li><a href="GNAT-Regexp-g_002dregexp-ads.html#GNAT-Regexp-g_002dregexp-ads">GNAT.Regexp (g-regexp.ads)</a>
+<li><a href="GNAT-Registry-g_002dregist-ads.html#GNAT-Registry-g_002dregist-ads">GNAT.Registry (g-regist.ads)</a>
+<li><a href="GNAT-Regpat-g_002dregpat-ads.html#GNAT-Regpat-g_002dregpat-ads">GNAT.Regpat (g-regpat.ads)</a>
+<li><a href="GNAT-Rewrite_005fData-g_002drewdat-ads.html#GNAT-Rewrite_005fData-g_002drewdat-ads">GNAT.Rewrite_Data (g-rewdat.ads)</a>
+<li><a href="GNAT-Secondary_005fStack_005fInfo-g_002dsestin-ads.html#GNAT-Secondary_005fStack_005fInfo-g_002dsestin-ads">GNAT.Secondary_Stack_Info (g-sestin.ads)</a>
+<li><a href="GNAT-Semaphores-g_002dsemaph-ads.html#GNAT-Semaphores-g_002dsemaph-ads">GNAT.Semaphores (g-semaph.ads)</a>
+<li><a href="GNAT-Serial_005fCommunications-g_002dsercom-ads.html#GNAT-Serial_005fCommunications-g_002dsercom-ads">GNAT.Serial_Communications (g-sercom.ads)</a>
+<li><a href="GNAT-SHA1-g_002dsha1-ads.html#GNAT-SHA1-g_002dsha1-ads">GNAT.SHA1 (g-sha1.ads)</a>
+<li><a href="GNAT-SHA224-g_002dsha224-ads.html#GNAT-SHA224-g_002dsha224-ads">GNAT.SHA224 (g-sha224.ads)</a>
+<li><a href="GNAT-SHA256-g_002dsha256-ads.html#GNAT-SHA256-g_002dsha256-ads">GNAT.SHA256 (g-sha256.ads)</a>
+<li><a href="GNAT-SHA384-g_002dsha384-ads.html#GNAT-SHA384-g_002dsha384-ads">GNAT.SHA384 (g-sha384.ads)</a>
+<li><a href="GNAT-SHA512-g_002dsha512-ads.html#GNAT-SHA512-g_002dsha512-ads">GNAT.SHA512 (g-sha512.ads)</a>
+<li><a href="GNAT-Signals-g_002dsignal-ads.html#GNAT-Signals-g_002dsignal-ads">GNAT.Signals (g-signal.ads)</a>
+<li><a href="GNAT-Sockets-g_002dsocket-ads.html#GNAT-Sockets-g_002dsocket-ads">GNAT.Sockets (g-socket.ads)</a>
+<li><a href="GNAT-Source_005fInfo-g_002dsouinf-ads.html#GNAT-Source_005fInfo-g_002dsouinf-ads">GNAT.Source_Info (g-souinf.ads)</a>
+<li><a href="GNAT-Spelling_005fChecker-g_002dspeche-ads.html#GNAT-Spelling_005fChecker-g_002dspeche-ads">GNAT.Spelling_Checker (g-speche.ads)</a>
+<li><a href="GNAT-Spelling_005fChecker_005fGeneric-g_002dspchge-ads.html#GNAT-Spelling_005fChecker_005fGeneric-g_002dspchge-ads">GNAT.Spelling_Checker_Generic (g-spchge.ads)</a>
+<li><a href="GNAT-Spitbol-Patterns-g_002dspipat-ads.html#GNAT-Spitbol-Patterns-g_002dspipat-ads">GNAT.Spitbol.Patterns (g-spipat.ads)</a>
+<li><a href="GNAT-Spitbol-g_002dspitbo-ads.html#GNAT-Spitbol-g_002dspitbo-ads">GNAT.Spitbol (g-spitbo.ads)</a>
+<li><a href="GNAT-Spitbol-Table_005fBoolean-g_002dsptabo-ads.html#GNAT-Spitbol-Table_005fBoolean-g_002dsptabo-ads">GNAT.Spitbol.Table_Boolean (g-sptabo.ads)</a>
+<li><a href="GNAT-Spitbol-Table_005fInteger-g_002dsptain-ads.html#GNAT-Spitbol-Table_005fInteger-g_002dsptain-ads">GNAT.Spitbol.Table_Integer (g-sptain.ads)</a>
+<li><a href="GNAT-Spitbol-Table_005fVString-g_002dsptavs-ads.html#GNAT-Spitbol-Table_005fVString-g_002dsptavs-ads">GNAT.Spitbol.Table_VString (g-sptavs.ads)</a>
+<li><a href="GNAT-SSE-g_002dsse-ads.html#GNAT-SSE-g_002dsse-ads">GNAT.SSE (g-sse.ads)</a>
+<li><a href="GNAT-SSE-Vector_005fTypes-g_002dssvety-ads.html#GNAT-SSE-Vector_005fTypes-g_002dssvety-ads">GNAT.SSE.Vector_Types (g-ssvety.ads)</a>
+<li><a href="GNAT-Strings-g_002dstring-ads.html#GNAT-Strings-g_002dstring-ads">GNAT.Strings (g-string.ads)</a>
+<li><a href="GNAT-String_005fSplit-g_002dstrspl-ads.html#GNAT-String_005fSplit-g_002dstrspl-ads">GNAT.String_Split (g-strspl.ads)</a>
+<li><a href="GNAT-Table-g_002dtable-ads.html#GNAT-Table-g_002dtable-ads">GNAT.Table (g-table.ads)</a>
+<li><a href="GNAT-Task_005fLock-g_002dtasloc-ads.html#GNAT-Task_005fLock-g_002dtasloc-ads">GNAT.Task_Lock (g-tasloc.ads)</a>
+<li><a href="GNAT-Time_005fStamp-g_002dtimsta-ads.html#GNAT-Time_005fStamp-g_002dtimsta-ads">GNAT.Time_Stamp (g-timsta.ads)</a>
+<li><a href="GNAT-Threads-g_002dthread-ads.html#GNAT-Threads-g_002dthread-ads">GNAT.Threads (g-thread.ads)</a>
+<li><a href="GNAT-Traceback-g_002dtraceb-ads.html#GNAT-Traceback-g_002dtraceb-ads">GNAT.Traceback (g-traceb.ads)</a>
+<li><a href="GNAT-Traceback-Symbolic-g_002dtrasym-ads.html#GNAT-Traceback-Symbolic-g_002dtrasym-ads">GNAT.Traceback.Symbolic (g-trasym.ads)</a>
+<li><a href="GNAT-UTF_005f32-g_002dtable-ads.html#GNAT-UTF_005f32-g_002dtable-ads">GNAT.UTF_32 (g-table.ads)</a>
+<li><a href="GNAT-Wide_005fSpelling_005fChecker-g_002du3spch-ads.html#GNAT-Wide_005fSpelling_005fChecker-g_002du3spch-ads">GNAT.Wide_Spelling_Checker (g-u3spch.ads)</a>
+<li><a href="GNAT-Wide_005fSpelling_005fChecker-g_002dwispch-ads.html#GNAT-Wide_005fSpelling_005fChecker-g_002dwispch-ads">GNAT.Wide_Spelling_Checker (g-wispch.ads)</a>
+<li><a href="GNAT-Wide_005fString_005fSplit-g_002dwistsp-ads.html#GNAT-Wide_005fString_005fSplit-g_002dwistsp-ads">GNAT.Wide_String_Split (g-wistsp.ads)</a>
+<li><a href="GNAT-Wide_005fWide_005fSpelling_005fChecker-g_002dzspche-ads.html#GNAT-Wide_005fWide_005fSpelling_005fChecker-g_002dzspche-ads">GNAT.Wide_Wide_Spelling_Checker (g-zspche.ads)</a>
+<li><a href="GNAT-Wide_005fWide_005fString_005fSplit-g_002dzistsp-ads.html#GNAT-Wide_005fWide_005fString_005fSplit-g_002dzistsp-ads">GNAT.Wide_Wide_String_Split (g-zistsp.ads)</a>
+<li><a href="Interfaces-C-Extensions-i_002dcexten-ads.html#Interfaces-C-Extensions-i_002dcexten-ads">Interfaces.C.Extensions (i-cexten.ads)</a>
+<li><a href="Interfaces-C-Streams-i_002dcstrea-ads.html#Interfaces-C-Streams-i_002dcstrea-ads">Interfaces.C.Streams (i-cstrea.ads)</a>
+<li><a href="Interfaces-Packed_005fDecimal-i_002dpacdec-ads.html#Interfaces-Packed_005fDecimal-i_002dpacdec-ads">Interfaces.Packed_Decimal (i-pacdec.ads)</a>
+<li><a href="Interfaces-VxWorks-i_002dvxwork-ads.html#Interfaces-VxWorks-i_002dvxwork-ads">Interfaces.VxWorks (i-vxwork.ads)</a>
+<li><a href="Interfaces-VxWorks-IO-i_002dvxwoio-ads.html#Interfaces-VxWorks-IO-i_002dvxwoio-ads">Interfaces.VxWorks.IO (i-vxwoio.ads)</a>
+<li><a href="System-Address_005fImage-s_002daddima-ads.html#System-Address_005fImage-s_002daddima-ads">System.Address_Image (s-addima.ads)</a>
+<li><a href="System-Assertions-s_002dassert-ads.html#System-Assertions-s_002dassert-ads">System.Assertions (s-assert.ads)</a>
+<li><a href="System-Atomic_005fCounters-s_002datocou-ads.html#System-Atomic_005fCounters-s_002datocou-ads">System.Atomic_Counters (s-atocou.ads)</a>
+<li><a href="System-Memory-s_002dmemory-ads.html#System-Memory-s_002dmemory-ads">System.Memory (s-memory.ads)</a>
+<li><a href="System-Multiprocessors-s_002dmultip-ads.html#System-Multiprocessors-s_002dmultip-ads">System.Multiprocessors (s-multip.ads)</a>
+<li><a href="System-Multiprocessors-Dispatching_005fDomains-s_002dmudido-ads.html#System-Multiprocessors-Dispatching_005fDomains-s_002dmudido-ads">System.Multiprocessors.Dispatching_Domains (s-mudido.ads)</a>
+<li><a href="System-Partition_005fInterface-s_002dparint-ads.html#System-Partition_005fInterface-s_002dparint-ads">System.Partition_Interface (s-parint.ads)</a>
+<li><a href="System-Pool_005fGlobal-s_002dpooglo-ads.html#System-Pool_005fGlobal-s_002dpooglo-ads">System.Pool_Global (s-pooglo.ads)</a>
+<li><a href="System-Pool_005fLocal-s_002dpooloc-ads.html#System-Pool_005fLocal-s_002dpooloc-ads">System.Pool_Local (s-pooloc.ads)</a>
+<li><a href="System-Restrictions-s_002drestri-ads.html#System-Restrictions-s_002drestri-ads">System.Restrictions (s-restri.ads)</a>
+<li><a href="System-Rident-s_002drident-ads.html#System-Rident-s_002drident-ads">System.Rident (s-rident.ads)</a>
+<li><a href="System-Strings-Stream_005fOps-s_002dststop-ads.html#System-Strings-Stream_005fOps-s_002dststop-ads">System.Strings.Stream_Ops (s-ststop.ads)</a>
+<li><a href="System-Unsigned_005fTypes-s_002dunstyp-ads.html#System-Unsigned_005fTypes-s_002dunstyp-ads">System.Unsigned_Types (s-unstyp.ads)</a>
+<li><a href="System-Wch_005fCnv-s_002dwchcnv-ads.html#System-Wch_005fCnv-s_002dwchcnv-ads">System.Wch_Cnv (s-wchcnv.ads)</a>
+<li><a href="System-Wch_005fCon-s_002dwchcon-ads.html#System-Wch_005fCon-s_002dwchcon-ads">System.Wch_Con (s-wchcon.ads)</a>
+
+</li></ul>
+<p>Interfacing to Other Languages
+
+</p>
+<ul class="menu">
+<li><a href="Interfacing-to-C.html#Interfacing-to-C">Interfacing to C</a>
+<li><a href="Interfacing-to-C_002b_002b.html#Interfacing-to-C_002b_002b">Interfacing to C++</a>
+<li><a href="Interfacing-to-COBOL.html#Interfacing-to-COBOL">Interfacing to COBOL</a>
+<li><a href="Interfacing-to-Fortran.html#Interfacing-to-Fortran">Interfacing to Fortran</a>
+<li><a href="Interfacing-to-non_002dGNAT-Ada-code.html#Interfacing-to-non_002dGNAT-Ada-code">Interfacing to non-GNAT Ada code</a>
+
+</li></ul>
+<p>Implementation of Specific Ada Features
+
+</p>
+<ul class="menu">
+<li><a href="Machine-Code-Insertions.html#Machine-Code-Insertions">Machine Code Insertions</a>
+<li><a href="GNAT-Implementation-of-Tasking.html#GNAT-Implementation-of-Tasking">GNAT Implementation of Tasking</a>
+<li><a href="GNAT-Implementation-of-Shared-Passive-Packages.html#GNAT-Implementation-of-Shared-Passive-Packages">GNAT Implementation of Shared Passive Packages</a>
+<li><a href="Code-Generation-for-Array-Aggregates.html#Code-Generation-for-Array-Aggregates">Code Generation for Array Aggregates</a>
+<li><a href="The-Size-of-Discriminated-Records-with-Default-Discriminants.html#The-Size-of-Discriminated-Records-with-Default-Discriminants">The Size of Discriminated Records with Default Discriminants</a>
+<li><a href="Strict-Conformance-to-the-Ada-Reference-Manual.html#Strict-Conformance-to-the-Ada-Reference-Manual">Strict Conformance to the Ada Reference Manual</a>
+
+</li></ul>
+<p>GNAT Implementation of Tasking
+
+</p>
+<ul class="menu">
+<li><a href="Mapping-Ada-Tasks-onto-the-Underlying-Kernel-Threads.html#Mapping-Ada-Tasks-onto-the-Underlying-Kernel-Threads">Mapping Ada Tasks onto the Underlying Kernel Threads</a>
+<li><a href="Ensuring-Compliance-with-the-Real_002dTime-Annex.html#Ensuring-Compliance-with-the-Real_002dTime-Annex">Ensuring Compliance with the Real-Time Annex</a>
+
+</li></ul>
+<p>Code Generation for Array Aggregates
+
+</p>
+<ul class="menu">
+<li><a href="Static-constant-aggregates-with-static-bounds.html#Static-constant-aggregates-with-static-bounds">Static constant aggregates with static bounds</a>
+<li><a href="Constant-aggregates-with-unconstrained-nominal-types.html#Constant-aggregates-with-unconstrained-nominal-types">Constant aggregates with unconstrained nominal types</a>
+<li><a href="Aggregates-with-static-bounds.html#Aggregates-with-static-bounds">Aggregates with static bounds</a>
+<li><a href="Aggregates-with-non_002dstatic-bounds.html#Aggregates-with-non_002dstatic-bounds">Aggregates with non-static bounds</a>
+<li><a href="Aggregates-in-assignment-statements.html#Aggregates-in-assignment-statements">Aggregates in assignment statements</a>
+
+</li></ul>
+<p>Obsolescent Features
+
+</p>
+<ul class="menu">
+<li><a href="pragma-No_005fRun_005fTime.html#pragma-No_005fRun_005fTime">pragma No_Run_Time</a>
+<li><a href="pragma-Ravenscar.html#pragma-Ravenscar">pragma Ravenscar</a>
+<li><a href="pragma-Restricted_005fRun_005fTime.html#pragma-Restricted_005fRun_005fTime">pragma Restricted_Run_Time</a>
+<li><a href="pragma-Task_005fInfo.html#pragma-Task_005fInfo">pragma Task_Info</a>
+<li><a href="package-System-Task_005fInfo-s_002dtasinf-ads.html#package-System-Task_005fInfo-s_002dtasinf-ads">package System.Task_Info (s-tasinf.ads)</a>
+
+</li></ul>
+<p>Compatibility and Porting Guide
+
+</p>
+<ul class="menu">
+<li><a href="Writing-Portable-Fixed_002dPoint-Declarations.html#Writing-Portable-Fixed_002dPoint-Declarations">Writing Portable Fixed-Point Declarations</a>
+<li><a href="Compatibility-with-Ada-83.html#Compatibility-with-Ada-83">Compatibility with Ada 83</a>
+<li><a href="Compatibility-between-Ada-95-and-Ada-2005.html#Compatibility-between-Ada-95-and-Ada-2005">Compatibility between Ada 95 and Ada 2005</a>
+<li><a href="Implementation_002ddependent-characteristics.html#Implementation_002ddependent-characteristics">Implementation-dependent characteristics</a>
+<li><a href="Compatibility-with-Other-Ada-Systems.html#Compatibility-with-Other-Ada-Systems">Compatibility with Other Ada Systems</a>
+<li><a href="Representation-Clauses.html#Representation-Clauses">Representation Clauses</a>
+<li><a href="Compatibility-with-HP-Ada-83.html#Compatibility-with-HP-Ada-83">Compatibility with HP Ada 83</a>
+
+</li></ul>
+<p>Compatibility with Ada 83
+
+</p>
+<ul class="menu">
+<li><a href="Legal-Ada-83-programs-that-are-illegal-in-Ada-95.html#Legal-Ada-83-programs-that-are-illegal-in-Ada-95">Legal Ada 83 programs that are illegal in Ada 95</a>
+<li><a href="More-deterministic-semantics.html#More-deterministic-semantics">More deterministic semantics</a>
+<li><a href="Changed-semantics.html#Changed-semantics">Changed semantics</a>
+<li><a href="Other-language-compatibility-issues.html#Other-language-compatibility-issues">Other language compatibility issues</a>
+
+</li></ul>
+<p>Implementation-dependent characteristics
+
+</p>
+<ul class="menu">
+<li><a href="Implementation_002ddefined-pragmas.html#Implementation_002ddefined-pragmas">Implementation-defined pragmas</a>
+<li><a href="Implementation_002ddefined-attributes.html#Implementation_002ddefined-attributes">Implementation-defined attributes</a>
+<li><a href="Libraries.html#Libraries">Libraries</a>
+<li><a href="Elaboration-order.html#Elaboration-order">Elaboration order</a>
+<li><a href="Target_002dspecific-aspects.html#Target_002dspecific-aspects">Target-specific aspects</a>
+
+</ul>
+
+</body></html>
+
+<!--
+
+Local Variables:
+coding: utf-8
+End:
+
+-->

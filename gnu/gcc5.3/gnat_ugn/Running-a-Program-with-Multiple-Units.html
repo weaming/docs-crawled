@@ -1,0 +1,119 @@
+<html lang="en">
+<head>
+<title>Running a Program with Multiple Units - GNAT User's Guide for Native Platforms</title>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+<meta name="description" content="GNAT User's Guide for Native Platforms">
+<meta name="generator" content="makeinfo 4.13">
+<link title="Top" rel="start" href="index.html#Top">
+<link rel="up" href="Getting-Started-with-GNAT.html#Getting-Started-with-GNAT" title="Getting Started with GNAT">
+<link rel="prev" href="Running-a-Simple-Ada-Program.html#Running-a-Simple-Ada-Program" title="Running a Simple Ada Program">
+<link rel="next" href="Using-the-gnatmake-Utility.html#Using-the-gnatmake-Utility" title="Using the gnatmake Utility">
+<link href="http://www.gnu.org/software/texinfo/" rel="generator-home" title="Texinfo Homepage">
+<!--
+
+     GNAT User's Guide for Native Platforms , March 24, 2015
+
+     AdaCore
+
+     Copyright (C) 2008-2015, Free Software Foundation
+-->
+<meta http-equiv="Content-Style-Type" content="text/css">
+<style type="text/css"><!--
+  pre.display { font-family:inherit }
+  pre.format  { font-family:inherit }
+  pre.smalldisplay { font-family:inherit; font-size:smaller }
+  pre.smallformat  { font-family:inherit; font-size:smaller }
+  pre.smallexample { font-size:smaller }
+  pre.smalllisp    { font-size:smaller }
+  span.sc    { font-variant:small-caps }
+  span.roman { font-family:serif; font-weight:normal; } 
+  span.sansserif { font-family:sans-serif; font-weight:normal; } 
+--></style>
+</head>
+<body>
+<div class="node">
+<a name="Running-a-Program-with-Multiple-Units"></a>
+<p>
+Next:&nbsp;<a rel="next" accesskey="n" href="Using-the-gnatmake-Utility.html#Using-the-gnatmake-Utility">Using the gnatmake Utility</a>,
+Previous:&nbsp;<a rel="previous" accesskey="p" href="Running-a-Simple-Ada-Program.html#Running-a-Simple-Ada-Program">Running a Simple Ada Program</a>,
+Up:&nbsp;<a rel="up" accesskey="u" href="Getting-Started-with-GNAT.html#Getting-Started-with-GNAT">Getting Started with GNAT</a>
+<hr>
+</div>
+
+<p><a name="gnat_005fugn_002fgetting_005fstarted_005fwith_005fgnat-id4"></a><a name="g_t39"></a><a name="gnat_005fugn_002fgetting_005fstarted_005fwith_005fgnat-running_002da_002dprogram_002dwith_002dmultiple_002dunits"></a><a name="g_t3a"></a>
+
+<h3 class="section">2.3 Running a Program with Multiple Units</h3>
+
+<p>Consider a slightly more complicated example that has three files: a
+main program, and the spec and body of a package:
+
+<pre class="example">    package Greetings is
+       procedure Hello;
+       procedure Goodbye;
+    end Greetings;
+    
+    with Ada.Text_IO; use Ada.Text_IO;
+    package body Greetings is
+       procedure Hello is
+       begin
+          Put_Line ("Hello WORLD!");
+       end Hello;
+    
+       procedure Goodbye is
+       begin
+          Put_Line ("Goodbye WORLD!");
+       end Goodbye;
+    end Greetings;
+    
+    with Greetings;
+    procedure Gmain is
+    begin
+       Greetings.Hello;
+       Greetings.Goodbye;
+    end Gmain;
+</pre>
+<p>Following the one-unit-per-file rule, place this program in the
+following three separate files:
+
+     <dl>
+<dt>`greetings.ads'<dd>
+spec of package <cite>Greetings</cite>
+
+     <br><dt>`greetings.adb'<dd>
+body of package <cite>Greetings</cite>
+
+     <br><dt>`gmain.adb'<dd>
+body of main program
+</dl>
+
+<p>To build an executable version of
+this program, we could use four separate steps to compile, bind, and link
+the program, as follows:
+
+<pre class="example">    $ gcc -c gmain.adb
+    $ gcc -c greetings.adb
+    $ gnatbind gmain
+    $ gnatlink gmain
+</pre>
+<p>Note that there is no required order of compilation when using GNAT. 
+In particular it is perfectly fine to compile the main program first. 
+Also, it is not necessary to compile package specs in the case where
+there is an accompanying body; you only need to compile the body. If you want
+to submit these files to the compiler for semantic checking and not code
+generation, then use the <code>-gnatc</code> switch:
+
+<pre class="example">    $ gcc -c greetings.ads -gnatc
+</pre>
+<p>Although the compilation can be done in separate steps as in the
+above example, in practice it is almost always more convenient
+to use the `gnatmake' tool. All you need to know in this case
+is the name of the main program's source file. The effect of the above four
+commands can be achieved with a single one:
+
+<pre class="example">    $ gnatmake gmain.adb
+</pre>
+<p>In the next section we discuss the advantages of using `gnatmake' in
+more detail.
+
+</body></html>
+

@@ -1,0 +1,135 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+  "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+
+
+<html xmlns="http://www.w3.org/1999/xhtml">
+  <head>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+    
+    <title>教程 &mdash; Flask 0.10 文档</title>
+    
+    <link rel="stylesheet" href="../_static/flasky.css" type="text/css" />
+    <link rel="stylesheet" href="../_static/pygments.css" type="text/css" />
+    
+    <script type="text/javascript">
+      var DOCUMENTATION_OPTIONS = {
+        URL_ROOT:    '../',
+        VERSION:     '0.10',
+        COLLAPSE_INDEX: false,
+        FILE_SUFFIX: '.html',
+        HAS_SOURCE:  true
+      };
+    </script>
+    <script type="text/javascript" src="../_static/jquery.js"></script>
+    <script type="text/javascript" src="../_static/underscore.js"></script>
+    <script type="text/javascript" src="../_static/doctools.js"></script>
+    <script type="text/javascript" src="../_static/translations.js"></script>
+    <link rel="top" title="Flask 0.10 文档" href="../index.html" />
+    <link rel="next" title="Flaskr 介绍" href="introduction.html" />
+    <link rel="prev" title="快速上手" href="../quickstart.html" />
+   
+  
+  <link rel="apple-touch-icon" href="../_static/touch-icon.png" />
+  
+  <link media="only screen and (max-device-width: 480px)" href="../_static/small_flask.css" type= "text/css" rel="stylesheet" />
+
+  </head>
+  <body role="document">
+    <div class="related" role="navigation" aria-label="related navigation">
+      <h3>导航</h3>
+      <ul>
+        <li class="right" style="margin-right: 10px">
+          <a href="../genindex.html" title="总目录"
+             accesskey="I">索引</a></li>
+        <li class="right" >
+          <a href="introduction.html" title="Flaskr 介绍"
+             accesskey="N">下一页</a> |</li>
+        <li class="right" >
+          <a href="../quickstart.html" title="快速上手"
+             accesskey="P">上一页</a> |</li>
+        <li class="nav-item nav-item-0"><a href="../index.html">Flask 0.10 文档</a> &raquo;</li> 
+      </ul>
+    </div>  
+
+    <div class="document">
+      <div class="documentwrapper">
+        <div class="bodywrapper">
+          <div class="body" role="main">
+            
+  <div class="section" id="tutorial">
+<span id="id1"></span><h1>教程<a class="headerlink" href="#tutorial" title="永久链接至标题">¶</a></h1>
+<p>想要用 Python 和 Flask 开发应用吗？让我们来边看例子边学习。本教程中我们将会创建
+一个微博应用。这个应用只支持单一用户，只能创建文本条目，也没有不能订阅和评论，
+但是已经具备一个初学者需要掌握的功能。这个应用只需要使用 Flask 和 SQLite ，
+SQLite 是 Python 自带的。</p>
+<p>如果你想要事先下载完整的源代码或者用于比较，请查看 <a class="reference external" href="http://github.com/mitsuhiko/flask/tree/master/examples/flaskr/">示例源代码</a> 。</p>
+<div class="toctree-wrapper compound">
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="introduction.html">Flaskr 介绍</a></li>
+<li class="toctree-l1"><a class="reference internal" href="folders.html">步骤 0 ：创建文件夹</a></li>
+<li class="toctree-l1"><a class="reference internal" href="schema.html">步骤 1 ：数据库模式</a></li>
+<li class="toctree-l1"><a class="reference internal" href="setup.html">步骤 2 ：应用构建代码</a></li>
+<li class="toctree-l1"><a class="reference internal" href="dbinit.html">步骤 3 ：创建数据库</a></li>
+<li class="toctree-l1"><a class="reference internal" href="dbcon.html">步骤 4 ：请求数据库连接</a></li>
+<li class="toctree-l1"><a class="reference internal" href="views.html">步骤 5 ：视图函数</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="views.html#id2">显示条目</a></li>
+<li class="toctree-l2"><a class="reference internal" href="views.html#id3">添加一个新条目</a></li>
+<li class="toctree-l2"><a class="reference internal" href="views.html#id4">登录和注销</a></li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="templates.html">步骤 6 ：模板</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="templates.html#layout-html">layout.html</a></li>
+<li class="toctree-l2"><a class="reference internal" href="templates.html#show-entries-html">show_entries.html</a></li>
+<li class="toctree-l2"><a class="reference internal" href="templates.html#login-html">login.html</a></li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="css.html">步骤 7 ：添加样式</a></li>
+<li class="toctree-l1"><a class="reference internal" href="testing.html">额外赠送：测试应用</a></li>
+</ul>
+</div>
+</div>
+
+
+          </div>
+        </div>
+      </div>
+      <div class="sphinxsidebar" role="navigation" aria-label="main navigation">
+        <div class="sphinxsidebarwrapper"><p class="logo"><a href="../index.html">
+  <img class="logo" src="../_static/flask.png" alt="Logo"/>
+</a></p><h3>Related Topics</h3>
+<ul>
+  <li><a href="../index.html">Documentation overview</a><ul>
+      <li>Previous: <a href="../quickstart.html" title="上一章">快速上手</a></li>
+      <li>Next: <a href="introduction.html" title="下一章">Flaskr 介绍</a></li>
+  </ul></li>
+</ul>
+  <div role="note" aria-label="source link">
+    <h3>本页</h3>
+    <ul class="this-page-menu">
+      <li><a href="../_sources/tutorial/index.txt"
+            rel="nofollow">显示源代码</a></li>
+    </ul>
+   </div>
+<div id="searchbox" style="display: none" role="search">
+  <h3>快速搜索</h3>
+    <form class="search" action="../search.html" method="get">
+      <input type="text" name="q" />
+      <input type="submit" value="转向" />
+      <input type="hidden" name="check_keywords" value="yes" />
+      <input type="hidden" name="area" value="default" />
+    </form>
+    <p class="searchtip" style="font-size: 90%">
+    输入相关的术语，模块，类或者函数名称进行搜索
+    </p>
+</div>
+<script type="text/javascript">$('#searchbox').show(0);</script>
+        </div>
+      </div>
+      <div class="clearer"></div>
+    </div>
+    <div class="footer">
+      &copy; Copyright 2013, Armin Ronacher.
+      Created using <a href="http://sphinx.pocoo.org/">Sphinx</a>.
+    </div>
+  </body>
+</html>

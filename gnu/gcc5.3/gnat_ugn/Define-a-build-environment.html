@@ -1,0 +1,94 @@
+<html lang="en">
+<head>
+<title>Define a build environment - GNAT User's Guide for Native Platforms</title>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+<meta name="description" content="GNAT User's Guide for Native Platforms">
+<meta name="generator" content="makeinfo 4.13">
+<link title="Top" rel="start" href="index.html#Top">
+<link rel="up" href="Aggregate-Projects.html#Aggregate-Projects" title="Aggregate Projects">
+<link rel="prev" href="Building-a-set-of-projects-with-a-single-command.html#Building-a-set-of-projects-with-a-single-command" title="Building a set of projects with a single command">
+<link rel="next" href="Performance-improvements-in-builder.html#Performance-improvements-in-builder" title="Performance improvements in builder">
+<link href="http://www.gnu.org/software/texinfo/" rel="generator-home" title="Texinfo Homepage">
+<!--
+
+     GNAT User's Guide for Native Platforms , March 24, 2015
+
+     AdaCore
+
+     Copyright (C) 2008-2015, Free Software Foundation
+-->
+<meta http-equiv="Content-Style-Type" content="text/css">
+<style type="text/css"><!--
+  pre.display { font-family:inherit }
+  pre.format  { font-family:inherit }
+  pre.smalldisplay { font-family:inherit; font-size:smaller }
+  pre.smallformat  { font-family:inherit; font-size:smaller }
+  pre.smallexample { font-size:smaller }
+  pre.smalllisp    { font-size:smaller }
+  span.sc    { font-variant:small-caps }
+  span.roman { font-family:serif; font-weight:normal; } 
+  span.sansserif { font-family:sans-serif; font-weight:normal; } 
+--></style>
+</head>
+<body>
+<div class="node">
+<a name="Define-a-build-environment"></a>
+<p>
+Next:&nbsp;<a rel="next" accesskey="n" href="Performance-improvements-in-builder.html#Performance-improvements-in-builder">Performance improvements in builder</a>,
+Previous:&nbsp;<a rel="previous" accesskey="p" href="Building-a-set-of-projects-with-a-single-command.html#Building-a-set-of-projects-with-a-single-command">Building a set of projects with a single command</a>,
+Up:&nbsp;<a rel="up" accesskey="u" href="Aggregate-Projects.html#Aggregate-Projects">Aggregate Projects</a>
+<hr>
+</div>
+
+<p><a name="gnat_005fugn_002fgnat_005fproject_005fmanager-id30"></a><a name="g_t186"></a><a name="gnat_005fugn_002fgnat_005fproject_005fmanager-define_002da_002dbuild_002denvironment"></a><a name="g_t187"></a>
+
+<h4 class="subsection">5.7.3 Define a build environment</h4>
+
+<p>The environment variables at the time you launch `gprbuild'
+will influence the view these tools have of the project
+(PATH to find the compiler, ADA_PROJECT_PATH or GPR_PROJECT_PATH to find the
+projects, environment variables that are referenced in project files
+through the "external" built-in function, ...). Several command line switches
+can be used to override those (-X or -aP), but on some systems and
+with some projects, this might make the command line too long, and on
+all systems often make it hard to read.
+
+<p>An aggregate project can be used to set the environment for all
+projects built through that aggregate. One of the nice aspects is that
+you can put the aggregate project under configuration management, and
+make sure all your user have a consistent environment when
+building. The syntax looks like
+
+<pre class="example">    aggregate project Agg is
+       for Project_Files use ("A.gpr", "B.gpr");
+       for Project_Path use ("../dir1", "../dir1/dir2");
+       for External ("BUILD") use "PRODUCTION";
+    
+       package Builder is
+          for Switches ("Ada") use ("-q");
+       end Builder;
+    end Agg;
+</pre>
+<p>One of the often requested features in projects is to be able to
+reference external variables in `with' declarations, as in
+
+<pre class="example">    with external("SETUP") &amp; "path/prj.gpr";   --  ILLEGAL
+    project MyProject is
+       ...
+    end MyProject;
+</pre>
+<p>For various reasons, this is not allowed. But using aggregate projects provide
+an elegant solution. For instance, you could use a project file like:
+
+<pre class="example">    aggregate project Agg is
+        for Project_Path use (external("SETUP") &amp; "path");
+        for Project_Files use ("myproject.gpr");
+    end Agg;
+    
+    with "prj.gpr";  --  searched on Agg'Project_Path
+    project MyProject is
+       ...
+    end MyProject;
+</pre>
+</body></html>
+

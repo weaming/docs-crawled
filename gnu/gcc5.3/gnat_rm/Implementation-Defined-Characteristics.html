@@ -1,0 +1,1768 @@
+<html lang="en">
+<head>
+<title>Implementation Defined Characteristics - GNAT Reference Manual</title>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+<meta name="description" content="GNAT Reference Manual">
+<meta name="generator" content="makeinfo 4.13">
+<link title="Top" rel="start" href="index.html#Top">
+<link rel="prev" href="Implementation-Advice.html#Implementation-Advice" title="Implementation Advice">
+<link rel="next" href="Intrinsic-Subprograms.html#Intrinsic-Subprograms" title="Intrinsic Subprograms">
+<link href="http://www.gnu.org/software/texinfo/" rel="generator-home" title="Texinfo Homepage">
+<!--
+
+     GNAT Reference Manual , March 24, 2015
+
+     AdaCore
+
+     Copyright (C) 2008-2015, Free Software Foundation
+-->
+<meta http-equiv="Content-Style-Type" content="text/css">
+<style type="text/css"><!--
+  pre.display { font-family:inherit }
+  pre.format  { font-family:inherit }
+  pre.smalldisplay { font-family:inherit; font-size:smaller }
+  pre.smallformat  { font-family:inherit; font-size:smaller }
+  pre.smallexample { font-size:smaller }
+  pre.smalllisp    { font-size:smaller }
+  span.sc    { font-variant:small-caps }
+  span.roman { font-family:serif; font-weight:normal; } 
+  span.sansserif { font-family:sans-serif; font-weight:normal; } 
+--></style>
+</head>
+<body>
+<div class="node">
+<a name="Implementation-Defined-Characteristics"></a>
+<p>
+Next:&nbsp;<a rel="next" accesskey="n" href="Intrinsic-Subprograms.html#Intrinsic-Subprograms">Intrinsic Subprograms</a>,
+Previous:&nbsp;<a rel="previous" accesskey="p" href="Implementation-Advice.html#Implementation-Advice">Implementation Advice</a>,
+Up:&nbsp;<a rel="up" accesskey="u" href="index.html#Top">Top</a>
+<hr>
+</div>
+
+<p><a name="gnat_005frm_002fimplementation_005fdefined_005fcharacteristics-implementation_002ddefined_002dcharacteristics"></a><a name="b"></a><a name="gnat_005frm_002fimplementation_005fdefined_005fcharacteristics-doc"></a><a name="g_t1fd"></a><a name="gnat_005frm_002fimplementation_005fdefined_005fcharacteristics-id1"></a><a name="g_t1fe"></a>
+
+<h2 class="chapter">7 Implementation Defined Characteristics</h2>
+
+<p>In addition to the implementation dependent pragmas and attributes, and the
+implementation advice, there are a number of other Ada features that are
+potentially implementation dependent and are designated as
+implementation-defined. These are mentioned throughout the Ada Reference
+Manual, and are summarized in Annex M.
+
+<p>A requirement for conforming Ada compilers is that they provide
+documentation describing how the implementation deals with each of these
+issues.  In this chapter you will find each point in Annex M listed,
+followed by a description of how GNAT
+handles the implementation dependence.
+
+<p>You can use this chapter as a guide to minimizing implementation
+dependent features in your programs if portability to other compilers
+and other operating systems is an important consideration.  The numbers
+in each entry below correspond to the paragraph numbers in the Ada
+Reference Manual.
+
+     <ul>
+<li>"Whether or not each recommendation given in Implementation
+Advice is followed.  See 1.1.2(37)." 
+</ul>
+
+<p>See <a href="a.html#a">Implementation Advice</a>.
+
+     <ul>
+<li>"Capacity limitations of the implementation.  See 1.1.3(3)." 
+</ul>
+
+<p>The complexity of programs that can be processed is limited only by the
+total amount of available virtual memory, and disk space for the
+generated object files.
+
+     <ul>
+<li>"Variations from the standard that are impractical to avoid
+given the implementation's execution environment.  See 1.1.3(6)." 
+</ul>
+
+<p>There are no variations from the standard.
+
+     <ul>
+<li>"Which code_statements cause external
+interactions.  See 1.1.3(10)." 
+</ul>
+
+<p>Any <cite>code_statement</cite> can potentially cause external interactions.
+
+     <ul>
+<li>"The coded representation for the text of an Ada
+program.  See 2.1(4)." 
+</ul>
+
+<p>See separate section on source representation.
+
+     <ul>
+<li>"The control functions allowed in comments.  See 2.1(14)." 
+</ul>
+
+<p>See separate section on source representation.
+
+     <ul>
+<li>"The representation for an end of line.  See 2.2(2)." 
+</ul>
+
+<p>See separate section on source representation.
+
+     <ul>
+<li>"Maximum supported line length and lexical element
+length.  See 2.2(15)." 
+</ul>
+
+<p>The maximum line length is 255 characters and the maximum length of
+a lexical element is also 255 characters. This is the default setting
+if not overridden by the use of compiler switch `-gnaty' (which
+sets the maximum to 79) or `-gnatyMnn' which allows the maximum
+line length to be specified to be any value up to 32767. The maximum
+length of a lexical element is the same as the maximum line length.
+
+     <ul>
+<li>"Implementation defined pragmas.  See 2.8(14)." 
+</ul>
+
+<p>See <a href="7.html#g_t7">Implementation Defined Pragmas</a>.
+
+     <ul>
+<li>"Effect of pragma <cite>Optimize</cite>.  See 2.8(27)." 
+</ul>
+
+<p>Pragma <cite>Optimize</cite>, if given with a <cite>Time</cite> or <cite>Space</cite>
+parameter, checks that the optimization flag is set, and aborts if it is
+not.
+
+     <ul>
+<li>"The sequence of characters of the value returned by
+<code>S'Image</code> when some of the graphic characters of
+<code>S'Wide_Image</code> are not defined in <cite>Character</cite>.  See
+3.5(37)." 
+</ul>
+
+<p>The sequence of characters is as defined by the wide character encoding
+method used for the source.  See section on source representation for
+further details.
+
+     <ul>
+<li>"The predefined integer types declared in
+<cite>Standard</cite>.  See 3.5.4(25)." 
+</ul>
+
+<p><table summary=""><tr align="left"><th valign="top">
+Type
+
+<p></th><th valign="top">
+
+<p>Representation
+
+<p><br></th></tr><tr align="left"><td valign="top">
+`Short_Short_Integer'
+
+<p></td><td valign="top">
+
+<p>8 bit signed
+
+<p><br></td></tr><tr align="left"><td valign="top">
+`Short_Integer'
+
+<p></td><td valign="top">
+
+<p>(Short) 16 bit signed
+
+<p><br></td></tr><tr align="left"><td valign="top">
+`Integer'
+
+<p></td><td valign="top">
+
+<p>32 bit signed
+
+<p><br></td></tr><tr align="left"><td valign="top">
+`Long_Integer'
+
+<p></td><td valign="top">
+
+<p>64 bit signed (on most 64 bit targets,
+depending on the C definition of long). 
+32 bit signed (all other targets)
+
+<p><br></td></tr><tr align="left"><td valign="top">
+`Long_Long_Integer'
+
+<p></td><td valign="top">
+
+<p>64 bit signed
+
+<br></td></tr></table>
+
+     <ul>
+<li>"Any nonstandard integer types and the operators defined
+for them.  See 3.5.4(26)." 
+</ul>
+
+<p>There are no nonstandard integer types.
+
+     <ul>
+<li>"Any nonstandard real types and the operators defined for
+them.  See 3.5.6(8)." 
+</ul>
+
+<p>There are no nonstandard real types.
+
+     <ul>
+<li>"What combinations of requested decimal precision and range
+are supported for floating point types.  See 3.5.7(7)." 
+</ul>
+
+<p>The precision and range is as defined by the IEEE standard.
+
+     <ul>
+<li>"The predefined floating point types declared in
+<cite>Standard</cite>.  See 3.5.7(16)." 
+</ul>
+
+<p><table summary=""><tr align="left"><th valign="top">
+Type
+
+<p></th><th valign="top">
+
+<p>Representation
+
+<p><br></th></tr><tr align="left"><td valign="top">
+`Short_Float'
+
+<p></td><td valign="top">
+
+<p>32 bit IEEE short
+
+<p><br></td></tr><tr align="left"><td valign="top">
+`Float'
+
+<p></td><td valign="top">
+
+<p>(Short) 32 bit IEEE short
+
+<p><br></td></tr><tr align="left"><td valign="top">
+`Long_Float'
+
+<p></td><td valign="top">
+
+<p>64 bit IEEE long
+
+<p><br></td></tr><tr align="left"><td valign="top">
+`Long_Long_Float'
+
+<p></td><td valign="top">
+
+<p>64 bit IEEE long (80 bit IEEE long on x86 processors)
+
+<br></td></tr></table>
+
+     <ul>
+<li>"The small of an ordinary fixed point type.  See 3.5.9(8)." 
+</ul>
+
+<p><cite>Fine_Delta</cite> is 2**(-63)
+
+     <ul>
+<li>"What combinations of small, range, and digits are
+supported for fixed point types.  See 3.5.9(10)." 
+</ul>
+
+<p>Any combinations are permitted that do not result in a small less than
+<cite>Fine_Delta</cite> and do not result in a mantissa larger than 63 bits. 
+If the mantissa is larger than 53 bits on machines where Long_Long_Float
+is 64 bits (true of all architectures except ia32), then the output from
+Text_IO is accurate to only 53 bits, rather than the full mantissa.  This
+is because floating-point conversions are used to convert fixed point.
+
+     <ul>
+<li>"The result of <cite>Tags.Expanded_Name</cite> for types declared
+within an unnamed <cite>block_statement</cite>.  See 3.9(10)." 
+</ul>
+
+<p>Block numbers of the form <cite>B`nnn`</cite>, where <cite>nnn</cite> is a
+decimal integer are allocated.
+
+     <ul>
+<li>"Implementation-defined attributes.  See 4.1.4(12)." 
+</ul>
+
+<p>See <a href="8.html#g_t8">Implementation Defined Attributes</a>.
+
+     <ul>
+<li>"Any implementation-defined time types.  See 9.6(6)." 
+</ul>
+
+<p>There are no implementation-defined time types.
+
+     <ul>
+<li>"The time base associated with relative delays." 
+</ul>
+
+<p>See 9.6(20).  The time base used is that provided by the C library
+function <cite>gettimeofday</cite>.
+
+     <ul>
+<li>"The time base of the type <cite>Calendar.Time</cite>.  See
+9.6(23)." 
+</ul>
+
+<p>The time base used is that provided by the C library function
+<cite>gettimeofday</cite>.
+
+     <ul>
+<li>"The time zone used for package <cite>Calendar</cite>
+operations.  See 9.6(24)." 
+</ul>
+
+<p>The time zone used by package <cite>Calendar</cite> is the current system time zone
+setting for local time, as accessed by the C library function
+<cite>localtime</cite>.
+
+     <ul>
+<li>"Any limit on <cite>delay_until_statements</cite> of
+<cite>select_statements</cite>.  See 9.6(29)." 
+</ul>
+
+<p>There are no such limits.
+
+     <ul>
+<li>"Whether or not two non-overlapping parts of a composite
+object are independently addressable, in the case where packing, record
+layout, or <cite>Component_Size</cite> is specified for the object.  See
+9.10(1)." 
+</ul>
+
+<p>Separate components are independently addressable if they do not share
+overlapping storage units.
+
+     <ul>
+<li>"The representation for a compilation.  See 10.1(2)." 
+</ul>
+
+<p>A compilation is represented by a sequence of files presented to the
+compiler in a single invocation of the `gcc' command.
+
+     <ul>
+<li>"Any restrictions on compilations that contain multiple
+compilation_units.  See 10.1(4)." 
+</ul>
+
+<p>No single file can contain more than one compilation unit, but any
+sequence of files can be presented to the compiler as a single
+compilation.
+
+     <ul>
+<li>"The mechanisms for creating an environment and for adding
+and replacing compilation units.  See 10.1.4(3)." 
+</ul>
+
+<p>See separate section on compilation model.
+
+     <ul>
+<li>"The manner of explicitly assigning library units to a
+partition.  See 10.2(2)." 
+</ul>
+
+<p>If a unit contains an Ada main program, then the Ada units for the partition
+are determined by recursive application of the rules in the Ada Reference
+Manual section 10.2(2-6).  In other words, the Ada units will be those that
+are needed by the main program, and then this definition of need is applied
+recursively to those units, and the partition contains the transitive
+closure determined by this relationship.  In short, all the necessary units
+are included, with no need to explicitly specify the list.  If additional
+units are required, e.g., by foreign language units, then all units must be
+mentioned in the context clause of one of the needed Ada units.
+
+<p>If the partition contains no main program, or if the main program is in
+a language other than Ada, then GNAT
+provides the binder options `-z' and `-n' respectively, and in
+this case a list of units can be explicitly supplied to the binder for
+inclusion in the partition (all units needed by these units will also
+be included automatically).  For full details on the use of these
+options, refer to the <cite>GNAT Make Program gnatmake</cite> in the
+<cite>GNAT User's Guide</cite>.
+
+     <ul>
+<li>"The implementation-defined means, if any, of specifying
+which compilation units are needed by a given compilation unit.  See
+10.2(2)." 
+</ul>
+
+<p>The units needed by a given compilation unit are as defined in
+the Ada Reference Manual section 10.2(2-6).  There are no
+implementation-defined pragmas or other implementation-defined
+means for specifying needed units.
+
+     <ul>
+<li>"The manner of designating the main subprogram of a
+partition.  See 10.2(7)." 
+</ul>
+
+<p>The main program is designated by providing the name of the
+corresponding <code>ALI</code> file as the input parameter to the binder.
+
+     <ul>
+<li>"The order of elaboration of <cite>library_items</cite>.  See
+10.2(18)." 
+</ul>
+
+<p>The first constraint on ordering is that it meets the requirements of
+Chapter 10 of the Ada Reference Manual.  This still leaves some
+implementation dependent choices, which are resolved by first
+elaborating bodies as early as possible (i.e., in preference to specs
+where there is a choice), and second by evaluating the immediate with
+clauses of a unit to determine the probably best choice, and
+third by elaborating in alphabetical order of unit names
+where a choice still remains.
+
+     <ul>
+<li>"Parameter passing and function return for the main
+subprogram.  See 10.2(21)." 
+</ul>
+
+<p>The main program has no parameters.  It may be a procedure, or a function
+returning an integer type.  In the latter case, the returned integer
+value is the return code of the program (overriding any value that
+may have been set by a call to <cite>Ada.Command_Line.Set_Exit_Status</cite>).
+
+     <ul>
+<li>"The mechanisms for building and running partitions.  See
+10.2(24)." 
+</ul>
+
+<p>GNAT itself supports programs with only a single partition.  The GNATDIST
+tool provided with the GLADE package (which also includes an implementation
+of the PCS) provides a completely flexible method for building and running
+programs consisting of multiple partitions.  See the separate GLADE manual
+for details.
+
+     <ul>
+<li>"The details of program execution, including program
+termination.  See 10.2(25)." 
+</ul>
+
+<p>See separate section on compilation model.
+
+     <ul>
+<li>"The semantics of any non-active partitions supported by the
+implementation.  See 10.2(28)." 
+</ul>
+
+<p>Passive partitions are supported on targets where shared memory is
+provided by the operating system.  See the GLADE reference manual for
+further details.
+
+     <ul>
+<li>"The information returned by <cite>Exception_Message</cite>.  See
+11.4.1(10)." 
+</ul>
+
+<p>Exception message returns the null string unless a specific message has
+been passed by the program.
+
+     <ul>
+<li>"The result of <cite>Exceptions.Exception_Name</cite> for types
+declared within an unnamed <cite>block_statement</cite>.  See 11.4.1(12)." 
+</ul>
+
+<p>Blocks have implementation defined names of the form <cite>B`nnn`</cite>
+where <cite>nnn</cite> is an integer.
+
+     <ul>
+<li>"The information returned by
+<cite>Exception_Information</cite>.  See 11.4.1(13)." 
+</ul>
+
+<p><cite>Exception_Information</cite> returns a string in the following format:
+
+<pre class="example">    *Exception_Name:* nnnnn
+    *Message:* mmmmm
+    *PID:* ppp
+    *Load address:* 0xhhhh
+    *Call stack traceback locations:*
+    0xhhhh 0xhhhh 0xhhhh ... 0xhhh
+</pre>
+<p>where
+
+<blockquote>
+
+     <ul>
+<li><cite>nnnn</cite> is the fully qualified name of the exception in all upper
+case letters. This line is always present.
+
+     <li><cite>mmmm</cite> is the message (this line present only if message is non-null)
+
+     <li><cite>ppp</cite> is the Process Id value as a decimal integer (this line is
+present only if the Process Id is nonzero). Currently we are
+not making use of this field.
+
+     <li>The Load address line, the Call stack traceback locations line and the
+following values are present only if at least one traceback location was
+recorded. The Load address indicates the address at which the main executable
+was loaded; this line may not be present if operating system hasn't relocated
+the main executable. The values are given in C style format, with lower case
+letters for a-f, and only as many digits present as are necessary. 
+The line terminator sequence at the end of each line, including
+the last line is a single <cite>LF</cite> character (<cite>16#0A#</cite>). 
+</ul>
+</blockquote>
+
+     <ul>
+<li>"Implementation-defined check names.  See 11.5(27)." 
+</ul>
+
+<p>The implementation defined check name Alignment_Check controls checking of
+address clause values for proper alignment (that is, the address supplied
+must be consistent with the alignment of the type).
+
+<p>The implementation defined check name Predicate_Check controls whether
+predicate checks are generated.
+
+<p>The implementation defined check name Validity_Check controls whether
+validity checks are generated.
+
+<p>In addition, a user program can add implementation-defined check names
+by means of the pragma Check_Name.
+
+     <ul>
+<li>"The interpretation of each aspect of representation.  See
+13.1(20)." 
+</ul>
+
+<p>See separate section on data representations.
+
+     <ul>
+<li>"Any restrictions placed upon representation items.  See
+13.1(20)." 
+</ul>
+
+<p>See separate section on data representations.
+
+     <ul>
+<li>"The meaning of <cite>Size</cite> for indefinite subtypes.  See
+13.3(48)." 
+</ul>
+
+<p>Size for an indefinite subtype is the maximum possible size, except that
+for the case of a subprogram parameter, the size of the parameter object
+is the actual size.
+
+     <ul>
+<li>"The default external representation for a type tag.  See
+13.3(75)." 
+</ul>
+
+<p>The default external representation for a type tag is the fully expanded
+name of the type in upper case letters.
+
+     <ul>
+<li>"What determines whether a compilation unit is the same in
+two different partitions.  See 13.3(76)." 
+</ul>
+
+<p>A compilation unit is the same in two different partitions if and only
+if it derives from the same source file.
+
+     <ul>
+<li>"Implementation-defined components.  See 13.5.1(15)." 
+</ul>
+
+<p>The only implementation defined component is the tag for a tagged type,
+which contains a pointer to the dispatching table.
+
+     <ul>
+<li>"If <cite>Word_Size</cite> = <cite>Storage_Unit</cite>, the default bit
+ordering.  See 13.5.3(5)." 
+</ul>
+
+<p><cite>Word_Size</cite> (32) is not the same as <cite>Storage_Unit</cite> (8) for this
+implementation, so no non-default bit ordering is supported.  The default
+bit ordering corresponds to the natural endianness of the target architecture.
+
+     <ul>
+<li>"The contents of the visible part of package <cite>System</cite>
+and its language-defined children.  See 13.7(2)." 
+</ul>
+
+<p>See the definition of these packages in files <code>system.ads</code> and
+<code>s-stoele.ads</code>. Note that two declarations are added to package
+System.
+
+<pre class="example">    Max_Priority           : constant Positive := Priority'Last;
+    Max_Interrupt_Priority : constant Positive := Interrupt_Priority'Last;
+</pre>
+     <ul>
+<li>"The contents of the visible part of package
+<cite>System.Machine_Code</cite>, and the meaning of
+<cite>code_statements</cite>.  See 13.8(7)." 
+</ul>
+
+<p>See the definition and documentation in file <code>s-maccod.ads</code>.
+
+     <ul>
+<li>"The effect of unchecked conversion.  See 13.9(11)." 
+</ul>
+
+<p>Unchecked conversion between types of the same size
+results in an uninterpreted transmission of the bits from one type
+to the other.  If the types are of unequal sizes, then in the case of
+discrete types, a shorter source is first zero or sign extended as
+necessary, and a shorter target is simply truncated on the left. 
+For all non-discrete types, the source is first copied if necessary
+to ensure that the alignment requirements of the target are met, then
+a pointer is constructed to the source value, and the result is obtained
+by dereferencing this pointer after converting it to be a pointer to the
+target type. Unchecked conversions where the target subtype is an
+unconstrained array are not permitted. If the target alignment is
+greater than the source alignment, then a copy of the result is
+made with appropriate alignment
+
+     <ul>
+<li>"The semantics of operations on invalid representations. 
+See 13.9.2(10-11)." 
+</ul>
+
+<p>For assignments and other operations where the use of invalid values cannot
+result in erroneous behavior, the compiler ignores the possibility of invalid
+values. An exception is raised at the point where an invalid value would
+result in erroneous behavior. For example executing:
+
+<pre class="example">    procedure invalidvals is
+      X : Integer := -1;
+      Y : Natural range 1 .. 10;
+      for Y'Address use X'Address;
+      Z : Natural range 1 .. 10;
+      A : array (Natural range 1 .. 10) of Integer;
+    begin
+      Z := Y;     -- no exception
+      A (Z) := 3; -- exception raised;
+    end;
+</pre>
+<p>As indicated, an exception is raised on the array assignment, but not
+on the simple assignment of the invalid negative value from Y to Z.
+
+     <ul>
+<li>"The manner of choosing a storage pool for an access type
+when <cite>Storage_Pool</cite> is not specified for the type.  See 13.11(17)." 
+</ul>
+
+<p>There are 3 different standard pools used by the compiler when
+<cite>Storage_Pool</cite> is not specified depending whether the type is local
+to a subprogram or defined at the library level and whether
+<cite>Storage_Size`is specified or not. See documentation in the runtime library units `System.Pool_Global</cite>, <cite>System.Pool_Size</cite> and
+<cite>System.Pool_Local</cite> in files <code>s-poosiz.ads</code>,
+<code>s-pooglo.ads</code> and <code>s-pooloc.ads</code> for full details on the
+default pools used.
+
+     <ul>
+<li>"Whether or not the implementation provides user-accessible
+names for the standard pool type(s).  See 13.11(17)." 
+</ul>
+
+<p>See documentation in the sources of the run time mentioned in the previous
+paragraph.  All these pools are accessible by means of <cite>with</cite>'ing
+these units.
+
+     <ul>
+<li>"The meaning of <cite>Storage_Size</cite>.  See 13.11(18)." 
+</ul>
+
+<p><cite>Storage_Size</cite> is measured in storage units, and refers to the
+total space available for an access type collection, or to the primary
+stack space for a task.
+
+     <ul>
+<li>"Implementation-defined aspects of storage pools.  See
+13.11(22)." 
+</ul>
+
+<p>See documentation in the sources of the run time mentioned in the
+paragraph about standard storage pools above
+for details on GNAT-defined aspects of storage pools.
+
+     <ul>
+<li>"The set of restrictions allowed in a pragma
+<cite>Restrictions</cite>.  See 13.12(7)." 
+</ul>
+
+<p>See <a href="9.html#g_t9">Standard and Implementation Defined Restrictions</a>.
+
+     <ul>
+<li>"The consequences of violating limitations on
+<cite>Restrictions</cite> pragmas.  See 13.12(9)." 
+</ul>
+
+<p>Restrictions that can be checked at compile time result in illegalities
+if violated.  Currently there are no other consequences of violating
+restrictions.
+
+     <ul>
+<li>"The representation used by the <cite>Read</cite> and
+<cite>Write</cite> attributes of elementary types in terms of stream
+elements.  See 13.13.2(9)." 
+</ul>
+
+<p>The representation is the in-memory representation of the base type of
+the type, using the number of bits corresponding to the
+<code>type'Size</code> value, and the natural ordering of the machine.
+
+     <ul>
+<li>"The names and characteristics of the numeric subtypes
+declared in the visible part of package <cite>Standard</cite>.  See A.1(3)." 
+</ul>
+
+<p>See items describing the integer and floating-point types supported.
+
+     <ul>
+<li>"The string returned by <cite>Character_Set_Version</cite>. 
+See A.3.5(3)." 
+</ul>
+
+<p><cite>Ada.Wide_Characters.Handling.Character_Set_Version</cite> returns
+the string "Unicode 4.0", referring to version 4.0 of the
+Unicode specification.
+
+     <ul>
+<li>"The accuracy actually achieved by the elementary
+functions.  See A.5.1(1)." 
+</ul>
+
+<p>The elementary functions correspond to the functions available in the C
+library.  Only fast math mode is implemented.
+
+     <ul>
+<li>"The sign of a zero result from some of the operators or
+functions in <cite>Numerics.Generic_Elementary_Functions</cite>, when
+<cite>Float_Type'Signed_Zeros</cite> is <cite>True</cite>.  See A.5.1(46)." 
+</ul>
+
+<p>The sign of zeroes follows the requirements of the IEEE 754 standard on
+floating-point.
+
+     <ul>
+<li>"The value of
+<cite>Numerics.Float_Random.Max_Image_Width</cite>.  See A.5.2(27)." 
+</ul>
+
+<p>Maximum image width is 6864, see library file <code>s-rannum.ads</code>.
+
+     <ul>
+<li>"The value of
+<cite>Numerics.Discrete_Random.Max_Image_Width</cite>.  See A.5.2(27)." 
+</ul>
+
+<p>Maximum image width is 6864, see library file <code>s-rannum.ads</code>.
+
+     <ul>
+<li>"The algorithms for random number generation.  See
+A.5.2(32)." 
+</ul>
+
+<p>The algorithm is the Mersenne Twister, as documented in the source file
+<code>s-rannum.adb</code>. This version of the algorithm has a period of
+2**19937-1.
+
+     <ul>
+<li>"The string representation of a random number generator's
+state.  See A.5.2(38)." 
+</ul>
+
+<p>The value returned by the Image function is the concatenation of
+the fixed-width decimal representations of the 624 32-bit integers
+of the state vector.
+
+     <ul>
+<li>"The minimum time interval between calls to the
+time-dependent Reset procedure that are guaranteed to initiate different
+random number sequences.  See A.5.2(45)." 
+</ul>
+
+<p>The minimum period between reset calls to guarantee distinct series of
+random numbers is one microsecond.
+
+     <ul>
+<li>"The values of the <cite>Model_Mantissa</cite>,
+<cite>Model_Emin</cite>, <cite>Model_Epsilon</cite>, <cite>Model</cite>,
+<cite>Safe_First</cite>, and <cite>Safe_Last</cite> attributes, if the Numerics
+Annex is not supported.  See A.5.3(72)." 
+</ul>
+
+<p>Run the compiler with `-gnatS' to produce a listing of package
+<cite>Standard</cite>, has the values of all numeric attributes.
+
+     <ul>
+<li>"Any implementation-defined characteristics of the
+input-output packages.  See A.7(14)." 
+</ul>
+
+<p>There are no special implementation defined characteristics for these
+packages.
+
+     <ul>
+<li>"The value of <cite>Buffer_Size</cite> in <cite>Storage_IO</cite>.  See
+A.9(10)." 
+</ul>
+
+<p>All type representations are contiguous, and the <cite>Buffer_Size</cite> is
+the value of <code>type'Size</code> rounded up to the next storage unit
+boundary.
+
+     <ul>
+<li>"External files for standard input, standard output, and
+standard error See A.10(5)." 
+</ul>
+
+<p>These files are mapped onto the files provided by the C streams
+libraries.  See source file <code>i-cstrea.ads</code> for further details.
+
+     <ul>
+<li>"The accuracy of the value produced by <cite>Put</cite>.  See
+A.10.9(36)." 
+</ul>
+
+<p>If more digits are requested in the output than are represented by the
+precision of the value, zeroes are output in the corresponding least
+significant digit positions.
+
+     <ul>
+<li>"The meaning of <cite>Argument_Count</cite>, <cite>Argument</cite>, and
+<cite>Command_Name</cite>.  See A.15(1)." 
+</ul>
+
+<p>These are mapped onto the <cite>argv</cite> and <cite>argc</cite> parameters of the
+main program in the natural manner.
+
+     <ul>
+<li>"The interpretation of the <cite>Form</cite> parameter in procedure
+<cite>Create_Directory</cite>.  See A.16(56)." 
+</ul>
+
+<p>The <cite>Form</cite> parameter is not used.
+
+     <ul>
+<li>"The interpretation of the <cite>Form</cite> parameter in procedure
+<cite>Create_Path</cite>.  See A.16(60)." 
+</ul>
+
+<p>The <cite>Form</cite> parameter is not used.
+
+     <ul>
+<li>"The interpretation of the <cite>Form</cite> parameter in procedure
+<cite>Copy_File</cite>.  See A.16(68)." 
+</ul>
+
+<p>The <cite>Form</cite> parameter is case-insensitive. 
+Two fields are recognized in the <cite>Form</cite> parameter:
+
+<pre class="example">    *preserve=&lt;value&gt;*
+    *mode=&lt;value&gt;*
+</pre>
+<p>&lt;value&gt; starts immediately after the character '=' and ends with the
+character immediately preceding the next comma (',') or with the last
+character of the parameter.
+
+<p>The only possible values for preserve= are:
+
+<p><table summary=""><tr align="left"><th valign="top">
+Value
+
+<p></th><th valign="top">
+
+<p>Meaning
+
+<p><br></th></tr><tr align="left"><td valign="top">
+`no_attributes'
+
+<p></td><td valign="top">
+
+<p>Do not try to preserve any file attributes. This is the
+default if no preserve= is found in Form.
+
+<p><br></td></tr><tr align="left"><td valign="top">
+`all_attributes'
+
+<p></td><td valign="top">
+
+<p>Try to preserve all file attributes (timestamps, access rights).
+
+<p><br></td></tr><tr align="left"><td valign="top">
+`timestamps'
+
+<p></td><td valign="top">
+
+<p>Preserve the timestamp of the copied file, but not the other
+file attributes.
+
+<br></td></tr></table>
+
+<p>The only possible values for mode= are:
+
+<p><table summary=""><tr align="left"><th valign="top">
+Value
+
+<p></th><th valign="top">
+
+<p>Meaning
+
+<p><br></th></tr><tr align="left"><td valign="top">
+`copy'
+
+<p></td><td valign="top">
+
+<p>Only do the copy if the destination file does not already exist. 
+If it already exists, Copy_File fails.
+
+<p><br></td></tr><tr align="left"><td valign="top">
+`overwrite'
+
+<p></td><td valign="top">
+
+<p>Copy the file in all cases. Overwrite an already existing destination file.
+
+<p><br></td></tr><tr align="left"><td valign="top">
+`append'
+
+<p></td><td valign="top">
+
+<p>Append the original file to the destination file. If the destination file
+does not exist, the destination file is a copy of the source file. 
+When mode=append, the field preserve=, if it exists, is not taken into account.
+
+<br></td></tr></table>
+
+<p>If the Form parameter includes one or both of the fields and the value or
+values are incorrect, Copy_file fails with Use_Error.
+
+<p>Examples of correct Forms:
+
+<pre class="example">    Form =&gt; "preserve=no_attributes,mode=overwrite" (the default)
+    Form =&gt; "mode=append"
+    Form =&gt; "mode=copy, preserve=all_attributes"
+</pre>
+<p>Examples of incorrect Forms:
+
+<pre class="example">    Form =&gt; "preserve=junk"
+    Form =&gt; "mode=internal, preserve=timestamps"
+</pre>
+     <ul>
+<li>"The interpretation of the <cite>Pattern</cite> parameter, when not the null string,
+in the <cite>Start_Search</cite> and <cite>Search</cite> procedures. 
+See A.16(104) and A.16(112)." 
+</ul>
+
+<p>When the <cite>Pattern</cite> parameter is not the null string, it is interpreted
+according to the syntax of regular expressions as defined in the
+<cite>GNAT.Regexp</cite> package.
+
+<p>See <a href="1ff.html#g_t1ff">GNAT.Regexp (g-regexp.ads)</a>.
+
+     <ul>
+<li>"Implementation-defined convention names.  See B.1(11)." 
+</ul>
+
+<p>The following convention names are supported
+
+<p><table summary=""><tr align="left"><th valign="top">
+Convention Name
+
+<p></th><th valign="top">
+
+<p>Interpretation
+
+<p><br></th></tr><tr align="left"><td valign="top">
+`Ada'
+
+<p></td><td valign="top">
+
+<p>Ada
+
+<p><br></td></tr><tr align="left"><td valign="top">
+`Ada_Pass_By_Copy'
+
+<p></td><td valign="top">
+
+<p>Allowed for any types except by-reference types such as limited
+records. Compatible with convention Ada, but causes any parameters
+with this convention to be passed by copy.
+
+<p><br></td></tr><tr align="left"><td valign="top">
+`Ada_Pass_By_Reference'
+
+<p></td><td valign="top">
+
+<p>Allowed for any types except by-copy types such as scalars. 
+Compatible with convention Ada, but causes any parameters
+with this convention to be passed by reference.
+
+<p><br></td></tr><tr align="left"><td valign="top">
+`Assembler'
+
+<p></td><td valign="top">
+
+<p>Assembly language
+
+<p><br></td></tr><tr align="left"><td valign="top">
+`Asm'
+
+<p></td><td valign="top">
+
+<p>Synonym for Assembler
+
+<p><br></td></tr><tr align="left"><td valign="top">
+`Assembly'
+
+<p></td><td valign="top">
+
+<p>Synonym for Assembler
+
+<p><br></td></tr><tr align="left"><td valign="top">
+`C'
+
+<p></td><td valign="top">
+
+<p>C
+
+<p><br></td></tr><tr align="left"><td valign="top">
+`C_Pass_By_Copy'
+
+<p></td><td valign="top">
+
+<p>Allowed only for record types, like C, but also notes that record
+is to be passed by copy rather than reference.
+
+<p><br></td></tr><tr align="left"><td valign="top">
+`COBOL'
+
+<p></td><td valign="top">
+
+<p>COBOL
+
+<p><br></td></tr><tr align="left"><td valign="top">
+`C_Plus_Plus (or CPP)'
+
+<p></td><td valign="top">
+
+<p>C++
+
+<p><br></td></tr><tr align="left"><td valign="top">
+`Default'
+
+<p></td><td valign="top">
+
+<p>Treated the same as C
+
+<p><br></td></tr><tr align="left"><td valign="top">
+`External'
+
+<p></td><td valign="top">
+
+<p>Treated the same as C
+
+<p><br></td></tr><tr align="left"><td valign="top">
+`Fortran'
+
+<p></td><td valign="top">
+
+<p>Fortran
+
+<p><br></td></tr><tr align="left"><td valign="top">
+`Intrinsic'
+
+<p></td><td valign="top">
+
+<p>For support of pragma <cite>Import</cite> with convention Intrinsic, see
+separate section on Intrinsic Subprograms.
+
+<p><br></td></tr><tr align="left"><td valign="top">
+`Stdcall'
+
+<p></td><td valign="top">
+
+<p>Stdcall (used for Windows implementations only).  This convention correspond
+to the WINAPI (previously called Pascal convention) C/C++ convention under
+Windows.  A routine with this convention cleans the stack before
+exit. This pragma cannot be applied to a dispatching call.
+
+<p><br></td></tr><tr align="left"><td valign="top">
+`DLL'
+
+<p></td><td valign="top">
+
+<p>Synonym for Stdcall
+
+<p><br></td></tr><tr align="left"><td valign="top">
+`Win32'
+
+<p></td><td valign="top">
+
+<p>Synonym for Stdcall
+
+<p><br></td></tr><tr align="left"><td valign="top">
+`Stubbed'
+
+<p></td><td valign="top">
+
+<p>Stubbed is a special convention used to indicate that the body of the
+subprogram will be entirely ignored.  Any call to the subprogram
+is converted into a raise of the <cite>Program_Error</cite> exception.  If a
+pragma <cite>Import</cite> specifies convention <cite>stubbed</cite> then no body need
+be present at all.  This convention is useful during development for the
+inclusion of subprograms whose body has not yet been written. 
+In addition, all otherwise unrecognized convention names are also
+treated as being synonymous with convention C.  In all implementations
+except for VMS, use of such other names results in a warning.  In VMS
+implementations, these names are accepted silently.
+
+<br></td></tr></table>
+
+     <ul>
+<li>"The meaning of link names.  See B.1(36)." 
+</ul>
+
+<p>Link names are the actual names used by the linker.
+
+     <ul>
+<li>"The manner of choosing link names when neither the link
+name nor the address of an imported or exported entity is specified.  See
+B.1(36)." 
+</ul>
+
+<p>The default linker name is that which would be assigned by the relevant
+external language, interpreting the Ada name as being in all lower case
+letters.
+
+     <ul>
+<li>"The effect of pragma <cite>Linker_Options</cite>.  See B.1(37)." 
+</ul>
+
+<p>The string passed to <cite>Linker_Options</cite> is presented uninterpreted as
+an argument to the link command, unless it contains ASCII.NUL characters. 
+NUL characters if they appear act as argument separators, so for example
+
+<pre class="example">    pragma Linker_Options ("-labc" &amp; ASCII.NUL &amp; "-ldef");
+</pre>
+<p>causes two separate arguments <cite>-labc</cite> and <cite>-ldef</cite> to be passed to the
+linker. The order of linker options is preserved for a given unit. The final
+list of options passed to the linker is in reverse order of the elaboration
+order. For example, linker options for a body always appear before the options
+from the corresponding package spec.
+
+     <ul>
+<li>"The contents of the visible part of package
+<cite>Interfaces</cite> and its language-defined descendants.  See B.2(1)." 
+</ul>
+
+<p>See files with prefix <code>i-</code> in the distributed library.
+
+     <ul>
+<li>"Implementation-defined children of package
+<cite>Interfaces</cite>.  The contents of the visible part of package
+<cite>Interfaces</cite>.  See B.2(11)." 
+</ul>
+
+<p>See files with prefix <code>i-</code> in the distributed library.
+
+     <ul>
+<li>"The types <cite>Floating</cite>, <cite>Long_Floating</cite>,
+<cite>Binary</cite>, <cite>Long_Binary</cite>, <cite>Decimal_ Element</cite>, and
+<cite>COBOL_Character</cite>; and the initialization of the variables
+<cite>Ada_To_COBOL</cite> and <cite>COBOL_To_Ada</cite>, in
+<cite>Interfaces.COBOL</cite>.  See B.4(50)." 
+</ul>
+
+<p><table summary=""><tr align="left"><th valign="top">
+COBOL
+
+<p></th><th valign="top">
+
+<p>Ada
+
+<p><br></th></tr><tr align="left"><td valign="top">
+`Floating'
+
+<p></td><td valign="top">
+
+<p>Float
+
+<p><br></td></tr><tr align="left"><td valign="top">
+`Long_Floating'
+
+<p></td><td valign="top">
+
+<p>(Floating) Long_Float
+
+<p><br></td></tr><tr align="left"><td valign="top">
+`Binary'
+
+<p></td><td valign="top">
+
+<p>Integer
+
+<p><br></td></tr><tr align="left"><td valign="top">
+`Long_Binary'
+
+<p></td><td valign="top">
+
+<p>Long_Long_Integer
+
+<p><br></td></tr><tr align="left"><td valign="top">
+`Decimal_Element'
+
+<p></td><td valign="top">
+
+<p>Character
+
+<p><br></td></tr><tr align="left"><td valign="top">
+`COBOL_Character'
+
+<p></td><td valign="top">
+
+<p>Character
+
+<br></td></tr></table>
+
+<p>For initialization, see the file <code>i-cobol.ads</code> in the distributed library.
+
+     <ul>
+<li>"Support for access to machine instructions.  See C.1(1)." 
+</ul>
+
+<p>See documentation in file <code>s-maccod.ads</code> in the distributed library.
+
+     <ul>
+<li>"Implementation-defined aspects of access to machine
+operations.  See C.1(9)." 
+</ul>
+
+<p>See documentation in file <code>s-maccod.ads</code> in the distributed library.
+
+     <ul>
+<li>"Implementation-defined aspects of interrupts.  See C.3(2)." 
+</ul>
+
+<p>Interrupts are mapped to signals or conditions as appropriate.  See
+definition of unit
+<cite>Ada.Interrupt_Names</cite> in source file <code>a-intnam.ads</code> for details
+on the interrupts supported on a particular target.
+
+     <ul>
+<li>"Implementation-defined aspects of pre-elaboration.  See
+C.4(13)." 
+</ul>
+
+<p>GNAT does not permit a partition to be restarted without reloading,
+except under control of the debugger.
+
+     <ul>
+<li>"The semantics of pragma <cite>Discard_Names</cite>.  See C.5(7)." 
+</ul>
+
+<p>Pragma <cite>Discard_Names</cite> causes names of enumeration literals to
+be suppressed.  In the presence of this pragma, the Image attribute
+provides the image of the Pos of the literal, and Value accepts
+Pos values.
+
+     <ul>
+<li>"The result of the <cite>Task_Identification.Image</cite>
+attribute.  See C.7.1(7)." 
+</ul>
+
+<p>The result of this attribute is a string that identifies
+the object or component that denotes a given task. If a variable <cite>Var</cite>
+has a task type, the image for this task will have the form <cite>Var_`XXXXXXXX`</cite>,
+where the suffix
+is the hexadecimal representation of the virtual address of the corresponding
+task control block. If the variable is an array of tasks, the image of each
+task will have the form of an indexed component indicating the position of a
+given task in the array, e.g., <cite>Group(5)_`XXXXXXX`</cite>. If the task is a
+component of a record, the image of the task will have the form of a selected
+component. These rules are fully recursive, so that the image of a task that
+is a subcomponent of a composite object corresponds to the expression that
+designates this task.
+
+<p>If a task is created by an allocator, its image depends on the context. If the
+allocator is part of an object declaration, the rules described above are used
+to construct its image, and this image is not affected by subsequent
+assignments. If the allocator appears within an expression, the image
+includes only the name of the task type.
+
+<p>If the configuration pragma Discard_Names is present, or if the restriction
+No_Implicit_Heap_Allocation is in effect,  the image reduces to
+the numeric suffix, that is to say the hexadecimal representation of the
+virtual address of the control block of the task.
+
+     <ul>
+<li>"The value of <cite>Current_Task</cite> when in a protected entry
+or interrupt handler.  See C.7.1(17)." 
+</ul>
+
+<p>Protected entries or interrupt handlers can be executed by any
+convenient thread, so the value of <cite>Current_Task</cite> is undefined.
+
+     <ul>
+<li>"The effect of calling <cite>Current_Task</cite> from an entry
+body or interrupt handler.  See C.7.1(19)." 
+</ul>
+
+<p>The effect of calling <cite>Current_Task</cite> from an entry body or
+interrupt handler is to return the identification of the task currently
+executing the code.
+
+     <ul>
+<li>"Implementation-defined aspects of
+<cite>Task_Attributes</cite>.  See C.7.2(19)." 
+</ul>
+
+<p>There are no implementation-defined aspects of <cite>Task_Attributes</cite>.
+
+     <ul>
+<li>"Values of all <cite>Metrics</cite>.  See D(2)." 
+</ul>
+
+<p>The metrics information for GNAT depends on the performance of the
+underlying operating system.  The sources of the run-time for tasking
+implementation, together with the output from `-gnatG' can be
+used to determine the exact sequence of operating systems calls made
+to implement various tasking constructs.  Together with appropriate
+information on the performance of the underlying operating system,
+on the exact target in use, this information can be used to determine
+the required metrics.
+
+     <ul>
+<li>"The declarations of <cite>Any_Priority</cite> and
+<cite>Priority</cite>.  See D.1(11)." 
+</ul>
+
+<p>See declarations in file <code>system.ads</code>.
+
+     <ul>
+<li>"Implementation-defined execution resources.  See D.1(15)." 
+</ul>
+
+<p>There are no implementation-defined execution resources.
+
+     <ul>
+<li>"Whether, on a multiprocessor, a task that is waiting for
+access to a protected object keeps its processor busy.  See D.2.1(3)." 
+</ul>
+
+<p>On a multi-processor, a task that is waiting for access to a protected
+object does not keep its processor busy.
+
+     <ul>
+<li>"The affect of implementation defined execution resources
+on task dispatching.  See D.2.1(9)." 
+</ul>
+
+<p>Tasks map to threads in the threads package used by GNAT.  Where possible
+and appropriate, these threads correspond to native threads of the
+underlying operating system.
+
+     <ul>
+<li>"Implementation-defined <cite>policy_identifiers</cite> allowed
+in a pragma <cite>Task_Dispatching_Policy</cite>.  See D.2.2(3)." 
+</ul>
+
+<p>There are no implementation-defined policy-identifiers allowed in this
+pragma.
+
+     <ul>
+<li>"Implementation-defined aspects of priority inversion.  See
+D.2.2(16)." 
+</ul>
+
+<p>Execution of a task cannot be preempted by the implementation processing
+of delay expirations for lower priority tasks.
+
+     <ul>
+<li>"Implementation-defined task dispatching.  See D.2.2(18)." 
+</ul>
+
+<p>The policy is the same as that of the underlying threads implementation.
+
+     <ul>
+<li>"Implementation-defined <cite>policy_identifiers</cite> allowed
+in a pragma <cite>Locking_Policy</cite>.  See D.3(4)." 
+</ul>
+
+<p>The two implementation defined policies permitted in GNAT are
+<cite>Inheritance_Locking</cite> and  <cite>Conccurent_Readers_Locking</cite>.  On
+targets that support the <cite>Inheritance_Locking</cite> policy, locking is
+implemented by inheritance, i.e., the task owning the lock operates
+at a priority equal to the highest priority of any task currently
+requesting the lock.  On targets that support the
+<cite>Conccurent_Readers_Locking</cite> policy, locking is implemented with a
+read/write lock allowing multiple propected object functions to enter
+concurrently.
+
+     <ul>
+<li>"Default ceiling priorities.  See D.3(10)." 
+</ul>
+
+<p>The ceiling priority of protected objects of the type
+<cite>System.Interrupt_Priority'Last</cite> as described in the Ada
+Reference Manual D.3(10),
+
+     <ul>
+<li>"The ceiling of any protected object used internally by
+the implementation.  See D.3(16)." 
+</ul>
+
+<p>The ceiling priority of internal protected objects is
+<cite>System.Priority'Last</cite>.
+
+     <ul>
+<li>"Implementation-defined queuing policies.  See D.4(1)." 
+</ul>
+
+<p>There are no implementation-defined queuing policies.
+
+     <ul>
+<li>"On a multiprocessor, any conditions that cause the
+completion of an aborted construct to be delayed later than what is
+specified for a single processor.  See D.6(3)." 
+</ul>
+
+<p>The semantics for abort on a multi-processor is the same as on a single
+processor, there are no further delays.
+
+     <ul>
+<li>"Any operations that implicitly require heap storage
+allocation.  See D.7(8)." 
+</ul>
+
+<p>The only operation that implicitly requires heap storage allocation is
+task creation.
+
+     <ul>
+<li>"What happens when a task terminates in the presence of
+pragma <cite>No_Task_Termination</cite>. See D.7(15)." 
+</ul>
+
+<p>Execution is erroneous in that case.
+
+     <ul>
+<li>"Implementation-defined aspects of pragma
+<cite>Restrictions</cite>.  See D.7(20)." 
+</ul>
+
+<p>There are no such implementation-defined aspects.
+
+     <ul>
+<li>"Implementation-defined aspects of package
+<cite>Real_Time</cite>.  See D.8(17)." 
+</ul>
+
+<p>There are no implementation defined aspects of package <cite>Real_Time</cite>.
+
+     <ul>
+<li>"Implementation-defined aspects of
+<cite>delay_statements</cite>.  See D.9(8)." 
+</ul>
+
+<p>Any difference greater than one microsecond will cause the task to be
+delayed (see D.9(7)).
+
+     <ul>
+<li>"The upper bound on the duration of interrupt blocking
+caused by the implementation.  See D.12(5)." 
+</ul>
+
+<p>The upper bound is determined by the underlying operating system.  In
+no cases is it more than 10 milliseconds.
+
+     <ul>
+<li>"The means for creating and executing distributed
+programs.  See E(5)." 
+</ul>
+
+<p>The GLADE package provides a utility GNATDIST for creating and executing
+distributed programs.  See the GLADE reference manual for further details.
+
+     <ul>
+<li>"Any events that can result in a partition becoming
+inaccessible.  See E.1(7)." 
+</ul>
+
+<p>See the GLADE reference manual for full details on such events.
+
+     <ul>
+<li>"The scheduling policies, treatment of priorities, and
+management of shared resources between partitions in certain cases.  See
+E.1(11)." 
+</ul>
+
+<p>See the GLADE reference manual for full details on these aspects of
+multi-partition execution.
+
+     <ul>
+<li>"Events that cause the version of a compilation unit to
+change.  See E.3(5)." 
+</ul>
+
+<p>Editing the source file of a compilation unit, or the source files of
+any units on which it is dependent in a significant way cause the version
+to change.  No other actions cause the version number to change.  All changes
+are significant except those which affect only layout, capitalization or
+comments.
+
+     <ul>
+<li>"Whether the execution of the remote subprogram is
+immediately aborted as a result of cancellation.  See E.4(13)." 
+</ul>
+
+<p>See the GLADE reference manual for details on the effect of abort in
+a distributed application.
+
+     <ul>
+<li>"Implementation-defined aspects of the PCS.  See E.5(25)." 
+</ul>
+
+<p>See the GLADE reference manual for a full description of all implementation
+defined aspects of the PCS.
+
+     <ul>
+<li>"Implementation-defined interfaces in the PCS.  See
+E.5(26)." 
+</ul>
+
+<p>See the GLADE reference manual for a full description of all
+implementation defined interfaces.
+
+     <ul>
+<li>"The values of named numbers in the package
+<cite>Decimal</cite>.  See F.2(7)." 
+</ul>
+
+<p><table summary=""><tr align="left"><th valign="top">
+Named Number
+
+<p></th><th valign="top">
+
+<p>Value
+
+<p><br></th></tr><tr align="left"><td valign="top">
+`Max_Scale'
+
+<p></td><td valign="top">
+
+<p>+18
+
+<p><br></td></tr><tr align="left"><td valign="top">
+`Min_Scale'
+
+<p></td><td valign="top">
+
+<p>-18
+
+<p><br></td></tr><tr align="left"><td valign="top">
+`Min_Delta'
+
+<p></td><td valign="top">
+
+<p>1.0E-18
+
+<p><br></td></tr><tr align="left"><td valign="top">
+`Max_Delta'
+
+<p></td><td valign="top">
+
+<p>1.0E+18
+
+<p><br></td></tr><tr align="left"><td valign="top">
+`Max_Decimal_Digits'
+
+<p></td><td valign="top">
+
+<p>18
+
+<br></td></tr></table>
+
+     <ul>
+<li>"The value of <cite>Max_Picture_Length</cite> in the package
+<cite>Text_IO.Editing</cite>.  See F.3.3(16)." 
+</ul>
+
+<p>64
+
+     <ul>
+<li>"The value of <cite>Max_Picture_Length</cite> in the package
+<cite>Wide_Text_IO.Editing</cite>.  See F.3.4(5)." 
+</ul>
+
+<p>64
+
+     <ul>
+<li>"The accuracy actually achieved by the complex elementary
+functions and by other complex arithmetic operations.  See G.1(1)." 
+</ul>
+
+<p>Standard library functions are used for the complex arithmetic
+operations.  Only fast math mode is currently supported.
+
+     <ul>
+<li>"The sign of a zero result (or a component thereof) from
+any operator or function in <cite>Numerics.Generic_Complex_Types</cite>, when
+<cite>Real'Signed_Zeros</cite> is True.  See G.1.1(53)." 
+</ul>
+
+<p>The signs of zero values are as recommended by the relevant
+implementation advice.
+
+     <ul>
+<li>"The sign of a zero result (or a component thereof) from
+any operator or function in
+<cite>Numerics.Generic_Complex_Elementary_Functions</cite>, when
+<cite>Real'Signed_Zeros</cite> is <cite>True</cite>.  See G.1.2(45)." 
+</ul>
+
+<p>The signs of zero values are as recommended by the relevant
+implementation advice.
+
+     <ul>
+<li>"Whether the strict mode or the relaxed mode is the
+default.  See G.2(2)." 
+</ul>
+
+<p>The strict mode is the default.  There is no separate relaxed mode.  GNAT
+provides a highly efficient implementation of strict mode.
+
+     <ul>
+<li>"The result interval in certain cases of fixed-to-float
+conversion.  See G.2.1(10)." 
+</ul>
+
+<p>For cases where the result interval is implementation dependent, the
+accuracy is that provided by performing all operations in 64-bit IEEE
+floating-point format.
+
+     <ul>
+<li>"The result of a floating point arithmetic operation in
+overflow situations, when the <cite>Machine_Overflows</cite> attribute of the
+result type is <cite>False</cite>.  See G.2.1(13)." 
+</ul>
+
+<p>Infinite and NaN values are produced as dictated by the IEEE
+floating-point standard. 
+Note that on machines that are not fully compliant with the IEEE
+floating-point standard, such as Alpha, the `-mieee' compiler flag
+must be used for achieving IEEE conforming behavior (although at the cost
+of a significant performance penalty), so infinite and NaN values are
+properly generated.
+
+     <ul>
+<li>"The result interval for division (or exponentiation by a
+negative exponent), when the floating point hardware implements division
+as multiplication by a reciprocal.  See G.2.1(16)." 
+</ul>
+
+<p>Not relevant, division is IEEE exact.
+
+     <ul>
+<li>"The definition of close result set, which determines the
+accuracy of certain fixed point multiplications and divisions.  See
+G.2.3(5)." 
+</ul>
+
+<p>Operations in the close result set are performed using IEEE long format
+floating-point arithmetic.  The input operands are converted to
+floating-point, the operation is done in floating-point, and the result
+is converted to the target type.
+
+     <ul>
+<li>"Conditions on a <cite>universal_real</cite> operand of a fixed
+point multiplication or division for which the result shall be in the
+perfect result set.  See G.2.3(22)." 
+</ul>
+
+<p>The result is only defined to be in the perfect result set if the result
+can be computed by a single scaling operation involving a scale factor
+representable in 64-bits.
+
+     <ul>
+<li>"The result of a fixed point arithmetic operation in
+overflow situations, when the <cite>Machine_Overflows</cite> attribute of the
+result type is <cite>False</cite>.  See G.2.3(27)." 
+</ul>
+
+<p>Not relevant, <cite>Machine_Overflows</cite> is <cite>True</cite> for fixed-point
+types.
+
+     <ul>
+<li>"The result of an elementary function reference in
+overflow situations, when the <cite>Machine_Overflows</cite> attribute of the
+result type is <cite>False</cite>.  See G.2.4(4)." 
+</ul>
+
+<p>IEEE infinite and Nan values are produced as appropriate.
+
+     <ul>
+<li>"The value of the angle threshold, within which certain
+elementary functions, complex arithmetic operations, and complex
+elementary functions yield results conforming to a maximum relative
+error bound.  See G.2.4(10)." 
+</ul>
+
+<p>Information on this subject is not yet available.
+
+     <ul>
+<li>"The accuracy of certain elementary functions for
+parameters beyond the angle threshold.  See G.2.4(10)." 
+</ul>
+
+<p>Information on this subject is not yet available.
+
+     <ul>
+<li>"The result of a complex arithmetic operation or complex
+elementary function reference in overflow situations, when the
+<cite>Machine_Overflows</cite> attribute of the corresponding real type is
+<cite>False</cite>.  See G.2.6(5)." 
+</ul>
+
+<p>IEEE infinite and Nan values are produced as appropriate.
+
+     <ul>
+<li>"The accuracy of certain complex arithmetic operations and
+certain complex elementary functions for parameters (or components
+thereof) beyond the angle threshold.  See G.2.6(8)." 
+</ul>
+
+<p>Information on those subjects is not yet available.
+
+     <ul>
+<li>"Information regarding bounded errors and erroneous
+execution.  See H.2(1)." 
+</ul>
+
+<p>Information on this subject is not yet available.
+
+     <ul>
+<li>"Implementation-defined aspects of pragma
+<cite>Inspection_Point</cite>.  See H.3.2(8)." 
+</ul>
+
+<p>Pragma <cite>Inspection_Point</cite> ensures that the variable is live and can
+be examined by the debugger at the inspection point.
+
+     <ul>
+<li>"Implementation-defined aspects of pragma
+<cite>Restrictions</cite>.  See H.4(25)." 
+</ul>
+
+<p>There are no implementation-defined aspects of pragma <cite>Restrictions</cite>.  The
+use of pragma <cite>Restrictions [No_Exceptions]</cite> has no effect on the
+generated code.  Checks must suppressed by use of pragma <cite>Suppress</cite>.
+
+     <ul>
+<li>"Any restrictions on pragma <cite>Restrictions</cite>.  See
+H.4(27)." 
+</ul>
+
+<p>There are no restrictions on pragma <cite>Restrictions</cite>.
+
+</body></html>
+

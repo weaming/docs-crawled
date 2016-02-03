@@ -1,0 +1,110 @@
+<html lang="en">
+<head>
+<title>Pragma SPARK_Mode - GNAT Reference Manual</title>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+<meta name="description" content="GNAT Reference Manual">
+<meta name="generator" content="makeinfo 4.13">
+<link title="Top" rel="start" href="index.html#Top">
+<link rel="up" href="Implementation-Defined-Pragmas.html#Implementation-Defined-Pragmas" title="Implementation Defined Pragmas">
+<link rel="prev" href="Pragma-Source_005fReference.html#Pragma-Source_005fReference" title="Pragma Source_Reference">
+<link rel="next" href="Pragma-Static_005fElaboration_005fDesired.html#Pragma-Static_005fElaboration_005fDesired" title="Pragma Static_Elaboration_Desired">
+<link href="http://www.gnu.org/software/texinfo/" rel="generator-home" title="Texinfo Homepage">
+<!--
+
+     GNAT Reference Manual , March 24, 2015
+
+     AdaCore
+
+     Copyright (C) 2008-2015, Free Software Foundation
+-->
+<meta http-equiv="Content-Style-Type" content="text/css">
+<style type="text/css"><!--
+  pre.display { font-family:inherit }
+  pre.format  { font-family:inherit }
+  pre.smalldisplay { font-family:inherit; font-size:smaller }
+  pre.smallformat  { font-family:inherit; font-size:smaller }
+  pre.smallexample { font-size:smaller }
+  pre.smalllisp    { font-size:smaller }
+  span.sc    { font-variant:small-caps }
+  span.roman { font-family:serif; font-weight:normal; } 
+  span.sansserif { font-family:sans-serif; font-weight:normal; } 
+--></style>
+</head>
+<body>
+<div class="node">
+<a name="Pragma-SPARK_Mode"></a>
+<a name="Pragma-SPARK_005fMode"></a>
+<p>
+Next:&nbsp;<a rel="next" accesskey="n" href="Pragma-Static_005fElaboration_005fDesired.html#Pragma-Static_005fElaboration_005fDesired">Pragma Static_Elaboration_Desired</a>,
+Previous:&nbsp;<a rel="previous" accesskey="p" href="Pragma-Source_005fReference.html#Pragma-Source_005fReference">Pragma Source_Reference</a>,
+Up:&nbsp;<a rel="up" accesskey="u" href="Implementation-Defined-Pragmas.html#Implementation-Defined-Pragmas">Implementation Defined Pragmas</a>
+<hr>
+</div>
+
+<p><a name="gnat_005frm_002fimplementation_005fdefined_005fpragmas-pragma_002dspark_002dmode"></a><a name="bd"></a>
+
+<h3 class="section">2.158 Pragma SPARK_Mode</h3>
+
+<p>Syntax:
+
+<pre class="example">    pragma SPARK_Mode [(On | Off)] ;
+</pre>
+<p>In general a program can have some parts that are in SPARK 2014 (and
+follow all the rules in the SPARK Reference Manual), and some parts
+that are full Ada 2012.
+
+<p>The SPARK_Mode pragma is used to identify which parts are in SPARK
+2014 (by default programs are in full Ada). The SPARK_Mode pragma can
+be used in the following places:
+
+     <ul>
+<li>As a configuration pragma, in which case it sets the default mode for
+all units compiled with this pragma.
+
+     <li>Immediately following a library-level subprogram spec
+
+     <li>Immediately within a library-level package body
+
+     <li>Immediately following the <cite>private</cite> keyword of a library-level
+package spec
+
+     <li>Immediately following the <cite>begin</cite> keyword of a library-level
+package body
+
+     <li>Immediately within a library-level subprogram body
+</ul>
+
+<p>Normally a subprogram or package spec/body inherits the current mode
+that is active at the point it is declared. But this can be overridden
+by pragma within the spec or body as above.
+
+<p>The basic consistency rule is that you can't turn SPARK_Mode back
+<cite>On</cite>, once you have explicitly (with a pragma) turned if
+<cite>Off</cite>. So the following rules apply:
+
+<p>If a subprogram spec has SPARK_Mode <cite>Off</cite>, then the body must
+also have SPARK_Mode <cite>Off</cite>.
+
+<p>For a package, we have four parts:
+
+     <ul>
+<li>the package public declarations
+
+     <li>the package private part
+
+     <li>the body of the package
+
+     <li>the elaboration code after <cite>begin</cite>
+</ul>
+
+<p>For a package, the rule is that if you explicitly turn SPARK_Mode
+<cite>Off</cite> for any part, then all the following parts must have
+SPARK_Mode <cite>Off</cite>. Note that this may require repeating a pragma
+SPARK_Mode (<cite>Off</cite>) in the body. For example, if we have a
+configuration pragma SPARK_Mode (<cite>On</cite>) that turns the mode on by
+default everywhere, and one particular package spec has pragma
+SPARK_Mode (<cite>Off</cite>), then that pragma will need to be repeated in
+the package body.
+
+</body></html>
+

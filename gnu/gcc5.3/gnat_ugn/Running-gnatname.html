@@ -1,0 +1,90 @@
+<html lang="en">
+<head>
+<title>Running gnatname - GNAT User's Guide for Native Platforms</title>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+<meta name="description" content="GNAT User's Guide for Native Platforms">
+<meta name="generator" content="makeinfo 4.13">
+<link title="Top" rel="start" href="index.html#Top">
+<link rel="up" href="Handling-Arbitrary-File-Naming-Conventions-with-gnatname.html#Handling-Arbitrary-File-Naming-Conventions-with-gnatname" title="Handling Arbitrary File Naming Conventions with gnatname">
+<link rel="prev" href="Arbitrary-File-Naming-Conventions.html#Arbitrary-File-Naming-Conventions" title="Arbitrary File Naming Conventions">
+<link rel="next" href="Switches-for-gnatname.html#Switches-for-gnatname" title="Switches for gnatname">
+<link href="http://www.gnu.org/software/texinfo/" rel="generator-home" title="Texinfo Homepage">
+<!--
+
+     GNAT User's Guide for Native Platforms , March 24, 2015
+
+     AdaCore
+
+     Copyright (C) 2008-2015, Free Software Foundation
+-->
+<meta http-equiv="Content-Style-Type" content="text/css">
+<style type="text/css"><!--
+  pre.display { font-family:inherit }
+  pre.format  { font-family:inherit }
+  pre.smalldisplay { font-family:inherit; font-size:smaller }
+  pre.smallformat  { font-family:inherit; font-size:smaller }
+  pre.smallexample { font-size:smaller }
+  pre.smalllisp    { font-size:smaller }
+  span.sc    { font-variant:small-caps }
+  span.roman { font-family:serif; font-weight:normal; } 
+  span.sansserif { font-family:sans-serif; font-weight:normal; } 
+--></style>
+</head>
+<body>
+<div class="node">
+<a name="Running-gnatname"></a>
+<p>
+Next:&nbsp;<a rel="next" accesskey="n" href="Switches-for-gnatname.html#Switches-for-gnatname">Switches for gnatname</a>,
+Previous:&nbsp;<a rel="previous" accesskey="p" href="Arbitrary-File-Naming-Conventions.html#Arbitrary-File-Naming-Conventions">Arbitrary File Naming Conventions</a>,
+Up:&nbsp;<a rel="up" accesskey="u" href="Handling-Arbitrary-File-Naming-Conventions-with-gnatname.html#Handling-Arbitrary-File-Naming-Conventions-with-gnatname">Handling Arbitrary File Naming Conventions with gnatname</a>
+<hr>
+</div>
+
+<p><a name="gnat_005fugn_002fthe_005fgnat_005fcompilation_005fmodel-running_002dgnatname"></a><a name="g_t5f"></a><a name="gnat_005fugn_002fthe_005fgnat_005fcompilation_005fmodel-id14"></a><a name="g_t60"></a>
+
+<h5 class="subsubsection">3.3.4.2 Running <cite>gnatname</cite></h5>
+
+<p>The usual form of the <cite>gnatname</cite> command is:
+
+<pre class="example">    $ gnatname [`switches`] `naming_pattern` [`naming_patterns`]
+        [--and [`switches`] `naming_pattern` [`naming_patterns`]]
+</pre>
+<p>All of the arguments are optional. If invoked without any argument,
+<cite>gnatname</cite> will display its usage.
+
+<p>When used with at least one naming pattern, <cite>gnatname</cite> will attempt to
+find all the compilation units in files that follow at least one of the
+naming patterns. To find these compilation units,
+<cite>gnatname</cite> will use the GNAT compiler in syntax-check-only mode on all
+regular files.
+
+<p>One or several Naming Patterns may be given as arguments to <cite>gnatname</cite>. 
+Each Naming Pattern is enclosed between double quotes (or single
+quotes on Windows). 
+A Naming Pattern is a regular expression similar to the wildcard patterns
+used in file names by the Unix shells or the DOS prompt.
+
+<p><cite>gnatname</cite> may be called with several sections of directories/patterns. 
+Sections are separated by switch <cite>&ndash;and</cite>. In each section, there must be
+at least one pattern. If no directory is specified in a section, the current
+directory (or the project directory is <cite>-P</cite> is used) is implied. 
+The options other that the directory switches and the patterns apply globally
+even if they are in different sections.
+
+<p>Examples of Naming Patterns are:
+
+<pre class="example">    "*.[12].ada"
+    "*.ad[sb]*"
+    "body_*"    "spec_*"
+</pre>
+<p>For a more complete description of the syntax of Naming Patterns,
+see the second kind of regular expressions described in <code>g-regexp.ads</code>
+(the 'Glob' regular expressions).
+
+<p>When invoked with no switch <cite>-P</cite>, <cite>gnatname</cite> will create a
+configuration pragmas file <code>gnat.adc</code> in the current working directory,
+with pragmas <cite>Source_File_Name</cite> for each file that contains a valid Ada
+unit.
+
+</body></html>
+

@@ -1,0 +1,59 @@
+<html lang="en">
+<head>
+<title>Attribute Elab_Spec - GNAT Reference Manual</title>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+<meta name="description" content="GNAT Reference Manual">
+<meta name="generator" content="makeinfo 4.13">
+<link title="Top" rel="start" href="index.html#Top">
+<link rel="up" href="Implementation-Defined-Attributes.html#Implementation-Defined-Attributes" title="Implementation Defined Attributes">
+<link rel="prev" href="Attribute-Elab_005fBody.html#Attribute-Elab_005fBody" title="Attribute Elab_Body">
+<link rel="next" href="Attribute-Elab_005fSubp_005fBody.html#Attribute-Elab_005fSubp_005fBody" title="Attribute Elab_Subp_Body">
+<link href="http://www.gnu.org/software/texinfo/" rel="generator-home" title="Texinfo Homepage">
+<!--
+
+     GNAT Reference Manual , March 24, 2015
+
+     AdaCore
+
+     Copyright (C) 2008-2015, Free Software Foundation
+-->
+<meta http-equiv="Content-Style-Type" content="text/css">
+<style type="text/css"><!--
+  pre.display { font-family:inherit }
+  pre.format  { font-family:inherit }
+  pre.smalldisplay { font-family:inherit; font-size:smaller }
+  pre.smallformat  { font-family:inherit; font-size:smaller }
+  pre.smallexample { font-size:smaller }
+  pre.smalllisp    { font-size:smaller }
+  span.sc    { font-variant:small-caps }
+  span.roman { font-family:serif; font-weight:normal; } 
+  span.sansserif { font-family:sans-serif; font-weight:normal; } 
+--></style>
+</head>
+<body>
+<div class="node">
+<a name="Attribute-Elab_Spec"></a>
+<a name="Attribute-Elab_005fSpec"></a>
+<p>
+Next:&nbsp;<a rel="next" accesskey="n" href="Attribute-Elab_005fSubp_005fBody.html#Attribute-Elab_005fSubp_005fBody">Attribute Elab_Subp_Body</a>,
+Previous:&nbsp;<a rel="previous" accesskey="p" href="Attribute-Elab_005fBody.html#Attribute-Elab_005fBody">Attribute Elab_Body</a>,
+Up:&nbsp;<a rel="up" accesskey="u" href="Implementation-Defined-Attributes.html#Implementation-Defined-Attributes">Implementation Defined Attributes</a>
+<hr>
+</div>
+
+<p><a name="gnat_005frm_002fimplementation_005fdefined_005fattributes-attribute_002delab_002dspec"></a><a name="g_t128"></a>
+
+<h3 class="section">4.17 Attribute Elab_Spec</h3>
+
+<p><a name="index-Elab_005fSpec-183"></a>
+This attribute can only be applied to a program unit name.  It returns
+the entity for the corresponding elaboration procedure for elaborating
+the spec of the referenced unit.  This is used in the main
+generated elaboration procedure by the binder and is not normally used
+in any other context.  However, there may be specialized situations in
+which it is useful to be able to call this elaboration procedure from
+Ada code, e.g., if it is necessary to do selective re-elaboration to fix
+some error.
+
+</body></html>
+

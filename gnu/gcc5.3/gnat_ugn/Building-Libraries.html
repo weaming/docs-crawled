@@ -1,0 +1,208 @@
+<html lang="en">
+<head>
+<title>Building Libraries - GNAT User's Guide for Native Platforms</title>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+<meta name="description" content="GNAT User's Guide for Native Platforms">
+<meta name="generator" content="makeinfo 4.13">
+<link title="Top" rel="start" href="index.html#Top">
+<link rel="up" href="Library-Projects.html#Library-Projects" title="Library Projects">
+<link rel="next" href="Using-Library-Projects.html#Using-Library-Projects" title="Using Library Projects">
+<link href="http://www.gnu.org/software/texinfo/" rel="generator-home" title="Texinfo Homepage">
+<!--
+
+     GNAT User's Guide for Native Platforms , March 24, 2015
+
+     AdaCore
+
+     Copyright (C) 2008-2015, Free Software Foundation
+-->
+<meta http-equiv="Content-Style-Type" content="text/css">
+<style type="text/css"><!--
+  pre.display { font-family:inherit }
+  pre.format  { font-family:inherit }
+  pre.smalldisplay { font-family:inherit; font-size:smaller }
+  pre.smallformat  { font-family:inherit; font-size:smaller }
+  pre.smallexample { font-size:smaller }
+  pre.smalllisp    { font-size:smaller }
+  span.sc    { font-variant:small-caps }
+  span.roman { font-family:serif; font-weight:normal; } 
+  span.sansserif { font-family:sans-serif; font-weight:normal; } 
+--></style>
+</head>
+<body>
+<div class="node">
+<a name="Building-Libraries"></a>
+<p>
+Next:&nbsp;<a rel="next" accesskey="n" href="Using-Library-Projects.html#Using-Library-Projects">Using Library Projects</a>,
+Up:&nbsp;<a rel="up" accesskey="u" href="Library-Projects.html#Library-Projects">Library Projects</a>
+<hr>
+</div>
+
+<p><a name="gnat_005fugn_002fgnat_005fproject_005fmanager-id21"></a><a name="g_t178"></a><a name="gnat_005fugn_002fgnat_005fproject_005fmanager-building_002dlibraries"></a><a name="g_t179"></a>
+
+<h4 class="subsection">5.5.1 Building Libraries</h4>
+
+<p>Let's enhance our example and transform the <cite>logging</cite> subsystem into a
+library.  In order to do so, a few changes need to be made to
+<code>logging.gpr</code>.  Some attributes need to be defined: at least
+<cite>Library_Name</cite> and <cite>Library_Dir</cite>; in addition, some other attributes
+can be used to specify specific aspects of the library. For readability, it is
+also recommended (although not mandatory), to use the qualifier <cite>library</cite>
+in front of the <cite>project</cite> keyword.
+
+<p><a name="index-Library_005fName-_0028GNAT-Project-Manager_0029-831"></a>
+`Library_Name':
+
+<blockquote>
+
+<p>This attribute is the name of the library to be built. There is no
+restriction on the name of a library imposed by the project manager, except
+for stand-alone libraries whose names must follow the syntax of Ada
+identifiers; however, there may be system-specific restrictions on the name. 
+In general, it is recommended to stick to alphanumeric characters (and
+possibly single underscores) to help portability. 
+</blockquote>
+
+<p><a name="index-Library_005fDir-_0028GNAT-Project-Manager_0029-832"></a>
+`Library_Dir':
+
+<blockquote>
+
+<p>This attribute  is the path (absolute or relative) of the directory where
+the library is to be installed. In the process of building a library,
+the sources are compiled, the object files end up  in the explicit or
+implicit <cite>Object_Dir</cite> directory. When all sources of a library
+are compiled, some of the compilation artifacts, including the library itself,
+are copied to the library_dir directory. This directory must exist and be
+writable. It must also be different from the object directory so that cleanup
+activities in the Library_Dir do not affect recompilation needs. 
+</blockquote>
+
+<p>Here is the new version of <code>logging.gpr</code> that makes it a library:
+
+<pre class="example">    library project Logging is          --  "library" is optional
+       for Library_Name use "logging";  --  will create "liblogging.a" on Unix
+       for Object_Dir   use "obj";
+       for Library_Dir  use "lib";      --  different from object_dir
+    end Logging;
+</pre>
+<p>Once the above two attributes are defined, the library project is valid and
+is enough for building a library with default characteristics. 
+Other library-related attributes can be used to change the defaults:
+
+<p><a name="index-Library_005fKind-_0028GNAT-Project-Manager_0029-833"></a>
+`Library_Kind':
+
+<blockquote>
+
+<p>The value of this attribute must be either <cite>"static"</cite>, <cite>"dynamic"</cite> or
+<cite>"relocatable"</cite> (the latter is a synonym for dynamic). It indicates
+which kind of library should be built (the default is to build a
+static library, that is an archive of object files that can potentially
+be linked into a static executable). When the library is set to be dynamic,
+a separate image is created that will be loaded independently, usually
+at the start of the main program execution. Support for dynamic libraries is
+very platform specific, for instance on Windows it takes the form of a DLL
+while on GNU/Linux, it is a dynamic elf image whose suffix is usually
+<code>.so</code>. Library project files, on the other hand, can be written in
+a platform independent way so that the same project file can be used to build
+a library on different operating systems.
+
+<p>If you need to build both a static and a dynamic library, it is recommended
+to use two different object directories, since in some cases some extra code
+needs to be generated for the latter. For such cases, one can either define
+two different project files, or a single one that uses scenarios to indicate
+the various kinds of library to be built and their corresponding object_dir. 
+</blockquote>
+
+<p><a name="index-Library_005fALI_005fDir-_0028GNAT-Project-Manager_0029-834"></a>
+`Library_ALI_Dir':
+
+<blockquote>
+
+<p>This attribute may be specified to indicate the directory where the ALI
+files of the library are installed. By default, they are copied into the
+<cite>Library_Dir</cite> directory, but as for the executables where we have a
+separate <cite>Exec_Dir</cite> attribute, you might want to put them in a separate
+directory since there can be hundreds of them. The same restrictions as for
+the <cite>Library_Dir</cite> attribute apply. 
+</blockquote>
+
+<p><a name="index-Library_005fVersion-_0028GNAT-Project-Manager_0029-835"></a>
+`Library_Version':
+
+<blockquote>
+
+<p>This attribute is platform dependent, and has no effect on Windows. 
+On Unix, it is used only for dynamic libraries as the internal
+name of the library (the <cite>"soname"</cite>). If the library file name (built
+from the <cite>Library_Name</cite>) is different from the <cite>Library_Version</cite>,
+then the library file will be a symbolic link to the actual file whose name
+will be <cite>Library_Version</cite>. This follows the usual installation schemes
+for dynamic libraries on many Unix systems.
+
+<pre class="example">    project Logging is
+       Version := "1";
+       for Library_Dir use "lib";
+       for Library_Name use "logging";
+       for Library_Kind use "dynamic";
+       for Library_Version use "liblogging.so." &amp; Version;
+    end Logging;
+</pre>
+<p>After the compilation, the directory <code>lib</code> will contain both a
+<code>libdummy.so.1</code> library and a symbolic link to it called
+<code>libdummy.so</code>. 
+</blockquote>
+
+<p><a name="index-Library_005fGCC-_0028GNAT-Project-Manager_0029-836"></a>
+`Library_GCC':
+
+<blockquote>
+
+<p>This attribute is the name of the tool to use instead of "gcc" to link shared
+libraries. A common use of this attribute is to define a wrapper script that
+accomplishes specific actions before calling gcc (which itself calls the
+linker to build the library image). 
+</blockquote>
+
+<p><a name="index-Library_005fOptions-_0028GNAT-Project-Manager_0029-837"></a>
+`Library_Options':
+
+<blockquote>
+
+<p>This attribute may be used to specify additional switches (last switches)
+when linking a shared library.
+
+<p>It may also be used to add foreign object files to a static library. 
+Each string in Library_Options is an absolute or relative path of an object
+file. When a relative path, it is relative to the object directory. 
+</blockquote>
+
+<p><a name="index-Leading_005fLibrary_005fOptions-_0028GNAT-Project-Manager_0029-838"></a>
+`Leading_Library_Options':
+
+<blockquote>
+
+<p>This attribute, that is taken into account only by `gprbuild', may be
+used to specified leading options (first switches) when linking a shared
+library. 
+</blockquote>
+
+<p><a name="index-Linker_005fOptions-_0028GNAT-Project-Manager_0029-839"></a>
+`Linker.Linker_Options':
+
+<blockquote>
+
+<p>This attribute specifies additional switches to be given to the linker when
+linking an executable. It is ignored when defined in the main project and
+taken into account in all other projects that are imported directly or
+indirectly. These switches complement the <cite>Linker.Switches</cite>
+defined in the main project. This is useful when a particular subsystem
+depends on an external library: adding this dependency as a
+<cite>Linker_Options</cite> in the project of the subsystem is more convenient than
+adding it to all the <cite>Linker.Switches</cite> of the main projects that depend
+upon this subsystem. 
+</blockquote>
+
+</body></html>
+

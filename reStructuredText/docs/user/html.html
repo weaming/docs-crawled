@@ -1,0 +1,440 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml" xml:lang="en" lang="en">
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+<meta name="generator" content="Docutils 0.13: http://docutils.sourceforge.net/" />
+<title>Docutils HTML writers</title>
+<link rel="stylesheet" href="http://docutils.sourceforge.net/docutils/writers/html4css1/html4css1.css" type="text/css" />
+</head>
+<body>
+<div class="document" id="docutils-html-writers">
+<h1 class="title">Docutils HTML writers</h1>
+
+<div class="admonition note">
+<p class="first admonition-title">Note</p>
+<p class="last">This document is a working draft. Naming of writers, aliases, and
+front-ends may change before the release of Docutils 0.13.</p>
+</div>
+<div class="contents topic" id="contents">
+<p class="topic-title first">Contents</p>
+<ul class="simple">
+<li><a class="reference internal" href="html.html#overview" id="id2">Overview</a></li>
+<li><a class="reference internal" href="html.html#generic-html-writers" id="id3">Generic HTML writers</a><ul>
+<li><a class="reference internal" href="html.html#html4css1" id="id4">html4css1</a></li>
+<li><a class="reference internal" href="html.html#html-plain" id="id5">html_plain</a></li>
+<li><a class="reference internal" href="html.html#aliases" id="id6">Aliases</a><ul>
+<li><a class="reference internal" href="html.html#html" id="id7">html</a></li>
+<li><a class="reference internal" href="html.html#html4" id="id8">html4</a></li>
+<li><a class="reference internal" href="html.html#html5" id="id9">html5</a></li>
+</ul>
+</li>
+</ul>
+</li>
+<li><a class="reference internal" href="html.html#special-html-writers" id="id10">Special HTML writers</a><ul>
+<li><a class="reference internal" href="html.html#pep-html" id="id11">pep_html</a></li>
+<li><a class="reference internal" href="html.html#s5-html" id="id12">s5_html</a></li>
+</ul>
+</li>
+<li><a class="reference internal" href="html.html#html-writers-in-the-sandbox" id="id13">HTML writers in the sandbox</a><ul>
+<li><a class="reference internal" href="html.html#xhtml11" id="id14">xhtml11</a></li>
+<li><a class="reference internal" href="html.html#html4trans" id="id15">html4trans</a></li>
+</ul>
+</li>
+<li><a class="reference internal" href="html.html#html-and-css-versions" id="id16">HTML and CSS Versions</a></li>
+</ul>
+</div>
+<div class="section" id="overview">
+<h1><a class="toc-backref" href="html.html#id2">Overview</a></h1>
+<ul>
+<li><p class="first"><a class="reference internal" href="html.html#generic-html-writers">Generic HTML writers</a></p>
+<table border="1" class="docutils">
+<colgroup>
+<col width="16%" />
+<col width="21%" />
+<col width="21%" />
+<col width="25%" />
+<col width="16%" />
+</colgroup>
+<thead valign="bottom">
+<tr><th class="head">name</th>
+<th class="head">alias(es)</th>
+<th class="head"><a class="reference external" href="tools.html">front-end</a></th>
+<th class="head">HTML version</th>
+<th class="head">CSS version</th>
+</tr>
+</thead>
+<tbody valign="top">
+<tr><td><a class="reference internal" href="html.html#html4css1">html4css1</a></td>
+<td>html4</td>
+<td>rst2html4.py</td>
+<td><a class="reference internal" href="html.html#xhtml-1-transitional">XHTML&nbsp;1
+Transitional</a></td>
+<td><a class="reference internal" href="html.html#css-1">CSS&nbsp;1</a></td>
+</tr>
+<tr><td><!--  -->
+</td>
+<td><a class="reference internal" href="html.html#html">html</a></td>
+<td>rst2html.py</td>
+<td><a class="reference internal" href="html.html#xhtml-1-transitional">XHTML&nbsp;1
+Transitional</a></td>
+<td><a class="reference internal" href="html.html#css-1">CSS&nbsp;1</a></td>
+</tr>
+<tr><td><a class="reference internal" href="html.html#html-plain">html_plain</a></td>
+<td><a class="reference internal" href="html.html#html5">html5</a></td>
+<td>rst2html5.py</td>
+<td><a class="reference internal" href="html.html#html-5">HTML 5</a></td>
+<td><a class="reference internal" href="html.html#css-3">CSS 3</a></td>
+</tr>
+</tbody>
+</table>
+</li>
+<li><p class="first"><a class="reference internal" href="html.html#special-html-writers">Special HTML writers</a></p>
+<table border="1" class="docutils">
+<colgroup>
+<col width="16%" />
+<col width="21%" />
+<col width="21%" />
+<col width="25%" />
+<col width="16%" />
+</colgroup>
+<thead valign="bottom">
+<tr><th class="head">name</th>
+<th class="head">alias(es)</th>
+<th class="head"><a class="reference external" href="tools.html">front-end</a></th>
+<th class="head">HTML version</th>
+<th class="head">CSS version</th>
+</tr>
+</thead>
+<tbody valign="top">
+<tr><td><a class="reference internal" href="html.html#pep-html">pep_html</a></td>
+<td><!--  -->
+</td>
+<td>rstpep2html.py</td>
+<td><a class="reference internal" href="html.html#xhtml-1-transitional">XHTML&nbsp;1
+Transitional</a></td>
+<td><a class="reference internal" href="html.html#css-1">CSS&nbsp;1</a></td>
+</tr>
+<tr><td><a class="reference internal" href="html.html#s5-html">s5_html</a></td>
+<td>s5</td>
+<td>rst2s5.py</td>
+<td><a class="reference internal" href="html.html#xhtml-1-transitional">XHTML&nbsp;1
+Transitional</a></td>
+<td><a class="reference internal" href="html.html#css-1">CSS&nbsp;1</a></td>
+</tr>
+</tbody>
+</table>
+</li>
+<li><p class="first"><a class="reference internal" href="html.html#html-writers-in-the-sandbox">HTML writers in the sandbox</a></p>
+<table border="1" class="docutils">
+<colgroup>
+<col width="16%" />
+<col width="21%" />
+<col width="21%" />
+<col width="25%" />
+<col width="16%" />
+</colgroup>
+<thead valign="bottom">
+<tr><th class="head">name</th>
+<th class="head">alias(es)</th>
+<th class="head"><a class="reference external" href="tools.html">front-end</a></th>
+<th class="head">HTML version</th>
+<th class="head">CSS version</th>
+</tr>
+</thead>
+<tbody valign="top">
+<tr><td><a class="reference internal" href="html.html#xhtml11">xhtml11</a></td>
+<td>xhtml,
+html4strict</td>
+<td>rst2xhtml.py</td>
+<td><a class="reference internal" href="html.html#xhtml-1-1">XHTML&nbsp;1.1</a></td>
+<td><a class="reference internal" href="html.html#css-3">CSS 3</a></td>
+</tr>
+<tr><td><a class="reference internal" href="html.html#html4trans">html4trans</a></td>
+<td><!--  -->
+</td>
+<td>rst2html_trans</td>
+<td><a class="reference internal" href="html.html#xhtml-1-transitional">XHTML&nbsp;1
+Transitional</a></td>
+<td>no CSS
+required</td>
+</tr>
+</tbody>
+</table>
+</li>
+</ul>
+</div>
+<div class="section" id="generic-html-writers">
+<h1><a class="toc-backref" href="html.html#id3">Generic HTML writers</a></h1>
+<div class="section" id="html4css1">
+<h2><a class="toc-backref" href="html.html#id4">html4css1</a></h2>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field"><th class="field-name">aliases:</th><td class="field-body">html4, <a class="reference internal" href="html.html#html">html</a></td>
+</tr>
+<tr class="field"><th class="field-name">front-ends:</th><td class="field-body">rst2html4.py, <a class="reference external" href="tools.html#rst2html-py">rst2html.py</a></td>
+</tr>
+<tr class="field"><th class="field-name">config:</th><td class="field-body"><a class="reference external" href="config.html#html4css1-writer">[html4css1 writer]</a></td>
+</tr>
+</tbody>
+</table>
+<p>The HTML Writer module, <tt class="docutils literal">docutils/writers/html4css1.py</tt>, started
+as a proof-of-concept reference implementation. It is the first Docutils
+writer and was up to release 0.13 the only official HTML writer.</p>
+<p>The output conforms to the <a class="reference internal" href="html.html#xhtml-1-transitional">XHTML&nbsp;1 Transitional</a> specification. It does
+not validate as <a class="reference internal" href="html.html#html-4-01-transitional">HTML&nbsp;4.01&nbsp;Transitional</a> due to the closing of empty tags
+required in XML but not allowed in HTML&nbsp;4. However, the output follows the
+<a class="reference external" href="http://www.w3.org/TR/xhtml1/#guidelines">HTML Compatibility Guidelines</a> for proper rendering on most HTML user
+agents.</p>
+<p>Correct rendering depends on a <a class="reference external" href="http://www.w3.org/TR/CSS/">CSS</a> style sheet. A reference style sheet,
+<a class="reference external" href="http://docutils.sourceforge.net/docutils/writers/html4css1/html4css1.css">html4css1.css</a>, is provided and used by default.</p>
+<p>To support the <cite>Internet Explorer</cite> (with a market share of about 90% around
+2002, the time this writer was written), documents contain some hard-coded
+formatting hints and are tagged as &quot;text/html&quot; (instead of
+&quot;application/xhtml+xml&quot;). <a class="footnote-reference" href="html.html#ie" id="id1">[1]</a></p>
+<table class="docutils footnote" frame="void" id="ie" rules="none">
+<colgroup><col class="label" /><col /></colgroup>
+<tbody valign="top">
+<tr><td class="label"><a class="fn-backref" href="html.html#id1">[1]</a></td><td>Conformance to <a class="reference internal" href="html.html#css-2-1">CSS 2.1</a> has been added in IE&nbsp;8 (2009), support
+for XHTML in IE&nbsp;9 (2011).</td></tr>
+</tbody>
+</table>
+<!-- TODO: How to name a specific alias/front-end pointing to html4css1?
+
+html4
+  | +1 short form of html4css1,
+  | -1 writer produces XHTML 1, not HTML 4
+xhtml1
+  | +1 correct and short description of the output format.
+  | -1 may be confused with xhtml11 or xhtml (aliases for the
+       "new" XHTML 1.1. writer inheriting from html_plain). -->
+</div>
+<div class="section" id="html-plain">
+<h2><a class="toc-backref" href="html.html#id5">html_plain</a></h2>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field"><th class="field-name">aliases:</th><td class="field-body"><a class="reference internal" href="html.html#html5">html5</a></td>
+</tr>
+<tr class="field"><th class="field-name">front-end:</th><td class="field-body"><a class="reference external" href="tools.html#rst2html5-py">rst2html5.py</a></td>
+</tr>
+<tr class="field"><th class="field-name">config:</th><td class="field-body"><a class="reference external" href="config.html#html-plain-writer">[html-plain writer]</a></td>
+</tr>
+</tbody>
+</table>
+<p>The <cite>html_plain</cite> module is both, basis for other HTML writers and a
+versatile writer for end-users or programmatic use.</p>
+<p>The <tt class="docutils literal">html_plain</tt> writer generates <a class="reference external" href="http://www.w3.org/TR/html-polyglot/">polyglot HTML</a> output that is
+compatible with <a class="reference internal" href="html.html#html-5">HTML 5</a> and <a class="reference internal" href="html.html#xhtml-1-transitional">XHTML&nbsp;1 Transitional</a>. New features and
+elements will only be used if they are widely supported to make documents
+<a class="reference external" href="http://www.anybrowser.org/campaign">viewable with any browser</a>.  There is no hard-coded formatting information
+in the HTML document. Correct rendering of elements not directly supported
+by HTML depends on a <a class="reference external" href="http://www.w3.org/TR/CSS/">CSS</a> style sheet. The provided style sheets
+<a class="reference external" href="http://docutils.sourceforge.net/docutils/writers/html_plain/minimal.css">minimal.css</a> and <a class="reference external" href="http://docutils.sourceforge.net/docutils/writers/html_plain/plain.css">plain.css</a> define required and optional styling rules
+respectively. Adaption of the layout is possible with <a class="reference external" href="../howto/html-stylesheets.html">custom style
+sheets</a>.</p>
+<p>New in Docutils 0.13</p>
+<!-- TODO
+
+Find the right name for this writer. Suggestions:
+
+html-common
+  ±0 common definitions for XHTML and HTML5
+html-plain
+  ±0 simple, plain, unadorned.
+html-simple
+  ±0 simple
+html-vanilla
+  -0 too long, too colloquial
+html-basic
+  -1 does not produce `XHTML Basic`_
+html-lcd
+  `Lowest Common Denominator` - - supporting HTML 5, XHTML 1,
+  and older (HTML 4 + CSS2) browsers.
+
+  -1 cryptic
+html-base
+  -1 not only base class but also suited for end-users -->
+</div>
+<div class="section" id="aliases">
+<h2><a class="toc-backref" href="html.html#id6">Aliases</a></h2>
+<div class="section" id="html">
+<h3><a class="toc-backref" href="html.html#id7">html</a></h3>
+<p>Currently, <cite>html</cite> is an alias for the <a class="reference internal" href="html.html#html4css1">html4css1</a> writer.</p>
+<dl class="docutils">
+<dt>Suggestion</dt>
+<dd><p class="first">The alias <cite>html</cite> points to the &quot;recommended Docutils HTML writer&quot;.
+Its target may change with the development of HTML, browsers, Docutils, and
+the web.</p>
+<ul class="last simple">
+<li>Use <cite>get_writer_by_name('html') or the ``rst2html.py`</cite> front end, if you
+want the output to be up-to-date automatically.</li>
+<li>Use a specific writer name or front end, if you depend on stability of
+the generated HTML code, e.g. because you use a custom style sheet or
+post-processing that may break otherwise.</li>
+</ul>
+</dd>
+</dl>
+</div>
+<div class="section" id="html4">
+<h3><a class="toc-backref" href="html.html#id8">html4</a></h3>
+<p>The alias <cite>html4</cite> provides a stable shortcut for the <a class="reference internal" href="html.html#html4css1">html4css1</a> writer.</p>
+<p>New in Docutils 0.13</p>
+</div>
+<div class="section" id="html5">
+<h3><a class="toc-backref" href="html.html#id9">html5</a></h3>
+<p>In Docutils 0.13, html5 is an alias to the <a class="reference internal" href="html.html#html-plain">html_plain</a> writer.</p>
+<p>In future releases, <cite>html5</cite> may become a separate HTML writer that makes use
+of new features and objects defined in HTML5 but not (yet) fit for use in
+<a class="reference internal" href="html.html#html-plain">html_plain</a> because of limited browser support (like &lt;video&gt;, &lt;aside&gt;, or
+&lt;section&gt;).</p>
+</div>
+</div>
+</div>
+<div class="section" id="special-html-writers">
+<h1><a class="toc-backref" href="html.html#id10">Special HTML writers</a></h1>
+<div class="section" id="pep-html">
+<h2><a class="toc-backref" href="html.html#id11">pep_html</a></h2>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field"><th class="field-name">front-end:</th><td class="field-body"><a class="reference external" href="tools.html#rstpep2html-py">rstpep2html.py</a></td>
+</tr>
+<tr class="field"><th class="field-name">config:</th><td class="field-body"><a class="reference external" href="config.html#pep-html-writer">[pep_html writer]</a></td>
+</tr>
+</tbody>
+</table>
+<p>This is a special writer for the generation of <a class="reference external" href="https://www.python.org/dev/peps/">Python Enhancement
+Proposals</a> (PEPs). It inherits from <a class="reference internal" href="html.html#html4css1">html4css1</a> and adds some <a class="reference external" href="config.html#pep-html-writer">PEP-specific
+options</a>, a style sheet and template. The front-end uses also a specialised
+reader.</p>
+</div>
+<div class="section" id="s5-html">
+<h2><a class="toc-backref" href="html.html#id12">s5_html</a></h2>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field"><th class="field-name">alias:</th><td class="field-body">s5</td>
+</tr>
+<tr class="field"><th class="field-name">front-end:</th><td class="field-body"><a class="reference external" href="tools.html#rst2s5-py">rst2s5.py</a></td>
+</tr>
+<tr class="field"><th class="field-name">config:</th><td class="field-body"><a class="reference external" href="config.html#s5-html-writer">[s5_html writer]</a></td>
+</tr>
+</tbody>
+</table>
+<p>The <cite>s5</cite> writer inherits from <a class="reference internal" href="html.html#html4css1">html4css1</a>. It produces XHTML for use with
+<a class="reference external" href="http://meyerweb.com/eric/tools/s5/">S5</a>, the “Simple Standards-based Slide Show System” by Eric Meyer.  See
+<a class="reference external" href="slide-shows.html">Easy Slide Shows With reST &amp; S5</a> for details.</p>
+</div>
+</div>
+<div class="section" id="html-writers-in-the-sandbox">
+<h1><a class="toc-backref" href="html.html#id13">HTML writers in the sandbox</a></h1>
+<p>There are two more HTML writers in the <a class="reference external" href="../dev/policies.html#the-sandbox">sandbox</a>:</p>
+<div class="section" id="xhtml11">
+<h2><a class="toc-backref" href="html.html#id14">xhtml11</a></h2>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field"><th class="field-name">aliases:</th><td class="field-body">xhtml, html4strict</td>
+</tr>
+<tr class="field"><th class="field-name">front-end:</th><td class="field-body">rst2xhtml.py</td>
+</tr>
+<tr class="field"><th class="field-name">config:</th><td class="field-body"><cite>[xhtml11 writer]</cite></td>
+</tr>
+</tbody>
+</table>
+<p><a class="reference internal" href="html.html#xhtml-1-1">XHTML 1.1</a> is the current version of the XML based <cite>extensible Hypertext
+Markup Language</cite>.</p>
+<p>The <cite>xhtml11</cite> writer inherits from <a class="reference internal" href="html.html#html-plain">html_plain</a> and adds compatibility to the
+strict requirements of <a class="reference internal" href="html.html#xhtml-1-1">XHTML&nbsp;1.1</a>:</p>
+<ul>
+<li><p class="first">There is no attribute &quot;lang&quot; (only &quot;xml:lang&quot;).</p>
+</li>
+<li><p class="first">Enumerated lists don't support the 'start' attribute.</p>
+<p>The style sheet <a class="reference external" href="http://docutils.sourceforge.net/docutils/writers/xhtml11/xhtml11.css">xhtml11.css</a> adds support for a &quot;start&quot; value for
+enumerated lists via a CSS-counter. This allows also nested enumeration.</p>
+</li>
+<li><p class="first"><tt class="docutils literal">&lt;sup&gt;</tt> and <tt class="docutils literal">&lt;sub&gt;</tt> tags are not allowed in preformatted blocks
+(<tt class="docutils literal">&lt;pre&gt;</tt>).</p>
+</li>
+</ul>
+<p>The <cite>math-output</cite> <a class="reference external" href="config.html#xhtml11-writer">config setting</a> defaults to &quot;MathML&quot;.</p>
+</div>
+<div class="section" id="html4trans">
+<h2><a class="toc-backref" href="html.html#id15">html4trans</a></h2>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field"><th class="field-name">front-end:</th><td class="field-body"><a class="reference external" href="http://docutils.sourceforge.net/sandbox/html4trans/tools/rst2html_trans.py">rst2html_trans.py</a></td>
+</tr>
+</tbody>
+</table>
+<p>The <a class="reference external" href="http://docutils.sourceforge.net/sandbox/html4trans/README.html">HTML writer for lightweight browsers</a> lives in the Docutils sandbox
+(<a class="reference external" href="http://docutils.sourceforge.net/sandbox/html4trans">sandbox/html4trans</a>) since 2008. It removes the dependency on CSS. The
+output conforms to <a class="reference internal" href="html.html#xhtml-1-transitional">XHTML&nbsp;1 Transitional</a> and contains sufficient
+formatting information for rendering without style sheet. (Of course, this
+has some <a class="reference external" href="http://docutils.sourceforge.net/sandbox/html4trans/README.html#drawbacks">drawbacks</a>.)</p>
+</div>
+</div>
+<div class="section" id="html-and-css-versions">
+<h1><a class="toc-backref" href="html.html#id16">HTML and CSS Versions</a></h1>
+<dl class="docutils">
+<dt><span class="target" id="html-5">HTML 5</span></dt>
+<dd><cite>HTML5, A vocabulary and associated APIs for HTML and XHTML</cite>,
+W3C Recommendation, 28&nbsp;October 2014.
+<a class="reference external" href="http://www.w3.org/TR/html5/">http://www.w3.org/TR/html5/</a></dd>
+<dt><span class="target" id="xhtml-1-1">XHTML&nbsp;1.1</span></dt>
+<dd><cite>XHTML™ 1.1 - Module-based XHTML - Second Edition</cite>,
+W3C Recommendation, 23&nbsp;November 2010.
+<a class="reference external" href="http://www.w3.org/TR/xhtml11/">http://www.w3.org/TR/xhtml11/</a></dd>
+<dt><span class="target" id="xhtml-1-transitional">XHTML 1 Transitional</span></dt>
+<dd><a class="reference external" href="http://www.w3.org/TR/xhtml1/#a_dtd_XHTML-1.0-Transitional">Transitional version</a> of:
+<cite>XHTML™ 1.0 The Extensible HyperText Markup Language (Second
+Edition)</cite>, <cite>A Reformulation of HTML 4 in XML 1.0</cite>,
+W3C Recommendation, 26 January 2000, revised 1 August 2002.
+<a class="reference external" href="http://www.w3.org/TR/xhtml1/">http://www.w3.org/TR/xhtml1/</a></dd>
+<dt><span class="target" id="xhtml-basic">XHTML Basic</span></dt>
+<dd><cite>XHTML™ Basic 1.1 - Second Edition</cite>,
+W3C Recommendation, 23 November 2010.
+<a class="reference external" href="http://www.w3.org/TR/xhtml-basic/">http://www.w3.org/TR/xhtml-basic/</a></dd>
+</dl>
+<dl class="docutils">
+<dt><span class="target" id="html-4-01-transitional">HTML&nbsp;4.01 Transitional</span></dt>
+<dd>Transitional version of:
+<cite>HTML 4.01 Specification</cite>, W3C Recommendation 24 December 1999.
+<a class="reference external" href="http://www.w3.org/TR/html4/">http://www.w3.org/TR/html4/</a></dd>
+</dl>
+<dl class="docutils" id="css-1">
+<dt><span class="target" id="css-level-1">CSS Level 1</span>:</dt>
+<dd>The features defined in the CSS1 specification, but using the syntax
+and definitions in the <a class="reference internal" href="html.html#css-2-1">CSS&nbsp;2.1</a> specification.</dd>
+<dt><span class="target" id="css-2-1">CSS 2.1</span> <cite>Cascading Style Sheets Level 2 Revision 1 (CSS 2.1) Specification</cite>,</dt>
+<dd>W3C Recommendation 07 June 2011.
+<a class="reference external" href="http://www.w3.org/TR/CSS21/">http://www.w3.org/TR/CSS21/</a></dd>
+<dt><span class="target" id="css-3">CSS 3</span>:</dt>
+<dd><p class="first">CSS Level 3 builds on CSS Level 2 module by module, using the CSS2.1
+specification as its core.</p>
+<p>Specifications: <a class="reference external" href="http://www.w3.org/Style/CSS/specs.en.html">http://www.w3.org/Style/CSS/specs.en.html</a></p>
+<p class="last">Validator: <a class="reference external" href="http://jigsaw.w3.org/css-validator/">http://jigsaw.w3.org/css-validator/</a></p>
+</dd>
+</dl>
+<!-- other references
+- - - - - - - - - - - - - - - - -->
+</div>
+</div>
+<div class="footer">
+<hr class="footer" />
+<a class="reference external" href="html.txt">View document source</a>.
+Generated on: 2015-08-18 08:37 UTC.
+Generated by <a class="reference external" href="http://docutils.sourceforge.net/">Docutils</a> from <a class="reference external" href="http://docutils.sourceforge.net/rst.html">reStructuredText</a> source.
+
+</div>
+</body>
+</html>

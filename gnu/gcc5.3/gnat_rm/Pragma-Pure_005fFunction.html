@@ -1,0 +1,104 @@
+<html lang="en">
+<head>
+<title>Pragma Pure_Function - GNAT Reference Manual</title>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+<meta name="description" content="GNAT Reference Manual">
+<meta name="generator" content="makeinfo 4.13">
+<link title="Top" rel="start" href="index.html#Top">
+<link rel="up" href="Implementation-Defined-Pragmas.html#Implementation-Defined-Pragmas" title="Implementation Defined Pragmas">
+<link rel="prev" href="Pragma-Psect_005fObject.html#Pragma-Psect_005fObject" title="Pragma Psect_Object">
+<link rel="next" href="Pragma-Rational.html#Pragma-Rational" title="Pragma Rational">
+<link href="http://www.gnu.org/software/texinfo/" rel="generator-home" title="Texinfo Homepage">
+<!--
+
+     GNAT Reference Manual , March 24, 2015
+
+     AdaCore
+
+     Copyright (C) 2008-2015, Free Software Foundation
+-->
+<meta http-equiv="Content-Style-Type" content="text/css">
+<style type="text/css"><!--
+  pre.display { font-family:inherit }
+  pre.format  { font-family:inherit }
+  pre.smalldisplay { font-family:inherit; font-size:smaller }
+  pre.smallformat  { font-family:inherit; font-size:smaller }
+  pre.smallexample { font-size:smaller }
+  pre.smalllisp    { font-size:smaller }
+  span.sc    { font-variant:small-caps }
+  span.roman { font-family:serif; font-weight:normal; } 
+  span.sansserif { font-family:sans-serif; font-weight:normal; } 
+--></style>
+</head>
+<body>
+<div class="node">
+<a name="Pragma-Pure_Function"></a>
+<a name="Pragma-Pure_005fFunction"></a>
+<p>
+Next:&nbsp;<a rel="next" accesskey="n" href="Pragma-Rational.html#Pragma-Rational">Pragma Rational</a>,
+Previous:&nbsp;<a rel="previous" accesskey="p" href="Pragma-Psect_005fObject.html#Pragma-Psect_005fObject">Pragma Psect_Object</a>,
+Up:&nbsp;<a rel="up" accesskey="u" href="Implementation-Defined-Pragmas.html#Implementation-Defined-Pragmas">Implementation Defined Pragmas</a>
+<hr>
+</div>
+
+<p><a name="gnat_005frm_002fimplementation_005fdefined_005fpragmas-pragma_002dpure_002dfunction"></a><a name="a6"></a>
+
+<h3 class="section">2.138 Pragma Pure_Function</h3>
+
+<p>Syntax:
+
+<pre class="example">    pragma Pure_Function ([Entity =&gt;] function_LOCAL_NAME);
+</pre>
+<p>This pragma appears in the same declarative part as a function
+declaration (or a set of function declarations if more than one
+overloaded declaration exists, in which case the pragma applies
+to all entities).  It specifies that the function <cite>Entity</cite> is
+to be considered pure for the purposes of code generation.  This means
+that the compiler can assume that there are no side effects, and
+in particular that two calls with identical arguments produce the
+same result.  It also means that the function can be used in an
+address clause.
+
+<p>Note that, quite deliberately, there are no static checks to try
+to ensure that this promise is met, so <cite>Pure_Function</cite> can be used
+with functions that are conceptually pure, even if they do modify
+global variables.  For example, a square root function that is
+instrumented to count the number of times it is called is still
+conceptually pure, and can still be optimized, even though it
+modifies a global variable (the count).  Memo functions are another
+example (where a table of previous calls is kept and consulted to
+avoid re-computation).
+
+<p>Note also that the normal rules excluding optimization of subprograms
+in pure units (when parameter types are descended from System.Address,
+or when the full view of a parameter type is limited), do not apply
+for the Pure_Function case. If you explicitly specify Pure_Function,
+the compiler may optimize away calls with identical arguments, and
+if that results in unexpected behavior, the proper action is not to
+use the pragma for subprograms that are not (conceptually) pure.
+
+<p>Note: Most functions in a <cite>Pure</cite> package are automatically pure, and
+there is no need to use pragma <cite>Pure_Function</cite> for such functions.  One
+exception is any function that has at least one formal of type
+<cite>System.Address</cite> or a type derived from it.  Such functions are not
+considered pure by default, since the compiler assumes that the
+<cite>Address</cite> parameter may be functioning as a pointer and that the
+referenced data may change even if the address value does not. 
+Similarly, imported functions are not considered to be pure by default,
+since there is no way of checking that they are in fact pure.  The use
+of pragma <cite>Pure_Function</cite> for such a function will override these default
+assumption, and cause the compiler to treat a designated subprogram as pure
+in these cases.
+
+<p>Note: If pragma <cite>Pure_Function</cite> is applied to a renamed function, it
+applies to the underlying renamed function.  This can be used to
+disambiguate cases of overloading where some but not all functions
+in a set of overloaded functions are to be designated as pure.
+
+<p>If pragma <cite>Pure_Function</cite> is applied to a library level function, the
+function is also considered pure from an optimization point of view, but the
+unit is not a Pure unit in the categorization sense. So for example, a function
+thus marked is free to <cite>with</cite> non-pure units.
+
+</body></html>
+

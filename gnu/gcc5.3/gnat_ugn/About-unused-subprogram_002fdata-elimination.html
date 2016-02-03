@@ -1,0 +1,58 @@
+<html lang="en">
+<head>
+<title>About unused subprogram/data elimination - GNAT User's Guide for Native Platforms</title>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+<meta name="description" content="GNAT User's Guide for Native Platforms">
+<meta name="generator" content="makeinfo 4.13">
+<link title="Top" rel="start" href="index.html#Top">
+<link rel="up" href="Reducing-Size-of-Executables-with-Unused-Subprogram_002fData-Elimination.html#Reducing-Size-of-Executables-with-Unused-Subprogram_002fData-Elimination" title="Reducing Size of Executables with Unused Subprogram/Data Elimination">
+<link rel="next" href="Compilation-options.html#Compilation-options" title="Compilation options">
+<link href="http://www.gnu.org/software/texinfo/" rel="generator-home" title="Texinfo Homepage">
+<!--
+
+     GNAT User's Guide for Native Platforms , March 24, 2015
+
+     AdaCore
+
+     Copyright (C) 2008-2015, Free Software Foundation
+-->
+<meta http-equiv="Content-Style-Type" content="text/css">
+<style type="text/css"><!--
+  pre.display { font-family:inherit }
+  pre.format  { font-family:inherit }
+  pre.smalldisplay { font-family:inherit; font-size:smaller }
+  pre.smallformat  { font-family:inherit; font-size:smaller }
+  pre.smallexample { font-size:smaller }
+  pre.smalllisp    { font-size:smaller }
+  span.sc    { font-variant:small-caps }
+  span.roman { font-family:serif; font-weight:normal; } 
+  span.sansserif { font-family:sans-serif; font-weight:normal; } 
+--></style>
+</head>
+<body>
+<div class="node">
+<a name="About-unused-subprogram%2fdata-elimination"></a>
+<a name="About-unused-subprogram_002fdata-elimination"></a>
+<p>
+Next:&nbsp;<a rel="next" accesskey="n" href="Compilation-options.html#Compilation-options">Compilation options</a>,
+Up:&nbsp;<a rel="up" accesskey="u" href="Reducing-Size-of-Executables-with-Unused-Subprogram_002fData-Elimination.html#Reducing-Size-of-Executables-with-Unused-Subprogram_002fData-Elimination">Reducing Size of Executables with Unused Subprogram/Data Elimination</a>
+<hr>
+</div>
+
+<p><a name="gnat_005fugn_002fgnat_005fand_005fprogram_005fexecution-id44"></a><a name="g_t242"></a><a name="gnat_005fugn_002fgnat_005fand_005fprogram_005fexecution-about_002dunused_002dsubprogram_002ddata_002delimination"></a><a name="g_t243"></a>
+
+<h5 class="subsubsection">8.3.3.1 About unused subprogram/data elimination</h5>
+
+<p>By default, an executable contains all code and data of its composing objects
+(directly linked or coming from statically linked libraries), even data or code
+never used by this executable.
+
+<p>This feature will allow you to eliminate such unused code from your
+executable, making it smaller (in disk and in memory).
+
+<p>This functionality is available on all Linux platforms except for the IA-64
+architecture and on all cross platforms using the ELF binary file format. 
+In both cases GNU binutils version 2.16 or later are required to enable it.
+
+</body></html>
+

@@ -1,0 +1,72 @@
+<html lang="en">
+<head>
+<title>Elaboration Order Handling in GNAT - GNAT User's Guide for Native Platforms</title>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+<meta name="description" content="GNAT User's Guide for Native Platforms">
+<meta name="generator" content="makeinfo 4.13">
+<link title="Top" rel="start" href="index.html#Top">
+<link rel="prev" href="Example-of-Binder-Output-File.html#Example-of-Binder-Output-File" title="Example of Binder Output File">
+<link rel="next" href="Inline-Assembler.html#Inline-Assembler" title="Inline Assembler">
+<link href="http://www.gnu.org/software/texinfo/" rel="generator-home" title="Texinfo Homepage">
+<!--
+
+     GNAT User's Guide for Native Platforms , March 24, 2015
+
+     AdaCore
+
+     Copyright (C) 2008-2015, Free Software Foundation
+-->
+<meta http-equiv="Content-Style-Type" content="text/css">
+<style type="text/css"><!--
+  pre.display { font-family:inherit }
+  pre.format  { font-family:inherit }
+  pre.smalldisplay { font-family:inherit; font-size:smaller }
+  pre.smallformat  { font-family:inherit; font-size:smaller }
+  pre.smallexample { font-size:smaller }
+  pre.smalllisp    { font-size:smaller }
+  span.sc    { font-variant:small-caps }
+  span.roman { font-family:serif; font-weight:normal; } 
+  span.sansserif { font-family:sans-serif; font-weight:normal; } 
+--></style>
+</head>
+<body>
+<div class="node">
+<a name="Elaboration-Order-Handling-in-GNAT"></a>
+<p>
+Next:&nbsp;<a rel="next" accesskey="n" href="Inline-Assembler.html#Inline-Assembler">Inline Assembler</a>,
+Previous:&nbsp;<a rel="previous" accesskey="p" href="Example-of-Binder-Output-File.html#Example-of-Binder-Output-File">Example of Binder Output File</a>,
+Up:&nbsp;<a rel="up" accesskey="u" href="index.html#Top">Top</a>
+<hr>
+</div>
+
+<p><a name="gnat_005fugn_002felaboration_005forder_005fhandling_005fin_005fgnat-elaboration_002dorder_002dhandling_002din_002dgnat"></a><a name="g_t11"></a><a name="gnat_005fugn_002felaboration_005forder_005fhandling_005fin_005fgnat-doc"></a><a name="g_t2ae"></a><a name="gnat_005fugn_002felaboration_005forder_005fhandling_005fin_005fgnat-id1"></a><a name="g_t2af"></a>
+
+<h2 class="chapter">11 Elaboration Order Handling in GNAT</h2>
+
+<p><a name="index-Order-of-elaboration-1139"></a>
+<a name="index-Elaboration-control-1140"></a>
+This appendix describes the handling of elaboration code in Ada and
+in GNAT, and discusses how the order of elaboration of program units can
+be controlled in GNAT, either automatically or with explicit programming
+features.
+
+<ul class="menu">
+<li><a accesskey="1" href="Elaboration-Code.html#Elaboration-Code">Elaboration Code</a>
+<li><a accesskey="2" href="Checking-the-Elaboration-Order.html#Checking-the-Elaboration-Order">Checking the Elaboration Order</a>
+<li><a accesskey="3" href="Controlling-the-Elaboration-Order.html#Controlling-the-Elaboration-Order">Controlling the Elaboration Order</a>
+<li><a accesskey="4" href="Controlling-Elaboration-in-GNAT-_002d-Internal-Calls.html#Controlling-Elaboration-in-GNAT-_002d-Internal-Calls">Controlling Elaboration in GNAT - Internal Calls</a>
+<li><a accesskey="5" href="Controlling-Elaboration-in-GNAT-_002d-External-Calls.html#Controlling-Elaboration-in-GNAT-_002d-External-Calls">Controlling Elaboration in GNAT - External Calls</a>
+<li><a accesskey="6" href="Default-Behavior-in-GNAT-_002d-Ensuring-Safety.html#Default-Behavior-in-GNAT-_002d-Ensuring-Safety">Default Behavior in GNAT - Ensuring Safety</a>
+<li><a accesskey="7" href="Treatment-of-Pragma-Elaborate.html#Treatment-of-Pragma-Elaborate">Treatment of Pragma Elaborate</a>
+<li><a accesskey="8" href="Elaboration-Issues-for-Library-Tasks.html#Elaboration-Issues-for-Library-Tasks">Elaboration Issues for Library Tasks</a>
+<li><a accesskey="9" href="Mixing-Elaboration-Models.html#Mixing-Elaboration-Models">Mixing Elaboration Models</a>
+<li><a href="What-to-Do-If-the-Default-Elaboration-Behavior-Fails.html#What-to-Do-If-the-Default-Elaboration-Behavior-Fails">What to Do If the Default Elaboration Behavior Fails</a>
+<li><a href="Elaboration-for-Indirect-Calls.html#Elaboration-for-Indirect-Calls">Elaboration for Indirect Calls</a>
+<li><a href="Summary-of-Procedures-for-Elaboration-Control.html#Summary-of-Procedures-for-Elaboration-Control">Summary of Procedures for Elaboration Control</a>
+<li><a href="Other-Elaboration-Order-Considerations.html#Other-Elaboration-Order-Considerations">Other Elaboration Order Considerations</a>
+<li><a href="Determining-the-Chosen-Elaboration-Order.html#Determining-the-Chosen-Elaboration-Order">Determining the Chosen Elaboration Order</a>
+
+</ul>
+
+</body></html>
+

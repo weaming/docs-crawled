@@ -1,0 +1,59 @@
+<html lang="en">
+<head>
+<title>Treating Text_IO Files as Streams - GNAT Reference Manual</title>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+<meta name="description" content="GNAT Reference Manual">
+<meta name="generator" content="makeinfo 4.13">
+<link title="Top" rel="start" href="index.html#Top">
+<link rel="up" href="Text_005fIO.html#Text_005fIO" title="Text_IO">
+<link rel="prev" href="Get_005fImmediate.html#Get_005fImmediate" title="Get_Immediate">
+<link rel="next" href="Text_005fIO-Extensions.html#Text_005fIO-Extensions" title="Text_IO Extensions">
+<link href="http://www.gnu.org/software/texinfo/" rel="generator-home" title="Texinfo Homepage">
+<!--
+
+     GNAT Reference Manual , March 24, 2015
+
+     AdaCore
+
+     Copyright (C) 2008-2015, Free Software Foundation
+-->
+<meta http-equiv="Content-Style-Type" content="text/css">
+<style type="text/css"><!--
+  pre.display { font-family:inherit }
+  pre.format  { font-family:inherit }
+  pre.smalldisplay { font-family:inherit; font-size:smaller }
+  pre.smallformat  { font-family:inherit; font-size:smaller }
+  pre.smallexample { font-size:smaller }
+  pre.smalllisp    { font-size:smaller }
+  span.sc    { font-variant:small-caps }
+  span.roman { font-family:serif; font-weight:normal; } 
+  span.sansserif { font-family:sans-serif; font-weight:normal; } 
+--></style>
+</head>
+<body>
+<div class="node">
+<a name="Treating-Text_IO-Files-as-Streams"></a>
+<a name="Treating-Text_005fIO-Files-as-Streams"></a>
+<p>
+Next:&nbsp;<a rel="next" accesskey="n" href="Text_005fIO-Extensions.html#Text_005fIO-Extensions">Text_IO Extensions</a>,
+Previous:&nbsp;<a rel="previous" accesskey="p" href="Get_005fImmediate.html#Get_005fImmediate">Get_Immediate</a>,
+Up:&nbsp;<a rel="up" accesskey="u" href="Text_005fIO.html#Text_005fIO">Text_IO</a>
+<hr>
+</div>
+
+<p><a name="gnat_005frm_002fthe_005fimplementation_005fof_005fstandard_005fi_005fo-id10"></a><a name="g_t254"></a><a name="gnat_005frm_002fthe_005fimplementation_005fof_005fstandard_005fi_005fo-treating_002dtext_002dio_002dfiles_002das_002dstreams"></a><a name="g_t255"></a>
+
+<h4 class="subsection">11.5.4 Treating Text_IO Files as Streams</h4>
+
+<p><a name="index-Stream-files-527"></a>
+The package <cite>Text_IO.Streams</cite> allows a Text_IO file to be treated
+as a stream.  Data written to a Text_IO file in this stream mode is
+binary data.  If this binary data contains bytes 16#0A# (<cite>LF</cite>) or
+16#0C# (<cite>FF</cite>), the resulting file may have non-standard
+format.  Similarly if read operations are used to read from a Text_IO
+file treated as a stream, then <cite>LF</cite> and <cite>FF</cite> characters may be
+skipped and the effect is similar to that described above for
+<cite>Get_Immediate</cite>.
+
+</body></html>
+

@@ -1,0 +1,104 @@
+<html lang="en">
+<head>
+<title>Using GNAT on Windows - GNAT User's Guide for Native Platforms</title>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+<meta name="description" content="GNAT User's Guide for Native Platforms">
+<meta name="generator" content="makeinfo 4.13">
+<link title="Top" rel="start" href="index.html#Top">
+<link rel="up" href="Microsoft-Windows-Topics.html#Microsoft-Windows-Topics" title="Microsoft Windows Topics">
+<link rel="next" href="Using-a-network-installation-of-GNAT.html#Using-a-network-installation-of-GNAT" title="Using a network installation of GNAT">
+<link href="http://www.gnu.org/software/texinfo/" rel="generator-home" title="Texinfo Homepage">
+<!--
+
+     GNAT User's Guide for Native Platforms , March 24, 2015
+
+     AdaCore
+
+     Copyright (C) 2008-2015, Free Software Foundation
+-->
+<meta http-equiv="Content-Style-Type" content="text/css">
+<style type="text/css"><!--
+  pre.display { font-family:inherit }
+  pre.format  { font-family:inherit }
+  pre.smalldisplay { font-family:inherit; font-size:smaller }
+  pre.smallformat  { font-family:inherit; font-size:smaller }
+  pre.smallexample { font-size:smaller }
+  pre.smalllisp    { font-size:smaller }
+  span.sc    { font-variant:small-caps }
+  span.roman { font-family:serif; font-weight:normal; } 
+  span.sansserif { font-family:sans-serif; font-weight:normal; } 
+--></style>
+</head>
+<body>
+<div class="node">
+<a name="Using-GNAT-on-Windows"></a>
+<p>
+Next:&nbsp;<a rel="next" accesskey="n" href="Using-a-network-installation-of-GNAT.html#Using-a-network-installation-of-GNAT">Using a network installation of GNAT</a>,
+Up:&nbsp;<a rel="up" accesskey="u" href="Microsoft-Windows-Topics.html#Microsoft-Windows-Topics">Microsoft Windows Topics</a>
+<hr>
+</div>
+
+<p><a name="gnat_005fugn_002fplatform_005fspecific_005finformation-using_002dgnat_002don_002dwindows"></a><a name="g_t268"></a><a name="gnat_005fugn_002fplatform_005fspecific_005finformation-id10"></a><a name="g_t269"></a>
+
+<h4 class="subsection">9.3.1 Using GNAT on Windows</h4>
+
+<p>One of the strengths of the GNAT technology is that its tool set
+(`gcc', `gnatbind', `gnatlink', `gnatmake', the
+<cite>gdb</cite> debugger, etc.) is used in the same way regardless of the
+platform.
+
+<p>On Windows this tool set is complemented by a number of Microsoft-specific
+tools that have been provided to facilitate interoperability with Windows
+when this is required. With these tools:
+
+     <ul>
+<li>You can build applications using the <cite>CONSOLE</cite> or <cite>WINDOWS</cite>
+subsystems.
+
+     <li>You can use any Dynamically Linked Library (DLL) in your Ada code (both
+relocatable and non-relocatable DLLs are supported).
+
+     <li>You can build Ada DLLs for use in other applications. These applications
+can be written in a language other than Ada (e.g., C, C++, etc). Again both
+relocatable and non-relocatable Ada DLLs are supported.
+
+     <li>You can include Windows resources in your Ada application.
+
+     <li>You can use or create COM/DCOM objects. 
+</ul>
+
+<p>Immediately below are listed all known general GNAT-for-Windows restrictions. 
+Other restrictions about specific features like Windows Resources and DLLs
+are listed in separate sections below.
+
+     <ul>
+<li>It is not possible to use <cite>GetLastError</cite> and <cite>SetLastError</cite>
+when tasking, protected records, or exceptions are used. In these
+cases, in order to implement Ada semantics, the GNAT run-time system
+calls certain Win32 routines that set the last error variable to 0 upon
+success. It should be possible to use <cite>GetLastError</cite> and
+<cite>SetLastError</cite> when tasking, protected record, and exception
+features are not used, but it is not guaranteed to work.
+
+     <li>It is not possible to link against Microsoft C++ libraries except for
+import libraries. Interfacing must be done by the mean of DLLs.
+
+     <li>It is possible to link against Microsoft C libraries. Yet the preferred
+solution is to use C/C++ compiler that comes with GNAT, since it
+doesn't require having two different development environments and makes the
+inter-language debugging experience smoother.
+
+     <li>When the compilation environment is located on FAT32 drives, users may
+experience recompilations of the source files that have not changed if
+Daylight Saving Time (DST) state has changed since the last time files
+were compiled. NTFS drives do not have this problem.
+
+     <li>No components of the GNAT toolset use any entries in the Windows
+registry. The only entries that can be created are file associations and
+PATH settings, provided the user has chosen to create them at installation
+time, as well as some minimal book-keeping information needed to correctly
+uninstall or integrate different GNAT products. 
+</ul>
+
+</body></html>
+

@@ -1,0 +1,78 @@
+<html lang="en">
+<head>
+<title>Pragma Unreserve_All_Interrupts - GNAT Reference Manual</title>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+<meta name="description" content="GNAT Reference Manual">
+<meta name="generator" content="makeinfo 4.13">
+<link title="Top" rel="start" href="index.html#Top">
+<link rel="up" href="Implementation-Defined-Pragmas.html#Implementation-Defined-Pragmas" title="Implementation Defined Pragmas">
+<link rel="prev" href="Pragma-Unreferenced_005fObjects.html#Pragma-Unreferenced_005fObjects" title="Pragma Unreferenced_Objects">
+<link rel="next" href="Pragma-Unsuppress.html#Pragma-Unsuppress" title="Pragma Unsuppress">
+<link href="http://www.gnu.org/software/texinfo/" rel="generator-home" title="Texinfo Homepage">
+<!--
+
+     GNAT Reference Manual , March 24, 2015
+
+     AdaCore
+
+     Copyright (C) 2008-2015, Free Software Foundation
+-->
+<meta http-equiv="Content-Style-Type" content="text/css">
+<style type="text/css"><!--
+  pre.display { font-family:inherit }
+  pre.format  { font-family:inherit }
+  pre.smalldisplay { font-family:inherit; font-size:smaller }
+  pre.smallformat  { font-family:inherit; font-size:smaller }
+  pre.smallexample { font-size:smaller }
+  pre.smalllisp    { font-size:smaller }
+  span.sc    { font-variant:small-caps }
+  span.roman { font-family:serif; font-weight:normal; } 
+  span.sansserif { font-family:sans-serif; font-weight:normal; } 
+--></style>
+</head>
+<body>
+<div class="node">
+<a name="Pragma-Unreserve_All_Interrupts"></a>
+<a name="Pragma-Unreserve_005fAll_005fInterrupts"></a>
+<p>
+Next:&nbsp;<a rel="next" accesskey="n" href="Pragma-Unsuppress.html#Pragma-Unsuppress">Pragma Unsuppress</a>,
+Previous:&nbsp;<a rel="previous" accesskey="p" href="Pragma-Unreferenced_005fObjects.html#Pragma-Unreferenced_005fObjects">Pragma Unreferenced_Objects</a>,
+Up:&nbsp;<a rel="up" accesskey="u" href="Implementation-Defined-Pragmas.html#Implementation-Defined-Pragmas">Implementation Defined Pragmas</a>
+<hr>
+</div>
+
+<p><a name="gnat_005frm_002fimplementation_005fdefined_005fpragmas-pragma_002dunreserve_002dall_002dinterrupts"></a><a name="d7"></a>
+
+<h3 class="section">2.184 Pragma Unreserve_All_Interrupts</h3>
+
+<p>Syntax:
+
+<pre class="example">    pragma Unreserve_All_Interrupts;
+</pre>
+<p>Normally certain interrupts are reserved to the implementation.  Any attempt
+to attach an interrupt causes Program_Error to be raised, as described in
+RM C.3.2(22).  A typical example is the <cite>SIGINT</cite> interrupt used in
+many systems for a <code>Ctrl-C</code> interrupt.  Normally this interrupt is
+reserved to the implementation, so that <code>Ctrl-C</code> can be used to
+interrupt execution.
+
+<p>If the pragma <cite>Unreserve_All_Interrupts</cite> appears anywhere in any unit in
+a program, then all such interrupts are unreserved.  This allows the
+program to handle these interrupts, but disables their standard
+functions.  For example, if this pragma is used, then pressing
+<code>Ctrl-C</code> will not automatically interrupt execution.  However,
+a program can then handle the <cite>SIGINT</cite> interrupt as it chooses.
+
+<p>For a full list of the interrupts handled in a specific implementation,
+see the source code for the spec of <cite>Ada.Interrupts.Names</cite> in
+file <code>a-intnam.ads</code>.  This is a target dependent file that contains the
+list of interrupts recognized for a given target.  The documentation in
+this file also specifies what interrupts are affected by the use of
+the <cite>Unreserve_All_Interrupts</cite> pragma.
+
+<p>For a more general facility for controlling what interrupts can be
+handled, see pragma <cite>Interrupt_State</cite>, which subsumes the functionality
+of the <cite>Unreserve_All_Interrupts</cite> pragma.
+
+</body></html>
+

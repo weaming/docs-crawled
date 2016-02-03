@@ -1,0 +1,78 @@
+<html lang="en">
+<head>
+<title>Elaboration Control - GNAT User's Guide for Native Platforms</title>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+<meta name="description" content="GNAT User's Guide for Native Platforms">
+<meta name="generator" content="makeinfo 4.13">
+<link title="Top" rel="start" href="index.html#Top">
+<link rel="up" href="Switches-for-gnatbind.html#Switches-for-gnatbind" title="Switches for gnatbind">
+<link rel="prev" href="Binder-Error-Message-Control.html#Binder-Error-Message-Control" title="Binder Error Message Control">
+<link rel="next" href="Output-Control.html#Output-Control" title="Output Control">
+<link href="http://www.gnu.org/software/texinfo/" rel="generator-home" title="Texinfo Homepage">
+<!--
+
+     GNAT User's Guide for Native Platforms , March 24, 2015
+
+     AdaCore
+
+     Copyright (C) 2008-2015, Free Software Foundation
+-->
+<meta http-equiv="Content-Style-Type" content="text/css">
+<style type="text/css"><!--
+  pre.display { font-family:inherit }
+  pre.format  { font-family:inherit }
+  pre.smalldisplay { font-family:inherit; font-size:smaller }
+  pre.smallformat  { font-family:inherit; font-size:smaller }
+  pre.smallexample { font-size:smaller }
+  pre.smalllisp    { font-size:smaller }
+  span.sc    { font-variant:small-caps }
+  span.roman { font-family:serif; font-weight:normal; } 
+  span.sansserif { font-family:sans-serif; font-weight:normal; } 
+--></style>
+</head>
+<body>
+<div class="node">
+<a name="Elaboration-Control"></a>
+<p>
+Next:&nbsp;<a rel="next" accesskey="n" href="Output-Control.html#Output-Control">Output Control</a>,
+Previous:&nbsp;<a rel="previous" accesskey="p" href="Binder-Error-Message-Control.html#Binder-Error-Message-Control">Binder Error Message Control</a>,
+Up:&nbsp;<a rel="up" accesskey="u" href="Switches-for-gnatbind.html#Switches-for-gnatbind">Switches for gnatbind</a>
+<hr>
+</div>
+
+<p><a name="gnat_005fugn_002fbuilding_005fexecutable_005fprograms_005fwith_005fgnat-id36"></a><a name="g_t12a"></a><a name="gnat_005fugn_002fbuilding_005fexecutable_005fprograms_005fwith_005fgnat-elaboration_002dcontrol"></a><a name="g_t12b"></a>
+
+<h5 class="subsubsection">4.4.2.3 Elaboration Control</h5>
+
+<p>The following switches provide additional control over the elaboration
+order. For full details see <a href="11.html#g_t11">Elaboration Order Handling in GNAT</a>.
+
+<blockquote>
+
+<p><a name="index-g_t_002dp-_0028gnatbind_0029-722"></a></blockquote>
+
+     <dl>
+<dt><code>-p</code><dd>
+Normally the binder attempts to choose an elaboration order that is
+likely to minimize the likelihood of an elaboration order error resulting
+in raising a <cite>Program_Error</cite> exception. This switch reverses the
+action of the binder, and requests that it deliberately choose an order
+that is likely to maximize the likelihood of an elaboration error. 
+This is useful in ensuring portability and avoiding dependence on
+accidental fortuitous elaboration ordering.
+
+     <p>Normally it only makes sense to use the `-p'
+switch if dynamic
+elaboration checking is used (`-gnatE' switch used for compilation). 
+This is because in the default static elaboration mode, all necessary
+<cite>Elaborate</cite> and <cite>Elaborate_All</cite> pragmas are implicitly inserted. 
+These implicit pragmas are still respected by the binder in
+`-p' mode, so a
+safe elaboration order is assured.
+
+     <p>Note that `-p' is not intended for
+production use; it is more for debugging/experimental use. 
+</dl>
+
+</body></html>
+

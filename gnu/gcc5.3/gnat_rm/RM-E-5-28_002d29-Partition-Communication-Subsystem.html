@@ -1,0 +1,72 @@
+<html lang="en">
+<head>
+<title>RM E 5 28-29 Partition Communication Subsystem - GNAT Reference Manual</title>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+<meta name="description" content="GNAT Reference Manual">
+<meta name="generator" content="makeinfo 4.13">
+<link title="Top" rel="start" href="index.html#Top">
+<link rel="up" href="Implementation-Advice.html#Implementation-Advice" title="Implementation Advice">
+<link rel="prev" href="RM-D-8-47_002d49-Monotonic-Time.html#RM-D-8-47_002d49-Monotonic-Time" title="RM D 8 47-49 Monotonic Time">
+<link rel="next" href="RM-F-7-COBOL-Support.html#RM-F-7-COBOL-Support" title="RM F 7 COBOL Support">
+<link href="http://www.gnu.org/software/texinfo/" rel="generator-home" title="Texinfo Homepage">
+<!--
+
+     GNAT Reference Manual , March 24, 2015
+
+     AdaCore
+
+     Copyright (C) 2008-2015, Free Software Foundation
+-->
+<meta http-equiv="Content-Style-Type" content="text/css">
+<style type="text/css"><!--
+  pre.display { font-family:inherit }
+  pre.format  { font-family:inherit }
+  pre.smalldisplay { font-family:inherit; font-size:smaller }
+  pre.smallformat  { font-family:inherit; font-size:smaller }
+  pre.smallexample { font-size:smaller }
+  pre.smalllisp    { font-size:smaller }
+  span.sc    { font-variant:small-caps }
+  span.roman { font-family:serif; font-weight:normal; } 
+  span.sansserif { font-family:sans-serif; font-weight:normal; } 
+--></style>
+</head>
+<body>
+<div class="node">
+<a name="RM-E-5-28-29-Partition-Communication-Subsystem"></a>
+<a name="RM-E-5-28_002d29-Partition-Communication-Subsystem"></a>
+<p>
+Next:&nbsp;<a rel="next" accesskey="n" href="RM-F-7-COBOL-Support.html#RM-F-7-COBOL-Support">RM F 7 COBOL Support</a>,
+Previous:&nbsp;<a rel="previous" accesskey="p" href="RM-D-8-47_002d49-Monotonic-Time.html#RM-D-8-47_002d49-Monotonic-Time">RM D 8 47-49 Monotonic Time</a>,
+Up:&nbsp;<a rel="up" accesskey="u" href="Implementation-Advice.html#Implementation-Advice">Implementation Advice</a>
+<hr>
+</div>
+
+<p><a name="gnat_005frm_002fimplementation_005fadvice-rm_002de_002d5_002d28_002d29_002dpartition_002dcommunication_002dsubsystem"></a><a name="g_t1f4"></a>
+
+<h3 class="section">6.56 RM E.5(28-29): Partition Communication Subsystem</h3>
+
+<blockquote>
+
+<p>"Whenever possible, the PCS on the called partition should allow for
+multiple tasks to call the RPC-receiver with different messages and
+should allow them to block until the corresponding subprogram body
+returns." 
+</blockquote>
+
+<p>Followed by GLADE, a separately supplied PCS that can be used with
+GNAT.
+
+<blockquote>
+
+<p>"The <cite>Write</cite> operation on a stream of type <cite>Params_Stream_Type</cite>
+should raise <cite>Storage_Error</cite> if it runs out of space trying to
+write the <cite>Item</cite> into the stream." 
+</blockquote>
+
+<p>Followed by GLADE, a separately supplied PCS that can be used with
+GNAT.
+
+<p><a name="index-COBOL-support-448"></a>
+
+</body></html>
+

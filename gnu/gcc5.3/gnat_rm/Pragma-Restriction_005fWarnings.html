@@ -1,0 +1,78 @@
+<html lang="en">
+<head>
+<title>Pragma Restriction_Warnings - GNAT Reference Manual</title>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+<meta name="description" content="GNAT Reference Manual">
+<meta name="generator" content="makeinfo 4.13">
+<link title="Top" rel="start" href="index.html#Top">
+<link rel="up" href="Implementation-Defined-Pragmas.html#Implementation-Defined-Pragmas" title="Implementation Defined Pragmas">
+<link rel="prev" href="Pragma-Restricted_005fRun_005fTime.html#Pragma-Restricted_005fRun_005fTime" title="Pragma Restricted_Run_Time">
+<link rel="next" href="Pragma-Reviewable.html#Pragma-Reviewable" title="Pragma Reviewable">
+<link href="http://www.gnu.org/software/texinfo/" rel="generator-home" title="Texinfo Homepage">
+<!--
+
+     GNAT Reference Manual , March 24, 2015
+
+     AdaCore
+
+     Copyright (C) 2008-2015, Free Software Foundation
+-->
+<meta http-equiv="Content-Style-Type" content="text/css">
+<style type="text/css"><!--
+  pre.display { font-family:inherit }
+  pre.format  { font-family:inherit }
+  pre.smalldisplay { font-family:inherit; font-size:smaller }
+  pre.smallformat  { font-family:inherit; font-size:smaller }
+  pre.smallexample { font-size:smaller }
+  pre.smalllisp    { font-size:smaller }
+  span.sc    { font-variant:small-caps }
+  span.roman { font-family:serif; font-weight:normal; } 
+  span.sansserif { font-family:sans-serif; font-weight:normal; } 
+--></style>
+</head>
+<body>
+<div class="node">
+<a name="Pragma-Restriction_Warnings"></a>
+<a name="Pragma-Restriction_005fWarnings"></a>
+<p>
+Next:&nbsp;<a rel="next" accesskey="n" href="Pragma-Reviewable.html#Pragma-Reviewable">Pragma Reviewable</a>,
+Previous:&nbsp;<a rel="previous" accesskey="p" href="Pragma-Restricted_005fRun_005fTime.html#Pragma-Restricted_005fRun_005fTime">Pragma Restricted_Run_Time</a>,
+Up:&nbsp;<a rel="up" accesskey="u" href="Implementation-Defined-Pragmas.html#Implementation-Defined-Pragmas">Implementation Defined Pragmas</a>
+<hr>
+</div>
+
+<p><a name="gnat_005frm_002fimplementation_005fdefined_005fpragmas-pragma_002drestriction_002dwarnings"></a><a name="b0"></a>
+
+<h3 class="section">2.148 Pragma Restriction_Warnings</h3>
+
+<p>Syntax:
+
+<pre class="example">    pragma Restriction_Warnings
+      (restriction_IDENTIFIER {, restriction_IDENTIFIER});
+</pre>
+<p>This pragma allows a series of restriction identifiers to be
+specified (the list of allowed identifiers is the same as for
+pragma <cite>Restrictions</cite>). For each of these identifiers
+the compiler checks for violations of the restriction, but
+generates a warning message rather than an error message
+if the restriction is violated.
+
+<p>One use of this is in situations where you want to know
+about violations of a restriction, but you want to ignore some of
+these violations. Consider this example, where you want to set
+Ada_95 mode and enable style checks, but you want to know about
+any other use of implementation pragmas:
+
+<pre class="example">    pragma Restriction_Warnings (No_Implementation_Pragmas);
+    pragma Warnings (Off, "violation of No_Implementation_Pragmas");
+    pragma Ada_95;
+    pragma Style_Checks ("2bfhkM160");
+    pragma Warnings (On, "violation of No_Implementation_Pragmas");
+</pre>
+<p>By including the above lines in a configuration pragmas file,
+the Ada_95 and Style_Checks pragmas are accepted without
+generating a warning, but any other use of implementation
+defined pragmas will cause a warning to be generated.
+
+</body></html>
+

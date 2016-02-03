@@ -1,0 +1,157 @@
+<html lang="en">
+<head>
+<title>Krunching Method - GNAT User's Guide for Native Platforms</title>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+<meta name="description" content="GNAT User's Guide for Native Platforms">
+<meta name="generator" content="makeinfo 4.13">
+<link title="Top" rel="start" href="index.html#Top">
+<link rel="up" href="File-Name-Krunching-with-gnatkr.html#File-Name-Krunching-with-gnatkr" title="File Name Krunching with gnatkr">
+<link rel="prev" href="Using-gnatkr.html#Using-gnatkr" title="Using gnatkr">
+<link rel="next" href="Examples-of-gnatkr-Usage.html#Examples-of-gnatkr-Usage" title="Examples of gnatkr Usage">
+<link href="http://www.gnu.org/software/texinfo/" rel="generator-home" title="Texinfo Homepage">
+<!--
+
+     GNAT User's Guide for Native Platforms , March 24, 2015
+
+     AdaCore
+
+     Copyright (C) 2008-2015, Free Software Foundation
+-->
+<meta http-equiv="Content-Style-Type" content="text/css">
+<style type="text/css"><!--
+  pre.display { font-family:inherit }
+  pre.format  { font-family:inherit }
+  pre.smalldisplay { font-family:inherit; font-size:smaller }
+  pre.smallformat  { font-family:inherit; font-size:smaller }
+  pre.smallexample { font-size:smaller }
+  pre.smalllisp    { font-size:smaller }
+  span.sc    { font-variant:small-caps }
+  span.roman { font-family:serif; font-weight:normal; } 
+  span.sansserif { font-family:sans-serif; font-weight:normal; } 
+--></style>
+</head>
+<body>
+<div class="node">
+<a name="Krunching-Method"></a>
+<p>
+Next:&nbsp;<a rel="next" accesskey="n" href="Examples-of-gnatkr-Usage.html#Examples-of-gnatkr-Usage">Examples of gnatkr Usage</a>,
+Previous:&nbsp;<a rel="previous" accesskey="p" href="Using-gnatkr.html#Using-gnatkr">Using gnatkr</a>,
+Up:&nbsp;<a rel="up" accesskey="u" href="File-Name-Krunching-with-gnatkr.html#File-Name-Krunching-with-gnatkr">File Name Krunching with gnatkr</a>
+<hr>
+</div>
+
+<p><a name="gnat_005fugn_002fthe_005fgnat_005fcompilation_005fmodel-id20"></a><a name="g_t6a"></a><a name="gnat_005fugn_002fthe_005fgnat_005fcompilation_005fmodel-krunching_002dmethod"></a><a name="g_t6b"></a>
+
+<h5 class="subsubsection">3.3.5.3 Krunching Method</h5>
+
+<p>The initial file name is determined by the name of the unit that the file
+contains. The name is formed by taking the full expanded name of the
+unit and replacing the separating dots with hyphens and
+using lowercase
+for all letters, except that a hyphen in the second character position is
+replaced by a tilde if the first character is
+<code>a</code>, <code>i</code>, <code>g</code>, or <code>s</code>. 
+The extension is <cite>.ads</cite> for a
+spec and <cite>.adb</cite> for a body. 
+Krunching does not affect the extension, but the file name is shortened to
+the specified length by following these rules:
+
+     <ul>
+<li>The name is divided into segments separated by hyphens, tildes or
+underscores and all hyphens, tildes, and underscores are
+eliminated. If this leaves the name short enough, we are done.
+
+     <li>If the name is too long, the longest segment is located (left-most
+if there are two of equal length), and shortened by dropping
+its last character. This is repeated until the name is short enough.
+
+     <p>As an example, consider the krunching of <code>our-strings-wide_fixed.adb</code>
+to fit the name into 8 characters as required by some operating systems:
+
+     <pre class="example">         our-strings-wide_fixed 22
+         our strings wide fixed 19
+         our string  wide fixed 18
+         our strin   wide fixed 17
+         our stri    wide fixed 16
+         our stri    wide fixe  15
+         our str     wide fixe  14
+         our str     wid  fixe  13
+         our str     wid  fix   12
+         ou  str     wid  fix   11
+         ou  st      wid  fix   10
+         ou  st      wi   fix   9
+         ou  st      wi   fi    8
+         Final file name: oustwifi.adb
+</pre>
+     <li>The file names for all predefined units are always krunched to eight
+characters. The krunching of these predefined units uses the following
+special prefix replacements:
+
+     <p><table summary=""><tr align="left"><td valign="top">
+Prefix
+
+     <p></td><td valign="top">
+
+     <p>Replacement
+
+     <p><br></td></tr><tr align="left"><td valign="top">
+<code>ada-</code>
+
+     <p></td><td valign="top">
+
+     <p><code>a-</code>
+
+     <p><br></td></tr><tr align="left"><td valign="top">
+<code>gnat-</code>
+
+     <p></td><td valign="top">
+
+     <p><code>g-</code>
+
+     <p><br></td></tr><tr align="left"><td valign="top">
+<code>interfac es-</code>
+
+     <p></td><td valign="top">
+
+     <p><code>i-</code>
+
+     <p><br></td></tr><tr align="left"><td valign="top">
+<code>system-</code>
+
+     <p></td><td valign="top">
+
+     <p><code>s-</code>
+
+     <br></td></tr></table>
+
+     <p>These system files have a hyphen in the second character position. That
+is why normal user files replace such a character with a
+tilde, to avoid confusion with system file names.
+
+     <p>As an example of this special rule, consider
+<code>ada-strings-wide_fixed.adb</code>, which gets krunched as follows:
+
+     <pre class="example">         ada-strings-wide_fixed 22
+         a-  strings wide fixed 18
+         a-  string  wide fixed 17
+         a-  strin   wide fixed 16
+         a-  stri    wide fixed 15
+         a-  stri    wide fixe  14
+         a-  str     wide fixe  13
+         a-  str     wid  fixe  12
+         a-  str     wid  fix   11
+         a-  st      wid  fix   10
+         a-  st      wi   fix   9
+         a-  st      wi   fi    8
+         Final file name: a-stwifi.adb
+</pre>
+     </ul>
+
+<p>Of course no file shortening algorithm can guarantee uniqueness over all
+possible unit names, and if file name krunching is used then it is your
+responsibility to ensure that no name clashes occur. The utility
+program <cite>gnatkr</cite> is supplied for conveniently determining the
+krunched name of a file.
+
+</body></html>
+

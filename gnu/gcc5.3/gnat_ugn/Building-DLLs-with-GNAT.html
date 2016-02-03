@@ -1,0 +1,99 @@
+<html lang="en">
+<head>
+<title>Building DLLs with GNAT - GNAT User's Guide for Native Platforms</title>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+<meta name="description" content="GNAT User's Guide for Native Platforms">
+<meta name="generator" content="makeinfo 4.13">
+<link title="Top" rel="start" href="index.html#Top">
+<link rel="up" href="Mixed_002dLanguage-Programming-on-Windows.html#Mixed_002dLanguage-Programming-on-Windows" title="Mixed-Language Programming on Windows">
+<link rel="prev" href="Building-DLLs-with-GNAT-Project-files.html#Building-DLLs-with-GNAT-Project-files" title="Building DLLs with GNAT Project files">
+<link rel="next" href="Building-DLLs-with-gnatdll.html#Building-DLLs-with-gnatdll" title="Building DLLs with gnatdll">
+<link href="http://www.gnu.org/software/texinfo/" rel="generator-home" title="Texinfo Homepage">
+<!--
+
+     GNAT User's Guide for Native Platforms , March 24, 2015
+
+     AdaCore
+
+     Copyright (C) 2008-2015, Free Software Foundation
+-->
+<meta http-equiv="Content-Style-Type" content="text/css">
+<style type="text/css"><!--
+  pre.display { font-family:inherit }
+  pre.format  { font-family:inherit }
+  pre.smalldisplay { font-family:inherit; font-size:smaller }
+  pre.smallformat  { font-family:inherit; font-size:smaller }
+  pre.smallexample { font-size:smaller }
+  pre.smalllisp    { font-size:smaller }
+  span.sc    { font-variant:small-caps }
+  span.roman { font-family:serif; font-weight:normal; } 
+  span.sansserif { font-family:sans-serif; font-weight:normal; } 
+--></style>
+</head>
+<body>
+<div class="node">
+<a name="Building-DLLs-with-GNAT"></a>
+<p>
+Next:&nbsp;<a rel="next" accesskey="n" href="Building-DLLs-with-gnatdll.html#Building-DLLs-with-gnatdll">Building DLLs with gnatdll</a>,
+Previous:&nbsp;<a rel="previous" accesskey="p" href="Building-DLLs-with-GNAT-Project-files.html#Building-DLLs-with-GNAT-Project-files">Building DLLs with GNAT Project files</a>,
+Up:&nbsp;<a rel="up" accesskey="u" href="Mixed_002dLanguage-Programming-on-Windows.html#Mixed_002dLanguage-Programming-on-Windows">Mixed-Language Programming on Windows</a>
+<hr>
+</div>
+
+<p><a name="gnat_005fugn_002fplatform_005fspecific_005finformation-building_002ddlls_002dwith_002dgnat"></a><a name="g_t289"></a><a name="gnat_005fugn_002fplatform_005fspecific_005finformation-id25"></a><a name="g_t28a"></a>
+
+<h5 class="subsubsection">9.3.5.11 Building DLLs with GNAT</h5>
+
+<p><a name="index-DLLs-1093"></a><a name="index-building-1094"></a>
+This section explain how to build DLLs using the GNAT built-in DLL
+support. With the following procedure it is straight forward to build
+and use DLLs with GNAT.
+
+     <ul>
+<li>Building object files. 
+The first step is to build all objects files that are to be included
+into the DLL. This is done by using the standard `gnatmake' tool.
+
+     <li>Building the DLL. 
+To build the DLL you must use `gcc''s `-shared' and
+`-shared-libgcc' options. It is quite simple to use this method:
+
+     <pre class="example">         $ gcc -shared -shared-libgcc -o api.dll obj1.o obj2.o ...
+</pre>
+     <p>It is important to note that in this case all symbols found in the
+object files are automatically exported. It is possible to restrict
+the set of symbols to export by passing to `gcc' a definition
+file (see <a href="280.html#g_t280">The Definition File</a>). 
+For example:
+
+     <pre class="example">         $ gcc -shared -shared-libgcc -o api.dll api.def obj1.o obj2.o ...
+</pre>
+     <p>If you use a definition file you must export the elaboration procedures
+for every package that required one. Elaboration procedures are named
+using the package name followed by "_E".
+
+     <li>Preparing DLL to be used. 
+For the DLL to be used by client programs the bodies must be hidden
+from it and the .ali set with read-only attribute. This is very important
+otherwise GNAT will recompile all packages and will not actually use
+the code in the DLL. For example:
+
+     <pre class="example">         $ mkdir apilib
+         $ copy *.ads *.ali api.dll apilib
+         $ attrib +R apilib\\*.ali
+</pre>
+     </ul>
+
+<p>At this point it is possible to use the DLL by directly linking
+against it. Note that you must use the GNAT shared runtime when using
+GNAT shared libraries. This is achieved by using `-shared' binder's
+option.
+
+<blockquote>
+
+<pre class="example">    $ gnatmake main -Iapilib -bargs -shared -largs -Lapilib -lAPI
+</pre>
+</blockquote>
+
+</body></html>
+

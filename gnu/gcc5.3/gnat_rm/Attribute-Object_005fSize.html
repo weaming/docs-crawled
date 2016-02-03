@@ -1,0 +1,107 @@
+<html lang="en">
+<head>
+<title>Attribute Object_Size - GNAT Reference Manual</title>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+<meta name="description" content="GNAT Reference Manual">
+<meta name="generator" content="makeinfo 4.13">
+<link title="Top" rel="start" href="index.html#Top">
+<link rel="up" href="Implementation-Defined-Attributes.html#Implementation-Defined-Attributes" title="Implementation Defined Attributes">
+<link rel="prev" href="Attribute-Null_005fParameter.html#Attribute-Null_005fParameter" title="Attribute Null_Parameter">
+<link rel="next" href="Attribute-Old.html#Attribute-Old" title="Attribute Old">
+<link href="http://www.gnu.org/software/texinfo/" rel="generator-home" title="Texinfo Homepage">
+<!--
+
+     GNAT Reference Manual , March 24, 2015
+
+     AdaCore
+
+     Copyright (C) 2008-2015, Free Software Foundation
+-->
+<meta http-equiv="Content-Style-Type" content="text/css">
+<style type="text/css"><!--
+  pre.display { font-family:inherit }
+  pre.format  { font-family:inherit }
+  pre.smalldisplay { font-family:inherit; font-size:smaller }
+  pre.smallformat  { font-family:inherit; font-size:smaller }
+  pre.smallexample { font-size:smaller }
+  pre.smalllisp    { font-size:smaller }
+  span.sc    { font-variant:small-caps }
+  span.roman { font-family:serif; font-weight:normal; } 
+  span.sansserif { font-family:sans-serif; font-weight:normal; } 
+--></style>
+</head>
+<body>
+<div class="node">
+<a name="Attribute-Object_Size"></a>
+<a name="Attribute-Object_005fSize"></a>
+<p>
+Next:&nbsp;<a rel="next" accesskey="n" href="Attribute-Old.html#Attribute-Old">Attribute Old</a>,
+Previous:&nbsp;<a rel="previous" accesskey="p" href="Attribute-Null_005fParameter.html#Attribute-Null_005fParameter">Attribute Null_Parameter</a>,
+Up:&nbsp;<a rel="up" accesskey="u" href="Implementation-Defined-Attributes.html#Implementation-Defined-Attributes">Implementation Defined Attributes</a>
+<hr>
+</div>
+
+<p><a name="gnat_005frm_002fimplementation_005fdefined_005fattributes-attribute_002dobject_002dsize"></a><a name="g_t142"></a>
+
+<h3 class="section">4.42 Attribute Object_Size</h3>
+
+<p><a name="index-Size-226"></a><a name="index-used-for-objects-227"></a>
+<a name="index-Object_005fSize-228"></a>
+The size of an object is not necessarily the same as the size of the type
+of an object.  This is because by default object sizes are increased to be
+a multiple of the alignment of the object.  For example,
+<cite>Natural'Size</cite> is
+31, but by default objects of type <cite>Natural</cite> will have a size of 32 bits. 
+Similarly, a record containing an integer and a character:
+
+<pre class="example">    type Rec is record
+       I : Integer;
+       C : Character;
+    end record;
+</pre>
+<p>will have a size of 40 (that is <cite>Rec'Size</cite> will be 40).  The
+alignment will be 4, because of the
+integer field, and so the default size of record objects for this type
+will be 64 (8 bytes).
+
+<p>If the alignment of the above record is specified to be 1, then the
+object size will be 40 (5 bytes). This is true by default, and also
+an object size of 40 can be explicitly specified in this case.
+
+<p>A consequence of this capability is that different object sizes can be
+given to subtypes that would otherwise be considered in Ada to be
+statically matching.  But it makes no sense to consider such subtypes
+as statically matching.  Consequently, in <cite>GNAT</cite> we add a rule
+to the static matching rules that requires object sizes to match. 
+Consider this example:
+
+<pre class="example">     1. procedure BadAVConvert is
+     2.    type R is new Integer;
+     3.    subtype R1 is R range 1 .. 10;
+     4.    subtype R2 is R range 1 .. 10;
+     5.    for R1'Object_Size use 8;
+     6.    for R2'Object_Size use 16;
+     7.    type R1P is access all R1;
+     8.    type R2P is access all R2;
+     9.    R1PV : R1P := new R1'(4);
+    10.    R2PV : R2P;
+    11. begin
+    12.    R2PV := R2P (R1PV);
+                   |
+           &gt;&gt;&gt; target designated subtype not compatible with
+               type "R1" defined at line 3
+    
+    13. end;
+</pre>
+<p>In the absence of lines 5 and 6,
+types <cite>R1</cite> and <cite>R2</cite> statically match and
+hence the conversion on line 12 is legal. But since lines 5 and 6
+cause the object sizes to differ, <cite>GNAT</cite> considers that types
+<cite>R1</cite> and <cite>R2</cite> are not statically matching, and line 12
+generates the diagnostic shown above.
+
+<p>Similar additional checks are performed in other contexts requiring
+statically matching subtypes.
+
+</body></html>
+

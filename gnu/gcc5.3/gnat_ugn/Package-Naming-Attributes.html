@@ -1,0 +1,112 @@
+<html lang="en">
+<head>
+<title>Package Naming Attributes - GNAT User's Guide for Native Platforms</title>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+<meta name="description" content="GNAT User's Guide for Native Platforms">
+<meta name="generator" content="makeinfo 4.13">
+<link title="Top" rel="start" href="index.html#Top">
+<link rel="up" href="Attributes.html#Attributes" title="Attributes">
+<link rel="prev" href="Package-Linker-Attributes.html#Package-Linker-Attributes" title="Package Linker Attributes">
+<link rel="next" href="Package-Remote-Attributes.html#Package-Remote-Attributes" title="Package Remote Attributes">
+<link href="http://www.gnu.org/software/texinfo/" rel="generator-home" title="Texinfo Homepage">
+<!--
+
+     GNAT User's Guide for Native Platforms , March 24, 2015
+
+     AdaCore
+
+     Copyright (C) 2008-2015, Free Software Foundation
+-->
+<meta http-equiv="Content-Style-Type" content="text/css">
+<style type="text/css"><!--
+  pre.display { font-family:inherit }
+  pre.format  { font-family:inherit }
+  pre.smalldisplay { font-family:inherit; font-size:smaller }
+  pre.smallformat  { font-family:inherit; font-size:smaller }
+  pre.smallexample { font-size:smaller }
+  pre.smalllisp    { font-size:smaller }
+  span.sc    { font-variant:small-caps }
+  span.roman { font-family:serif; font-weight:normal; } 
+  span.sansserif { font-family:sans-serif; font-weight:normal; } 
+--></style>
+</head>
+<body>
+<div class="node">
+<a name="Package-Naming-Attributes"></a>
+<p>
+Next:&nbsp;<a rel="next" accesskey="n" href="Package-Remote-Attributes.html#Package-Remote-Attributes">Package Remote Attributes</a>,
+Previous:&nbsp;<a rel="previous" accesskey="p" href="Package-Linker-Attributes.html#Package-Linker-Attributes">Package Linker Attributes</a>,
+Up:&nbsp;<a rel="up" accesskey="u" href="Attributes.html#Attributes">Attributes</a>
+<hr>
+</div>
+
+<p><a name="gnat_005fugn_002fgnat_005fproject_005fmanager-package_002dnaming_002dattributes"></a><a name="g_t1ba"></a><a name="gnat_005fugn_002fgnat_005fproject_005fmanager-id61"></a><a name="g_t1bb"></a>
+
+<h5 class="subsubsection">5.9.10.12 Package Naming Attributes</h5>
+
+     <ul>
+<li>`Specification_Suffix': single, indexed, case-insensitive index
+
+     <p>Equivalent to attribute Spec_Suffix.
+
+     <li>`Spec_Suffix': single, indexed, case-insensitive index
+
+     <p>Index is a language name. Value is the extension of file names for specs of
+the language.
+
+     <li>`Implementation_Suffix': single, indexed, case-insensitive index
+
+     <p>Equivalent to attribute Body_Suffix.
+
+     <li>`Body_Suffix': single, indexed, case-insensitive index
+
+     <p>Index is a language name. Value is the extension of file names for bodies of
+the language.
+
+     <li>`Separate_Suffix': single
+
+     <p>Value is the extension of file names for subunits of Ada.
+
+     <li>`Casing': single
+
+     <p>Indicates the casing of sources of the Ada language. Only authorized
+case-insensitive values are "lowercase", "uppercase" and "mixedcase".
+
+     <li>`Dot_Replacement': single
+
+     <p>Value is the string that replace the dot of unit names in the source file names
+of the Ada language.
+
+     <li>`Specification': single, optional index, indexed,
+case-insensitive index
+
+     <p>Equivalent to attribute Spec.
+
+     <li>`Spec': single, optional index, indexed, case-insensitive index
+
+     <p>Index is a unit name. Value is the file name of the spec of the unit.
+
+     <li>`Implementation': single, optional index, indexed,
+case-insensitive index
+
+     <p>Equivalent to attribute Body.
+
+     <li>`Body': single, optional index, indexed, case-insensitive index
+
+     <p>Index is a unit name. Value is the file name of the body of the unit.
+
+     <li>`Specification_Exceptions': list, indexed, case-insensitive index
+
+     <p>Index is a language name. Value is a list of specs for the language that do not
+necessarily follow the naming scheme for the language and that may or may not
+be found in the source directories of the project.
+
+     <li>`Implementation_Exceptions': list, indexed, case-insensitive index
+
+     <p>Index is a language name. Value is a list of bodies for the language that do not
+necessarily follow the naming scheme for the language and that may or may not
+be found in the source directories of the project. 
+</ul>
+
+</body></html>
+

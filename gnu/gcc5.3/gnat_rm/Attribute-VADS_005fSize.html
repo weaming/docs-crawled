@@ -1,0 +1,61 @@
+<html lang="en">
+<head>
+<title>Attribute VADS_Size - GNAT Reference Manual</title>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+<meta name="description" content="GNAT Reference Manual">
+<meta name="generator" content="makeinfo 4.13">
+<link title="Top" rel="start" href="index.html#Top">
+<link rel="up" href="Implementation-Defined-Attributes.html#Implementation-Defined-Attributes" title="Implementation Defined Attributes">
+<link rel="prev" href="Attribute-Valid_005fScalars.html#Attribute-Valid_005fScalars" title="Attribute Valid_Scalars">
+<link rel="next" href="Attribute-Value_005fSize.html#Attribute-Value_005fSize" title="Attribute Value_Size">
+<link href="http://www.gnu.org/software/texinfo/" rel="generator-home" title="Texinfo Homepage">
+<!--
+
+     GNAT Reference Manual , March 24, 2015
+
+     AdaCore
+
+     Copyright (C) 2008-2015, Free Software Foundation
+-->
+<meta http-equiv="Content-Style-Type" content="text/css">
+<style type="text/css"><!--
+  pre.display { font-family:inherit }
+  pre.format  { font-family:inherit }
+  pre.smalldisplay { font-family:inherit; font-size:smaller }
+  pre.smallformat  { font-family:inherit; font-size:smaller }
+  pre.smallexample { font-size:smaller }
+  pre.smalllisp    { font-size:smaller }
+  span.sc    { font-variant:small-caps }
+  span.roman { font-family:serif; font-weight:normal; } 
+  span.sansserif { font-family:sans-serif; font-weight:normal; } 
+--></style>
+</head>
+<body>
+<div class="node">
+<a name="Attribute-VADS_Size"></a>
+<a name="Attribute-VADS_005fSize"></a>
+<p>
+Next:&nbsp;<a rel="next" accesskey="n" href="Attribute-Value_005fSize.html#Attribute-Value_005fSize">Attribute Value_Size</a>,
+Previous:&nbsp;<a rel="previous" accesskey="p" href="Attribute-Valid_005fScalars.html#Attribute-Valid_005fScalars">Attribute Valid_Scalars</a>,
+Up:&nbsp;<a rel="up" accesskey="u" href="Implementation-Defined-Attributes.html#Implementation-Defined-Attributes">Implementation Defined Attributes</a>
+<hr>
+</div>
+
+<p><a name="gnat_005frm_002fimplementation_005fdefined_005fattributes-attribute_002dvads_002dsize"></a><a name="g_t15f"></a>
+
+<h3 class="section">4.71 Attribute VADS_Size</h3>
+
+<p><a name="index-Size-277"></a><a name="index-VADS-compatibility-278"></a>
+<a name="index-VADS_005fSize-279"></a>
+The <cite>'VADS_Size</cite> attribute is intended to make it easier to port
+legacy code which relies on the semantics of <cite>'Size</cite> as implemented
+by the VADS Ada 83 compiler.  GNAT makes a best effort at duplicating the
+same semantic interpretation.  In particular, <cite>'VADS_Size</cite> applied
+to a predefined or other primitive type with no Size clause yields the
+Object_Size (for example, <cite>Natural'Size</cite> is 32 rather than 31 on
+typical machines).  In addition <cite>'VADS_Size</cite> applied to an object
+gives the result that would be obtained by applying the attribute to
+the corresponding type.
+
+</body></html>
+

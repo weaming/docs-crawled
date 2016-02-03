@@ -1,0 +1,73 @@
+<html lang="en">
+<head>
+<title>Attribute Bit - GNAT Reference Manual</title>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+<meta name="description" content="GNAT Reference Manual">
+<meta name="generator" content="makeinfo 4.13">
+<link title="Top" rel="start" href="index.html#Top">
+<link rel="up" href="Implementation-Defined-Attributes.html#Implementation-Defined-Attributes" title="Implementation Defined Attributes">
+<link rel="prev" href="Attribute-Atomic_005fAlways_005fLock_005fFree.html#Attribute-Atomic_005fAlways_005fLock_005fFree" title="Attribute Atomic_Always_Lock_Free">
+<link rel="next" href="Attribute-Bit_005fPosition.html#Attribute-Bit_005fPosition" title="Attribute Bit_Position">
+<link href="http://www.gnu.org/software/texinfo/" rel="generator-home" title="Texinfo Homepage">
+<!--
+
+     GNAT Reference Manual , March 24, 2015
+
+     AdaCore
+
+     Copyright (C) 2008-2015, Free Software Foundation
+-->
+<meta http-equiv="Content-Style-Type" content="text/css">
+<style type="text/css"><!--
+  pre.display { font-family:inherit }
+  pre.format  { font-family:inherit }
+  pre.smalldisplay { font-family:inherit; font-size:smaller }
+  pre.smallformat  { font-family:inherit; font-size:smaller }
+  pre.smallexample { font-size:smaller }
+  pre.smalllisp    { font-size:smaller }
+  span.sc    { font-variant:small-caps }
+  span.roman { font-family:serif; font-weight:normal; } 
+  span.sansserif { font-family:sans-serif; font-weight:normal; } 
+--></style>
+</head>
+<body>
+<div class="node">
+<a name="Attribute-Bit"></a>
+<p>
+Next:&nbsp;<a rel="next" accesskey="n" href="Attribute-Bit_005fPosition.html#Attribute-Bit_005fPosition">Attribute Bit_Position</a>,
+Previous:&nbsp;<a rel="previous" accesskey="p" href="Attribute-Atomic_005fAlways_005fLock_005fFree.html#Attribute-Atomic_005fAlways_005fLock_005fFree">Attribute Atomic_Always_Lock_Free</a>,
+Up:&nbsp;<a rel="up" accesskey="u" href="Implementation-Defined-Attributes.html#Implementation-Defined-Attributes">Implementation Defined Attributes</a>
+<hr>
+</div>
+
+<p><a name="gnat_005frm_002fimplementation_005fdefined_005fattributes-attribute_002dbit"></a><a name="g_t11d"></a>
+
+<h3 class="section">4.6 Attribute Bit</h3>
+
+<p><a name="index-Bit-164"></a>
+<code>obj'Bit</code>, where <cite>obj</cite> is any object, yields the bit
+offset within the storage unit (byte) that contains the first bit of
+storage allocated for the object.  The value of this attribute is of the
+type <cite>Universal_Integer</cite>, and is always a non-negative number not
+exceeding the value of <cite>System.Storage_Unit</cite>.
+
+<p>For an object that is a variable or a constant allocated in a register,
+the value is zero.  (The use of this attribute does not force the
+allocation of a variable to memory).
+
+<p>For an object that is a formal parameter, this attribute applies
+to either the matching actual parameter or to a copy of the
+matching actual parameter.
+
+<p>For an access object the value is zero.  Note that
+<code>obj.all'Bit</code> is subject to an <cite>Access_Check</cite> for the
+designated object.  Similarly for a record component
+<code>X.C'Bit</code> is subject to a discriminant check and
+<code>X(I).Bit</code> and <code>X(I1..I2)'Bit</code>
+are subject to index checks.
+
+<p>This attribute is designed to be compatible with the DEC Ada 83 definition
+and implementation of the <cite>Bit</cite> attribute.
+
+</body></html>
+

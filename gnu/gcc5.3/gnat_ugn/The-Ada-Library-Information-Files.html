@@ -1,0 +1,96 @@
+<html lang="en">
+<head>
+<title>The Ada Library Information Files - GNAT User's Guide for Native Platforms</title>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+<meta name="description" content="GNAT User's Guide for Native Platforms">
+<meta name="generator" content="makeinfo 4.13">
+<link title="Top" rel="start" href="index.html#Top">
+<link rel="up" href="The-GNAT-Compilation-Model.html#The-GNAT-Compilation-Model" title="The GNAT Compilation Model">
+<link rel="prev" href="Source-Dependencies.html#Source-Dependencies" title="Source Dependencies">
+<link rel="next" href="Binding-an-Ada-Program.html#Binding-an-Ada-Program" title="Binding an Ada Program">
+<link href="http://www.gnu.org/software/texinfo/" rel="generator-home" title="Texinfo Homepage">
+<!--
+
+     GNAT User's Guide for Native Platforms , March 24, 2015
+
+     AdaCore
+
+     Copyright (C) 2008-2015, Free Software Foundation
+-->
+<meta http-equiv="Content-Style-Type" content="text/css">
+<style type="text/css"><!--
+  pre.display { font-family:inherit }
+  pre.format  { font-family:inherit }
+  pre.smalldisplay { font-family:inherit; font-size:smaller }
+  pre.smallformat  { font-family:inherit; font-size:smaller }
+  pre.smallexample { font-size:smaller }
+  pre.smalllisp    { font-size:smaller }
+  span.sc    { font-variant:small-caps }
+  span.roman { font-family:serif; font-weight:normal; } 
+  span.sansserif { font-family:sans-serif; font-weight:normal; } 
+--></style>
+</head>
+<body>
+<div class="node">
+<a name="The-Ada-Library-Information-Files"></a>
+<p>
+Next:&nbsp;<a rel="next" accesskey="n" href="Binding-an-Ada-Program.html#Binding-an-Ada-Program">Binding an Ada Program</a>,
+Previous:&nbsp;<a rel="previous" accesskey="p" href="Source-Dependencies.html#Source-Dependencies">Source Dependencies</a>,
+Up:&nbsp;<a rel="up" accesskey="u" href="The-GNAT-Compilation-Model.html#The-GNAT-Compilation-Model">The GNAT Compilation Model</a>
+<hr>
+</div>
+
+<p><a name="gnat_005fugn_002fthe_005fgnat_005fcompilation_005fmodel-id33"></a><a name="g_t80"></a><a name="gnat_005fugn_002fthe_005fgnat_005fcompilation_005fmodel-the_002dada_002dlibrary_002dinformation_002dfiles"></a><a name="g_t44"></a>
+
+<h3 class="section">3.7 The Ada Library Information Files</h3>
+
+<p><a name="index-Ada-Library-Information-files-78"></a>
+<a name="index-ALI-files-79"></a>
+Each compilation actually generates two output files. The first of these
+is the normal object file that has a <code>.o</code> extension. The second is a
+text file containing full dependency information. It has the same
+name as the source file, but an <code>.ali</code> extension. 
+This file is known as the Ada Library Information (<code>ALI</code>) file. 
+The following information is contained in the <code>ALI</code> file.
+
+     <ul>
+<li>Version information (indicates which version of GNAT was used to compile
+the unit(s) in question)
+
+     <li>Main program information (including priority and time slice settings,
+as well as the wide character encoding used during compilation).
+
+     <li>List of arguments used in the `gcc' command for the compilation
+
+     <li>Attributes of the unit, including configuration pragmas used, an indication
+of whether the compilation was successful, exception model used etc.
+
+     <li>A list of relevant restrictions applying to the unit (used for consistency)
+checking.
+
+     <li>Categorization information (e.g., use of pragma <cite>Pure</cite>).
+
+     <li>Information on all `with'ed units, including presence of
+Elaborate` or <cite>Elaborate_All</cite> pragmas.
+
+     <li>Information from any <cite>Linker_Options</cite> pragmas used in the unit
+
+     <li>Information on the use of <cite>Body_Version</cite> or <cite>Version</cite>
+attributes in the unit.
+
+     <li>Dependency information. This is a list of files, together with
+time stamp and checksum information. These are files on which
+the unit depends in the sense that recompilation is required
+if any of these units are modified.
+
+     <li>Cross-reference data. Contains information on all entities referenced
+in the unit. Used by tools like <cite>gnatxref</cite> and <cite>gnatfind</cite> to
+provide cross-reference information. 
+</ul>
+
+<p>For a full detailed description of the format of the <code>ALI</code> file,
+see the source of the body of unit <cite>Lib.Writ</cite>, contained in file
+<code>lib-writ.adb</code> in the GNAT compiler sources.
+
+</body></html>
+

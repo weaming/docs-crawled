@@ -1,0 +1,127 @@
+<html lang="en">
+<head>
+<title>Introduction - GNAT User's Guide for Native Platforms</title>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+<meta name="description" content="GNAT User's Guide for Native Platforms">
+<meta name="generator" content="makeinfo 4.13">
+<link title="Top" rel="start" href="index.html#Top">
+<link rel="up" href="GNAT-Project-Manager.html#GNAT-Project-Manager" title="GNAT Project Manager">
+<link rel="next" href="Building-With-Projects.html#Building-With-Projects" title="Building With Projects">
+<link href="http://www.gnu.org/software/texinfo/" rel="generator-home" title="Texinfo Homepage">
+<!--
+
+     GNAT User's Guide for Native Platforms , March 24, 2015
+
+     AdaCore
+
+     Copyright (C) 2008-2015, Free Software Foundation
+-->
+<meta http-equiv="Content-Style-Type" content="text/css">
+<style type="text/css"><!--
+  pre.display { font-family:inherit }
+  pre.format  { font-family:inherit }
+  pre.smalldisplay { font-family:inherit; font-size:smaller }
+  pre.smallformat  { font-family:inherit; font-size:smaller }
+  pre.smallexample { font-size:smaller }
+  pre.smalllisp    { font-size:smaller }
+  span.sc    { font-variant:small-caps }
+  span.roman { font-family:serif; font-weight:normal; } 
+  span.sansserif { font-family:sans-serif; font-weight:normal; } 
+--></style>
+</head>
+<body>
+<div class="node">
+<a name="Introduction"></a>
+<p>
+Next:&nbsp;<a rel="next" accesskey="n" href="Building-With-Projects.html#Building-With-Projects">Building With Projects</a>,
+Up:&nbsp;<a rel="up" accesskey="u" href="GNAT-Project-Manager.html#GNAT-Project-Manager">GNAT Project Manager</a>
+<hr>
+</div>
+
+<p><a name="gnat_005fugn_002fgnat_005fproject_005fmanager-introduction"></a><a name="g_t149"></a><a name="gnat_005fugn_002fgnat_005fproject_005fmanager-gnat_002dproject_002dmanager_002dintroduction"></a><a name="g_t14a"></a>
+
+<h3 class="section">5.1 Introduction</h3>
+
+<p>This chapter describes GNAT's `Project Manager', a facility that allows
+you to manage complex builds involving a number of source files, directories,
+and options for different system configurations. In particular,
+project files allow you to specify:
+
+     <ul>
+<li>The directory or set of directories containing the source files, and/or the
+names of the specific source files themselves
+
+     <li>The directory in which the compiler's output
+(<code>ALI</code> files, object files, tree files, etc.) is to be placed
+
+     <li>The directory in which the executable programs are to be placed
+
+     <li>Switch settings for any of the project-enabled tools;
+you can apply these settings either globally or to individual compilation units.
+
+     <li>The source files containing the main subprogram(s) to be built
+
+     <li>The source programming language(s)
+
+     <li>Source file naming conventions; you can specify these either globally or for
+individual compilation units (see <a href="14b.html#g_t14b">Naming Schemes</a>).
+
+     <li>Change any of the above settings depending on external values, thus enabling
+the reuse of the projects in various `scenarios' (see <a href="14c.html#g_t14c">Scenarios in Projects</a>).
+
+     <li>Automatically build libraries as part of the build process
+(see <a href="8a.html#g_t8a">Library Projects</a>). 
+</ul>
+
+<p>Project files are written in a syntax close to that of Ada, using familiar
+notions such as packages, context clauses, declarations, default values,
+assignments, and inheritance (see <a href="14d.html#g_t14d">Project File Reference</a>).
+
+<p>Project files can be built hierarchically from other project files, simplifying
+complex system integration and project reuse (see <a href="14e.html#g_t14e">Organizing Projects into Subsystems</a>).
+
+     <ul>
+<li>One project can import other projects containing needed source files. 
+More generally, the Project Manager lets you structure large development
+efforts into hierarchical subsystems, where build decisions are delegated
+to the subsystem level, and thus different compilation environments
+(switch settings) used for different subsystems.
+
+     <li>You can organize GNAT projects in a hierarchy: a child project
+can extend a parent project, inheriting the parent's source files and
+optionally overriding any of them with alternative versions
+(see <a href="14f.html#g_t14f">Project Extension</a>). 
+</ul>
+
+<p>Several tools support project files, generally in addition to specifying
+the information on the command line itself). They share common switches
+to control the loading of the project (in particular
+<code>-P`projectfile'</code> and
+<code>-X`vbl'=`value'</code>).
+
+<p>The Project Manager supports a wide range of development strategies,
+for systems of all sizes.  Here are some typical practices that are
+easily handled:
+
+     <ul>
+<li>Using a common set of source files and generating object files in different
+directories via different switch settings. It can be used for instance, for
+generating separate sets of object files for debugging and for production.
+
+     <li>Using a mostly-shared set of source files with different versions of
+some units or subunits. It can be used for instance, for grouping and hiding
+all OS dependencies in a small number of implementation units. 
+</ul>
+
+<p>Project files can be used to achieve some of the effects of a source
+versioning system (for example, defining separate projects for
+the different sets of sources that comprise different releases) but the
+Project Manager is independent of any source configuration management tool
+that might be used by the developers.
+
+<p>The various sections below introduce the different concepts related to
+projects. Each section starts with examples and use cases, and then goes into
+the details of related project file capabilities.
+
+</body></html>
+

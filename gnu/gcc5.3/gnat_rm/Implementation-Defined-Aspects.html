@@ -1,0 +1,142 @@
+<html lang="en">
+<head>
+<title>Implementation Defined Aspects - GNAT Reference Manual</title>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+<meta name="description" content="GNAT Reference Manual">
+<meta name="generator" content="makeinfo 4.13">
+<link title="Top" rel="start" href="index.html#Top">
+<link rel="prev" href="Implementation-Defined-Pragmas.html#Implementation-Defined-Pragmas" title="Implementation Defined Pragmas">
+<link rel="next" href="Implementation-Defined-Attributes.html#Implementation-Defined-Attributes" title="Implementation Defined Attributes">
+<link href="http://www.gnu.org/software/texinfo/" rel="generator-home" title="Texinfo Homepage">
+<!--
+
+     GNAT Reference Manual , March 24, 2015
+
+     AdaCore
+
+     Copyright (C) 2008-2015, Free Software Foundation
+-->
+<meta http-equiv="Content-Style-Type" content="text/css">
+<style type="text/css"><!--
+  pre.display { font-family:inherit }
+  pre.format  { font-family:inherit }
+  pre.smalldisplay { font-family:inherit; font-size:smaller }
+  pre.smallformat  { font-family:inherit; font-size:smaller }
+  pre.smallexample { font-size:smaller }
+  pre.smalllisp    { font-size:smaller }
+  span.sc    { font-variant:small-caps }
+  span.roman { font-family:serif; font-weight:normal; } 
+  span.sansserif { font-family:sans-serif; font-weight:normal; } 
+--></style>
+</head>
+<body>
+<div class="node">
+<a name="Implementation-Defined-Aspects"></a>
+<p>
+Next:&nbsp;<a rel="next" accesskey="n" href="Implementation-Defined-Attributes.html#Implementation-Defined-Attributes">Implementation Defined Attributes</a>,
+Previous:&nbsp;<a rel="previous" accesskey="p" href="Implementation-Defined-Pragmas.html#Implementation-Defined-Pragmas">Implementation Defined Pragmas</a>,
+Up:&nbsp;<a rel="up" accesskey="u" href="index.html#Top">Top</a>
+<hr>
+</div>
+
+<p><a name="gnat_005frm_002fimplementation_005fdefined_005faspects-implementation_002ddefined_002daspects"></a><a name="e1"></a><a name="gnat_005frm_002fimplementation_005fdefined_005faspects-doc"></a><a name="e2"></a><a name="gnat_005frm_002fimplementation_005fdefined_005faspects-id1"></a><a name="e3"></a>
+
+<h2 class="chapter">3 Implementation Defined Aspects</h2>
+
+<p>Ada defines (throughout the Ada 2012 reference manual, summarized
+in Annex K) a set of aspects that can be specified for certain entities. 
+These language defined aspects are implemented in GNAT in Ada 2012 mode
+and work as described in the Ada 2012 Reference Manual.
+
+<p>In addition, Ada 2012 allows implementations to define additional aspects
+whose meaning is defined by the implementation.  GNAT provides
+a number of these implementation-defined aspects which can be used
+to extend and enhance the functionality of the compiler.  This section of
+the GNAT reference manual describes these additional aspects.
+
+<p>Note that any program using these aspects may not be portable to
+other compilers (although GNAT implements this set of aspects on all
+platforms).  Therefore if portability to other compilers is an important
+consideration, you should minimize the use of these aspects.
+
+<p>Note that for many of these aspects, the effect is essentially similar
+to the use of a pragma or attribute specification with the same name
+applied to the entity. For example, if we write:
+
+<pre class="example">    type R is range 1 .. 100
+      with Value_Size =&gt; 10;
+</pre>
+<p>then the effect is the same as:
+
+<pre class="example">    type R is range 1 .. 100;
+    for R'Value_Size use 10;
+</pre>
+<p>and if we write:
+
+<pre class="example">    type R is new Integer
+      with Shared =&gt; True;
+</pre>
+<p>then the effect is the same as:
+
+<pre class="example">    type R is new Integer;
+    pragma Shared (R);
+</pre>
+<p>In the documentation below, such cases are simply marked
+as being boolean aspects equivalent to the corresponding pragma
+or attribute definition clause.
+
+<ul class="menu">
+<li><a accesskey="1" href="Aspect-Abstract_005fState.html#Aspect-Abstract_005fState">Aspect Abstract_State</a>
+<li><a accesskey="2" href="Annotate.html#Annotate">Annotate</a>
+<li><a accesskey="3" href="Aspect-Async_005fReaders.html#Aspect-Async_005fReaders">Aspect Async_Readers</a>
+<li><a accesskey="4" href="Aspect-Async_005fWriters.html#Aspect-Async_005fWriters">Aspect Async_Writers</a>
+<li><a accesskey="5" href="Aspect-Contract_005fCases.html#Aspect-Contract_005fCases">Aspect Contract_Cases</a>
+<li><a accesskey="6" href="Aspect-Depends.html#Aspect-Depends">Aspect Depends</a>
+<li><a accesskey="7" href="Aspect-Dimension.html#Aspect-Dimension">Aspect Dimension</a>
+<li><a accesskey="8" href="Aspect-Dimension_005fSystem.html#Aspect-Dimension_005fSystem">Aspect Dimension_System</a>
+<li><a accesskey="9" href="Aspect-Effective_005fReads.html#Aspect-Effective_005fReads">Aspect Effective_Reads</a>
+<li><a href="Aspect-Effective_005fWrites.html#Aspect-Effective_005fWrites">Aspect Effective_Writes</a>
+<li><a href="Aspect-Favor_005fTop_005fLevel.html#Aspect-Favor_005fTop_005fLevel">Aspect Favor_Top_Level</a>
+<li><a href="Aspect-Global.html#Aspect-Global">Aspect Global</a>
+<li><a href="Aspect-Initial_005fCondition.html#Aspect-Initial_005fCondition">Aspect Initial_Condition</a>
+<li><a href="Aspect-Initializes.html#Aspect-Initializes">Aspect Initializes</a>
+<li><a href="Aspect-Inline_005fAlways.html#Aspect-Inline_005fAlways">Aspect Inline_Always</a>
+<li><a href="Aspect-Invariant.html#Aspect-Invariant">Aspect Invariant</a>
+<li><a href="Aspect-Invariant_0027Class.html#Aspect-Invariant_0027Class">Aspect Invariant'Class</a>
+<li><a href="Aspect-Iterable.html#Aspect-Iterable">Aspect Iterable</a>
+<li><a href="Aspect-Linker_005fSection.html#Aspect-Linker_005fSection">Aspect Linker_Section</a>
+<li><a href="Aspect-Lock_005fFree.html#Aspect-Lock_005fFree">Aspect Lock_Free</a>
+<li><a href="Aspect-No_005fElaboration_005fCode_005fAll.html#Aspect-No_005fElaboration_005fCode_005fAll">Aspect No_Elaboration_Code_All</a>
+<li><a href="Aspect-No_005fTagged_005fStreams.html#Aspect-No_005fTagged_005fStreams">Aspect No_Tagged_Streams</a>
+<li><a href="Aspect-Object_005fSize.html#Aspect-Object_005fSize">Aspect Object_Size</a>
+<li><a href="Aspect-Obsolescent.html#Aspect-Obsolescent">Aspect Obsolescent</a>
+<li><a href="Aspect-Part_005fOf.html#Aspect-Part_005fOf">Aspect Part_Of</a>
+<li><a href="Aspect-Persistent_005fBSS.html#Aspect-Persistent_005fBSS">Aspect Persistent_BSS</a>
+<li><a href="Aspect-Predicate.html#Aspect-Predicate">Aspect Predicate</a>
+<li><a href="Aspect-Pure_005fFunction.html#Aspect-Pure_005fFunction">Aspect Pure_Function</a>
+<li><a href="Aspect-Refined_005fDepends.html#Aspect-Refined_005fDepends">Aspect Refined_Depends</a>
+<li><a href="Aspect-Refined_005fGlobal.html#Aspect-Refined_005fGlobal">Aspect Refined_Global</a>
+<li><a href="Aspect-Refined_005fPost.html#Aspect-Refined_005fPost">Aspect Refined_Post</a>
+<li><a href="Aspect-Refined_005fState.html#Aspect-Refined_005fState">Aspect Refined_State</a>
+<li><a href="Aspect-Remote_005fAccess_005fType.html#Aspect-Remote_005fAccess_005fType">Aspect Remote_Access_Type</a>
+<li><a href="Aspect-Scalar_005fStorage_005fOrder.html#Aspect-Scalar_005fStorage_005fOrder">Aspect Scalar_Storage_Order</a>
+<li><a href="Aspect-Shared.html#Aspect-Shared">Aspect Shared</a>
+<li><a href="Aspect-Simple_005fStorage_005fPool.html#Aspect-Simple_005fStorage_005fPool">Aspect Simple_Storage_Pool</a>
+<li><a href="Aspect-Simple_005fStorage_005fPool_005fType.html#Aspect-Simple_005fStorage_005fPool_005fType">Aspect Simple_Storage_Pool_Type</a>
+<li><a href="Aspect-SPARK_005fMode.html#Aspect-SPARK_005fMode">Aspect SPARK_Mode</a>
+<li><a href="Aspect-Suppress_005fDebug_005fInfo.html#Aspect-Suppress_005fDebug_005fInfo">Aspect Suppress_Debug_Info</a>
+<li><a href="Aspect-Suppress_005fInitialization.html#Aspect-Suppress_005fInitialization">Aspect Suppress_Initialization</a>
+<li><a href="Aspect-Test_005fCase.html#Aspect-Test_005fCase">Aspect Test_Case</a>
+<li><a href="Aspect-Thread_005fLocal_005fStorage.html#Aspect-Thread_005fLocal_005fStorage">Aspect Thread_Local_Storage</a>
+<li><a href="Aspect-Universal_005fAliasing.html#Aspect-Universal_005fAliasing">Aspect Universal_Aliasing</a>
+<li><a href="Aspect-Universal_005fData.html#Aspect-Universal_005fData">Aspect Universal_Data</a>
+<li><a href="Aspect-Unmodified.html#Aspect-Unmodified">Aspect Unmodified</a>
+<li><a href="Aspect-Unreferenced.html#Aspect-Unreferenced">Aspect Unreferenced</a>
+<li><a href="Aspect-Unreferenced_005fObjects.html#Aspect-Unreferenced_005fObjects">Aspect Unreferenced_Objects</a>
+<li><a href="Aspect-Value_005fSize.html#Aspect-Value_005fSize">Aspect Value_Size</a>
+<li><a href="Aspect-Warnings.html#Aspect-Warnings">Aspect Warnings</a>
+
+</ul>
+
+</body></html>
+

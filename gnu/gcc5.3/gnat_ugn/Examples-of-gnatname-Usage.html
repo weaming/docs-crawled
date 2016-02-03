@@ -1,0 +1,63 @@
+<html lang="en">
+<head>
+<title>Examples of gnatname Usage - GNAT User's Guide for Native Platforms</title>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+<meta name="description" content="GNAT User's Guide for Native Platforms">
+<meta name="generator" content="makeinfo 4.13">
+<link title="Top" rel="start" href="index.html#Top">
+<link rel="up" href="Handling-Arbitrary-File-Naming-Conventions-with-gnatname.html#Handling-Arbitrary-File-Naming-Conventions-with-gnatname" title="Handling Arbitrary File Naming Conventions with gnatname">
+<link rel="prev" href="Switches-for-gnatname.html#Switches-for-gnatname" title="Switches for gnatname">
+<link href="http://www.gnu.org/software/texinfo/" rel="generator-home" title="Texinfo Homepage">
+<!--
+
+     GNAT User's Guide for Native Platforms , March 24, 2015
+
+     AdaCore
+
+     Copyright (C) 2008-2015, Free Software Foundation
+-->
+<meta http-equiv="Content-Style-Type" content="text/css">
+<style type="text/css"><!--
+  pre.display { font-family:inherit }
+  pre.format  { font-family:inherit }
+  pre.smalldisplay { font-family:inherit; font-size:smaller }
+  pre.smallformat  { font-family:inherit; font-size:smaller }
+  pre.smallexample { font-size:smaller }
+  pre.smalllisp    { font-size:smaller }
+  span.sc    { font-variant:small-caps }
+  span.roman { font-family:serif; font-weight:normal; } 
+  span.sansserif { font-family:sans-serif; font-weight:normal; } 
+--></style>
+</head>
+<body>
+<div class="node">
+<a name="Examples-of-gnatname-Usage"></a>
+<p>
+Previous:&nbsp;<a rel="previous" accesskey="p" href="Switches-for-gnatname.html#Switches-for-gnatname">Switches for gnatname</a>,
+Up:&nbsp;<a rel="up" accesskey="u" href="Handling-Arbitrary-File-Naming-Conventions-with-gnatname.html#Handling-Arbitrary-File-Naming-Conventions-with-gnatname">Handling Arbitrary File Naming Conventions with gnatname</a>
+<hr>
+</div>
+
+<p><a name="gnat_005fugn_002fthe_005fgnat_005fcompilation_005fmodel-examples_002dof_002dgnatname_002dusage"></a><a name="g_t63"></a><a name="gnat_005fugn_002fthe_005fgnat_005fcompilation_005fmodel-id16"></a><a name="g_t64"></a>
+
+<h5 class="subsubsection">3.3.4.4 Examples of <cite>gnatname</cite> Usage</h5>
+
+<pre class="example">    $ gnatname -c /home/me/names.adc -d sources "[a-z]*.ada*"
+</pre>
+<p>In this example, the directory <code>/home/me</code> must already exist
+and be writable. In addition, the directory
+<code>/home/me/sources</code> (specified by
+`-d sources') must exist and be readable.
+
+<p>Note the optional spaces after `-c' and `-d'.
+
+<pre class="example">    $ gnatname -P/home/me/proj -x "*_nt_body.ada"
+    -dsources -dsources/plus -Dcommon_dirs.txt "body_*" "spec_*"
+</pre>
+<p>Note that several switches `-d' may be used,
+even in conjunction with one or several switches
+`-D'. Several Naming Patterns and one excluded pattern
+are used in this example.
+
+</body></html>
+

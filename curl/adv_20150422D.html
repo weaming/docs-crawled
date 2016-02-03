@@ -1,0 +1,69 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
+<HTML>
+<HEAD> <TITLE>cURL - host name out of boundary memory access</TITLE>
+<meta content="text/html; charset=UTF-8" http-equiv="Content-Type">
+<link rel="stylesheet" type="text/css" href="http://curl.haxx.se/curl.css">
+<link rel="shortcut icon" href="http://curl.haxx.se/favicon.ico">
+<link rel="STYLESHEET" type="text/css" href="http://curl.haxx.se/manpage.css">
+</HEAD>
+<body bgcolor="#ffffff" text="#000000">
+<div class="main">
+<div class="menu">
+<a href="index.html" class="menuitem" title="Documentation main page">Docs Overview</a>
+</div>
+<div class="contents">
+<div class="where"><a href="http://curl.haxx.se/">cURL</a> / <a href="index.html">Docs</a> / <a href="security.html">Security</a> / <b>host name out of boundary memory access</b></div>
+<h1> host name out of boundary memory access </h1>
+<div class="relatedbox">
+<b>Related:</b>
+<br><a href="http://curl.haxx.se/changes.html">Changelog</a>
+<br><a href="faq.html">FAQ</a>
+<br><a href="http://curl.haxx.se/dev/security.html">Security dev process</a>
+<br><a href="vulnerabilities.html">Vulnerabilities Table</a>
+</div>
+<h1>host name out of boundary memory access </h1>
+<p>Project cURL Security Advisory, April 22nd 2015 -
+<a href="adv_20150422D.html">Permalink</a></p>
+<h2>VULNERABILITY</h2>
+<p>There is a private function in libcurl called <code>fix_hostname()</code> that removes a
+trailing dot from the host name if there is one. The function is called after
+the host name has been extracted from the URL libcurl has been told to act on.</p>
+<p>If a URL is given with a zero-length host name, like in "http://:80" or just
+":80", <code>fix_hostname()</code> will index the host name pointer with a -1 offset (as
+it blindly assumes a non-zero length) and both read and assign that address.</p>
+<p>At best, this gets unnoticed but can also lead to a crash or worse. We have
+not researched further what kind of malicious actions that potentially this
+could be used for.</p>
+<p>We are not aware of any exploits of this flaw.</p>
+<h2>INFO</h2>
+<p>This flaw can also be triggered with the curl command line tool.</p>
+<p>The Common Vulnerabilities and Exposures (CVE) project has assigned the name
+CVE-2015-3144 to this issue.</p>
+<h2>AFFECTED VERSIONS</h2>
+<ul>
+<li>Affected versions: from libcurl 7.37.0 to and including 7.41.0</li>
+<li>Not affected versions: libcurl >= 7.42.0</li>
+</ul>
+<p>libcurl is used by many applications, but not always advertised as such!</p>
+<h2>THE SOLUTION</h2>
+<p>libcurl 7.42.0 better verifies the input string to the affected function.</p>
+<p>A patch for this problem is available at [URL will be updated]:</p>
+<pre><code>http://curl.haxx.se/CVE-2015-3144.patch
+</code></pre>
+<h2>RECOMMENDATIONS</h2>
+<p>We suggest you take one of the following actions immediately, in order of
+preference:</p>
+<p>A - Upgrade to curl and libcurl 7.42.0</p>
+<p>B - Apply the patch and rebuild libcurl</p>
+<p>C - Avoid using URLs with zero-length host names!</p>
+<h2>TIME LINE</h2>
+<p>It was first reported to the curl project on April 16 2015. We contacted
+distros@openwall on April 17th.</p>
+<p>libcurl 7.42.0 was released on April 22nd 2015, coordinated with the
+publication of this advisory.</p>
+<h2>CREDITS</h2>
+<p>Reported by Hanno Böck</p>
+<p>Thanks a lot!</p>
+</div>
+</div>
+</body> </html>

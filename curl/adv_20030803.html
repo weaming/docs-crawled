@@ -1,0 +1,39 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
+<HTML>
+<HEAD> <TITLE>cURL - Proxy Authentication Header Information Leakage</TITLE>
+<meta content="text/html; charset=UTF-8" http-equiv="Content-Type">
+<link rel="stylesheet" type="text/css" href="http://curl.haxx.se/curl.css">
+<link rel="shortcut icon" href="http://curl.haxx.se/favicon.ico">
+<link rel="STYLESHEET" type="text/css" href="http://curl.haxx.se/manpage.css">
+</HEAD>
+<body bgcolor="#ffffff" text="#000000">
+<div class="main">
+<div class="menu">
+<a href="index.html" class="menuitem" title="Documentation main page">Docs Overview</a>
+</div>
+<div class="contents">
+<div class="where"><a href="http://curl.haxx.se/">cURL</a> / <a href="index.html">Docs</a> / <a href="security.html">Security</a> / <b>Proxy Authentication Header Information Leakage</b></div>
+<h1> Proxy Authentication Header Information Leakage </h1>
+<div class="relatedbox">
+<b>Related:</b>
+<br><a href="http://curl.haxx.se/changes.html">Changelog</a>
+<br><a href="faq.html">FAQ</a>
+<br><a href="http://curl.haxx.se/dev/security.html">Security dev process</a>
+<br><a href="vulnerabilities.html">Vulnerabilities Table</a>
+</div>
+<a name="BID8432"></a>
+<h2> Proxy Authentication Header Information Leakage </h2>
+<p>
+<table class="secbox">
+  <tr><td>Date:</td><td>August 3, 2003</td></tr>
+  <tr><td>ID</td><td><a href="http://www.securityfocus.com/bid/8432">BID 8432</a> </td></tr>
+  <tr><td>Affected versions</td><td>7.1 to and including 7.10.6</td></tr>
+  <tr><td>Not affected versions</td><td>7.10.7 and later</td></tr>
+</table>
+<p>
+  When curl connected to a site via an HTTP proxy with the CONNECT request, the
+  user and password used for the proxy connection was also sent off to the
+  remote server.
+</div>
+</div>
+</body> </html>

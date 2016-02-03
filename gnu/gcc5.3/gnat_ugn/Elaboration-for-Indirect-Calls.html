@@ -1,0 +1,70 @@
+<html lang="en">
+<head>
+<title>Elaboration for Indirect Calls - GNAT User's Guide for Native Platforms</title>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+<meta name="description" content="GNAT User's Guide for Native Platforms">
+<meta name="generator" content="makeinfo 4.13">
+<link title="Top" rel="start" href="index.html#Top">
+<link rel="up" href="Elaboration-Order-Handling-in-GNAT.html#Elaboration-Order-Handling-in-GNAT" title="Elaboration Order Handling in GNAT">
+<link rel="prev" href="What-to-Do-If-the-Default-Elaboration-Behavior-Fails.html#What-to-Do-If-the-Default-Elaboration-Behavior-Fails" title="What to Do If the Default Elaboration Behavior Fails">
+<link rel="next" href="Summary-of-Procedures-for-Elaboration-Control.html#Summary-of-Procedures-for-Elaboration-Control" title="Summary of Procedures for Elaboration Control">
+<link href="http://www.gnu.org/software/texinfo/" rel="generator-home" title="Texinfo Homepage">
+<!--
+
+     GNAT User's Guide for Native Platforms , March 24, 2015
+
+     AdaCore
+
+     Copyright (C) 2008-2015, Free Software Foundation
+-->
+<meta http-equiv="Content-Style-Type" content="text/css">
+<style type="text/css"><!--
+  pre.display { font-family:inherit }
+  pre.format  { font-family:inherit }
+  pre.smalldisplay { font-family:inherit; font-size:smaller }
+  pre.smallformat  { font-family:inherit; font-size:smaller }
+  pre.smallexample { font-size:smaller }
+  pre.smalllisp    { font-size:smaller }
+  span.sc    { font-variant:small-caps }
+  span.roman { font-family:serif; font-weight:normal; } 
+  span.sansserif { font-family:sans-serif; font-weight:normal; } 
+--></style>
+</head>
+<body>
+<div class="node">
+<a name="Elaboration-for-Indirect-Calls"></a>
+<p>
+Next:&nbsp;<a rel="next" accesskey="n" href="Summary-of-Procedures-for-Elaboration-Control.html#Summary-of-Procedures-for-Elaboration-Control">Summary of Procedures for Elaboration Control</a>,
+Previous:&nbsp;<a rel="previous" accesskey="p" href="What-to-Do-If-the-Default-Elaboration-Behavior-Fails.html#What-to-Do-If-the-Default-Elaboration-Behavior-Fails">What to Do If the Default Elaboration Behavior Fails</a>,
+Up:&nbsp;<a rel="up" accesskey="u" href="Elaboration-Order-Handling-in-GNAT.html#Elaboration-Order-Handling-in-GNAT">Elaboration Order Handling in GNAT</a>
+<hr>
+</div>
+
+<p><a name="gnat_005fugn_002felaboration_005forder_005fhandling_005fin_005fgnat-id12"></a><a name="g_t2c4"></a><a name="gnat_005fugn_002felaboration_005forder_005fhandling_005fin_005fgnat-elaboration_002dfor_002dindirect_002dcalls"></a><a name="g_t2c5"></a>
+
+<h3 class="section">11.11 Elaboration for Indirect Calls</h3>
+
+<p><a name="index-Dispatching-calls-1154"></a>
+<a name="index-Indirect-calls-1155"></a>
+In rare cases, the static elaboration model fails to prevent
+dispatching calls to not-yet-elaborated subprograms. In such cases, we
+fall back to run-time checks; premature calls to any primitive
+operation of a tagged type before the body of the operation has been
+elaborated will raise <cite>Program_Error</cite>.
+
+<p>Access-to-subprogram types, however, are handled conservatively, and
+do not require run-time checks. This was not true in earlier versions
+of the compiler; you can use the `-gnatd.U' debug switch to
+revert to the old behavior if the new conservative behavior causes
+elaboration cycles. Here, 'conservative' means that if you do
+<cite>P'Access</cite> during elaboration, the compiler will assume that you
+might call <cite>P</cite> indirectly during elaboration, so it adds an
+implicit <cite>pragma Elaborate_All</cite> on the library unit containing
+<cite>P</cite>. The `-gnatd.U' switch is safe if you know there are
+no such calls. If the program worked before, it will continue to work
+with `-gnatd.U'. But beware that code modifications such as
+adding an indirect call can cause erroneous behavior in the presence
+of `-gnatd.U'.
+
+</body></html>
+

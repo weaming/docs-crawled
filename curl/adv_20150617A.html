@@ -1,0 +1,84 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
+<HTML>
+<HEAD> <TITLE>cURL - lingering HTTP credentials in connection re-use</TITLE>
+<meta content="text/html; charset=UTF-8" http-equiv="Content-Type">
+<link rel="stylesheet" type="text/css" href="http://curl.haxx.se/curl.css">
+<link rel="shortcut icon" href="http://curl.haxx.se/favicon.ico">
+<link rel="STYLESHEET" type="text/css" href="http://curl.haxx.se/manpage.css">
+</HEAD>
+<body bgcolor="#ffffff" text="#000000">
+<div class="main">
+<div class="menu">
+<a href="index.html" class="menuitem" title="Documentation main page">Docs Overview</a>
+</div>
+<div class="contents">
+<div class="where"><a href="http://curl.haxx.se/">cURL</a> / <a href="index.html">Docs</a> / <a href="security.html">Security</a> / <b>lingering HTTP credentials in connection re-use</b></div>
+<h1> lingering HTTP credentials in connection re-use </h1>
+<div class="relatedbox">
+<b>Related:</b>
+<br><a href="http://curl.haxx.se/changes.html">Changelog</a>
+<br><a href="faq.html">FAQ</a>
+<br><a href="http://curl.haxx.se/dev/security.html">Security dev process</a>
+<br><a href="vulnerabilities.html">Vulnerabilities Table</a>
+</div>
+<h1>lingering HTTP credentials in connection re-use</h1>
+<p>Project cURL Security Advisory, June 17th 2015 -
+<a href="adv_20150617A.html">Permalink</a></p>
+<h2>VULNERABILITY</h2>
+<p>libcurl can wrongly send HTTP credentials when re-using connections.</p>
+<p>libcurl allows applications to set credentials for the upcoming transfer with
+HTTP Basic authentication, like with <code>CURLOPT_USERPWD</code> for example. Name and
+password. Just like all other libcurl options the credentials are sticky and
+are kept associated with the "handle" until something is made to change the
+situation.</p>
+<p>Further, libcurl offers a <code>curl_easy_reset()</code> function that resets a handle
+back to its pristine state in terms of all settable options. A reset is of
+course also supposed to clear the credentials. A reset is typically used to
+clear up the handle and prepare it for a new, possibly unrelated, transfer.</p>
+<p>Within such a handle, libcurl can also store a set of previous connections in
+case a second transfer is requested to a host name for which an existing
+connection is already kept alive.</p>
+<p>With this flaw present, using the handle even after a reset would make libcurl
+accidentally use those credentials in a subseqent request if done to the same
+host name and connection as was previously accessed.</p>
+<p>An example case would be first requesting a password protected resource from
+one section of a web site, and then do a second request of a public resource
+from a completely different part of the site without authentication. This flaw
+would then inadvertently leak the credentials in the second request.</p>
+<p>We are not aware of any exploit of this flaw.</p>
+<h2>INFO</h2>
+<p>This flaw can also affect the curl command line tool if a similar operation
+series is made with that.</p>
+<p>The Common Vulnerabilities and Exposures (CVE) project has assigned the name
+CVE-2015-3236 to this issue.</p>
+<h2>AFFECTED VERSIONS</h2>
+<p>This flaw is relevant for</p>
+<ul>
+<li>Affected versions: libcurl 7.40.0 to and including 7.42.1</li>
+<li>Not affected versions: libcurl &lt; 7.40.0 and libcurl >= 7.43.0</li>
+</ul>
+<p>libcurl is used by many applications, but not always advertised as such!</p>
+<h2>THE SOLUTION</h2>
+<p>In version 7.43.0, libcurl properly clears the credentials and prevents them
+from lingering around.</p>
+<p>A patch for this problem that changes the default is available at (URL will be
+updated in final advisory):</p>
+<pre><code>http://curl.haxx.se/CVE-2015-3236.patch
+</code></pre>
+<h2>RECOMMENDATIONS</h2>
+<p>We suggest you take one of the following actions immediately, in order of
+preference:</p>
+<p>A - Upgrade curl and libcurl to version 7.43.0</p>
+<p>B - Apply the patch to your version and rebuild</p>
+<p>C - If you use <code>curl_easy_reset()</code>, explicitly set the credentials afterwards</p>
+<h2>TIME LINE</h2>
+<p>It was first reported to the curl project on May 19 2015. We contacted
+distros@openwall on June 11.</p>
+<p>libcurl 7.43.0 was released on June 17 2015, coordinated with the publication
+of this advisory.</p>
+<h2>CREDITS</h2>
+<p>Reported by Tomas Tomecek and Kamil Dudka.</p>
+<p>Thanks a lot!</p>
+</div>
+</div>
+</body> </html>

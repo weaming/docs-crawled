@@ -1,0 +1,63 @@
+<html lang="en">
+<head>
+<title>RM 13 5 2 5 Storage Place Attributes - GNAT Reference Manual</title>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+<meta name="description" content="GNAT Reference Manual">
+<meta name="generator" content="makeinfo 4.13">
+<link title="Top" rel="start" href="index.html#Top">
+<link rel="up" href="Implementation-Advice.html#Implementation-Advice" title="Implementation Advice">
+<link rel="prev" href="RM-13-5-1-17_002d22-Record-Representation-Clauses.html#RM-13-5-1-17_002d22-Record-Representation-Clauses" title="RM 13 5 1 17-22 Record Representation Clauses">
+<link rel="next" href="RM-13-5-3-7_002d8-Bit-Ordering.html#RM-13-5-3-7_002d8-Bit-Ordering" title="RM 13 5 3 7-8 Bit Ordering">
+<link href="http://www.gnu.org/software/texinfo/" rel="generator-home" title="Texinfo Homepage">
+<!--
+
+     GNAT Reference Manual , March 24, 2015
+
+     AdaCore
+
+     Copyright (C) 2008-2015, Free Software Foundation
+-->
+<meta http-equiv="Content-Style-Type" content="text/css">
+<style type="text/css"><!--
+  pre.display { font-family:inherit }
+  pre.format  { font-family:inherit }
+  pre.smalldisplay { font-family:inherit; font-size:smaller }
+  pre.smallformat  { font-family:inherit; font-size:smaller }
+  pre.smallexample { font-size:smaller }
+  pre.smalllisp    { font-size:smaller }
+  span.sc    { font-variant:small-caps }
+  span.roman { font-family:serif; font-weight:normal; } 
+  span.sansserif { font-family:sans-serif; font-weight:normal; } 
+--></style>
+</head>
+<body>
+<div class="node">
+<a name="RM-13-5-2-5-Storage-Place-Attributes"></a>
+<p>
+Next:&nbsp;<a rel="next" accesskey="n" href="RM-13-5-3-7_002d8-Bit-Ordering.html#RM-13-5-3-7_002d8-Bit-Ordering">RM 13 5 3 7-8 Bit Ordering</a>,
+Previous:&nbsp;<a rel="previous" accesskey="p" href="RM-13-5-1-17_002d22-Record-Representation-Clauses.html#RM-13-5-1-17_002d22-Record-Representation-Clauses">RM 13 5 1 17-22 Record Representation Clauses</a>,
+Up:&nbsp;<a rel="up" accesskey="u" href="Implementation-Advice.html#Implementation-Advice">Implementation Advice</a>
+<hr>
+</div>
+
+<p><a name="gnat_005frm_002fimplementation_005fadvice-rm_002d13_002d5_002d2_002d5_002dstorage_002dplace_002dattributes"></a><a name="g_t1d5"></a>
+
+<h3 class="section">6.25 RM 13.5.2(5): Storage Place Attributes</h3>
+
+<blockquote>
+
+<p>"If a component is represented using some form of pointer (such as an
+offset) to the actual data of the component, and this data is contiguous
+with the rest of the object, then the storage place attributes should
+reflect the place of the actual data, not the pointer.  If a component is
+allocated discontinuously from the rest of the object, then a warning
+should be generated upon reference to one of its storage place
+attributes." 
+</blockquote>
+
+<p>Followed.  There are no such components in GNAT.
+
+<p><a name="index-Bit-ordering-403"></a>
+
+</body></html>
+

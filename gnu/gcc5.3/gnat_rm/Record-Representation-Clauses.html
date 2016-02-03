@@ -1,0 +1,122 @@
+<html lang="en">
+<head>
+<title>Record Representation Clauses - GNAT Reference Manual</title>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+<meta name="description" content="GNAT Reference Manual">
+<meta name="generator" content="makeinfo 4.13">
+<link title="Top" rel="start" href="index.html#Top">
+<link rel="up" href="Representation-Clauses-and-Pragmas.html#Representation-Clauses-and-Pragmas" title="Representation Clauses and Pragmas">
+<link rel="prev" href="Pragma-Pack-for-Records.html#Pragma-Pack-for-Records" title="Pragma Pack for Records">
+<link rel="next" href="Handling-of-Records-with-Holes.html#Handling-of-Records-with-Holes" title="Handling of Records with Holes">
+<link href="http://www.gnu.org/software/texinfo/" rel="generator-home" title="Texinfo Homepage">
+<!--
+
+     GNAT Reference Manual , March 24, 2015
+
+     AdaCore
+
+     Copyright (C) 2008-2015, Free Software Foundation
+-->
+<meta http-equiv="Content-Style-Type" content="text/css">
+<style type="text/css"><!--
+  pre.display { font-family:inherit }
+  pre.format  { font-family:inherit }
+  pre.smalldisplay { font-family:inherit; font-size:smaller }
+  pre.smallformat  { font-family:inherit; font-size:smaller }
+  pre.smallexample { font-size:smaller }
+  pre.smalllisp    { font-size:smaller }
+  span.sc    { font-variant:small-caps }
+  span.roman { font-family:serif; font-weight:normal; } 
+  span.sansserif { font-family:sans-serif; font-weight:normal; } 
+--></style>
+</head>
+<body>
+<div class="node">
+<a name="Record-Representation-Clauses"></a>
+<p>
+Next:&nbsp;<a rel="next" accesskey="n" href="Handling-of-Records-with-Holes.html#Handling-of-Records-with-Holes">Handling of Records with Holes</a>,
+Previous:&nbsp;<a rel="previous" accesskey="p" href="Pragma-Pack-for-Records.html#Pragma-Pack-for-Records">Pragma Pack for Records</a>,
+Up:&nbsp;<a rel="up" accesskey="u" href="Representation-Clauses-and-Pragmas.html#Representation-Clauses-and-Pragmas">Representation Clauses and Pragmas</a>
+<hr>
+</div>
+
+<p><a name="gnat_005frm_002frepresentation_005fclauses_005fand_005fpragmas-id13"></a><a name="g_t230"></a><a name="gnat_005frm_002frepresentation_005fclauses_005fand_005fpragmas-record_002drepresentation_002dclauses"></a><a name="g_t231"></a>
+
+<h3 class="section">9.12 Record Representation Clauses</h3>
+
+<p><a name="index-Record-Representation-Clause-509"></a>
+Record representation clauses may be given for all record types, including
+types obtained by record extension.  Component clauses are allowed for any
+static component.  The restrictions on component clauses depend on the type
+of the component.
+
+<p><a name="index-Component-Clause-510"></a>
+For all components of an elementary type, the only restriction on component
+clauses is that the size must be at least the 'Size value of the type
+(actually the Value_Size).  There are no restrictions due to alignment,
+and such components may freely cross storage boundaries.
+
+<p>Packed arrays with a size up to and including 64 bits are represented
+internally using a modular type with the appropriate number of bits, and
+thus the same lack of restriction applies.  For example, if you declare:
+
+<pre class="example">    type R is array (1 .. 49) of Boolean;
+    pragma Pack (R);
+    for R'Size use 49;
+</pre>
+<p>then a component clause for a component of type R may start on any
+specified bit boundary, and may specify a value of 49 bits or greater.
+
+<p>For packed bit arrays that are longer than 64 bits, there are two
+cases. If the component size is a power of 2 (1,2,4,8,16,32 bits),
+including the important case of single bits or boolean values, then
+there are no limitations on placement of such components, and they
+may start and end at arbitrary bit boundaries.
+
+<p>If the component size is not a power of 2 (e.g., 3 or 5), then
+an array of this type longer than 64 bits must always be placed on
+on a storage unit (byte) boundary and occupy an integral number
+of storage units (bytes). Any component clause that does not
+meet this requirement will be rejected.
+
+<p>Any aliased component, or component of an aliased type, must
+have its normal alignment and size. A component clause that
+does not meet this requirement will be rejected.
+
+<p>The tag field of a tagged type always occupies an address sized field at
+the start of the record.  No component clause may attempt to overlay this
+tag. When a tagged type appears as a component, the tag field must have
+proper alignment
+
+<p>In the case of a record extension T1, of a type T, no component clause applied
+to the type T1 can specify a storage location that would overlap the first
+T'Size bytes of the record.
+
+<p>For all other component types, including non-bit-packed arrays,
+the component can be placed at an arbitrary bit boundary,
+so for example, the following is permitted:
+
+<pre class="example">    type R is array (1 .. 10) of Boolean;
+    for R'Size use 80;
+    
+    type Q is record
+       G, H : Boolean;
+       L, M : R;
+    end record;
+    
+    for Q use record
+       G at 0 range  0 ..   0;
+       H at 0 range  1 ..   1;
+       L at 0 range  2 ..  81;
+       R at 0 range 82 .. 161;
+    end record;
+</pre>
+<p>Note: the above rules apply to recent releases of GNAT 5. 
+In GNAT 3, there are more severe restrictions on larger components. 
+For non-primitive types, including packed arrays with a size greater than
+64 bits, component clauses must respect the alignment requirement of the
+type, in particular, always starting on a byte boundary, and the length
+must be a multiple of the storage unit.
+
+</body></html>
+

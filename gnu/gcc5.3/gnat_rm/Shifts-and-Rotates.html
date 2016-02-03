@@ -1,0 +1,75 @@
+<html lang="en">
+<head>
+<title>Shifts and Rotates - GNAT Reference Manual</title>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+<meta name="description" content="GNAT Reference Manual">
+<meta name="generator" content="makeinfo 4.13">
+<link title="Top" rel="start" href="index.html#Top">
+<link rel="up" href="Intrinsic-Subprograms.html#Intrinsic-Subprograms" title="Intrinsic Subprograms">
+<link rel="prev" href="Line.html#Line" title="Line">
+<link rel="next" href="Source_005fLocation.html#Source_005fLocation" title="Source_Location">
+<link href="http://www.gnu.org/software/texinfo/" rel="generator-home" title="Texinfo Homepage">
+<!--
+
+     GNAT Reference Manual , March 24, 2015
+
+     AdaCore
+
+     Copyright (C) 2008-2015, Free Software Foundation
+-->
+<meta http-equiv="Content-Style-Type" content="text/css">
+<style type="text/css"><!--
+  pre.display { font-family:inherit }
+  pre.format  { font-family:inherit }
+  pre.smalldisplay { font-family:inherit; font-size:smaller }
+  pre.smallformat  { font-family:inherit; font-size:smaller }
+  pre.smallexample { font-size:smaller }
+  pre.smalllisp    { font-size:smaller }
+  span.sc    { font-variant:small-caps }
+  span.roman { font-family:serif; font-weight:normal; } 
+  span.sansserif { font-family:sans-serif; font-weight:normal; } 
+--></style>
+</head>
+<body>
+<div class="node">
+<a name="Shifts-and-Rotates"></a>
+<p>
+Next:&nbsp;<a rel="next" accesskey="n" href="Source_005fLocation.html#Source_005fLocation">Source_Location</a>,
+Previous:&nbsp;<a rel="previous" accesskey="p" href="Line.html#Line">Line</a>,
+Up:&nbsp;<a rel="up" accesskey="u" href="Intrinsic-Subprograms.html#Intrinsic-Subprograms">Intrinsic Subprograms</a>
+<hr>
+</div>
+
+<p><a name="gnat_005frm_002fintrinsic_005fsubprograms-id11"></a><a name="g_t214"></a><a name="gnat_005frm_002fintrinsic_005fsubprograms-shifts_002dand_002drotates"></a><a name="g_t215"></a>
+
+<h3 class="section">8.10 Shifts and Rotates</h3>
+
+<p><a name="index-Shift_005fLeft-468"></a>
+<a name="index-Shift_005fRight-469"></a>
+<a name="index-Shift_005fRight_005fArithmetic-470"></a>
+<a name="index-Rotate_005fLeft-471"></a>
+<a name="index-Rotate_005fRight-472"></a>
+In standard Ada, the shift and rotate functions are available only
+for the predefined modular types in package <cite>Interfaces</cite>.  However, in
+GNAT it is possible to define these functions for any integer
+type (signed or modular), as in this example:
+
+<pre class="example">    function Shift_Left
+      (Value  : T;
+       Amount : Natural) return T;
+</pre>
+<p>The function name must be one of
+Shift_Left, Shift_Right, Shift_Right_Arithmetic, Rotate_Left, or
+Rotate_Right. T must be an integer type. T'Size must be
+8, 16, 32 or 64 bits; if T is modular, the modulus
+must be 2**8, 2**16, 2**32 or 2**64. 
+The result type must be the same as the type of <cite>Value</cite>. 
+The shift amount must be Natural. 
+The formal parameter names can be anything.
+
+<p>A more convenient way of providing these shift operators is to use
+the Provide_Shift_Operators pragma, which provides the function declarations
+and corresponding pragma Import's for all five shift functions.
+
+</body></html>
+

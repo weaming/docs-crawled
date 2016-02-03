@@ -1,0 +1,74 @@
+<html lang="en">
+<head>
+<title>Choosing the Scheduling Policy - GNAT User's Guide for Native Platforms</title>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+<meta name="description" content="GNAT User's Guide for Native Platforms">
+<meta name="generator" content="makeinfo 4.13">
+<link title="Top" rel="start" href="index.html#Top">
+<link rel="up" href="Specifying-a-Run_002dTime-Library.html#Specifying-a-Run_002dTime-Library" title="Specifying a Run-Time Library">
+<link rel="next" href="Solaris_002dSpecific-Considerations.html#Solaris_002dSpecific-Considerations" title="Solaris-Specific Considerations">
+<link href="http://www.gnu.org/software/texinfo/" rel="generator-home" title="Texinfo Homepage">
+<!--
+
+     GNAT User's Guide for Native Platforms , March 24, 2015
+
+     AdaCore
+
+     Copyright (C) 2008-2015, Free Software Foundation
+-->
+<meta http-equiv="Content-Style-Type" content="text/css">
+<style type="text/css"><!--
+  pre.display { font-family:inherit }
+  pre.format  { font-family:inherit }
+  pre.smalldisplay { font-family:inherit; font-size:smaller }
+  pre.smallformat  { font-family:inherit; font-size:smaller }
+  pre.smallexample { font-size:smaller }
+  pre.smalllisp    { font-size:smaller }
+  span.sc    { font-variant:small-caps }
+  span.roman { font-family:serif; font-weight:normal; } 
+  span.sansserif { font-family:sans-serif; font-weight:normal; } 
+--></style>
+</head>
+<body>
+<div class="node">
+<a name="Choosing-the-Scheduling-Policy"></a>
+<p>
+Next:&nbsp;<a rel="next" accesskey="n" href="Solaris_002dSpecific-Considerations.html#Solaris_002dSpecific-Considerations">Solaris-Specific Considerations</a>,
+Up:&nbsp;<a rel="up" accesskey="u" href="Specifying-a-Run_002dTime-Library.html#Specifying-a-Run_002dTime-Library">Specifying a Run-Time Library</a>
+<hr>
+</div>
+
+<p><a name="gnat_005fugn_002fplatform_005fspecific_005finformation-id5"></a><a name="g_t260"></a>
+
+<h4 class="subsection">9.2.1 Choosing the Scheduling Policy</h4>
+
+<p>When using a POSIX threads implementation, you have a choice of several
+scheduling policies: <cite>SCHED_FIFO</cite>, <cite>SCHED_RR</cite> and <cite>SCHED_OTHER</cite>.
+
+<p>Typically, the default is <cite>SCHED_OTHER</cite>, while using <cite>SCHED_FIFO</cite>
+or <cite>SCHED_RR</cite> requires special (e.g., root) privileges.
+
+<p><a name="index-pragma-Time_005fSlice-1059"></a>
+<a name="index-g_t_002dT0-option-1060"></a>
+<a name="index-pragma-Task_005fDispatching_005fPolicy-1061"></a>
+By default, GNAT uses the <cite>SCHED_OTHER</cite> policy. To specify
+<cite>SCHED_FIFO</cite>,
+you can use one of the following:
+
+     <ul>
+<li><cite>pragma Time_Slice (0.0)</cite>
+
+     <li>the corresponding binder option `-T0'
+
+     <li><cite>pragma Task_Dispatching_Policy (FIFO_Within_Priorities)</cite>
+</ul>
+
+<p>To specify <cite>SCHED_RR</cite>,
+you should use <cite>pragma Time_Slice</cite> with a
+value greater than 0.0, or else use the corresponding `-T'
+binder option.
+
+<p><a name="index-Solaris-Sparc-threads-libraries-1062"></a>
+
+</body></html>
+

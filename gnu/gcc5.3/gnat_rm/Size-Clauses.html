@@ -1,0 +1,115 @@
+<html lang="en">
+<head>
+<title>Size Clauses - GNAT Reference Manual</title>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+<meta name="description" content="GNAT Reference Manual">
+<meta name="generator" content="makeinfo 4.13">
+<link title="Top" rel="start" href="index.html#Top">
+<link rel="up" href="Representation-Clauses-and-Pragmas.html#Representation-Clauses-and-Pragmas" title="Representation Clauses and Pragmas">
+<link rel="prev" href="Alignment-Clauses.html#Alignment-Clauses" title="Alignment Clauses">
+<link rel="next" href="Storage_005fSize-Clauses.html#Storage_005fSize-Clauses" title="Storage_Size Clauses">
+<link href="http://www.gnu.org/software/texinfo/" rel="generator-home" title="Texinfo Homepage">
+<!--
+
+     GNAT Reference Manual , March 24, 2015
+
+     AdaCore
+
+     Copyright (C) 2008-2015, Free Software Foundation
+-->
+<meta http-equiv="Content-Style-Type" content="text/css">
+<style type="text/css"><!--
+  pre.display { font-family:inherit }
+  pre.format  { font-family:inherit }
+  pre.smalldisplay { font-family:inherit; font-size:smaller }
+  pre.smallformat  { font-family:inherit; font-size:smaller }
+  pre.smallexample { font-size:smaller }
+  pre.smalllisp    { font-size:smaller }
+  span.sc    { font-variant:small-caps }
+  span.roman { font-family:serif; font-weight:normal; } 
+  span.sansserif { font-family:sans-serif; font-weight:normal; } 
+--></style>
+</head>
+<body>
+<div class="node">
+<a name="Size-Clauses"></a>
+<p>
+Next:&nbsp;<a rel="next" accesskey="n" href="Storage_005fSize-Clauses.html#Storage_005fSize-Clauses">Storage_Size Clauses</a>,
+Previous:&nbsp;<a rel="previous" accesskey="p" href="Alignment-Clauses.html#Alignment-Clauses">Alignment Clauses</a>,
+Up:&nbsp;<a rel="up" accesskey="u" href="Representation-Clauses-and-Pragmas.html#Representation-Clauses-and-Pragmas">Representation Clauses and Pragmas</a>
+<hr>
+</div>
+
+<p><a name="gnat_005frm_002frepresentation_005fclauses_005fand_005fpragmas-id3"></a><a name="g_t21c"></a><a name="gnat_005frm_002frepresentation_005fclauses_005fand_005fpragmas-size_002dclauses"></a><a name="g_t21d"></a>
+
+<h3 class="section">9.2 Size Clauses</h3>
+
+<p><a name="index-Size-Clause-485"></a>
+The default size for a type <cite>T</cite> is obtainable through the
+language-defined attribute <cite>T'Size</cite> and also through the
+equivalent GNAT-defined attribute <cite>T'Value_Size</cite>. 
+For objects of type <cite>T</cite>, GNAT will generally increase the type size
+so that the object size (obtainable through the GNAT-defined attribute
+<cite>T'Object_Size</cite>)
+is a multiple of <cite>T'Alignment * Storage_Unit</cite>.
+
+<p>For example:
+
+<pre class="example">    type Smallint is range 1 .. 6;
+    
+    type Rec is record
+       Y1 : integer;
+       Y2 : boolean;
+    end record;
+</pre>
+<p>In this example, <cite>Smallint'Size</cite> = <cite>Smallint'Value_Size</cite> = 3,
+as specified by the RM rules,
+but objects of this type will have a size of 8
+(<cite>Smallint'Object_Size</cite> = 8),
+since objects by default occupy an integral number
+of storage units.  On some targets, notably older
+versions of the Digital Alpha, the size of stand
+alone objects of this type may be 32, reflecting
+the inability of the hardware to do byte load/stores.
+
+<p>Similarly, the size of type <cite>Rec</cite> is 40 bits
+(<cite>Rec'Size</cite> = <cite>Rec'Value_Size</cite> = 40), but
+the alignment is 4, so objects of this type will have
+their size increased to 64 bits so that it is a multiple
+of the alignment (in bits).  This decision is
+in accordance with the specific Implementation Advice in RM 13.3(43):
+
+<blockquote>
+
+<p>"A <cite>Size</cite> clause should be supported for an object if the specified
+<cite>Size</cite> is at least as large as its subtype's <cite>Size</cite>, and corresponds
+to a size in storage elements that is a multiple of the object's
+<cite>Alignment</cite> (if the <cite>Alignment</cite> is nonzero)." 
+</blockquote>
+
+<p>An explicit size clause may be used to override the default size by
+increasing it.  For example, if we have:
+
+<pre class="example">    type My_Boolean is new Boolean;
+    for My_Boolean'Size use 32;
+</pre>
+<p>then values of this type will always be 32 bits long.  In the case of
+discrete types, the size can be increased up to 64 bits, with the effect
+that the entire specified field is used to hold the value, sign- or
+zero-extended as appropriate.  If more than 64 bits is specified, then
+padding space is allocated after the value, and a warning is issued that
+there are unused bits.
+
+<p>Similarly the size of records and arrays may be increased, and the effect
+is to add padding bits after the value.  This also causes a warning message
+to be generated.
+
+<p>The largest Size value permitted in GNAT is 2**31-1.  Since this is a
+Size in bits, this corresponds to an object of size 256 megabytes (minus
+one).  This limitation is true on all targets.  The reason for this
+limitation is that it improves the quality of the code in many cases
+if it is known that a Size value can be accommodated in an object of
+type Integer.
+
+</body></html>
+

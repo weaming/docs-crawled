@@ -1,0 +1,268 @@
+<html lang="en">
+<head>
+<title>What to Do If the Default Elaboration Behavior Fails - GNAT User's Guide for Native Platforms</title>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+<meta name="description" content="GNAT User's Guide for Native Platforms">
+<meta name="generator" content="makeinfo 4.13">
+<link title="Top" rel="start" href="index.html#Top">
+<link rel="up" href="Elaboration-Order-Handling-in-GNAT.html#Elaboration-Order-Handling-in-GNAT" title="Elaboration Order Handling in GNAT">
+<link rel="prev" href="Mixing-Elaboration-Models.html#Mixing-Elaboration-Models" title="Mixing Elaboration Models">
+<link rel="next" href="Elaboration-for-Indirect-Calls.html#Elaboration-for-Indirect-Calls" title="Elaboration for Indirect Calls">
+<link href="http://www.gnu.org/software/texinfo/" rel="generator-home" title="Texinfo Homepage">
+<!--
+
+     GNAT User's Guide for Native Platforms , March 24, 2015
+
+     AdaCore
+
+     Copyright (C) 2008-2015, Free Software Foundation
+-->
+<meta http-equiv="Content-Style-Type" content="text/css">
+<style type="text/css"><!--
+  pre.display { font-family:inherit }
+  pre.format  { font-family:inherit }
+  pre.smalldisplay { font-family:inherit; font-size:smaller }
+  pre.smallformat  { font-family:inherit; font-size:smaller }
+  pre.smallexample { font-size:smaller }
+  pre.smalllisp    { font-size:smaller }
+  span.sc    { font-variant:small-caps }
+  span.roman { font-family:serif; font-weight:normal; } 
+  span.sansserif { font-family:sans-serif; font-weight:normal; } 
+--></style>
+</head>
+<body>
+<div class="node">
+<a name="What-to-Do-If-the-Default-Elaboration-Behavior-Fails"></a>
+<p>
+Next:&nbsp;<a rel="next" accesskey="n" href="Elaboration-for-Indirect-Calls.html#Elaboration-for-Indirect-Calls">Elaboration for Indirect Calls</a>,
+Previous:&nbsp;<a rel="previous" accesskey="p" href="Mixing-Elaboration-Models.html#Mixing-Elaboration-Models">Mixing Elaboration Models</a>,
+Up:&nbsp;<a rel="up" accesskey="u" href="Elaboration-Order-Handling-in-GNAT.html#Elaboration-Order-Handling-in-GNAT">Elaboration Order Handling in GNAT</a>
+<hr>
+</div>
+
+<p><a name="gnat_005fugn_002felaboration_005forder_005fhandling_005fin_005fgnat-id11"></a><a name="g_t2c3"></a><a name="gnat_005fugn_002felaboration_005forder_005fhandling_005fin_005fgnat-what_002dto_002ddo_002dif_002dthe_002ddefault_002delaboration_002dbehavior_002dfails"></a><a name="g_t2bc"></a>
+
+<h3 class="section">11.10 What to Do If the Default Elaboration Behavior Fails</h3>
+
+<p>If the binder cannot find an acceptable order, it outputs detailed
+diagnostics. For example:
+
+<pre class="example">    error: elaboration circularity detected
+    info:   "proc (body)" must be elaborated before "pack (body)"
+    info:     reason: Elaborate_All probably needed in unit "pack (body)"
+    info:     recompile "pack (body)" with -gnatel
+    info:                             for full details
+    info:       "proc (body)"
+    info:         is needed by its spec:
+    info:       "proc (spec)"
+    info:         which is withed by:
+    info:       "pack (body)"
+    info:  "pack (body)" must be elaborated before "proc (body)"
+    info:     reason: pragma Elaborate in unit "proc (body)"
+</pre>
+<p>In this case we have a cycle that the binder cannot break. On the one
+hand, there is an explicit pragma Elaborate in <cite>proc</cite> for
+<cite>pack</cite>. This means that the body of <cite>pack</cite> must be elaborated
+before the body of <cite>proc</cite>. On the other hand, there is elaboration
+code in <cite>pack</cite> that calls a subprogram in <cite>proc</cite>. This means
+that for maximum safety, there should really be a pragma
+Elaborate_All in <cite>pack</cite> for <cite>proc</cite> which would require that
+the body of <cite>proc</cite> be elaborated before the body of
+<cite>pack</cite>. Clearly both requirements cannot be satisfied. 
+Faced with a circularity of this kind, you have three different options.
+
+     <ul>
+<li>`Fix the program'
+
+     <p>The most desirable option from the point of view of long-term maintenance
+is to rearrange the program so that the elaboration problems are avoided. 
+One useful technique is to place the elaboration code into separate
+child packages. Another is to move some of the initialization code to
+explicitly called subprograms, where the program controls the order
+of initialization explicitly. Although this is the most desirable option,
+it may be impractical and involve too much modification, especially in
+the case of complex legacy code.
+
+     <li>`Perform dynamic checks'
+
+     <p>If the compilations are done using the `-gnatE'
+(dynamic elaboration check) switch, then GNAT behaves in a quite different
+manner. Dynamic checks are generated for all calls that could possibly result
+in raising an exception. With this switch, the compiler does not generate
+implicit <cite>Elaborate</cite> or <cite>Elaborate_All</cite> pragmas. The behavior then is
+exactly as specified in the <cite>Ada Reference Manual</cite>. 
+The binder will generate
+an executable program that may or may not raise <cite>Program_Error</cite>, and then
+it is the programmer's job to ensure that it does not raise an exception. Note
+that it is important to compile all units with the switch, it cannot be used
+selectively.
+
+     <li>`Suppress checks'
+
+     <p>The drawback of dynamic checks is that they generate a
+significant overhead at run time, both in space and time. If you
+are absolutely sure that your program cannot raise any elaboration
+exceptions, and you still want to use the dynamic elaboration model,
+then you can use the configuration pragma
+<cite>Suppress (Elaboration_Check)</cite> to suppress all such checks. For
+example this pragma could be placed in the <code>gnat.adc</code> file.
+
+     <li>`Suppress checks selectively'
+
+     <p>When you know that certain calls or instantiations in elaboration code cannot
+possibly lead to an elaboration error, and the binder nevertheless complains
+about implicit <cite>Elaborate</cite> and <cite>Elaborate_All</cite> pragmas that lead to
+elaboration circularities, it is possible to remove those warnings locally and
+obtain a program that will bind. Clearly this can be unsafe, and it is the
+responsibility of the programmer to make sure that the resulting program has no
+elaboration anomalies. The pragma <cite>Suppress (Elaboration_Check)</cite> can be
+used with different granularity to suppress warnings and break elaboration
+circularities:
+
+          <ul>
+<li>Place the pragma that names the called subprogram in the declarative part
+that contains the call.
+
+          <li>Place the pragma in the declarative part, without naming an entity. This
+disables warnings on all calls in the corresponding  declarative region.
+
+          <li>Place the pragma in the package spec that declares the called subprogram,
+and name the subprogram. This disables warnings on all elaboration calls to
+that subprogram.
+
+          <li>Place the pragma in the package spec that declares the called subprogram,
+without naming any entity. This disables warnings on all elaboration calls to
+all subprograms declared in this spec.
+
+          <li>Use Pragma Elaborate.
+
+          <p>As previously described in section <a href="2bd.html#g_t2bd">Treatment of Pragma Elaborate</a>,
+GNAT in static mode assumes that a <cite>pragma</cite> Elaborate indicates correctly
+that no elaboration checks are required on calls to the designated unit. 
+There may be cases in which the caller knows that no transitive calls
+can occur, so that a <cite>pragma Elaborate</cite> will be sufficient in a
+case where <cite>pragma Elaborate_All</cite> would cause a circularity. 
+</ul>
+
+     <p>These five cases are listed in order of decreasing safety, and therefore
+require increasing programmer care in their application. Consider the
+following program:
+
+     <pre class="example">         package Pack1 is
+           function F1 return Integer;
+           X1 : Integer;
+         end Pack1;
+         
+         package Pack2 is
+           function F2 return Integer;
+           function Pure (x : integer) return integer;
+           --  pragma Suppress (Elaboration_Check, On =&gt; Pure);  -- (3)
+           --  pragma Suppress (Elaboration_Check);              -- (4)
+         end Pack2;
+         
+         with Pack2;
+         package body Pack1 is
+           function F1 return Integer is
+           begin
+             return 100;
+           end F1;
+           Val : integer := Pack2.Pure (11);    --  Elab. call (1)
+         begin
+           declare
+             --  pragma Suppress(Elaboration_Check, Pack2.F2);   -- (1)
+             --  pragma Suppress(Elaboration_Check);             -- (2)
+           begin
+             X1 := Pack2.F2 + 1;                --  Elab. call (2)
+           end;
+         end Pack1;
+         
+         with Pack1;
+         package body Pack2 is
+           function F2 return Integer is
+           begin
+              return Pack1.F1;
+           end F2;
+           function Pure (x : integer) return integer is
+           begin
+              return x ** 3 - 3 * x;
+           end;
+         end Pack2;
+         
+         with Pack1, Ada.Text_IO;
+         procedure Proc3 is
+         begin
+           Ada.Text_IO.Put_Line(Pack1.X1'Img); -- 101
+         end Proc3;
+</pre>
+     <p>In the absence of any pragmas, an attempt to bind this program produces
+the following diagnostics:
+
+     <pre class="example">         error: elaboration circularity detected
+         info:    "pack1 (body)" must be elaborated before "pack1 (body)"
+         info:       reason: Elaborate_All probably needed in unit "pack1 (body)"
+         info:       recompile "pack1 (body)" with -gnatel for full details
+         info:          "pack1 (body)"
+         info:             must be elaborated along with its spec:
+         info:          "pack1 (spec)"
+         info:             which is withed by:
+         info:          "pack2 (body)"
+         info:             which must be elaborated along with its spec:
+         info:          "pack2 (spec)"
+         info:             which is withed by:
+         info:          "pack1 (body)"
+</pre>
+     <p>The sources of the circularity are the two calls to <cite>Pack2.Pure</cite> and
+<cite>Pack2.F2</cite> in the body of <cite>Pack1</cite>. We can see that the call to
+F2 is safe, even though F2 calls F1, because the call appears after the
+elaboration of the body of F1. Therefore the pragma (1) is safe, and will
+remove the warning on the call. It is also possible to use pragma (2)
+because there are no other potentially unsafe calls in the block.
+
+     <p>The call to <cite>Pure</cite> is safe because this function does not depend on the
+state of <cite>Pack2</cite>. Therefore any call to this function is safe, and it
+is correct to place pragma (3) in the corresponding package spec.
+
+     <p>Finally, we could place pragma (4) in the spec of <cite>Pack2</cite> to disable
+warnings on all calls to functions declared therein. Note that this is not
+necessarily safe, and requires more detailed examination of the subprogram
+bodies involved. In particular, a call to <cite>F2</cite> requires that <cite>F1</cite>
+be already elaborated. 
+</ul>
+
+<p>It is hard to generalize on which of these four approaches should be
+taken. Obviously if it is possible to fix the program so that the default
+treatment works, this is preferable, but this may not always be practical. 
+It is certainly simple enough to use `-gnatE'
+but the danger in this case is that, even if the GNAT binder
+finds a correct elaboration order, it may not always do so,
+and certainly a binder from another Ada compiler might not. A
+combination of testing and analysis (for which the
+information messages generated with the `-gnatel'
+switch can be useful) must be used to ensure that the program is free
+of errors. One switch that is useful in this testing is the
+`-p (pessimistic elaboration order)' switch for <cite>gnatbind</cite>. 
+Normally the binder tries to find an order that has the best chance
+of avoiding elaboration problems. However, if this switch is used, the binder
+plays a devil's advocate role, and tries to choose the order that
+has the best chance of failing. If your program works even with this
+switch, then it has a better chance of being error free, but this is still
+not a guarantee.
+
+<p>For an example of this approach in action, consider the C-tests (executable
+tests) from the ACATS suite. If these are compiled and run with the default
+treatment, then all but one of them succeed without generating any error
+diagnostics from the binder. However, there is one test that fails, and
+this is not surprising, because the whole point of this test is to ensure
+that the compiler can handle cases where it is impossible to determine
+a correct order statically, and it checks that an exception is indeed
+raised at run time.
+
+<p>This one test must be compiled and run using the `-gnatE'
+switch, and then it passes. Alternatively, the entire suite can
+be run using this switch. It is never wrong to run with the dynamic
+elaboration switch if your code is correct, and we assume that the
+C-tests are indeed correct (it is less efficient, but efficiency is
+not a factor in running the ACATS tests.)
+
+</body></html>
+

@@ -1,0 +1,66 @@
+<html lang="en">
+<head>
+<title>Attribute Fixed_Value - GNAT Reference Manual</title>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+<meta name="description" content="GNAT Reference Manual">
+<meta name="generator" content="makeinfo 4.13">
+<link title="Top" rel="start" href="index.html#Top">
+<link rel="up" href="Implementation-Defined-Attributes.html#Implementation-Defined-Attributes" title="Implementation Defined Attributes">
+<link rel="prev" href="Attribute-Fast_005fMath.html#Attribute-Fast_005fMath" title="Attribute Fast_Math">
+<link rel="next" href="Attribute-From_005fAny.html#Attribute-From_005fAny" title="Attribute From_Any">
+<link href="http://www.gnu.org/software/texinfo/" rel="generator-home" title="Texinfo Homepage">
+<!--
+
+     GNAT Reference Manual , March 24, 2015
+
+     AdaCore
+
+     Copyright (C) 2008-2015, Free Software Foundation
+-->
+<meta http-equiv="Content-Style-Type" content="text/css">
+<style type="text/css"><!--
+  pre.display { font-family:inherit }
+  pre.format  { font-family:inherit }
+  pre.smalldisplay { font-family:inherit; font-size:smaller }
+  pre.smallformat  { font-family:inherit; font-size:smaller }
+  pre.smallexample { font-size:smaller }
+  pre.smalllisp    { font-size:smaller }
+  span.sc    { font-variant:small-caps }
+  span.roman { font-family:serif; font-weight:normal; } 
+  span.sansserif { font-family:sans-serif; font-weight:normal; } 
+--></style>
+</head>
+<body>
+<div class="node">
+<a name="Attribute-Fixed_Value"></a>
+<a name="Attribute-Fixed_005fValue"></a>
+<p>
+Next:&nbsp;<a rel="next" accesskey="n" href="Attribute-From_005fAny.html#Attribute-From_005fAny">Attribute From_Any</a>,
+Previous:&nbsp;<a rel="previous" accesskey="p" href="Attribute-Fast_005fMath.html#Attribute-Fast_005fMath">Attribute Fast_Math</a>,
+Up:&nbsp;<a rel="up" accesskey="u" href="Implementation-Defined-Attributes.html#Implementation-Defined-Attributes">Implementation Defined Attributes</a>
+<hr>
+</div>
+
+<p><a name="gnat_005frm_002fimplementation_005fdefined_005fattributes-attribute_002dfixed_002dvalue"></a><a name="g_t130"></a>
+
+<h3 class="section">4.25 Attribute Fixed_Value</h3>
+
+<p><a name="index-Fixed_005fValue-195"></a>
+For every fixed-point type <cite>S</cite>, <code>S'Fixed_Value</code> denotes a
+function with the following specification:
+
+<pre class="example">    function S'Fixed_Value (Arg : &lt;Universal_Integer&gt;) return S;
+</pre>
+<p>The value returned is the fixed-point value <cite>V</cite> such that:
+
+<pre class="example">    V = Arg * S'Small
+</pre>
+<p>The effect is thus similar to first converting the argument to the
+integer type used to represent <cite>S</cite>, and then doing an unchecked
+conversion to the fixed-point type.  The difference is
+that there are full range checks, to ensure that the result is in range. 
+This attribute is primarily intended for use in implementation of the
+input-output functions for fixed-point values.
+
+</body></html>
+

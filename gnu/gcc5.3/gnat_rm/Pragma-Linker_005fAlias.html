@@ -1,0 +1,81 @@
+<html lang="en">
+<head>
+<title>Pragma Linker_Alias - GNAT Reference Manual</title>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+<meta name="description" content="GNAT Reference Manual">
+<meta name="generator" content="makeinfo 4.13">
+<link title="Top" rel="start" href="index.html#Top">
+<link rel="up" href="Implementation-Defined-Pragmas.html#Implementation-Defined-Pragmas" title="Implementation Defined Pragmas">
+<link rel="prev" href="Pragma-Link_005fWith.html#Pragma-Link_005fWith" title="Pragma Link_With">
+<link rel="next" href="Pragma-Linker_005fConstructor.html#Pragma-Linker_005fConstructor" title="Pragma Linker_Constructor">
+<link href="http://www.gnu.org/software/texinfo/" rel="generator-home" title="Texinfo Homepage">
+<!--
+
+     GNAT Reference Manual , March 24, 2015
+
+     AdaCore
+
+     Copyright (C) 2008-2015, Free Software Foundation
+-->
+<meta http-equiv="Content-Style-Type" content="text/css">
+<style type="text/css"><!--
+  pre.display { font-family:inherit }
+  pre.format  { font-family:inherit }
+  pre.smalldisplay { font-family:inherit; font-size:smaller }
+  pre.smallformat  { font-family:inherit; font-size:smaller }
+  pre.smallexample { font-size:smaller }
+  pre.smalllisp    { font-size:smaller }
+  span.sc    { font-variant:small-caps }
+  span.roman { font-family:serif; font-weight:normal; } 
+  span.sansserif { font-family:sans-serif; font-weight:normal; } 
+--></style>
+</head>
+<body>
+<div class="node">
+<a name="Pragma-Linker_Alias"></a>
+<a name="Pragma-Linker_005fAlias"></a>
+<p>
+Next:&nbsp;<a rel="next" accesskey="n" href="Pragma-Linker_005fConstructor.html#Pragma-Linker_005fConstructor">Pragma Linker_Constructor</a>,
+Previous:&nbsp;<a rel="previous" accesskey="p" href="Pragma-Link_005fWith.html#Pragma-Link_005fWith">Pragma Link_With</a>,
+Up:&nbsp;<a rel="up" accesskey="u" href="Implementation-Defined-Pragmas.html#Implementation-Defined-Pragmas">Implementation Defined Pragmas</a>
+<hr>
+</div>
+
+<p><a name="gnat_005frm_002fimplementation_005fdefined_005fpragmas-pragma_002dlinker_002dalias"></a><a name="g_t79"></a>
+
+<h3 class="section">2.94 Pragma Linker_Alias</h3>
+
+<p>Syntax:
+
+<pre class="example">    pragma Linker_Alias (
+      [Entity =&gt;] LOCAL_NAME,
+      [Target =&gt;] static_string_EXPRESSION);
+</pre>
+<p><cite>LOCAL_NAME</cite> must refer to an object that is declared at the library
+level. This pragma establishes the given entity as a linker alias for the
+given target. It is equivalent to <cite>__attribute__((alias))</cite> in GNU C
+and causes <cite>LOCAL_NAME</cite> to be emitted as an alias for the symbol
+<cite>static_string_EXPRESSION</cite> in the object file, that is to say no space
+is reserved for <cite>LOCAL_NAME</cite> by the assembler and it will be resolved
+to the same address as <cite>static_string_EXPRESSION</cite> by the linker.
+
+<p>The actual linker name for the target must be used (e.g., the fully
+encoded name with qualification in Ada, or the mangled name in C++),
+or it must be declared using the C convention with <cite>pragma Import</cite>
+or <cite>pragma Export</cite>.
+
+<p>Not all target machines support this pragma. On some of them it is accepted
+only if <cite>pragma Weak_External</cite> has been applied to <cite>LOCAL_NAME</cite>.
+
+<pre class="example">    --  Example of the use of pragma Linker_Alias
+    
+    package p is
+      i : Integer := 1;
+      pragma Export (C, i);
+    
+      new_name_for_i : Integer;
+      pragma Linker_Alias (new_name_for_i, "i");
+    end p;
+</pre>
+</body></html>
+

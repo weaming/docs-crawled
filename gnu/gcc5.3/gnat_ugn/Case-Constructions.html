@@ -1,0 +1,106 @@
+<html lang="en">
+<head>
+<title>Case Constructions - GNAT User's Guide for Native Platforms</title>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+<meta name="description" content="GNAT User's Guide for Native Platforms">
+<meta name="generator" content="makeinfo 4.13">
+<link title="Top" rel="start" href="index.html#Top">
+<link rel="up" href="Project-File-Reference.html#Project-File-Reference" title="Project File Reference">
+<link rel="prev" href="Variables.html#Variables" title="Variables">
+<link rel="next" href="Attributes.html#Attributes" title="Attributes">
+<link href="http://www.gnu.org/software/texinfo/" rel="generator-home" title="Texinfo Homepage">
+<!--
+
+     GNAT User's Guide for Native Platforms , March 24, 2015
+
+     AdaCore
+
+     Copyright (C) 2008-2015, Free Software Foundation
+-->
+<meta http-equiv="Content-Style-Type" content="text/css">
+<style type="text/css"><!--
+  pre.display { font-family:inherit }
+  pre.format  { font-family:inherit }
+  pre.smalldisplay { font-family:inherit; font-size:smaller }
+  pre.smallformat  { font-family:inherit; font-size:smaller }
+  pre.smallexample { font-size:smaller }
+  pre.smalllisp    { font-size:smaller }
+  span.sc    { font-variant:small-caps }
+  span.roman { font-family:serif; font-weight:normal; } 
+  span.sansserif { font-family:sans-serif; font-weight:normal; } 
+--></style>
+</head>
+<body>
+<div class="node">
+<a name="Case-Constructions"></a>
+<p>
+Next:&nbsp;<a rel="next" accesskey="n" href="Attributes.html#Attributes">Attributes</a>,
+Previous:&nbsp;<a rel="previous" accesskey="p" href="Variables.html#Variables">Variables</a>,
+Up:&nbsp;<a rel="up" accesskey="u" href="Project-File-Reference.html#Project-File-Reference">Project File Reference</a>
+<hr>
+</div>
+
+<p><a name="gnat_005fugn_002fgnat_005fproject_005fmanager-id46"></a><a name="g_t1a2"></a><a name="gnat_005fugn_002fgnat_005fproject_005fmanager-case_002dconstructions"></a><a name="g_t1a0"></a>
+
+<h4 class="subsection">5.9.9 Case Constructions</h4>
+
+<p>A `case' construction is used in a project file to effect conditional
+behavior. Through this construction, you can set the value of attributes
+and variables depending on the value previously assigned to a typed
+variable.
+
+<p>All choices in a choice list must be distinct. Unlike Ada, the choice
+lists of all alternatives do not need to include all values of the type. 
+An <cite>others</cite> choice must appear last in the list of alternatives.
+
+<p>The syntax of a <cite>case</cite> construction is based on the Ada case construction
+(although the <cite>null</cite> declaration for empty alternatives is optional).
+
+<p>The case expression must be a string variable, either typed or not, whose value
+is often given by an external reference (see <a href="154.html#g_t154">External Values</a>).
+
+<p>Each alternative starts with the reserved word <cite>when</cite>, either a list of
+literal strings separated by the <cite>"|"</cite> character or the reserved word
+<cite>others</cite>, and the <cite>"=&gt;"</cite> token. 
+When the case expression is a typed string variable, each literal string must
+belong to the string type that is the type of the case variable. 
+After each <cite>=&gt;</cite>, there are zero or more declarations.  The only
+declarations allowed in a case construction are other case constructions,
+attribute declarations and variable declarations. String type declarations and
+package declarations are not allowed. Variable declarations are restricted to
+variables that have already been declared before the case construction.
+
+<pre class="example">    case_construction ::=
+      *case* *&lt;variable_&gt;*name *is* {case_item} *end case* ;
+    
+    case_item ::=
+      *when* discrete_choice_list =&gt;
+        {case_declaration
+          | attribute_declaration
+          | variable_declaration
+          | empty_declaration}
+    
+    discrete_choice_list ::= string_literal {| string_literal} | *others*
+</pre>
+<p>Here is a typical example, with a typed string variable:
+
+<pre class="example">    project MyProj is
+       type OS_Type is ("GNU/Linux", "Unix", "NT", "VMS");
+       OS : OS_Type := external ("OS", "GNU/Linux");
+    
+       package Compiler is
+         case OS is
+           when "GNU/Linux" | "Unix" =&gt;
+             for Switches ("Ada")
+                 use ("-gnath");
+           when "NT" =&gt;
+             for Switches ("Ada")
+                 use ("-gnatP");
+           when others =&gt;
+             null;
+         end case;
+       end Compiler;
+    end MyProj;
+</pre>
+</body></html>
+

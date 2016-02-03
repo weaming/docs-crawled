@@ -1,0 +1,84 @@
+<html lang="en">
+<head>
+<title>RM B 4 95-98 Interfacing with COBOL - GNAT Reference Manual</title>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+<meta name="description" content="GNAT Reference Manual">
+<meta name="generator" content="makeinfo 4.13">
+<link title="Top" rel="start" href="index.html#Top">
+<link rel="up" href="Implementation-Advice.html#Implementation-Advice" title="Implementation Advice">
+<link rel="prev" href="RM-B-3-63_002d71-Interfacing-with-C.html#RM-B-3-63_002d71-Interfacing-with-C" title="RM B 3 63-71 Interfacing with C">
+<link rel="next" href="RM-B-5-22_002d26-Interfacing-with-Fortran.html#RM-B-5-22_002d26-Interfacing-with-Fortran" title="RM B 5 22-26 Interfacing with Fortran">
+<link href="http://www.gnu.org/software/texinfo/" rel="generator-home" title="Texinfo Homepage">
+<!--
+
+     GNAT Reference Manual , March 24, 2015
+
+     AdaCore
+
+     Copyright (C) 2008-2015, Free Software Foundation
+-->
+<meta http-equiv="Content-Style-Type" content="text/css">
+<style type="text/css"><!--
+  pre.display { font-family:inherit }
+  pre.format  { font-family:inherit }
+  pre.smalldisplay { font-family:inherit; font-size:smaller }
+  pre.smallformat  { font-family:inherit; font-size:smaller }
+  pre.smallexample { font-size:smaller }
+  pre.smalllisp    { font-size:smaller }
+  span.sc    { font-variant:small-caps }
+  span.roman { font-family:serif; font-weight:normal; } 
+  span.sansserif { font-family:sans-serif; font-weight:normal; } 
+--></style>
+</head>
+<body>
+<div class="node">
+<a name="RM-B-4-95-98-Interfacing-with-COBOL"></a>
+<a name="RM-B-4-95_002d98-Interfacing-with-COBOL"></a>
+<p>
+Next:&nbsp;<a rel="next" accesskey="n" href="RM-B-5-22_002d26-Interfacing-with-Fortran.html#RM-B-5-22_002d26-Interfacing-with-Fortran">RM B 5 22-26 Interfacing with Fortran</a>,
+Previous:&nbsp;<a rel="previous" accesskey="p" href="RM-B-3-63_002d71-Interfacing-with-C.html#RM-B-3-63_002d71-Interfacing-with-C">RM B 3 63-71 Interfacing with C</a>,
+Up:&nbsp;<a rel="up" accesskey="u" href="Implementation-Advice.html#Implementation-Advice">Implementation Advice</a>
+<hr>
+</div>
+
+<p><a name="gnat_005frm_002fimplementation_005fadvice-rm_002db_002d4_002d95_002d98_002dinterfacing_002dwith_002dcobol"></a><a name="g_t1e5"></a>
+
+<h3 class="section">6.41 RM B.4(95-98): Interfacing with COBOL</h3>
+
+<blockquote>
+
+<p>"An Ada implementation should support the following interface
+correspondences between Ada and COBOL." 
+</blockquote>
+
+<p>Followed.
+
+<blockquote>
+
+<p>"An Ada access <cite>T</cite> parameter is passed as a <code>BY REFERENCE</code> data item of
+the COBOL type corresponding to <cite>T</cite>." 
+</blockquote>
+
+<p>Followed.
+
+<blockquote>
+
+<p>"An Ada in scalar parameter is passed as a <code>BY CONTENT</code> data item of
+the corresponding COBOL type." 
+</blockquote>
+
+<p>Followed.
+
+<blockquote>
+
+<p>"Any other Ada parameter is passed as a <code>BY REFERENCE</code> data item of the
+COBOL type corresponding to the Ada parameter type; for scalars, a local
+copy is used if necessary to ensure by-copy semantics." 
+</blockquote>
+
+<p>Followed.
+
+<p><a name="index-Fortran-430"></a><a name="index-interfacing-with-431"></a>
+
+</body></html>
+

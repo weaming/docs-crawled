@@ -1,0 +1,109 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
+<HTML>
+<HEAD> <TITLE>cURL - Security Advisory (cert name check ignore GnuTLS)</TITLE>
+<meta content="text/html; charset=UTF-8" http-equiv="Content-Type">
+<link rel="stylesheet" type="text/css" href="http://curl.haxx.se/curl.css">
+<link rel="shortcut icon" href="http://curl.haxx.se/favicon.ico">
+<link rel="STYLESHEET" type="text/css" href="http://curl.haxx.se/manpage.css">
+</HEAD>
+<body bgcolor="#ffffff" text="#000000">
+<div class="main">
+<div class="menu">
+<a href="index.html" class="menuitem" title="Documentation main page">Docs Overview</a>
+</div>
+<div class="contents">
+<div class="where"><a href="http://curl.haxx.se/">cURL</a> / <a href="index.html">Docs</a> / <a href="security.html">Security</a> / <b>libcurl cert name check ignore GnuTLS</b></div>
+<h1> libcurl cert name check ignore GnuTLS </h1>
+<div class="relatedbox">
+<b>Related:</b>
+<br><a href="http://curl.haxx.se/changes.html">Changelog</a>
+<br><a href="faq.html">FAQ</a>
+<br><a href="http://curl.haxx.se/dev/security.html">Security dev process</a>
+<br><a href="vulnerabilities.html">Vulnerabilities Table</a>
+</div>
+<pre>
+                  libcurl cert name check ignore with GnuTLS
+                  ==========================================
+&nbsp;
+Project cURL Security Advisory, December 17th 2013
+<a href="security.html">http://curl.haxx.se/docs/security.html</a>
+&nbsp;
+1. VULNERABILITY
+&nbsp;
+  (This issue is almost identical to the one named 20131115 / CVE-2013-4545,
+  but this problem affects a different SSL backend.)
+&nbsp;
+  libcurl is vulnerable to a case of missing out the checking of the
+  certificate CN or SAN name field when the digital signature verification is
+  turned off.
+&nbsp;
+  libcurl offers two separate and independent options for verifying a server's
+  TLS certificate. CURLOPT_SSL_VERIFYPEER and CURLOPT_SSL_VERIFYHOST. The
+  first one tells libcurl to verify the trust chain using a CA cert bundle,
+  while the second tells libcurl to make sure that the name fields in the
+  server certificate meets the criteria. Both options are enabled by default.
+&nbsp;
+  This flaw had the effect that when an application disabled
+  CURLOPT_SSL_VERIFYPEER, libcurl mistakenly also skipped the
+  CURLOPT_SSL_VERIFYHOST check. Applications can disable
+  CURLOPT_SSL_VERIFYPEER and still achieve security by doing the check on its
+  own using other means.
+&nbsp;
+  The curl command line tool is not affected by this problem as it either
+  enables both options or disables both at the same time.
+&nbsp;
+  There are no known exploits available at this time.
+&nbsp;
+  The Common Vulnerabilities and Exposures (CVE) project has assigned the name
+  CVE-2013-6422 to this issue.
+&nbsp;
+2. AFFECTED VERSIONS
+&nbsp;
+  This flaw only exists in the TLS backend that uses GnuTLS. If libcurl is
+  built with another TLS backend, it isn't affected.
+&nbsp;
+  Affected versions: from libcurl 7.21.4 to and including 7.33.0
+  Not affected versions: libcurl before 7.21.4 and &gt;= 7.34.0
+&nbsp;
+  libcurl is used by many applications, but not always advertised as such!
+&nbsp;
+3. THE SOLUTION
+&nbsp;
+  libcurl 7.34.0 makes sure that both options independently will cause the
+  operation to fail unless the criteria is fulfilled.
+&nbsp;
+  A patch for this is available at:
+&nbsp;
+    <a href="http://curl.haxx.se/cve-2013-6422.patch">http://curl.haxx.se/cve-2013-6422.patch</a>
+&nbsp;
+4. RECOMMENDATIONS
+&nbsp;
+  We suggest you take one of the following actions immediately, in order of
+  preference:
+&nbsp;
+  A - Upgrade to curl and libcurl 7.34.0
+&nbsp;
+  B - Apply the patch and rebuild libcurl
+&nbsp;
+  C - Make sure CURLOPT_SSL_VERIFYPEER is not disabled
+&nbsp;
+  D - Build libcurl with another TLS backend than GnuTLS
+&nbsp;
+5. TIME LINE
+&nbsp;
+  Vulnerability reported by Marc Deslauriers.
+&nbsp;
+  It was reported to the curl project on November 29th 2013. We contacted
+  distros@openwall on December 3rd.
+&nbsp;
+  libcurl 7.34.0 was released on December 17th 2013, coordinated with the
+  publication of this advisory.
+&nbsp;
+&nbsp;
+6. CREDITS
+&nbsp;
+  Reported by Marc Deslauriers. Thanks a lot!
+</pre>
+</div>
+</div>
+</body> </html>

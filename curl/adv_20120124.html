@@ -1,0 +1,114 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
+<HTML>
+<HEAD> <TITLE>cURL - Security Advisory (URL sanitization vulnerability)</TITLE>
+<meta content="text/html; charset=UTF-8" http-equiv="Content-Type">
+<link rel="stylesheet" type="text/css" href="http://curl.haxx.se/curl.css">
+<link rel="shortcut icon" href="http://curl.haxx.se/favicon.ico">
+<link rel="STYLESHEET" type="text/css" href="http://curl.haxx.se/manpage.css">
+</HEAD>
+<body bgcolor="#ffffff" text="#000000">
+<div class="main">
+<div class="menu">
+<a href="index.html" class="menuitem" title="Documentation main page">Docs Overview</a>
+</div>
+<div class="contents">
+<div class="where"><a href="http://curl.haxx.se/">cURL</a> / <a href="index.html">Docs</a> / <a href="security.html">Security</a> / <b>curl URL sanitization vulnerability</b></div>
+<h1> curl URL sanitization vulnerability </h1>
+<div class="relatedbox">
+<b>Related:</b>
+<br><a href="http://curl.haxx.se/changes.html">Changelog</a>
+<br><a href="faq.html">FAQ</a>
+<br><a href="http://curl.haxx.se/dev/security.html">Security dev process</a>
+<br><a href="vulnerabilities.html">Vulnerabilities Table</a>
+</div>
+<pre>
+                     curl URL sanitization vulnerability
+                     ===================================
+&nbsp;
+Project cURL Security Advisory, January 24th 2012
+http://curl.haxx.se/docs/security.html
+&nbsp;
+1. VULNERABILITY
+&nbsp;
+  curl is vulnerable to a data injection attack for certain protocols through
+  control characters embedded or percent-encoded in URLs.
+&nbsp;
+  When parsing URLs, libcurl's parser is very laxed and liberal and only
+  parses as little as possible and lets as much as possible through as long as
+  it can figure out what to do.
+&nbsp;
+  In the specific process when libcurl extracts the file path part from a
+  given URL, it didn't always verify the data or escape control characters
+  properly before it passed the file path on to the protocol-specific code
+  that then would use it for its protocol business.
+&nbsp;
+  This passing through of control characters could be exploited by someone who
+  would be able to pass in a handicrafted URL to libcurl. Lots of libcurl
+  using applications let users enter URLs in one form or another and not all
+  of these check the input carefully to prevent malicious ones.
+&nbsp;
+  A malicious user might pass in %0d%0a to get treated as CR LF by libcurl,
+  and by using this fact a user can trick for example a POP3 client to delete
+  a message instead of getting it or trick an SMTP server to send an
+  unintended message.
+&nbsp;
+  This vulnerability can be used to fool libcurl with the following protocols:
+  IMAP, POP3 and SMTP.
+&nbsp;
+  Both curl the command line tool and applications using the libcurl library
+  are vulnerable.
+&nbsp;
+  There is no known exploit for this problem.
+&nbsp;
+  The Common Vulnerabilities and Exposures (CVE) project has assigned the name
+  CVE-2012-0036 to this issue.
+&nbsp;
+2. AFFECTED VERSIONS
+&nbsp;
+  Affected versions: curl 7.20.0 to and including 7.23.1
+  Not affected versions: curl &lt; 7.20.0 and &gt;= 7.24.0
+&nbsp;
+  Also note that libcurl is used by many applications, and not always
+  advertised as such.
+&nbsp;
+3. THE SOLUTION
+&nbsp;
+  libcurl 7.24.0 scans for a range of "bad codes" in the path part of URLs so
+  that they are rejected before any protocol code even can consider using
+  them.
+&nbsp;
+4. RECOMMENDATIONS
+&nbsp;
+  We suggest you take one of the following actions immediately, in order of
+  preference:
+&nbsp;
+  A - Upgrade to curl and libcurl 7.24.0
+&nbsp;
+  B - Apply this patch and rebuild libcurl
+&nbsp;
+      http://curl.haxx.se/curl-url-sanitize.patch
+&nbsp;
+  C - Rebuild curl with support for vulnerable protocols IMAP, POP3 and SMTP
+      disabled.
+&nbsp;
+  D - Disable the vulnerable protocols IMAP, POP3 and SMTP at run-time to
+      forbid libcurl from using them. You can do this with the
+      CURLOPT_PROTOCOLS option.
+&nbsp;
+5. TIME LINE
+&nbsp;
+  Dan Fandrich realized the problem and reported it to us on December 22nd
+  2011.
+&nbsp;
+  We discussed solutions and a first patch was written on the same day.
+&nbsp;
+  curl 7.24.0 was released on January 24th 2012, coordinated with the
+  publication of this this flaw.
+&nbsp;
+6. CREDITS
+&nbsp;
+  Reported and analyzed by Dan Fandrich. Thanks a lot!
+</pre>
+</div>
+</div>
+</body> </html>

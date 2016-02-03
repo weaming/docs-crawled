@@ -1,0 +1,102 @@
+<html lang="en">
+<head>
+<title>Calling User-Defined Subprograms - GNAT User's Guide for Native Platforms</title>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+<meta name="description" content="GNAT User's Guide for Native Platforms">
+<meta name="generator" content="makeinfo 4.13">
+<link title="Top" rel="start" href="index.html#Top">
+<link rel="up" href="Running-and-Debugging-Ada-Programs.html#Running-and-Debugging-Ada-Programs" title="Running and Debugging Ada Programs">
+<link rel="prev" href="Using-Ada-Expressions.html#Using-Ada-Expressions" title="Using Ada Expressions">
+<link rel="next" href="Using-the-next-Command-in-a-Function.html#Using-the-next-Command-in-a-Function" title="Using the next Command in a Function">
+<link href="http://www.gnu.org/software/texinfo/" rel="generator-home" title="Texinfo Homepage">
+<!--
+
+     GNAT User's Guide for Native Platforms , March 24, 2015
+
+     AdaCore
+
+     Copyright (C) 2008-2015, Free Software Foundation
+-->
+<meta http-equiv="Content-Style-Type" content="text/css">
+<style type="text/css"><!--
+  pre.display { font-family:inherit }
+  pre.format  { font-family:inherit }
+  pre.smalldisplay { font-family:inherit; font-size:smaller }
+  pre.smallformat  { font-family:inherit; font-size:smaller }
+  pre.smallexample { font-size:smaller }
+  pre.smalllisp    { font-size:smaller }
+  span.sc    { font-variant:small-caps }
+  span.roman { font-family:serif; font-weight:normal; } 
+  span.sansserif { font-family:sans-serif; font-weight:normal; } 
+--></style>
+</head>
+<body>
+<div class="node">
+<a name="Calling-User-Defined-Subprograms"></a>
+<a name="Calling-User_002dDefined-Subprograms"></a>
+<p>
+Next:&nbsp;<a rel="next" accesskey="n" href="Using-the-next-Command-in-a-Function.html#Using-the-next-Command-in-a-Function">Using the next Command in a Function</a>,
+Previous:&nbsp;<a rel="previous" accesskey="p" href="Using-Ada-Expressions.html#Using-Ada-Expressions">Using Ada Expressions</a>,
+Up:&nbsp;<a rel="up" accesskey="u" href="Running-and-Debugging-Ada-Programs.html#Running-and-Debugging-Ada-Programs">Running and Debugging Ada Programs</a>
+<hr>
+</div>
+
+<p><a name="gnat_005fugn_002fgnat_005fand_005fprogram_005fexecution-id7"></a><a name="g_t1ff"></a><a name="gnat_005fugn_002fgnat_005fand_005fprogram_005fexecution-calling_002duser_002ddefined_002dsubprograms"></a><a name="g_t200"></a>
+
+<h4 class="subsection">8.1.5 Calling User-Defined Subprograms</h4>
+
+<p>An important capability of <cite>GDB</cite> is the ability to call user-defined
+subprograms while debugging. This is achieved simply by entering
+a subprogram call statement in the form:
+
+<blockquote>
+
+<pre class="example">    call subprogram-name (parameters)
+</pre>
+</blockquote>
+
+<p>The keyword <cite>call</cite> can be omitted in the normal case where the
+<cite>subprogram-name</cite> does not coincide with any of the predefined
+<cite>GDB</cite> commands.
+
+<p>The effect is to invoke the given subprogram, passing it the
+list of parameters that is supplied. The parameters can be expressions and
+can include variables from the program being debugged. The
+subprogram must be defined
+at the library level within your program, and <cite>GDB</cite> will call the
+subprogram within the environment of your program execution (which
+means that the subprogram is free to access or even modify variables
+within your program).
+
+<p>The most important use of this facility is in allowing the inclusion of
+debugging routines that are tailored to particular data structures
+in your program. Such debugging routines can be written to provide a suitably
+high-level description of an abstract type, rather than a low-level dump
+of its physical layout. After all, the standard
+<cite>GDB print</cite> command only knows the physical layout of your
+types, not their abstract meaning. Debugging routines can provide information
+at the desired semantic level and are thus enormously useful.
+
+<p>For example, when debugging GNAT itself, it is crucial to have access to
+the contents of the tree nodes used to represent the program internally. 
+But tree nodes are represented simply by an integer value (which in turn
+is an index into a table of nodes). 
+Using the <cite>print</cite> command on a tree node would simply print this integer
+value, which is not very useful. But the PN routine (defined in file
+treepr.adb in the GNAT sources) takes a tree node as input, and displays
+a useful high level representation of the tree node, which includes the
+syntactic category of the node, its position in the source, the integers
+that denote descendant nodes and parent node, as well as varied
+semantic information. To study this example in more detail, you might want to
+look at the body of the PN procedure in the stated file.
+
+<p>Another useful application of this capability is to deal with situations of
+complex data which are not handled suitably by GDB. For example, if you specify
+Convention Fortran for a multi-dimensional array, GDB does not know that
+the ordering of array elements has been switched and will not properly
+address the array elements. In such a case, instead of trying to print the
+elements directly from GDB, you can write a callable procedure that prints
+the elements in the desired format.
+
+</body></html>
+

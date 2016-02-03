@@ -1,0 +1,108 @@
+<html lang="en">
+<head>
+<title>Exception Handling Control - GNAT User's Guide for Native Platforms</title>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+<meta name="description" content="GNAT User's Guide for Native Platforms">
+<meta name="generator" content="makeinfo 4.13">
+<link title="Top" rel="start" href="index.html#Top">
+<link rel="up" href="Compiler-Switches.html#Compiler-Switches" title="Compiler Switches">
+<link rel="prev" href="Debugging-Control.html#Debugging-Control" title="Debugging Control">
+<link rel="next" href="Units-to-Sources-Mapping-Files.html#Units-to-Sources-Mapping-Files" title="Units to Sources Mapping Files">
+<link href="http://www.gnu.org/software/texinfo/" rel="generator-home" title="Texinfo Homepage">
+<!--
+
+     GNAT User's Guide for Native Platforms , March 24, 2015
+
+     AdaCore
+
+     Copyright (C) 2008-2015, Free Software Foundation
+-->
+<meta http-equiv="Content-Style-Type" content="text/css">
+<style type="text/css"><!--
+  pre.display { font-family:inherit }
+  pre.format  { font-family:inherit }
+  pre.smalldisplay { font-family:inherit; font-size:smaller }
+  pre.smallformat  { font-family:inherit; font-size:smaller }
+  pre.smallexample { font-size:smaller }
+  pre.smalllisp    { font-size:smaller }
+  span.sc    { font-variant:small-caps }
+  span.roman { font-family:serif; font-weight:normal; } 
+  span.sansserif { font-family:sans-serif; font-weight:normal; } 
+--></style>
+</head>
+<body>
+<div class="node">
+<a name="Exception-Handling-Control"></a>
+<p>
+Next:&nbsp;<a rel="next" accesskey="n" href="Units-to-Sources-Mapping-Files.html#Units-to-Sources-Mapping-Files">Units to Sources Mapping Files</a>,
+Previous:&nbsp;<a rel="previous" accesskey="p" href="Debugging-Control.html#Debugging-Control">Debugging Control</a>,
+Up:&nbsp;<a rel="up" accesskey="u" href="Compiler-Switches.html#Compiler-Switches">Compiler Switches</a>
+<hr>
+</div>
+
+<p><a name="gnat_005fugn_002fbuilding_005fexecutable_005fprograms_005fwith_005fgnat-id28"></a><a name="g_t119"></a><a name="gnat_005fugn_002fbuilding_005fexecutable_005fprograms_005fwith_005fgnat-exception_002dhandling_002dcontrol"></a><a name="g_t11a"></a>
+
+<h4 class="subsection">4.3.16 Exception Handling Control</h4>
+
+<p>GNAT uses two methods for handling exceptions at run-time. The
+<cite>setjmp/longjmp</cite> method saves the context when entering
+a frame with an exception handler. Then when an exception is
+raised, the context can be restored immediately, without the
+need for tracing stack frames. This method provides very fast
+exception propagation, but introduces significant overhead for
+the use of exception handlers, even if no exception is raised.
+
+<p>The other approach is called 'zero cost' exception handling. 
+With this method, the compiler builds static tables to describe
+the exception ranges. No dynamic code is required when entering
+a frame containing an exception handler. When an exception is
+raised, the tables are used to control a back trace of the
+subprogram invocation stack to locate the required exception
+handler. This method has considerably poorer performance for
+the propagation of exceptions, but there is no overhead for
+exception handlers if no exception is raised. Note that in this
+mode and in the context of mixed Ada and C/C++ programming,
+to propagate an exception through a C/C++ code, the C/C++ code
+must be compiled with the `-funwind-tables' GCC's
+option.
+
+<p>The following switches may be used to control which of the
+two exception handling methods is used.
+
+<p><a name="index-g_t_002d_002dRTS_003dsjlj-_0028gnatmake_0029-651"></a>
+
+     <dl>
+<dt><code>--RTS=sjlj</code><dd>
+This switch causes the setjmp/longjmp run-time (when available) to be used
+for exception handling. If the default
+mechanism for the target is zero cost exceptions, then
+this switch can be used to modify this default, and must be
+used for all units in the partition. 
+This option is rarely used. One case in which it may be
+advantageous is if you have an application where exception
+raising is common and the overall performance of the
+application is improved by favoring exception propagation. 
+</dl>
+
+<p><a name="index-g_t_002d_002dRTS_003dzcx-_0028gnatmake_0029-652"></a>
+<a name="index-Zero-Cost-Exceptions-653"></a>
+
+     <dl>
+<dt><code>--RTS=zcx</code><dd>
+This switch causes the zero cost approach to be used
+for exception handling. If this is the default mechanism for the
+target (see below), then this switch is unneeded. If the default
+mechanism for the target is setjmp/longjmp exceptions, then
+this switch can be used to modify this default, and must be
+used for all units in the partition. 
+This option can only be used if the zero cost approach
+is available for the target in use, otherwise it will generate an error. 
+</dl>
+
+<p>The same option `&ndash;RTS' must be used both for `gcc'
+and `gnatbind'. Passing this option to `gnatmake'
+(<a href="df.html#df">Switches for gnatmake</a>) will ensure the required consistency
+through the compilation and binding steps.
+
+</body></html>
+

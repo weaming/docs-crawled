@@ -1,0 +1,82 @@
+<html lang="en">
+<head>
+<title>Encodings - Guide to GNU gcj</title>
+<meta http-equiv="Content-Type" content="text/html">
+<meta name="description" content="Guide to GNU gcj">
+<meta name="generator" content="makeinfo 4.13">
+<link title="Top" rel="start" href="index.html#Top">
+<link rel="up" href="Invoking-gcj.html#Invoking-gcj" title="Invoking gcj">
+<link rel="prev" href="Input-Options.html#Input-Options" title="Input Options">
+<link rel="next" href="Warnings.html#Warnings" title="Warnings">
+<link href="http://www.gnu.org/software/texinfo/" rel="generator-home" title="Texinfo Homepage">
+<!--
+Copyright (C) 2001-2015 Free Software Foundation, Inc.
+
+Permission is granted to copy, distribute and/or modify this document
+under the terms of the GNU Free Documentation License, Version 1.3 or
+any later version published by the Free Software Foundation; with no
+Invariant Sections, the Front-Cover Texts being (a) (see below), and
+with the Back-Cover Texts being (b) (see below).
+A copy of the license is included in the
+section entitled ``GNU Free Documentation License''.
+
+
+(a) The FSF's Front-Cover Text is:
+
+     A GNU Manual
+
+(b) The FSF's Back-Cover Text is:
+
+     You have freedom to copy and modify this GNU Manual, like GNU
+     software.  Copies published by the Free Software Foundation raise
+     funds for GNU development.
+-->
+<meta http-equiv="Content-Style-Type" content="text/css">
+<style type="text/css"><!--
+  pre.display { font-family:inherit }
+  pre.format  { font-family:inherit }
+  pre.smalldisplay { font-family:inherit; font-size:smaller }
+  pre.smallformat  { font-family:inherit; font-size:smaller }
+  pre.smallexample { font-size:smaller }
+  pre.smalllisp    { font-size:smaller }
+  span.sc    { font-variant:small-caps }
+  span.roman { font-family:serif; font-weight:normal; } 
+  span.sansserif { font-family:sans-serif; font-weight:normal; } 
+--></style>
+</head>
+<body>
+<div class="node">
+<a name="Encodings"></a>
+<p>
+Next:&nbsp;<a rel="next" accesskey="n" href="Warnings.html#Warnings">Warnings</a>,
+Previous:&nbsp;<a rel="previous" accesskey="p" href="Input-Options.html#Input-Options">Input Options</a>,
+Up:&nbsp;<a rel="up" accesskey="u" href="Invoking-gcj.html#Invoking-gcj">Invoking gcj</a>
+<hr>
+</div>
+
+<h3 class="section">1.3 Encodings</h3>
+
+<p>The Java programming language uses Unicode throughout.  In an effort to
+integrate well with other locales, <samp><span class="command">gcj</span></samp> allows <samp><span class="file">.java</span></samp> files
+to be written using almost any encoding.  <samp><span class="command">gcj</span></samp> knows how to
+convert these encodings into its internal encoding at compile time.
+
+   <p>You can use the <code>--encoding=</code><var>NAME</var> option to specify an
+encoding (of a particular character set) to use for source files.  If
+this is not specified, the default encoding comes from your current
+locale.  If your host system has insufficient locale support, then
+<samp><span class="command">gcj</span></samp> assumes the default encoding to be the &lsquo;<samp><span class="samp">UTF-8</span></samp>&rsquo; encoding
+of Unicode.
+
+   <p>To implement <code>--encoding</code>, <samp><span class="command">gcj</span></samp> simply uses the host
+platform's <code>iconv</code> conversion routine.  This means that in practice
+<samp><span class="command">gcj</span></samp> is limited by the capabilities of the host platform.
+
+   <p>The names allowed for the argument <code>--encoding</code> vary from platform
+to platform (since they are not standardized anywhere).  However,
+<samp><span class="command">gcj</span></samp> implements the encoding named &lsquo;<samp><span class="samp">UTF-8</span></samp>&rsquo; internally, so if
+you choose to use this for your source files you can be assured that it
+will work on every host.
+
+   </body></html>
+

@@ -1,0 +1,60 @@
+<html lang="en">
+<head>
+<title>Pragma Profile_Warnings - GNAT Reference Manual</title>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+<meta name="description" content="GNAT Reference Manual">
+<meta name="generator" content="makeinfo 4.13">
+<link title="Top" rel="start" href="index.html#Top">
+<link rel="up" href="Implementation-Defined-Pragmas.html#Implementation-Defined-Pragmas" title="Implementation Defined Pragmas">
+<link rel="prev" href="Pragma-Profile.html#Pragma-Profile" title="Pragma Profile">
+<link rel="next" href="Pragma-Propagate_005fExceptions.html#Pragma-Propagate_005fExceptions" title="Pragma Propagate_Exceptions">
+<link href="http://www.gnu.org/software/texinfo/" rel="generator-home" title="Texinfo Homepage">
+<!--
+
+     GNAT Reference Manual , March 24, 2015
+
+     AdaCore
+
+     Copyright (C) 2008-2015, Free Software Foundation
+-->
+<meta http-equiv="Content-Style-Type" content="text/css">
+<style type="text/css"><!--
+  pre.display { font-family:inherit }
+  pre.format  { font-family:inherit }
+  pre.smalldisplay { font-family:inherit; font-size:smaller }
+  pre.smallformat  { font-family:inherit; font-size:smaller }
+  pre.smallexample { font-size:smaller }
+  pre.smalllisp    { font-size:smaller }
+  span.sc    { font-variant:small-caps }
+  span.roman { font-family:serif; font-weight:normal; } 
+  span.sansserif { font-family:sans-serif; font-weight:normal; } 
+--></style>
+</head>
+<body>
+<div class="node">
+<a name="Pragma-Profile_Warnings"></a>
+<a name="Pragma-Profile_005fWarnings"></a>
+<p>
+Next:&nbsp;<a rel="next" accesskey="n" href="Pragma-Propagate_005fExceptions.html#Pragma-Propagate_005fExceptions">Pragma Propagate_Exceptions</a>,
+Previous:&nbsp;<a rel="previous" accesskey="p" href="Pragma-Profile.html#Pragma-Profile">Pragma Profile</a>,
+Up:&nbsp;<a rel="up" accesskey="u" href="Implementation-Defined-Pragmas.html#Implementation-Defined-Pragmas">Implementation Defined Pragmas</a>
+<hr>
+</div>
+
+<p><a name="gnat_005frm_002fimplementation_005fdefined_005fpragmas-pragma_002dprofile_002dwarnings"></a><a name="a2"></a>
+
+<h3 class="section">2.134 Pragma Profile_Warnings</h3>
+
+<p>Syntax:
+
+<pre class="example">    pragma Profile_Warnings (Ravenscar | Restricted | Rational);
+</pre>
+<p>This is an implementation-defined pragma that is similar in
+effect to <cite>pragma Profile</cite> except that instead of
+generating <cite>Restrictions</cite> pragmas, it generates
+<cite>Restriction_Warnings</cite> pragmas. The result is that
+violations of the profile generate warning messages instead
+of error messages.
+
+</body></html>
+

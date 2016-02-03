@@ -1,0 +1,84 @@
+<html lang="en">
+<head>
+<title>Building aggregate library projects - GNAT User's Guide for Native Platforms</title>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+<meta name="description" content="GNAT User's Guide for Native Platforms">
+<meta name="generator" content="makeinfo 4.13">
+<link title="Top" rel="start" href="index.html#Top">
+<link rel="up" href="Aggregate-Library-Projects.html#Aggregate-Library-Projects" title="Aggregate Library Projects">
+<link rel="next" href="Syntax-of-aggregate-library-projects.html#Syntax-of-aggregate-library-projects" title="Syntax of aggregate library projects">
+<link href="http://www.gnu.org/software/texinfo/" rel="generator-home" title="Texinfo Homepage">
+<!--
+
+     GNAT User's Guide for Native Platforms , March 24, 2015
+
+     AdaCore
+
+     Copyright (C) 2008-2015, Free Software Foundation
+-->
+<meta http-equiv="Content-Style-Type" content="text/css">
+<style type="text/css"><!--
+  pre.display { font-family:inherit }
+  pre.format  { font-family:inherit }
+  pre.smalldisplay { font-family:inherit; font-size:smaller }
+  pre.smallformat  { font-family:inherit; font-size:smaller }
+  pre.smallexample { font-size:smaller }
+  pre.smalllisp    { font-size:smaller }
+  span.sc    { font-variant:small-caps }
+  span.roman { font-family:serif; font-weight:normal; } 
+  span.sansserif { font-family:sans-serif; font-weight:normal; } 
+--></style>
+</head>
+<body>
+<div class="node">
+<a name="Building-aggregate-library-projects"></a>
+<p>
+Next:&nbsp;<a rel="next" accesskey="n" href="Syntax-of-aggregate-library-projects.html#Syntax-of-aggregate-library-projects">Syntax of aggregate library projects</a>,
+Up:&nbsp;<a rel="up" accesskey="u" href="Aggregate-Library-Projects.html#Aggregate-Library-Projects">Aggregate Library Projects</a>
+<hr>
+</div>
+
+<p><a name="gnat_005fugn_002fgnat_005fproject_005fmanager-building_002daggregate_002dlibrary_002dprojects"></a><a name="g_t190"></a><a name="gnat_005fugn_002fgnat_005fproject_005fmanager-id35"></a><a name="g_t191"></a>
+
+<h4 class="subsection">5.8.1 Building aggregate library projects</h4>
+
+<p>For example, we can define an aggregate project Agg that groups A, B
+and C:
+
+<pre class="example">    aggregate library project Agg is
+       for Project_Files use ("a.gpr", "b.gpr", "c.gpr");
+       for Library_Name use ("agg");
+       for Library_Dir use ("lagg");
+    end Agg;
+</pre>
+<p>Then, when you build with:
+
+<pre class="example">    gprbuild agg.gpr
+</pre>
+<p>This will build all units from projects A, B and C and will create a
+static library named <code>libagg.a</code> in the <code>lagg</code>
+directory. An aggregate library project has the same set of
+restriction as a standard library project.
+
+<p>Note that a shared aggregate library project cannot aggregate a
+static library project. In platforms where a compiler option is
+required to create relocatable object files, a Builder package in the
+aggregate library project may be used:
+
+<pre class="example">    aggregate library project Agg is
+       for Project_Files use ("a.gpr", "b.gpr", "c.gpr");
+       for Library_Name use ("agg");
+       for Library_Dir use ("lagg");
+       for Library_Kind use "relocatable";
+    
+       package Builder is
+          for Global_Compilation_Switches ("Ada") use ("-fPIC");
+       end Builder;
+    end Agg;
+</pre>
+<p>With the above aggregate library Builder package, the <cite>-fPIC</cite>
+option will be passed to the compiler when building any source code
+from projects <code>a.gpr</code>, <code>b.gpr</code> and <code>c.gpr</code>.
+
+</body></html>
+

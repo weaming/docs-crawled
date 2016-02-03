@@ -1,0 +1,133 @@
+<html lang="en">
+<head>
+<title>Other 8-Bit Codes - GNAT User's Guide for Native Platforms</title>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+<meta name="description" content="GNAT User's Guide for Native Platforms">
+<meta name="generator" content="makeinfo 4.13">
+<link title="Top" rel="start" href="index.html#Top">
+<link rel="up" href="Foreign-Language-Representation.html#Foreign-Language-Representation" title="Foreign Language Representation">
+<link rel="prev" href="Latin_002d1.html#Latin_002d1" title="Latin-1">
+<link rel="next" href="Wide_005fCharacter-Encodings.html#Wide_005fCharacter-Encodings" title="Wide_Character Encodings">
+<link href="http://www.gnu.org/software/texinfo/" rel="generator-home" title="Texinfo Homepage">
+<!--
+
+     GNAT User's Guide for Native Platforms , March 24, 2015
+
+     AdaCore
+
+     Copyright (C) 2008-2015, Free Software Foundation
+-->
+<meta http-equiv="Content-Style-Type" content="text/css">
+<style type="text/css"><!--
+  pre.display { font-family:inherit }
+  pre.format  { font-family:inherit }
+  pre.smalldisplay { font-family:inherit; font-size:smaller }
+  pre.smallformat  { font-family:inherit; font-size:smaller }
+  pre.smallexample { font-size:smaller }
+  pre.smalllisp    { font-size:smaller }
+  span.sc    { font-variant:small-caps }
+  span.roman { font-family:serif; font-weight:normal; } 
+  span.sansserif { font-family:sans-serif; font-weight:normal; } 
+--></style>
+</head>
+<body>
+<div class="node">
+<a name="Other-8-Bit-Codes"></a>
+<a name="Other-8_002dBit-Codes"></a>
+<p>
+Next:&nbsp;<a rel="next" accesskey="n" href="Wide_005fCharacter-Encodings.html#Wide_005fCharacter-Encodings">Wide_Character Encodings</a>,
+Previous:&nbsp;<a rel="previous" accesskey="p" href="Latin_002d1.html#Latin_002d1">Latin-1</a>,
+Up:&nbsp;<a rel="up" accesskey="u" href="Foreign-Language-Representation.html#Foreign-Language-Representation">Foreign Language Representation</a>
+<hr>
+</div>
+
+<p><a name="gnat_005fugn_002fthe_005fgnat_005fcompilation_005fmodel-other_002d8_002dbit_002dcodes"></a><a name="g_t4d"></a><a name="gnat_005fugn_002fthe_005fgnat_005fcompilation_005fmodel-id5"></a><a name="g_t4e"></a>
+
+<h4 class="subsection">3.2.2 Other 8-Bit Codes</h4>
+
+<p>GNAT also supports several other 8-bit coding schemes:
+
+<p><a name="index-Latin_002d2-21"></a>
+<a name="index-ISO-8859_002d2-22"></a>
+
+     <dl>
+<dt>`ISO 8859-2 (Latin-2)'<dd>
+Latin-2 letters allowed in identifiers, with uppercase and lowercase
+equivalence. 
+</dl>
+
+<p><a name="index-Latin_002d3-23"></a>
+<a name="index-ISO-8859_002d3-24"></a>
+
+     <dl>
+<dt>`ISO 8859-3 (Latin-3)'<dd>
+Latin-3 letters allowed in identifiers, with uppercase and lowercase
+equivalence. 
+</dl>
+
+<p><a name="index-Latin_002d4-25"></a>
+<a name="index-ISO-8859_002d4-26"></a>
+
+     <dl>
+<dt>`ISO 8859-4 (Latin-4)'<dd>
+Latin-4 letters allowed in identifiers, with uppercase and lowercase
+equivalence. 
+</dl>
+
+<p><a name="index-ISO-8859_002d5-27"></a>
+<a name="index-Cyrillic-28"></a>
+
+     <dl>
+<dt>`ISO 8859-5 (Cyrillic)'<dd>
+ISO 8859-5 letters (Cyrillic) allowed in identifiers, with uppercase and
+lowercase equivalence. 
+</dl>
+
+<p><a name="index-ISO-8859_002d15-29"></a>
+<a name="index-Latin_002d9-30"></a>
+
+     <dl>
+<dt>`ISO 8859-15 (Latin-9)'<dd>
+ISO 8859-15 (Latin-9) letters allowed in identifiers, with uppercase and
+lowercase equivalence
+</dl>
+
+<p><a name="index-code-page-437-_0028IBM-PC_0029-31"></a>
+
+     <dl>
+<dt>`IBM PC (code page 437)'<dd>
+This code page is the normal default for PCs in the U.S. It corresponds
+to the original IBM PC character set. This set has some, but not all, of
+the extended Latin-1 letters, but these letters do not have the same
+encoding as Latin-1. In this mode, these letters are allowed in
+identifiers with uppercase and lowercase equivalence. 
+</dl>
+
+<p><a name="index-code-page-850-_0028IBM-PC_0029-32"></a>
+
+     <dl>
+<dt>`IBM PC (code page 850)'<dd>
+This code page is a modification of 437 extended to include all the
+Latin-1 letters, but still not with the usual Latin-1 encoding. In this
+mode, all these letters are allowed in identifiers with uppercase and
+lowercase equivalence.
+
+     <br><dt>`Full Upper 8-bit'<dd>
+Any character in the range 80-FF allowed in identifiers, and all are
+considered distinct. In other words, there are no uppercase and lowercase
+equivalences in this range. This is useful in conjunction with
+certain encoding schemes used for some foreign character sets (e.g.,
+the typical method of representing Chinese characters on the PC).
+
+     <br><dt>`No Upper-Half'<dd>
+No upper-half characters in the range 80-FF are allowed in identifiers. 
+This gives Ada 83 compatibility for identifier names. 
+</dl>
+
+<p>For precise data on the encodings permitted, and the uppercase and lowercase
+equivalences that are recognized, see the file <code>csets.adb</code> in
+the GNAT compiler sources. You will need to obtain a full source release
+of GNAT to obtain this file.
+
+</body></html>
+

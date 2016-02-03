@@ -1,0 +1,106 @@
+<html lang="en">
+<head>
+<title>Running gnatlink - GNAT User's Guide for Native Platforms</title>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+<meta name="description" content="GNAT User's Guide for Native Platforms">
+<meta name="generator" content="makeinfo 4.13">
+<link title="Top" rel="start" href="index.html#Top">
+<link rel="up" href="Linking-with-gnatlink.html#Linking-with-gnatlink" title="Linking with gnatlink">
+<link rel="next" href="Switches-for-gnatlink.html#Switches-for-gnatlink" title="Switches for gnatlink">
+<link href="http://www.gnu.org/software/texinfo/" rel="generator-home" title="Texinfo Homepage">
+<!--
+
+     GNAT User's Guide for Native Platforms , March 24, 2015
+
+     AdaCore
+
+     Copyright (C) 2008-2015, Free Software Foundation
+-->
+<meta http-equiv="Content-Style-Type" content="text/css">
+<style type="text/css"><!--
+  pre.display { font-family:inherit }
+  pre.format  { font-family:inherit }
+  pre.smalldisplay { font-family:inherit; font-size:smaller }
+  pre.smallformat  { font-family:inherit; font-size:smaller }
+  pre.smallexample { font-size:smaller }
+  pre.smalllisp    { font-size:smaller }
+  span.sc    { font-variant:small-caps }
+  span.roman { font-family:serif; font-weight:normal; } 
+  span.sansserif { font-family:sans-serif; font-weight:normal; } 
+--></style>
+</head>
+<body>
+<div class="node">
+<a name="Running-gnatlink"></a>
+<p>
+Next:&nbsp;<a rel="next" accesskey="n" href="Switches-for-gnatlink.html#Switches-for-gnatlink">Switches for gnatlink</a>,
+Up:&nbsp;<a rel="up" accesskey="u" href="Linking-with-gnatlink.html#Linking-with-gnatlink">Linking with gnatlink</a>
+<hr>
+</div>
+
+<p><a name="gnat_005fugn_002fbuilding_005fexecutable_005fprograms_005fwith_005fgnat-id45"></a><a name="g_t138"></a><a name="gnat_005fugn_002fbuilding_005fexecutable_005fprograms_005fwith_005fgnat-running_002dgnatlink"></a><a name="g_t139"></a>
+
+<h4 class="subsection">4.5.1 Running `gnatlink'</h4>
+
+<p>The form of the `gnatlink' command is
+
+<pre class="example">    $ gnatlink [`switches`] `mainprog`[.ali]
+               [`non-Ada objects`] [`linker options`]
+</pre>
+<p>The arguments of `gnatlink' (switches, main <code>ALI</code> file,
+non-Ada objects
+or linker options) may be in any order, provided that no non-Ada object may
+be mistaken for a main <code>ALI</code> file. 
+Any file name <code>F</code> without the <code>.ali</code>
+extension will be taken as the main <code>ALI</code> file if a file exists
+whose name is the concatenation of <code>F</code> and <code>.ali</code>.
+
+<p><code>mainprog.ali</code> references the ALI file of the main program. 
+The <code>.ali</code> extension of this file can be omitted. From this
+reference, `gnatlink' locates the corresponding binder file
+<code>b~mainprog.adb</code> and, using the information in this file along
+with the list of non-Ada objects and linker options, constructs a
+linker command file to create the executable.
+
+<p>The arguments other than the `gnatlink' switches and the main
+<code>ALI</code> file are passed to the linker uninterpreted. 
+They typically include the names of
+object files for units written in other languages than Ada and any library
+references required to resolve references in any of these foreign language
+units, or in <cite>Import</cite> pragmas in any Ada units.
+
+<p><cite>linker options</cite> is an optional list of linker specific
+switches. 
+The default linker called by gnatlink is `gcc' which in
+turn calls the appropriate system linker.
+
+<p>One useful option for the linker is `-s': it reduces the size of the
+executable by removing all symbol table and relocation information from the
+executable.
+
+<p>Standard options for the linker such as `-lmy_lib' or
+`-Ldir' can be added as is. 
+For options that are not recognized by
+`gcc' as linker options, use the `gcc' switches
+`-Xlinker' or `-Wl,'.
+
+<p>Refer to the GCC documentation for
+details.
+
+<p>Here is an example showing how to generate a linker map:
+
+<pre class="example">    $ gnatlink my_prog -Wl,-Map,MAPFILE
+</pre>
+<p>Using <cite>linker options</cite> it is possible to set the program stack and
+heap size. 
+See <a href="13a.html#g_t13a">Setting Stack Size from gnatlink</a> and
+<a href="13b.html#g_t13b">Setting Heap Size from gnatlink</a>.
+
+<p>`gnatlink' determines the list of objects required by the Ada
+program and prepends them to the list of objects passed to the linker. 
+`gnatlink' also gathers any arguments set by the use of
+<cite>pragma Linker_Options</cite> and adds them to the list of arguments
+presented to the linker.
+
+</body></html>
+

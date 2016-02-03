@@ -1,0 +1,86 @@
+<html lang="en">
+<head>
+<title>Component_Size Clauses - GNAT Reference Manual</title>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+<meta name="description" content="GNAT Reference Manual">
+<meta name="generator" content="makeinfo 4.13">
+<link title="Top" rel="start" href="index.html#Top">
+<link rel="up" href="Representation-Clauses-and-Pragmas.html#Representation-Clauses-and-Pragmas" title="Representation Clauses and Pragmas">
+<link rel="prev" href="Value_005fSize-and-Object_005fSize-Clauses.html#Value_005fSize-and-Object_005fSize-Clauses" title="Value_Size and Object_Size Clauses">
+<link rel="next" href="Bit_005fOrder-Clauses.html#Bit_005fOrder-Clauses" title="Bit_Order Clauses">
+<link href="http://www.gnu.org/software/texinfo/" rel="generator-home" title="Texinfo Homepage">
+<!--
+
+     GNAT Reference Manual , March 24, 2015
+
+     AdaCore
+
+     Copyright (C) 2008-2015, Free Software Foundation
+-->
+<meta http-equiv="Content-Style-Type" content="text/css">
+<style type="text/css"><!--
+  pre.display { font-family:inherit }
+  pre.format  { font-family:inherit }
+  pre.smalldisplay { font-family:inherit; font-size:smaller }
+  pre.smallformat  { font-family:inherit; font-size:smaller }
+  pre.smallexample { font-size:smaller }
+  pre.smalllisp    { font-size:smaller }
+  span.sc    { font-variant:small-caps }
+  span.roman { font-family:serif; font-weight:normal; } 
+  span.sansserif { font-family:sans-serif; font-weight:normal; } 
+--></style>
+</head>
+<body>
+<div class="node">
+<a name="Component_Size-Clauses"></a>
+<a name="Component_005fSize-Clauses"></a>
+<p>
+Next:&nbsp;<a rel="next" accesskey="n" href="Bit_005fOrder-Clauses.html#Bit_005fOrder-Clauses">Bit_Order Clauses</a>,
+Previous:&nbsp;<a rel="previous" accesskey="p" href="Value_005fSize-and-Object_005fSize-Clauses.html#Value_005fSize-and-Object_005fSize-Clauses">Value_Size and Object_Size Clauses</a>,
+Up:&nbsp;<a rel="up" accesskey="u" href="Representation-Clauses-and-Pragmas.html#Representation-Clauses-and-Pragmas">Representation Clauses and Pragmas</a>
+<hr>
+</div>
+
+<p><a name="gnat_005frm_002frepresentation_005fclauses_005fand_005fpragmas-id8"></a><a name="g_t226"></a><a name="gnat_005frm_002frepresentation_005fclauses_005fand_005fpragmas-component_002dsize_002dclauses"></a><a name="g_t227"></a>
+
+<h3 class="section">9.7 Component_Size Clauses</h3>
+
+<p><a name="index-Component_005fSize-Clause-497"></a>
+Normally, the value specified in a component size clause must be consistent
+with the subtype of the array component with regard to size and alignment. 
+In other words, the value specified must be at least equal to the size
+of this subtype, and must be a multiple of the alignment value.
+
+<p>In addition, component size clauses are allowed which cause the array
+to be packed, by specifying a smaller value.  A first case is for
+component size values in the range 1 through 63.  The value specified
+must not be smaller than the Size of the subtype.  GNAT will accurately
+honor all packing requests in this range.  For example, if we have:
+
+<pre class="example">    type r is array (1 .. 8) of Natural;
+    for r'Component_Size use 31;
+</pre>
+<p>then the resulting array has a length of 31 bytes (248 bits = 8 * 31). 
+Of course access to the components of such an array is considerably
+less efficient than if the natural component size of 32 is used. 
+A second case is when the subtype of the component is a record type
+padded because of its default alignment.  For example, if we have:
+
+<pre class="example">    type r is record
+      i : Integer;
+      j : Integer;
+      b : Boolean;
+    end record;
+    
+    type a is array (1 .. 8) of r;
+    for a'Component_Size use 72;
+</pre>
+<p>then the resulting array has a length of 72 bytes, instead of 96 bytes
+if the alignment of the record (4) was obeyed.
+
+<p>Note that there is no point in giving both a component size clause
+and a pragma Pack for the same array type. if such duplicate
+clauses are given, the pragma Pack will be ignored.
+
+</body></html>
+

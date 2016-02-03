@@ -1,0 +1,75 @@
+<html lang="en">
+<head>
+<title>Using Ada Expressions - GNAT User's Guide for Native Platforms</title>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+<meta name="description" content="GNAT User's Guide for Native Platforms">
+<meta name="generator" content="makeinfo 4.13">
+<link title="Top" rel="start" href="index.html#Top">
+<link rel="up" href="Running-and-Debugging-Ada-Programs.html#Running-and-Debugging-Ada-Programs" title="Running and Debugging Ada Programs">
+<link rel="prev" href="Introduction-to-GDB-Commands.html#Introduction-to-GDB-Commands" title="Introduction to GDB Commands">
+<link rel="next" href="Calling-User_002dDefined-Subprograms.html#Calling-User_002dDefined-Subprograms" title="Calling User-Defined Subprograms">
+<link href="http://www.gnu.org/software/texinfo/" rel="generator-home" title="Texinfo Homepage">
+<!--
+
+     GNAT User's Guide for Native Platforms , March 24, 2015
+
+     AdaCore
+
+     Copyright (C) 2008-2015, Free Software Foundation
+-->
+<meta http-equiv="Content-Style-Type" content="text/css">
+<style type="text/css"><!--
+  pre.display { font-family:inherit }
+  pre.format  { font-family:inherit }
+  pre.smalldisplay { font-family:inherit; font-size:smaller }
+  pre.smallformat  { font-family:inherit; font-size:smaller }
+  pre.smallexample { font-size:smaller }
+  pre.smalllisp    { font-size:smaller }
+  span.sc    { font-variant:small-caps }
+  span.roman { font-family:serif; font-weight:normal; } 
+  span.sansserif { font-family:sans-serif; font-weight:normal; } 
+--></style>
+</head>
+<body>
+<div class="node">
+<a name="Using-Ada-Expressions"></a>
+<p>
+Next:&nbsp;<a rel="next" accesskey="n" href="Calling-User_002dDefined-Subprograms.html#Calling-User_002dDefined-Subprograms">Calling User-Defined Subprograms</a>,
+Previous:&nbsp;<a rel="previous" accesskey="p" href="Introduction-to-GDB-Commands.html#Introduction-to-GDB-Commands">Introduction to GDB Commands</a>,
+Up:&nbsp;<a rel="up" accesskey="u" href="Running-and-Debugging-Ada-Programs.html#Running-and-Debugging-Ada-Programs">Running and Debugging Ada Programs</a>
+<hr>
+</div>
+
+<p><a name="gnat_005fugn_002fgnat_005fand_005fprogram_005fexecution-id6"></a><a name="g_t1fd"></a><a name="gnat_005fugn_002fgnat_005fand_005fprogram_005fexecution-using_002dada_002dexpressions"></a><a name="g_t1fe"></a>
+
+<h4 class="subsection">8.1.4 Using Ada Expressions</h4>
+
+<p><a name="index-Ada-expressions-_0028in-gdb_0029-952"></a>
+<cite>GDB</cite> supports a fairly large subset of Ada expression syntax, with some
+extensions. The philosophy behind the design of this subset is
+
+<blockquote>
+
+     <ul>
+<li>That <cite>GDB</cite> should provide basic literals and access to operations for
+arithmetic, dereferencing, field selection, indexing, and subprogram calls,
+leaving more sophisticated computations to subprograms written into the
+program (which therefore may be called from <cite>GDB</cite>).
+
+     <li>That type safety and strict adherence to Ada language restrictions
+are not particularly relevant in a debugging context.
+
+     <li>That brevity is important to the <cite>GDB</cite> user. 
+</ul>
+</blockquote>
+
+<p>Thus, for brevity, the debugger acts as if there were
+implicit <cite>with</cite> and <cite>use</cite> clauses in effect for all user-written
+packages, thus making it unnecessary to fully qualify most names with
+their packages, regardless of context. Where this causes ambiguity,
+<cite>GDB</cite> asks the user's intent.
+
+<p>For details on the supported Ada syntax, see <cite>Debugging with GDB</cite>.
+
+</body></html>
+

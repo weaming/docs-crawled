@@ -1,0 +1,5 @@
+<map id="__gnu_pbds::detail::trie_policy_base&lt; Node_CItr, Node_Itr, _ATraits, _Alloc &gt;" name="__gnu_pbds::detail::trie_policy_base&lt; Node_CItr, Node_Itr, _ATraits, _Alloc &gt;">
+<area shape="rect" id="node3" href="$a00379.html" title="Functor updating ranks of entrees. " alt="" coords="405,5,560,71"/>
+<area shape="rect" id="node4" href="$a00380.html" title="A node updator that allows tries to be searched for the range of values that match a certain prefix..." alt="" coords="389,95,576,160"/>
+<area shape="rect" id="node2" href="$a00206.html" title="Primary template, base class for branch structure policies. " alt="" coords="5,57,156,109"/>
+</map>

@@ -1,0 +1,116 @@
+<html lang="en">
+<head>
+<title>Some Useful Memory Pools - GNAT User's Guide for Native Platforms</title>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+<meta name="description" content="GNAT User's Guide for Native Platforms">
+<meta name="generator" content="makeinfo 4.13">
+<link title="Top" rel="start" href="index.html#Top">
+<link rel="up" href="Memory-Management-Issues.html#Memory-Management-Issues" title="Memory Management Issues">
+<link rel="next" href="The-GNAT-Debug-Pool-Facility.html#The-GNAT-Debug-Pool-Facility" title="The GNAT Debug Pool Facility">
+<link href="http://www.gnu.org/software/texinfo/" rel="generator-home" title="Texinfo Homepage">
+<!--
+
+     GNAT User's Guide for Native Platforms , March 24, 2015
+
+     AdaCore
+
+     Copyright (C) 2008-2015, Free Software Foundation
+-->
+<meta http-equiv="Content-Style-Type" content="text/css">
+<style type="text/css"><!--
+  pre.display { font-family:inherit }
+  pre.format  { font-family:inherit }
+  pre.smalldisplay { font-family:inherit; font-size:smaller }
+  pre.smallformat  { font-family:inherit; font-size:smaller }
+  pre.smallexample { font-size:smaller }
+  pre.smalllisp    { font-size:smaller }
+  span.sc    { font-variant:small-caps }
+  span.roman { font-family:serif; font-weight:normal; } 
+  span.sansserif { font-family:sans-serif; font-weight:normal; } 
+--></style>
+</head>
+<body>
+<div class="node">
+<a name="Some-Useful-Memory-Pools"></a>
+<p>
+Next:&nbsp;<a rel="next" accesskey="n" href="The-GNAT-Debug-Pool-Facility.html#The-GNAT-Debug-Pool-Facility">The GNAT Debug Pool Facility</a>,
+Up:&nbsp;<a rel="up" accesskey="u" href="Memory-Management-Issues.html#Memory-Management-Issues">Memory Management Issues</a>
+<hr>
+</div>
+
+<p><a name="gnat_005fugn_002fgnat_005fand_005fprogram_005fexecution-id66"></a><a name="g_t254"></a><a name="gnat_005fugn_002fgnat_005fand_005fprogram_005fexecution-some_002duseful_002dmemory_002dpools"></a><a name="g_t255"></a>
+
+<h4 class="subsection">8.7.1 Some Useful Memory Pools</h4>
+
+<p><a name="index-Memory-Pool-1041"></a>
+<a name="index-storage-1042"></a><a name="index-pool-1043"></a>
+The <cite>System.Pool_Global</cite> package offers the Unbounded_No_Reclaim_Pool
+storage pool. Allocations use the standard system call <cite>malloc</cite> while
+deallocations use the standard system call <cite>free</cite>. No reclamation is
+performed when the pool goes out of scope. For performance reasons, the
+standard default Ada allocators/deallocators do not use any explicit storage
+pools but if they did, they could use this storage pool without any change in
+behavior. That is why this storage pool is used  when the user
+manages to make the default implicit allocator explicit as in this example:
+
+<blockquote>
+
+<pre class="example">    type T1 is access Something;
+     -- no Storage pool is defined for T2
+    
+    type T2 is access Something_Else;
+    for T2'Storage_Pool use T1'Storage_Pool;
+    -- the above is equivalent to
+    for T2'Storage_Pool use System.Pool_Global.Global_Pool_Object;
+</pre>
+</blockquote>
+
+<p>The <cite>System.Pool_Local</cite> package offers the Unbounded_Reclaim_Pool storage
+pool. The allocation strategy is similar to <cite>Pool_Local</cite>'s
+except that the all
+storage allocated with this pool is reclaimed when the pool object goes out of
+scope. This pool provides a explicit mechanism similar to the implicit one
+provided by several Ada 83 compilers for allocations performed through a local
+access type and whose purpose was to reclaim memory when exiting the
+scope of a given local access. As an example, the following program does not
+leak memory even though it does not perform explicit deallocation:
+
+<blockquote>
+
+<pre class="example">    with System.Pool_Local;
+    procedure Pooloc1 is
+       procedure Internal is
+          type A is access Integer;
+          X : System.Pool_Local.Unbounded_Reclaim_Pool;
+          for A'Storage_Pool use X;
+          v : A;
+       begin
+          for I in  1 .. 50 loop
+             v := new Integer;
+          end loop;
+       end Internal;
+    begin
+       for I in  1 .. 100 loop
+          Internal;
+       end loop;
+    end Pooloc1;
+</pre>
+</blockquote>
+
+<p>The <cite>System.Pool_Size</cite> package implements the Stack_Bounded_Pool used when
+<cite>Storage_Size</cite> is specified for an access type. 
+The whole storage for the pool is
+allocated at once, usually on the stack at the point where the access type is
+elaborated. It is automatically reclaimed when exiting the scope where the
+access type is defined. This package is not intended to be used directly by the
+user and it is implicitly used for each such declaration:
+
+<blockquote>
+
+<pre class="example">    type T1 is access Something;
+    for T1'Storage_Size use 10_000;
+</pre>
+</blockquote>
+
+</body></html>
+

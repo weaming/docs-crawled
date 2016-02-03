@@ -1,0 +1,109 @@
+<html lang="en">
+<head>
+<title>Example of unused subprogram/data elimination - GNAT User's Guide for Native Platforms</title>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+<meta name="description" content="GNAT User's Guide for Native Platforms">
+<meta name="generator" content="makeinfo 4.13">
+<link title="Top" rel="start" href="index.html#Top">
+<link rel="up" href="Reducing-Size-of-Executables-with-Unused-Subprogram_002fData-Elimination.html#Reducing-Size-of-Executables-with-Unused-Subprogram_002fData-Elimination" title="Reducing Size of Executables with Unused Subprogram/Data Elimination">
+<link rel="prev" href="Compilation-options.html#Compilation-options" title="Compilation options">
+<link href="http://www.gnu.org/software/texinfo/" rel="generator-home" title="Texinfo Homepage">
+<!--
+
+     GNAT User's Guide for Native Platforms , March 24, 2015
+
+     AdaCore
+
+     Copyright (C) 2008-2015, Free Software Foundation
+-->
+<meta http-equiv="Content-Style-Type" content="text/css">
+<style type="text/css"><!--
+  pre.display { font-family:inherit }
+  pre.format  { font-family:inherit }
+  pre.smalldisplay { font-family:inherit; font-size:smaller }
+  pre.smallformat  { font-family:inherit; font-size:smaller }
+  pre.smallexample { font-size:smaller }
+  pre.smalllisp    { font-size:smaller }
+  span.sc    { font-variant:small-caps }
+  span.roman { font-family:serif; font-weight:normal; } 
+  span.sansserif { font-family:sans-serif; font-weight:normal; } 
+--></style>
+</head>
+<body>
+<div class="node">
+<a name="Example-of-unused-subprogram%2fdata-elimination"></a>
+<a name="Example-of-unused-subprogram_002fdata-elimination"></a>
+<p>
+Previous:&nbsp;<a rel="previous" accesskey="p" href="Compilation-options.html#Compilation-options">Compilation options</a>,
+Up:&nbsp;<a rel="up" accesskey="u" href="Reducing-Size-of-Executables-with-Unused-Subprogram_002fData-Elimination.html#Reducing-Size-of-Executables-with-Unused-Subprogram_002fData-Elimination">Reducing Size of Executables with Unused Subprogram/Data Elimination</a>
+<hr>
+</div>
+
+<p><a name="gnat_005fugn_002fgnat_005fand_005fprogram_005fexecution-id46"></a><a name="g_t246"></a><a name="gnat_005fugn_002fgnat_005fand_005fprogram_005fexecution-example_002dof_002dunused_002dsubprogram_002ddata_002delimination"></a><a name="g_t247"></a>
+
+<h5 class="subsubsection">8.3.3.3 Example of unused subprogram/data elimination</h5>
+
+<p>Here is a simple example:
+
+<blockquote>
+
+<pre class="example">    with Aux;
+    
+    procedure Test is
+    begin
+       Aux.Used (10);
+    end Test;
+    
+    package Aux is
+       Used_Data   : Integer;
+       Unused_Data : Integer;
+    
+       procedure Used   (Data : Integer);
+       procedure Unused (Data : Integer);
+    end Aux;
+    
+    package body Aux is
+       procedure Used (Data : Integer) is
+       begin
+          Used_Data := Data;
+       end Used;
+    
+       procedure Unused (Data : Integer) is
+       begin
+          Unused_Data := Data;
+       end Unused;
+    end Aux;
+</pre>
+</blockquote>
+
+<p><cite>Unused</cite> and <cite>Unused_Data</cite> are never referenced in this code
+excerpt, and hence they may be safely removed from the final executable.
+
+<blockquote>
+
+<pre class="example">    $ gnatmake test
+    
+    $ nm test | grep used
+    020015f0 T aux__unused
+    02005d88 B aux__unused_data
+    020015cc T aux__used
+    02005d84 B aux__used_data
+    
+    $ gnatmake test -cargs -fdata-sections -ffunction-sections \\
+         -largs -Wl,--gc-sections
+    
+    $ nm test | grep used
+    02005350 T aux__used
+    0201ffe0 B aux__used_data
+</pre>
+</blockquote>
+
+<p>It can be observed that the procedure <cite>Unused</cite> and the object
+<cite>Unused_Data</cite> are removed by the linker when using the
+appropriate options.
+
+<p><a name="index-Overflow-checks-1023"></a>
+<a name="index-Checks-_0028overflow_0029-1024"></a>
+
+</body></html>
+

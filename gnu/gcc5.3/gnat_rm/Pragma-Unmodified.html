@@ -1,0 +1,73 @@
+<html lang="en">
+<head>
+<title>Pragma Unmodified - GNAT Reference Manual</title>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+<meta name="description" content="GNAT Reference Manual">
+<meta name="generator" content="makeinfo 4.13">
+<link title="Top" rel="start" href="index.html#Top">
+<link rel="up" href="Implementation-Defined-Pragmas.html#Implementation-Defined-Pragmas" title="Implementation Defined Pragmas">
+<link rel="prev" href="Pragma-Universal_005fData.html#Pragma-Universal_005fData" title="Pragma Universal_Data">
+<link rel="next" href="Pragma-Unreferenced.html#Pragma-Unreferenced" title="Pragma Unreferenced">
+<link href="http://www.gnu.org/software/texinfo/" rel="generator-home" title="Texinfo Homepage">
+<!--
+
+     GNAT Reference Manual , March 24, 2015
+
+     AdaCore
+
+     Copyright (C) 2008-2015, Free Software Foundation
+-->
+<meta http-equiv="Content-Style-Type" content="text/css">
+<style type="text/css"><!--
+  pre.display { font-family:inherit }
+  pre.format  { font-family:inherit }
+  pre.smalldisplay { font-family:inherit; font-size:smaller }
+  pre.smallformat  { font-family:inherit; font-size:smaller }
+  pre.smallexample { font-size:smaller }
+  pre.smalllisp    { font-size:smaller }
+  span.sc    { font-variant:small-caps }
+  span.roman { font-family:serif; font-weight:normal; } 
+  span.sansserif { font-family:sans-serif; font-weight:normal; } 
+--></style>
+</head>
+<body>
+<div class="node">
+<a name="Pragma-Unmodified"></a>
+<p>
+Next:&nbsp;<a rel="next" accesskey="n" href="Pragma-Unreferenced.html#Pragma-Unreferenced">Pragma Unreferenced</a>,
+Previous:&nbsp;<a rel="previous" accesskey="p" href="Pragma-Universal_005fData.html#Pragma-Universal_005fData">Pragma Universal_Data</a>,
+Up:&nbsp;<a rel="up" accesskey="u" href="Implementation-Defined-Pragmas.html#Implementation-Defined-Pragmas">Implementation Defined Pragmas</a>
+<hr>
+</div>
+
+<p><a name="gnat_005frm_002fimplementation_005fdefined_005fpragmas-pragma_002dunmodified"></a><a name="d4"></a>
+
+<h3 class="section">2.181 Pragma Unmodified</h3>
+
+<p><a name="index-Warnings-100"></a><a name="index-unmodified-101"></a>
+Syntax:
+
+<pre class="example">    pragma Unmodified (LOCAL_NAME {, LOCAL_NAME});
+</pre>
+<p>This pragma signals that the assignable entities (variables,
+<cite>out</cite> parameters, <cite>in out</cite> parameters) whose names are listed are
+deliberately not assigned in the current source unit. This
+suppresses warnings about the
+entities being referenced but not assigned, and in addition a warning will be
+generated if one of these entities is in fact assigned in the
+same unit as the pragma (or in the corresponding body, or one
+of its subunits).
+
+<p>This is particularly useful for clearly signaling that a particular
+parameter is not modified, even though the spec suggests that it might
+be.
+
+<p>For the variable case, warnings are never given for unreferenced variables
+whose name contains one of the substrings
+<cite>DISCARD, DUMMY, IGNORE, JUNK, UNUSED</cite> in any casing. Such names
+are typically to be used in cases where such warnings are expected. 
+Thus it is never necessary to use <cite>pragma Unmodified</cite> for such
+variables, though it is harmless to do so.
+
+</body></html>
+

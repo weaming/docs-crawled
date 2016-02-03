@@ -1,0 +1,113 @@
+<html lang="en">
+<head>
+<title>Synchronization - Guide to GNU gcj</title>
+<meta http-equiv="Content-Type" content="text/html">
+<meta name="description" content="Guide to GNU gcj">
+<meta name="generator" content="makeinfo 4.13">
+<link title="Top" rel="start" href="index.html#Top">
+<link rel="up" href="About-CNI.html#About-CNI" title="About CNI">
+<link rel="prev" href="Exception-Handling.html#Exception-Handling" title="Exception Handling">
+<link rel="next" href="Invocation.html#Invocation" title="Invocation">
+<link href="http://www.gnu.org/software/texinfo/" rel="generator-home" title="Texinfo Homepage">
+<!--
+Copyright (C) 2001-2015 Free Software Foundation, Inc.
+
+Permission is granted to copy, distribute and/or modify this document
+under the terms of the GNU Free Documentation License, Version 1.3 or
+any later version published by the Free Software Foundation; with no
+Invariant Sections, the Front-Cover Texts being (a) (see below), and
+with the Back-Cover Texts being (b) (see below).
+A copy of the license is included in the
+section entitled ``GNU Free Documentation License''.
+
+
+(a) The FSF's Front-Cover Text is:
+
+     A GNU Manual
+
+(b) The FSF's Back-Cover Text is:
+
+     You have freedom to copy and modify this GNU Manual, like GNU
+     software.  Copies published by the Free Software Foundation raise
+     funds for GNU development.
+-->
+<meta http-equiv="Content-Style-Type" content="text/css">
+<style type="text/css"><!--
+  pre.display { font-family:inherit }
+  pre.format  { font-family:inherit }
+  pre.smalldisplay { font-family:inherit; font-size:smaller }
+  pre.smallformat  { font-family:inherit; font-size:smaller }
+  pre.smallexample { font-size:smaller }
+  pre.smalllisp    { font-size:smaller }
+  span.sc    { font-variant:small-caps }
+  span.roman { font-family:serif; font-weight:normal; } 
+  span.sansserif { font-family:sans-serif; font-weight:normal; } 
+--></style>
+</head>
+<body>
+<div class="node">
+<a name="Synchronization"></a>
+<p>
+Next:&nbsp;<a rel="next" accesskey="n" href="Invocation.html#Invocation">Invocation</a>,
+Previous:&nbsp;<a rel="previous" accesskey="p" href="Exception-Handling.html#Exception-Handling">Exception Handling</a>,
+Up:&nbsp;<a rel="up" accesskey="u" href="About-CNI.html#About-CNI">About CNI</a>
+<hr>
+</div>
+
+<h3 class="section">11.15 Synchronization</h3>
+
+<p>Each Java object has an implicit monitor. 
+The Java VM uses the instruction <code>monitorenter</code> to acquire
+and lock a monitor, and <code>monitorexit</code> to release it.
+
+   <p>The corresponding CNI macros are <code>JvMonitorEnter</code> and
+<code>JvMonitorExit</code> (JNI has similar  methods <code>MonitorEnter</code>
+and <code>MonitorExit</code>).
+
+   <p>The Java source language does not provide direct access to these primitives. 
+Instead, there is a <code>synchronized</code> statement that does an
+implicit <code>monitorenter</code> before entry to the block,
+and does a <code>monitorexit</code> on exit from the block. 
+Note that the lock has to be released even when the block is abnormally
+terminated by an exception, which means there is an implicit
+<code>try finally</code> surrounding synchronization locks.
+
+   <p>From C++, it makes sense to use a destructor to release a lock. 
+<acronym>CNI</acronym> defines the following utility class:
+
+<pre class="example">     class JvSynchronize() {
+       jobject obj;
+       JvSynchronize(jobject o) { obj = o; JvMonitorEnter(o); }
+       ~JvSynchronize() { JvMonitorExit(obj); }
+     };
+</pre>
+   <p>So this Java code:
+
+<pre class="example">     synchronized (OBJ)
+     {
+        CODE
+     }
+</pre>
+   <p class="noindent">might become this C++ code:
+
+<pre class="example">     {
+        JvSynchronize dummy (OBJ);
+        CODE;
+     }
+</pre>
+   <p>Java also has methods with the <code>synchronized</code> attribute. 
+This is equivalent to wrapping the entire method body in a
+<code>synchronized</code> statement. 
+(Alternatively, an implementation could require the caller to do
+the synchronization.  This is not practical for a compiler, because
+each virtual method call would have to test at run-time if
+synchronization is needed.)  Since in <samp><span class="command">gcj</span></samp>
+the <code>synchronized</code> attribute is handled by the
+method implementation, it is up to the programmer
+of a synchronized native method to handle the synchronization
+(in the C++ implementation of the method). 
+In other words, you need to manually add <code>JvSynchronize</code>
+in a <code>native synchronized</code> method.
+
+   </body></html>
+

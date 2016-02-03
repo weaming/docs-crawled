@@ -1,0 +1,97 @@
+<html lang="en">
+<head>
+<title>Comparison between GNAT and Conventional Ada Library Models - GNAT User's Guide for Native Platforms</title>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+<meta name="description" content="GNAT User's Guide for Native Platforms">
+<meta name="generator" content="makeinfo 4.13">
+<link title="Top" rel="start" href="index.html#Top">
+<link rel="up" href="GNAT-and-Other-Compilation-Models.html#GNAT-and-Other-Compilation-Models" title="GNAT and Other Compilation Models">
+<link rel="prev" href="Comparison-between-GNAT-and-C_002fC_002b_002b-Compilation-Models.html#Comparison-between-GNAT-and-C_002fC_002b_002b-Compilation-Models" title="Comparison between GNAT and C/C++ Compilation Models">
+<link href="http://www.gnu.org/software/texinfo/" rel="generator-home" title="Texinfo Homepage">
+<!--
+
+     GNAT User's Guide for Native Platforms , March 24, 2015
+
+     AdaCore
+
+     Copyright (C) 2008-2015, Free Software Foundation
+-->
+<meta http-equiv="Content-Style-Type" content="text/css">
+<style type="text/css"><!--
+  pre.display { font-family:inherit }
+  pre.format  { font-family:inherit }
+  pre.smalldisplay { font-family:inherit; font-size:smaller }
+  pre.smallformat  { font-family:inherit; font-size:smaller }
+  pre.smallexample { font-size:smaller }
+  pre.smalllisp    { font-size:smaller }
+  span.sc    { font-variant:small-caps }
+  span.roman { font-family:serif; font-weight:normal; } 
+  span.sansserif { font-family:sans-serif; font-weight:normal; } 
+--></style>
+</head>
+<body>
+<div class="node">
+<a name="Comparison-between-GNAT-and-Conventional-Ada-Library-Models"></a>
+<p>
+Previous:&nbsp;<a rel="previous" accesskey="p" href="Comparison-between-GNAT-and-C_002fC_002b_002b-Compilation-Models.html#Comparison-between-GNAT-and-C_002fC_002b_002b-Compilation-Models">Comparison between GNAT and C/C++ Compilation Models</a>,
+Up:&nbsp;<a rel="up" accesskey="u" href="GNAT-and-Other-Compilation-Models.html#GNAT-and-Other-Compilation-Models">GNAT and Other Compilation Models</a>
+<hr>
+</div>
+
+<p><a name="gnat_005fugn_002fthe_005fgnat_005fcompilation_005fmodel-comparison_002dbetween_002dgnat_002dand_002dconventional_002dada_002dlibrary_002dmodels"></a><a name="d3"></a><a name="gnat_005fugn_002fthe_005fgnat_005fcompilation_005fmodel-id75"></a><a name="d4"></a>
+
+<h4 class="subsection">3.12.2 Comparison between GNAT and Conventional Ada Library Models</h4>
+
+<p>This section is intended for Ada programmers who have
+used an Ada compiler implementing the traditional Ada library
+model, as described in the Ada Reference Manual.
+
+<p><a name="index-GNAT-library-170"></a>
+In GNAT, there is no 'library' in the normal sense. Instead, the set of
+source files themselves acts as the library. Compiling Ada programs does
+not generate any centralized information, but rather an object file and
+a ALI file, which are of interest only to the binder and linker. 
+In a traditional system, the compiler reads information not only from
+the source file being compiled, but also from the centralized library. 
+This means that the effect of a compilation depends on what has been
+previously compiled. In particular:
+
+     <ul>
+<li>When a unit is `with'ed, the unit seen by the compiler corresponds
+to the version of the unit most recently compiled into the library.
+
+     <li>Inlining is effective only if the necessary body has already been
+compiled into the library.
+
+     <li>Compiling a unit may obsolete other units in the library. 
+</ul>
+
+<p>In GNAT, compiling one unit never affects the compilation of any other
+units because the compiler reads only source files. Only changes to source
+files can affect the results of a compilation. In particular:
+
+     <ul>
+<li>When a unit is `with'ed, the unit seen by the compiler corresponds
+to the source version of the unit that is currently accessible to the
+compiler.
+
+     <p><a name="index-Inlining-171"></a>
+<li>Inlining requires the appropriate source files for the package or
+subprogram bodies to be available to the compiler. Inlining is always
+effective, independent of the order in which units are compiled.
+
+     <li>Compiling a unit never affects any other compilations. The editing of
+sources may cause previous compilations to be out of date if they
+depended on the source file being modified. 
+</ul>
+
+<p>The most important result of these differences is that order of compilation
+is never significant in GNAT. There is no situation in which one is
+required to do one compilation before another. What shows up as order of
+compilation requirements in the traditional Ada library becomes, in
+GNAT, simple source dependencies; in other words, there is only a set
+of rules saying what source files must be present when a file is
+compiled.
+
+</body></html>
+

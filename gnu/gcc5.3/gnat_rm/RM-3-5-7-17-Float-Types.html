@@ -1,0 +1,71 @@
+<html lang="en">
+<head>
+<title>RM 3 5 7 17 Float Types - GNAT Reference Manual</title>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+<meta name="description" content="GNAT Reference Manual">
+<meta name="generator" content="makeinfo 4.13">
+<link title="Top" rel="start" href="index.html#Top">
+<link rel="up" href="Implementation-Advice.html#Implementation-Advice" title="Implementation Advice">
+<link rel="prev" href="RM-3-5-5-8-Enumeration-Values.html#RM-3-5-5-8-Enumeration-Values" title="RM 3 5 5 8 Enumeration Values">
+<link rel="next" href="RM-3-6-2-11-Multidimensional-Arrays.html#RM-3-6-2-11-Multidimensional-Arrays" title="RM 3 6 2 11 Multidimensional Arrays">
+<link href="http://www.gnu.org/software/texinfo/" rel="generator-home" title="Texinfo Homepage">
+<!--
+
+     GNAT Reference Manual , March 24, 2015
+
+     AdaCore
+
+     Copyright (C) 2008-2015, Free Software Foundation
+-->
+<meta http-equiv="Content-Style-Type" content="text/css">
+<style type="text/css"><!--
+  pre.display { font-family:inherit }
+  pre.format  { font-family:inherit }
+  pre.smalldisplay { font-family:inherit; font-size:smaller }
+  pre.smallformat  { font-family:inherit; font-size:smaller }
+  pre.smallexample { font-size:smaller }
+  pre.smalllisp    { font-size:smaller }
+  span.sc    { font-variant:small-caps }
+  span.roman { font-family:serif; font-weight:normal; } 
+  span.sansserif { font-family:sans-serif; font-weight:normal; } 
+--></style>
+</head>
+<body>
+<div class="node">
+<a name="RM-3-5-7-17-Float-Types"></a>
+<p>
+Next:&nbsp;<a rel="next" accesskey="n" href="RM-3-6-2-11-Multidimensional-Arrays.html#RM-3-6-2-11-Multidimensional-Arrays">RM 3 6 2 11 Multidimensional Arrays</a>,
+Previous:&nbsp;<a rel="previous" accesskey="p" href="RM-3-5-5-8-Enumeration-Values.html#RM-3-5-5-8-Enumeration-Values">RM 3 5 5 8 Enumeration Values</a>,
+Up:&nbsp;<a rel="up" accesskey="u" href="Implementation-Advice.html#Implementation-Advice">Implementation Advice</a>
+<hr>
+</div>
+
+<p><a name="gnat_005frm_002fimplementation_005fadvice-rm_002d3_002d5_002d7_002d17_002dfloat_002dtypes"></a><a name="g_t1c6"></a>
+
+<h3 class="section">6.10 RM 3.5.7(17): Float Types</h3>
+
+<blockquote>
+
+<p>"An implementation should support <cite>Long_Float</cite> in addition to
+<cite>Float</cite> if the target machine supports 11 or more digits of
+precision.  No other named floating point subtypes are recommended for
+package <cite>Standard</cite>.  Instead, appropriate named floating point subtypes
+should be provided in the library package <cite>Interfaces</cite> (see B.2)." 
+</blockquote>
+
+<p><cite>Short_Float</cite> and <cite>Long_Long_Float</cite> are also provided.  The
+former provides improved compatibility with other implementations
+supporting this type.  The latter corresponds to the highest precision
+floating-point type supported by the hardware.  On most machines, this
+will be the same as <cite>Long_Float</cite>, but on some machines, it will
+correspond to the IEEE extended form.  The notable case is all ia32
+(x86) implementations, where <cite>Long_Long_Float</cite> corresponds to
+the 80-bit extended precision format supported in hardware on this
+processor.  Note that the 128-bit format on SPARC is not supported,
+since this is a software rather than a hardware format.
+
+<p><a name="index-Multidimensional-arrays-382"></a>
+<a name="index-Arrays-383"></a><a name="index-multidimensional-384"></a>
+
+</body></html>
+

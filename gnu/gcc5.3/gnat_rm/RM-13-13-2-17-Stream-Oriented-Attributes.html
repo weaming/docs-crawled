@@ -1,0 +1,88 @@
+<html lang="en">
+<head>
+<title>RM 13 13 2 17 Stream Oriented Attributes - GNAT Reference Manual</title>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+<meta name="description" content="GNAT Reference Manual">
+<meta name="generator" content="makeinfo 4.13">
+<link title="Top" rel="start" href="index.html#Top">
+<link rel="up" href="Implementation-Advice.html#Implementation-Advice" title="Implementation Advice">
+<link rel="prev" href="RM-13-11-2-17-Unchecked-Deallocation.html#RM-13-11-2-17-Unchecked-Deallocation" title="RM 13 11 2 17 Unchecked Deallocation">
+<link rel="next" href="RM-A-1-52-Names-of-Predefined-Numeric-Types.html#RM-A-1-52-Names-of-Predefined-Numeric-Types" title="RM A 1 52 Names of Predefined Numeric Types">
+<link href="http://www.gnu.org/software/texinfo/" rel="generator-home" title="Texinfo Homepage">
+<!--
+
+     GNAT Reference Manual , March 24, 2015
+
+     AdaCore
+
+     Copyright (C) 2008-2015, Free Software Foundation
+-->
+<meta http-equiv="Content-Style-Type" content="text/css">
+<style type="text/css"><!--
+  pre.display { font-family:inherit }
+  pre.format  { font-family:inherit }
+  pre.smalldisplay { font-family:inherit; font-size:smaller }
+  pre.smallformat  { font-family:inherit; font-size:smaller }
+  pre.smallexample { font-size:smaller }
+  pre.smalllisp    { font-size:smaller }
+  span.sc    { font-variant:small-caps }
+  span.roman { font-family:serif; font-weight:normal; } 
+  span.sansserif { font-family:sans-serif; font-weight:normal; } 
+--></style>
+</head>
+<body>
+<div class="node">
+<a name="RM-13-13-2-17-Stream-Oriented-Attributes"></a>
+<p>
+Next:&nbsp;<a rel="next" accesskey="n" href="RM-A-1-52-Names-of-Predefined-Numeric-Types.html#RM-A-1-52-Names-of-Predefined-Numeric-Types">RM A 1 52 Names of Predefined Numeric Types</a>,
+Previous:&nbsp;<a rel="previous" accesskey="p" href="RM-13-11-2-17-Unchecked-Deallocation.html#RM-13-11-2-17-Unchecked-Deallocation">RM 13 11 2 17 Unchecked Deallocation</a>,
+Up:&nbsp;<a rel="up" accesskey="u" href="Implementation-Advice.html#Implementation-Advice">Implementation Advice</a>
+<hr>
+</div>
+
+<p><a name="gnat_005frm_002fimplementation_005fadvice-rm_002d13_002d13_002d2_002d17_002dstream_002doriented_002dattributes"></a><a name="g_t1dc"></a>
+
+<h3 class="section">6.32 RM 13.13.2(17): Stream Oriented Attributes</h3>
+
+<blockquote>
+
+<p>"If a stream element is the same size as a storage element, then the
+normal in-memory representation should be used by <cite>Read</cite> and
+<cite>Write</cite> for scalar objects.  Otherwise, <cite>Read</cite> and <cite>Write</cite>
+should use the smallest number of stream elements needed to represent
+all values in the base range of the scalar type." 
+</blockquote>
+
+<p>Followed.  By default, GNAT uses the interpretation suggested by AI-195,
+which specifies using the size of the first subtype. 
+However, such an implementation is based on direct binary
+representations and is therefore target- and endianness-dependent. 
+To address this issue, GNAT also supplies an alternate implementation
+of the stream attributes <cite>Read</cite> and <cite>Write</cite>,
+which uses the target-independent XDR standard representation
+for scalar types.
+
+<p><a name="index-XDR-representation-415"></a>
+<a name="index-Read-attribute-416"></a>
+<a name="index-Write-attribute-417"></a>
+<a name="index-Stream-oriented-attributes-418"></a>
+The XDR implementation is provided as an alternative body of the
+<cite>System.Stream_Attributes</cite> package, in the file
+<code>s-stratt-xdr.adb</code> in the GNAT library. 
+There is no <code>s-stratt-xdr.ads</code> file. 
+In order to install the XDR implementation, do the following:
+
+     <ul>
+<li>Replace the default implementation of the
+<cite>System.Stream_Attributes</cite> package with the XDR implementation. 
+For example on a Unix platform issue the commands:
+
+     <pre class="example">         $ mv s-stratt.adb s-stratt-default.adb
+         $ mv s-stratt-xdr.adb s-stratt.adb
+</pre>
+     <li>Rebuild the GNAT run-time library as documented in
+the <cite>GNAT and Libraries</cite> section of the <cite>GNAT User's Guide</cite>. 
+</ul>
+
+</body></html>
+

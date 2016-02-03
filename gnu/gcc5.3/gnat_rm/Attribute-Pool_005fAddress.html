@@ -1,0 +1,66 @@
+<html lang="en">
+<head>
+<title>Attribute Pool_Address - GNAT Reference Manual</title>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+<meta name="description" content="GNAT Reference Manual">
+<meta name="generator" content="makeinfo 4.13">
+<link title="Top" rel="start" href="index.html#Top">
+<link rel="up" href="Implementation-Defined-Attributes.html#Implementation-Defined-Attributes" title="Implementation Defined Attributes">
+<link rel="prev" href="Attribute-Passed_005fBy_005fReference.html#Attribute-Passed_005fBy_005fReference" title="Attribute Passed_By_Reference">
+<link rel="next" href="Attribute-Range_005fLength.html#Attribute-Range_005fLength" title="Attribute Range_Length">
+<link href="http://www.gnu.org/software/texinfo/" rel="generator-home" title="Texinfo Homepage">
+<!--
+
+     GNAT Reference Manual , March 24, 2015
+
+     AdaCore
+
+     Copyright (C) 2008-2015, Free Software Foundation
+-->
+<meta http-equiv="Content-Style-Type" content="text/css">
+<style type="text/css"><!--
+  pre.display { font-family:inherit }
+  pre.format  { font-family:inherit }
+  pre.smalldisplay { font-family:inherit; font-size:smaller }
+  pre.smallformat  { font-family:inherit; font-size:smaller }
+  pre.smallexample { font-size:smaller }
+  pre.smalllisp    { font-size:smaller }
+  span.sc    { font-variant:small-caps }
+  span.roman { font-family:serif; font-weight:normal; } 
+  span.sansserif { font-family:sans-serif; font-weight:normal; } 
+--></style>
+</head>
+<body>
+<div class="node">
+<a name="Attribute-Pool_Address"></a>
+<a name="Attribute-Pool_005fAddress"></a>
+<p>
+Next:&nbsp;<a rel="next" accesskey="n" href="Attribute-Range_005fLength.html#Attribute-Range_005fLength">Attribute Range_Length</a>,
+Previous:&nbsp;<a rel="previous" accesskey="p" href="Attribute-Passed_005fBy_005fReference.html#Attribute-Passed_005fBy_005fReference">Attribute Passed_By_Reference</a>,
+Up:&nbsp;<a rel="up" accesskey="u" href="Implementation-Defined-Attributes.html#Implementation-Defined-Attributes">Implementation Defined Attributes</a>
+<hr>
+</div>
+
+<p><a name="gnat_005frm_002fimplementation_005fdefined_005fattributes-attribute_002dpool_002daddress"></a><a name="g_t145"></a>
+
+<h3 class="section">4.45 Attribute Pool_Address</h3>
+
+<p><a name="index-Parameters-233"></a><a name="index-when-passed-by-reference-234"></a>
+<a name="index-Pool_005fAddress-235"></a>
+<code>X'Pool_Address</code> for any object <cite>X</cite> returns the address
+of X within its storage pool. This is the same as
+<code>X'Address</code>, except that for an unconstrained array whose
+bounds are allocated just before the first component,
+<code>X'Pool_Address</code> returns the address of those bounds,
+whereas <code>X'Address</code> returns the address of the first
+component.
+
+<p>Here, we are interpreting 'storage pool' broadly to mean
+<code>wherever the object is allocated</code>, which could be a
+user-defined storage pool,
+the global heap, on the stack, or in a static memory area. 
+For an object created by <cite>new</cite>, <code>Ptr.all'Pool_Address</code> is
+what is passed to <cite>Allocate</cite> and returned from <cite>Deallocate</cite>.
+
+</body></html>
+

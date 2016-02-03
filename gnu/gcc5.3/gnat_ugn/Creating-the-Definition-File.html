@@ -1,0 +1,75 @@
+<html lang="en">
+<head>
+<title>Creating the Definition File - GNAT User's Guide for Native Platforms</title>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+<meta name="description" content="GNAT User's Guide for Native Platforms">
+<meta name="generator" content="makeinfo 4.13">
+<link title="Top" rel="start" href="index.html#Top">
+<link rel="up" href="Creating-a-Spec-for-Ada-DLLs.html#Creating-a-Spec-for-Ada-DLLs" title="Creating a Spec for Ada DLLs">
+<link rel="next" href="Using-gnatdll.html#Using-gnatdll" title="Using gnatdll">
+<link href="http://www.gnu.org/software/texinfo/" rel="generator-home" title="Texinfo Homepage">
+<!--
+
+     GNAT User's Guide for Native Platforms , March 24, 2015
+
+     AdaCore
+
+     Copyright (C) 2008-2015, Free Software Foundation
+-->
+<meta http-equiv="Content-Style-Type" content="text/css">
+<style type="text/css"><!--
+  pre.display { font-family:inherit }
+  pre.format  { font-family:inherit }
+  pre.smalldisplay { font-family:inherit; font-size:smaller }
+  pre.smallformat  { font-family:inherit; font-size:smaller }
+  pre.smallexample { font-size:smaller }
+  pre.smalllisp    { font-size:smaller }
+  span.sc    { font-variant:small-caps }
+  span.roman { font-family:serif; font-weight:normal; } 
+  span.sansserif { font-family:sans-serif; font-weight:normal; } 
+--></style>
+</head>
+<body>
+<div class="node">
+<a name="Creating-the-Definition-File"></a>
+<p>
+Next:&nbsp;<a rel="next" accesskey="n" href="Using-gnatdll.html#Using-gnatdll">Using gnatdll</a>,
+Up:&nbsp;<a rel="up" accesskey="u" href="Creating-a-Spec-for-Ada-DLLs.html#Creating-a-Spec-for-Ada-DLLs">Creating a Spec for Ada DLLs</a>
+<hr>
+</div>
+
+<p><a name="gnat_005fugn_002fplatform_005fspecific_005finformation-creating_002dthe_002ddefinition_002dfile"></a><a name="g_t292"></a><a name="gnat_005fugn_002fplatform_005fspecific_005finformation-id31"></a><a name="g_t297"></a>
+
+<h5 class="subsubsection">9.3.5.18 Creating the Definition File</h5>
+
+<p>The definition file is the last file needed to build the DLL. It lists
+the exported symbols. As an example, the definition file for a DLL
+containing only package <cite>API</cite> (where all the entities are exported
+with a <cite>C</cite> calling convention) is:
+
+<blockquote>
+
+<pre class="example">    EXPORTS
+        count
+        factorial
+        finalize_api
+        initialize_api
+</pre>
+</blockquote>
+
+<p>If the <cite>C</cite> calling convention is missing from package <cite>API</cite>,
+then the definition file contains the mangled Ada names of the above
+entities, which in this case are:
+
+<blockquote>
+
+<pre class="example">    EXPORTS
+        api__count
+        api__factorial
+        api__finalize_api
+        api__initialize_api
+</pre>
+</blockquote>
+
+</body></html>
+

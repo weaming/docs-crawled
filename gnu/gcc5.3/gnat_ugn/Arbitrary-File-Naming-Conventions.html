@@ -1,0 +1,66 @@
+<html lang="en">
+<head>
+<title>Arbitrary File Naming Conventions - GNAT User's Guide for Native Platforms</title>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+<meta name="description" content="GNAT User's Guide for Native Platforms">
+<meta name="generator" content="makeinfo 4.13">
+<link title="Top" rel="start" href="index.html#Top">
+<link rel="up" href="Handling-Arbitrary-File-Naming-Conventions-with-gnatname.html#Handling-Arbitrary-File-Naming-Conventions-with-gnatname" title="Handling Arbitrary File Naming Conventions with gnatname">
+<link rel="next" href="Running-gnatname.html#Running-gnatname" title="Running gnatname">
+<link href="http://www.gnu.org/software/texinfo/" rel="generator-home" title="Texinfo Homepage">
+<!--
+
+     GNAT User's Guide for Native Platforms , March 24, 2015
+
+     AdaCore
+
+     Copyright (C) 2008-2015, Free Software Foundation
+-->
+<meta http-equiv="Content-Style-Type" content="text/css">
+<style type="text/css"><!--
+  pre.display { font-family:inherit }
+  pre.format  { font-family:inherit }
+  pre.smalldisplay { font-family:inherit; font-size:smaller }
+  pre.smallformat  { font-family:inherit; font-size:smaller }
+  pre.smallexample { font-size:smaller }
+  pre.smalllisp    { font-size:smaller }
+  span.sc    { font-variant:small-caps }
+  span.roman { font-family:serif; font-weight:normal; } 
+  span.sansserif { font-family:sans-serif; font-weight:normal; } 
+--></style>
+</head>
+<body>
+<div class="node">
+<a name="Arbitrary-File-Naming-Conventions"></a>
+<p>
+Next:&nbsp;<a rel="next" accesskey="n" href="Running-gnatname.html#Running-gnatname">Running gnatname</a>,
+Up:&nbsp;<a rel="up" accesskey="u" href="Handling-Arbitrary-File-Naming-Conventions-with-gnatname.html#Handling-Arbitrary-File-Naming-Conventions-with-gnatname">Handling Arbitrary File Naming Conventions with gnatname</a>
+<hr>
+</div>
+
+<p><a name="gnat_005fugn_002fthe_005fgnat_005fcompilation_005fmodel-arbitrary_002dfile_002dnaming_002dconventions"></a><a name="g_t5d"></a><a name="gnat_005fugn_002fthe_005fgnat_005fcompilation_005fmodel-id13"></a><a name="g_t5e"></a>
+
+<h5 class="subsubsection">3.3.4.1 Arbitrary File Naming Conventions</h5>
+
+<p>The GNAT compiler must be able to know the source file name of a compilation
+unit.  When using the standard GNAT default file naming conventions
+(<cite>.ads</cite> for specs, <cite>.adb</cite> for bodies), the GNAT compiler
+does not need additional information.
+
+<p>When the source file names do not follow the standard GNAT default file naming
+conventions, the GNAT compiler must be given additional information through
+a configuration pragmas file (<a href="16.html#g_t16">Configuration Pragmas</a>)
+or a project file. 
+When the non-standard file naming conventions are well-defined,
+a small number of pragmas <cite>Source_File_Name</cite> specifying a naming pattern
+(<a href="5a.html#g_t5a">Alternative File Naming Schemes</a>) may be sufficient. However,
+if the file naming conventions are irregular or arbitrary, a number
+of pragma <cite>Source_File_Name</cite> for individual compilation units
+must be defined. 
+To help maintain the correspondence between compilation unit names and
+source file names within the compiler,
+GNAT provides a tool <cite>gnatname</cite> to generate the required pragmas for a
+set of files.
+
+</body></html>
+

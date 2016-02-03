@@ -1,0 +1,75 @@
+<html lang="en">
+<head>
+<title>Pragma Annotate - GNAT Reference Manual</title>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+<meta name="description" content="GNAT Reference Manual">
+<meta name="generator" content="makeinfo 4.13">
+<link title="Top" rel="start" href="index.html#Top">
+<link rel="up" href="Implementation-Defined-Pragmas.html#Implementation-Defined-Pragmas" title="Implementation Defined Pragmas">
+<link rel="prev" href="Pragma-Allow_005fInteger_005fAddress.html#Pragma-Allow_005fInteger_005fAddress" title="Pragma Allow_Integer_Address">
+<link rel="next" href="Pragma-Assert.html#Pragma-Assert" title="Pragma Assert">
+<link href="http://www.gnu.org/software/texinfo/" rel="generator-home" title="Texinfo Homepage">
+<!--
+
+     GNAT Reference Manual , March 24, 2015
+
+     AdaCore
+
+     Copyright (C) 2008-2015, Free Software Foundation
+-->
+<meta http-equiv="Content-Style-Type" content="text/css">
+<style type="text/css"><!--
+  pre.display { font-family:inherit }
+  pre.format  { font-family:inherit }
+  pre.smalldisplay { font-family:inherit; font-size:smaller }
+  pre.smallformat  { font-family:inherit; font-size:smaller }
+  pre.smallexample { font-size:smaller }
+  pre.smalllisp    { font-size:smaller }
+  span.sc    { font-variant:small-caps }
+  span.roman { font-family:serif; font-weight:normal; } 
+  span.sansserif { font-family:sans-serif; font-weight:normal; } 
+--></style>
+</head>
+<body>
+<div class="node">
+<a name="Pragma-Annotate"></a>
+<p>
+Next:&nbsp;<a rel="next" accesskey="n" href="Pragma-Assert.html#Pragma-Assert">Pragma Assert</a>,
+Previous:&nbsp;<a rel="previous" accesskey="p" href="Pragma-Allow_005fInteger_005fAddress.html#Pragma-Allow_005fInteger_005fAddress">Pragma Allow_Integer_Address</a>,
+Up:&nbsp;<a rel="up" accesskey="u" href="Implementation-Defined-Pragmas.html#Implementation-Defined-Pragmas">Implementation Defined Pragmas</a>
+<hr>
+</div>
+
+<p><a name="gnat_005frm_002fimplementation_005fdefined_005fpragmas-pragma_002dannotate"></a><a name="g_t24"></a>
+
+<h3 class="section">2.10 Pragma Annotate</h3>
+
+<p>Syntax:
+
+<pre class="example">    pragma Annotate (IDENTIFIER [, IDENTIFIER {, ARG}] [, entity =&gt; local_NAME]);
+    
+    ARG ::= NAME | EXPRESSION
+</pre>
+<p>This pragma is used to annotate programs.  <cite>identifier</cite> identifies
+the type of annotation.  GNAT verifies that it is an identifier, but does
+not otherwise analyze it. The second optional identifier is also left
+unanalyzed, and by convention is used to control the action of the tool to
+which the annotation is addressed.  The remaining <cite>arg</cite> arguments
+can be either string literals or more generally expressions. 
+String literals are assumed to be either of type
+<cite>Standard.String</cite> or else <cite>Wide_String</cite> or <cite>Wide_Wide_String</cite>
+depending on the character literals they contain. 
+All other kinds of arguments are analyzed as expressions, and must be
+unambiguous. The last argument if present must have the identifier
+<cite>Entity</cite> and GNAT verifies that a local name is given.
+
+<p>The analyzed pragma is retained in the tree, but not otherwise processed
+by any part of the GNAT compiler, except to generate corresponding note
+lines in the generated ALI file. For the format of these note lines, see
+the compiler source file lib-writ.ads. This pragma is intended for use by
+external tools, including ASIS. The use of pragma Annotate does not
+affect the compilation process in any way. This pragma may be used as
+a configuration pragma.
+
+</body></html>
+

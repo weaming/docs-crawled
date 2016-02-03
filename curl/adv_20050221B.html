@@ -1,0 +1,46 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
+<HTML>
+<HEAD> <TITLE>cURL - NTLM Authentication Buffer Overflow</TITLE>
+<meta content="text/html; charset=UTF-8" http-equiv="Content-Type">
+<link rel="stylesheet" type="text/css" href="http://curl.haxx.se/curl.css">
+<link rel="shortcut icon" href="http://curl.haxx.se/favicon.ico">
+<link rel="STYLESHEET" type="text/css" href="http://curl.haxx.se/manpage.css">
+</HEAD>
+<body bgcolor="#ffffff" text="#000000">
+<div class="main">
+<div class="menu">
+<a href="index.html" class="menuitem" title="Documentation main page">Docs Overview</a>
+</div>
+<div class="contents">
+<div class="where"><a href="http://curl.haxx.se/">cURL</a> / <a href="index.html">Docs</a> / <a href="security.html">Security</a> / <b>NTLM Authentication Buffer Overflow</b></div>
+<h1> NTLM Authentication Buffer Overflow </h1>
+<div class="relatedbox">
+<b>Related:</b>
+<br><a href="http://curl.haxx.se/changes.html">Changelog</a>
+<br><a href="faq.html">FAQ</a>
+<br><a href="http://curl.haxx.se/dev/security.html">Security dev process</a>
+<br><a href="vulnerabilities.html">Vulnerabilities Table</a>
+</div>
+<a name="BID12615"></a>
+<h2> NTLM Authentication Buffer Overflow </h2>
+<p>
+<table class="secbox">
+  <tr><td>Date:</td><td>February 21, 2005</td></tr>
+  <tr><td>ID</td><td><a href="http://www.securityfocus.com/bid/12615">BID
+  12615</a> <a
+  href="https://cve.mitre.org/cgi-bin/cvename.cgi?name=CAN-2005-0490">CAN-2005-0490</a> </td></tr>
+  <tr><td>Affected versions</td><td>7.10.6 to and including 7.13.0</td></tr>
+  <tr><td>Not affected versions</td><td>7.13.1 and later</td></tr>
+  <tr><td>Advisories</td><td><a
+  href="http://www.idefense.com/application/poi/display?id=202">iDEFENSE's
+  advisory</a></td></tr>
+</table>
+ <p>
+  Due to bad usage of the base64 decode function to a stack-based buffer
+  without checking the data length, it was possible for a malicious HTTP
+  server to overflow the client during NTLM negotiation. The <a
+  href="http://www.idefense.com/application/poi/display?id=202">announcement</a>
+  was done without contacting us.
+</div>
+</div>
+</body> </html>

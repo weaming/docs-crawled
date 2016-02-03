@@ -1,0 +1,70 @@
+<html lang="en">
+<head>
+<title>Other language compatibility issues - GNAT Reference Manual</title>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+<meta name="description" content="GNAT Reference Manual">
+<meta name="generator" content="makeinfo 4.13">
+<link title="Top" rel="start" href="index.html#Top">
+<link rel="up" href="Compatibility-with-Ada-83.html#Compatibility-with-Ada-83" title="Compatibility with Ada 83">
+<link rel="prev" href="Changed-semantics.html#Changed-semantics" title="Changed semantics">
+<link href="http://www.gnu.org/software/texinfo/" rel="generator-home" title="Texinfo Homepage">
+<!--
+
+     GNAT Reference Manual , March 24, 2015
+
+     AdaCore
+
+     Copyright (C) 2008-2015, Free Software Foundation
+-->
+<meta http-equiv="Content-Style-Type" content="text/css">
+<style type="text/css"><!--
+  pre.display { font-family:inherit }
+  pre.format  { font-family:inherit }
+  pre.smalldisplay { font-family:inherit; font-size:smaller }
+  pre.smallformat  { font-family:inherit; font-size:smaller }
+  pre.smallexample { font-size:smaller }
+  pre.smalllisp    { font-size:smaller }
+  span.sc    { font-variant:small-caps }
+  span.roman { font-family:serif; font-weight:normal; } 
+  span.sansserif { font-family:sans-serif; font-weight:normal; } 
+--></style>
+</head>
+<body>
+<div class="node">
+<a name="Other-language-compatibility-issues"></a>
+<p>
+Previous:&nbsp;<a rel="previous" accesskey="p" href="Changed-semantics.html#Changed-semantics">Changed semantics</a>,
+Up:&nbsp;<a rel="up" accesskey="u" href="Compatibility-with-Ada-83.html#Compatibility-with-Ada-83">Compatibility with Ada 83</a>
+<hr>
+</div>
+
+<p><a name="gnat_005frm_002fcompatibility_005fand_005fporting_005fguide-other_002dlanguage_002dcompatibility_002dissues"></a><a name="g_t3e1"></a><a name="gnat_005frm_002fcompatibility_005fand_005fporting_005fguide-id7"></a><a name="g_t3e2"></a>
+
+<h4 class="subsection">18.2.4 Other language compatibility issues</h4>
+
+     <ul>
+<li>`-gnat83' switch
+
+     <p>All implementations of GNAT provide a switch that causes GNAT to operate
+in Ada 83 mode.  In this mode, some but not all compatibility problems
+of the type described above are handled automatically.  For example, the
+new reserved words introduced in Ada 95 and Ada 2005 are treated simply
+as identifiers as in Ada 83.  However,
+in practice, it is usually advisable to make the necessary modifications
+to the program to remove the need for using this switch. 
+See the <cite>Compiling Different Versions of Ada</cite> section in
+the <cite>GNAT User's Guide</cite>.
+
+     <li>Support for removed Ada 83 pragmas and attributes
+
+     <p>A number of pragmas and attributes from Ada 83 were removed from Ada 95,
+generally because they were replaced by other mechanisms.  Ada 95 and Ada 2005
+compilers are allowed, but not required, to implement these missing
+elements.  In contrast with some other compilers, GNAT implements all
+such pragmas and attributes, eliminating this compatibility concern.  These
+include <cite>pragma Interface</cite> and the floating point type attributes
+(<cite>Emax</cite>, <cite>Mantissa</cite>, etc.), among other items. 
+</ul>
+
+</body></html>
+

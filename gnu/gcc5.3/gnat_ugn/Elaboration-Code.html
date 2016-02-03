@@ -1,0 +1,170 @@
+<html lang="en">
+<head>
+<title>Elaboration Code - GNAT User's Guide for Native Platforms</title>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+<meta name="description" content="GNAT User's Guide for Native Platforms">
+<meta name="generator" content="makeinfo 4.13">
+<link title="Top" rel="start" href="index.html#Top">
+<link rel="up" href="Elaboration-Order-Handling-in-GNAT.html#Elaboration-Order-Handling-in-GNAT" title="Elaboration Order Handling in GNAT">
+<link rel="next" href="Checking-the-Elaboration-Order.html#Checking-the-Elaboration-Order" title="Checking the Elaboration Order">
+<link href="http://www.gnu.org/software/texinfo/" rel="generator-home" title="Texinfo Homepage">
+<!--
+
+     GNAT User's Guide for Native Platforms , March 24, 2015
+
+     AdaCore
+
+     Copyright (C) 2008-2015, Free Software Foundation
+-->
+<meta http-equiv="Content-Style-Type" content="text/css">
+<style type="text/css"><!--
+  pre.display { font-family:inherit }
+  pre.format  { font-family:inherit }
+  pre.smalldisplay { font-family:inherit; font-size:smaller }
+  pre.smallformat  { font-family:inherit; font-size:smaller }
+  pre.smallexample { font-size:smaller }
+  pre.smalllisp    { font-size:smaller }
+  span.sc    { font-variant:small-caps }
+  span.roman { font-family:serif; font-weight:normal; } 
+  span.sansserif { font-family:sans-serif; font-weight:normal; } 
+--></style>
+</head>
+<body>
+<div class="node">
+<a name="Elaboration-Code"></a>
+<p>
+Next:&nbsp;<a rel="next" accesskey="n" href="Checking-the-Elaboration-Order.html#Checking-the-Elaboration-Order">Checking the Elaboration Order</a>,
+Up:&nbsp;<a rel="up" accesskey="u" href="Elaboration-Order-Handling-in-GNAT.html#Elaboration-Order-Handling-in-GNAT">Elaboration Order Handling in GNAT</a>
+<hr>
+</div>
+
+<p><a name="gnat_005fugn_002felaboration_005forder_005fhandling_005fin_005fgnat-elaboration_002dcode"></a><a name="g_t2b0"></a><a name="gnat_005fugn_002felaboration_005forder_005fhandling_005fin_005fgnat-id2"></a><a name="g_t2b1"></a>
+
+<h3 class="section">11.1 Elaboration Code</h3>
+
+<p>Ada provides rather general mechanisms for executing code at elaboration
+time, that is to say before the main program starts executing. Such code arises
+in three contexts:
+
+     <ul>
+<li>`Initializers for variables'
+
+     <p>Variables declared at the library level, in package specs or bodies, can
+require initialization that is performed at elaboration time, as in:
+
+     <pre class="example">         Sqrt_Half : Float := Sqrt (0.5);
+</pre>
+     <li>`Package initialization code'
+
+     <p>Code in a <cite>BEGIN-END</cite> section at the outer level of a package body is
+executed as part of the package body elaboration code.
+
+     <li>`Library level task allocators'
+
+     <p>Tasks that are declared using task allocators at the library level
+start executing immediately and hence can execute at elaboration time. 
+</ul>
+
+<p>Subprogram calls are possible in any of these contexts, which means that
+any arbitrary part of the program may be executed as part of the elaboration
+code. It is even possible to write a program which does all its work at
+elaboration time, with a null main program, although stylistically this
+would usually be considered an inappropriate way to structure
+a program.
+
+<p>An important concern arises in the context of elaboration code:
+we have to be sure that it is executed in an appropriate order. What we
+have is a series of elaboration code sections, potentially one section
+for each unit in the program. It is important that these execute
+in the correct order. Correctness here means that, taking the above
+example of the declaration of <cite>Sqrt_Half</cite>,
+if some other piece of
+elaboration code references <cite>Sqrt_Half</cite>,
+then it must run after the
+section of elaboration code that contains the declaration of
+<cite>Sqrt_Half</cite>.
+
+<p>There would never be any order of elaboration problem if we made a rule
+that whenever you `with' a unit, you must elaborate both the spec and body
+of that unit before elaborating the unit doing the `with'ing:
+
+<pre class="example">    with Unit_1;
+    package Unit_2 is ...
+</pre>
+<p>would require that both the body and spec of <cite>Unit_1</cite> be elaborated
+before the spec of <cite>Unit_2</cite>. However, a rule like that would be far too
+restrictive. In particular, it would make it impossible to have routines
+in separate packages that were mutually recursive.
+
+<p>You might think that a clever enough compiler could look at the actual
+elaboration code and determine an appropriate correct order of elaboration,
+but in the general case, this is not possible. Consider the following
+example.
+
+<p>In the body of <cite>Unit_1</cite>, we have a procedure <cite>Func_1</cite>
+that references
+the variable <cite>Sqrt_1</cite>, which is declared in the elaboration code
+of the body of <cite>Unit_1</cite>:
+
+<pre class="example">    Sqrt_1 : Float := Sqrt (0.1);
+</pre>
+<p>The elaboration code of the body of <cite>Unit_1</cite> also contains:
+
+<pre class="example">    if expression_1 = 1 then
+       Q := Unit_2.Func_2;
+    end if;
+</pre>
+<p><cite>Unit_2</cite> is exactly parallel,
+it has a procedure <cite>Func_2</cite> that references
+the variable <cite>Sqrt_2</cite>, which is declared in the elaboration code of
+the body <cite>Unit_2</cite>:
+
+<pre class="example">    Sqrt_2 : Float := Sqrt (0.1);
+</pre>
+<p>The elaboration code of the body of <cite>Unit_2</cite> also contains:
+
+<pre class="example">    if expression_2 = 2 then
+       Q := Unit_1.Func_1;
+    end if;
+</pre>
+<p>Now the question is, which of the following orders of elaboration is
+acceptable:
+
+<pre class="example">    Spec of Unit_1
+    Spec of Unit_2
+    Body of Unit_1
+    Body of Unit_2
+</pre>
+<p>or
+
+<pre class="example">    Spec of Unit_2
+    Spec of Unit_1
+    Body of Unit_2
+    Body of Unit_1
+</pre>
+<p>If you carefully analyze the flow here, you will see that you cannot tell
+at compile time the answer to this question. 
+If <cite>expression_1</cite> is not equal to 1,
+and <cite>expression_2</cite> is not equal to 2,
+then either order is acceptable, because neither of the function calls is
+executed. If both tests evaluate to true, then neither order is acceptable
+and in fact there is no correct order.
+
+<p>If one of the two expressions is true, and the other is false, then one
+of the above orders is correct, and the other is incorrect. For example,
+if <cite>expression_1</cite> /= 1 and <cite>expression_2</cite> = 2,
+then the call to <cite>Func_1</cite>
+will occur, but not the call to <cite>Func_2.</cite>
+This means that it is essential
+to elaborate the body of <cite>Unit_1</cite> before
+the body of <cite>Unit_2</cite>, so the first
+order of elaboration is correct and the second is wrong.
+
+<p>By making <cite>expression_1</cite> and <cite>expression_2</cite>
+depend on input data, or perhaps
+the time of day, we can make it impossible for the compiler or binder
+to figure out which of these expressions will be true, and hence it
+is impossible to guarantee a safe order of elaboration at run time.
+
+</body></html>
+

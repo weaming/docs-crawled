@@ -1,0 +1,222 @@
+<html lang="en">
+<head>
+<title>Interfacing to C - GNAT User's Guide for Native Platforms</title>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+<meta name="description" content="GNAT User's Guide for Native Platforms">
+<meta name="generator" content="makeinfo 4.13">
+<link title="Top" rel="start" href="index.html#Top">
+<link rel="up" href="Mixed-Language-Programming.html#Mixed-Language-Programming" title="Mixed Language Programming">
+<link rel="next" href="Calling-Conventions.html#Calling-Conventions" title="Calling Conventions">
+<link href="http://www.gnu.org/software/texinfo/" rel="generator-home" title="Texinfo Homepage">
+<!--
+
+     GNAT User's Guide for Native Platforms , March 24, 2015
+
+     AdaCore
+
+     Copyright (C) 2008-2015, Free Software Foundation
+-->
+<meta http-equiv="Content-Style-Type" content="text/css">
+<style type="text/css"><!--
+  pre.display { font-family:inherit }
+  pre.format  { font-family:inherit }
+  pre.smalldisplay { font-family:inherit; font-size:smaller }
+  pre.smallformat  { font-family:inherit; font-size:smaller }
+  pre.smallexample { font-size:smaller }
+  pre.smalllisp    { font-size:smaller }
+  span.sc    { font-variant:small-caps }
+  span.roman { font-family:serif; font-weight:normal; } 
+  span.sansserif { font-family:sans-serif; font-weight:normal; } 
+--></style>
+</head>
+<body>
+<div class="node">
+<a name="Interfacing-to-C"></a>
+<p>
+Next:&nbsp;<a rel="next" accesskey="n" href="Calling-Conventions.html#Calling-Conventions">Calling Conventions</a>,
+Up:&nbsp;<a rel="up" accesskey="u" href="Mixed-Language-Programming.html#Mixed-Language-Programming">Mixed Language Programming</a>
+<hr>
+</div>
+
+<p><a name="gnat_005fugn_002fthe_005fgnat_005fcompilation_005fmodel-interfacing_002dto_002dc"></a><a name="b8"></a><a name="gnat_005fugn_002fthe_005fgnat_005fcompilation_005fmodel-id62"></a><a name="b9"></a>
+
+<h4 class="subsection">3.11.1 Interfacing to C</h4>
+
+<p>Interfacing Ada with a foreign language such as C involves using
+compiler directives to import and/or export entity definitions in each
+language &ndash; using <cite>extern</cite> statements in C, for instance, and the
+<cite>Import</cite>, <cite>Export</cite>, and <cite>Convention</cite> pragmas in Ada. 
+A full treatment of these topics is provided in Appendix B, section 1
+of the Ada Reference Manual.
+
+<p>There are two ways to build a program using GNAT that contains some Ada
+sources and some foreign language sources, depending on whether or not
+the main subprogram is written in Ada.  Here is a source example with
+the main subprogram in Ada:
+
+<pre class="example">    /* file1.c */
+    #include &lt;stdio.h&gt;
+    
+    void print_num (int num)
+    {
+      printf ("num is %d.\\n", num);
+      return;
+    }
+</pre>
+<pre class="example">    /* file2.c */
+    
+    /* num_from_Ada is declared in my_main.adb */
+    extern int num_from_Ada;
+    
+    int get_num (void)
+    {
+      return num_from_Ada;
+    }
+</pre>
+<pre class="example">    --  my_main.adb
+    procedure My_Main is
+    
+       --  Declare then export an Integer entity called num_from_Ada
+       My_Num : Integer := 10;
+       pragma Export (C, My_Num, "num_from_Ada");
+    
+       --  Declare an Ada function spec for Get_Num, then use
+       --  C function get_num for the implementation.
+       function Get_Num return Integer;
+       pragma Import (C, Get_Num, "get_num");
+    
+       --  Declare an Ada procedure spec for Print_Num, then use
+       --  C function print_num for the implementation.
+       procedure Print_Num (Num : Integer);
+       pragma Import (C, Print_Num, "print_num";
+    
+    begin
+       Print_Num (Get_Num);
+    end My_Main;
+</pre>
+<p>To build this example:
+
+     <ul>
+<li>First compile the foreign language files to
+generate object files:
+
+     <pre class="example">         $ gcc -c file1.c
+         $ gcc -c file2.c
+</pre>
+     <li>Then, compile the Ada units to produce a set of object files and ALI
+files:
+
+     <pre class="example">         $ gnatmake -c my_main.adb
+</pre>
+     <li>Run the Ada binder on the Ada main program:
+
+     <pre class="example">         $ gnatbind my_main.ali
+</pre>
+     <li>Link the Ada main program, the Ada objects and the other language
+objects:
+
+     <pre class="example">         $ gnatlink my_main.ali file1.o file2.o
+</pre>
+     </ul>
+
+<p>The last three steps can be grouped in a single command:
+
+<pre class="example">    $ gnatmake my_main.adb -largs file1.o file2.o
+</pre>
+<p><a name="index-Binder-output-file-117"></a>
+If the main program is in a language other than Ada, then you may have
+more than one entry point into the Ada subsystem. You must use a special
+binder option to generate callable routines that initialize and
+finalize the Ada units (<a href="ba.html#ba">Binding with Non-Ada Main Programs</a>). 
+Calls to the initialization and finalization routines must be inserted
+in the main program, or some other appropriate point in the code. The
+call to initialize the Ada units must occur before the first Ada
+subprogram is called, and the call to finalize the Ada units must occur
+after the last Ada subprogram returns. The binder will place the
+initialization and finalization subprograms into the
+<code>b~xxx.adb</code> file where they can be accessed by your C
+sources.  To illustrate, we have the following example:
+
+<pre class="example">    /* main.c */
+    extern void adainit (void);
+    extern void adafinal (void);
+    extern int add (int, int);
+    extern int sub (int, int);
+    
+    int main (int argc, char *argv[])
+    {
+       int a = 21, b = 7;
+    
+       adainit();
+    
+       /* Should print "21 + 7 = 28" */
+       printf ("%d + %d = %d\\n", a, b, add (a, b));
+    
+       /* Should print "21 - 7 = 14" */
+       printf ("%d - %d = %d\\n", a, b, sub (a, b));
+    
+       adafinal();
+    }
+</pre>
+<pre class="example">    --  unit1.ads
+    package Unit1 is
+       function Add (A, B : Integer) return Integer;
+       pragma Export (C, Add, "add");
+    end Unit1;
+</pre>
+<pre class="example">    --  unit1.adb
+    package body Unit1 is
+       function Add (A, B : Integer) return Integer is
+       begin
+          return A + B;
+       end Add;
+    end Unit1;
+</pre>
+<pre class="example">    --  unit2.ads
+    package Unit2 is
+       function Sub (A, B : Integer) return Integer;
+       pragma Export (C, Sub, "sub");
+    end Unit2;
+</pre>
+<pre class="example">    --  unit2.adb
+    package body Unit2 is
+       function Sub (A, B : Integer) return Integer is
+       begin
+          return A - B;
+       end Sub;
+    end Unit2;
+</pre>
+<p>The build procedure for this application is similar to the last
+example's:
+
+     <ul>
+<li>First, compile the foreign language files to generate object files:
+
+     <pre class="example">         $ gcc -c main.c
+</pre>
+     <li>Next, compile the Ada units to produce a set of object files and ALI
+files:
+
+     <pre class="example">         $ gnatmake -c unit1.adb
+         $ gnatmake -c unit2.adb
+</pre>
+     <li>Run the Ada binder on every generated ALI file.  Make sure to use the
+<code>-n</code> option to specify a foreign main program:
+
+     <pre class="example">         $ gnatbind -n unit1.ali unit2.ali
+</pre>
+     <li>Link the Ada main program, the Ada objects and the foreign language
+objects. You need only list the last ALI file here:
+
+     <pre class="example">         $ gnatlink unit2.ali main.o -o exec_file
+</pre>
+     <p>This procedure yields a binary executable called <code>exec_file</code>. 
+</ul>
+
+<p>Depending on the circumstances (for example when your non-Ada main object
+does not provide symbol <cite>main</cite>), you may also need to instruct the
+GNAT linker not to include the standard startup objects by passing the
+<code>-nostartfiles</code> switch to <cite>gnatlink</cite>.
+
+</body></html>
+

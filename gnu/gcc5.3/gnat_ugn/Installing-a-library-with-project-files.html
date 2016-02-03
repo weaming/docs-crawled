@@ -1,0 +1,64 @@
+<html lang="en">
+<head>
+<title>Installing a library with project files - GNAT User's Guide for Native Platforms</title>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+<meta name="description" content="GNAT User's Guide for Native Platforms">
+<meta name="generator" content="makeinfo 4.13">
+<link title="Top" rel="start" href="index.html#Top">
+<link rel="up" href="Library-Projects.html#Library-Projects" title="Library Projects">
+<link rel="prev" href="Stand_002dalone-Library-Projects.html#Stand_002dalone-Library-Projects" title="Stand-alone Library Projects">
+<link href="http://www.gnu.org/software/texinfo/" rel="generator-home" title="Texinfo Homepage">
+<!--
+
+     GNAT User's Guide for Native Platforms , March 24, 2015
+
+     AdaCore
+
+     Copyright (C) 2008-2015, Free Software Foundation
+-->
+<meta http-equiv="Content-Style-Type" content="text/css">
+<style type="text/css"><!--
+  pre.display { font-family:inherit }
+  pre.format  { font-family:inherit }
+  pre.smalldisplay { font-family:inherit; font-size:smaller }
+  pre.smallformat  { font-family:inherit; font-size:smaller }
+  pre.smallexample { font-size:smaller }
+  pre.smalllisp    { font-size:smaller }
+  span.sc    { font-variant:small-caps }
+  span.roman { font-family:serif; font-weight:normal; } 
+  span.sansserif { font-family:sans-serif; font-weight:normal; } 
+--></style>
+</head>
+<body>
+<div class="node">
+<a name="Installing-a-library-with-project-files"></a>
+<p>
+Previous:&nbsp;<a rel="previous" accesskey="p" href="Stand_002dalone-Library-Projects.html#Stand_002dalone-Library-Projects">Stand-alone Library Projects</a>,
+Up:&nbsp;<a rel="up" accesskey="u" href="Library-Projects.html#Library-Projects">Library Projects</a>
+<hr>
+</div>
+
+<p><a name="gnat_005fugn_002fgnat_005fproject_005fmanager-installing_002da_002dlibrary_002dwith_002dproject_002dfiles"></a><a name="g_t8d"></a><a name="gnat_005fugn_002fgnat_005fproject_005fmanager-id24"></a><a name="g_t17d"></a>
+
+<h4 class="subsection">5.5.4 Installing a library with project files</h4>
+
+<p>When using project files, a usable version of the library is created in the
+directory specified by the <cite>Library_Dir</cite> attribute of the library
+project file. Thus no further action is needed in order to make use of
+the libraries that are built as part of the general application build.
+
+<p>You may want to install a library in a context different from where the library
+is built. This situation arises with third party suppliers, who may want
+to distribute a library in binary form where the user is not expected to be
+able to recompile the library. The simplest option in this case is to provide
+a project file slightly different from the one used to build the library, by
+using the <cite>externally_built</cite> attribute. See <a href="17b.html#g_t17b">Using Library Projects</a>
+
+<p>Another option is to use `gprinstall' to install the library in a
+different context than the build location. `gprinstall' automatically
+generates a project to use this library, and also copies the minimum set of
+sources needed to use the library to the install location. 
+<a href="168.html#g_t168">Installation</a>
+
+</body></html>
+

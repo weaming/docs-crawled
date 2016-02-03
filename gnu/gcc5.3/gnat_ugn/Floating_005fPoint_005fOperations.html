@@ -1,0 +1,91 @@
+<html lang="en">
+<head>
+<title>Floating_Point_Operations - GNAT User's Guide for Native Platforms</title>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+<meta name="description" content="GNAT User's Guide for Native Platforms">
+<meta name="generator" content="makeinfo 4.13">
+<link title="Top" rel="start" href="index.html#Top">
+<link rel="up" href="Performance-Considerations.html#Performance-Considerations" title="Performance Considerations">
+<link rel="prev" href="Inlining-of-Subprograms.html#Inlining-of-Subprograms" title="Inlining of Subprograms">
+<link rel="next" href="Vectorization-of-loops.html#Vectorization-of-loops" title="Vectorization of loops">
+<link href="http://www.gnu.org/software/texinfo/" rel="generator-home" title="Texinfo Homepage">
+<!--
+
+     GNAT User's Guide for Native Platforms , March 24, 2015
+
+     AdaCore
+
+     Copyright (C) 2008-2015, Free Software Foundation
+-->
+<meta http-equiv="Content-Style-Type" content="text/css">
+<style type="text/css"><!--
+  pre.display { font-family:inherit }
+  pre.format  { font-family:inherit }
+  pre.smalldisplay { font-family:inherit; font-size:smaller }
+  pre.smallformat  { font-family:inherit; font-size:smaller }
+  pre.smallexample { font-size:smaller }
+  pre.smalllisp    { font-size:smaller }
+  span.sc    { font-variant:small-caps }
+  span.roman { font-family:serif; font-weight:normal; } 
+  span.sansserif { font-family:sans-serif; font-weight:normal; } 
+--></style>
+</head>
+<body>
+<div class="node">
+<a name="Floating_Point_Operations"></a>
+<a name="Floating_005fPoint_005fOperations"></a>
+<p>
+Next:&nbsp;<a rel="next" accesskey="n" href="Vectorization-of-loops.html#Vectorization-of-loops">Vectorization of loops</a>,
+Previous:&nbsp;<a rel="previous" accesskey="p" href="Inlining-of-Subprograms.html#Inlining-of-Subprograms">Inlining of Subprograms</a>,
+Up:&nbsp;<a rel="up" accesskey="u" href="Performance-Considerations.html#Performance-Considerations">Performance Considerations</a>
+<hr>
+</div>
+
+<p><a name="gnat_005fugn_002fgnat_005fand_005fprogram_005fexecution-floating_002dpoint_002doperations"></a><a name="g_t231"></a><a name="gnat_005fugn_002fgnat_005fand_005fprogram_005fexecution-id35"></a><a name="g_t232"></a>
+
+<h5 class="subsubsection">8.3.1.6 Floating_Point_Operations</h5>
+
+<p><a name="index-Floating_002dPoint-Operations-1010"></a>
+On almost all targets, GNAT maps Float and Long_Float to the 32-bit and
+64-bit standard IEEE floating-point representations, and operations will
+use standard IEEE arithmetic as provided by the processor. On most, but
+not all, architectures, the attribute Machine_Overflows is False for these
+types, meaning that the semantics of overflow is implementation-defined. 
+In the case of GNAT, these semantics correspond to the normal IEEE
+treatment of infinities and NaN (not a number) values. For example,
+1.0 / 0.0 yields plus infinitiy and 0.0 / 0.0 yields a NaN. By
+avoiding explicit overflow checks, the performance is greatly improved
+on many targets. However, if required, floating-point overflow can be
+enabled by the use of the pragma Check_Float_Overflow.
+
+<p>Another consideration that applies specifically to x86 32-bit
+architectures is which form of floating-point arithmetic is used. 
+By default the operations use the old style x86 floating-point,
+which implements an 80-bit extended precision form (on these
+architectures the type Long_Long_Float corresponds to that form). 
+In addition, generation of efficient code in this mode means that
+the extended precision form will be used for intermediate results. 
+This may be helpful in improving the final precision of a complex
+expression. However it means that the results obtained on the x86
+will be different from those on other architectures, and for some
+algorithms, the extra intermediate precision can be detrimental.
+
+<p>In addition to this old-style floating-point, all modern x86 chips
+implement an alternative floating-point operation model referred
+to as SSE2. In this model there is no extended form, and furthermore
+execution performance is significantly enhanced. To force GNAT to use
+this more modern form, use both of the switches:
+
+<blockquote>
+
+<p>-msse2 -mfpmath=sse
+</blockquote>
+
+<p>A unit compiled with these switches will automatically use the more
+efficient SSE2 instruction set for Float and Long_Float operations. 
+Note that the ABI has the same form for both floating-point models,
+so it is permissible to mix units compiled with and without these
+switches.
+
+</body></html>
+

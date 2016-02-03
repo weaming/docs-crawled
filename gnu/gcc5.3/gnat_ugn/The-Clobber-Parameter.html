@@ -1,0 +1,99 @@
+<html lang="en">
+<head>
+<title>The Clobber Parameter - GNAT User's Guide for Native Platforms</title>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+<meta name="description" content="GNAT User's Guide for Native Platforms">
+<meta name="generator" content="makeinfo 4.13">
+<link title="Top" rel="start" href="index.html#Top">
+<link rel="up" href="Other-Asm-Functionality.html#Other-Asm-Functionality" title="Other Asm Functionality">
+<link rel="next" href="The-Volatile-Parameter.html#The-Volatile-Parameter" title="The Volatile Parameter">
+<link href="http://www.gnu.org/software/texinfo/" rel="generator-home" title="Texinfo Homepage">
+<!--
+
+     GNAT User's Guide for Native Platforms , March 24, 2015
+
+     AdaCore
+
+     Copyright (C) 2008-2015, Free Software Foundation
+-->
+<meta http-equiv="Content-Style-Type" content="text/css">
+<style type="text/css"><!--
+  pre.display { font-family:inherit }
+  pre.format  { font-family:inherit }
+  pre.smalldisplay { font-family:inherit; font-size:smaller }
+  pre.smallformat  { font-family:inherit; font-size:smaller }
+  pre.smallexample { font-size:smaller }
+  pre.smalllisp    { font-size:smaller }
+  span.sc    { font-variant:small-caps }
+  span.roman { font-family:serif; font-weight:normal; } 
+  span.sansserif { font-family:sans-serif; font-weight:normal; } 
+--></style>
+</head>
+<body>
+<div class="node">
+<a name="The-Clobber-Parameter"></a>
+<p>
+Next:&nbsp;<a rel="next" accesskey="n" href="The-Volatile-Parameter.html#The-Volatile-Parameter">The Volatile Parameter</a>,
+Up:&nbsp;<a rel="up" accesskey="u" href="Other-Asm-Functionality.html#Other-Asm-Functionality">Other Asm Functionality</a>
+<hr>
+</div>
+
+<p><a name="gnat_005fugn_002finline_005fassembler-the_002dclobber_002dparameter"></a><a name="g_t2da"></a><a name="gnat_005fugn_002finline_005fassembler-id8"></a><a name="g_t2db"></a>
+
+<h4 class="subsection">12.6.1 The <cite>Clobber</cite> Parameter</h4>
+
+<p>One of the dangers of intermixing assembly language and a compiled language
+such as Ada is that the compiler needs to be aware of which registers are
+being used by the assembly code.  In some cases, such as the earlier examples,
+the constraint string is sufficient to indicate register usage (e.g.,
+<cite>"a"</cite> for
+the eax register).  But more generally, the compiler needs an explicit
+identification of the registers that are used by the Inline Assembly
+statements.
+
+<p>Using a register that the compiler doesn't know about
+could be a side effect of an instruction (like <cite>mull</cite>
+storing its result in both eax and edx). 
+It can also arise from explicit register usage in your
+assembly code; for example:
+
+<blockquote>
+
+<pre class="example">    Asm ("movl %0, %%ebx" &amp; LF &amp; HT &amp;
+         "movl %%ebx, %1",
+         Outputs =&gt; Unsigned_32'Asm_Output ("=g", Var_Out),
+         Inputs  =&gt; Unsigned_32'Asm_Input  ("g", Var_In));
+</pre>
+</blockquote>
+
+<p>where the compiler (since it does not analyze the <cite>Asm</cite> template string)
+does not know you are using the ebx register.
+
+<p>In such cases you need to supply the <cite>Clobber</cite> parameter to <cite>Asm</cite>,
+to identify the registers that will be used by your assembly code:
+
+<blockquote>
+
+<pre class="example">    Asm ("movl %0, %%ebx" &amp; LF &amp; HT &amp;
+         "movl %%ebx, %1",
+         Outputs =&gt; Unsigned_32'Asm_Output ("=g", Var_Out),
+         Inputs  =&gt; Unsigned_32'Asm_Input  ("g", Var_In),
+         Clobber =&gt; "ebx");
+</pre>
+</blockquote>
+
+<p>The Clobber parameter is a static string expression specifying the
+register(s) you are using.  Note that register names are `not' prefixed
+by a percent sign. Also, if more than one register is used then their names
+are separated by commas; e.g., <cite>"eax, ebx"</cite>
+
+<p>The <cite>Clobber</cite> parameter has several additional uses:
+
+     <ul>
+<li>Use 'register' name <cite>cc</cite> to indicate that flags might have changed
+
+     <li>Use 'register' name <cite>memory</cite> if you changed a memory location
+</ul>
+
+</body></html>
+

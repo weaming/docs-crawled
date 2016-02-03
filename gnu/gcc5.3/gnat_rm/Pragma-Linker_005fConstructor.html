@@ -1,0 +1,72 @@
+<html lang="en">
+<head>
+<title>Pragma Linker_Constructor - GNAT Reference Manual</title>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+<meta name="description" content="GNAT Reference Manual">
+<meta name="generator" content="makeinfo 4.13">
+<link title="Top" rel="start" href="index.html#Top">
+<link rel="up" href="Implementation-Defined-Pragmas.html#Implementation-Defined-Pragmas" title="Implementation Defined Pragmas">
+<link rel="prev" href="Pragma-Linker_005fAlias.html#Pragma-Linker_005fAlias" title="Pragma Linker_Alias">
+<link rel="next" href="Pragma-Linker_005fDestructor.html#Pragma-Linker_005fDestructor" title="Pragma Linker_Destructor">
+<link href="http://www.gnu.org/software/texinfo/" rel="generator-home" title="Texinfo Homepage">
+<!--
+
+     GNAT Reference Manual , March 24, 2015
+
+     AdaCore
+
+     Copyright (C) 2008-2015, Free Software Foundation
+-->
+<meta http-equiv="Content-Style-Type" content="text/css">
+<style type="text/css"><!--
+  pre.display { font-family:inherit }
+  pre.format  { font-family:inherit }
+  pre.smalldisplay { font-family:inherit; font-size:smaller }
+  pre.smallformat  { font-family:inherit; font-size:smaller }
+  pre.smallexample { font-size:smaller }
+  pre.smalllisp    { font-size:smaller }
+  span.sc    { font-variant:small-caps }
+  span.roman { font-family:serif; font-weight:normal; } 
+  span.sansserif { font-family:sans-serif; font-weight:normal; } 
+--></style>
+</head>
+<body>
+<div class="node">
+<a name="Pragma-Linker_Constructor"></a>
+<a name="Pragma-Linker_005fConstructor"></a>
+<p>
+Next:&nbsp;<a rel="next" accesskey="n" href="Pragma-Linker_005fDestructor.html#Pragma-Linker_005fDestructor">Pragma Linker_Destructor</a>,
+Previous:&nbsp;<a rel="previous" accesskey="p" href="Pragma-Linker_005fAlias.html#Pragma-Linker_005fAlias">Pragma Linker_Alias</a>,
+Up:&nbsp;<a rel="up" accesskey="u" href="Implementation-Defined-Pragmas.html#Implementation-Defined-Pragmas">Implementation Defined Pragmas</a>
+<hr>
+</div>
+
+<p><a name="gnat_005frm_002fimplementation_005fdefined_005fpragmas-pragma_002dlinker_002dconstructor"></a><a name="g_t7a"></a>
+
+<h3 class="section">2.95 Pragma Linker_Constructor</h3>
+
+<p>Syntax:
+
+<pre class="example">    pragma Linker_Constructor (procedure_LOCAL_NAME);
+</pre>
+<p><cite>procedure_LOCAL_NAME</cite> must refer to a parameterless procedure that
+is declared at the library level. A procedure to which this pragma is
+applied will be treated as an initialization routine by the linker. 
+It is equivalent to <cite>__attribute__((constructor))</cite> in GNU C and
+causes <cite>procedure_LOCAL_NAME</cite> to be invoked before the entry point
+of the executable is called (or immediately after the shared library is
+loaded if the procedure is linked in a shared library), in particular
+before the Ada run-time environment is set up.
+
+<p>Because of these specific contexts, the set of operations such a procedure
+can perform is very limited and the type of objects it can manipulate is
+essentially restricted to the elementary types. In particular, it must only
+contain code to which pragma Restrictions (No_Elaboration_Code) applies.
+
+<p>This pragma is used by GNAT to implement auto-initialization of shared Stand
+Alone Libraries, which provides a related capability without the restrictions
+listed above. Where possible, the use of Stand Alone Libraries is preferable
+to the use of this pragma.
+
+</body></html>
+

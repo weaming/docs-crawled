@@ -1,0 +1,138 @@
+<html lang="en">
+<head>
+<title>Wide_Character Encodings - GNAT User's Guide for Native Platforms</title>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+<meta name="description" content="GNAT User's Guide for Native Platforms">
+<meta name="generator" content="makeinfo 4.13">
+<link title="Top" rel="start" href="index.html#Top">
+<link rel="up" href="Foreign-Language-Representation.html#Foreign-Language-Representation" title="Foreign Language Representation">
+<link rel="prev" href="Other-8_002dBit-Codes.html#Other-8_002dBit-Codes" title="Other 8-Bit Codes">
+<link rel="next" href="Wide_005fWide_005fCharacter-Encodings.html#Wide_005fWide_005fCharacter-Encodings" title="Wide_Wide_Character Encodings">
+<link href="http://www.gnu.org/software/texinfo/" rel="generator-home" title="Texinfo Homepage">
+<!--
+
+     GNAT User's Guide for Native Platforms , March 24, 2015
+
+     AdaCore
+
+     Copyright (C) 2008-2015, Free Software Foundation
+-->
+<meta http-equiv="Content-Style-Type" content="text/css">
+<style type="text/css"><!--
+  pre.display { font-family:inherit }
+  pre.format  { font-family:inherit }
+  pre.smalldisplay { font-family:inherit; font-size:smaller }
+  pre.smallformat  { font-family:inherit; font-size:smaller }
+  pre.smallexample { font-size:smaller }
+  pre.smalllisp    { font-size:smaller }
+  span.sc    { font-variant:small-caps }
+  span.roman { font-family:serif; font-weight:normal; } 
+  span.sansserif { font-family:sans-serif; font-weight:normal; } 
+--></style>
+</head>
+<body>
+<div class="node">
+<a name="Wide_Character-Encodings"></a>
+<a name="Wide_005fCharacter-Encodings"></a>
+<p>
+Next:&nbsp;<a rel="next" accesskey="n" href="Wide_005fWide_005fCharacter-Encodings.html#Wide_005fWide_005fCharacter-Encodings">Wide_Wide_Character Encodings</a>,
+Previous:&nbsp;<a rel="previous" accesskey="p" href="Other-8_002dBit-Codes.html#Other-8_002dBit-Codes">Other 8-Bit Codes</a>,
+Up:&nbsp;<a rel="up" accesskey="u" href="Foreign-Language-Representation.html#Foreign-Language-Representation">Foreign Language Representation</a>
+<hr>
+</div>
+
+<p><a name="gnat_005fugn_002fthe_005fgnat_005fcompilation_005fmodel-id6"></a><a name="g_t4f"></a><a name="gnat_005fugn_002fthe_005fgnat_005fcompilation_005fmodel-wide_002dcharacter_002dencodings"></a><a name="g_t50"></a>
+
+<h4 class="subsection">3.2.3 Wide_Character Encodings</h4>
+
+<p>GNAT allows wide character codes to appear in character and string
+literals, and also optionally in identifiers, by means of the following
+possible encoding schemes:
+
+     <dl>
+<dt>`Hex Coding'<dd>
+In this encoding, a wide character is represented by the following five
+character sequence:
+
+     <pre class="example">         ESC a b c d
+</pre>
+     <p>where <cite>a</cite>, <cite>b</cite>, <cite>c</cite>, <cite>d</cite> are the four hexadecimal
+characters (using uppercase letters) of the wide character code. For
+example, ESC A345 is used to represent the wide character with code
+<cite>16#A345#</cite>. 
+This scheme is compatible with use of the full Wide_Character set.
+
+     <br><dt>`Upper-Half Coding'<dd>
+<a name="index-Upper_002dHalf-Coding-33"></a>
+The wide character with encoding <cite>16#abcd#</cite> where the upper bit is on
+(in other words, 'a' is in the range 8-F) is represented as two bytes,
+<cite>16#ab#</cite> and <cite>16#cd#</cite>. The second byte cannot be a format control
+character, but is not required to be in the upper half. This method can
+be also used for shift-JIS or EUC, where the internal coding matches the
+external coding.
+
+     <br><dt>`Shift JIS Coding'<dd>
+<a name="index-Shift-JIS-Coding-34"></a>
+A wide character is represented by a two-character sequence,
+<cite>16#ab#</cite> and
+<cite>16#cd#</cite>, with the restrictions described for upper-half encoding as
+described above. The internal character code is the corresponding JIS
+character according to the standard algorithm for Shift-JIS
+conversion. Only characters defined in the JIS code set table can be
+used with this encoding method.
+
+     <br><dt>`EUC Coding'<dd>
+<a name="index-EUC-Coding-35"></a>
+A wide character is represented by a two-character sequence
+<cite>16#ab#</cite> and
+<cite>16#cd#</cite>, with both characters being in the upper half. The internal
+character code is the corresponding JIS character according to the EUC
+encoding algorithm. Only characters defined in the JIS code set table
+can be used with this encoding method.
+
+     <br><dt>`UTF-8 Coding'<dd>
+A wide character is represented using
+UCS Transformation Format 8 (UTF-8) as defined in Annex R of ISO
+10646-1/Am.2. Depending on the character value, the representation
+is a one, two, or three byte sequence:
+
+     <pre class="example">         16#0000#-16#007f#: 2#0`xxxxxxx`#
+         16#0080#-16#07ff#: 2#110`xxxxx`# 2#10`xxxxxx`#
+         16#0800#-16#ffff#: 2#1110`xxxx`# 2#10`xxxxxx`# 2#10`xxxxxx`#
+</pre>
+     <p>where the <cite>xxx</cite> bits correspond to the left-padded bits of the
+16-bit character value. Note that all lower half ASCII characters
+are represented as ASCII bytes and all upper half characters and
+other wide characters are represented as sequences of upper-half
+(The full UTF-8 scheme allows for encoding 31-bit characters as
+6-byte sequences, and in the following section on wide wide
+characters, the use of these sequences is documented).
+
+     <br><dt>`Brackets Coding'<dd>
+In this encoding, a wide character is represented by the following eight
+character sequence:
+
+     <pre class="example">         [ " a b c d " ]
+</pre>
+     <p>where <cite>a</cite>, <cite>b</cite>, <cite>c</cite>, <cite>d</cite> are the four hexadecimal
+characters (using uppercase letters) of the wide character code. For
+example, ['A345'] is used to represent the wide character with code
+<cite>16#A345#</cite>. It is also possible (though not required) to use the
+Brackets coding for upper half characters. For example, the code
+<cite>16#A3#</cite> can be represented as <cite>['A3']</cite>.
+
+     <p>This scheme is compatible with use of the full Wide_Character set,
+and is also the method used for wide character encoding in some standard
+ACATS (Ada Conformity Assessment Test Suite) test suite distributions. 
+</dl>
+
+<p><table class="cartouche" summary="cartouche" border="1"><tr><td>
+<blockquote>
+<b>Note:</b> Some of these coding schemes do not permit the full use of the
+Ada character set. For example, neither Shift JIS nor EUC allow the
+use of the upper half of the Latin-1 set. 
+</blockquote>
+</td></tr></table>
+
+</body></html>
+

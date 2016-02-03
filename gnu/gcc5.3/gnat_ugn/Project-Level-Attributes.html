@@ -1,0 +1,418 @@
+<html lang="en">
+<head>
+<title>Project Level Attributes - GNAT User's Guide for Native Platforms</title>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+<meta name="description" content="GNAT User's Guide for Native Platforms">
+<meta name="generator" content="makeinfo 4.13">
+<link title="Top" rel="start" href="index.html#Top">
+<link rel="up" href="Attributes.html#Attributes" title="Attributes">
+<link rel="next" href="Package-Binder-Attributes.html#Package-Binder-Attributes" title="Package Binder Attributes">
+<link href="http://www.gnu.org/software/texinfo/" rel="generator-home" title="Texinfo Homepage">
+<!--
+
+     GNAT User's Guide for Native Platforms , March 24, 2015
+
+     AdaCore
+
+     Copyright (C) 2008-2015, Free Software Foundation
+-->
+<meta http-equiv="Content-Style-Type" content="text/css">
+<style type="text/css"><!--
+  pre.display { font-family:inherit }
+  pre.format  { font-family:inherit }
+  pre.smalldisplay { font-family:inherit; font-size:smaller }
+  pre.smallformat  { font-family:inherit; font-size:smaller }
+  pre.smallexample { font-size:smaller }
+  pre.smalllisp    { font-size:smaller }
+  span.sc    { font-variant:small-caps }
+  span.roman { font-family:serif; font-weight:normal; } 
+  span.sansserif { font-family:sans-serif; font-weight:normal; } 
+--></style>
+</head>
+<body>
+<div class="node">
+<a name="Project-Level-Attributes"></a>
+<p>
+Next:&nbsp;<a rel="next" accesskey="n" href="Package-Binder-Attributes.html#Package-Binder-Attributes">Package Binder Attributes</a>,
+Up:&nbsp;<a rel="up" accesskey="u" href="Attributes.html#Attributes">Attributes</a>
+<hr>
+</div>
+
+<p><a name="gnat_005fugn_002fgnat_005fproject_005fmanager-project_002dlevel_002dattributes"></a><a name="g_t1a4"></a><a name="gnat_005fugn_002fgnat_005fproject_005fmanager-id48"></a><a name="g_t1a5"></a>
+
+<h5 class="subsubsection">5.9.10.1 Project Level Attributes</h5>
+
+     <ul>
+<li>`General'
+
+          <ul>
+<li>`Name': single, read-only
+
+          <p>The name of the project.
+
+          <li>`Project_Dir': single, read-only
+
+          <p>The path name of the project directory.
+
+          <li>`Main': list, optional index
+
+          <p>The list of main sources for the executables.
+
+          <li>`Languages': list
+
+          <p>The list of languages of the sources of the project.
+
+          <li>`Roots': list, indexed, file name index
+
+          <p>The index is the file name of an executable source. Indicates the list of units
+from the main project that need to be bound and linked with their closures
+with the executable. The index is either a file name, a language name or "*". 
+The roots for an executable source are those in `Roots' with an index that
+is the executable source file name, if declared. Otherwise, they are those in
+`Roots' with an index that is the language name of the executable source,
+if present. Otherwise, they are those in `Roots ("*")', if declared. If none
+of these three possibilities are declared, then there are no roots for the
+executable source.
+
+          <li>`Externally_Built': single
+
+          <p>Indicates if the project is externally built. 
+Only case-insensitive values allowed are "true" and "false", the default. 
+</ul>
+
+     <li>`Directories'
+
+          <ul>
+<li>`Object_Dir': single
+
+          <p>Indicates the object directory for the project.
+
+          <li>`Exec_Dir': single
+
+          <p>Indicates the exec directory for the project, that is the directory where the
+executables are.
+
+          <li>`Source_Dirs': list
+
+          <p>The list of source directories of the project.
+
+          <li>`Inherit_Source_Path': list, indexed, case-insensitive index
+
+          <p>Index is a language name. Value is a list of language names. Indicates that
+in the source search path of the index language the source directories of
+the languages in the list should be included.
+
+          <p>Example:
+
+          <pre class="example">              for Inherit_Source_Path ("C++") use ("C");
+</pre>
+          <li>`Exclude_Source_Dirs': list
+
+          <p>The list of directories that are included in Source_Dirs but are not source
+directories of the project.
+
+          <li>`Ignore_Source_Sub_Dirs': list
+
+          <p>Value is a list of simple names for subdirectories that are removed from the
+list of source directories, including theur subdirectories. 
+</ul>
+
+     <li>`Source Files'
+
+          <ul>
+<li>`Source_Files': list
+
+          <p>Value is a list of source file simple names.
+
+          <li>`Locally_Removed_Files': list
+
+          <p>Obsolescent. Equivalent to Excluded_Source_Files.
+
+          <li>`Excluded_Source_Files': list
+
+          <p>Value is a list of simple file names that are not sources of the project. 
+Allows to remove sources that are inherited or found in the source directories
+and that match the naming scheme.
+
+          <li>`Source_List_File': single
+
+          <p>Value is a text file name that contains a list of source file simple names,
+one on each line.
+
+          <li>`Excluded_Source_List_File': single
+
+          <p>Value is a text file name that contains a list of file simple names that
+are not sources of the project.
+
+          <li>`Interfaces': list
+
+          <p>Value is a list of file names that constitutes the interfaces of the project. 
+</ul>
+
+     <li>`Aggregate Projects'
+
+          <ul>
+<li>`Project_Files': list
+
+          <p>Value is the list of aggregated projects.
+
+          <li>`Project_Path': list
+
+          <p>Value is a list of directories that are added to the project search path when
+looking for the aggregated projects.
+
+          <li>`External': single, indexed
+
+          <p>Index is the name of an external reference. Value is the value of the
+external reference to be used when parsing the aggregated projects. 
+</ul>
+
+     <li>`Libraries'
+
+          <ul>
+<li>`Library_Dir': single
+
+          <p>Value is the name of the library directory. This attribute needs to be
+declared for each library project.
+
+          <li>`Library_Name': single
+
+          <p>Value is the name of the library. This attribute needs to be declared or
+inherited for each library project.
+
+          <li>`Library_Kind': single
+
+          <p>Specifies the kind of library: static library (archive) or shared library. 
+Case-insensitive values must be one of "static" for archives (the default) or
+"dynamic" or "relocatable" for shared libraries.
+
+          <li>`Library_Version': single
+
+          <p>Value is the name of the library file.
+
+          <li>`Library_Interface': list
+
+          <p>Value is the list of unit names that constitutes the interfaces
+of a Stand-Alone Library project.
+
+          <li>`Library_Standalone': single
+
+          <p>Specifies if a Stand-Alone Library (SAL) is encapsulated or not. 
+Only authorized case-insensitive values are "standard" for non encapsulated
+SALs, "encapsulated" for encapsulated SALs or "no" for non SAL library project.
+
+          <li>`Library_Encapsulated_Options': list
+
+          <p>Value is a list of options that need to be used when linking an encapsulated
+Stand-Alone Library.
+
+          <li>`Library_Encapsulated_Supported': single
+
+          <p>Indicates if encapsulated Stand-Alone Libraries are supported. Only
+authorized case-insensitive values are "true" and "false" (the default).
+
+          <li>`Library_Auto_Init': single
+
+          <p>Indicates if a Stand-Alone Library is auto-initialized. Only authorized
+case-insentive values are "true" and "false".
+
+          <li>`Leading_Library_Options': list
+
+          <p>Value is a list of options that are to be used at the beginning of
+the command line when linking a shared library.
+
+          <li>`Library_Options': list
+
+          <p>Value is a list of options that are to be used when linking a shared library.
+
+          <li>`Library_Rpath_Options': list, indexed, case-insensitive index
+
+          <p>Index is a language name. Value is a list of options for an invocation of the
+compiler of the language. This invocation is done for a shared library project
+with sources of the language. The output of the invocation is the path name
+of a shared library file. The directory name is to be put in the run path
+option switch when linking the shared library for the project.
+
+          <li>`Library_Src_Dir': single
+
+          <p>Value is the name of the directory where copies of the sources of the
+interfaces of a Stand-Alone Library are to be copied.
+
+          <li>`Library_ALI_Dir': single
+
+          <p>Value is the name of the directory where the ALI files of the interfaces
+of a Stand-Alone Library are to be copied. When this attribute is not declared,
+the directory is the library directory.
+
+          <li>`Library_gcc': single
+
+          <p>Obsolescent attribute. Specify the linker driver used to link a shared library. 
+Use instead attribute Linker'Driver.
+
+          <li>`Library_Symbol_File': single
+
+          <p>Value is the name of the library symbol file.
+
+          <li>`Library_Symbol_Policy': single
+
+          <p>Indicates the symbol policy kind. Only authorized case-insensitive values are
+"autonomous", "default", "compliant", "controlled" or "direct".
+
+          <li>`Library_Reference_Symbol_File': single
+
+          <p>Value is the name of the reference symbol file. 
+</ul>
+
+     <li>`Configuration - General'
+
+          <ul>
+<li>`Default_Language': single
+
+          <p>Value is the case-insensitive name of the language of a project when attribute
+Languages is not specified.
+
+          <li>`Run_Path_Option': list
+
+          <p>Value is the list of switches to be used when specifying the run path option
+in an executable.
+
+          <li>`Run_Path_Origin': single
+
+          <p>Value is the the string that may replace the path name of the executable
+directory in the run path options.
+
+          <li>`Separate_Run_Path_Options': single
+
+          <p>Indicates if there may be several run path options specified when linking an
+executable. Only authorized case-insensitive values are "true" or "false" (the
+default).
+
+          <li>`Toolchain_Version': single, indexed, case-insensitive index
+
+          <p>Index is a language name. Specify the version of a toolchain for a language.
+
+          <li>`Toolchain_Description': single, indexed, case-insensitive index
+
+          <p>Obsolescent. No longer used.
+
+          <li>`Object_Generated': single, indexed, case-insensitive index
+
+          <p>Index is a language name. Indicates if invoking the compiler for a language
+produces an object file. Only authorized case-insensitive values are "false"
+and "true" (the default).
+
+          <li>`Objects_Linked': single, indexed, case-insensitive index
+
+          <p>Index is a language name. Indicates if the object files created by the compiler
+for a language need to be linked in the executable. Only authorized
+case-insensitive values are "false" and "true" (the default).
+
+          <li>`Target': single
+
+          <p>Value is the name of the target platform. Taken into account only in the main
+project.
+
+          <li>`Runtime': single, indexed, case-insensitive index
+
+          <p>Index is a language name. Indicates the runtime directory that is to be used
+when using the compiler of the language. Taken into account only in the main
+project. 
+</ul>
+
+     <li>`Configuration - Libraries'
+
+          <ul>
+<li>`Library_Builder': single
+
+          <p>Value is the path name of the application that is to be used to build
+libraries. Usually the path name of "gprlib".
+
+          <li>`Library_Support': single
+
+          <p>Indicates the level of support of libraries. Only authorized case-insensitive
+values are "static_only", "full" or "none" (the default). 
+</ul>
+
+     <li>`Configuration - Archives'
+
+          <ul>
+<li>`Archive_Builder': list
+
+          <p>Value is the name of the application to be used to create a static library
+(archive), followed by the options to be used.
+
+          <li>`Archive_Builder_Append_Option': list
+
+          <p>Value is the list of options to be used when invoking the archive builder
+to add project files into an archive.
+
+          <li>`Archive_Indexer': list
+
+          <p>Value is the name of the archive indexer, followed by the required options.
+
+          <li>`Archive_Suffix': single
+
+          <p>Value is the extension of archives. When not declared, the extension is ".a".
+
+          <li>`Library_Partial_Linker': list
+
+          <p>Value is the name of the partial linker executable, followed by the required
+options. 
+</ul>
+
+     <li>`Configuration - Shared Libraries'
+
+          <ul>
+<li>`Shared_Library_Prefix': single
+
+          <p>Value is the prefix in the name of shared library files. When not declared,
+the prefix is "lib".
+
+          <li>`Shared_Library_Suffix': single
+
+          <p>Value is the the extension of the name of shared library files. When not
+declared, the extension is ".so".
+
+          <li>`Symbolic_Link_Supported': single
+
+          <p>Indicates if symbolic links are supported on the platform. Only authorized
+case-insensitive values are "true" and "false" (the default).
+
+          <li>`Library_Major_Minor_Id_Supported': single
+
+          <p>Indicates if major and minor ids for shared library names are supported on
+the platform. Only authorized case-insensitive values are "true" and "false"
+(the default).
+
+          <li>`Library_Auto_Init_Supported': single
+
+          <p>Indicates if auto-initialization of Stand-Alone Libraries is supported. Only
+authorized case-insensitive values are "true" and "false" (the default).
+
+          <li>`Shared_Library_Minimum_Switches': list
+
+          <p>Value is the list of required switches when linking a shared library.
+
+          <li>`Library_Version_Switches': list
+
+          <p>Value is the list of switches to specify a internal name for a shared library.
+
+          <li>`Library_Install_Name_Option': single
+
+          <p>Value is the name of the option that needs to be used, concatenated with the
+path name of the library file, when linking a shared library.
+
+          <li>`Runtime_Library_Dir': single, indexed, case-insensitive index
+
+          <p>Index is a language name. Value is the path name of the directory where the
+runtime libraries are located.
+
+          <li>`Runtime_Source_Dir': single, indexed, case-insensitive index
+
+          <p>Index is a language name. Value is the path name of the directory where the
+sources of runtime libraries are located. 
+</ul>
+     </ul>
+
+</body></html>
+

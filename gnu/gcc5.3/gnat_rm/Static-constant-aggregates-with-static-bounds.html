@@ -1,0 +1,78 @@
+<html lang="en">
+<head>
+<title>Static constant aggregates with static bounds - GNAT Reference Manual</title>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+<meta name="description" content="GNAT Reference Manual">
+<meta name="generator" content="makeinfo 4.13">
+<link title="Top" rel="start" href="index.html#Top">
+<link rel="up" href="Code-Generation-for-Array-Aggregates.html#Code-Generation-for-Array-Aggregates" title="Code Generation for Array Aggregates">
+<link rel="next" href="Constant-aggregates-with-unconstrained-nominal-types.html#Constant-aggregates-with-unconstrained-nominal-types" title="Constant aggregates with unconstrained nominal types">
+<link href="http://www.gnu.org/software/texinfo/" rel="generator-home" title="Texinfo Homepage">
+<!--
+
+     GNAT Reference Manual , March 24, 2015
+
+     AdaCore
+
+     Copyright (C) 2008-2015, Free Software Foundation
+-->
+<meta http-equiv="Content-Style-Type" content="text/css">
+<style type="text/css"><!--
+  pre.display { font-family:inherit }
+  pre.format  { font-family:inherit }
+  pre.smalldisplay { font-family:inherit; font-size:smaller }
+  pre.smallformat  { font-family:inherit; font-size:smaller }
+  pre.smallexample { font-size:smaller }
+  pre.smalllisp    { font-size:smaller }
+  span.sc    { font-variant:small-caps }
+  span.roman { font-family:serif; font-weight:normal; } 
+  span.sansserif { font-family:sans-serif; font-weight:normal; } 
+--></style>
+</head>
+<body>
+<div class="node">
+<a name="Static-constant-aggregates-with-static-bounds"></a>
+<p>
+Next:&nbsp;<a rel="next" accesskey="n" href="Constant-aggregates-with-unconstrained-nominal-types.html#Constant-aggregates-with-unconstrained-nominal-types">Constant aggregates with unconstrained nominal types</a>,
+Up:&nbsp;<a rel="up" accesskey="u" href="Code-Generation-for-Array-Aggregates.html#Code-Generation-for-Array-Aggregates">Code Generation for Array Aggregates</a>
+<hr>
+</div>
+
+<p><a name="gnat_005frm_002fimplementation_005fof_005fspecific_005fada_005ffeatures-static_002dconstant_002daggregates_002dwith_002dstatic_002dbounds"></a><a name="g_t3b9"></a><a name="gnat_005frm_002fimplementation_005fof_005fspecific_005fada_005ffeatures-id8"></a><a name="g_t3ba"></a>
+
+<h4 class="subsection">15.4.1 Static constant aggregates with static bounds</h4>
+
+<p>For the declarations:
+
+<pre class="example">    type One_Dim is array (1..10) of integer;
+    ar0 : constant One_Dim := (1, 2, 3, 4, 5, 6, 7, 8, 9, 0);
+</pre>
+<p>GNAT generates no executable code: the constant ar0 is placed in static memory. 
+The same is true for constant aggregates with named associations:
+
+<pre class="example">    Cr1 : constant One_Dim := (4 =&gt; 16, 2 =&gt; 4, 3 =&gt; 9, 1 =&gt; 1, 5 .. 10 =&gt; 0);
+    Cr3 : constant One_Dim := (others =&gt; 7777);
+</pre>
+<p>The same is true for multidimensional constant arrays such as:
+
+<pre class="example">    type two_dim is array (1..3, 1..3) of integer;
+    Unit : constant two_dim := ( (1,0,0), (0,1,0), (0,0,1));
+</pre>
+<p>The same is true for arrays of one-dimensional arrays: the following are
+static:
+
+<pre class="example">    type ar1b  is array (1..3) of boolean;
+    type ar_ar is array (1..3) of ar1b;
+    None  : constant ar1b := (others =&gt; false);     --  fully static
+    None2 : constant ar_ar := (1..3 =&gt; None);       --  fully static
+</pre>
+<p>However, for multidimensional aggregates with named associations, GNAT will
+generate assignments and loops, even if all associations are static.  The
+following two declarations generate a loop for the first dimension, and
+individual component assignments for the second dimension:
+
+<pre class="example">    Zero1: constant two_dim := (1..3 =&gt; (1..3 =&gt; 0));
+    Zero2: constant two_dim := (others =&gt; (others =&gt; 0));
+</pre>
+</body></html>
+

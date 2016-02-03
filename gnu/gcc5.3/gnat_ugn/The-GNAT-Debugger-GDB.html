@@ -1,0 +1,98 @@
+<html lang="en">
+<head>
+<title>The GNAT Debugger GDB - GNAT User's Guide for Native Platforms</title>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+<meta name="description" content="GNAT User's Guide for Native Platforms">
+<meta name="generator" content="makeinfo 4.13">
+<link title="Top" rel="start" href="index.html#Top">
+<link rel="up" href="Running-and-Debugging-Ada-Programs.html#Running-and-Debugging-Ada-Programs" title="Running and Debugging Ada Programs">
+<link rel="next" href="Running-GDB.html#Running-GDB" title="Running GDB">
+<link href="http://www.gnu.org/software/texinfo/" rel="generator-home" title="Texinfo Homepage">
+<!--
+
+     GNAT User's Guide for Native Platforms , March 24, 2015
+
+     AdaCore
+
+     Copyright (C) 2008-2015, Free Software Foundation
+-->
+<meta http-equiv="Content-Style-Type" content="text/css">
+<style type="text/css"><!--
+  pre.display { font-family:inherit }
+  pre.format  { font-family:inherit }
+  pre.smalldisplay { font-family:inherit; font-size:smaller }
+  pre.smallformat  { font-family:inherit; font-size:smaller }
+  pre.smallexample { font-size:smaller }
+  pre.smalllisp    { font-size:smaller }
+  span.sc    { font-variant:small-caps }
+  span.roman { font-family:serif; font-weight:normal; } 
+  span.sansserif { font-family:sans-serif; font-weight:normal; } 
+--></style>
+</head>
+<body>
+<div class="node">
+<a name="The-GNAT-Debugger-GDB"></a>
+<p>
+Next:&nbsp;<a rel="next" accesskey="n" href="Running-GDB.html#Running-GDB">Running GDB</a>,
+Up:&nbsp;<a rel="up" accesskey="u" href="Running-and-Debugging-Ada-Programs.html#Running-and-Debugging-Ada-Programs">Running and Debugging Ada Programs</a>
+<hr>
+</div>
+
+<p><a name="gnat_005fugn_002fgnat_005fand_005fprogram_005fexecution-the_002dgnat_002ddebugger_002dgdb"></a><a name="g_t1f7"></a><a name="gnat_005fugn_002fgnat_005fand_005fprogram_005fexecution-id3"></a><a name="g_t1f8"></a>
+
+<h4 class="subsection">8.1.1 The GNAT Debugger GDB</h4>
+
+<p><cite>GDB</cite> is a general purpose, platform-independent debugger that
+can be used to debug mixed-language programs compiled with `gcc',
+and in particular is capable of debugging Ada programs compiled with
+GNAT. The latest versions of <cite>GDB</cite> are Ada-aware and can handle
+complex Ada data structures.
+
+<p>See <cite>Debugging with GDB</cite>,
+for full details on the usage of <cite>GDB</cite>, including a section on
+its usage on programs. This manual should be consulted for full
+details. The section that follows is a brief introduction to the
+philosophy and use of <cite>GDB</cite>.
+
+<p>When GNAT programs are compiled, the compiler optionally writes debugging
+information into the generated object file, including information on
+line numbers, and on declared types and variables. This information is
+separate from the generated code. It makes the object files considerably
+larger, but it does not add to the size of the actual executable that
+will be loaded into memory, and has no impact on run-time performance. The
+generation of debug information is triggered by the use of the
+-g switch in the `gcc' or `gnatmake' command
+used to carry out the compilations. It is important to emphasize that
+the use of these options does not change the generated code.
+
+<p>The debugging information is written in standard system formats that
+are used by many tools, including debuggers and profilers. The format
+of the information is typically designed to describe C types and
+semantics, but GNAT implements a translation scheme which allows full
+details about Ada types and variables to be encoded into these
+standard C formats. Details of this encoding scheme may be found in
+the file exp_dbug.ads in the GNAT source distribution. However, the
+details of this encoding are, in general, of no interest to a user,
+since <cite>GDB</cite> automatically performs the necessary decoding.
+
+<p>When a program is bound and linked, the debugging information is
+collected from the object files, and stored in the executable image of
+the program. Again, this process significantly increases the size of
+the generated executable file, but it does not increase the size of
+the executable program itself. Furthermore, if this program is run in
+the normal manner, it runs exactly as if the debug information were
+not present, and takes no more actual memory.
+
+<p>However, if the program is run under control of <cite>GDB</cite>, the
+debugger is activated.  The image of the program is loaded, at which
+point it is ready to run.  If a run command is given, then the program
+will run exactly as it would have if <cite>GDB</cite> were not present. This
+is a crucial part of the <cite>GDB</cite> design philosophy.  <cite>GDB</cite> is
+entirely non-intrusive until a breakpoint is encountered.  If no
+breakpoint is ever hit, the program will run exactly as it would if no
+debugger were present. When a breakpoint is hit, <cite>GDB</cite> accesses
+the debugging information and can respond to user commands to inspect
+variables, and more generally to report on the state of execution.
+
+</body></html>
+

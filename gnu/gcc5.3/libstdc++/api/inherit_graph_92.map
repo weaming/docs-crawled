@@ -1,0 +1,4 @@
+<map id="Graphical Class Hierarchy" name="Graphical Class Hierarchy">
+<area shape="rect" id="node1" href="$a00169.html" title="__gnu_pbds::basic_branch\l\&lt; Key, Mapped, Tag, detail\l::tree_traits\&lt; Key, Mapped,\l Cmp_Fn, Node_Update, Tag,\l _Alloc \&gt;::node_update, __gnu\l_cxx::typelist::create2\&lt; Cmp_Fn,\l detail::tree_traits\&lt; Key, Mapped,\l Cmp_Fn, Node_Update, Tag, _Alloc\l \&gt; \&gt;::type, _Alloc \&gt;" alt="" coords="5,5,228,137"/>
+<area shape="rect" id="node2" href="$a00375.html" title="__gnu_pbds::tree\&lt; Key,\l Mapped, Cmp_Fn, Tag,\l Node_Update, _Alloc \&gt;" alt="" coords="276,45,429,97"/>
+</map>

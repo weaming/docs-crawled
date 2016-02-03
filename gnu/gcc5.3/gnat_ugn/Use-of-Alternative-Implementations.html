@@ -1,0 +1,155 @@
+<html lang="en">
+<head>
+<title>Use of Alternative Implementations - GNAT User's Guide for Native Platforms</title>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+<meta name="description" content="GNAT User's Guide for Native Platforms">
+<meta name="generator" content="makeinfo 4.13">
+<link title="Top" rel="start" href="index.html#Top">
+<link rel="up" href="Modeling-Conditional-Compilation-in-Ada.html#Modeling-Conditional-Compilation-in-Ada" title="Modeling Conditional Compilation in Ada">
+<link rel="prev" href="Conditionalizing-Declarations.html#Conditionalizing-Declarations" title="Conditionalizing Declarations">
+<link rel="next" href="Preprocessing.html#Preprocessing" title="Preprocessing">
+<link href="http://www.gnu.org/software/texinfo/" rel="generator-home" title="Texinfo Homepage">
+<!--
+
+     GNAT User's Guide for Native Platforms , March 24, 2015
+
+     AdaCore
+
+     Copyright (C) 2008-2015, Free Software Foundation
+-->
+<meta http-equiv="Content-Style-Type" content="text/css">
+<style type="text/css"><!--
+  pre.display { font-family:inherit }
+  pre.format  { font-family:inherit }
+  pre.smalldisplay { font-family:inherit; font-size:smaller }
+  pre.smallformat  { font-family:inherit; font-size:smaller }
+  pre.smallexample { font-size:smaller }
+  pre.smalllisp    { font-size:smaller }
+  span.sc    { font-variant:small-caps }
+  span.roman { font-family:serif; font-weight:normal; } 
+  span.sansserif { font-family:sans-serif; font-weight:normal; } 
+--></style>
+</head>
+<body>
+<div class="node">
+<a name="Use-of-Alternative-Implementations"></a>
+<p>
+Next:&nbsp;<a rel="next" accesskey="n" href="Preprocessing.html#Preprocessing">Preprocessing</a>,
+Previous:&nbsp;<a rel="previous" accesskey="p" href="Conditionalizing-Declarations.html#Conditionalizing-Declarations">Conditionalizing Declarations</a>,
+Up:&nbsp;<a rel="up" accesskey="u" href="Modeling-Conditional-Compilation-in-Ada.html#Modeling-Conditional-Compilation-in-Ada">Modeling Conditional Compilation in Ada</a>
+<hr>
+</div>
+
+<p><a name="gnat_005fugn_002fthe_005fgnat_005fcompilation_005fmodel-use_002dof_002dalternative_002dimplementations"></a><a name="a7"></a><a name="gnat_005fugn_002fthe_005fgnat_005fcompilation_005fmodel-id52"></a><a name="a8"></a>
+
+<h5 class="subsubsection">3.10.1.4 Use of Alternative Implementations</h5>
+
+<p>In some cases, none of the approaches described above are adequate. This
+can occur for example if the set of declarations required is radically
+different for two different configurations.
+
+<p>In this situation, the official Ada way of dealing with conditionalizing
+such code is to write separate units for the different cases. As long as
+this does not result in excessive duplication of code, this can be done
+without creating maintenance problems. The approach is to share common
+code as far as possible, and then isolate the code and declarations
+that are different. Subunits are often a convenient method for breaking
+out a piece of a unit that is to be conditionalized, with separate files
+for different versions of the subunit for different targets, where the
+build script selects the right one to give to the compiler.
+
+<p><a name="index-Subunits-_0028and-conditional-compilation_0029-102"></a>
+As an example, consider a situation where a new feature in Ada 2005
+allows something to be done in a really nice way. But your code must be able
+to compile with an Ada 95 compiler. Conceptually you want to say:
+
+<pre class="example">    if Ada_2005 then
+       ... neat Ada 2005 code
+    else
+       ... not quite as neat Ada 95 code
+    end if;
+</pre>
+<p>where <cite>Ada_2005</cite> is a Boolean constant.
+
+<p>But this won't work when <cite>Ada_2005</cite> is set to <cite>False</cite>,
+since the <cite>then</cite> clause will be illegal for an Ada 95 compiler. 
+(Recall that although such unreachable code would eventually be deleted
+by the compiler, it still needs to be legal.  If it uses features
+introduced in Ada 2005, it will be illegal in Ada 95.)
+
+<p>So instead we write
+
+<pre class="example">    procedure Insert is separate;
+</pre>
+<p>Then we have two files for the subunit <cite>Insert</cite>, with the two sets of
+code. 
+If the package containing this is called <cite>File_Queries</cite>, then we might
+have two files
+
+     <ul>
+<li><code>file_queries-insert-2005.adb</code>
+
+     <li><code>file_queries-insert-95.adb</code>
+</ul>
+
+<p>and the build script renames the appropriate file to <code>file_queries-insert.adb</code> and then carries out the compilation.
+
+<p>This can also be done with project files' naming schemes. For example:
+
+<pre class="example">    for body ("File_Queries.Insert") use "file_queries-insert-2005.ada";
+</pre>
+<p>Note also that with project files it is desirable to use a different extension
+than <code>ads</code> / <code>adb</code> for alternative versions. Otherwise a naming
+conflict may arise through another commonly used feature: to declare as part
+of the project a set of directories containing all the sources obeying the
+default naming scheme.
+
+<p>The use of alternative units is certainly feasible in all situations,
+and for example the Ada part of the GNAT run-time is conditionalized
+based on the target architecture using this approach. As a specific example,
+consider the implementation of the AST feature in VMS. There is one
+spec: <code>s-asthan.ads</code> which is the same for all architectures, and three
+bodies:
+
+     <ul>
+<li>
+          <dl>
+<dt><code>s-asthan.adb</code><dd>
+used for all non-VMS operating systems
+</dl>
+
+     <li>
+          <dl>
+<dt><code>s-asthan-vms-alpha.adb</code><dd>
+used for VMS on the Alpha
+</dl>
+
+     <li>
+          <dl>
+<dt><code>s-asthan-vms-ia64.adb</code><dd>
+used for VMS on the ia64
+</dl>
+     </ul>
+
+<p>The dummy version <code>s-asthan.adb</code> simply raises exceptions noting that
+this operating system feature is not available, and the two remaining
+versions interface with the corresponding versions of VMS to provide
+VMS-compatible AST handling. The GNAT build script knows the architecture
+and operating system, and automatically selects the right version,
+renaming it if necessary to <code>s-asthan.adb</code> before the run-time build.
+
+<p>Another style for arranging alternative implementations is through Ada's
+access-to-subprogram facility. 
+In case some functionality is to be conditionally included,
+you can declare an access-to-procedure variable <cite>Ref</cite> that is initialized
+to designate a 'do nothing' procedure, and then invoke <cite>Ref.all</cite>
+when appropriate. 
+In some library package, set <cite>Ref</cite> to <cite>Proc'Access</cite> for some
+procedure <cite>Proc</cite> that performs the relevant processing. 
+The initialization only occurs if the library package is included in the
+program. 
+The same idea can also be implemented using tagged types and dispatching
+calls.
+
+</body></html>
+

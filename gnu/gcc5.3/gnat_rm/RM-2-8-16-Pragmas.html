@@ -1,0 +1,142 @@
+<html lang="en">
+<head>
+<title>RM 2 8 16 Pragmas - GNAT Reference Manual</title>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+<meta name="description" content="GNAT Reference Manual">
+<meta name="generator" content="makeinfo 4.13">
+<link title="Top" rel="start" href="index.html#Top">
+<link rel="up" href="Implementation-Advice.html#Implementation-Advice" title="Implementation Advice">
+<link rel="prev" href="RM-1-1-5-12-Bounded-Errors.html#RM-1-1-5-12-Bounded-Errors" title="RM 1 1 5 12 Bounded Errors">
+<link rel="next" href="RM-2-8-17_002d19-Pragmas.html#RM-2-8-17_002d19-Pragmas" title="RM 2 8 17-19 Pragmas">
+<link href="http://www.gnu.org/software/texinfo/" rel="generator-home" title="Texinfo Homepage">
+<!--
+
+     GNAT Reference Manual , March 24, 2015
+
+     AdaCore
+
+     Copyright (C) 2008-2015, Free Software Foundation
+-->
+<meta http-equiv="Content-Style-Type" content="text/css">
+<style type="text/css"><!--
+  pre.display { font-family:inherit }
+  pre.format  { font-family:inherit }
+  pre.smalldisplay { font-family:inherit; font-size:smaller }
+  pre.smallformat  { font-family:inherit; font-size:smaller }
+  pre.smallexample { font-size:smaller }
+  pre.smalllisp    { font-size:smaller }
+  span.sc    { font-variant:small-caps }
+  span.roman { font-family:serif; font-weight:normal; } 
+  span.sansserif { font-family:sans-serif; font-weight:normal; } 
+--></style>
+</head>
+<body>
+<div class="node">
+<a name="RM-2-8-16-Pragmas"></a>
+<p>
+Next:&nbsp;<a rel="next" accesskey="n" href="RM-2-8-17_002d19-Pragmas.html#RM-2-8-17_002d19-Pragmas">RM 2 8 17-19 Pragmas</a>,
+Previous:&nbsp;<a rel="previous" accesskey="p" href="RM-1-1-5-12-Bounded-Errors.html#RM-1-1-5-12-Bounded-Errors">RM 1 1 5 12 Bounded Errors</a>,
+Up:&nbsp;<a rel="up" accesskey="u" href="Implementation-Advice.html#Implementation-Advice">Implementation Advice</a>
+<hr>
+</div>
+
+<p><a name="gnat_005frm_002fimplementation_005fadvice-id2"></a><a name="g_t1bf"></a><a name="gnat_005frm_002fimplementation_005fadvice-rm_002d2_002d8_002d16_002dpragmas"></a><a name="g_t1c0"></a>
+
+<h3 class="section">6.4 RM 2.8(16): Pragmas</h3>
+
+<blockquote>
+
+<p>"Normally, implementation-defined pragmas should have no semantic effect
+for error-free programs; that is, if the implementation-defined pragmas
+are removed from a working program, the program should still be legal,
+and should still have the same semantics." 
+</blockquote>
+
+<p>The following implementation defined pragmas are exceptions to this
+rule:
+
+<p><table summary=""><tr align="left"><th valign="top">
+Pragma
+
+<p></th><th valign="top">
+
+<p>Explanation
+
+<p><br></th></tr><tr align="left"><td valign="top">
+`Abort_Defer'
+
+<p></td><td valign="top">
+
+<p>Affects semantics
+
+<p><br></td></tr><tr align="left"><td valign="top">
+`Ada_83'
+
+<p></td><td valign="top">
+
+<p>Affects legality
+
+<p><br></td></tr><tr align="left"><td valign="top">
+`Assert'
+
+<p></td><td valign="top">
+
+<p>Affects semantics
+
+<p><br></td></tr><tr align="left"><td valign="top">
+`CPP_Class'
+
+<p></td><td valign="top">
+
+<p>Affects semantics
+
+<p><br></td></tr><tr align="left"><td valign="top">
+`CPP_Constructor'
+
+<p></td><td valign="top">
+
+<p>Affects semantics
+
+<p><br></td></tr><tr align="left"><td valign="top">
+`Debug'
+
+<p></td><td valign="top">
+
+<p>Affects semantics
+
+<p><br></td></tr><tr align="left"><td valign="top">
+`Interface_Name'
+
+<p></td><td valign="top">
+
+<p>Affects semantics
+
+<p><br></td></tr><tr align="left"><td valign="top">
+`Machine_Attribute'
+
+<p></td><td valign="top">
+
+<p>Affects semantics
+
+<p><br></td></tr><tr align="left"><td valign="top">
+`Unimplemented_Unit'
+
+<p></td><td valign="top">
+
+<p>Affects legality
+
+<p><br></td></tr><tr align="left"><td valign="top">
+`Unchecked_Union'
+
+<p></td><td valign="top">
+
+<p>Affects semantics
+
+<br></td></tr></table>
+
+<p>In each of the above cases, it is essential to the purpose of the pragma
+that this advice not be followed.  For details see
+<a href="7.html#g_t7">Implementation Defined Pragmas</a>.
+
+</body></html>
+

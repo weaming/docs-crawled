@@ -1,0 +1,60 @@
+<html lang="en">
+<head>
+<title>GNAT Exceptions g-expect ads - GNAT Reference Manual</title>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+<meta name="description" content="GNAT Reference Manual">
+<meta name="generator" content="makeinfo 4.13">
+<link title="Top" rel="start" href="index.html#Top">
+<link rel="up" href="The-GNAT-Library.html#The-GNAT-Library" title="The GNAT Library">
+<link rel="prev" href="GNAT-Exception_005fTraces-g_002dexctra-ads.html#GNAT-Exception_005fTraces-g_002dexctra-ads" title="GNAT Exception_Traces g-exctra ads">
+<link rel="next" href="GNAT-Expect-g_002dexpect-ads.html#GNAT-Expect-g_002dexpect-ads" title="GNAT Expect g-expect ads">
+<link href="http://www.gnu.org/software/texinfo/" rel="generator-home" title="Texinfo Homepage">
+<!--
+
+     GNAT Reference Manual , March 24, 2015
+
+     AdaCore
+
+     Copyright (C) 2008-2015, Free Software Foundation
+-->
+<meta http-equiv="Content-Style-Type" content="text/css">
+<style type="text/css"><!--
+  pre.display { font-family:inherit }
+  pre.format  { font-family:inherit }
+  pre.smalldisplay { font-family:inherit; font-size:smaller }
+  pre.smallformat  { font-family:inherit; font-size:smaller }
+  pre.smallexample { font-size:smaller }
+  pre.smalllisp    { font-size:smaller }
+  span.sc    { font-variant:small-caps }
+  span.roman { font-family:serif; font-weight:normal; } 
+  span.sansserif { font-family:sans-serif; font-weight:normal; } 
+--></style>
+</head>
+<body>
+<div class="node">
+<a name="GNAT-Exceptions-g-expect-ads"></a>
+<a name="GNAT-Exceptions-g_002dexpect-ads"></a>
+<p>
+Next:&nbsp;<a rel="next" accesskey="n" href="GNAT-Expect-g_002dexpect-ads.html#GNAT-Expect-g_002dexpect-ads">GNAT Expect g-expect ads</a>,
+Previous:&nbsp;<a rel="previous" accesskey="p" href="GNAT-Exception_005fTraces-g_002dexctra-ads.html#GNAT-Exception_005fTraces-g_002dexctra-ads">GNAT Exception_Traces g-exctra ads</a>,
+Up:&nbsp;<a rel="up" accesskey="u" href="The-GNAT-Library.html#The-GNAT-Library">The GNAT Library</a>
+<hr>
+</div>
+
+<p><a name="gnat_005frm_002fthe_005fgnat_005flibrary-id72"></a><a name="g_t304"></a><a name="gnat_005frm_002fthe_005fgnat_005flibrary-gnat_002dexceptions_002dg_002dexpect_002dads"></a><a name="g_t305"></a>
+
+<h3 class="section">12.71 <cite>GNAT.Exceptions</cite> (<code>g-expect.ads</code>)</h3>
+
+<p><a name="index-GNAT_002eExceptions-_0028g_002dexpect_002eads_0029-735"></a>
+<a name="index-Exceptions-736"></a><a name="index-Pure-737"></a>
+<a name="index-Pure-packages-738"></a><a name="index-exceptions-739"></a>
+Normally it is not possible to raise an exception with
+a message from a subprogram in a pure package, since the
+necessary types and subprograms are in <cite>Ada.Exceptions</cite>
+which is not a pure unit. <cite>GNAT.Exceptions</cite> provides a
+facility for getting around this limitation for a few
+predefined exceptions, and for example allow raising
+<cite>Constraint_Error</cite> with a message from a pure subprogram.
+
+</body></html>
+

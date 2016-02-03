@@ -1,0 +1,66 @@
+<html lang="en">
+<head>
+<title>Attribute Null_Parameter - GNAT Reference Manual</title>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+<meta name="description" content="GNAT Reference Manual">
+<meta name="generator" content="makeinfo 4.13">
+<link title="Top" rel="start" href="index.html#Top">
+<link rel="up" href="Implementation-Defined-Attributes.html#Implementation-Defined-Attributes" title="Implementation Defined Attributes">
+<link rel="prev" href="Attribute-Mechanism_005fCode.html#Attribute-Mechanism_005fCode" title="Attribute Mechanism_Code">
+<link rel="next" href="Attribute-Object_005fSize.html#Attribute-Object_005fSize" title="Attribute Object_Size">
+<link href="http://www.gnu.org/software/texinfo/" rel="generator-home" title="Texinfo Homepage">
+<!--
+
+     GNAT Reference Manual , March 24, 2015
+
+     AdaCore
+
+     Copyright (C) 2008-2015, Free Software Foundation
+-->
+<meta http-equiv="Content-Style-Type" content="text/css">
+<style type="text/css"><!--
+  pre.display { font-family:inherit }
+  pre.format  { font-family:inherit }
+  pre.smalldisplay { font-family:inherit; font-size:smaller }
+  pre.smallformat  { font-family:inherit; font-size:smaller }
+  pre.smallexample { font-size:smaller }
+  pre.smalllisp    { font-size:smaller }
+  span.sc    { font-variant:small-caps }
+  span.roman { font-family:serif; font-weight:normal; } 
+  span.sansserif { font-family:sans-serif; font-weight:normal; } 
+--></style>
+</head>
+<body>
+<div class="node">
+<a name="Attribute-Null_Parameter"></a>
+<a name="Attribute-Null_005fParameter"></a>
+<p>
+Next:&nbsp;<a rel="next" accesskey="n" href="Attribute-Object_005fSize.html#Attribute-Object_005fSize">Attribute Object_Size</a>,
+Previous:&nbsp;<a rel="previous" accesskey="p" href="Attribute-Mechanism_005fCode.html#Attribute-Mechanism_005fCode">Attribute Mechanism_Code</a>,
+Up:&nbsp;<a rel="up" accesskey="u" href="Implementation-Defined-Attributes.html#Implementation-Defined-Attributes">Implementation Defined Attributes</a>
+<hr>
+</div>
+
+<p><a name="gnat_005frm_002fimplementation_005fdefined_005fattributes-attribute_002dnull_002dparameter"></a><a name="g_t141"></a>
+
+<h3 class="section">4.41 Attribute Null_Parameter</h3>
+
+<p><a name="index-Zero-address-223"></a><a name="index-passing-224"></a>
+<a name="index-Null_005fParameter-225"></a>
+A reference <code>T'Null_Parameter</code> denotes an imaginary object of
+type or subtype <cite>T</cite> allocated at machine address zero.  The attribute
+is allowed only as the default expression of a formal parameter, or as
+an actual expression of a subprogram call.  In either case, the
+subprogram must be imported.
+
+<p>The identity of the object is represented by the address zero in the
+argument list, independent of the passing mechanism (explicit or
+default).
+
+<p>This capability is needed to specify that a zero address should be
+passed for a record or other composite object passed by reference. 
+There is no way of indicating this without the <cite>Null_Parameter</cite>
+attribute.
+
+</body></html>
+

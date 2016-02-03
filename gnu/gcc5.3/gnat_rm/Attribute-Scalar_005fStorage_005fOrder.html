@@ -1,0 +1,150 @@
+<html lang="en">
+<head>
+<title>Attribute Scalar_Storage_Order - GNAT Reference Manual</title>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+<meta name="description" content="GNAT Reference Manual">
+<meta name="generator" content="makeinfo 4.13">
+<link title="Top" rel="start" href="index.html#Top">
+<link rel="up" href="Implementation-Defined-Attributes.html#Implementation-Defined-Attributes" title="Implementation Defined Attributes">
+<link rel="prev" href="Attribute-Safe_005fSmall.html#Attribute-Safe_005fSmall" title="Attribute Safe_Small">
+<link rel="next" href="Attribute-Simple_005fStorage_005fPool.html#Attribute-Simple_005fStorage_005fPool" title="Attribute Simple_Storage_Pool">
+<link href="http://www.gnu.org/software/texinfo/" rel="generator-home" title="Texinfo Homepage">
+<!--
+
+     GNAT Reference Manual , March 24, 2015
+
+     AdaCore
+
+     Copyright (C) 2008-2015, Free Software Foundation
+-->
+<meta http-equiv="Content-Style-Type" content="text/css">
+<style type="text/css"><!--
+  pre.display { font-family:inherit }
+  pre.format  { font-family:inherit }
+  pre.smalldisplay { font-family:inherit; font-size:smaller }
+  pre.smallformat  { font-family:inherit; font-size:smaller }
+  pre.smallexample { font-size:smaller }
+  pre.smalllisp    { font-size:smaller }
+  span.sc    { font-variant:small-caps }
+  span.roman { font-family:serif; font-weight:normal; } 
+  span.sansserif { font-family:sans-serif; font-weight:normal; } 
+--></style>
+</head>
+<body>
+<div class="node">
+<a name="Attribute-Scalar_Storage_Order"></a>
+<a name="Attribute-Scalar_005fStorage_005fOrder"></a>
+<p>
+Next:&nbsp;<a rel="next" accesskey="n" href="Attribute-Simple_005fStorage_005fPool.html#Attribute-Simple_005fStorage_005fPool">Attribute Simple_Storage_Pool</a>,
+Previous:&nbsp;<a rel="previous" accesskey="p" href="Attribute-Safe_005fSmall.html#Attribute-Safe_005fSmall">Attribute Safe_Small</a>,
+Up:&nbsp;<a rel="up" accesskey="u" href="Implementation-Defined-Attributes.html#Implementation-Defined-Attributes">Implementation Defined Attributes</a>
+<hr>
+</div>
+
+<p><a name="gnat_005frm_002fimplementation_005fdefined_005fattributes-attribute_002dscalar_002dstorage_002dorder"></a><a name="g_t14d"></a>
+
+<h3 class="section">4.53 Attribute Scalar_Storage_Order</h3>
+
+<p><a name="index-Endianness-247"></a>
+<a name="index-Scalar-storage-order-248"></a>
+<a name="index-Scalar_005fStorage_005fOrder-249"></a>
+For every array or record type <cite>S</cite>, the representation attribute
+<cite>Scalar_Storage_Order</cite> denotes the order in which storage elements
+that make up scalar components are ordered within S. The value given must
+be a static expression of type System.Bit_Order. The following is an example
+of the use of this feature:
+
+<pre class="example">    --  Component type definitions
+    
+    subtype Yr_Type is Natural range 0 .. 127;
+    subtype Mo_Type is Natural range 1 .. 12;
+    subtype Da_Type is Natural range 1 .. 31;
+    
+    --  Record declaration
+    
+    type Date is record
+       Years_Since_1980 : Yr_Type;
+       Month            : Mo_Type;
+       Day_Of_Month     : Da_Type;
+    end record;
+    
+    --  Record representation clause
+    
+    for Date use record
+       Years_Since_1980 at 0 range 0  ..  6;
+       Month            at 0 range 7  .. 10;
+       Day_Of_Month     at 0 range 11 .. 15;
+    end record;
+    
+    --  Attribute definition clauses
+    
+    for Date'Bit_Order use System.High_Order_First;
+    for Date'Scalar_Storage_Order use System.High_Order_First;
+    --  If Scalar_Storage_Order is specified, it must be consistent with
+    --  Bit_Order, so it's best to always define the latter explicitly if
+    --  the former is used.
+</pre>
+<p>Other properties are as for standard representation attribute <cite>Bit_Order</cite>,
+as defined by Ada RM 13.5.3(4). The default is <cite>System.Default_Bit_Order</cite>.
+
+<p>For a record type <cite>T</cite>, if <code>T'Scalar_Storage_Order</code> is
+specified explicitly, it shall be equal to <code>T'Bit_Order</code>. Note:
+this means that if a <cite>Scalar_Storage_Order</cite> attribute definition
+clause is not confirming, then the type's <cite>Bit_Order</cite> shall be
+specified explicitly and set to the same value.
+
+<p>Derived types inherit an explicitly set scalar storage order from their parent
+types. This may be overridden for the derived type by giving an explicit scalar
+storage order for the derived type. For a record extension, the derived type
+must have the same scalar storage order as the parent type.
+
+<p>If a component of <cite>T</cite> is of a record or array type, then that type must
+also have a <cite>Scalar_Storage_Order</cite> attribute definition clause.
+
+<p>A component of a record or array type that is a packed array, or that
+does not start on a byte boundary, must have the same scalar storage order
+as the enclosing record or array type.
+
+<p>No component of a type that has an explicit <cite>Scalar_Storage_Order</cite>
+attribute definition may be aliased.
+
+<p>A confirming <cite>Scalar_Storage_Order</cite> attribute definition clause (i.e. 
+with a value equal to <cite>System.Default_Bit_Order</cite>) has no effect.
+
+<p>If the opposite storage order is specified, then whenever the value of
+a scalar component of an object of type <cite>S</cite> is read, the storage
+elements of the enclosing machine scalar are first reversed (before
+retrieving the component value, possibly applying some shift and mask
+operatings on the enclosing machine scalar), and the opposite operation
+is done for writes.
+
+<p>In that case, the restrictions set forth in 13.5.1(10.3/2) for scalar components
+are relaxed. Instead, the following rules apply:
+
+     <ul>
+<li>the underlying storage elements are those at positions
+<cite>(position + first_bit / storage_element_size) .. (position + (last_bit + storage_element_size - 1) / storage_element_size)</cite>
+
+     <li>the sequence of underlying storage elements shall have
+a size no greater than the largest machine scalar
+
+     <li>the enclosing machine scalar is defined as the smallest machine
+scalar starting at a position no greater than
+<cite>position + first_bit / storage_element_size</cite> and covering
+storage elements at least up to <cite>position + (last_bit + storage_element_size - 1) / storage_element_size</cite>
+
+     <li>the position of the component is interpreted relative to that machine
+scalar. 
+</ul>
+
+<p>If no scalar storage order is specified for a type (either directly, or by
+inheritance in the case of a derived type), then the default is normally
+the native ordering of the target, but this default can be overridden using
+pragma <cite>Default_Scalar_Storage_Order</cite>.
+
+<p>Note that the scalar storage order only affects the in-memory data
+representation. It has no effect on the representation used by stream
+attributes.
+
+</body></html>
+

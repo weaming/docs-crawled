@@ -1,0 +1,69 @@
+<html lang="en">
+<head>
+<title>Pragma Debug - GNAT Reference Manual</title>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+<meta name="description" content="GNAT Reference Manual">
+<meta name="generator" content="makeinfo 4.13">
+<link title="Top" rel="start" href="index.html#Top">
+<link rel="up" href="Implementation-Defined-Pragmas.html#Implementation-Defined-Pragmas" title="Implementation Defined Pragmas">
+<link rel="prev" href="Pragma-CPU.html#Pragma-CPU" title="Pragma CPU">
+<link rel="next" href="Pragma-Debug_005fPolicy.html#Pragma-Debug_005fPolicy" title="Pragma Debug_Policy">
+<link href="http://www.gnu.org/software/texinfo/" rel="generator-home" title="Texinfo Homepage">
+<!--
+
+     GNAT Reference Manual , March 24, 2015
+
+     AdaCore
+
+     Copyright (C) 2008-2015, Free Software Foundation
+-->
+<meta http-equiv="Content-Style-Type" content="text/css">
+<style type="text/css"><!--
+  pre.display { font-family:inherit }
+  pre.format  { font-family:inherit }
+  pre.smalldisplay { font-family:inherit; font-size:smaller }
+  pre.smallformat  { font-family:inherit; font-size:smaller }
+  pre.smallexample { font-size:smaller }
+  pre.smalllisp    { font-size:smaller }
+  span.sc    { font-variant:small-caps }
+  span.roman { font-family:serif; font-weight:normal; } 
+  span.sansserif { font-family:sans-serif; font-weight:normal; } 
+--></style>
+</head>
+<body>
+<div class="node">
+<a name="Pragma-Debug"></a>
+<p>
+Next:&nbsp;<a rel="next" accesskey="n" href="Pragma-Debug_005fPolicy.html#Pragma-Debug_005fPolicy">Pragma Debug_Policy</a>,
+Previous:&nbsp;<a rel="previous" accesskey="p" href="Pragma-CPU.html#Pragma-CPU">Pragma CPU</a>,
+Up:&nbsp;<a rel="up" accesskey="u" href="Implementation-Defined-Pragmas.html#Implementation-Defined-Pragmas">Implementation Defined Pragmas</a>
+<hr>
+</div>
+
+<p><a name="gnat_005frm_002fimplementation_005fdefined_005fpragmas-pragma_002ddebug"></a><a name="g_t44"></a>
+
+<h3 class="section">2.41 Pragma Debug</h3>
+
+<p>Syntax:
+
+<pre class="example">    pragma Debug ([CONDITION, ]PROCEDURE_CALL_WITHOUT_SEMICOLON);
+    
+    PROCEDURE_CALL_WITHOUT_SEMICOLON ::=
+      PROCEDURE_NAME
+    | PROCEDURE_PREFIX ACTUAL_PARAMETER_PART
+</pre>
+<p>The procedure call argument has the syntactic form of an expression, meeting
+the syntactic requirements for pragmas.
+
+<p>If debug pragmas are not enabled or if the condition is present and evaluates
+to False, this pragma has no effect. If debug pragmas are enabled, the
+semantics of the pragma is exactly equivalent to the procedure call statement
+corresponding to the argument with a terminating semicolon. Pragmas are
+permitted in sequences of declarations, so you can use pragma <cite>Debug</cite> to
+intersperse calls to debug procedures in the middle of declarations. Debug
+pragmas can be enabled either by use of the command line switch `-gnata'
+or by use of the pragma <cite>Check_Policy</cite> with a first argument of
+<cite>Debug</cite>.
+
+</body></html>
+

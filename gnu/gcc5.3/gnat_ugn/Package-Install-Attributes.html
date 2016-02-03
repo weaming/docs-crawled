@@ -1,0 +1,92 @@
+<html lang="en">
+<head>
+<title>Package Install Attributes - GNAT User's Guide for Native Platforms</title>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+<meta name="description" content="GNAT User's Guide for Native Platforms">
+<meta name="generator" content="makeinfo 4.13">
+<link title="Top" rel="start" href="index.html#Top">
+<link rel="up" href="Attributes.html#Attributes" title="Attributes">
+<link rel="prev" href="Package-IDE-Attributes.html#Package-IDE-Attributes" title="Package IDE Attributes">
+<link rel="next" href="Package-Linker-Attributes.html#Package-Linker-Attributes" title="Package Linker Attributes">
+<link href="http://www.gnu.org/software/texinfo/" rel="generator-home" title="Texinfo Homepage">
+<!--
+
+     GNAT User's Guide for Native Platforms , March 24, 2015
+
+     AdaCore
+
+     Copyright (C) 2008-2015, Free Software Foundation
+-->
+<meta http-equiv="Content-Style-Type" content="text/css">
+<style type="text/css"><!--
+  pre.display { font-family:inherit }
+  pre.format  { font-family:inherit }
+  pre.smalldisplay { font-family:inherit; font-size:smaller }
+  pre.smallformat  { font-family:inherit; font-size:smaller }
+  pre.smallexample { font-size:smaller }
+  pre.smalllisp    { font-size:smaller }
+  span.sc    { font-variant:small-caps }
+  span.roman { font-family:serif; font-weight:normal; } 
+  span.sansserif { font-family:sans-serif; font-weight:normal; } 
+--></style>
+</head>
+<body>
+<div class="node">
+<a name="Package-Install-Attributes"></a>
+<p>
+Next:&nbsp;<a rel="next" accesskey="n" href="Package-Linker-Attributes.html#Package-Linker-Attributes">Package Linker Attributes</a>,
+Previous:&nbsp;<a rel="previous" accesskey="p" href="Package-IDE-Attributes.html#Package-IDE-Attributes">Package IDE Attributes</a>,
+Up:&nbsp;<a rel="up" accesskey="u" href="Attributes.html#Attributes">Attributes</a>
+<hr>
+</div>
+
+<p><a name="gnat_005fugn_002fgnat_005fproject_005fmanager-package_002dinstall_002dattributes"></a><a name="g_t1b6"></a><a name="gnat_005fugn_002fgnat_005fproject_005fmanager-id59"></a><a name="g_t1b7"></a>
+
+<h5 class="subsubsection">5.9.10.10 Package Install Attributes</h5>
+
+     <ul>
+<li>`Artifacts': list, indexed
+
+     <p>An array attribute to declare a set of files not part of the sources
+to be installed. The array discriminant is the directory where the
+file is to be installed. If a relative directory then Prefix (see
+below) is prepended.
+
+     <li>`Prefix': single
+
+     <p>Value is the install destination directory.
+
+     <li>`Sources_Subdir': single
+
+     <p>Value is the sources directory or subdirectory of Prefix.
+
+     <li>`Exec_Subdir': single
+
+     <p>Value is the executables directory or subdirectory of Prefix.
+
+     <li>`Lib_Subdir': single
+
+     <p>Value is library directory or subdirectory of Prefix.
+
+     <li>`Project_Subdir': single
+
+     <p>Value is the project directory or subdirectory of Prefix.
+
+     <li>`Active': single
+
+     <p>Indicates that the project is to be installed or not. Case-insensitive value
+"false" means that the project is not to be installed, all other values mean
+that the project is to be installed.
+
+     <li>`Mode': single
+
+     <p>Value is the installation mode, it is either `dev' (default) or `usage'.
+
+     <li>`Install_Name': single
+
+     <p>Specify the name to use for recording the installation. The default is
+the project name without the extension. 
+</ul>
+
+</body></html>
+

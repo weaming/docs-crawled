@@ -1,0 +1,331 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+  "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+
+
+<html xmlns="http://www.w3.org/1999/xhtml">
+  <head>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+    
+    <title>HTML/XHTML 常见问答 &mdash; Flask 0.10 文档</title>
+    
+    <link rel="stylesheet" href="_static/flasky.css" type="text/css" />
+    <link rel="stylesheet" href="_static/pygments.css" type="text/css" />
+    
+    <script type="text/javascript">
+      var DOCUMENTATION_OPTIONS = {
+        URL_ROOT:    './',
+        VERSION:     '0.10',
+        COLLAPSE_INDEX: false,
+        FILE_SUFFIX: '.html',
+        HAS_SOURCE:  true
+      };
+    </script>
+    <script type="text/javascript" src="_static/jquery.js"></script>
+    <script type="text/javascript" src="_static/underscore.js"></script>
+    <script type="text/javascript" src="_static/doctools.js"></script>
+    <script type="text/javascript" src="_static/translations.js"></script>
+    <link rel="top" title="Flask 0.10 文档" href="index.html" />
+    <link rel="next" title="安全注意事项" href="security.html" />
+    <link rel="prev" title="Flask 的设计思路" href="design.html" />
+   
+  
+  <link rel="apple-touch-icon" href="_static/touch-icon.png" />
+  
+  <link media="only screen and (max-device-width: 480px)" href="_static/small_flask.css" type= "text/css" rel="stylesheet" />
+
+  </head>
+  <body role="document">
+    <div class="related" role="navigation" aria-label="related navigation">
+      <h3>导航</h3>
+      <ul>
+        <li class="right" style="margin-right: 10px">
+          <a href="genindex.html" title="总目录"
+             accesskey="I">索引</a></li>
+        <li class="right" >
+          <a href="security.html" title="安全注意事项"
+             accesskey="N">下一页</a> |</li>
+        <li class="right" >
+          <a href="design.html" title="Flask 的设计思路"
+             accesskey="P">上一页</a> |</li>
+        <li class="nav-item nav-item-0"><a href="index.html">Flask 0.10 文档</a> &raquo;</li> 
+      </ul>
+    </div>  
+
+    <div class="document">
+      <div class="documentwrapper">
+        <div class="bodywrapper">
+          <div class="body" role="main">
+            
+  <div class="section" id="html-xhtml">
+<h1>HTML/XHTML 常见问答<a class="headerlink" href="#html-xhtml" title="永久链接至标题">¶</a></h1>
+<p>Flask 的文档和示例应用使用 HTML5 。你可能会注意到，在许多情况下，当结束标记
+是可选的时候，并不使用它们，这样 HTML 会更简洁且加载更迅速。因为在开发者中，
+有许多关于 HTML 和 XHTML 的混淆，本文档尝试回答一些主要的疑问。</p>
+<div class="section" id="xhtml">
+<h2>XHTML 的历史<a class="headerlink" href="#xhtml" title="永久链接至标题">¶</a></h2>
+<p>有一段时间， XHTML 横空出世，大有取代 HTML 之势。然而时至今日，鲜有真正使用
+XHTML （根据 XML 规则处理的 HTML ）的网站。出现这种情况的原因很多。其一是
+Internet Explorer 对 XHTML 支持不完善。 根据规范要求 XHTML 必须使用
+<cite>application/xhtml+xml</cite> MIME 类型，但是 Internet Explorer 却拒绝读取这个
+MIME 类型的文件。</p>
+<p>虽然通过配置 Web 服务器来为 XHTML 提供正确的服务相对简单，但是却很少有人这么
+做。这可能是因为正确地使用 XHTML 是一件很痛苦的事情。</p>
+<p>痛中之通是 XML 苛刻的（严厉且无情）错误处理。当 XML 处理中遭遇错误时，浏览器
+会把一个丑陋的错误消息显示给用户，而不是尝试从错误中恢并显示出能显示的部分。
+web 上大多数的 (X)HTML 是基于非 XML 的模板引擎（比如 Flask 所使用的 Jinja）
+生成的。而这些模板引擎并不会阻止你偶然创建无效的 XHTML 。也有基于 XML 的模板
+引擎，诸如 Kid 和流行的 Genshi ，但是它们通常具有更大的运行时开销， 并且用
+起来很不爽，因为它们必须遵守 XML 规则。</p>
+<p>大多数用户，不管怎样，假设他们正确地使用了 XHTML 。他们在文档的顶部写下一个
+XHTML doctype ，并且闭合了所有必要闭合的标签（ 在 XHTML 中 <code class="docutils literal"><span class="pre">&lt;br&gt;</span></code> 要写作
+<code class="docutils literal"><span class="pre">&lt;br</span> <span class="pre">/&gt;</span></code> 或 <code class="docutils literal"><span class="pre">&lt;br&gt;&lt;/br&gt;</span></code> ）。即使文档可以正确地通过 XHTML 验证，然而真正
+决定浏览器中 XHTML/HTML 处理的是前面提到的，经常不被正确设置的 MIME 类型。
+一旦类型错误，有效的 XHTML 会被视作无效的 HTML 处理。</p>
+<p>XHTML 也改变了使用 JavaScript 的方式。要在 XHTML 下正确地工作，程序员不得不
+使用带有 XHTML 名称空间的 DOM 接口来查询 HTML 元素。</p>
+</div>
+<div class="section" id="html5">
+<h2>HTML5 的历史<a class="headerlink" href="#html5" title="永久链接至标题">¶</a></h2>
+<p>HTML5 规范是由网络超文本应用技术工作组（ WHATWG ）于 2004 年开始制定的，最初
+的名称是“ Web 应用1.0 ”。 WHATWG 由主要的浏览器供应商苹果、 Mozilla 和 Opera
+组成。 HTML5 规范的目标是编写一个新的更好的 HTML 规范，该规范是基于现有浏览器
+的行为的，而不是不切实际的，不向后兼容的。</p>
+<p>例如，在 HTML4 中 <code class="docutils literal"><span class="pre">&lt;title/Hello/</span></code> 与 <code class="docutils literal"><span class="pre">&lt;title&gt;Hello&lt;/title&gt;</span></code> 理论上完全
+相同。然而，由于人们沿用了 <code class="docutils literal"><span class="pre">&lt;link</span> <span class="pre">/&gt;</span></code> 之类的 XHTML-like 标签， 浏览器就会
+识别为 XHTML 而不是 HTML 。</p>
+<p>2007 年， W3C 以这个规范为基础，制定了一个新的 HTML 规范，也就是 HTML5 。现在，
+随着 XHTML 2 工作组的解散，而且 HTML5 正在被所有主流浏览器供应商实现，XHTML
+逐渐失去了吸引力。</p>
+</div>
+<div class="section" id="id1">
+<h2>HTML 对比 XHTML<a class="headerlink" href="#id1" title="永久链接至标题">¶</a></h2>
+<p>下面的表格展示 HTML 4.01 、 XHTML 1.1 和 HTML5 简要功能比价。（不包括 XHTML
+1.0 ，因为它已经被 XHTML 1.1 和几乎不使用的 XHTML5 代替。）</p>
+<table border="1" class="docutils">
+<colgroup>
+<col width="58%" />
+<col width="14%" />
+<col width="14%" />
+<col width="14%" />
+</colgroup>
+<thead valign="bottom">
+<tr class="row-odd"><th class="head">&nbsp;</th>
+<th class="head">HTML4.01</th>
+<th class="head">XHTML1.1</th>
+<th class="head">HTML5</th>
+</tr>
+</thead>
+<tbody valign="top">
+<tr class="row-even"><td><code class="docutils literal"><span class="pre">&lt;tag/value/</span></code> == <code class="docutils literal"><span class="pre">&lt;tag&gt;value&lt;/tag&gt;</span></code></td>
+<td><img alt="Yes" src="_images/yes.png" /> <a class="footnote-reference" href="#id5" id="id2">[1]</a></td>
+<td><img alt="No" src="_images/no.png" /></td>
+<td><img alt="No" src="_images/no.png" /></td>
+</tr>
+<tr class="row-odd"><td>支持 <code class="docutils literal"><span class="pre">&lt;br/&gt;</span></code></td>
+<td><img alt="No" src="_images/no.png" /></td>
+<td><img alt="Yes" src="_images/yes.png" /></td>
+<td><img alt="Yes" src="_images/yes.png" /> <a class="footnote-reference" href="#id6" id="id3">[2]</a></td>
+</tr>
+<tr class="row-even"><td>支持  <code class="docutils literal"><span class="pre">&lt;script/&gt;</span></code></td>
+<td><img alt="No" src="_images/no.png" /></td>
+<td><img alt="Yes" src="_images/yes.png" /></td>
+<td><img alt="No" src="_images/no.png" /></td>
+</tr>
+<tr class="row-odd"><td>应该解析为 <cite>text/html</cite></td>
+<td><img alt="Yes" src="_images/yes.png" /></td>
+<td><img alt="No" src="_images/no.png" /> <a class="footnote-reference" href="#id7" id="id4">[3]</a></td>
+<td><img alt="Yes" src="_images/yes.png" /></td>
+</tr>
+<tr class="row-even"><td>应该解析为
+<cite>application/xhtml+xml</cite></td>
+<td><img alt="No" src="_images/no.png" /></td>
+<td><img alt="Yes" src="_images/yes.png" /></td>
+<td><img alt="No" src="_images/no.png" /></td>
+</tr>
+<tr class="row-odd"><td>严格的错误处理</td>
+<td><img alt="No" src="_images/no.png" /></td>
+<td><img alt="Yes" src="_images/yes.png" /></td>
+<td><img alt="No" src="_images/no.png" /></td>
+</tr>
+<tr class="row-even"><td>内联 SVG</td>
+<td><img alt="No" src="_images/no.png" /></td>
+<td><img alt="Yes" src="_images/yes.png" /></td>
+<td><img alt="Yes" src="_images/yes.png" /></td>
+</tr>
+<tr class="row-odd"><td>内联 MathML</td>
+<td><img alt="No" src="_images/no.png" /></td>
+<td><img alt="Yes" src="_images/yes.png" /></td>
+<td><img alt="Yes" src="_images/yes.png" /></td>
+</tr>
+<tr class="row-even"><td><code class="docutils literal"><span class="pre">&lt;video&gt;</span></code> 标记</td>
+<td><img alt="No" src="_images/no.png" /></td>
+<td><img alt="No" src="_images/no.png" /></td>
+<td><img alt="Yes" src="_images/yes.png" /></td>
+</tr>
+<tr class="row-odd"><td><code class="docutils literal"><span class="pre">&lt;audio&gt;</span></code> 标记</td>
+<td><img alt="No" src="_images/no.png" /></td>
+<td><img alt="No" src="_images/no.png" /></td>
+<td><img alt="Yes" src="_images/yes.png" /></td>
+</tr>
+<tr class="row-even"><td>新的语义标记，比如 <code class="docutils literal"><span class="pre">&lt;article&gt;</span></code></td>
+<td><img alt="No" src="_images/no.png" /></td>
+<td><img alt="No" src="_images/no.png" /></td>
+<td><img alt="Yes" src="_images/yes.png" /></td>
+</tr>
+</tbody>
+</table>
+<table class="docutils footnote" frame="void" id="id5" rules="none">
+<colgroup><col class="label" /><col /></colgroup>
+<tbody valign="top">
+<tr><td class="label"><a class="fn-backref" href="#id2">[1]</a></td><td>这是一个从 SGML 继承过来的隐晦的功能。由于上述的原因，它通常不被浏览器
+支持。</td></tr>
+</tbody>
+</table>
+<table class="docutils footnote" frame="void" id="id6" rules="none">
+<colgroup><col class="label" /><col /></colgroup>
+<tbody valign="top">
+<tr><td class="label"><a class="fn-backref" href="#id3">[2]</a></td><td>这用于兼容根据 XHTML 规范为 <code class="docutils literal"><span class="pre">&lt;br&gt;</span></code> 之类的标记生成的服务代码。它不应该
+在新代码中出现。</td></tr>
+</tbody>
+</table>
+<table class="docutils footnote" frame="void" id="id7" rules="none">
+<colgroup><col class="label" /><col /></colgroup>
+<tbody valign="top">
+<tr><td class="label"><a class="fn-backref" href="#id4">[3]</a></td><td>XHTML 1.0 是考虑向后兼容，允许呈现为 <cite>text/html</cite> 的最后一个 XHTML 标准。</td></tr>
+</tbody>
+</table>
+</div>
+<div class="section" id="id8">
+<h2>“严格”意味着什么？<a class="headerlink" href="#id8" title="永久链接至标题">¶</a></h2>
+<p>HTML5 严格地定义了解析规则，但是同时也明确地规定了浏览器如何处理解析错误。
+而不是像 XHTML 一样，只是简单的终止解析。有的人对有显而易见的语法错误的标记
+任然能够得到预想的结果感到疑惑不解（例如结尾标记缺失或者属性值未用引号包裹）。</p>
+<p>之所以能够得到预想的结果，有的是因为大多数浏览器会宽容处理错误标记，有的是因为
+错误已经被指定了解决方式。以下结构在 HTML5 标准中是可选的，但一定被浏览器支持：</p>
+<ul class="simple">
+<li>用 <code class="docutils literal"><span class="pre">&lt;html&gt;</span></code> 标签包裹文档。</li>
+<li>把页首元素包裹在 <code class="docutils literal"><span class="pre">&lt;head&gt;</span></code> 里或把主体元素包裹在 <code class="docutils literal"><span class="pre">&lt;body&gt;</span></code> 里。</li>
+<li>闭合 <code class="docutils literal"><span class="pre">&lt;p&gt;</span></code> 、 <code class="docutils literal"><span class="pre">&lt;li&gt;</span></code> 、 <code class="docutils literal"><span class="pre">&lt;dt&gt;</span></code> 、 <code class="docutils literal"><span class="pre">&lt;dd&gt;</span></code> 、 <code class="docutils literal"><span class="pre">&lt;tr&gt;</span></code> 、
+<code class="docutils literal"><span class="pre">&lt;td&gt;</span></code> 、 <code class="docutils literal"><span class="pre">&lt;th&gt;</span></code> 、 <code class="docutils literal"><span class="pre">&lt;tbody&gt;</span></code> 、 <code class="docutils literal"><span class="pre">&lt;thead&gt;</span></code> 或 <code class="docutils literal"><span class="pre">&lt;tfoot&gt;</span></code> 标签。</li>
+<li>用引号包裹属性值，只要它们不含有空白字符或其特殊字符（比如 <code class="docutils literal"><span class="pre">&lt;</span></code> 、
+<code class="docutils literal"><span class="pre">&gt;</span></code> 、 <code class="docutils literal"><span class="pre">'</span></code> 或 <code class="docutils literal"><span class="pre">&quot;</span></code> ）。</li>
+<li>布尔属性必须赋值。</li>
+</ul>
+<p>这意味着下面的页面在 HTML5 中是完全有效的:</p>
+<div class="highlight-html"><div class="highlight"><pre><span class="cp">&lt;!doctype html&gt;</span>
+<span class="nt">&lt;title&gt;</span>Hello HTML5<span class="nt">&lt;/title&gt;</span>
+<span class="nt">&lt;div</span> <span class="na">class=</span><span class="s">header</span><span class="nt">&gt;</span>
+  <span class="nt">&lt;h1&gt;</span>Hello HTML5<span class="nt">&lt;/h1&gt;</span>
+  <span class="nt">&lt;p</span> <span class="na">class=</span><span class="s">tagline</span><span class="nt">&gt;</span>HTML5 is awesome
+<span class="nt">&lt;/div&gt;</span>
+<span class="nt">&lt;ul</span> <span class="na">class=</span><span class="s">nav</span><span class="nt">&gt;</span>
+  <span class="nt">&lt;li&gt;&lt;a</span> <span class="na">href=</span><span class="s">/index</span><span class="nt">&gt;</span>Index<span class="nt">&lt;/a&gt;</span>
+  <span class="nt">&lt;li&gt;&lt;a</span> <span class="na">href=</span><span class="s">/downloads</span><span class="nt">&gt;</span>Downloads<span class="nt">&lt;/a&gt;</span>
+  <span class="nt">&lt;li&gt;&lt;a</span> <span class="na">href=</span><span class="s">/about</span><span class="nt">&gt;</span>About<span class="nt">&lt;/a&gt;</span>
+<span class="nt">&lt;/ul&gt;</span>
+<span class="nt">&lt;div</span> <span class="na">class=</span><span class="s">body</span><span class="nt">&gt;</span>
+  <span class="nt">&lt;h2&gt;</span>HTML5 is probably the future<span class="nt">&lt;/h2&gt;</span>
+  <span class="nt">&lt;p&gt;</span>
+    There might be some other things around but in terms of
+    browser vendor support, HTML5 is hard to beat.
+  <span class="nt">&lt;dl&gt;</span>
+    <span class="nt">&lt;dt&gt;</span>Key 1
+    <span class="nt">&lt;dd&gt;</span>Value 1
+    <span class="nt">&lt;dt&gt;</span>Key 2
+    <span class="nt">&lt;dd&gt;</span>Value 2
+  <span class="nt">&lt;/dl&gt;</span>
+<span class="nt">&lt;/div&gt;</span>
+</pre></div>
+</div>
+</div>
+<div class="section" id="id9">
+<h2>HTML5 中的新技术<a class="headerlink" href="#id9" title="永久链接至标题">¶</a></h2>
+<p>HTML5 增加了许多新功能，使得网络应用易写易用。</p>
+<ul class="simple">
+<li><code class="docutils literal"><span class="pre">&lt;audio&gt;</span></code> 和 <code class="docutils literal"><span class="pre">&lt;video&gt;</span></code> 标记提供了不使用 QuickTime 或 Flash 之类的
+复杂附件的嵌入音频和视频的方式。</li>
+<li>像 <code class="docutils literal"><span class="pre">&lt;article&gt;</span></code> 、 <code class="docutils literal"><span class="pre">&lt;header&gt;</span></code> 、 <code class="docutils literal"><span class="pre">&lt;nav&gt;</span></code> 和 <code class="docutils literal"><span class="pre">&lt;time&gt;</span></code> 之类的语义化
+元素，使得内容易于理解。</li>
+<li><code class="docutils literal"><span class="pre">&lt;canvas&gt;</span></code> 标记支持强大的绘图 API ，减少了图形化展示数据时在服务器端生成
+图像的需求。</li>
+<li>新的表单控件类型，比如 <code class="docutils literal"><span class="pre">&lt;input</span> <span class="pre">type=&quot;data&quot;&gt;</span></code> 方便用户代理输入和验证数据。</li>
+<li>高级 JavaScript API ，诸如 Web Storage 、 Web Workers 、 Web Sockets 、
+地理位置以及离线应用。</li>
+</ul>
+<p>除了上述功能之外， HTML5 还添加了许多其它的特性。 Mark Pilgrim 即将出版的
+<a class="reference external" href="http://www.diveintohtml5.org/">Dive Into HTML5</a> 一书是 HTML5 新特性的优秀指导书。目前，并不是所有的新特性
+都已被浏览器支持，无论如何，请谨慎使用。</p>
+</div>
+<div class="section" id="id10">
+<h2>应该使用什么？<a class="headerlink" href="#id10" title="永久链接至标题">¶</a></h2>
+<p>当前情况下，答案是 HTML5 。考虑到 web 浏览器最新的开发，几乎没有理由再使用
+XHTML 。综上所述：</p>
+<ul class="simple">
+<li>Internet Explorer （令人悲伤的是目前市场份额处于领先） 对 XHTML 支持不佳。</li>
+<li>许多 JavaScript 库也不支持 XHTML ，原因是它需要复杂的命名空间 API 。</li>
+<li>HTML5 添加了数个新特性，包括语义标记和期待已久的 <code class="docutils literal"><span class="pre">&lt;audio&gt;</span></code> 和
+<code class="docutils literal"><span class="pre">&lt;video&gt;</span></code> 标记。</li>
+<li>它背后获得了大多数浏览器供应商的支持。</li>
+<li>它易于编写，而且更简洁。</li>
+</ul>
+<p>对于大多数应用，毫无疑问使用 HTML5 比 XHTML 更好。</p>
+</div>
+</div>
+
+
+          </div>
+        </div>
+      </div>
+      <div class="sphinxsidebar" role="navigation" aria-label="main navigation">
+        <div class="sphinxsidebarwrapper"><p class="logo"><a href="index.html">
+  <img class="logo" src="_static/flask.png" alt="Logo"/>
+</a></p>
+  <h3><a href="index.html">內容目录</a></h3>
+  <ul>
+<li><a class="reference internal" href="#">HTML/XHTML 常见问答</a><ul>
+<li><a class="reference internal" href="#xhtml">XHTML 的历史</a></li>
+<li><a class="reference internal" href="#html5">HTML5 的历史</a></li>
+<li><a class="reference internal" href="#id1">HTML 对比 XHTML</a></li>
+<li><a class="reference internal" href="#id8">“严格”意味着什么？</a></li>
+<li><a class="reference internal" href="#id9">HTML5 中的新技术</a></li>
+<li><a class="reference internal" href="#id10">应该使用什么？</a></li>
+</ul>
+</li>
+</ul>
+<h3>Related Topics</h3>
+<ul>
+  <li><a href="index.html">Documentation overview</a><ul>
+      <li>Previous: <a href="design.html" title="上一章">Flask 的设计思路</a></li>
+      <li>Next: <a href="security.html" title="下一章">安全注意事项</a></li>
+  </ul></li>
+</ul>
+  <div role="note" aria-label="source link">
+    <h3>本页</h3>
+    <ul class="this-page-menu">
+      <li><a href="_sources/htmlfaq.txt"
+            rel="nofollow">显示源代码</a></li>
+    </ul>
+   </div>
+<div id="searchbox" style="display: none" role="search">
+  <h3>快速搜索</h3>
+    <form class="search" action="search.html" method="get">
+      <input type="text" name="q" />
+      <input type="submit" value="转向" />
+      <input type="hidden" name="check_keywords" value="yes" />
+      <input type="hidden" name="area" value="default" />
+    </form>
+    <p class="searchtip" style="font-size: 90%">
+    输入相关的术语，模块，类或者函数名称进行搜索
+    </p>
+</div>
+<script type="text/javascript">$('#searchbox').show(0);</script>
+        </div>
+      </div>
+      <div class="clearer"></div>
+    </div>
+    <div class="footer">
+      &copy; Copyright 2013, Armin Ronacher.
+      Created using <a href="http://sphinx.pocoo.org/">Sphinx</a>.
+    </div>
+  </body>
+</html>

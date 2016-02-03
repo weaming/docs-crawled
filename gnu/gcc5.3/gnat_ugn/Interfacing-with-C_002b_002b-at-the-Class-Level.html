@@ -1,0 +1,274 @@
+<html lang="en">
+<head>
+<title>Interfacing with C++ at the Class Level - GNAT User's Guide for Native Platforms</title>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+<meta name="description" content="GNAT User's Guide for Native Platforms">
+<meta name="generator" content="makeinfo 4.13">
+<link title="Top" rel="start" href="index.html#Top">
+<link rel="up" href="Building-Mixed-Ada-and-C_002b_002b-Programs.html#Building-Mixed-Ada-and-C_002b_002b-Programs" title="Building Mixed Ada and C++ Programs">
+<link rel="prev" href="Interfacing-with-C_002b_002b-constructors.html#Interfacing-with-C_002b_002b-constructors" title="Interfacing with C++ constructors">
+<link href="http://www.gnu.org/software/texinfo/" rel="generator-home" title="Texinfo Homepage">
+<!--
+
+     GNAT User's Guide for Native Platforms , March 24, 2015
+
+     AdaCore
+
+     Copyright (C) 2008-2015, Free Software Foundation
+-->
+<meta http-equiv="Content-Style-Type" content="text/css">
+<style type="text/css"><!--
+  pre.display { font-family:inherit }
+  pre.format  { font-family:inherit }
+  pre.smalldisplay { font-family:inherit; font-size:smaller }
+  pre.smallformat  { font-family:inherit; font-size:smaller }
+  pre.smallexample { font-size:smaller }
+  pre.smalllisp    { font-size:smaller }
+  span.sc    { font-variant:small-caps }
+  span.roman { font-family:serif; font-weight:normal; } 
+  span.sansserif { font-family:sans-serif; font-weight:normal; } 
+--></style>
+</head>
+<body>
+<div class="node">
+<a name="Interfacing-with-C++-at-the-Class-Level"></a>
+<a name="Interfacing-with-C_002b_002b-at-the-Class-Level"></a>
+<p>
+Previous:&nbsp;<a rel="previous" accesskey="p" href="Interfacing-with-C_002b_002b-constructors.html#Interfacing-with-C_002b_002b-constructors">Interfacing with C++ constructors</a>,
+Up:&nbsp;<a rel="up" accesskey="u" href="Building-Mixed-Ada-and-C_002b_002b-Programs.html#Building-Mixed-Ada-and-C_002b_002b-Programs">Building Mixed Ada and C++ Programs</a>
+<hr>
+</div>
+
+<p><a name="gnat_005fugn_002fthe_005fgnat_005fcompilation_005fmodel-interfacing_002dwith_002dc_002dat_002dthe_002dclass_002dlevel"></a><a name="c7"></a><a name="gnat_005fugn_002fthe_005fgnat_005fcompilation_005fmodel-id69"></a><a name="c8"></a>
+
+<h5 class="subsubsection">3.11.3.5 Interfacing with C++ at the Class Level</h5>
+
+<p>In this section we demonstrate the GNAT features for interfacing with
+C++ by means of an example making use of Ada 2005 abstract interface
+types. This example consists of a classification of animals; classes
+have been used to model our main classification of animals, and
+interfaces provide support for the management of secondary
+classifications. We first demonstrate a case in which the types and
+constructors are defined on the C++ side and imported from the Ada
+side, and latter the reverse case.
+
+<p>The root of our derivation will be the <cite>Animal</cite> class, with a
+single private attribute (the <cite>Age</cite> of the animal), a constructor,
+and two public primitives to set and get the value of this attribute.
+
+<pre class="example">    class Animal {
+     public:
+       virtual void Set_Age (int New_Age);
+       virtual int Age ();
+       Animal() {Age_Count = 0;};
+     private:
+       int Age_Count;
+    };
+</pre>
+<p>Abstract interface types are defined in C++ by means of classes with pure
+virtual functions and no data members. In our example we will use two
+interfaces that provide support for the common management of <cite>Carnivore</cite>
+and <cite>Domestic</cite> animals:
+
+<pre class="example">    class Carnivore {
+    public:
+       virtual int Number_Of_Teeth () = 0;
+    };
+    
+    class Domestic {
+    public:
+       virtual void Set_Owner (char* Name) = 0;
+    };
+</pre>
+<p>Using these declarations, we can now say that a <cite>Dog</cite> is an animal that is
+both Carnivore and Domestic, that is:
+
+<pre class="example">    class Dog : Animal, Carnivore, Domestic {
+     public:
+       virtual int  Number_Of_Teeth ();
+       virtual void Set_Owner (char* Name);
+    
+       Dog(); // Constructor
+     private:
+       int  Tooth_Count;
+       char *Owner;
+    };
+</pre>
+<p>In the following examples we will assume that the previous declarations are
+located in a file named <cite>animals.h</cite>. The following package demonstrates
+how to import these C++ declarations from the Ada side:
+
+<pre class="example">    with Interfaces.C.Strings; use Interfaces.C.Strings;
+    package Animals is
+      type Carnivore is limited interface;
+      pragma Convention (C_Plus_Plus, Carnivore);
+      function Number_Of_Teeth (X : Carnivore)
+         return Natural is abstract;
+    
+      type Domestic is limited interface;
+      pragma Convention (C_Plus_Plus, Domestic);
+      procedure Set_Owner
+        (X    : in out Domestic;
+         Name : Chars_Ptr) is abstract;
+    
+      type Animal is tagged limited record
+        Age : Natural;
+      end record;
+      pragma Import (C_Plus_Plus, Animal);
+    
+      procedure Set_Age (X : in out Animal; Age : Integer);
+      pragma Import (C_Plus_Plus, Set_Age);
+    
+      function Age (X : Animal) return Integer;
+      pragma Import (C_Plus_Plus, Age);
+    
+      function New_Animal return Animal;
+      pragma CPP_Constructor (New_Animal);
+      pragma Import (CPP, New_Animal, "_ZN6AnimalC1Ev");
+    
+      type Dog is new Animal and Carnivore and Domestic with record
+        Tooth_Count : Natural;
+        Owner       : String (1 .. 30);
+      end record;
+      pragma Import (C_Plus_Plus, Dog);
+    
+      function Number_Of_Teeth (A : Dog) return Natural;
+      pragma Import (C_Plus_Plus, Number_Of_Teeth);
+    
+      procedure Set_Owner (A : in out Dog; Name : Chars_Ptr);
+      pragma Import (C_Plus_Plus, Set_Owner);
+    
+      function New_Dog return Dog;
+      pragma CPP_Constructor (New_Dog);
+      pragma Import (CPP, New_Dog, "_ZN3DogC2Ev");
+    end Animals;
+</pre>
+<p>Thanks to the compatibility between GNAT run-time structures and the C++ ABI,
+interfacing with these C++ classes is easy. The only requirement is that all
+the primitives and components must be declared exactly in the same order in
+the two languages.
+
+<p>Regarding the abstract interfaces, we must indicate to the GNAT compiler by
+means of a <cite>pragma Convention (C_Plus_Plus)</cite>, the convention used to pass
+the arguments to the called primitives will be the same as for C++. For the
+imported classes we use <cite>pragma Import</cite> with convention <cite>C_Plus_Plus</cite>
+to indicate that they have been defined on the C++ side; this is required
+because the dispatch table associated with these tagged types will be built
+in the C++ side and therefore will not contain the predefined Ada primitives
+which Ada would otherwise expect.
+
+<p>As the reader can see there is no need to indicate the C++ mangled names
+associated with each subprogram because it is assumed that all the calls to
+these primitives will be dispatching calls. The only exception is the
+constructor, which must be registered with the compiler by means of
+<cite>pragma CPP_Constructor</cite> and needs to provide its associated C++
+mangled name because the Ada compiler generates direct calls to it.
+
+<p>With the above packages we can now declare objects of type Dog on the Ada side
+and dispatch calls to the corresponding subprograms on the C++ side. We can
+also extend the tagged type Dog with further fields and primitives, and
+override some of its C++ primitives on the Ada side. For example, here we have
+a type derivation defined on the Ada side that inherits all the dispatching
+primitives of the ancestor from the C++ side.
+
+<pre class="example">    with Animals; use Animals;
+    package Vaccinated_Animals is
+      type Vaccinated_Dog is new Dog with null record;
+      function Vaccination_Expired (A : Vaccinated_Dog) return Boolean;
+    end Vaccinated_Animals;
+</pre>
+<p>It is important to note that, because of the ABI compatibility, the programmer
+does not need to add any further information to indicate either the object
+layout or the dispatch table entry associated with each dispatching operation.
+
+<p>Now let us define all the types and constructors on the Ada side and export
+them to C++, using the same hierarchy of our previous example:
+
+<pre class="example">    with Interfaces.C.Strings;
+    use Interfaces.C.Strings;
+    package Animals is
+      type Carnivore is limited interface;
+      pragma Convention (C_Plus_Plus, Carnivore);
+      function Number_Of_Teeth (X : Carnivore)
+         return Natural is abstract;
+    
+      type Domestic is limited interface;
+      pragma Convention (C_Plus_Plus, Domestic);
+      procedure Set_Owner
+        (X    : in out Domestic;
+         Name : Chars_Ptr) is abstract;
+    
+      type Animal is tagged record
+        Age : Natural;
+      end record;
+      pragma Convention (C_Plus_Plus, Animal);
+    
+      procedure Set_Age (X : in out Animal; Age : Integer);
+      pragma Export (C_Plus_Plus, Set_Age);
+    
+      function Age (X : Animal) return Integer;
+      pragma Export (C_Plus_Plus, Age);
+    
+      function New_Animal return Animal'Class;
+      pragma Export (C_Plus_Plus, New_Animal);
+    
+      type Dog is new Animal and Carnivore and Domestic with record
+        Tooth_Count : Natural;
+        Owner       : String (1 .. 30);
+      end record;
+      pragma Convention (C_Plus_Plus, Dog);
+    
+      function Number_Of_Teeth (A : Dog) return Natural;
+      pragma Export (C_Plus_Plus, Number_Of_Teeth);
+    
+      procedure Set_Owner (A : in out Dog; Name : Chars_Ptr);
+      pragma Export (C_Plus_Plus, Set_Owner);
+    
+      function New_Dog return Dog'Class;
+      pragma Export (C_Plus_Plus, New_Dog);
+    end Animals;
+</pre>
+<p>Compared with our previous example the only differences are the use of
+<cite>pragma Convention</cite> (instead of <cite>pragma Import</cite>), and the use of
+<cite>pragma Export</cite> to indicate to the GNAT compiler that the primitives will
+be available to C++. Thanks to the ABI compatibility, on the C++ side there is
+nothing else to be done; as explained above, the only requirement is that all
+the primitives and components are declared in exactly the same order.
+
+<p>For completeness, let us see a brief C++ main program that uses the
+declarations available in <cite>animals.h</cite> (presented in our first example) to
+import and use the declarations from the Ada side, properly initializing and
+finalizing the Ada run-time system along the way:
+
+<pre class="example">    #include "animals.h"
+    #include &lt;iostream&gt;
+    using namespace std;
+    
+    void Check_Carnivore (Carnivore *obj) {...}
+    void Check_Domestic (Domestic *obj)   {...}
+    void Check_Animal (Animal *obj)       {...}
+    void Check_Dog (Dog *obj)             {...}
+    
+    extern "C" {
+      void adainit (void);
+      void adafinal (void);
+      Dog* new_dog ();
+    }
+    
+    void test ()
+    {
+      Dog *obj = new_dog();  // Ada constructor
+      Check_Carnivore (obj); // Check secondary DT
+      Check_Domestic (obj);  // Check secondary DT
+      Check_Animal (obj);    // Check primary DT
+      Check_Dog (obj);       // Check primary DT
+    }
+    
+    int main ()
+    {
+      adainit ();  test();  adafinal ();
+      return 0;
+    }
+</pre>
+</body></html>
+

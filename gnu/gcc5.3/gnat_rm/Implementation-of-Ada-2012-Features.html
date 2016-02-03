@@ -1,0 +1,1814 @@
+<html lang="en">
+<head>
+<title>Implementation of Ada 2012 Features - GNAT Reference Manual</title>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+<meta name="description" content="GNAT Reference Manual">
+<meta name="generator" content="makeinfo 4.13">
+<link title="Top" rel="start" href="index.html#Top">
+<link rel="prev" href="Implementation-of-Specific-Ada-Features.html#Implementation-of-Specific-Ada-Features" title="Implementation of Specific Ada Features">
+<link rel="next" href="Obsolescent-Features.html#Obsolescent-Features" title="Obsolescent Features">
+<link href="http://www.gnu.org/software/texinfo/" rel="generator-home" title="Texinfo Homepage">
+<!--
+
+     GNAT Reference Manual , March 24, 2015
+
+     AdaCore
+
+     Copyright (C) 2008-2015, Free Software Foundation
+-->
+<meta http-equiv="Content-Style-Type" content="text/css">
+<style type="text/css"><!--
+  pre.display { font-family:inherit }
+  pre.format  { font-family:inherit }
+  pre.smalldisplay { font-family:inherit; font-size:smaller }
+  pre.smallformat  { font-family:inherit; font-size:smaller }
+  pre.smallexample { font-size:smaller }
+  pre.smalllisp    { font-size:smaller }
+  span.sc    { font-variant:small-caps }
+  span.roman { font-family:serif; font-weight:normal; } 
+  span.sansserif { font-family:sans-serif; font-weight:normal; } 
+--></style>
+</head>
+<body>
+<div class="node">
+<a name="Implementation-of-Ada-2012-Features"></a>
+<p>
+Next:&nbsp;<a rel="next" accesskey="n" href="Obsolescent-Features.html#Obsolescent-Features">Obsolescent Features</a>,
+Previous:&nbsp;<a rel="previous" accesskey="p" href="Implementation-of-Specific-Ada-Features.html#Implementation-of-Specific-Ada-Features">Implementation of Specific Ada Features</a>,
+Up:&nbsp;<a rel="up" accesskey="u" href="index.html#Top">Top</a>
+<hr>
+</div>
+
+<p><a name="gnat_005frm_002fimplementation_005fof_005fada_005f2012_005ffeatures-doc"></a><a name="g_t3c7"></a><a name="gnat_005frm_002fimplementation_005fof_005fada_005f2012_005ffeatures-implementation_002dof_002dada_002d2012_002dfeatures"></a><a name="g_t14"></a><a name="gnat_005frm_002fimplementation_005fof_005fada_005f2012_005ffeatures-id1"></a><a name="g_t3c8"></a>
+
+<h2 class="chapter">16 Implementation of Ada 2012 Features</h2>
+
+<p><a name="index-Ada-2012-implementation-status-934"></a>
+<a name="index-g_t_002dgnat12-option-_0028gcc_0029-935"></a>
+<a name="index-pragma-Ada_005f2012-936"></a>
+<a name="index-configuration-pragma-Ada_005f2012-937"></a>
+<a name="index-Ada_005f2012-configuration-pragma-938"></a>
+This chapter contains a complete list of Ada 2012 features that have been
+implemented. 
+Generally, these features are only
+available if the `-gnat12' (Ada 2012 features enabled) option is set,
+which is the default behavior,
+or if the configuration pragma <cite>Ada_2012</cite> is used.
+
+<p>However, new pragmas, attributes, and restrictions are
+unconditionally available, since the Ada 95 standard allows the addition of
+new pragmas, attributes, and restrictions (there are exceptions, which are
+documented in the individual descriptions), and also certain packages
+were made available in earlier versions of Ada.
+
+<p>An ISO date (YYYY-MM-DD) appears in parentheses on the description line. 
+This date shows the implementation date of the feature. Any wavefront
+subsequent to this date will contain the indicated feature, as will any
+subsequent releases. A date of 0000-00-00 means that GNAT has always
+implemented the feature, or implemented it as soon as it appeared as a
+binding interpretation.
+
+<p>Each feature corresponds to an Ada Issue ('AI') approved by the Ada
+standardization group (ISO/IEC JTC1/SC22/WG9) for inclusion in Ada 2012. 
+The features are ordered based on the relevant sections of the Ada
+Reference Manual ("RM").  When a given AI relates to multiple points
+in the RM, the earliest is used.
+
+<p>A complete description of the AIs may be found in
+&lt;<code>http://www.ada-auth.org/ai05-summary.html</code>&gt;.
+
+<p><a name="index-AI_002d0176-_0028Ada-2012-feature_0029-939"></a>
+
+     <ul>
+<li>`AI-0176 Quantified expressions (2010-09-29)'
+
+     <p>Both universally and existentially quantified expressions are implemented. 
+They use the new syntax for iterators proposed in AI05-139-2, as well as
+the standard Ada loop syntax.
+
+     <p>RM References:  1.01.04 (12)   2.09 (2/2)   4.04 (7)   4.05.09 (0)
+</ul>
+
+<p><a name="index-AI_002d0079-_0028Ada-2012-feature_0029-940"></a>
+
+     <ul>
+<li>`AI-0079 Allow other_format characters in source (2010-07-10)'
+
+     <p>Wide characters in the unicode category `other_format' are now allowed in
+source programs between tokens, but not within a token such as an identifier.
+
+     <p>RM References:  2.01 (4/2)   2.02 (7)
+</ul>
+
+<p><a name="index-AI_002d0091-_0028Ada-2012-feature_0029-941"></a>
+
+     <ul>
+<li>`AI-0091 Do not allow other_format in identifiers (0000-00-00)'
+
+     <p>Wide characters in the unicode category `other_format' are not permitted
+within  an identifier, since this can be a security problem. The error
+message for this case has been improved to be more specific, but GNAT has
+never allowed such characters to appear in identifiers.
+
+     <p>RM References:  2.03 (3.1/2)   2.03 (4/2)   2.03 (5/2)   2.03 (5.1/2)   2.03 (5.2/2)   2.03 (5.3/2)   2.09 (2/2)
+</ul>
+
+<p><a name="index-AI_002d0100-_0028Ada-2012-feature_0029-942"></a>
+
+     <ul>
+<li>`AI-0100 Placement of pragmas  (2010-07-01)'
+
+     <p>This AI is an earlier version of AI-163. It simplifies the rules
+for legal placement of pragmas. In the case of lists that allow pragmas, if
+the list may have no elements, then the list may consist solely of pragmas.
+
+     <p>RM References:  2.08 (7)
+</ul>
+
+<p><a name="index-AI_002d0163-_0028Ada-2012-feature_0029-943"></a>
+
+     <ul>
+<li>`AI-0163 Pragmas in place of null (2010-07-01)'
+
+     <p>A statement sequence may be composed entirely of pragmas. It is no longer
+necessary to add a dummy <cite>null</cite> statement to make the sequence legal.
+
+     <p>RM References:  2.08 (7)   2.08 (16)
+</ul>
+
+<p><a name="index-AI_002d0080-_0028Ada-2012-feature_0029-944"></a>
+
+     <ul>
+<li>`AI-0080 'View of' not needed if clear from context (0000-00-00)'
+
+     <p>This is an editorial change only, described as non-testable in the AI.
+
+     <p>RM References:  3.01 (7)
+</ul>
+
+<p><a name="index-AI_002d0183-_0028Ada-2012-feature_0029-945"></a>
+
+     <ul>
+<li>`AI-0183 Aspect specifications (2010-08-16)'
+
+     <p>Aspect specifications have been fully implemented except for pre and post-
+conditions, and type invariants, which have their own separate AI's. All
+forms of declarations listed in the AI are supported. The following is a
+list of the aspects supported (with GNAT implementation aspects marked)
+</ul>
+
+<p><table summary=""><tr align="left"><th valign="top">
+Supported Aspect
+
+<p></th><th valign="top">
+
+<p>Source
+
+<p><br></th></tr><tr align="left"><td valign="top">
+<cite>Ada_2005</cite>
+
+<p></td><td valign="top">
+
+<p>&ndash; GNAT
+
+<p><br></td></tr><tr align="left"><td valign="top">
+<cite>Ada_2012</cite>
+
+<p></td><td valign="top">
+
+<p>&ndash; GNAT
+
+<p><br></td></tr><tr align="left"><td valign="top">
+<cite>Address</cite>
+
+<p></td><td valign="top">
+
+<p><br></td></tr><tr align="left"><td valign="top">
+<cite>Alignment</cite>
+
+<p></td><td valign="top">
+
+<p><br></td></tr><tr align="left"><td valign="top">
+<cite>Atomic</cite>
+
+<p></td><td valign="top">
+
+<p><br></td></tr><tr align="left"><td valign="top">
+<cite>Atomic_Components</cite>
+
+<p></td><td valign="top">
+
+<p><br></td></tr><tr align="left"><td valign="top">
+<cite>Bit_Order</cite>
+
+<p></td><td valign="top">
+
+<p><br></td></tr><tr align="left"><td valign="top">
+<cite>Component_Size</cite>
+
+<p></td><td valign="top">
+
+<p><br></td></tr><tr align="left"><td valign="top">
+<cite>Contract_Cases</cite>
+
+<p></td><td valign="top">
+
+<p>&ndash; GNAT
+
+<p><br></td></tr><tr align="left"><td valign="top">
+<cite>Discard_Names</cite>
+
+<p></td><td valign="top">
+
+<p><br></td></tr><tr align="left"><td valign="top">
+<cite>External_Tag</cite>
+
+<p></td><td valign="top">
+
+<p><br></td></tr><tr align="left"><td valign="top">
+<cite>Favor_Top_Level</cite>
+
+<p></td><td valign="top">
+
+<p>&ndash; GNAT
+
+<p><br></td></tr><tr align="left"><td valign="top">
+<cite>Inline</cite>
+
+<p></td><td valign="top">
+
+<p><br></td></tr><tr align="left"><td valign="top">
+<cite>Inline_Always</cite>
+
+<p></td><td valign="top">
+
+<p>&ndash; GNAT
+
+<p><br></td></tr><tr align="left"><td valign="top">
+<cite>Invariant</cite>
+
+<p></td><td valign="top">
+
+<p>&ndash; GNAT
+
+<p><br></td></tr><tr align="left"><td valign="top">
+<cite>Machine_Radix</cite>
+
+<p></td><td valign="top">
+
+<p><br></td></tr><tr align="left"><td valign="top">
+<cite>No_Return</cite>
+
+<p></td><td valign="top">
+
+<p><br></td></tr><tr align="left"><td valign="top">
+<cite>Object_Size</cite>
+
+<p></td><td valign="top">
+
+<p>&ndash; GNAT
+
+<p><br></td></tr><tr align="left"><td valign="top">
+<cite>Pack</cite>
+
+<p></td><td valign="top">
+
+<p><br></td></tr><tr align="left"><td valign="top">
+<cite>Persistent_BSS</cite>
+
+<p></td><td valign="top">
+
+<p>&ndash; GNAT
+
+<p><br></td></tr><tr align="left"><td valign="top">
+<cite>Post</cite>
+
+<p></td><td valign="top">
+
+<p><br></td></tr><tr align="left"><td valign="top">
+<cite>Pre</cite>
+
+<p></td><td valign="top">
+
+<p><br></td></tr><tr align="left"><td valign="top">
+<cite>Predicate</cite>
+
+<p></td><td valign="top">
+
+<p><br></td></tr><tr align="left"><td valign="top">
+<cite>Preelaborable_Initialization</cite>
+
+<p></td><td valign="top">
+
+<p><br></td></tr><tr align="left"><td valign="top">
+<cite>Pure_Function</cite>
+
+<p></td><td valign="top">
+
+<p>&ndash; GNAT
+
+<p><br></td></tr><tr align="left"><td valign="top">
+<cite>Remote_Access_Type</cite>
+
+<p></td><td valign="top">
+
+<p>&ndash; GNAT
+
+<p><br></td></tr><tr align="left"><td valign="top">
+<cite>Shared</cite>
+
+<p></td><td valign="top">
+
+<p>&ndash; GNAT
+
+<p><br></td></tr><tr align="left"><td valign="top">
+<cite>Size</cite>
+
+<p></td><td valign="top">
+
+<p><br></td></tr><tr align="left"><td valign="top">
+<cite>Storage_Pool</cite>
+
+<p></td><td valign="top">
+
+<p><br></td></tr><tr align="left"><td valign="top">
+<cite>Storage_Size</cite>
+
+<p></td><td valign="top">
+
+<p><br></td></tr><tr align="left"><td valign="top">
+<cite>Stream_Size</cite>
+
+<p></td><td valign="top">
+
+<p><br></td></tr><tr align="left"><td valign="top">
+<cite>Suppress</cite>
+
+<p></td><td valign="top">
+
+<p><br></td></tr><tr align="left"><td valign="top">
+<cite>Suppress_Debug_Info</cite>
+
+<p></td><td valign="top">
+
+<p>&ndash; GNAT
+
+<p><br></td></tr><tr align="left"><td valign="top">
+<cite>Test_Case</cite>
+
+<p></td><td valign="top">
+
+<p>&ndash; GNAT
+
+<p><br></td></tr><tr align="left"><td valign="top">
+<cite>Thread_Local_Storage</cite>
+
+<p></td><td valign="top">
+
+<p>&ndash; GNAT
+
+<p><br></td></tr><tr align="left"><td valign="top">
+<cite>Type_Invariant</cite>
+
+<p></td><td valign="top">
+
+<p><br></td></tr><tr align="left"><td valign="top">
+<cite>Unchecked_Union</cite>
+
+<p></td><td valign="top">
+
+<p><br></td></tr><tr align="left"><td valign="top">
+<cite>Universal_Aliasing</cite>
+
+<p></td><td valign="top">
+
+<p>&ndash; GNAT
+
+<p><br></td></tr><tr align="left"><td valign="top">
+<cite>Unmodified</cite>
+
+<p></td><td valign="top">
+
+<p>&ndash; GNAT
+
+<p><br></td></tr><tr align="left"><td valign="top">
+<cite>Unreferenced</cite>
+
+<p></td><td valign="top">
+
+<p>&ndash; GNAT
+
+<p><br></td></tr><tr align="left"><td valign="top">
+<cite>Unreferenced_Objects</cite>
+
+<p></td><td valign="top">
+
+<p>&ndash; GNAT
+
+<p><br></td></tr><tr align="left"><td valign="top">
+<cite>Unsuppress</cite>
+
+<p></td><td valign="top">
+
+<p><br></td></tr><tr align="left"><td valign="top">
+<cite>Value_Size</cite>
+
+<p></td><td valign="top">
+
+<p>&ndash; GNAT
+
+<p><br></td></tr><tr align="left"><td valign="top">
+<cite>Volatile</cite>
+
+<p></td><td valign="top">
+
+<p><br></td></tr><tr align="left"><td valign="top">
+<cite>Volatile_Components</cite>
+
+<p></td><td valign="top">
+
+<p><br></td></tr><tr align="left"><td valign="top">
+<cite>Warnings</cite>
+
+<p></td><td valign="top">
+
+<p>&ndash; GNAT
+
+<br></td></tr></table>
+
+<blockquote>
+
+<p>Note that for aspects with an expression, e.g. <cite>Size</cite>, the expression is
+treated like a default expression (visibility is analyzed at the point of
+occurrence of the aspect, but evaluation of the expression occurs at the
+freeze point of the entity involved).
+
+<p>RM References:  3.02.01 (3)   3.02.02 (2)   3.03.01 (2/2)   3.08 (6)
+3.09.03 (1.1/2)   6.01 (2/2)   6.07 (2/2)   9.05.02 (2/2)   7.01 (3)   7.03
+(2)   7.03 (3)   9.01 (2/2)   9.01 (3/2)   9.04 (2/2)   9.04 (3/2)
+9.05.02 (2/2)   11.01 (2)   12.01 (3)   12.03 (2/2)   12.04 (2/2)   12.05 (2)
+12.06 (2.1/2)   12.06 (2.2/2)   12.07 (2)   13.01 (0.1/2)   13.03 (5/1)
+13.03.01 (0)
+</blockquote>
+
+<p><a name="index-AI_002d0128-_0028Ada-2012-feature_0029-946"></a>
+
+     <ul>
+<li>`AI-0128 Inequality is a primitive operation (0000-00-00)'
+
+     <p>If an equality operator ("=") is declared for a type, then the implicitly
+declared inequality operator ("/=") is a primitive operation of the type. 
+This is the only reasonable interpretation, and is the one always implemented
+by GNAT, but the RM was not entirely clear in making this point.
+
+     <p>RM References:  3.02.03 (6)   6.06 (6)
+</ul>
+
+<p><a name="index-AI_002d0003-_0028Ada-2012-feature_0029-947"></a>
+
+     <ul>
+<li>`AI-0003 Qualified expressions as names (2010-07-11)'
+
+     <p>In Ada 2012, a qualified expression is considered to be syntactically a name,
+meaning that constructs such as <cite>A'(F(X)).B</cite> are now legal. This is
+useful in disambiguating some cases of overloading.
+
+     <p>RM References:  3.03 (11)   3.03 (21)   4.01 (2)   4.04 (7)   4.07 (3)
+5.04 (7)
+</ul>
+
+<p><a name="index-AI_002d0120-_0028Ada-2012-feature_0029-948"></a>
+
+     <ul>
+<li>`AI-0120 Constant instance of protected object (0000-00-00)'
+
+     <p>This is an RM editorial change only. The section that lists objects that are
+constant failed to include the current instance of a protected object
+within a protected function. This has always been treated as a constant
+in GNAT.
+
+     <p>RM References:  3.03 (21)
+</ul>
+
+<p><a name="index-AI_002d0008-_0028Ada-2012-feature_0029-949"></a>
+
+     <ul>
+<li>`AI-0008 General access to constrained objects (0000-00-00)'
+
+     <p>The wording in the RM implied that if you have a general access to a
+constrained object, it could be used to modify the discriminants. This was
+obviously not intended. <cite>Constraint_Error</cite> should be raised, and GNAT
+has always done so in this situation.
+
+     <p>RM References:  3.03 (23)   3.10.02 (26/2)   4.01 (9)   6.04.01 (17)   8.05.01 (5/2)
+</ul>
+
+<p><a name="index-AI_002d0093-_0028Ada-2012-feature_0029-950"></a>
+
+     <ul>
+<li>`AI-0093 Additional rules use immutably limited (0000-00-00)'
+
+     <p>This is an editorial change only, to make more widespread use of the Ada 2012
+'immutably limited'.
+
+     <p>RM References:  3.03 (23.4/3)
+</ul>
+
+<p><a name="index-AI_002d0096-_0028Ada-2012-feature_0029-951"></a>
+
+     <ul>
+<li>`AI-0096 Deriving from formal private types (2010-07-20)'
+
+     <p>In general it is illegal for a type derived from a formal limited type to be
+nonlimited.  This AI makes an exception to this rule: derivation is legal
+if it appears in the private part of the generic, and the formal type is not
+tagged. If the type is tagged, the legality check must be applied to the
+private part of the package.
+
+     <p>RM References:  3.04 (5.1/2)   6.02 (7)
+</ul>
+
+<p><a name="index-AI_002d0181-_0028Ada-2012-feature_0029-952"></a>
+
+     <ul>
+<li>`AI-0181 Soft hyphen is a non-graphic character (2010-07-23)'
+
+     <p>From Ada 2005 on, soft hyphen is considered a non-graphic character, which
+means that it has a special name (<cite>SOFT_HYPHEN</cite>) in conjunction with the
+<cite>Image</cite> and <cite>Value</cite> attributes for the character types. Strictly
+speaking this is an inconsistency with Ada 95, but in practice the use of
+these attributes is so obscure that it will not cause problems.
+
+     <p>RM References:  3.05.02 (2/2)   A.01 (35/2)   A.03.03 (21)
+</ul>
+
+<p><a name="index-AI_002d0182-_0028Ada-2012-feature_0029-953"></a>
+
+     <ul>
+<li>`AI-0182 Additional forms for `Character'Value' (0000-00-00)`
+
+     <p>This AI allows <cite>Character'Value</cite> to accept the string <cite>'?'</cite> where
+<cite>?</cite> is any character including non-graphic control characters. GNAT has
+always accepted such strings. It also allows strings such as
+<cite>HEX_00000041</cite> to be accepted, but GNAT does not take advantage of this
+permission and raises <cite>Constraint_Error</cite>, as is certainly still
+permitted.
+
+     <p>RM References:  3.05 (56/2)
+</ul>
+
+<p><a name="index-AI_002d0214-_0028Ada-2012-feature_0029-954"></a>
+
+     <ul>
+<li>`AI-0214 Defaulted discriminants for limited tagged (2010-10-01)'
+
+     <p>Ada 2012 relaxes the restriction that forbids discriminants of tagged types
+to have default expressions by allowing them when the type is limited. It
+is often useful to define a default value for a discriminant even though
+it can't be changed by assignment.
+
+     <p>RM References:  3.07 (9.1/2)   3.07.02 (3)
+</ul>
+
+<p><a name="index-AI_002d0102-_0028Ada-2012-feature_0029-955"></a>
+
+     <ul>
+<li>`AI-0102 Some implicit conversions are illegal (0000-00-00)'
+
+     <p>It is illegal to assign an anonymous access constant to an anonymous access
+variable. The RM did not have a clear rule to prevent this, but GNAT has
+always generated an error for this usage.
+
+     <p>RM References:  3.07 (16)   3.07.01 (9)   6.04.01 (6)   8.06 (27/2)
+</ul>
+
+<p><a name="index-AI_002d0158-_0028Ada-2012-feature_0029-956"></a>
+
+     <ul>
+<li>`AI-0158 Generalizing membership tests (2010-09-16)'
+
+     <p>This AI extends the syntax of membership tests to simplify complex conditions
+that can be expressed as membership in a subset of values of any type. It
+introduces syntax for a list of expressions that may be used in loop contexts
+as well.
+
+     <p>RM References:  3.08.01 (5)   4.04 (3)   4.05.02 (3)   4.05.02 (5)   4.05.02 (27)
+</ul>
+
+<p><a name="index-AI_002d0173-_0028Ada-2012-feature_0029-957"></a>
+
+     <ul>
+<li>`AI-0173 Testing if tags represent abstract types (2010-07-03)'
+
+     <p>The function <cite>Ada.Tags.Type_Is_Abstract</cite> returns <cite>True</cite> if invoked
+with the tag of an abstract type, and <cite>False</cite> otherwise.
+
+     <p>RM References:  3.09 (7.4/2)   3.09 (12.4/2)
+</ul>
+
+<p><a name="index-AI_002d0076-_0028Ada-2012-feature_0029-958"></a>
+
+     <ul>
+<li>`AI-0076 function with controlling result (0000-00-00)'
+
+     <p>This is an editorial change only. The RM defines calls with controlling
+results, but uses the term 'function with controlling result' without an
+explicit definition.
+
+     <p>RM References:  3.09.02 (2/2)
+</ul>
+
+<p><a name="index-AI_002d0126-_0028Ada-2012-feature_0029-959"></a>
+
+     <ul>
+<li>`AI-0126 Dispatching with no declared operation (0000-00-00)'
+
+     <p>This AI clarifies dispatching rules, and simply confirms that dispatching
+executes the operation of the parent type when there is no explicitly or
+implicitly declared operation for the descendant type. This has always been
+the case in all versions of GNAT.
+
+     <p>RM References:  3.09.02 (20/2)   3.09.02 (20.1/2)   3.09.02 (20.2/2)
+</ul>
+
+<p><a name="index-AI_002d0097-_0028Ada-2012-feature_0029-960"></a>
+
+     <ul>
+<li>`AI-0097 Treatment of abstract null extension (2010-07-19)'
+
+     <p>The RM as written implied that in some cases it was possible to create an
+object of an abstract type, by having an abstract extension inherit a non-
+abstract constructor from its parent type. This mistake has been corrected
+in GNAT and in the RM, and this construct is now illegal.
+
+     <p>RM References:  3.09.03 (4/2)
+</ul>
+
+<p><a name="index-AI_002d0203-_0028Ada-2012-feature_0029-961"></a>
+
+     <ul>
+<li>`AI-0203 Extended return cannot be abstract (0000-00-00)'
+
+     <p>A return_subtype_indication cannot denote an abstract subtype. GNAT has never
+permitted such usage.
+
+     <p>RM References:  3.09.03 (8/3)
+</ul>
+
+<p><a name="index-AI_002d0198-_0028Ada-2012-feature_0029-962"></a>
+
+     <ul>
+<li>`AI-0198 Inheriting abstract operators  (0000-00-00)'
+
+     <p>This AI resolves a conflict between two rules involving inherited abstract
+operations and predefined operators. If a derived numeric type inherits
+an abstract operator, it overrides the predefined one. This interpretation
+was always the one implemented in GNAT.
+
+     <p>RM References:  3.09.03 (4/3)
+</ul>
+
+<p><a name="index-AI_002d0073-_0028Ada-2012-feature_0029-963"></a>
+
+     <ul>
+<li>`AI-0073 Functions returning abstract types (2010-07-10)'
+
+     <p>This AI covers a number of issues regarding returning abstract types. In
+particular generic functions cannot have abstract result types or access
+result types designated an abstract type. There are some other cases which
+are detailed in the AI. Note that this binding interpretation has not been
+retrofitted to operate before Ada 2012 mode, since it caused a significant
+number of regressions.
+
+     <p>RM References:  3.09.03 (8)   3.09.03 (10)   6.05 (8/2)
+</ul>
+
+<p><a name="index-AI_002d0070-_0028Ada-2012-feature_0029-964"></a>
+
+     <ul>
+<li>`AI-0070 Elaboration of interface types (0000-00-00)'
+
+     <p>This is an editorial change only, there are no testable consequences short of
+checking for the absence of generated code for an interface declaration.
+
+     <p>RM References:  3.09.04 (18/2)
+</ul>
+
+<p><a name="index-AI_002d0208-_0028Ada-2012-feature_0029-965"></a>
+
+     <ul>
+<li>`AI-0208 Characteristics of incomplete views (0000-00-00)'
+
+     <p>The wording in the Ada 2005 RM concerning characteristics of incomplete views
+was incorrect and implied that some programs intended to be legal were now
+illegal. GNAT had never considered such programs illegal, so it has always
+implemented the intent of this AI.
+
+     <p>RM References:  3.10.01 (2.4/2)   3.10.01 (2.6/2)
+</ul>
+
+<p><a name="index-AI_002d0162-_0028Ada-2012-feature_0029-966"></a>
+
+     <ul>
+<li>`AI-0162 Incomplete type completed by partial view (2010-09-15)'
+
+     <p>Incomplete types are made more useful by allowing them to be completed by
+private types and private extensions.
+
+     <p>RM References:  3.10.01 (2.5/2)   3.10.01 (2.6/2)   3.10.01 (3)   3.10.01 (4/2)
+</ul>
+
+<p><a name="index-AI_002d0098-_0028Ada-2012-feature_0029-967"></a>
+
+     <ul>
+<li>`AI-0098 Anonymous subprogram access restrictions (0000-00-00)'
+
+     <p>An unintentional omission in the RM implied some inconsistent restrictions on
+the use of anonymous access to subprogram values. These restrictions were not
+intentional, and have never been enforced by GNAT.
+
+     <p>RM References:  3.10.01 (6)   3.10.01 (9.2/2)
+</ul>
+
+<p><a name="index-AI_002d0199-_0028Ada-2012-feature_0029-968"></a>
+
+     <ul>
+<li>`AI-0199 Aggregate with anonymous access components (2010-07-14)'
+
+     <p>A choice list in a record aggregate can include several components of
+(distinct) anonymous access types as long as they have matching designated
+subtypes.
+
+     <p>RM References:  4.03.01 (16)
+</ul>
+
+<p><a name="index-AI_002d0220-_0028Ada-2012-feature_0029-969"></a>
+
+     <ul>
+<li>`AI-0220 Needed components for aggregates (0000-00-00)'
+
+     <p>This AI addresses a wording problem in the RM that appears to permit some
+complex cases of aggregates with non-static discriminants. GNAT has always
+implemented the intended semantics.
+
+     <p>RM References:  4.03.01 (17)
+</ul>
+
+<p><a name="index-AI_002d0147-_0028Ada-2012-feature_0029-970"></a>
+
+     <ul>
+<li>`AI-0147 Conditional expressions (2009-03-29)'
+
+     <p>Conditional expressions are permitted. The form of such an expression is:
+
+     <pre class="example">         (if expr then expr {elsif expr then expr} [else expr])
+</pre>
+     <p>The parentheses can be omitted in contexts where parentheses are present
+anyway, such as subprogram arguments and pragma arguments. If the `else'
+clause is omitted, `else' `True' is assumed;
+thus <code>(if A then B)</code> is a way to conveniently represent
+`(A implies B)' in standard logic.
+
+     <p>RM References:  4.03.03 (15)   4.04 (1)   4.04 (7)   4.05.07 (0)   4.07 (2)
+4.07 (3)   4.09 (12)   4.09 (33)   5.03 (3)   5.03 (4)   7.05 (2.1/2)
+</ul>
+
+<p><a name="index-AI_002d0037-_0028Ada-2012-feature_0029-971"></a>
+
+     <ul>
+<li>`AI-0037 Out-of-range box associations in aggregate (0000-00-00)'
+
+     <p>This AI confirms that an association of the form <cite>Indx =&gt; &lt;&gt;</cite> in an
+array aggregate must raise <cite>Constraint_Error</cite> if <cite>Indx</cite>
+is out of range. The RM specified a range check on other associations, but
+not when the value of the association was defaulted. GNAT has always inserted
+a constraint check on the index value.
+
+     <p>RM References:  4.03.03 (29)
+</ul>
+
+<p><a name="index-AI_002d0123-_0028Ada-2012-feature_0029-972"></a>
+
+     <ul>
+<li>`AI-0123 Composability of equality (2010-04-13)'
+
+     <p>Equality of untagged record composes, so that the predefined equality for a
+composite type that includes a component of some untagged record type
+<cite>R</cite> uses the equality operation of <cite>R</cite> (which may be user-defined
+or predefined). This makes the behavior of untagged records identical to that
+of tagged types in this respect.
+
+     <p>This change is an incompatibility with previous versions of Ada, but it
+corrects a non-uniformity that was often a source of confusion. Analysis of
+a large number of industrial programs indicates that in those rare cases
+where a composite type had an untagged record component with a user-defined
+equality, either there was no use of the composite equality, or else the code
+expected the same composability as for tagged types, and thus had a bug that
+would be fixed by this change.
+
+     <p>RM References:  4.05.02 (9.7/2)   4.05.02 (14)   4.05.02 (15)   4.05.02 (24)
+8.05.04 (8)
+</ul>
+
+<p><a name="index-AI_002d0088-_0028Ada-2012-feature_0029-973"></a>
+
+     <ul>
+<li>`AI-0088 The value of exponentiation (0000-00-00)'
+
+     <p>This AI clarifies the equivalence rule given for the dynamic semantics of
+exponentiation: the value of the operation can be obtained by repeated
+multiplication, but the operation can be implemented otherwise (for example
+using the familiar divide-by-two-and-square algorithm, even if this is less
+accurate), and does not imply repeated reads of a volatile base.
+
+     <p>RM References:  4.05.06 (11)
+</ul>
+
+<p><a name="index-AI_002d0188-_0028Ada-2012-feature_0029-974"></a>
+
+     <ul>
+<li>`AI-0188 Case expressions (2010-01-09)'
+
+     <p>Case expressions are permitted. This allows use of constructs such as:
+
+     <pre class="example">         X := (case Y is when 1 =&gt; 2, when 2 =&gt; 3, when others =&gt; 31)
+</pre>
+     <p>RM References:  4.05.07 (0)   4.05.08 (0)   4.09 (12)   4.09 (33)
+</ul>
+
+<p><a name="index-AI_002d0104-_0028Ada-2012-feature_0029-975"></a>
+
+     <ul>
+<li>`AI-0104 Null exclusion and uninitialized allocator (2010-07-15)'
+
+     <p>The assignment <code>Ptr := new not null Some_Ptr;</code> will raise
+<code>Constraint_Error</code> because the default value of the allocated object is
+`null'. This useless construct is illegal in Ada 2012.
+
+     <p>RM References:  4.08 (2)
+</ul>
+
+<p><a name="index-AI_002d0157-_0028Ada-2012-feature_0029-976"></a>
+
+     <ul>
+<li>`AI-0157 Allocation/Deallocation from empty pool (2010-07-11)'
+
+     <p>Allocation and Deallocation from an empty storage pool (i.e. allocation or
+deallocation of a pointer for which a static storage size clause of zero
+has been given) is now illegal and is detected as such. GNAT
+previously gave a warning but not an error.
+
+     <p>RM References:  4.08 (5.3/2)   13.11.02 (4)   13.11.02 (17)
+</ul>
+
+<p><a name="index-AI_002d0179-_0028Ada-2012-feature_0029-977"></a>
+
+     <ul>
+<li>`AI-0179 Statement not required after label (2010-04-10)'
+
+     <p>It is not necessary to have a statement following a label, so a label
+can appear at the end of a statement sequence without the need for putting a
+null statement afterwards, but it is not allowable to have only labels and
+no real statements in a statement sequence.
+
+     <p>RM References:  5.01 (2)
+</ul>
+
+<p><a name="index-AI_002d0139_002d2-_0028Ada-2012-feature_0029-978"></a>
+
+     <ul>
+<li>`AI-0139-2 Syntactic sugar for iterators (2010-09-29)'
+
+     <p>The new syntax for iterating over arrays and containers is now implemented. 
+Iteration over containers is for now limited to read-only iterators. Only
+default iterators are supported, with the syntax:  <cite>for Elem of C</cite>.
+
+     <p>RM References:  5.05
+</ul>
+
+<p><a name="index-AI_002d0134-_0028Ada-2012-feature_0029-979"></a>
+
+     <ul>
+<li>`AI-0134 Profiles must match for full conformance (0000-00-00)'
+
+     <p>For full conformance, the profiles of anonymous-access-to-subprogram
+parameters must match. GNAT has always enforced this rule.
+
+     <p>RM References:  6.03.01 (18)
+</ul>
+
+<p><a name="index-AI_002d0207-_0028Ada-2012-feature_0029-980"></a>
+
+     <ul>
+<li>`AI-0207 Mode conformance and access constant (0000-00-00)'
+
+     <p>This AI confirms that access_to_constant indication must match for mode
+conformance. This was implemented in GNAT when the qualifier was originally
+introduced in Ada 2005.
+
+     <p>RM References:  6.03.01 (16/2)
+</ul>
+
+<p><a name="index-AI_002d0046-_0028Ada-2012-feature_0029-981"></a>
+
+     <ul>
+<li>`AI-0046 Null exclusion match for full conformance (2010-07-17)'
+
+     <p>For full conformance, in the case of access parameters, the null exclusion
+must match (either both or neither must have <code>not null</code>).
+
+     <p>RM References:  6.03.02 (18)
+</ul>
+
+<p><a name="index-AI_002d0118-_0028Ada-2012-feature_0029-982"></a>
+
+     <ul>
+<li>`AI-0118 The association of parameter associations (0000-00-00)'
+
+     <p>This AI clarifies the rules for named associations in subprogram calls and
+generic instantiations. The rules have been in place since Ada 83.
+
+     <p>RM References:  6.04.01 (2)   12.03 (9)
+</ul>
+
+<p><a name="index-AI_002d0196-_0028Ada-2012-feature_0029-983"></a>
+
+     <ul>
+<li>`AI-0196 Null exclusion tests for out parameters (0000-00-00)'
+
+     <p>Null exclusion checks are not made for <cite>**out**</cite> parameters when
+evaluating the actual parameters. GNAT has never generated these checks.
+
+     <p>RM References:  6.04.01 (13)
+</ul>
+
+<p><a name="index-AI_002d0015-_0028Ada-2012-feature_0029-984"></a>
+
+     <ul>
+<li>`AI-0015 Constant return objects (0000-00-00)'
+
+     <p>The return object declared in an `extended_return_statement' may be
+declared constant. This was always intended, and GNAT has always allowed it.
+
+     <p>RM References:  6.05 (2.1/2)   3.03 (10/2)   3.03 (21)   6.05 (5/2)
+6.05 (5.7/2)
+</ul>
+
+<p><a name="index-AI_002d0032-_0028Ada-2012-feature_0029-985"></a>
+
+     <ul>
+<li>`AI-0032 Extended return for class-wide functions (0000-00-00)'
+
+     <p>If a function returns a class-wide type, the object of an extended return
+statement can be declared with a specific type that is covered by the class-
+wide type. This has been implemented in GNAT since the introduction of
+extended returns. Note AI-0103 complements this AI by imposing matching
+rules for constrained return types.
+
+     <p>RM References:  6.05 (5.2/2)   6.05 (5.3/2)   6.05 (5.6/2)   6.05 (5.8/2)
+6.05 (8/2)
+</ul>
+
+<p><a name="index-AI_002d0103-_0028Ada-2012-feature_0029-986"></a>
+
+     <ul>
+<li>`AI-0103 Static matching for extended return (2010-07-23)'
+
+     <p>If the return subtype of a function is an elementary type or a constrained
+type, the subtype indication in an extended return statement must match
+statically this return subtype.
+
+     <p>RM References:  6.05 (5.2/2)
+</ul>
+
+<p><a name="index-AI_002d0058-_0028Ada-2012-feature_0029-987"></a>
+
+     <ul>
+<li>`AI-0058 Abnormal completion of an extended return (0000-00-00)'
+
+     <p>The RM had some incorrect wording implying wrong treatment of abnormal
+completion in an extended return. GNAT has always implemented the intended
+correct semantics as described by this AI.
+
+     <p>RM References:  6.05 (22/2)
+</ul>
+
+<p><a name="index-AI_002d0050-_0028Ada-2012-feature_0029-988"></a>
+
+     <ul>
+<li>`AI-0050 Raising Constraint_Error early for function call (0000-00-00)'
+
+     <p>The implementation permissions for raising <cite>Constraint_Error</cite> early on a function call
+when it was clear an exception would be raised were over-permissive and allowed
+mishandling of discriminants in some cases. GNAT did
+not take advantage of these incorrect permissions in any case.
+
+     <p>RM References:  6.05 (24/2)
+</ul>
+
+<p><a name="index-AI_002d0125-_0028Ada-2012-feature_0029-989"></a>
+
+     <ul>
+<li>`AI-0125 Nonoverridable operations of an ancestor (2010-09-28)'
+
+     <p>In Ada 2012, the declaration of a primitive operation of a type extension
+or private extension can also override an inherited primitive that is not
+visible at the point of this declaration.
+
+     <p>RM References:  7.03.01 (6)   8.03 (23)   8.03.01 (5/2)   8.03.01 (6/2)
+</ul>
+
+<p><a name="index-AI_002d0062-_0028Ada-2012-feature_0029-990"></a>
+
+     <ul>
+<li>`AI-0062 Null exclusions and deferred constants (0000-00-00)'
+
+     <p>A full constant may have a null exclusion even if its associated deferred
+constant does not. GNAT has always allowed this.
+
+     <p>RM References:  7.04 (6/2)   7.04 (7.1/2)
+</ul>
+
+<p><a name="index-AI_002d0178-_0028Ada-2012-feature_0029-991"></a>
+
+     <ul>
+<li>`AI-0178 Incomplete views are limited (0000-00-00)'
+
+     <p>This AI clarifies the role of incomplete views and plugs an omission in the
+RM. GNAT always correctly restricted the use of incomplete views and types.
+
+     <p>RM References:  7.05 (3/2)   7.05 (6/2)
+</ul>
+
+<p><a name="index-AI_002d0087-_0028Ada-2012-feature_0029-992"></a>
+
+     <ul>
+<li>`AI-0087 Actual for formal nonlimited derived type (2010-07-15)'
+
+     <p>The actual for a formal nonlimited derived type cannot be limited. In
+particular, a formal derived type that extends a limited interface but which
+is not explicitly limited cannot be instantiated with a limited type.
+
+     <p>RM References:  7.05 (5/2)   12.05.01 (5.1/2)
+</ul>
+
+<p><a name="index-AI_002d0099-_0028Ada-2012-feature_0029-993"></a>
+
+     <ul>
+<li>`AI-0099 Tag determines whether finalization needed (0000-00-00)'
+
+     <p>This AI clarifies that 'needs finalization' is part of dynamic semantics,
+and therefore depends on the run-time characteristics of an object (i.e. its
+tag) and not on its nominal type. As the AI indicates: "we do not expect
+this to affect any implementation''<!-- /@w -->.
+
+     <p>RM References:  7.06.01 (6)   7.06.01 (7)   7.06.01 (8)   7.06.01 (9/2)
+</ul>
+
+<p><a name="index-AI_002d0064-_0028Ada-2012-feature_0029-994"></a>
+
+     <ul>
+<li>`AI-0064 Redundant finalization rule (0000-00-00)'
+
+     <p>This is an editorial change only. The intended behavior is already checked
+by an existing ACATS test, which GNAT has always executed correctly.
+
+     <p>RM References:  7.06.01 (17.1/1)
+</ul>
+
+<p><a name="index-AI_002d0026-_0028Ada-2012-feature_0029-995"></a>
+
+     <ul>
+<li>`AI-0026 Missing rules for Unchecked_Union (2010-07-07)'
+
+     <p>Record representation clauses concerning Unchecked_Union types cannot mention
+the discriminant of the type. The type of a component declared in the variant
+part of an Unchecked_Union cannot be controlled, have controlled components,
+nor have protected or task parts. If an Unchecked_Union type is declared
+within the body of a generic unit or its descendants, then the type of a
+component declared in the variant part cannot be a formal private type or a
+formal private extension declared within the same generic unit.
+
+     <p>RM References:  7.06 (9.4/2)   B.03.03 (9/2)   B.03.03 (10/2)
+</ul>
+
+<p><a name="index-AI_002d0205-_0028Ada-2012-feature_0029-996"></a>
+
+     <ul>
+<li>`AI-0205 Extended return declares visible name (0000-00-00)'
+
+     <p>This AI corrects a simple omission in the RM. Return objects have always
+been visible within an extended return statement.
+
+     <p>RM References:  8.03 (17)
+</ul>
+
+<p><a name="index-AI_002d0042-_0028Ada-2012-feature_0029-997"></a>
+
+     <ul>
+<li>`AI-0042 Overriding versus implemented-by (0000-00-00)'
+
+     <p>This AI fixes a wording gap in the RM. An operation of a synchronized
+interface can be implemented by a protected or task entry, but the abstract
+operation is not being overridden in the usual sense, and it must be stated
+separately that this implementation is legal. This has always been the case
+in GNAT.
+
+     <p>RM References:  9.01 (9.2/2)   9.04 (11.1/2)
+</ul>
+
+<p><a name="index-AI_002d0030-_0028Ada-2012-feature_0029-998"></a>
+
+     <ul>
+<li>`AI-0030 Requeue on synchronized interfaces (2010-07-19)'
+
+     <p>Requeue is permitted to a protected, synchronized or task interface primitive
+providing it is known that the overriding operation is an entry. Otherwise
+the requeue statement has the same effect as a procedure call. Use of pragma
+<cite>Implemented</cite> provides a way to impose a static requirement on the
+overriding operation by adhering to one of the implementation kinds: entry,
+protected procedure or any of the above.
+
+     <p>RM References:  9.05 (9)   9.05.04 (2)   9.05.04 (3)   9.05.04 (5)
+9.05.04 (6)   9.05.04 (7)   9.05.04 (12)
+</ul>
+
+<p><a name="index-AI_002d0201-_0028Ada-2012-feature_0029-999"></a>
+
+     <ul>
+<li>`AI-0201 Independence of atomic object components (2010-07-22)'
+
+     <p>If an Atomic object has a pragma <cite>Pack</cite> or a <cite>Component_Size</cite>
+attribute, then individual components may not be addressable by independent
+tasks. However, if the representation clause has no effect (is confirming),
+then independence is not compromised. Furthermore, in GNAT, specification of
+other appropriately addressable component sizes (e.g. 16 for 8-bit
+characters) also preserves independence. GNAT now gives very clear warnings
+both for the declaration of such a type, and for any assignment to its components.
+
+     <p>RM References:  9.10 (1/3)   C.06 (22/2)   C.06 (23/2)
+</ul>
+
+<p><a name="index-AI_002d0009-_0028Ada-2012-feature_0029-1000"></a>
+
+     <ul>
+<li>`AI-0009 Pragma Independent[_Components] (2010-07-23)'
+
+     <p>This AI introduces the new pragmas <cite>Independent</cite> and
+<cite>Independent_Components</cite>,
+which control guaranteeing independence of access to objects and components. 
+The AI also requires independence not unaffected by confirming rep clauses.
+
+     <p>RM References:  9.10 (1)   13.01 (15/1)   13.02 (9)   13.03 (13)   C.06 (2)
+C.06 (4)   C.06 (6)   C.06 (9)   C.06 (13)   C.06 (14)
+</ul>
+
+<p><a name="index-AI_002d0072-_0028Ada-2012-feature_0029-1001"></a>
+
+     <ul>
+<li>`AI-0072 Task signalling using 'Terminated (0000-00-00)'
+
+     <p>This AI clarifies that task signalling for reading <cite>'Terminated</cite> only
+occurs if the result is True. GNAT semantics has always been consistent with
+this notion of task signalling.
+
+     <p>RM References:  9.10 (6.1/1)
+</ul>
+
+<p><a name="index-AI_002d0108-_0028Ada-2012-feature_0029-1002"></a>
+
+     <ul>
+<li>`AI-0108 Limited incomplete view and discriminants (0000-00-00)'
+
+     <p>This AI confirms that an incomplete type from a limited view does not have
+discriminants. This has always been the case in GNAT.
+
+     <p>RM References:  10.01.01 (12.3/2)
+</ul>
+
+<p><a name="index-AI_002d0129-_0028Ada-2012-feature_0029-1003"></a>
+
+     <ul>
+<li>`AI-0129 Limited views and incomplete types (0000-00-00)'
+
+     <p>This AI clarifies the description of limited views: a limited view of a
+package includes only one view of a type that has an incomplete declaration
+and a full declaration (there is no possible ambiguity in a client package). 
+This AI also fixes an omission: a nested package in the private part has no
+limited view. GNAT always implemented this correctly.
+
+     <p>RM References:  10.01.01 (12.2/2)   10.01.01 (12.3/2)
+</ul>
+
+<p><a name="index-AI_002d0077-_0028Ada-2012-feature_0029-1004"></a>
+
+     <ul>
+<li>`AI-0077 Limited withs and scope of declarations (0000-00-00)'
+
+     <p>This AI clarifies that a declaration does not include a context clause,
+and confirms that it is illegal to have a context in which both a limited
+and a nonlimited view of a package are accessible. Such double visibility
+was always rejected by GNAT.
+
+     <p>RM References:  10.01.02 (12/2)   10.01.02 (21/2)   10.01.02 (22/2)
+</ul>
+
+<p><a name="index-AI_002d0122-_0028Ada-2012-feature_0029-1005"></a>
+
+     <ul>
+<li>`AI-0122 Private with and children of generics (0000-00-00)'
+
+     <p>This AI clarifies the visibility of private children of generic units within
+instantiations of a parent. GNAT has always handled this correctly.
+
+     <p>RM References:  10.01.02 (12/2)
+</ul>
+
+<p><a name="index-AI_002d0040-_0028Ada-2012-feature_0029-1006"></a>
+
+     <ul>
+<li>`AI-0040 Limited with clauses on descendant (0000-00-00)'
+
+     <p>This AI confirms that a limited with clause in a child unit cannot name
+an ancestor of the unit. This has always been checked in GNAT.
+
+     <p>RM References:  10.01.02 (20/2)
+</ul>
+
+<p><a name="index-AI_002d0132-_0028Ada-2012-feature_0029-1007"></a>
+
+     <ul>
+<li>`AI-0132 Placement of library unit pragmas (0000-00-00)'
+
+     <p>This AI fills a gap in the description of library unit pragmas. The pragma
+clearly must apply to a library unit, even if it does not carry the name
+of the enclosing unit. GNAT has always enforced the required check.
+
+     <p>RM References:  10.01.05 (7)
+</ul>
+
+<p><a name="index-AI_002d0034-_0028Ada-2012-feature_0029-1008"></a>
+
+     <ul>
+<li>`AI-0034 Categorization of limited views (0000-00-00)'
+
+     <p>The RM makes certain limited with clauses illegal because of categorization
+considerations, when the corresponding normal with would be legal. This is
+not intended, and GNAT has always implemented the recommended behavior.
+
+     <p>RM References:  10.02.01 (11/1)   10.02.01 (17/2)
+</ul>
+
+<p><a name="index-AI_002d0035-_0028Ada-2012-feature_0029-1009"></a>
+
+     <ul>
+<li>`AI-0035 Inconsistencies with Pure units (0000-00-00)'
+
+     <p>This AI remedies some inconsistencies in the legality rules for Pure units. 
+Derived access types are legal in a pure unit (on the assumption that the
+rule for a zero storage pool size has been enforced on the ancestor type). 
+The rules are enforced in generic instances and in subunits. GNAT has always
+implemented the recommended behavior.
+
+     <p>RM References:  10.02.01 (15.1/2)   10.02.01 (15.4/2)   10.02.01 (15.5/2)   10.02.01 (17/2)
+</ul>
+
+<p><a name="index-AI_002d0219-_0028Ada-2012-feature_0029-1010"></a>
+
+     <ul>
+<li>`AI-0219 Pure permissions and limited parameters (2010-05-25)'
+
+     <p>This AI refines the rules for the cases with limited parameters which do not
+allow the implementations to omit 'redundant'. GNAT now properly conforms
+to the requirements of this binding interpretation.
+
+     <p>RM References:  10.02.01 (18/2)
+</ul>
+
+<p><a name="index-AI_002d0043-_0028Ada-2012-feature_0029-1011"></a>
+
+     <ul>
+<li>`AI-0043 Rules about raising exceptions (0000-00-00)'
+
+     <p>This AI covers various omissions in the RM regarding the raising of
+exceptions. GNAT has always implemented the intended semantics.
+
+     <p>RM References:  11.04.01 (10.1/2)   11 (2)
+</ul>
+
+<p><a name="index-AI_002d0200-_0028Ada-2012-feature_0029-1012"></a>
+
+     <ul>
+<li>`AI-0200 Mismatches in formal package declarations (0000-00-00)'
+
+     <p>This AI plugs a gap in the RM which appeared to allow some obviously intended
+illegal instantiations. GNAT has never allowed these instantiations.
+
+     <p>RM References:  12.07 (16)
+</ul>
+
+<p><a name="index-AI_002d0112-_0028Ada-2012-feature_0029-1013"></a>
+
+     <ul>
+<li>`AI-0112 Detection of duplicate pragmas (2010-07-24)'
+
+     <p>This AI concerns giving names to various representation aspects, but the
+practical effect is simply to make the use of duplicate
+<cite>Atomic[_Components]</cite>,
+<cite>Volatile[_Components]</cite>, and
+<cite>Independent[_Components]</cite> pragmas illegal, and GNAT
+now performs this required check.
+
+     <p>RM References:  13.01 (8)
+</ul>
+
+<p><a name="index-AI_002d0106-_0028Ada-2012-feature_0029-1014"></a>
+
+     <ul>
+<li>`AI-0106 No representation pragmas on generic formals (0000-00-00)'
+
+     <p>The RM appeared to allow representation pragmas on generic formal parameters,
+but this was not intended, and GNAT has never permitted this usage.
+
+     <p>RM References:  13.01 (9.1/1)
+</ul>
+
+<p><a name="index-AI_002d0012-_0028Ada-2012-feature_0029-1015"></a>
+
+     <ul>
+<li>`AI-0012 Pack/Component_Size for aliased/atomic (2010-07-15)'
+
+     <p>It is now illegal to give an inappropriate component size or a pragma
+<cite>Pack</cite> that attempts to change the component size in the case of atomic
+or aliased components. Previously GNAT ignored such an attempt with a
+warning.
+
+     <p>RM References:  13.02 (6.1/2)   13.02 (7)   C.06 (10)   C.06 (11)   C.06 (21)
+</ul>
+
+<p><a name="index-AI_002d0039-_0028Ada-2012-feature_0029-1016"></a>
+
+     <ul>
+<li>`AI-0039 Stream attributes cannot be dynamic (0000-00-00)'
+
+     <p>The RM permitted the use of dynamic expressions (such as <code>ptr.all</code>)`
+for stream attributes, but these were never useful and are now illegal. GNAT
+has always regarded such expressions as illegal.
+
+     <p>RM References:  13.03 (4)   13.03 (6)   13.13.02 (38/2)
+</ul>
+
+<p><a name="index-AI_002d0095-_0028Ada-2012-feature_0029-1017"></a>
+
+     <ul>
+<li>`AI-0095 Address of intrinsic subprograms (0000-00-00)'
+
+     <p>The prefix of <cite>'Address</cite> cannot statically denote a subprogram with
+convention <cite>Intrinsic</cite>. The use of the <cite>Address</cite> attribute raises
+<cite>Program_Error</cite> if the prefix denotes a subprogram with convention
+<cite>Intrinsic</cite>.
+
+     <p>RM References:  13.03 (11/1)
+</ul>
+
+<p><a name="index-AI_002d0116-_0028Ada-2012-feature_0029-1018"></a>
+
+     <ul>
+<li>`AI-0116 Alignment of class-wide objects (0000-00-00)'
+
+     <p>This AI requires that the alignment of a class-wide object be no greater
+than the alignment of any type in the class. GNAT has always followed this
+recommendation.
+
+     <p>RM References:  13.03 (29)   13.11 (16)
+</ul>
+
+<p><a name="index-AI_002d0146-_0028Ada-2012-feature_0029-1019"></a>
+
+     <ul>
+<li>`AI-0146 Type invariants (2009-09-21)'
+
+     <p>Type invariants may be specified for private types using the aspect notation. 
+Aspect <cite>Type_Invariant</cite> may be specified for any private type,
+<cite>Type_Invariant'Class</cite> can
+only be specified for tagged types, and is inherited by any descendent of the
+tagged types. The invariant is a boolean expression that is tested for being
+true in the following situations: conversions to the private type, object
+declarations for the private type that are default initialized, and
+[`in'] `out'
+parameters and returned result on return from any primitive operation for
+the type that is visible to a client. 
+GNAT defines the synonyms <cite>Invariant</cite> for <cite>Type_Invariant</cite> and
+<cite>Invariant'Class</cite> for <cite>Type_Invariant'Class</cite>.
+
+     <p>RM References:  13.03.03 (00)
+</ul>
+
+<p><a name="index-AI_002d0078-_0028Ada-2012-feature_0029-1020"></a>
+
+     <ul>
+<li>`AI-0078 Relax Unchecked_Conversion alignment rules (0000-00-00)'
+
+     <p>In Ada 2012, compilers are required to support unchecked conversion where the
+target alignment is a multiple of the source alignment. GNAT always supported
+this case (and indeed all cases of differing alignments, doing copies where
+required if the alignment was reduced).
+
+     <p>RM References:  13.09 (7)
+</ul>
+
+<p><a name="index-AI_002d0195-_0028Ada-2012-feature_0029-1021"></a>
+
+     <ul>
+<li>`AI-0195 Invalid value handling is implementation defined (2010-07-03)'
+
+     <p>The handling of invalid values is now designated to be implementation
+defined. This is a documentation change only, requiring Annex M in the GNAT
+Reference Manual to document this handling. 
+In GNAT, checks for invalid values are made
+only when necessary to avoid erroneous behavior. Operations like assignments
+which cannot cause erroneous behavior ignore the possibility of invalid
+values and do not do a check. The date given above applies only to the
+documentation change, this behavior has always been implemented by GNAT.
+
+     <p>RM References:  13.09.01 (10)
+</ul>
+
+<p><a name="index-AI_002d0193-_0028Ada-2012-feature_0029-1022"></a>
+
+     <ul>
+<li>`AI-0193 Alignment of allocators (2010-09-16)'
+
+     <p>This AI introduces a new attribute <cite>Max_Alignment_For_Allocation</cite>,
+analogous to <cite>Max_Size_In_Storage_Elements</cite>, but for alignment instead
+of size.
+
+     <p>RM References:  13.11 (16)   13.11 (21)   13.11.01 (0)   13.11.01 (1)
+13.11.01 (2)   13.11.01 (3)
+</ul>
+
+<p><a name="index-AI_002d0177-_0028Ada-2012-feature_0029-1023"></a>
+
+     <ul>
+<li>`AI-0177 Parameterized expressions (2010-07-10)'
+
+     <p>The new Ada 2012 notion of parameterized expressions is implemented. The form
+is:
+
+     <pre class="example">         function-specification is (expression)
+</pre>
+     <p>This is exactly equivalent to the
+corresponding function body that returns the expression, but it can appear
+in a package spec. Note that the expression must be parenthesized.
+
+     <p>RM References:  13.11.01 (3/2)
+</ul>
+
+<p><a name="index-AI_002d0033-_0028Ada-2012-feature_0029-1024"></a>
+
+     <ul>
+<li>`AI-0033 Attach/Interrupt_Handler in generic (2010-07-24)'
+
+     <p>Neither of these two pragmas may appear within a generic template, because
+the generic might be instantiated at other than the library level.
+
+     <p>RM References:  13.11.02 (16)   C.03.01 (7/2)   C.03.01 (8/2)
+</ul>
+
+<p><a name="index-AI_002d0161-_0028Ada-2012-feature_0029-1025"></a>
+
+     <ul>
+<li>`AI-0161 Restriction No_Default_Stream_Attributes (2010-09-11)'
+
+     <p>A new restriction <cite>No_Default_Stream_Attributes</cite> prevents the use of any
+of the default stream attributes for elementary types. If this restriction is
+in force, then it is necessary to provide explicit subprograms for any
+stream attributes used.
+
+     <p>RM References:  13.12.01 (4/2)   13.13.02 (40/2)   13.13.02 (52/2)
+</ul>
+
+<p><a name="index-AI_002d0194-_0028Ada-2012-feature_0029-1026"></a>
+
+     <ul>
+<li>`AI-0194 Value of Stream_Size attribute (0000-00-00)'
+
+     <p>The <cite>Stream_Size</cite> attribute returns the default number of bits in the
+stream representation of the given type. 
+This value is not affected by the presence
+of stream subprogram attributes for the type. GNAT has always implemented
+this interpretation.
+
+     <p>RM References:  13.13.02 (1.2/2)
+</ul>
+
+<p><a name="index-AI_002d0109-_0028Ada-2012-feature_0029-1027"></a>
+
+     <ul>
+<li>`AI-0109 Redundant check in S'Class'Input (0000-00-00)'
+
+     <p>This AI is an editorial change only. It removes the need for a tag check
+that can never fail.
+
+     <p>RM References:  13.13.02 (34/2)
+</ul>
+
+<p><a name="index-AI_002d0007-_0028Ada-2012-feature_0029-1028"></a>
+
+     <ul>
+<li>`AI-0007 Stream read and private scalar types (0000-00-00)'
+
+     <p>The RM as written appeared to limit the possibilities of declaring read
+attribute procedures for private scalar types. This limitation was not
+intended, and has never been enforced by GNAT.
+
+     <p>RM References:  13.13.02 (50/2)   13.13.02 (51/2)
+</ul>
+
+<p><a name="index-AI_002d0065-_0028Ada-2012-feature_0029-1029"></a>
+
+     <ul>
+<li>`AI-0065 Remote access types and external streaming (0000-00-00)'
+
+     <p>This AI clarifies the fact that all remote access types support external
+streaming. This fixes an obvious oversight in the definition of the
+language, and GNAT always implemented the intended correct rules.
+
+     <p>RM References:  13.13.02 (52/2)
+</ul>
+
+<p><a name="index-AI_002d0019-_0028Ada-2012-feature_0029-1030"></a>
+
+     <ul>
+<li>`AI-0019 Freezing of primitives for tagged types (0000-00-00)'
+
+     <p>The RM suggests that primitive subprograms of a specific tagged type are
+frozen when the tagged type is frozen. This would be an incompatible change
+and is not intended. GNAT has never attempted this kind of freezing and its
+behavior is consistent with the recommendation of this AI.
+
+     <p>RM References:  13.14 (2)   13.14 (3/1)   13.14 (8.1/1)   13.14 (10)   13.14 (14)   13.14 (15.1/2)
+</ul>
+
+<p><a name="index-AI_002d0017-_0028Ada-2012-feature_0029-1031"></a>
+
+     <ul>
+<li>`AI-0017 Freezing and incomplete types (0000-00-00)'
+
+     <p>So-called 'Taft-amendment types' (i.e., types that are completed in package
+bodies) are not frozen by the occurrence of bodies in the
+enclosing declarative part. GNAT always implemented this properly.
+
+     <p>RM References:  13.14 (3/1)
+</ul>
+
+<p><a name="index-AI_002d0060-_0028Ada-2012-feature_0029-1032"></a>
+
+     <ul>
+<li>`AI-0060 Extended definition of remote access types (0000-00-00)'
+
+     <p>This AI extends the definition of remote access types to include access
+to limited, synchronized, protected or task class-wide interface types. 
+GNAT already implemented this extension.
+
+     <p>RM References:  A (4)   E.02.02 (9/1)   E.02.02 (9.2/1)   E.02.02 (14/2)   E.02.02 (18)
+</ul>
+
+<p><a name="index-AI_002d0114-_0028Ada-2012-feature_0029-1033"></a>
+
+     <ul>
+<li>`AI-0114 Classification of letters (0000-00-00)'
+
+     <p>The code points 170 (<cite>FEMININE ORDINAL INDICATOR</cite>),
+181 (<cite>MICRO SIGN</cite>), and
+186 (<cite>MASCULINE ORDINAL INDICATOR</cite>) are technically considered
+lower case letters by Unicode. 
+However, they are not allowed in identifiers, and they
+return <cite>False</cite> to <cite>Ada.Characters.Handling.Is_Letter/Is_Lower</cite>. 
+This behavior is consistent with that defined in Ada 95.
+
+     <p>RM References:  A.03.02 (59)   A.04.06 (7)
+</ul>
+
+<p><a name="index-AI_002d0185-_0028Ada-2012-feature_0029-1034"></a>
+
+     <ul>
+<li>`AI-0185 Ada.Wide_[Wide_]Characters.Handling (2010-07-06)'
+
+     <p>Two new packages <cite>Ada.Wide_[Wide_]Characters.Handling</cite> provide
+classification functions for <cite>Wide_Character</cite> and
+<cite>Wide_Wide_Character</cite>, as well as providing
+case folding routines for <cite>Wide_[Wide_]Character</cite> and
+<cite>Wide_[Wide_]String</cite>.
+
+     <p>RM References:  A.03.05 (0)   A.03.06 (0)
+</ul>
+
+<p><a name="index-AI_002d0031-_0028Ada-2012-feature_0029-1035"></a>
+
+     <ul>
+<li>`AI-0031 Add From parameter to Find_Token (2010-07-25)'
+
+     <p>A new version of <cite>Find_Token</cite> is added to all relevant string packages,
+with an extra parameter <cite>From</cite>. Instead of starting at the first
+character of the string, the search for a matching Token starts at the
+character indexed by the value of <cite>From</cite>. 
+These procedures are available in all versions of Ada
+but if used in versions earlier than Ada 2012 they will generate a warning
+that an Ada 2012 subprogram is being used.
+
+     <p>RM References:  A.04.03 (16)   A.04.03 (67)   A.04.03 (68/1)   A.04.04 (51)
+A.04.05 (46)
+</ul>
+
+<p><a name="index-AI_002d0056-_0028Ada-2012-feature_0029-1036"></a>
+
+     <ul>
+<li>`AI-0056 Index on null string returns zero (0000-00-00)'
+
+     <p>The wording in the Ada 2005 RM implied an incompatible handling of the
+<cite>Index</cite> functions, resulting in raising an exception instead of
+returning zero in some situations. 
+This was not intended and has been corrected. 
+GNAT always returned zero, and is thus consistent with this AI.
+
+     <p>RM References:  A.04.03 (56.2/2)   A.04.03 (58.5/2)
+</ul>
+
+<p><a name="index-AI_002d0137-_0028Ada-2012-feature_0029-1037"></a>
+
+     <ul>
+<li>`AI-0137 String encoding package (2010-03-25)'
+
+     <p>The packages <cite>Ada.Strings.UTF_Encoding</cite>, together with its child
+packages, <cite>Conversions</cite>, <cite>Strings</cite>, <cite>Wide_Strings</cite>,
+and <cite>Wide_Wide_Strings</cite> have been
+implemented. These packages (whose documentation can be found in the spec
+files <code>a-stuten.ads</code>, <code>a-suenco.ads</code>, <code>a-suenst.ads</code>,
+<code>a-suewst.ads</code>, <code>a-suezst.ads</code>) allow encoding and decoding of
+<cite>String</cite>, <cite>Wide_String</cite>, and <cite>Wide_Wide_String</cite>
+values using UTF coding schemes (including UTF-8, UTF-16LE, UTF-16BE, and
+UTF-16), as well as conversions between the different UTF encodings. With
+the exception of <cite>Wide_Wide_Strings</cite>, these packages are available in
+Ada 95 and Ada 2005 mode as well as Ada 2012 mode. 
+The <cite>Wide_Wide_Strings package</cite>
+is available in Ada 2005 mode as well as Ada 2012 mode (but not in Ada 95
+mode since it uses <cite>Wide_Wide_Character</cite>).
+
+     <p>RM References:  A.04.11
+</ul>
+
+<p><a name="index-AI_002d0038-_0028Ada-2012-feature_0029-1038"></a>
+
+     <ul>
+<li>`AI-0038 Minor errors in Text_IO (0000-00-00)'
+
+     <p>These are minor errors in the description on three points. The intent on
+all these points has always been clear, and GNAT has always implemented the
+correct intended semantics.
+
+     <p>RM References:  A.10.05 (37)   A.10.07 (8/1)   A.10.07 (10)   A.10.07 (12)   A.10.08 (10)   A.10.08 (24)
+</ul>
+
+<p><a name="index-AI_002d0044-_0028Ada-2012-feature_0029-1039"></a>
+
+     <ul>
+<li>`AI-0044 Restrictions on container instantiations (0000-00-00)'
+
+     <p>This AI places restrictions on allowed instantiations of generic containers. 
+These restrictions are not checked by the compiler, so there is nothing to
+change in the implementation. This affects only the RM documentation.
+
+     <p>RM References:  A.18 (4/2)   A.18.02 (231/2)   A.18.03 (145/2)   A.18.06 (56/2)   A.18.08 (66/2)   A.18.09 (79/2)   A.18.26 (5/2)   A.18.26 (9/2)
+</ul>
+
+<p><a name="index-AI_002d0127-_0028Ada-2012-feature_0029-1040"></a>
+
+     <ul>
+<li>`AI-0127 Adding Locale Capabilities (2010-09-29)'
+
+     <p>This package provides an interface for identifying the current locale.
+
+     <p>RM References:  A.19    A.19.01    A.19.02    A.19.03    A.19.05    A.19.06
+A.19.07    A.19.08    A.19.09    A.19.10    A.19.11    A.19.12    A.19.13
+</ul>
+
+<p><a name="index-AI_002d0002-_0028Ada-2012-feature_0029-1041"></a>
+
+     <ul>
+<li>`AI-0002 Export C with unconstrained arrays (0000-00-00)'
+
+     <p>The compiler is not required to support exporting an Ada subprogram with
+convention C if there are parameters or a return type of an unconstrained
+array type (such as <cite>String</cite>). GNAT allows such declarations but
+generates warnings. It is possible, but complicated, to write the
+corresponding C code and certainly such code would be specific to GNAT and
+non-portable.
+
+     <p>RM References:  B.01 (17)   B.03 (62)   B.03 (71.1/2)
+</ul>
+
+<p><a name="index-AI05_002d0216-_0028Ada-2012-feature_0029-1042"></a>
+
+     <ul>
+<li>`AI-0216 No_Task_Hierarchy forbids local tasks (0000-00-00)'
+
+     <p>It is clearly the intention that <cite>No_Task_Hierarchy</cite> is intended to
+forbid tasks declared locally within subprograms, or functions returning task
+objects, and that is the implementation that GNAT has always provided. 
+However the language in the RM was not sufficiently clear on this point. 
+Thus this is a documentation change in the RM only.
+
+     <p>RM References:  D.07 (3/3)
+</ul>
+
+<p><a name="index-AI_002d0211-_0028Ada-2012-feature_0029-1043"></a>
+
+     <ul>
+<li>`AI-0211 No_Relative_Delays forbids Set_Handler use (2010-07-09)'
+
+     <p>The restriction <cite>No_Relative_Delays</cite> forbids any calls to the subprogram
+<cite>Ada.Real_Time.Timing_Events.Set_Handler</cite>.
+
+     <p>RM References:  D.07 (5)   D.07 (10/2)   D.07 (10.4/2)   D.07 (10.7/2)
+</ul>
+
+<p><a name="index-AI_002d0190-_0028Ada-2012-feature_0029-1044"></a>
+
+     <ul>
+<li>`AI-0190 pragma Default_Storage_Pool (2010-09-15)'
+
+     <p>This AI introduces a new pragma <cite>Default_Storage_Pool</cite>, which can be
+used to control storage pools globally. 
+In particular, you can force every access
+type that is used for allocation (`new') to have an explicit storage pool,
+or you can declare a pool globally to be used for all access types that lack
+an explicit one.
+
+     <p>RM References:  D.07 (8)
+</ul>
+
+<p><a name="index-AI_002d0189-_0028Ada-2012-feature_0029-1045"></a>
+
+     <ul>
+<li>`AI-0189 No_Allocators_After_Elaboration (2010-01-23)'
+
+     <p>This AI introduces a new restriction <cite>No_Allocators_After_Elaboration</cite>,
+which says that no dynamic allocation will occur once elaboration is
+completed. 
+In general this requires a run-time check, which is not required, and which
+GNAT does not attempt. But the static cases of allocators in a task body or
+in the body of the main program are detected and flagged at compile or bind
+time.
+
+     <p>RM References:  D.07 (19.1/2)   H.04 (23.3/2)
+</ul>
+
+<p><a name="index-AI_002d0171-_0028Ada-2012-feature_0029-1046"></a>
+
+     <ul>
+<li>`AI-0171 Pragma CPU and Ravenscar Profile (2010-09-24)'
+
+     <p>A new package <cite>System.Multiprocessors</cite> is added, together with the
+definition of pragma <cite>CPU</cite> for controlling task affinity. A new no
+dependence restriction, on <cite>System.Multiprocessors.Dispatching_Domains</cite>,
+is added to the Ravenscar profile.
+
+     <p>RM References:  D.13.01 (4/2)   D.16
+</ul>
+
+<p><a name="index-AI_002d0210-_0028Ada-2012-feature_0029-1047"></a>
+
+     <ul>
+<li>`AI-0210 Correct Timing_Events metric (0000-00-00)'
+
+     <p>This is a documentation only issue regarding wording of metric requirements,
+that does not affect the implementation of the compiler.
+
+     <p>RM References:  D.15 (24/2)
+</ul>
+
+<p><a name="index-AI_002d0206-_0028Ada-2012-feature_0029-1048"></a>
+
+     <ul>
+<li>`AI-0206 Remote types packages and preelaborate (2010-07-24)'
+
+     <p>Remote types packages are now allowed to depend on preelaborated packages. 
+This was formerly considered illegal.
+
+     <p>RM References:  E.02.02 (6)
+</ul>
+
+<p><a name="index-AI_002d0152-_0028Ada-2012-feature_0029-1049"></a>
+
+     <ul>
+<li>`AI-0152 Restriction No_Anonymous_Allocators (2010-09-08)'
+
+     <p>Restriction <cite>No_Anonymous_Allocators</cite> prevents the use of allocators
+where the type of the returned value is an anonymous access type.
+
+     <p>RM References:  H.04 (8/1)
+</ul>
+
+</body></html>
+

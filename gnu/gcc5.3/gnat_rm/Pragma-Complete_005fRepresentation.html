@@ -1,0 +1,61 @@
+<html lang="en">
+<head>
+<title>Pragma Complete_Representation - GNAT Reference Manual</title>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+<meta name="description" content="GNAT Reference Manual">
+<meta name="generator" content="makeinfo 4.13">
+<link title="Top" rel="start" href="index.html#Top">
+<link rel="up" href="Implementation-Defined-Pragmas.html#Implementation-Defined-Pragmas" title="Implementation Defined Pragmas">
+<link rel="prev" href="Pragma-Compiler_005fUnit_005fWarning.html#Pragma-Compiler_005fUnit_005fWarning" title="Pragma Compiler_Unit_Warning">
+<link rel="next" href="Pragma-Complex_005fRepresentation.html#Pragma-Complex_005fRepresentation" title="Pragma Complex_Representation">
+<link href="http://www.gnu.org/software/texinfo/" rel="generator-home" title="Texinfo Homepage">
+<!--
+
+     GNAT Reference Manual , March 24, 2015
+
+     AdaCore
+
+     Copyright (C) 2008-2015, Free Software Foundation
+-->
+<meta http-equiv="Content-Style-Type" content="text/css">
+<style type="text/css"><!--
+  pre.display { font-family:inherit }
+  pre.format  { font-family:inherit }
+  pre.smalldisplay { font-family:inherit; font-size:smaller }
+  pre.smallformat  { font-family:inherit; font-size:smaller }
+  pre.smallexample { font-size:smaller }
+  pre.smalllisp    { font-size:smaller }
+  span.sc    { font-variant:small-caps }
+  span.roman { font-family:serif; font-weight:normal; } 
+  span.sansserif { font-family:sans-serif; font-weight:normal; } 
+--></style>
+</head>
+<body>
+<div class="node">
+<a name="Pragma-Complete_Representation"></a>
+<a name="Pragma-Complete_005fRepresentation"></a>
+<p>
+Next:&nbsp;<a rel="next" accesskey="n" href="Pragma-Complex_005fRepresentation.html#Pragma-Complex_005fRepresentation">Pragma Complex_Representation</a>,
+Previous:&nbsp;<a rel="previous" accesskey="p" href="Pragma-Compiler_005fUnit_005fWarning.html#Pragma-Compiler_005fUnit_005fWarning">Pragma Compiler_Unit_Warning</a>,
+Up:&nbsp;<a rel="up" accesskey="u" href="Implementation-Defined-Pragmas.html#Implementation-Defined-Pragmas">Implementation Defined Pragmas</a>
+<hr>
+</div>
+
+<p><a name="gnat_005frm_002fimplementation_005fdefined_005fpragmas-pragma_002dcomplete_002drepresentation"></a><a name="g_t39"></a>
+
+<h3 class="section">2.31 Pragma Complete_Representation</h3>
+
+<p>Syntax:
+
+<pre class="example">    pragma Complete_Representation;
+</pre>
+<p>This pragma must appear immediately within a record representation
+clause. Typical placements are before the first component clause
+or after the last component clause. The effect is to give an error
+message if any component is missing a component clause. This pragma
+may be used to ensure that a record representation clause is
+complete, and that this invariant is maintained if fields are
+added to the record in the future.
+
+</body></html>
+

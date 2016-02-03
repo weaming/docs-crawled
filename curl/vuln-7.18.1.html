@@ -1,0 +1,49 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
+<HTML>
+<HEAD> <TITLE>curl 7.18.1 - Single version vulnerability summary </TITLE>
+<meta content="text/html; charset=UTF-8" http-equiv="Content-Type">
+<link rel="stylesheet" type="text/css" href="http://curl.haxx.se/curl.css">
+<link rel="shortcut icon" href="http://curl.haxx.se/favicon.ico">
+<link rel="STYLESHEET" type="text/css" href="http://curl.haxx.se/manpage.css">
+</HEAD>
+<body bgcolor="#ffffff" text="#000000">
+<div class="main">
+<div class="menu">
+<a href="index.html" class="menuitem" title="Documentation main page">Docs Overview</a>
+</div>
+<div class="contents">
+<div class="where"><a href="http://curl.haxx.se/">cURL</a> / <a href="index.html">Docs</a> / <a href="vulnerabilities.html">Vulnerability table</a> / <b>7.18.1 vulnerabilities</b></div>
+<h1> curl 7.18.1 - Single version vulnerability summary </h1>
+<div class="relatedbox">
+<b>Related:</b>
+<br><a href="http://curl.haxx.se/changes.html">Changelog</a>
+<br><a href="faq.html">FAQ</a>
+<br><a href="http://curl.haxx.se/dev/security.html">Security dev process</a>
+<br><a href="vulnerabilities.html">Vulnerabilities Table</a>
+</div>
+<p> curl version <b>7.18.1</b> was released on <b>March 30 2008</b>. The following
+<b>17</b> security problems are known to exist in this version.
+<table><tr class="tabletop"><th>Flaw</th><th>From version</th><th>To and including</th><th>CVE</th></tr><tr class="odd"><td><a href="adv_20150429.html">sensitive HTTP server headers also sent to proxies</a></td><td><a href="vuln-7.1.html">7.1</a></td><td><a href="vuln-7.42.0.html">7.42.0</a></td><td><a href="https://cve.mitre.org/cgi-bin/cvename.cgi?name=CVE-2015-3153">CVE-2015-3153</a></td></tr>
+<tr class="even"><td><a href="adv_20150422B.html">Negotiate not treated as connection-oriented</a></td><td><a href="vuln-7.10.6.html">7.10.6</a></td><td><a href="vuln-7.41.0.html">7.41.0</a></td><td><a href="https://cve.mitre.org/cgi-bin/cvename.cgi?name=CVE-2015-3148">CVE-2015-3148</a></td></tr>
+<tr class="odd"><td><a href="adv_20150422A.html">Re-using authenticated connection when unauthenticated</a></td><td><a href="vuln-7.10.6.html">7.10.6</a></td><td><a href="vuln-7.41.0.html">7.41.0</a></td><td><a href="https://cve.mitre.org/cgi-bin/cvename.cgi?name=CVE-2015-3143">CVE-2015-3143</a></td></tr>
+<tr class="even"><td><a href="adv_20150108B.html">URL request injection</a></td><td><a href="vuln-6.0.html">6.0</a></td><td><a href="vuln-7.39.0.html">7.39.0</a></td><td><a href="https://cve.mitre.org/cgi-bin/cvename.cgi?name=CVE-2014-8150">CVE-2014-8150</a></td></tr>
+<tr class="odd"><td><a href="adv_20141105.html">duphandle read out of bounds</a></td><td><a href="vuln-7.17.1.html">7.17.1</a></td><td><a href="vuln-7.38.0.html">7.38.0</a></td><td><a href="https://cve.mitre.org/cgi-bin/cvename.cgi?name=CVE-2014-3707">CVE-2014-3707</a></td></tr>
+<tr class="even"><td><a href="adv_20140910A.html">cookie leak with IP address as domain</a></td><td><a href="vuln-7.1.html">7.1</a></td><td><a href="vuln-7.37.1.html">7.37.1</a></td><td><a href="https://cve.mitre.org/cgi-bin/cvename.cgi?name=CVE-2014-3613">CVE-2014-3613</a></td></tr>
+<tr class="odd"><td><a href="adv_20140326B.html">IP address wildcard certificate validation</a></td><td><a href="vuln-7.1.html">7.1</a></td><td><a href="vuln-7.35.0.html">7.35.0</a></td><td><a href="https://cve.mitre.org/cgi-bin/cvename.cgi?name=CVE-2014-0139">CVE-2014-0139</a></td></tr>
+<tr class="even"><td><a href="adv_20140326A.html">wrong re-use of connections</a></td><td><a href="vuln-7.10.7.html">7.10.7</a></td><td><a href="vuln-7.35.0.html">7.35.0</a></td><td><a href="https://cve.mitre.org/cgi-bin/cvename.cgi?name=CVE-2014-0138">CVE-2014-0138</a></td></tr>
+<tr class="odd"><td><a href="adv_20140129.html">re-use of wrong HTTP NTLM connection</a></td><td><a href="vuln-7.10.6.html">7.10.6</a></td><td><a href="vuln-7.34.0.html">7.34.0</a></td><td><a href="https://cve.mitre.org/cgi-bin/cvename.cgi?name=CVE-2014-0015">CVE-2014-0015</a></td></tr>
+<tr class="even"><td><a href="adv_20131115.html">cert name check ignore OpenSSL</a></td><td><a href="vuln-7.18.0.html">7.18.0</a></td><td><a href="vuln-7.32.0.html">7.32.0</a></td><td><a href="https://cve.mitre.org/cgi-bin/cvename.cgi?name=CVE-2013-4545">CVE-2013-4545</a></td></tr>
+<tr class="odd"><td><a href="adv_20130622.html">URL decode buffer boundary flaw</a></td><td><a href="vuln-7.7.html">7.7</a></td><td><a href="vuln-7.30.0.html">7.30.0</a></td><td><a href="https://cve.mitre.org/cgi-bin/cvename.cgi?name=CVE-2013-2174">CVE-2013-2174</a></td></tr>
+<tr class="even"><td><a href="adv_20130412.html">cookie domain tailmatch</a></td><td><a href="vuln-6.0.html">6.0</a></td><td><a href="vuln-7.29.0.html">7.29.0</a></td><td><a href="https://cve.mitre.org/cgi-bin/cvename.cgi?name=CVE-2013-1944">CVE-2013-1944</a></td></tr>
+<tr class="odd"><td><a href="adv_20120124B.html">SSL CBC IV vulnerability</a></td><td><a href="vuln-7.10.6.html">7.10.6</a></td><td><a href="vuln-7.23.1.html">7.23.1</a></td><td><a href="https://cve.mitre.org/cgi-bin/cvename.cgi?name=CVE-2011-3389">CVE-2011-3389</a></td></tr>
+<tr class="even"><td><a href="adv_20110623.html">inappropriate GSSAPI delegation</a></td><td><a href="vuln-7.10.6.html">7.10.6</a></td><td><a href="vuln-7.21.6.html">7.21.6</a></td><td><a href="https://cve.mitre.org/cgi-bin/cvename.cgi?name=CVE-2011-2192">CVE-2011-2192</a></td></tr>
+<tr class="odd"><td><a href="adv_20100209.html">data callback excessive length</a></td><td><a href="vuln-7.10.5.html">7.10.5</a></td><td><a href="vuln-7.19.7.html">7.19.7</a></td><td><a href="https://cve.mitre.org/cgi-bin/cvename.cgi?name=CVE-2010-0734">CVE-2010-0734</a></td></tr>
+<tr class="even"><td><a href="adv_20090812.html">embedded zero in cert name</a></td><td><a href="http://curl.haxx.se/docs/vuln-7.4&#32;&#32;&#32;.html">7.4   </a></td><td><a href="vuln-7.19.5.html">7.19.5</a></td><td><a href="https://cve.mitre.org/cgi-bin/cvename.cgi?name=CVE-2009-2417">CVE-2009-2417</a></td></tr>
+<tr class="odd"><td><a href="adv_20090303.html">Arbitrary File Access</a></td><td><a href="http://curl.haxx.se/docs/vuln-6.0&#32;&#32;&#32;.html">6.0   </a></td><td><a href="vuln-7.19.3.html">7.19.3</a></td><td><a href="https://cve.mitre.org/cgi-bin/cvename.cgi?name=CVE-2009-0037">CVE-2009-0037</a></td></tr>
+</table>
+<p>
+ <a href="http://curl.haxx.se/changes.html#7_18_1">Changelog for curl 7.18.1</a>
+<p>  See vulnerability summary for <a href="vuln-7.18.0.html">the previous release: 7.18.0</a>  or <a href="vuln-7.18.2.html">the subsequent release: 7.18.2</a>
+</div>
+</div>
+</body> </html>

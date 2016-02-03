@@ -1,0 +1,67 @@
+<html lang="en">
+<head>
+<title>Pragma Wide_Character_Encoding - GNAT Reference Manual</title>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+<meta name="description" content="GNAT Reference Manual">
+<meta name="generator" content="makeinfo 4.13">
+<link title="Top" rel="start" href="index.html#Top">
+<link rel="up" href="Implementation-Defined-Pragmas.html#Implementation-Defined-Pragmas" title="Implementation Defined Pragmas">
+<link rel="prev" href="Pragma-Weak_005fExternal.html#Pragma-Weak_005fExternal" title="Pragma Weak_External">
+<link href="http://www.gnu.org/software/texinfo/" rel="generator-home" title="Texinfo Homepage">
+<!--
+
+     GNAT Reference Manual , March 24, 2015
+
+     AdaCore
+
+     Copyright (C) 2008-2015, Free Software Foundation
+-->
+<meta http-equiv="Content-Style-Type" content="text/css">
+<style type="text/css"><!--
+  pre.display { font-family:inherit }
+  pre.format  { font-family:inherit }
+  pre.smalldisplay { font-family:inherit; font-size:smaller }
+  pre.smallformat  { font-family:inherit; font-size:smaller }
+  pre.smallexample { font-size:smaller }
+  pre.smalllisp    { font-size:smaller }
+  span.sc    { font-variant:small-caps }
+  span.roman { font-family:serif; font-weight:normal; } 
+  span.sansserif { font-family:sans-serif; font-weight:normal; } 
+--></style>
+</head>
+<body>
+<div class="node">
+<a name="Pragma-Wide_Character_Encoding"></a>
+<a name="Pragma-Wide_005fCharacter_005fEncoding"></a>
+<p>
+Previous:&nbsp;<a rel="previous" accesskey="p" href="Pragma-Weak_005fExternal.html#Pragma-Weak_005fExternal">Pragma Weak_External</a>,
+Up:&nbsp;<a rel="up" accesskey="u" href="Implementation-Defined-Pragmas.html#Implementation-Defined-Pragmas">Implementation Defined Pragmas</a>
+<hr>
+</div>
+
+<p><a name="gnat_005frm_002fimplementation_005fdefined_005fpragmas-pragma_002dwide_002dcharacter_002dencoding"></a><a name="e0"></a>
+
+<h3 class="section">2.192 Pragma Wide_Character_Encoding</h3>
+
+<p>Syntax:
+
+<pre class="example">    pragma Wide_Character_Encoding (IDENTIFIER | CHARACTER_LITERAL);
+</pre>
+<p>This pragma specifies the wide character encoding to be used in program
+source text appearing subsequently. It is a configuration pragma, but may
+also be used at any point that a pragma is allowed, and it is permissible
+to have more than one such pragma in a file, allowing multiple encodings
+to appear within the same file.
+
+<p>The argument can be an identifier or a character literal. In the identifier
+case, it is one of <cite>HEX</cite>, <cite>UPPER</cite>, <cite>SHIFT_JIS</cite>,
+<cite>EUC</cite>, <cite>UTF8</cite>, or <cite>BRACKETS</cite>. In the character literal
+case it is correspondingly one of the characters <code>h</code>, <code>u</code>,
+<code>s</code>, <code>e</code>, <code>8</code>, or <code>b</code>.
+
+<p>Note that when the pragma is used within a file, it affects only the
+encoding within that file, and does not affect withed units, specs,
+or subunits.
+
+</body></html>
+

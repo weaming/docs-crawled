@@ -1,0 +1,123 @@
+<html lang="en">
+<head>
+<title>Creating a Stand-alone Library to be used in a non-Ada context - GNAT User's Guide for Native Platforms</title>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+<meta name="description" content="GNAT User's Guide for Native Platforms">
+<meta name="generator" content="makeinfo 4.13">
+<link title="Top" rel="start" href="index.html#Top">
+<link rel="up" href="Stand_002dalone-Ada-Libraries.html#Stand_002dalone-Ada-Libraries" title="Stand-alone Ada Libraries">
+<link rel="prev" href="Building-a-Stand_002dalone-Library.html#Building-a-Stand_002dalone-Library" title="Building a Stand-alone Library">
+<link rel="next" href="Restrictions-in-Stand_002dalone-Libraries.html#Restrictions-in-Stand_002dalone-Libraries" title="Restrictions in Stand-alone Libraries">
+<link href="http://www.gnu.org/software/texinfo/" rel="generator-home" title="Texinfo Homepage">
+<!--
+
+     GNAT User's Guide for Native Platforms , March 24, 2015
+
+     AdaCore
+
+     Copyright (C) 2008-2015, Free Software Foundation
+-->
+<meta http-equiv="Content-Style-Type" content="text/css">
+<style type="text/css"><!--
+  pre.display { font-family:inherit }
+  pre.format  { font-family:inherit }
+  pre.smalldisplay { font-family:inherit; font-size:smaller }
+  pre.smallformat  { font-family:inherit; font-size:smaller }
+  pre.smallexample { font-size:smaller }
+  pre.smalllisp    { font-size:smaller }
+  span.sc    { font-variant:small-caps }
+  span.roman { font-family:serif; font-weight:normal; } 
+  span.sansserif { font-family:sans-serif; font-weight:normal; } 
+--></style>
+</head>
+<body>
+<div class="node">
+<a name="Creating-a-Stand-alone-Library-to-be-used-in-a-non-Ada-context"></a>
+<a name="Creating-a-Stand_002dalone-Library-to-be-used-in-a-non_002dAda-context"></a>
+<p>
+Next:&nbsp;<a rel="next" accesskey="n" href="Restrictions-in-Stand_002dalone-Libraries.html#Restrictions-in-Stand_002dalone-Libraries">Restrictions in Stand-alone Libraries</a>,
+Previous:&nbsp;<a rel="previous" accesskey="p" href="Building-a-Stand_002dalone-Library.html#Building-a-Stand_002dalone-Library">Building a Stand-alone Library</a>,
+Up:&nbsp;<a rel="up" accesskey="u" href="Stand_002dalone-Ada-Libraries.html#Stand_002dalone-Ada-Libraries">Stand-alone Ada Libraries</a>
+<hr>
+</div>
+
+<p><a name="gnat_005fugn_002fthe_005fgnat_005fcompilation_005fmodel-creating_002da_002dstand_002dalone_002dlibrary_002dto_002dbe_002dused_002din_002da_002dnon_002dada_002dcontext"></a><a name="g_t98"></a><a name="gnat_005fugn_002fthe_005fgnat_005fcompilation_005fmodel-id44"></a><a name="g_t99"></a>
+
+<h5 class="subsubsection">3.9.3.3 Creating a Stand-alone Library to be used in a non-Ada context</h5>
+
+<p>It is easy to adapt the SAL build procedure discussed above for use of a SAL in
+a non-Ada context.
+
+<p>The only extra step required is to ensure that library interface subprograms
+are compatible with the main program, by means of <cite>pragma Export</cite>
+or <cite>pragma Convention</cite>.
+
+<p>Here is an example of simple library interface for use with C main program:
+
+<pre class="example">    package My_Package is
+    
+       procedure Do_Something;
+       pragma Export (C, Do_Something, "do_something");
+    
+       procedure Do_Something_Else;
+       pragma Export (C, Do_Something_Else, "do_something_else");
+    
+    end My_Package;
+</pre>
+<p>On the foreign language side, you must provide a 'foreign' view of the
+library interface; remember that it should contain elaboration routines in
+addition to interface subprograms.
+
+<p>The example below shows the content of <cite>mylib_interface.h</cite> (note
+that there is no rule for the naming of this file, any name can be used)
+
+<pre class="example">    /* the library elaboration procedure */
+    extern void mylibinit (void);
+    
+    /* the library finalization procedure */
+    extern void mylibfinal (void);
+    
+    /* the interface exported by the library */
+    extern void do_something (void);
+    extern void do_something_else (void);
+</pre>
+<p>Libraries built as explained above can be used from any program, provided
+that the elaboration procedures (named <cite>mylibinit</cite> in the previous
+example) are called before the library services are used. Any number of
+libraries can be used simultaneously, as long as the elaboration
+procedure of each library is called.
+
+<p>Below is an example of a C program that uses the <cite>mylib</cite> library.
+
+<pre class="example">    #include "mylib_interface.h"
+    
+    int
+    main (void)
+    {
+       /* First, elaborate the library before using it */
+       mylibinit ();
+    
+       /* Main program, using the library exported entities */
+       do_something ();
+       do_something_else ();
+    
+       /* Library finalization at the end of the program */
+       mylibfinal ();
+       return 0;
+    }
+</pre>
+<p>Note that invoking any library finalization procedure generated by
+<cite>gnatbind</cite> shuts down the Ada run-time environment. 
+Consequently, the
+finalization of all Ada libraries must be performed at the end of the program. 
+No call to these libraries or to the Ada run-time library should be made
+after the finalization phase.
+
+<p>Note also that special care must be taken with multi-tasks
+applications. The initialization and finalization routines are not
+protected against concurrent access. If such requirement is needed it
+must be ensured at the application level using a specific operating
+system services like a mutex or a critical-section.
+
+</body></html>
+

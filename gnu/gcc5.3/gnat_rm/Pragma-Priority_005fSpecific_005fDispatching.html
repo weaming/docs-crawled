@@ -1,0 +1,66 @@
+<html lang="en">
+<head>
+<title>Pragma Priority_Specific_Dispatching - GNAT Reference Manual</title>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+<meta name="description" content="GNAT Reference Manual">
+<meta name="generator" content="makeinfo 4.13">
+<link title="Top" rel="start" href="index.html#Top">
+<link rel="up" href="Implementation-Defined-Pragmas.html#Implementation-Defined-Pragmas" title="Implementation Defined Pragmas">
+<link rel="prev" href="Pragma-Pre_005fClass.html#Pragma-Pre_005fClass" title="Pragma Pre_Class">
+<link rel="next" href="Pragma-Profile.html#Pragma-Profile" title="Pragma Profile">
+<link href="http://www.gnu.org/software/texinfo/" rel="generator-home" title="Texinfo Homepage">
+<!--
+
+     GNAT Reference Manual , March 24, 2015
+
+     AdaCore
+
+     Copyright (C) 2008-2015, Free Software Foundation
+-->
+<meta http-equiv="Content-Style-Type" content="text/css">
+<style type="text/css"><!--
+  pre.display { font-family:inherit }
+  pre.format  { font-family:inherit }
+  pre.smalldisplay { font-family:inherit; font-size:smaller }
+  pre.smallformat  { font-family:inherit; font-size:smaller }
+  pre.smallexample { font-size:smaller }
+  pre.smalllisp    { font-size:smaller }
+  span.sc    { font-variant:small-caps }
+  span.roman { font-family:serif; font-weight:normal; } 
+  span.sansserif { font-family:sans-serif; font-weight:normal; } 
+--></style>
+</head>
+<body>
+<div class="node">
+<a name="Pragma-Priority_Specific_Dispatching"></a>
+<a name="Pragma-Priority_005fSpecific_005fDispatching"></a>
+<p>
+Next:&nbsp;<a rel="next" accesskey="n" href="Pragma-Profile.html#Pragma-Profile">Pragma Profile</a>,
+Previous:&nbsp;<a rel="previous" accesskey="p" href="Pragma-Pre_005fClass.html#Pragma-Pre_005fClass">Pragma Pre_Class</a>,
+Up:&nbsp;<a rel="up" accesskey="u" href="Implementation-Defined-Pragmas.html#Implementation-Defined-Pragmas">Implementation Defined Pragmas</a>
+<hr>
+</div>
+
+<p><a name="gnat_005frm_002fimplementation_005fdefined_005fpragmas-pragma_002dpriority_002dspecific_002ddispatching"></a><a name="a0"></a>
+
+<h3 class="section">2.132 Pragma Priority_Specific_Dispatching</h3>
+
+<p>Syntax:
+
+<pre class="example">    pragma Priority_Specific_Dispatching (
+       POLICY_IDENTIFIER,
+       first_priority_EXPRESSION,
+       last_priority_EXPRESSION)
+    
+    POLICY_IDENTIFIER ::=
+       EDF_Across_Priorities            |
+       FIFO_Within_Priorities           |
+       Non_Preemptive_Within_Priorities |
+       Round_Robin_Within_Priorities
+</pre>
+<p>This pragma is standard in Ada 2005, but is available in all earlier
+versions of Ada as an implementation-defined pragma. 
+See Ada 2012 Reference Manual for details.
+
+</body></html>
+

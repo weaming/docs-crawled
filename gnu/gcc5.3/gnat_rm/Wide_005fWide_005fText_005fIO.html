@@ -1,0 +1,186 @@
+<html lang="en">
+<head>
+<title>Wide_Wide_Text_IO - GNAT Reference Manual</title>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+<meta name="description" content="GNAT Reference Manual">
+<meta name="generator" content="makeinfo 4.13">
+<link title="Top" rel="start" href="index.html#Top">
+<link rel="up" href="The-Implementation-of-Standard-I_002fO.html#The-Implementation-of-Standard-I_002fO" title="The Implementation of Standard I/O">
+<link rel="prev" href="Wide_005fText_005fIO.html#Wide_005fText_005fIO" title="Wide_Text_IO">
+<link rel="next" href="Stream_005fIO.html#Stream_005fIO" title="Stream_IO">
+<link href="http://www.gnu.org/software/texinfo/" rel="generator-home" title="Texinfo Homepage">
+<!--
+
+     GNAT Reference Manual , March 24, 2015
+
+     AdaCore
+
+     Copyright (C) 2008-2015, Free Software Foundation
+-->
+<meta http-equiv="Content-Style-Type" content="text/css">
+<style type="text/css"><!--
+  pre.display { font-family:inherit }
+  pre.format  { font-family:inherit }
+  pre.smalldisplay { font-family:inherit; font-size:smaller }
+  pre.smallformat  { font-family:inherit; font-size:smaller }
+  pre.smallexample { font-size:smaller }
+  pre.smalllisp    { font-size:smaller }
+  span.sc    { font-variant:small-caps }
+  span.roman { font-family:serif; font-weight:normal; } 
+  span.sansserif { font-family:sans-serif; font-weight:normal; } 
+--></style>
+</head>
+<body>
+<div class="node">
+<a name="Wide_Wide_Text_IO"></a>
+<a name="Wide_005fWide_005fText_005fIO"></a>
+<p>
+Next:&nbsp;<a rel="next" accesskey="n" href="Stream_005fIO.html#Stream_005fIO">Stream_IO</a>,
+Previous:&nbsp;<a rel="previous" accesskey="p" href="Wide_005fText_005fIO.html#Wide_005fText_005fIO">Wide_Text_IO</a>,
+Up:&nbsp;<a rel="up" accesskey="u" href="The-Implementation-of-Standard-I_002fO.html#The-Implementation-of-Standard-I_002fO">The Implementation of Standard I/O</a>
+<hr>
+</div>
+
+<p><a name="gnat_005frm_002fthe_005fimplementation_005fof_005fstandard_005fi_005fo-id16"></a><a name="g_t260"></a><a name="gnat_005frm_002fthe_005fimplementation_005fof_005fstandard_005fi_005fo-wide_002dwide_002dtext_002dio"></a><a name="g_t261"></a>
+
+<h3 class="section">11.7 Wide_Wide_Text_IO</h3>
+
+<p><cite>Wide_Wide_Text_IO</cite> is similar in most respects to Text_IO, except that
+both input and output files may contain special sequences that represent
+wide wide character values.  The encoding scheme for a given file may be
+specified using a FORM parameter:
+
+<pre class="example">    WCEM=`x`
+</pre>
+<p>as part of the FORM string (WCEM = wide character encoding method),
+where <cite>x</cite> is one of the following characters
+
+<p><table summary=""><tr align="left"><th valign="top">
+Character
+
+<p></th><th valign="top">
+
+<p>Encoding
+
+<p><br></th></tr><tr align="left"><td valign="top">
+`h'
+
+<p></td><td valign="top">
+
+<p>Hex ESC encoding
+
+<p><br></td></tr><tr align="left"><td valign="top">
+`u'
+
+<p></td><td valign="top">
+
+<p>Upper half encoding
+
+<p><br></td></tr><tr align="left"><td valign="top">
+`s'
+
+<p></td><td valign="top">
+
+<p>Shift-JIS encoding
+
+<p><br></td></tr><tr align="left"><td valign="top">
+`e'
+
+<p></td><td valign="top">
+
+<p>EUC Encoding
+
+<p><br></td></tr><tr align="left"><td valign="top">
+`8'
+
+<p></td><td valign="top">
+
+<p>UTF-8 encoding
+
+<p><br></td></tr><tr align="left"><td valign="top">
+`b'
+
+<p></td><td valign="top">
+
+<p>Brackets encoding
+
+<br></td></tr></table>
+
+<p>The encoding methods match those that
+can be used in a source
+program, but there is no requirement that the encoding method used for
+the source program be the same as the encoding method used for files,
+and different files may use different encoding methods.
+
+<p>The default encoding method for the standard files, and for opened files
+for which no WCEM parameter is given in the FORM string matches the
+wide character encoding specified for the main program (the default
+being brackets encoding if no coding method was specified with -gnatW).
+
+     <dl>
+<dt>`UTF-8 Coding'<dd>
+A wide character is represented using
+UCS Transformation Format 8 (UTF-8) as defined in Annex R of ISO
+10646-1/Am.2.  Depending on the character value, the representation
+is a one, two, three, or four byte sequence:
+</dl>
+
+<pre class="example">    16#000000#-16#00007f#: 2#0xxxxxxx#
+    16#000080#-16#0007ff#: 2#110xxxxx# 2#10xxxxxx#
+    16#000800#-16#00ffff#: 2#1110xxxx# 2#10xxxxxx# 2#10xxxxxx#
+    16#010000#-16#10ffff#: 2#11110xxx# 2#10xxxxxx# 2#10xxxxxx# 2#10xxxxxx#
+</pre>
+<blockquote>
+
+<p>where the <cite>xxx</cite> bits correspond to the left-padded bits of the
+21-bit character value.  Note that all lower half ASCII characters
+are represented as ASCII bytes and all upper half characters and
+other wide characters are represented as sequences of upper-half
+characters. 
+</blockquote>
+
+     <dl>
+<dt>`Brackets Coding'<dd>
+In this encoding, a wide wide character is represented by the following eight
+character sequence if is in wide character range
+</dl>
+
+<pre class="example">    [ " a b c d " ]
+</pre>
+<blockquote>
+
+<p>and by the following ten character sequence if not
+</blockquote>
+
+<pre class="example">    [ " a b c d e f " ]
+</pre>
+<blockquote>
+
+<p>where <cite>a</cite>, <cite>b</cite>, <cite>c</cite>, <cite>d</cite>, <cite>e</cite>, and <cite>f</cite>
+are the four or six hexadecimal
+characters (using uppercase letters) of the wide wide character code.  For
+example, <cite>["01A345"]</cite> is used to represent the wide wide character
+with code <cite>16#01A345#</cite>.
+
+<p>This scheme is compatible with use of the full Wide_Wide_Character set. 
+On input, brackets coding can also be used for upper half characters,
+e.g., <cite>["C1"]</cite> for lower case a.  However, on output, brackets notation
+is only used for wide characters with a code greater than <cite>16#FF#</cite>. 
+</blockquote>
+
+<p>If is also possible to use the other Wide_Character encoding methods,
+such as Shift-JIS, but the other schemes cannot support the full range
+of wide wide characters. 
+An attempt to output a character that cannot
+be represented using the encoding scheme for the file causes
+Constraint_Error to be raised.  An invalid wide character sequence on
+input also causes Constraint_Error to be raised.
+
+<ul class="menu">
+<li><a accesskey="1" href="Stream-Pointer-Positioning_003c3_003e.html#Stream-Pointer-Positioning_003c3_003e">Stream Pointer Positioning</a>
+<li><a accesskey="2" href="Reading-and-Writing-Non_002dRegular-Files_003c3_003e.html#Reading-and-Writing-Non_002dRegular-Files_003c3_003e">Reading and Writing Non-Regular Files</a>
+
+</ul>
+
+</body></html>
+

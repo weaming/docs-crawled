@@ -1,0 +1,105 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
+<HTML>
+<HEAD> <TITLE>cURL - Security Advisory (cert name check ignore)</TITLE>
+<meta content="text/html; charset=UTF-8" http-equiv="Content-Type">
+<link rel="stylesheet" type="text/css" href="http://curl.haxx.se/curl.css">
+<link rel="shortcut icon" href="http://curl.haxx.se/favicon.ico">
+<link rel="STYLESHEET" type="text/css" href="http://curl.haxx.se/manpage.css">
+</HEAD>
+<body bgcolor="#ffffff" text="#000000">
+<div class="main">
+<div class="menu">
+<a href="index.html" class="menuitem" title="Documentation main page">Docs Overview</a>
+</div>
+<div class="contents">
+<div class="where"><a href="http://curl.haxx.se/">cURL</a> / <a href="index.html">Docs</a> / <a href="security.html">Security</a> / <b>libcurl cert name check ignore</b></div>
+<h1> libcurl cert name check ignore </h1>
+<div class="relatedbox">
+<b>Related:</b>
+<br><a href="http://curl.haxx.se/changes.html">Changelog</a>
+<br><a href="faq.html">FAQ</a>
+<br><a href="http://curl.haxx.se/dev/security.html">Security dev process</a>
+<br><a href="vulnerabilities.html">Vulnerabilities Table</a>
+</div>
+<pre>
+                        libcurl cert name check ignore
+                        ==============================
+&nbsp;
+Project cURL Security Advisory, November 15th 2013
+http://curl.haxx.se/docs/security.html
+&nbsp;
+1. VULNERABILITY
+&nbsp;
+  libcurl is vulnerable to a case of missing out the checking of the
+  certificate CN or SAN name field when the digital signature verification is
+  turned off.
+&nbsp;
+  libcurl offers two separate and independent options for verifying a server's
+  TLS certificate. CURLOPT_SSL_VERIFYPEER and CURLOPT_SSL_VERIFYHOST. The
+  first one tells libcurl to verify the trust chain using a CA cert bundle,
+  while the second tells libcurl to make sure that the name fields in the
+  server certificate meets the criteria. Both options are enabled by default.
+&nbsp;
+  This flaw had the effect that when an application disabled
+  CURLOPT_SSL_VERIFYPEER, libcurl mistakenly also disabled the
+  CURLOPT_SSL_VERIFYHOST check. Applications can disable
+  CURLOPT_SSL_VERIFYPEER and still achieve security by doing the check on its
+  own using other means.
+&nbsp;
+  The curl command line tool is not affected by this problem as it either
+  enables both options or disables both at the same time.
+&nbsp;
+  There are no known exploits available at this time.
+&nbsp;
+  The Common Vulnerabilities and Exposures (CVE) project has assigned the name
+  CVE-2013-4545 to this issue.
+&nbsp;
+2. AFFECTED VERSIONS
+&nbsp;
+  This flaw only exists in the TLS backend that uses OpenSSL. If libcurl is
+  built with another TLS backend, it isn't affected.
+&nbsp;
+  Affected versions: from libcurl 7.18.0 to and including 7.32.0
+  Not affected versions: libcurl before 7.18.0 and &gt;= 7.33.0
+&nbsp;
+  libcurl is used by many applications, but not always advertised as such!
+&nbsp;
+3. THE SOLUTION
+&nbsp;
+  libcurl 7.33.0 makes sure that both options independently will cause the
+  operation to fail unless the criteria is fulfilled.
+&nbsp;
+  The fix was committed, pushed and released without the full security
+  implications being properly realized.
+&nbsp;
+4. RECOMMENDATIONS
+&nbsp;
+  We suggest you take one of the following actions immediately, in order of
+  preference:
+&nbsp;
+  A - Upgrade to curl and libcurl 7.33.0
+&nbsp;
+  B - Apply (https://github.com/bagder/curl/commit/3c3622b6) and rebuild
+      libcurl
+&nbsp;
+  C - Make sure CURLOPT_SSL_VERIFYPEER is not disabled
+&nbsp;
+  D - Build libcurl with another TLS backend than OpenSSL
+&nbsp;
+5. TIME LINE
+&nbsp;
+  Vulnerability reported by Scott Cantor.
+&nbsp;
+  It was reported to the curl project on November 6th 2013. We contacted
+  distros@openwall on November 8th.
+&nbsp;
+  libcurl 7.33.0 was released on October 14th 2013, already containing this
+  fix.
+&nbsp;
+6. CREDITS
+&nbsp;
+  Reported by Scott Cantor. Thanks a lot!
+</pre>
+</div>
+</div>
+</body> </html>

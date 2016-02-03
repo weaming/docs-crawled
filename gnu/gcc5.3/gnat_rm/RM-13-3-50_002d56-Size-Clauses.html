@@ -1,0 +1,95 @@
+<html lang="en">
+<head>
+<title>RM 13 3 50-56 Size Clauses - GNAT Reference Manual</title>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+<meta name="description" content="GNAT Reference Manual">
+<meta name="generator" content="makeinfo 4.13">
+<link title="Top" rel="start" href="index.html#Top">
+<link rel="up" href="Implementation-Advice.html#Implementation-Advice" title="Implementation Advice">
+<link rel="prev" href="RM-13-3-42_002d43-Size-Clauses.html#RM-13-3-42_002d43-Size-Clauses" title="RM 13 3 42-43 Size Clauses">
+<link rel="next" href="RM-13-3-71_002d73-Component-Size-Clauses.html#RM-13-3-71_002d73-Component-Size-Clauses" title="RM 13 3 71-73 Component Size Clauses">
+<link href="http://www.gnu.org/software/texinfo/" rel="generator-home" title="Texinfo Homepage">
+<!--
+
+     GNAT Reference Manual , March 24, 2015
+
+     AdaCore
+
+     Copyright (C) 2008-2015, Free Software Foundation
+-->
+<meta http-equiv="Content-Style-Type" content="text/css">
+<style type="text/css"><!--
+  pre.display { font-family:inherit }
+  pre.format  { font-family:inherit }
+  pre.smalldisplay { font-family:inherit; font-size:smaller }
+  pre.smallformat  { font-family:inherit; font-size:smaller }
+  pre.smallexample { font-size:smaller }
+  pre.smalllisp    { font-size:smaller }
+  span.sc    { font-variant:small-caps }
+  span.roman { font-family:serif; font-weight:normal; } 
+  span.sansserif { font-family:sans-serif; font-weight:normal; } 
+--></style>
+</head>
+<body>
+<div class="node">
+<a name="RM-13-3-50-56-Size-Clauses"></a>
+<a name="RM-13-3-50_002d56-Size-Clauses"></a>
+<p>
+Next:&nbsp;<a rel="next" accesskey="n" href="RM-13-3-71_002d73-Component-Size-Clauses.html#RM-13-3-71_002d73-Component-Size-Clauses">RM 13 3 71-73 Component Size Clauses</a>,
+Previous:&nbsp;<a rel="previous" accesskey="p" href="RM-13-3-42_002d43-Size-Clauses.html#RM-13-3-42_002d43-Size-Clauses">RM 13 3 42-43 Size Clauses</a>,
+Up:&nbsp;<a rel="up" accesskey="u" href="Implementation-Advice.html#Implementation-Advice">Implementation Advice</a>
+<hr>
+</div>
+
+<p><a name="gnat_005frm_002fimplementation_005fadvice-rm_002d13_002d3_002d50_002d56_002dsize_002dclauses"></a><a name="g_t1d1"></a>
+
+<h3 class="section">6.21 RM 13.3(50-56): Size Clauses</h3>
+
+<blockquote>
+
+<p>"If the <cite>Size</cite> of a subtype is specified, and allows for efficient
+independent addressability (see 9.10) on the target architecture, then
+the <cite>Size</cite> of the following objects of the subtype should equal the
+<cite>Size</cite> of the subtype:
+
+<p>Aliased objects (including components)." 
+</blockquote>
+
+<p>Followed.
+
+<blockquote>
+
+<p>"<cite>Size</cite> clause on a composite subtype should not affect the
+internal layout of components." 
+</blockquote>
+
+<p>Followed. But note that this can be overridden by use of the implementation
+pragma Implicit_Packing in the case of packed arrays.
+
+<blockquote>
+
+<p>"The recommended level of support for the <cite>Size</cite> attribute of subtypes is:
+
+<p>The <cite>Size</cite> (if not specified) of a static discrete or fixed point
+subtype should be the number of bits needed to represent each value
+belonging to the subtype using an unbiased representation, leaving space
+for a sign bit only if the subtype contains negative values.  If such a
+subtype is a first subtype, then an implementation should support a
+specified <cite>Size</cite> for it that reflects this representation." 
+</blockquote>
+
+<p>Followed.
+
+<blockquote>
+
+<p>"For a subtype implemented with levels of indirection, the <cite>Size</cite>
+should include the size of the pointers, but not the size of what they
+point at." 
+</blockquote>
+
+<p>Followed.
+
+<p><a name="index-Component_005fSize-clauses-395"></a>
+
+</body></html>
+

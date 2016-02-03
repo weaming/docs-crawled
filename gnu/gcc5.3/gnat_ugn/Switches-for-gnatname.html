@@ -1,0 +1,190 @@
+<html lang="en">
+<head>
+<title>Switches for gnatname - GNAT User's Guide for Native Platforms</title>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+<meta name="description" content="GNAT User's Guide for Native Platforms">
+<meta name="generator" content="makeinfo 4.13">
+<link title="Top" rel="start" href="index.html#Top">
+<link rel="up" href="Handling-Arbitrary-File-Naming-Conventions-with-gnatname.html#Handling-Arbitrary-File-Naming-Conventions-with-gnatname" title="Handling Arbitrary File Naming Conventions with gnatname">
+<link rel="prev" href="Running-gnatname.html#Running-gnatname" title="Running gnatname">
+<link rel="next" href="Examples-of-gnatname-Usage.html#Examples-of-gnatname-Usage" title="Examples of gnatname Usage">
+<link href="http://www.gnu.org/software/texinfo/" rel="generator-home" title="Texinfo Homepage">
+<!--
+
+     GNAT User's Guide for Native Platforms , March 24, 2015
+
+     AdaCore
+
+     Copyright (C) 2008-2015, Free Software Foundation
+-->
+<meta http-equiv="Content-Style-Type" content="text/css">
+<style type="text/css"><!--
+  pre.display { font-family:inherit }
+  pre.format  { font-family:inherit }
+  pre.smalldisplay { font-family:inherit; font-size:smaller }
+  pre.smallformat  { font-family:inherit; font-size:smaller }
+  pre.smallexample { font-size:smaller }
+  pre.smalllisp    { font-size:smaller }
+  span.sc    { font-variant:small-caps }
+  span.roman { font-family:serif; font-weight:normal; } 
+  span.sansserif { font-family:sans-serif; font-weight:normal; } 
+--></style>
+</head>
+<body>
+<div class="node">
+<a name="Switches-for-gnatname"></a>
+<p>
+Next:&nbsp;<a rel="next" accesskey="n" href="Examples-of-gnatname-Usage.html#Examples-of-gnatname-Usage">Examples of gnatname Usage</a>,
+Previous:&nbsp;<a rel="previous" accesskey="p" href="Running-gnatname.html#Running-gnatname">Running gnatname</a>,
+Up:&nbsp;<a rel="up" accesskey="u" href="Handling-Arbitrary-File-Naming-Conventions-with-gnatname.html#Handling-Arbitrary-File-Naming-Conventions-with-gnatname">Handling Arbitrary File Naming Conventions with gnatname</a>
+<hr>
+</div>
+
+<p><a name="gnat_005fugn_002fthe_005fgnat_005fcompilation_005fmodel-id15"></a><a name="g_t61"></a><a name="gnat_005fugn_002fthe_005fgnat_005fcompilation_005fmodel-switches_002dfor_002dgnatname"></a><a name="g_t62"></a>
+
+<h5 class="subsubsection">3.3.4.3 Switches for <cite>gnatname</cite></h5>
+
+<p>Switches for <cite>gnatname</cite> must precede any specified Naming Pattern.
+
+<p>You may specify any of the following switches to <cite>gnatname</cite>:
+
+<p><a name="index-g_t_002d_002dversion-_0028gnatname_0029-45"></a>
+
+     <dl>
+<dt><code>--version</code><dd>
+Display Copyright and version, then exit disregarding all other options. 
+</dl>
+
+<p><a name="index-g_t_002d_002dhelp-_0028gnatname_0029-46"></a>
+
+     <dl>
+<dt><code>--help</code><dd>
+If `&ndash;version' was not used, display usage, then exit disregarding
+all other options.
+
+     <br><dt><code>--subdirs=`dir'</code><dd>
+Real object, library or exec directories are subdirectories &lt;dir&gt; of the
+specified ones.
+
+     <br><dt><code>--no-backup</code><dd>
+Do not create a backup copy of an existing project file.
+
+     <br><dt><code>--and</code><dd>
+Start another section of directories/patterns. 
+</dl>
+
+<p><a name="index-g_t_002dc-_0028gnatname_0029-47"></a>
+
+     <dl>
+<dt><code>-c`filename'</code><dd>
+Create a configuration pragmas file <code>filename</code> (instead of the default
+<code>gnat.adc</code>). 
+There may be zero, one or more space between `-c' and
+<code>filename</code>. 
+<code>filename</code> may include directory information. <code>filename</code> must be
+writable. There may be only one switch `-c'. 
+When a switch `-c' is
+specified, no switch `-P' may be specified (see below). 
+</dl>
+
+<p><a name="index-g_t_002dd-_0028gnatname_0029-48"></a>
+
+     <dl>
+<dt><code>-d`dir'</code><dd>
+Look for source files in directory <code>dir</code>. There may be zero, one or more
+spaces between `-d' and <code>dir</code>. 
+<code>dir</code> may end with <cite>/**</cite>, that is it may be of the form
+<cite>root_dir/**</cite>. In this case, the directory <cite>root_dir</cite> and all of its
+subdirectories, recursively, have to be searched for sources. 
+When a switch `-d'
+is specified, the current working directory will not be searched for source
+files, unless it is explicitly specified with a `-d'
+or `-D' switch. 
+Several switches `-d' may be specified. 
+If <code>dir</code> is a relative path, it is relative to the directory of
+the configuration pragmas file specified with switch
+`-c',
+or to the directory of the project file specified with switch
+`-P' or,
+if neither switch `-c'
+nor switch `-P' are specified, it is relative to the
+current working directory. The directory
+specified with switch `-d' must exist and be readable. 
+</dl>
+
+<p><a name="index-g_t_002dD-_0028gnatname_0029-49"></a>
+
+     <dl>
+<dt><code>-D`filename'</code><dd>
+Look for source files in all directories listed in text file <code>filename</code>. 
+There may be zero, one or more spaces between `-D'
+and <code>filename</code>. 
+<code>filename</code> must be an existing, readable text file. 
+Each nonempty line in <code>filename</code> must be a directory. 
+Specifying switch `-D' is equivalent to specifying as many
+switches `-d' as there are nonempty lines in
+<code>file</code>.
+
+     <br><dt><code>-eL</code><dd>
+Follow symbolic links when processing project files.
+
+     <p><a name="index-g_t_002df-_0028gnatname_0029-50"></a>
+<br><dt><code>-f`pattern'</code><dd>
+Foreign patterns. Using this switch, it is possible to add sources of languages
+other than Ada to the list of sources of a project file. 
+It is only useful if a -P switch is used. 
+For example,
+
+     <pre class="example">         gnatname -Pprj -f"*.c" "*.ada"
+</pre>
+     <p>will look for Ada units in all files with the <code>.ada</code> extension,
+and will add to the list of file for project <code>prj.gpr</code> the C files
+with extension <code>.c</code>.
+
+     <p><a name="index-g_t_002dh-_0028gnatname_0029-51"></a>
+<br><dt><code>-h</code><dd>
+Output usage (help) information. The output is written to <code>stdout</code>.
+
+     <p><a name="index-g_t_002dP-_0028gnatname_0029-52"></a>
+<br><dt><code>-P`proj'</code><dd>
+Create or update project file <code>proj</code>. There may be zero, one or more space
+between `-P' and <code>proj</code>. <code>proj</code> may include directory
+information. <code>proj</code> must be writable. 
+There may be only one switch `-P'. 
+When a switch `-P' is specified,
+no switch `-c' may be specified. 
+On all platforms, except on VMS, when <cite>gnatname</cite> is invoked for an
+existing project file &lt;proj&gt;.gpr, a backup copy of the project file is created
+in the project directory with file name &lt;proj&gt;.gpr.saved_x. 'x' is the first
+non negative number that makes this backup copy a new file.
+
+     <p><a name="index-g_t_002dv-_0028gnatname_0029-53"></a>
+<br><dt><code>-v</code><dd>
+Verbose mode. Output detailed explanation of behavior to <code>stdout</code>. 
+This includes name of the file written, the name of the directories to search
+and, for each file in those directories whose name matches at least one of
+the Naming Patterns, an indication of whether the file contains a unit,
+and if so the name of the unit. 
+</dl>
+
+<p><a name="index-g_t_002dv-_002dv-_0028gnatname_0029-54"></a>
+
+     <dl>
+<dt><code>-v -v</code><dd>
+Very Verbose mode. In addition to the output produced in verbose mode,
+for each file in the searched directories whose name matches none of
+the Naming Patterns, an indication is given that there is no match.
+
+     <p><a name="index-g_t_002dx-_0028gnatname_0029-55"></a>
+<br><dt><code>-x`pattern'</code><dd>
+Excluded patterns. Using this switch, it is possible to exclude some files
+that would match the name patterns. For example,
+
+     <pre class="example">         gnatname -x "*_nt.ada" "*.ada"
+</pre>
+     <p>will look for Ada units in all files with the <code>.ada</code> extension,
+except those whose names end with <code>_nt.ada</code>. 
+</dl>
+
+</body></html>
+

@@ -1,0 +1,69 @@
+<html lang="en">
+<head>
+<title>Pragma Compile_Time_Error - GNAT Reference Manual</title>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+<meta name="description" content="GNAT Reference Manual">
+<meta name="generator" content="makeinfo 4.13">
+<link title="Top" rel="start" href="index.html#Top">
+<link rel="up" href="Implementation-Defined-Pragmas.html#Implementation-Defined-Pragmas" title="Implementation Defined Pragmas">
+<link rel="prev" href="Pragma-Common_005fObject.html#Pragma-Common_005fObject" title="Pragma Common_Object">
+<link rel="next" href="Pragma-Compile_005fTime_005fWarning.html#Pragma-Compile_005fTime_005fWarning" title="Pragma Compile_Time_Warning">
+<link href="http://www.gnu.org/software/texinfo/" rel="generator-home" title="Texinfo Homepage">
+<!--
+
+     GNAT Reference Manual , March 24, 2015
+
+     AdaCore
+
+     Copyright (C) 2008-2015, Free Software Foundation
+-->
+<meta http-equiv="Content-Style-Type" content="text/css">
+<style type="text/css"><!--
+  pre.display { font-family:inherit }
+  pre.format  { font-family:inherit }
+  pre.smalldisplay { font-family:inherit; font-size:smaller }
+  pre.smallformat  { font-family:inherit; font-size:smaller }
+  pre.smallexample { font-size:smaller }
+  pre.smalllisp    { font-size:smaller }
+  span.sc    { font-variant:small-caps }
+  span.roman { font-family:serif; font-weight:normal; } 
+  span.sansserif { font-family:sans-serif; font-weight:normal; } 
+--></style>
+</head>
+<body>
+<div class="node">
+<a name="Pragma-Compile_Time_Error"></a>
+<a name="Pragma-Compile_005fTime_005fError"></a>
+<p>
+Next:&nbsp;<a rel="next" accesskey="n" href="Pragma-Compile_005fTime_005fWarning.html#Pragma-Compile_005fTime_005fWarning">Pragma Compile_Time_Warning</a>,
+Previous:&nbsp;<a rel="previous" accesskey="p" href="Pragma-Common_005fObject.html#Pragma-Common_005fObject">Pragma Common_Object</a>,
+Up:&nbsp;<a rel="up" accesskey="u" href="Implementation-Defined-Pragmas.html#Implementation-Defined-Pragmas">Implementation Defined Pragmas</a>
+<hr>
+</div>
+
+<p><a name="gnat_005frm_002fimplementation_005fdefined_005fpragmas-pragma_002dcompile_002dtime_002derror"></a><a name="g_t35"></a>
+
+<h3 class="section">2.27 Pragma Compile_Time_Error</h3>
+
+<p>Syntax:
+
+<pre class="example">    pragma Compile_Time_Error
+             (boolean_EXPRESSION, static_string_EXPRESSION);
+</pre>
+<p>This pragma can be used to generate additional compile time
+error messages. It
+is particularly useful in generics, where errors can be issued for
+specific problematic instantiations. The first parameter is a boolean
+expression. The pragma is effective only if the value of this expression
+is known at compile time, and has the value True. The set of expressions
+whose values are known at compile time includes all static boolean
+expressions, and also other values which the compiler can determine
+at compile time (e.g., the size of a record type set by an explicit
+size representation clause, or the value of a variable which was
+initialized to a constant and is known not to have been modified). 
+If these conditions are met, an error message is generated using
+the value given as the second argument. This string value may contain
+embedded ASCII.LF characters to break the message into multiple lines.
+
+</body></html>
+

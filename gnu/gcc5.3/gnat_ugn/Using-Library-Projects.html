@@ -1,0 +1,119 @@
+<html lang="en">
+<head>
+<title>Using Library Projects - GNAT User's Guide for Native Platforms</title>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+<meta name="description" content="GNAT User's Guide for Native Platforms">
+<meta name="generator" content="makeinfo 4.13">
+<link title="Top" rel="start" href="index.html#Top">
+<link rel="up" href="Library-Projects.html#Library-Projects" title="Library Projects">
+<link rel="prev" href="Building-Libraries.html#Building-Libraries" title="Building Libraries">
+<link rel="next" href="Stand_002dalone-Library-Projects.html#Stand_002dalone-Library-Projects" title="Stand-alone Library Projects">
+<link href="http://www.gnu.org/software/texinfo/" rel="generator-home" title="Texinfo Homepage">
+<!--
+
+     GNAT User's Guide for Native Platforms , March 24, 2015
+
+     AdaCore
+
+     Copyright (C) 2008-2015, Free Software Foundation
+-->
+<meta http-equiv="Content-Style-Type" content="text/css">
+<style type="text/css"><!--
+  pre.display { font-family:inherit }
+  pre.format  { font-family:inherit }
+  pre.smalldisplay { font-family:inherit; font-size:smaller }
+  pre.smallformat  { font-family:inherit; font-size:smaller }
+  pre.smallexample { font-size:smaller }
+  pre.smalllisp    { font-size:smaller }
+  span.sc    { font-variant:small-caps }
+  span.roman { font-family:serif; font-weight:normal; } 
+  span.sansserif { font-family:sans-serif; font-weight:normal; } 
+--></style>
+</head>
+<body>
+<div class="node">
+<a name="Using-Library-Projects"></a>
+<p>
+Next:&nbsp;<a rel="next" accesskey="n" href="Stand_002dalone-Library-Projects.html#Stand_002dalone-Library-Projects">Stand-alone Library Projects</a>,
+Previous:&nbsp;<a rel="previous" accesskey="p" href="Building-Libraries.html#Building-Libraries">Building Libraries</a>,
+Up:&nbsp;<a rel="up" accesskey="u" href="Library-Projects.html#Library-Projects">Library Projects</a>
+<hr>
+</div>
+
+<p><a name="gnat_005fugn_002fgnat_005fproject_005fmanager-id22"></a><a name="g_t17a"></a><a name="gnat_005fugn_002fgnat_005fproject_005fmanager-using_002dlibrary_002dprojects"></a><a name="g_t17b"></a>
+
+<h4 class="subsection">5.5.2 Using Library Projects</h4>
+
+<p>When the builder detects that a project file is a library project file, it
+recompiles all sources of the project that need recompilation and rebuild the
+library if any of the sources have been recompiled. It then groups all object
+files into a single file, which is a shared or a static library. This library
+can later on be linked with multiple executables. Note that the use
+of shard libraries reduces the size of the final executable and can also reduce
+the memory footprint at execution time when the library is shared among several
+executables.
+
+<p>It is also possible to build `multi-language libraries'. When using
+`gprbuild' as a builder, multi-language library projects allow naturally
+the creation of multi-language libraries . `gnatmake', does not try to
+compile non Ada sources. However, when the project is multi-language, it will
+automatically link all object files found in the object directory, whether or
+not they were compiled from an Ada source file. This specific behavior does not
+apply to Ada-only projects which only take into account the objects
+corresponding to the sources of the project.
+
+<p>A non-library project can import a library project. When the builder is invoked
+on the former, the library of the latter is only rebuilt when absolutely
+necessary. For instance, if a unit of the library is not up-to-date but none of
+the executables need this unit, then the unit is not recompiled and the library
+is not reassembled.  For instance, let's assume in our example that logging has
+the following sources: <code>log1.ads</code>, <code>log1.adb</code>, <code>log2.ads</code> and
+<code>log2.adb</code>. If <code>log1.adb</code> has been modified, then the library
+<code>liblogging</code> will be rebuilt when compiling all the sources of
+<cite>Build</cite> only if <code>proc.ads</code>, <code>pack.ads</code> or <code>pack.adb</code>
+include a <cite>"with Log1"</cite>.
+
+<p>To ensure that all the sources in the <cite>Logging</cite> library are
+up to date, and that all the sources of <cite>Build</cite> are also up to date,
+the following two commands need to be used:
+
+<pre class="example">    gnatmake -Plogging.gpr
+    gnatmake -Pbuild.gpr
+</pre>
+<p>All <code>ALI</code> files will also be copied from the object directory to the
+library directory. To build executables, `gnatmake' will use the
+library rather than the individual object files.
+
+<p>Library projects can also be useful to describe a library that needs to be used
+but, for some reason, cannot be rebuilt. For instance, it is the case when some
+of the library sources are not available. Such library projects need to use the
+<cite>Externally_Built</cite> attribute as in the example below:
+
+<!-- code-block: ada-project -->
+<!-- library project Extern_Lib is -->
+<!-- for Languages    use ("Ada", "C"); -->
+<!-- for Source_Dirs  use ("lib_src"); -->
+<!-- for Library_Dir  use "lib2"; -->
+<!-- for Library_Kind use "dynamic"; -->
+<!-- for Library_Name use "l2"; -->
+<!-- for Externally_Built use "true";  -  <<<< -->
+<!-- end Extern_Lib; -->
+<p>In the case of externally built libraries, the <cite>Object_Dir</cite>
+attribute does not need to be specified because it will never be
+used.
+
+<p>The main effect of using such an externally built library project is mostly to
+affect the linker command in order to reference the desired library. It can
+also be achieved by using <cite>Linker.Linker_Options</cite> or <cite>Linker.Switches</cite>
+in the project corresponding to the subsystem needing this external library. 
+This latter method is more straightforward in simple cases but when several
+subsystems depend upon the same external library, finding the proper place
+for the <cite>Linker.Linker_Options</cite> might not be easy and if it is
+not placed properly, the final link command is likely to present ordering issues. 
+In such a situation, it is better to use the externally built library project
+so that all other subsystems depending on it can declare this dependency thanks
+to a project `with' clause, which in turn will trigger the builder to find
+the proper order of libraries in the final link command.
+
+</body></html>
+

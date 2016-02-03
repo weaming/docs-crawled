@@ -1,0 +1,138 @@
+<html lang="en">
+<head>
+<title>Package Linker Attributes - GNAT User's Guide for Native Platforms</title>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+<meta name="description" content="GNAT User's Guide for Native Platforms">
+<meta name="generator" content="makeinfo 4.13">
+<link title="Top" rel="start" href="index.html#Top">
+<link rel="up" href="Attributes.html#Attributes" title="Attributes">
+<link rel="prev" href="Package-Install-Attributes.html#Package-Install-Attributes" title="Package Install Attributes">
+<link rel="next" href="Package-Naming-Attributes.html#Package-Naming-Attributes" title="Package Naming Attributes">
+<link href="http://www.gnu.org/software/texinfo/" rel="generator-home" title="Texinfo Homepage">
+<!--
+
+     GNAT User's Guide for Native Platforms , March 24, 2015
+
+     AdaCore
+
+     Copyright (C) 2008-2015, Free Software Foundation
+-->
+<meta http-equiv="Content-Style-Type" content="text/css">
+<style type="text/css"><!--
+  pre.display { font-family:inherit }
+  pre.format  { font-family:inherit }
+  pre.smalldisplay { font-family:inherit; font-size:smaller }
+  pre.smallformat  { font-family:inherit; font-size:smaller }
+  pre.smallexample { font-size:smaller }
+  pre.smalllisp    { font-size:smaller }
+  span.sc    { font-variant:small-caps }
+  span.roman { font-family:serif; font-weight:normal; } 
+  span.sansserif { font-family:sans-serif; font-weight:normal; } 
+--></style>
+</head>
+<body>
+<div class="node">
+<a name="Package-Linker-Attributes"></a>
+<p>
+Next:&nbsp;<a rel="next" accesskey="n" href="Package-Naming-Attributes.html#Package-Naming-Attributes">Package Naming Attributes</a>,
+Previous:&nbsp;<a rel="previous" accesskey="p" href="Package-Install-Attributes.html#Package-Install-Attributes">Package Install Attributes</a>,
+Up:&nbsp;<a rel="up" accesskey="u" href="Attributes.html#Attributes">Attributes</a>
+<hr>
+</div>
+
+<p><a name="gnat_005fugn_002fgnat_005fproject_005fmanager-id60"></a><a name="g_t1b8"></a><a name="gnat_005fugn_002fgnat_005fproject_005fmanager-package_002dlinker_002dattributes"></a><a name="g_t1b9"></a>
+
+<h5 class="subsubsection">5.9.10.11 Package Linker Attributes</h5>
+
+     <ul>
+<li>`General'
+
+          <ul>
+<li>`Required_Switches': list
+
+          <p>Value is a list of switches that are required when invoking the linker to link
+an executable.
+
+          <li>`Default_Switches': list, indexed, case-insensitive index
+
+          <p>Index is a language name. Value is a list of switches for the linker when
+linking an executable for a main source of the language, when there is no
+applicable Switches.
+
+          <li>`Leading_Switches': list, optional index, indexed,
+case-insensitive index, others allowed
+
+          <p>Index is a source file name or a language name. Value is the list of switches
+to be used at the beginning of the command line when invoking the linker to
+build an executable for the source or for its language.
+
+          <li>`Switches': list, optional index, indexed, case-insensitive index,
+others allowed
+
+          <p>Index is a source file name or a language name. Value is the list of switches
+to be used when invoking the linker to build an executable for the source or
+for its language.
+
+          <li>`Trailing_Switches': list, optional index, indexed,
+case-insensitive index, others allowed
+
+          <p>Index is a source file name or a language name. Value is the list of switches
+to be used at the end of the command line when invoking the linker to
+build an executable for the source or for its language. These switches may
+override the Required_Switches.
+
+          <li>`Linker_Options': list
+
+          <p>Value is a list of switches/options that are to be added when linking an
+executable from a project importing the current project directly or indirectly. 
+Linker_Options are not used when linking an executable from the current
+project.
+
+          <li>`Map_File_Option': single
+
+          <p>Value is the switch to specify the map file name that the linker needs to
+create. 
+</ul>
+
+     <li>`Configuration - Linking'
+
+          <ul>
+<li>`Driver': single
+
+          <p>Value is the name of the linker executable. 
+</ul>
+
+     <li>`Configuration - Response Files'
+
+          <ul>
+<li>`Max_Command_Line_Length': single
+
+          <p>Value is the maximum number of character in the command line when invoking
+the linker to link an executable.
+
+          <li>`Response_File_Format': single
+
+          <p>Indicates the kind of response file to create when the length of the linking
+command line is too large. Only authorized case-insensitive values are "none",
+"gnu", "object_list", "gcc_gnu", "gcc_option_list" and "gcc_object_list".
+
+          <li>`Response_File_Switches': list
+
+          <p>Value is the list of switches to specify a response file to the linker. 
+</ul>
+     </ul>
+
+<!-- only PRO or GPL -->
+<!-- .. _Package_Metrics_Attribute: -->
+<!-- Package Metrics Attribute -->
+<!-- ^^^^^^^^^^^^^^^^^^^^^^^^^ -->
+<!-- * **Default_Switches**: list, indexed, case-insensitive index -->
+<!-- Index is a language name. Value is a list of switches to be used when invoking -->
+<!-- `gnatmetric` for a source of the language, if there is no applicable -->
+<!-- attribute Switches. -->
+<!-- * **Switches**: list, optional index, indexed, case-insensitive index, -->
+<!-- others allowed -->
+<!-- Index is a source file name. Value is the list of switches to be used when -->
+<!-- invoking `gnatmetric` for the source. -->
+</body></html>
+

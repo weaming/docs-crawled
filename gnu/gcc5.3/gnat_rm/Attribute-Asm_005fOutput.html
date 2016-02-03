@@ -1,0 +1,62 @@
+<html lang="en">
+<head>
+<title>Attribute Asm_Output - GNAT Reference Manual</title>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+<meta name="description" content="GNAT Reference Manual">
+<meta name="generator" content="makeinfo 4.13">
+<link title="Top" rel="start" href="index.html#Top">
+<link rel="up" href="Implementation-Defined-Attributes.html#Implementation-Defined-Attributes" title="Implementation Defined Attributes">
+<link rel="prev" href="Attribute-Asm_005fInput.html#Attribute-Asm_005fInput" title="Attribute Asm_Input">
+<link rel="next" href="Attribute-Atomic_005fAlways_005fLock_005fFree.html#Attribute-Atomic_005fAlways_005fLock_005fFree" title="Attribute Atomic_Always_Lock_Free">
+<link href="http://www.gnu.org/software/texinfo/" rel="generator-home" title="Texinfo Homepage">
+<!--
+
+     GNAT Reference Manual , March 24, 2015
+
+     AdaCore
+
+     Copyright (C) 2008-2015, Free Software Foundation
+-->
+<meta http-equiv="Content-Style-Type" content="text/css">
+<style type="text/css"><!--
+  pre.display { font-family:inherit }
+  pre.format  { font-family:inherit }
+  pre.smalldisplay { font-family:inherit; font-size:smaller }
+  pre.smallformat  { font-family:inherit; font-size:smaller }
+  pre.smallexample { font-size:smaller }
+  pre.smalllisp    { font-size:smaller }
+  span.sc    { font-variant:small-caps }
+  span.roman { font-family:serif; font-weight:normal; } 
+  span.sansserif { font-family:sans-serif; font-weight:normal; } 
+--></style>
+</head>
+<body>
+<div class="node">
+<a name="Attribute-Asm_Output"></a>
+<a name="Attribute-Asm_005fOutput"></a>
+<p>
+Next:&nbsp;<a rel="next" accesskey="n" href="Attribute-Atomic_005fAlways_005fLock_005fFree.html#Attribute-Atomic_005fAlways_005fLock_005fFree">Attribute Atomic_Always_Lock_Free</a>,
+Previous:&nbsp;<a rel="previous" accesskey="p" href="Attribute-Asm_005fInput.html#Attribute-Asm_005fInput">Attribute Asm_Input</a>,
+Up:&nbsp;<a rel="up" accesskey="u" href="Implementation-Defined-Attributes.html#Implementation-Defined-Attributes">Implementation Defined Attributes</a>
+<hr>
+</div>
+
+<p><a name="gnat_005frm_002fimplementation_005fdefined_005fattributes-attribute_002dasm_002doutput"></a><a name="g_t11b"></a>
+
+<h3 class="section">4.4 Attribute Asm_Output</h3>
+
+<p><a name="index-Asm_005fOutput-162"></a>
+The <cite>Asm_Output</cite> attribute denotes a function that takes two
+parameters.  The first is a string, the second is the name of a variable
+of the type designated by the attribute prefix.  The first (string)
+argument is required to be a static expression and designates the
+constraint for the parameter (e.g., what kind of register is
+required).  The second argument is the variable to be updated with the
+result.  The possible values for constraint are the same as those used in
+the RTL, and are dependent on the configuration file used to build the
+GCC back end.  If there are no output operands, then this argument may
+either be omitted, or explicitly given as <cite>No_Output_Operands</cite>. 
+<a href="11a.html#g_t11a">Machine Code Insertions</a>
+
+</body></html>
+

@@ -1,0 +1,132 @@
+<html lang="en">
+<head>
+<title>Interfacing to C Streams - GNAT Reference Manual</title>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+<meta name="description" content="GNAT Reference Manual">
+<meta name="generator" content="makeinfo 4.13">
+<link title="Top" rel="start" href="index.html#Top">
+<link rel="up" href="The-Implementation-of-Standard-I_002fO.html#The-Implementation-of-Standard-I_002fO" title="The Implementation of Standard I/O">
+<link rel="prev" href="Operations-on-C-Streams.html#Operations-on-C-Streams" title="Operations on C Streams">
+<link href="http://www.gnu.org/software/texinfo/" rel="generator-home" title="Texinfo Homepage">
+<!--
+
+     GNAT Reference Manual , March 24, 2015
+
+     AdaCore
+
+     Copyright (C) 2008-2015, Free Software Foundation
+-->
+<meta http-equiv="Content-Style-Type" content="text/css">
+<style type="text/css"><!--
+  pre.display { font-family:inherit }
+  pre.format  { font-family:inherit }
+  pre.smalldisplay { font-family:inherit; font-size:smaller }
+  pre.smallformat  { font-family:inherit; font-size:smaller }
+  pre.smallexample { font-size:smaller }
+  pre.smalllisp    { font-size:smaller }
+  span.sc    { font-variant:small-caps }
+  span.roman { font-family:serif; font-weight:normal; } 
+  span.sansserif { font-family:sans-serif; font-weight:normal; } 
+--></style>
+</head>
+<body>
+<div class="node">
+<a name="Interfacing-to-C-Streams"></a>
+<p>
+Previous:&nbsp;<a rel="previous" accesskey="p" href="Operations-on-C-Streams.html#Operations-on-C-Streams">Operations on C Streams</a>,
+Up:&nbsp;<a rel="up" accesskey="u" href="The-Implementation-of-Standard-I_002fO.html#The-Implementation-of-Standard-I_002fO">The Implementation of Standard I/O</a>
+<hr>
+</div>
+
+<p><a name="gnat_005frm_002fthe_005fimplementation_005fof_005fstandard_005fi_005fo-interfacing_002dto_002dc_002dstreams"></a><a name="g_t274"></a><a name="gnat_005frm_002fthe_005fimplementation_005fof_005fstandard_005fi_005fo-id26"></a><a name="g_t275"></a>
+
+<h3 class="section">11.15 Interfacing to C Streams</h3>
+
+<p>The packages in this section permit interfacing Ada files to C Stream
+operations.
+
+<pre class="example">    with Interfaces.C_Streams;
+    package Ada.Sequential_IO.C_Streams is
+       function C_Stream (F : File_Type)
+          return Interfaces.C_Streams.FILEs;
+       procedure Open
+         (File : in out File_Type;
+          Mode : in File_Mode;
+          C_Stream : in Interfaces.C_Streams.FILEs;
+          Form : in String := "");
+    end Ada.Sequential_IO.C_Streams;
+    
+     with Interfaces.C_Streams;
+     package Ada.Direct_IO.C_Streams is
+        function C_Stream (F : File_Type)
+           return Interfaces.C_Streams.FILEs;
+        procedure Open
+          (File : in out File_Type;
+           Mode : in File_Mode;
+           C_Stream : in Interfaces.C_Streams.FILEs;
+           Form : in String := "");
+     end Ada.Direct_IO.C_Streams;
+    
+     with Interfaces.C_Streams;
+     package Ada.Text_IO.C_Streams is
+        function C_Stream (F : File_Type)
+           return Interfaces.C_Streams.FILEs;
+        procedure Open
+          (File : in out File_Type;
+           Mode : in File_Mode;
+           C_Stream : in Interfaces.C_Streams.FILEs;
+           Form : in String := "");
+     end Ada.Text_IO.C_Streams;
+    
+     with Interfaces.C_Streams;
+     package Ada.Wide_Text_IO.C_Streams is
+        function C_Stream (F : File_Type)
+           return Interfaces.C_Streams.FILEs;
+        procedure Open
+          (File : in out File_Type;
+           Mode : in File_Mode;
+           C_Stream : in Interfaces.C_Streams.FILEs;
+           Form : in String := "");
+    end Ada.Wide_Text_IO.C_Streams;
+    
+     with Interfaces.C_Streams;
+     package Ada.Wide_Wide_Text_IO.C_Streams is
+        function C_Stream (F : File_Type)
+           return Interfaces.C_Streams.FILEs;
+        procedure Open
+          (File : in out File_Type;
+           Mode : in File_Mode;
+           C_Stream : in Interfaces.C_Streams.FILEs;
+           Form : in String := "");
+    end Ada.Wide_Wide_Text_IO.C_Streams;
+    
+    with Interfaces.C_Streams;
+    package Ada.Stream_IO.C_Streams is
+       function C_Stream (F : File_Type)
+          return Interfaces.C_Streams.FILEs;
+       procedure Open
+         (File : in out File_Type;
+          Mode : in File_Mode;
+          C_Stream : in Interfaces.C_Streams.FILEs;
+          Form : in String := "");
+    end Ada.Stream_IO.C_Streams;
+</pre>
+<p>In each of these six packages, the <cite>C_Stream</cite> function obtains the
+<cite>FILE</cite> pointer from a currently opened Ada file.  It is then
+possible to use the <cite>Interfaces.C_Streams</cite> package to operate on
+this stream, or the stream can be passed to a C program which can
+operate on it directly.  Of course the program is responsible for
+ensuring that only appropriate sequences of operations are executed.
+
+<p>One particular use of relevance to an Ada program is that the
+<cite>setvbuf</cite> function can be used to control the buffering of the
+stream used by an Ada file.  In the absence of such a call the standard
+default buffering is used.
+
+<p>The <cite>Open</cite> procedures in these packages open a file giving an
+existing C Stream instead of a file name.  Typically this stream is
+imported from a C program, allowing an Ada file to operate on an
+existing C file.
+
+</body></html>
+

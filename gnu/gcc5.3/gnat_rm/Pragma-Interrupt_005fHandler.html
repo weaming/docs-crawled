@@ -1,0 +1,62 @@
+<html lang="en">
+<head>
+<title>Pragma Interrupt_Handler - GNAT Reference Manual</title>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+<meta name="description" content="GNAT Reference Manual">
+<meta name="generator" content="makeinfo 4.13">
+<link title="Top" rel="start" href="index.html#Top">
+<link rel="up" href="Implementation-Defined-Pragmas.html#Implementation-Defined-Pragmas" title="Implementation Defined Pragmas">
+<link rel="prev" href="Pragma-Interface_005fName.html#Pragma-Interface_005fName" title="Pragma Interface_Name">
+<link rel="next" href="Pragma-Interrupt_005fState.html#Pragma-Interrupt_005fState" title="Pragma Interrupt_State">
+<link href="http://www.gnu.org/software/texinfo/" rel="generator-home" title="Texinfo Homepage">
+<!--
+
+     GNAT Reference Manual , March 24, 2015
+
+     AdaCore
+
+     Copyright (C) 2008-2015, Free Software Foundation
+-->
+<meta http-equiv="Content-Style-Type" content="text/css">
+<style type="text/css"><!--
+  pre.display { font-family:inherit }
+  pre.format  { font-family:inherit }
+  pre.smalldisplay { font-family:inherit; font-size:smaller }
+  pre.smallformat  { font-family:inherit; font-size:smaller }
+  pre.smallexample { font-size:smaller }
+  pre.smalllisp    { font-size:smaller }
+  span.sc    { font-variant:small-caps }
+  span.roman { font-family:serif; font-weight:normal; } 
+  span.sansserif { font-family:sans-serif; font-weight:normal; } 
+--></style>
+</head>
+<body>
+<div class="node">
+<a name="Pragma-Interrupt_Handler"></a>
+<a name="Pragma-Interrupt_005fHandler"></a>
+<p>
+Next:&nbsp;<a rel="next" accesskey="n" href="Pragma-Interrupt_005fState.html#Pragma-Interrupt_005fState">Pragma Interrupt_State</a>,
+Previous:&nbsp;<a rel="previous" accesskey="p" href="Pragma-Interface_005fName.html#Pragma-Interface_005fName">Pragma Interface_Name</a>,
+Up:&nbsp;<a rel="up" accesskey="u" href="Implementation-Defined-Pragmas.html#Implementation-Defined-Pragmas">Implementation Defined Pragmas</a>
+<hr>
+</div>
+
+<p><a name="gnat_005frm_002fimplementation_005fdefined_005fpragmas-pragma_002dinterrupt_002dhandler"></a><a name="g_t71"></a>
+
+<h3 class="section">2.86 Pragma Interrupt_Handler</h3>
+
+<p>Syntax:
+
+<pre class="example">    pragma Interrupt_Handler (procedure_LOCAL_NAME);
+</pre>
+<p>This program unit pragma is supported for parameterless protected procedures
+as described in Annex C of the Ada Reference Manual. On the AAMP target
+the pragma can also be specified for nonprotected parameterless procedures
+that are declared at the library level (which includes procedures
+declared at the top level of a library package). In the case of AAMP,
+when this pragma is applied to a nonprotected procedure, the instruction
+<cite>IERET</cite> is generated for returns from the procedure, enabling
+maskable interrupts, in place of the normal return instruction.
+
+</body></html>
+

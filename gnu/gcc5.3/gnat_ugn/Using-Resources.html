@@ -1,0 +1,58 @@
+<html lang="en">
+<head>
+<title>Using Resources - GNAT User's Guide for Native Platforms</title>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+<meta name="description" content="GNAT User's Guide for Native Platforms">
+<meta name="generator" content="makeinfo 4.13">
+<link title="Top" rel="start" href="index.html#Top">
+<link rel="up" href="GNAT-and-Windows-Resources.html#GNAT-and-Windows-Resources" title="GNAT and Windows Resources">
+<link rel="prev" href="Compiling-Resources.html#Compiling-Resources" title="Compiling Resources">
+<link href="http://www.gnu.org/software/texinfo/" rel="generator-home" title="Texinfo Homepage">
+<!--
+
+     GNAT User's Guide for Native Platforms , March 24, 2015
+
+     AdaCore
+
+     Copyright (C) 2008-2015, Free Software Foundation
+-->
+<meta http-equiv="Content-Style-Type" content="text/css">
+<style type="text/css"><!--
+  pre.display { font-family:inherit }
+  pre.format  { font-family:inherit }
+  pre.smalldisplay { font-family:inherit; font-size:smaller }
+  pre.smallformat  { font-family:inherit; font-size:smaller }
+  pre.smallexample { font-size:smaller }
+  pre.smalllisp    { font-size:smaller }
+  span.sc    { font-variant:small-caps }
+  span.roman { font-family:serif; font-weight:normal; } 
+  span.sansserif { font-family:sans-serif; font-weight:normal; } 
+--></style>
+</head>
+<body>
+<div class="node">
+<a name="Using-Resources"></a>
+<p>
+Previous:&nbsp;<a rel="previous" accesskey="p" href="Compiling-Resources.html#Compiling-Resources">Compiling Resources</a>,
+Up:&nbsp;<a rel="up" accesskey="u" href="GNAT-and-Windows-Resources.html#GNAT-and-Windows-Resources">GNAT and Windows Resources</a>
+<hr>
+</div>
+
+<p><a name="gnat_005fugn_002fplatform_005fspecific_005finformation-id36"></a><a name="g_t2a0"></a><a name="gnat_005fugn_002fplatform_005fspecific_005finformation-using_002dresources"></a><a name="g_t2a1"></a>
+
+<h5 class="subsubsection">9.3.5.23 Using Resources</h5>
+
+<p><a name="index-Resources-1132"></a><a name="index-using-1133"></a>
+To include the resource file in your program just add the
+GNAT-compatible object file for the resource(s) to the linker
+arguments. With `gnatmake' this is done by using the `-largs'
+option:
+
+<blockquote>
+
+<pre class="example">    $ gnatmake myprog -largs myres.o
+</pre>
+</blockquote>
+
+</body></html>
+

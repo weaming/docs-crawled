@@ -1,0 +1,92 @@
+<html lang="en">
+<head>
+<title>Pragma Unevaluated_Use_Of_Old - GNAT Reference Manual</title>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+<meta name="description" content="GNAT Reference Manual">
+<meta name="generator" content="makeinfo 4.13">
+<link title="Top" rel="start" href="index.html#Top">
+<link rel="up" href="Implementation-Defined-Pragmas.html#Implementation-Defined-Pragmas" title="Implementation Defined Pragmas">
+<link rel="prev" href="Pragma-Unchecked_005fUnion.html#Pragma-Unchecked_005fUnion" title="Pragma Unchecked_Union">
+<link rel="next" href="Pragma-Unimplemented_005fUnit.html#Pragma-Unimplemented_005fUnit" title="Pragma Unimplemented_Unit">
+<link href="http://www.gnu.org/software/texinfo/" rel="generator-home" title="Texinfo Homepage">
+<!--
+
+     GNAT Reference Manual , March 24, 2015
+
+     AdaCore
+
+     Copyright (C) 2008-2015, Free Software Foundation
+-->
+<meta http-equiv="Content-Style-Type" content="text/css">
+<style type="text/css"><!--
+  pre.display { font-family:inherit }
+  pre.format  { font-family:inherit }
+  pre.smalldisplay { font-family:inherit; font-size:smaller }
+  pre.smallformat  { font-family:inherit; font-size:smaller }
+  pre.smallexample { font-size:smaller }
+  pre.smalllisp    { font-size:smaller }
+  span.sc    { font-variant:small-caps }
+  span.roman { font-family:serif; font-weight:normal; } 
+  span.sansserif { font-family:sans-serif; font-weight:normal; } 
+--></style>
+</head>
+<body>
+<div class="node">
+<a name="Pragma-Unevaluated_Use_Of_Old"></a>
+<a name="Pragma-Unevaluated_005fUse_005fOf_005fOld"></a>
+<p>
+Next:&nbsp;<a rel="next" accesskey="n" href="Pragma-Unimplemented_005fUnit.html#Pragma-Unimplemented_005fUnit">Pragma Unimplemented_Unit</a>,
+Previous:&nbsp;<a rel="previous" accesskey="p" href="Pragma-Unchecked_005fUnion.html#Pragma-Unchecked_005fUnion">Pragma Unchecked_Union</a>,
+Up:&nbsp;<a rel="up" accesskey="u" href="Implementation-Defined-Pragmas.html#Implementation-Defined-Pragmas">Implementation Defined Pragmas</a>
+<hr>
+</div>
+
+<p><a name="gnat_005frm_002fimplementation_005fdefined_005fpragmas-pragma_002dunevaluated_002duse_002dof_002dold"></a><a name="d0"></a>
+
+<h3 class="section">2.177 Pragma Unevaluated_Use_Of_Old</h3>
+
+<p><a name="index-Attribute-Old-97"></a>
+<a name="index-Attribute-Loop_005fEntry-98"></a>
+<a name="index-Unevaluated_005fUse_005fOf_005fOld-99"></a>
+Syntax:
+
+<pre class="example">    pragma Unevaluated_Use_Of_Old (Error | Warn | Allow);
+</pre>
+<p>This pragma controls the processing of attributes Old and Loop_Entry. 
+If either of these attributes is used in a potentially unevaluated
+expression  (e.g. the then or else parts of an if expression), then
+normally this usage is considered illegal if the prefix of the attribute
+is other than an entity name. The language requires this
+behavior for Old, and GNAT copies the same rule for Loop_Entry.
+
+<p>The reason for this rule is that otherwise, we can have a situation
+where we save the Old value, and this results in an exception, even
+though we might not evaluate the attribute. Consider this example:
+
+<pre class="example">    package UnevalOld is
+       K : Character;
+       procedure U (A : String; C : Boolean)  -- ERROR
+         with Post =&gt; (if C then A(1)'Old = K else True);
+    end;
+</pre>
+<p>If procedure U is called with a string with a lower bound of 2, and
+C false, then an exception would be raised trying to evaluate A(1)
+on entry even though the value would not be actually used.
+
+<p>Although the rule guarantees against this possibility, it is sometimes
+too restrictive. For example if we know that the string has a lower
+bound of 1, then we will never raise an exception. 
+The pragma <cite>Unevaluated_Use_Of_Old</cite> can be
+used to modify this behavior. If the argument is <cite>Error</cite> then an
+error is given (this is the default RM behavior). If the argument is
+<cite>Warn</cite> then the usage is allowed as legal but with a warning
+that an exception might be raised. If the argument is <cite>Allow</cite>
+then the usage is allowed as legal without generating a warning.
+
+<p>This pragma may appear as a configuration pragma, or in a declarative
+part or package specification. In the latter case it applies to
+uses up to the end of the corresponding statement sequence or
+sequence of package declarations.
+
+</body></html>
+

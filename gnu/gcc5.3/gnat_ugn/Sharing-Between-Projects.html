@@ -1,0 +1,137 @@
+<html lang="en">
+<head>
+<title>Sharing Between Projects - GNAT User's Guide for Native Platforms</title>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+<meta name="description" content="GNAT User's Guide for Native Platforms">
+<meta name="generator" content="makeinfo 4.13">
+<link title="Top" rel="start" href="index.html#Top">
+<link rel="up" href="Organizing-Projects-into-Subsystems.html#Organizing-Projects-into-Subsystems" title="Organizing Projects into Subsystems">
+<link rel="prev" href="Cyclic-Project-Dependencies.html#Cyclic-Project-Dependencies" title="Cyclic Project Dependencies">
+<link rel="next" href="Global-Attributes.html#Global-Attributes" title="Global Attributes">
+<link href="http://www.gnu.org/software/texinfo/" rel="generator-home" title="Texinfo Homepage">
+<!--
+
+     GNAT User's Guide for Native Platforms , March 24, 2015
+
+     AdaCore
+
+     Copyright (C) 2008-2015, Free Software Foundation
+-->
+<meta http-equiv="Content-Style-Type" content="text/css">
+<style type="text/css"><!--
+  pre.display { font-family:inherit }
+  pre.format  { font-family:inherit }
+  pre.smalldisplay { font-family:inherit; font-size:smaller }
+  pre.smallformat  { font-family:inherit; font-size:smaller }
+  pre.smallexample { font-size:smaller }
+  pre.smalllisp    { font-size:smaller }
+  span.sc    { font-variant:small-caps }
+  span.roman { font-family:serif; font-weight:normal; } 
+  span.sansserif { font-family:sans-serif; font-weight:normal; } 
+--></style>
+</head>
+<body>
+<div class="node">
+<a name="Sharing-Between-Projects"></a>
+<p>
+Next:&nbsp;<a rel="next" accesskey="n" href="Global-Attributes.html#Global-Attributes">Global Attributes</a>,
+Previous:&nbsp;<a rel="previous" accesskey="p" href="Cyclic-Project-Dependencies.html#Cyclic-Project-Dependencies">Cyclic Project Dependencies</a>,
+Up:&nbsp;<a rel="up" accesskey="u" href="Organizing-Projects-into-Subsystems.html#Organizing-Projects-into-Subsystems">Organizing Projects into Subsystems</a>
+<hr>
+</div>
+
+<p><a name="gnat_005fugn_002fgnat_005fproject_005fmanager-sharing_002dbetween_002dprojects"></a><a name="g_t171"></a><a name="gnat_005fugn_002fgnat_005fproject_005fmanager-id17"></a><a name="g_t172"></a>
+
+<h4 class="subsection">5.3.3 Sharing Between Projects</h4>
+
+<p>When building an application, it is common to have similar needs in several of
+the projects corresponding to the subsystems under construction. For instance,
+they will all have the same compilation switches.
+
+<p>As seen before (see <a href="15e.html#g_t15e">Tools Options in Project Files</a>), setting compilation
+switches for all sources of a subsystem is simple: it is just a matter of
+adding a <cite>Compiler.Default_Switches</cite> attribute to each project files with
+the same value. Of course, that means duplication of data, and both places need
+to be changed in order to recompile the whole application with different
+switches. It can become a real problem if there are many subsystems and thus
+many project files to edit.
+
+<p>There are two main approaches to avoiding this duplication:
+
+     <ul>
+<li>Since <code>build.gpr</code> imports <code>logging.gpr</code>, we could change it
+to reference the attribute in Logging, either through a package renaming,
+or by referencing the attribute. The following example shows both cases:
+
+     <pre class="example">         project Logging is
+            package Compiler is
+               for Switches ("Ada")
+                   use ("-O2");
+            end Compiler;
+            package Binder is
+               for Switches ("Ada")
+                   use ("-E");
+            end Binder;
+         end Logging;
+         
+         with "logging.gpr";
+         project Build is
+            package Compiler renames Logging.Compiler;
+            package Binder is
+               for Switches ("Ada") use Logging.Binder'Switches ("Ada");
+            end Binder;
+         end Build;
+</pre>
+     <p>The solution used for <cite>Compiler</cite> gets the same value for all
+attributes of the package, but you cannot modify anything from the
+package (adding extra switches or some exceptions). The second
+version is more flexible, but more verbose.
+
+     <p>If you need to refer to the value of a variable in an imported
+project, rather than an attribute, the syntax is similar but uses
+a "." rather than an apostrophe. For instance:
+
+     <pre class="example">         with "imported";
+         project Main is
+            Var1 := Imported.Var;
+         end Main;
+</pre>
+     <li>The second approach is to define the switches in a third project. 
+That project is set up without any sources (so that, as opposed to
+the first example, none of the project plays a special role), and
+will only be used to define the attributes. Such a project is
+typically called <code>shared.gpr</code>.
+
+     <pre class="example">         abstract project Shared is
+            for Source_Files use ();   --  no sources
+            package Compiler is
+               for Switches ("Ada")
+                   use ("-O2");
+            end Compiler;
+         end Shared;
+         
+         with "shared.gpr";
+         project Logging is
+            package Compiler renames Shared.Compiler;
+         end Logging;
+         
+         with "shared.gpr";
+         project Build is
+            package Compiler renames Shared.Compiler;
+         end Build;
+</pre>
+     <p>As for the first example, we could have chosen to set the attributes
+one by one rather than to rename a package. The reason we explicitly
+indicate that <cite>Shared</cite> has no sources is so that it can be created
+in any directory and we are sure it shares no sources with <cite>Build</cite>
+or <cite>Logging</cite>, which of course would be invalid.
+
+     <p><a name="index-project-qualifier-_0028GNAT-Project-Manager_0029-823"></a>
+Note the additional use of the `abstract' qualifier in <code>shared.gpr</code>. 
+This qualifier is optional, but helps convey the message that we do not
+intend this project to have sources (see <a href="173.html#g_t173">Qualified Projects</a> for
+more qualifiers). 
+</ul>
+
+</body></html>
+

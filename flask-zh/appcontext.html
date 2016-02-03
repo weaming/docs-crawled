@@ -1,0 +1,208 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+  "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+
+
+<html xmlns="http://www.w3.org/1999/xhtml">
+  <head>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+    
+    <title>应用环境 &mdash; Flask 0.10 文档</title>
+    
+    <link rel="stylesheet" href="_static/flasky.css" type="text/css" />
+    <link rel="stylesheet" href="_static/pygments.css" type="text/css" />
+    
+    <script type="text/javascript">
+      var DOCUMENTATION_OPTIONS = {
+        URL_ROOT:    './',
+        VERSION:     '0.10',
+        COLLAPSE_INDEX: false,
+        FILE_SUFFIX: '.html',
+        HAS_SOURCE:  true
+      };
+    </script>
+    <script type="text/javascript" src="_static/jquery.js"></script>
+    <script type="text/javascript" src="_static/underscore.js"></script>
+    <script type="text/javascript" src="_static/doctools.js"></script>
+    <script type="text/javascript" src="_static/translations.js"></script>
+    <link rel="top" title="Flask 0.10 文档" href="index.html" />
+    <link rel="next" title="请求环境" href="reqcontext.html" />
+    <link rel="prev" title="可插拨视图" href="views.html" />
+   
+  
+  <link rel="apple-touch-icon" href="_static/touch-icon.png" />
+  
+  <link media="only screen and (max-device-width: 480px)" href="_static/small_flask.css" type= "text/css" rel="stylesheet" />
+
+  </head>
+  <body role="document">
+    <div class="related" role="navigation" aria-label="related navigation">
+      <h3>导航</h3>
+      <ul>
+        <li class="right" style="margin-right: 10px">
+          <a href="genindex.html" title="总目录"
+             accesskey="I">索引</a></li>
+        <li class="right" >
+          <a href="reqcontext.html" title="请求环境"
+             accesskey="N">下一页</a> |</li>
+        <li class="right" >
+          <a href="views.html" title="可插拨视图"
+             accesskey="P">上一页</a> |</li>
+        <li class="nav-item nav-item-0"><a href="index.html">Flask 0.10 文档</a> &raquo;</li> 
+      </ul>
+    </div>  
+
+    <div class="document">
+      <div class="documentwrapper">
+        <div class="bodywrapper">
+          <div class="body" role="main">
+            
+  <div class="section" id="app-context">
+<span id="id1"></span><h1>应用环境<a class="headerlink" href="#app-context" title="永久链接至标题">¶</a></h1>
+<div class="versionadded">
+<p><span class="versionmodified">0.9 新版功能.</span></p>
+</div>
+<p>Flask 的设计思路之一是代码有两种不同的运行“状态”。一种是“安装”状态，从
+<code class="xref py py-class docutils literal"><span class="pre">Flask</span></code> 对象被实例化后开始，到第一个请求到来之前。在这种状态下，以下规则
+成立：</p>
+<ul class="simple">
+<li>可以安全地修改应用对象。</li>
+<li>还没有请求需要处理。</li>
+<li>没有应用对象的引用，因此无法修改应用对象。</li>
+</ul>
+<p>相反，在请求处理时，以下规则成立：</p>
+<ul class="simple">
+<li>当请求活动时，本地环境对象 （ <a class="reference internal" href="api.html#flask.request" title="flask.request"><code class="xref py py-data docutils literal"><span class="pre">flask.request</span></code></a> 或其他对象）指向当前
+请求。</li>
+<li>这些本地环境对象可以任意修改。</li>
+</ul>
+<p>除了上述两种状态之外，还有位于两者之间的第三种状态。这种状态下，你正在处理应用，
+但是没有活动的请求。就类似于，你座在 Python 交互终端前，与应用或一个命令行程序
+互动。</p>
+<p>应用环境是 <a class="reference internal" href="api.html#flask.current_app" title="flask.current_app"><code class="xref py py-data docutils literal"><span class="pre">current_app</span></code></a> 本地环境的源动力。</p>
+<div class="section" id="id2">
+<h2>应用环境的作用<a class="headerlink" href="#id2" title="永久链接至标题">¶</a></h2>
+<p>应用环境存在的主要原因是，以前过多的功能依赖于请求环境，缺乏更好的处理方案。
+Flask 的一个重要设计原则是可以在同一个 Pyhton 进程中运行多个应用。</p>
+<p>那么，代码如何找到“正确”的应用呢？以前我们推荐显式地传递应用，但是有可能会
+引发库与库之间的干扰。</p>
+<p>问题的解决方法是使用 <a class="reference internal" href="api.html#flask.current_app" title="flask.current_app"><code class="xref py py-data docutils literal"><span class="pre">current_app</span></code></a> 代理。
+<a class="reference internal" href="api.html#flask.current_app" title="flask.current_app"><code class="xref py py-data docutils literal"><span class="pre">current_app</span></code></a> 是绑定到当前请求的应用的引用。但是没有请求的情况下
+使用请求环境是一件奢侈在事情，于是就引入了应用环境。</p>
+</div>
+<div class="section" id="id3">
+<h2>创建一个应用环境<a class="headerlink" href="#id3" title="永久链接至标题">¶</a></h2>
+<p>创建应用环境有两种方法。一种是隐式的：当一个请求环境被创建时，如果有需要就会
+相应创建一个应用环境。因此，你可以忽略应用环境的存在，除非你要使用它。</p>
+<p>另一种是显式的，使用 <a class="reference internal" href="api.html#flask.Flask.app_context" title="flask.Flask.app_context"><code class="xref py py-meth docutils literal"><span class="pre">app_context()</span></code></a> 方法:</p>
+<div class="highlight-python"><div class="highlight"><pre><span class="kn">from</span> <span class="nn">flask</span> <span class="kn">import</span> <span class="n">Flask</span><span class="p">,</span> <span class="n">current_app</span>
+
+<span class="n">app</span> <span class="o">=</span> <span class="n">Flask</span><span class="p">(</span><span class="n">__name__</span><span class="p">)</span>
+<span class="k">with</span> <span class="n">app</span><span class="o">.</span><span class="n">app_context</span><span class="p">():</span>
+    <span class="c"># 在本代码块中， current_app 指向应用。</span>
+    <span class="k">print</span> <span class="n">current_app</span><span class="o">.</span><span class="n">name</span>
+</pre></div>
+</div>
+<p>在 <code class="docutils literal"><span class="pre">SERVER_NAME</span></code> 被设置的情况下，应用环境还被 <a class="reference internal" href="api.html#flask.url_for" title="flask.url_for"><code class="xref py py-func docutils literal"><span class="pre">url_for()</span></code></a> 函数
+使用。这样可以让你在没有请求的情况下生成 URL 。</p>
+</div>
+<div class="section" id="id4">
+<h2>环境的作用域<a class="headerlink" href="#id4" title="永久链接至标题">¶</a></h2>
+<p>应用环境按需创建和消灭，它从来不在线程之间移动，也不被不同请求共享。因此，它是
+一个存放数据库连接信息和其他信息的好地方。内部的栈对象被称为
+<a class="reference internal" href="api.html#flask._app_ctx_stack" title="flask._app_ctx_stack"><code class="xref py py-data docutils literal"><span class="pre">flask._app_ctx_stack</span></code></a> 。扩展可以在栈的最顶端自由储存信息，前提是使用唯一
+的名称，而 <a class="reference internal" href="api.html#flask.g" title="flask.g"><code class="xref py py-data docutils literal"><span class="pre">flask.g</span></code></a> 对象是留给用户使用的。</p>
+<p>更多信息参见 <a class="reference internal" href="extensiondev.html#extension-dev"><span>Flask 扩展开发</span></a> 。</p>
+</div>
+<div class="section" id="id5">
+<h2>环境的用法<a class="headerlink" href="#id5" title="永久链接至标题">¶</a></h2>
+<p>环境的典型用途是缓存一个请求需要预备或使用的资源，例如一个数据库连接。因为环境
+是一个 Flask 的应用和扩展共享的地方，所以储存的资源必须使用独一无二的名称。</p>
+<p>最常见的用法是把资源管理分为以下两个部分：</p>
+<ol class="arabic simple">
+<li>在环境中缓存一个隐式的资源。</li>
+<li>资源释放后的环境解散。</li>
+</ol>
+<p>通常会有一个形如 <code class="docutils literal"><span class="pre">get_X()</span></code> 函数，这个函数的用途是当资源 <code class="docutils literal"><span class="pre">X</span></code> 存在时就返回
+这个资源，否则就创建这个资源。还会有一个 <code class="docutils literal"><span class="pre">teardown_X()</span></code> 函数用作解散句柄。</p>
+<p>这是一个连接数据库的例子:</p>
+<div class="highlight-python"><div class="highlight"><pre><span class="kn">import</span> <span class="nn">sqlite3</span>
+<span class="kn">from</span> <span class="nn">flask</span> <span class="kn">import</span> <span class="n">g</span>
+
+<span class="k">def</span> <span class="nf">get_db</span><span class="p">():</span>
+    <span class="n">db</span> <span class="o">=</span> <span class="nb">getattr</span><span class="p">(</span><span class="n">g</span><span class="p">,</span> <span class="s">&#39;_database&#39;</span><span class="p">,</span> <span class="bp">None</span><span class="p">)</span>
+    <span class="k">if</span> <span class="n">db</span> <span class="ow">is</span> <span class="bp">None</span><span class="p">:</span>
+        <span class="n">db</span> <span class="o">=</span> <span class="n">g</span><span class="o">.</span><span class="n">_database</span> <span class="o">=</span> <span class="n">connect_to_database</span><span class="p">()</span>
+    <span class="k">return</span> <span class="n">db</span>
+
+<span class="nd">@app.teardown_appcontext</span>
+<span class="k">def</span> <span class="nf">teardown_db</span><span class="p">(</span><span class="n">exception</span><span class="p">):</span>
+    <span class="n">db</span> <span class="o">=</span> <span class="nb">getattr</span><span class="p">(</span><span class="n">g</span><span class="p">,</span> <span class="s">&#39;_database&#39;</span><span class="p">,</span> <span class="bp">None</span><span class="p">)</span>
+    <span class="k">if</span> <span class="n">db</span> <span class="ow">is</span> <span class="ow">not</span> <span class="bp">None</span><span class="p">:</span>
+        <span class="n">db</span><span class="o">.</span><span class="n">close</span><span class="p">()</span>
+</pre></div>
+</div>
+<p>第一次调用 <code class="docutils literal"><span class="pre">get_db()</span></code> 时，连接将会被建立。建立的过程中隐式地使用了一个
+<a class="reference external" href="http://werkzeug.pocoo.org/docs/local/#werkzeug.local.LocalProxy" title="(在 Werkzeug v0.12-dev)"><code class="xref py py-class docutils literal"><span class="pre">LocalProxy</span></code></a> 类:</p>
+<div class="highlight-python"><div class="highlight"><pre><span class="kn">from</span> <span class="nn">werkzeug.local</span> <span class="kn">import</span> <span class="n">LocalProxy</span>
+<span class="n">db</span> <span class="o">=</span> <span class="n">LocalProxy</span><span class="p">(</span><span class="n">get_db</span><span class="p">)</span>
+</pre></div>
+</div>
+<p>这样，用户就可以通过 <code class="docutils literal"><span class="pre">get_db()</span></code> 来直接访问 <code class="docutils literal"><span class="pre">db</span></code> 了。</p>
+</div>
+</div>
+
+
+          </div>
+        </div>
+      </div>
+      <div class="sphinxsidebar" role="navigation" aria-label="main navigation">
+        <div class="sphinxsidebarwrapper"><p class="logo"><a href="index.html">
+  <img class="logo" src="_static/flask.png" alt="Logo"/>
+</a></p>
+  <h3><a href="index.html">內容目录</a></h3>
+  <ul>
+<li><a class="reference internal" href="#">应用环境</a><ul>
+<li><a class="reference internal" href="#id2">应用环境的作用</a></li>
+<li><a class="reference internal" href="#id3">创建一个应用环境</a></li>
+<li><a class="reference internal" href="#id4">环境的作用域</a></li>
+<li><a class="reference internal" href="#id5">环境的用法</a></li>
+</ul>
+</li>
+</ul>
+<h3>Related Topics</h3>
+<ul>
+  <li><a href="index.html">Documentation overview</a><ul>
+      <li>Previous: <a href="views.html" title="上一章">可插拨视图</a></li>
+      <li>Next: <a href="reqcontext.html" title="下一章">请求环境</a></li>
+  </ul></li>
+</ul>
+  <div role="note" aria-label="source link">
+    <h3>本页</h3>
+    <ul class="this-page-menu">
+      <li><a href="_sources/appcontext.txt"
+            rel="nofollow">显示源代码</a></li>
+    </ul>
+   </div>
+<div id="searchbox" style="display: none" role="search">
+  <h3>快速搜索</h3>
+    <form class="search" action="search.html" method="get">
+      <input type="text" name="q" />
+      <input type="submit" value="转向" />
+      <input type="hidden" name="check_keywords" value="yes" />
+      <input type="hidden" name="area" value="default" />
+    </form>
+    <p class="searchtip" style="font-size: 90%">
+    输入相关的术语，模块，类或者函数名称进行搜索
+    </p>
+</div>
+<script type="text/javascript">$('#searchbox').show(0);</script>
+        </div>
+      </div>
+      <div class="clearer"></div>
+    </div>
+    <div class="footer">
+      &copy; Copyright 2013, Armin Ronacher.
+      Created using <a href="http://sphinx.pocoo.org/">Sphinx</a>.
+    </div>
+  </body>
+</html>

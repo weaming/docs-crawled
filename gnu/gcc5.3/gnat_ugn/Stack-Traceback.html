@@ -1,0 +1,69 @@
+<html lang="en">
+<head>
+<title>Stack Traceback - GNAT User's Guide for Native Platforms</title>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+<meta name="description" content="GNAT User's Guide for Native Platforms">
+<meta name="generator" content="makeinfo 4.13">
+<link title="Top" rel="start" href="index.html#Top">
+<link rel="up" href="Running-and-Debugging-Ada-Programs.html#Running-and-Debugging-Ada-Programs" title="Running and Debugging Ada Programs">
+<link rel="prev" href="Getting-Internal-Debugging-Information.html#Getting-Internal-Debugging-Information" title="Getting Internal Debugging Information">
+<link href="http://www.gnu.org/software/texinfo/" rel="generator-home" title="Texinfo Homepage">
+<!--
+
+     GNAT User's Guide for Native Platforms , March 24, 2015
+
+     AdaCore
+
+     Copyright (C) 2008-2015, Free Software Foundation
+-->
+<meta http-equiv="Content-Style-Type" content="text/css">
+<style type="text/css"><!--
+  pre.display { font-family:inherit }
+  pre.format  { font-family:inherit }
+  pre.smalldisplay { font-family:inherit; font-size:smaller }
+  pre.smallformat  { font-family:inherit; font-size:smaller }
+  pre.smallexample { font-size:smaller }
+  pre.smalllisp    { font-size:smaller }
+  span.sc    { font-variant:small-caps }
+  span.roman { font-family:serif; font-weight:normal; } 
+  span.sansserif { font-family:sans-serif; font-weight:normal; } 
+--></style>
+</head>
+<body>
+<div class="node">
+<a name="Stack-Traceback"></a>
+<p>
+Previous:&nbsp;<a rel="previous" accesskey="p" href="Getting-Internal-Debugging-Information.html#Getting-Internal-Debugging-Information">Getting Internal Debugging Information</a>,
+Up:&nbsp;<a rel="up" accesskey="u" href="Running-and-Debugging-Ada-Programs.html#Running-and-Debugging-Ada-Programs">Running and Debugging Ada Programs</a>
+<hr>
+</div>
+
+<p><a name="gnat_005fugn_002fgnat_005fand_005fprogram_005fexecution-stack_002dtraceback"></a><a name="g_t211"></a><a name="gnat_005fugn_002fgnat_005fand_005fprogram_005fexecution-id16"></a><a name="g_t212"></a>
+
+<h4 class="subsection">8.1.14 Stack Traceback</h4>
+
+<p>Traceback is a mechanism to display the sequence of subprogram calls that
+leads to a specified execution point in a program. Often (but not always)
+the execution point is an instruction at which an exception has been raised. 
+This mechanism is also known as `stack unwinding' because it obtains
+its information by scanning the run-time stack and recovering the activation
+records of all active subprograms. Stack unwinding is one of the most
+important tools for program debugging.
+
+<p>The first entry stored in traceback corresponds to the deepest calling level,
+that is to say the subprogram currently executing the instruction
+from which we want to obtain the traceback.
+
+<p>Note that there is no runtime performance penalty when stack traceback
+is enabled, and no exception is raised during program execution.
+
+<p><a name="index-traceback-969"></a><a name="index-non_002dsymbolic-970"></a>
+
+<ul class="menu">
+<li><a accesskey="1" href="Non_002dSymbolic-Traceback.html#Non_002dSymbolic-Traceback">Non-Symbolic Traceback</a>
+<li><a accesskey="2" href="Symbolic-Traceback.html#Symbolic-Traceback">Symbolic Traceback</a>
+
+</ul>
+
+</body></html>
+

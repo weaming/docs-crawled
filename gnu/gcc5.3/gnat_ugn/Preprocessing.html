@@ -1,0 +1,83 @@
+<html lang="en">
+<head>
+<title>Preprocessing - GNAT User's Guide for Native Platforms</title>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+<meta name="description" content="GNAT User's Guide for Native Platforms">
+<meta name="generator" content="makeinfo 4.13">
+<link title="Top" rel="start" href="index.html#Top">
+<link rel="up" href="Modeling-Conditional-Compilation-in-Ada.html#Modeling-Conditional-Compilation-in-Ada" title="Modeling Conditional Compilation in Ada">
+<link rel="prev" href="Use-of-Alternative-Implementations.html#Use-of-Alternative-Implementations" title="Use of Alternative Implementations">
+<link href="http://www.gnu.org/software/texinfo/" rel="generator-home" title="Texinfo Homepage">
+<!--
+
+     GNAT User's Guide for Native Platforms , March 24, 2015
+
+     AdaCore
+
+     Copyright (C) 2008-2015, Free Software Foundation
+-->
+<meta http-equiv="Content-Style-Type" content="text/css">
+<style type="text/css"><!--
+  pre.display { font-family:inherit }
+  pre.format  { font-family:inherit }
+  pre.smalldisplay { font-family:inherit; font-size:smaller }
+  pre.smallformat  { font-family:inherit; font-size:smaller }
+  pre.smallexample { font-size:smaller }
+  pre.smalllisp    { font-size:smaller }
+  span.sc    { font-variant:small-caps }
+  span.roman { font-family:serif; font-weight:normal; } 
+  span.sansserif { font-family:sans-serif; font-weight:normal; } 
+--></style>
+</head>
+<body>
+<div class="node">
+<a name="Preprocessing"></a>
+<p>
+Previous:&nbsp;<a rel="previous" accesskey="p" href="Use-of-Alternative-Implementations.html#Use-of-Alternative-Implementations">Use of Alternative Implementations</a>,
+Up:&nbsp;<a rel="up" accesskey="u" href="Modeling-Conditional-Compilation-in-Ada.html#Modeling-Conditional-Compilation-in-Ada">Modeling Conditional Compilation in Ada</a>
+<hr>
+</div>
+
+<p><a name="gnat_005fugn_002fthe_005fgnat_005fcompilation_005fmodel-preprocessing"></a><a name="a9"></a><a name="gnat_005fugn_002fthe_005fgnat_005fcompilation_005fmodel-id53"></a><a name="aa"></a>
+
+<h5 class="subsubsection">3.10.1.5 Preprocessing</h5>
+
+<p><a name="index-Preprocessing-103"></a>
+Although it is quite possible to conditionalize code without the use of
+C-style preprocessing, as described earlier in this section, it is
+nevertheless convenient in some cases to use the C approach. Moreover,
+older Ada compilers have often provided some preprocessing capability,
+so legacy code may depend on this approach, even though it is not
+standard.
+
+<p>To accommodate such use, GNAT provides a preprocessor (modeled to a large
+extent on the various preprocessors that have been used
+with legacy code on other compilers, to enable easier transition).
+
+<p><a name="index-gnatprep-104"></a>
+The preprocessor may be used in two separate modes. It can be used quite
+separately from the compiler, to generate a separate output source file
+that is then fed to the compiler as a separate step. This is the
+<cite>gnatprep</cite> utility, whose use is fully described in
+<a href="19.html#g_t19">Preprocessing with gnatprep</a>.
+
+<p>The preprocessing language allows such constructs as
+
+<pre class="example">    #if DEBUG or else (PRIORITY &gt; 4) then
+       bunch of declarations
+    #else
+       completely different bunch of declarations
+    #end if;
+</pre>
+<p>The values of the symbols <cite>DEBUG</cite> and <cite>PRIORITY</cite> can be
+defined either on the command line or in a separate file.
+
+<p>The other way of running the preprocessor is even closer to the C style and
+often more convenient. In this approach the preprocessing is integrated into
+the compilation process. The compiler is fed the preprocessor input which
+includes <cite>#if</cite> lines etc, and then the compiler carries out the
+preprocessing internally and processes the resulting output. 
+For more details on this approach, see <a href="1a.html#g_t1a">Integrated Preprocessing</a>.
+
+</body></html>
+

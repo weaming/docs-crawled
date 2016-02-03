@@ -1,0 +1,141 @@
+<html lang="en">
+<head>
+<title>Size of Variant Record Objects - GNAT Reference Manual</title>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+<meta name="description" content="GNAT Reference Manual">
+<meta name="generator" content="makeinfo 4.13">
+<link title="Top" rel="start" href="index.html#Top">
+<link rel="up" href="Representation-Clauses-and-Pragmas.html#Representation-Clauses-and-Pragmas" title="Representation Clauses and Pragmas">
+<link rel="prev" href="Storage_005fSize-Clauses.html#Storage_005fSize-Clauses" title="Storage_Size Clauses">
+<link rel="next" href="Biased-Representation.html#Biased-Representation" title="Biased Representation">
+<link href="http://www.gnu.org/software/texinfo/" rel="generator-home" title="Texinfo Homepage">
+<!--
+
+     GNAT Reference Manual , March 24, 2015
+
+     AdaCore
+
+     Copyright (C) 2008-2015, Free Software Foundation
+-->
+<meta http-equiv="Content-Style-Type" content="text/css">
+<style type="text/css"><!--
+  pre.display { font-family:inherit }
+  pre.format  { font-family:inherit }
+  pre.smalldisplay { font-family:inherit; font-size:smaller }
+  pre.smallformat  { font-family:inherit; font-size:smaller }
+  pre.smallexample { font-size:smaller }
+  pre.smalllisp    { font-size:smaller }
+  span.sc    { font-variant:small-caps }
+  span.roman { font-family:serif; font-weight:normal; } 
+  span.sansserif { font-family:sans-serif; font-weight:normal; } 
+--></style>
+</head>
+<body>
+<div class="node">
+<a name="Size-of-Variant-Record-Objects"></a>
+<p>
+Next:&nbsp;<a rel="next" accesskey="n" href="Biased-Representation.html#Biased-Representation">Biased Representation</a>,
+Previous:&nbsp;<a rel="previous" accesskey="p" href="Storage_005fSize-Clauses.html#Storage_005fSize-Clauses">Storage_Size Clauses</a>,
+Up:&nbsp;<a rel="up" accesskey="u" href="Representation-Clauses-and-Pragmas.html#Representation-Clauses-and-Pragmas">Representation Clauses and Pragmas</a>
+<hr>
+</div>
+
+<p><a name="gnat_005frm_002frepresentation_005fclauses_005fand_005fpragmas-id5"></a><a name="g_t220"></a><a name="gnat_005frm_002frepresentation_005fclauses_005fand_005fpragmas-size_002dof_002dvariant_002drecord_002dobjects"></a><a name="g_t221"></a>
+
+<h3 class="section">9.4 Size of Variant Record Objects</h3>
+
+<p><a name="index-Size-487"></a><a name="index-variant-record-objects-488"></a>
+<a name="index-Variant-record-objects-489"></a><a name="index-size-490"></a>
+In the case of variant record objects, there is a question whether Size gives
+information about a particular variant, or the maximum size required
+for any variant.  Consider the following program
+
+<pre class="example">    with Text_IO; use Text_IO;
+    procedure q is
+       type R1 (A : Boolean := False) is record
+         case A is
+           when True  =&gt; X : Character;
+           when False =&gt; null;
+         end case;
+       end record;
+    
+       V1 : R1 (False);
+       V2 : R1;
+    
+    begin
+       Put_Line (Integer'Image (V1'Size));
+       Put_Line (Integer'Image (V2'Size));
+    end q;
+</pre>
+<p>Here we are dealing with a variant record, where the True variant
+requires 16 bits, and the False variant requires 8 bits. 
+In the above example, both V1 and V2 contain the False variant,
+which is only 8 bits long.  However, the result of running the
+program is:
+
+<pre class="example">    8
+    16
+</pre>
+<p>The reason for the difference here is that the discriminant value of
+V1 is fixed, and will always be False.  It is not possible to assign
+a True variant value to V1, therefore 8 bits is sufficient.  On the
+other hand, in the case of V2, the initial discriminant value is
+False (from the default), but it is possible to assign a True
+variant value to V2, therefore 16 bits must be allocated for V2
+in the general case, even fewer bits may be needed at any particular
+point during the program execution.
+
+<p>As can be seen from the output of this program, the <cite>'Size</cite>
+attribute applied to such an object in GNAT gives the actual allocated
+size of the variable, which is the largest size of any of the variants. 
+The Ada Reference Manual is not completely clear on what choice should
+be made here, but the GNAT behavior seems most consistent with the
+language in the RM.
+
+<p>In some cases, it may be desirable to obtain the size of the current
+variant, rather than the size of the largest variant.  This can be
+achieved in GNAT by making use of the fact that in the case of a
+subprogram parameter, GNAT does indeed return the size of the current
+variant (because a subprogram has no way of knowing how much space
+is actually allocated for the actual).
+
+<p>Consider the following modified version of the above program:
+
+<pre class="example">    with Text_IO; use Text_IO;
+    procedure q is
+       type R1 (A : Boolean := False) is record
+         case A is
+           when True  =&gt; X : Character;
+           when False =&gt; null;
+         end case;
+       end record;
+    
+       V2 : R1;
+    
+       function Size (V : R1) return Integer is
+       begin
+          return V'Size;
+       end Size;
+    
+    begin
+       Put_Line (Integer'Image (V2'Size));
+       Put_Line (Integer'IMage (Size (V2)));
+       V2 := (True, 'x');
+       Put_Line (Integer'Image (V2'Size));
+       Put_Line (Integer'IMage (Size (V2)));
+    end q;
+</pre>
+<p>The output from this program is
+
+<pre class="example">    16
+    8
+    16
+    16
+</pre>
+<p>Here we see that while the <cite>'Size</cite> attribute always returns
+the maximum size, regardless of the current variant value, the
+<cite>Size</cite> function does indeed return the size of the current
+variant value.
+
+</body></html>
+

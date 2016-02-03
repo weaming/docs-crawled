@@ -1,0 +1,80 @@
+<html lang="en">
+<head>
+<title>Pragma C_Pass_By_Copy - GNAT Reference Manual</title>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+<meta name="description" content="GNAT Reference Manual">
+<meta name="generator" content="makeinfo 4.13">
+<link title="Top" rel="start" href="index.html#Top">
+<link rel="up" href="Implementation-Defined-Pragmas.html#Implementation-Defined-Pragmas" title="Implementation Defined Pragmas">
+<link rel="prev" href="Pragma-Attribute_005fDefinition.html#Pragma-Attribute_005fDefinition" title="Pragma Attribute_Definition">
+<link rel="next" href="Pragma-Check.html#Pragma-Check" title="Pragma Check">
+<link href="http://www.gnu.org/software/texinfo/" rel="generator-home" title="Texinfo Homepage">
+<!--
+
+     GNAT Reference Manual , March 24, 2015
+
+     AdaCore
+
+     Copyright (C) 2008-2015, Free Software Foundation
+-->
+<meta http-equiv="Content-Style-Type" content="text/css">
+<style type="text/css"><!--
+  pre.display { font-family:inherit }
+  pre.format  { font-family:inherit }
+  pre.smalldisplay { font-family:inherit; font-size:smaller }
+  pre.smallformat  { font-family:inherit; font-size:smaller }
+  pre.smallexample { font-size:smaller }
+  pre.smalllisp    { font-size:smaller }
+  span.sc    { font-variant:small-caps }
+  span.roman { font-family:serif; font-weight:normal; } 
+  span.sansserif { font-family:sans-serif; font-weight:normal; } 
+--></style>
+</head>
+<body>
+<div class="node">
+<a name="Pragma-C_Pass_By_Copy"></a>
+<a name="Pragma-C_005fPass_005fBy_005fCopy"></a>
+<p>
+Next:&nbsp;<a rel="next" accesskey="n" href="Pragma-Check.html#Pragma-Check">Pragma Check</a>,
+Previous:&nbsp;<a rel="previous" accesskey="p" href="Pragma-Attribute_005fDefinition.html#Pragma-Attribute_005fDefinition">Pragma Attribute_Definition</a>,
+Up:&nbsp;<a rel="up" accesskey="u" href="Implementation-Defined-Pragmas.html#Implementation-Defined-Pragmas">Implementation Defined Pragmas</a>
+<hr>
+</div>
+
+<p><a name="gnat_005frm_002fimplementation_005fdefined_005fpragmas-pragma_002dc_002dpass_002dby_002dcopy"></a><a name="g_t2d"></a>
+
+<h3 class="section">2.19 Pragma C_Pass_By_Copy</h3>
+
+<p><a name="index-Passing-by-copy-10"></a>
+Syntax:
+
+<pre class="example">    pragma C_Pass_By_Copy
+      ([Max_Size =&gt;] static_integer_EXPRESSION);
+</pre>
+<p>Normally the default mechanism for passing C convention records to C
+convention subprograms is to pass them by reference, as suggested by RM
+B.3(69).  Use the configuration pragma <cite>C_Pass_By_Copy</cite> to change
+this default, by requiring that record formal parameters be passed by
+copy if all of the following conditions are met:
+
+     <ul>
+<li>The size of the record type does not exceed the value specified for
+<cite>Max_Size</cite>.
+
+     <li>The record type has <cite>Convention C</cite>.
+
+     <li>The formal parameter has this record type, and the subprogram has a
+foreign (non-Ada) convention. 
+</ul>
+
+<p>If these conditions are met the argument is passed by copy; i.e., in a
+manner consistent with what C expects if the corresponding formal in the
+C prototype is a struct (rather than a pointer to a struct).
+
+<p>You can also pass records by copy by specifying the convention
+<cite>C_Pass_By_Copy</cite> for the record type, or by using the extended
+<cite>Import</cite> and <cite>Export</cite> pragmas, which allow specification of
+passing mechanisms on a parameter by parameter basis.
+
+</body></html>
+

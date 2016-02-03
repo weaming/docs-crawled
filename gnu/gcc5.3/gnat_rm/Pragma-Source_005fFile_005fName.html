@@ -1,0 +1,134 @@
+<html lang="en">
+<head>
+<title>Pragma Source_File_Name - GNAT Reference Manual</title>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+<meta name="description" content="GNAT Reference Manual">
+<meta name="generator" content="makeinfo 4.13">
+<link title="Top" rel="start" href="index.html#Top">
+<link rel="up" href="Implementation-Defined-Pragmas.html#Implementation-Defined-Pragmas" title="Implementation Defined Pragmas">
+<link rel="prev" href="Pragma-Simple_005fStorage_005fPool_005fType.html#Pragma-Simple_005fStorage_005fPool_005fType" title="Pragma Simple_Storage_Pool_Type">
+<link rel="next" href="Pragma-Source_005fFile_005fName_005fProject.html#Pragma-Source_005fFile_005fName_005fProject" title="Pragma Source_File_Name_Project">
+<link href="http://www.gnu.org/software/texinfo/" rel="generator-home" title="Texinfo Homepage">
+<!--
+
+     GNAT Reference Manual , March 24, 2015
+
+     AdaCore
+
+     Copyright (C) 2008-2015, Free Software Foundation
+-->
+<meta http-equiv="Content-Style-Type" content="text/css">
+<style type="text/css"><!--
+  pre.display { font-family:inherit }
+  pre.format  { font-family:inherit }
+  pre.smalldisplay { font-family:inherit; font-size:smaller }
+  pre.smallformat  { font-family:inherit; font-size:smaller }
+  pre.smallexample { font-size:smaller }
+  pre.smalllisp    { font-size:smaller }
+  span.sc    { font-variant:small-caps }
+  span.roman { font-family:serif; font-weight:normal; } 
+  span.sansserif { font-family:sans-serif; font-weight:normal; } 
+--></style>
+</head>
+<body>
+<div class="node">
+<a name="Pragma-Source_File_Name"></a>
+<a name="Pragma-Source_005fFile_005fName"></a>
+<p>
+Next:&nbsp;<a rel="next" accesskey="n" href="Pragma-Source_005fFile_005fName_005fProject.html#Pragma-Source_005fFile_005fName_005fProject">Pragma Source_File_Name_Project</a>,
+Previous:&nbsp;<a rel="previous" accesskey="p" href="Pragma-Simple_005fStorage_005fPool_005fType.html#Pragma-Simple_005fStorage_005fPool_005fType">Pragma Simple_Storage_Pool_Type</a>,
+Up:&nbsp;<a rel="up" accesskey="u" href="Implementation-Defined-Pragmas.html#Implementation-Defined-Pragmas">Implementation Defined Pragmas</a>
+<hr>
+</div>
+
+<p><a name="gnat_005frm_002fimplementation_005fdefined_005fpragmas-pragma_002dsource_002dfile_002dname"></a><a name="b8"></a><a name="gnat_005frm_002fimplementation_005fdefined_005fpragmas-id3"></a><a name="b9"></a>
+
+<h3 class="section">2.155 Pragma Source_File_Name</h3>
+
+<p>Syntax:
+
+<pre class="example">    pragma Source_File_Name (
+      [Unit_Name   =&gt;] unit_NAME,
+      Spec_File_Name =&gt;  STRING_LITERAL,
+      [Index =&gt; INTEGER_LITERAL]);
+    
+    pragma Source_File_Name (
+      [Unit_Name   =&gt;] unit_NAME,
+      Body_File_Name =&gt;  STRING_LITERAL,
+      [Index =&gt; INTEGER_LITERAL]);
+</pre>
+<p>Use this to override the normal naming convention.  It is a configuration
+pragma, and so has the usual applicability of configuration pragmas
+(i.e., it applies to either an entire partition, or to all units in a
+compilation, or to a single unit, depending on how it is used. 
+<cite>unit_name</cite> is mapped to <cite>file_name_literal</cite>.  The identifier for
+the second argument is required, and indicates whether this is the file
+name for the spec or for the body.
+
+<p>The optional Index argument should be used when a file contains multiple
+units, and when you do not want to use <cite>gnatchop</cite> to separate then
+into multiple files (which is the recommended procedure to limit the
+number of recompilations that are needed when some sources change). 
+For instance, if the source file <code>source.ada</code> contains
+
+<pre class="example">    package B is
+    ...
+    end B;
+    
+    with B;
+    procedure A is
+    begin
+       ..
+    end A;
+</pre>
+<p>you could use the following configuration pragmas:
+
+<pre class="example">    pragma Source_File_Name
+      (B, Spec_File_Name =&gt; "source.ada", Index =&gt; 1);
+    pragma Source_File_Name
+      (A, Body_File_Name =&gt; "source.ada", Index =&gt; 2);
+</pre>
+<p>Note that the <cite>gnatname</cite> utility can also be used to generate those
+configuration pragmas.
+
+<p>Another form of the <cite>Source_File_Name</cite> pragma allows
+the specification of patterns defining alternative file naming schemes
+to apply to all files.
+
+<pre class="example">    pragma Source_File_Name
+      (  [Spec_File_Name  =&gt;] STRING_LITERAL
+       [,[Casing          =&gt;] CASING_SPEC]
+       [,[Dot_Replacement =&gt;] STRING_LITERAL]);
+    
+    pragma Source_File_Name
+      (  [Body_File_Name  =&gt;] STRING_LITERAL
+       [,[Casing          =&gt;] CASING_SPEC]
+       [,[Dot_Replacement =&gt;] STRING_LITERAL]);
+    
+    pragma Source_File_Name
+      (  [Subunit_File_Name =&gt;] STRING_LITERAL
+       [,[Casing            =&gt;] CASING_SPEC]
+       [,[Dot_Replacement   =&gt;] STRING_LITERAL]);
+    
+    CASING_SPEC ::= Lowercase | Uppercase | Mixedcase
+</pre>
+<p>The first argument is a pattern that contains a single asterisk indicating
+the point at which the unit name is to be inserted in the pattern string
+to form the file name.  The second argument is optional.  If present it
+specifies the casing of the unit name in the resulting file name string. 
+The default is lower case.  Finally the third argument allows for systematic
+replacement of any dots in the unit name by the specified string literal.
+
+<p>Note that Source_File_Name pragmas should not be used if you are using
+project files. The reason for this rule is that the project manager is not
+aware of these pragmas, and so other tools that use the projet file would not
+be aware of the intended naming conventions. If you are using project files,
+file naming is controlled by Source_File_Name_Project pragmas, which are
+usually supplied automatically by the project manager. A pragma
+Source_File_Name cannot appear after a <a href="ba.html#ba">Pragma Source_File_Name_Project</a>.
+
+<p>For more details on the use of the <cite>Source_File_Name</cite> pragma, see the
+sections on <cite>Using Other File Names</cite> and <cite>Alternative File Naming Schemes' in the :title:`GNAT User's Guide</cite>.
+
+</body></html>
+

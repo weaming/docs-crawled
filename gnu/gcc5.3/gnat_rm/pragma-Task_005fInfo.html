@@ -1,0 +1,68 @@
+<html lang="en">
+<head>
+<title>pragma Task_Info - GNAT Reference Manual</title>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+<meta name="description" content="GNAT Reference Manual">
+<meta name="generator" content="makeinfo 4.13">
+<link title="Top" rel="start" href="index.html#Top">
+<link rel="up" href="Obsolescent-Features.html#Obsolescent-Features" title="Obsolescent Features">
+<link rel="prev" href="pragma-Restricted_005fRun_005fTime.html#pragma-Restricted_005fRun_005fTime" title="pragma Restricted_Run_Time">
+<link rel="next" href="package-System-Task_005fInfo-s_002dtasinf-ads.html#package-System-Task_005fInfo-s_002dtasinf-ads" title="package System Task_Info s-tasinf ads">
+<link href="http://www.gnu.org/software/texinfo/" rel="generator-home" title="Texinfo Homepage">
+<!--
+
+     GNAT Reference Manual , March 24, 2015
+
+     AdaCore
+
+     Copyright (C) 2008-2015, Free Software Foundation
+-->
+<meta http-equiv="Content-Style-Type" content="text/css">
+<style type="text/css"><!--
+  pre.display { font-family:inherit }
+  pre.format  { font-family:inherit }
+  pre.smalldisplay { font-family:inherit; font-size:smaller }
+  pre.smallformat  { font-family:inherit; font-size:smaller }
+  pre.smallexample { font-size:smaller }
+  pre.smalllisp    { font-size:smaller }
+  span.sc    { font-variant:small-caps }
+  span.roman { font-family:serif; font-weight:normal; } 
+  span.sansserif { font-family:sans-serif; font-weight:normal; } 
+--></style>
+</head>
+<body>
+<div class="node">
+<a name="pragma-Task_Info"></a>
+<a name="pragma-Task_005fInfo"></a>
+<p>
+Next:&nbsp;<a rel="next" accesskey="n" href="package-System-Task_005fInfo-s_002dtasinf-ads.html#package-System-Task_005fInfo-s_002dtasinf-ads">package System Task_Info s-tasinf ads</a>,
+Previous:&nbsp;<a rel="previous" accesskey="p" href="pragma-Restricted_005fRun_005fTime.html#pragma-Restricted_005fRun_005fTime">pragma Restricted_Run_Time</a>,
+Up:&nbsp;<a rel="up" accesskey="u" href="Obsolescent-Features.html#Obsolescent-Features">Obsolescent Features</a>
+<hr>
+</div>
+
+<p><a name="gnat_005frm_002fobsolescent_005ffeatures-pragma_002dtask_002dinfo"></a><a name="g_t3d1"></a><a name="gnat_005frm_002fobsolescent_005ffeatures-id5"></a><a name="g_t3d2"></a>
+
+<h3 class="section">17.4 pragma Task_Info</h3>
+
+<p>The functionality provided by pragma <cite>Task_Info</cite> is now part of the
+Ada language. The <cite>CPU</cite> aspect and the package
+<cite>System.Multiprocessors</cite> offer a less system-dependent way to specify
+task affinity or to query the number of processsors.
+
+<p>Syntax
+
+<pre class="example">    pragma Task_Info (EXPRESSION);
+</pre>
+<p>This pragma appears within a task definition (like pragma
+<cite>Priority</cite>) and applies to the task in which it appears.  The
+argument must be of type <cite>System.Task_Info.Task_Info_Type</cite>. 
+The <cite>Task_Info</cite> pragma provides system dependent control over
+aspects of tasking implementation, for example, the ability to map
+tasks to specific processors.  For details on the facilities available
+for the version of GNAT that you are using, see the documentation
+in the spec of package System.Task_Info in the runtime
+library.
+
+</body></html>
+

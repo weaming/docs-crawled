@@ -1,0 +1,104 @@
+<html lang="en">
+<head>
+<title>The GNAT Compilation Model - GNAT User's Guide for Native Platforms</title>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+<meta name="description" content="GNAT User's Guide for Native Platforms">
+<meta name="generator" content="makeinfo 4.13">
+<link title="Top" rel="start" href="index.html#Top">
+<link rel="prev" href="Getting-Started-with-GNAT.html#Getting-Started-with-GNAT" title="Getting Started with GNAT">
+<link rel="next" href="Building-Executable-Programs-with-GNAT.html#Building-Executable-Programs-with-GNAT" title="Building Executable Programs with GNAT">
+<link href="http://www.gnu.org/software/texinfo/" rel="generator-home" title="Texinfo Homepage">
+<!--
+
+     GNAT User's Guide for Native Platforms , March 24, 2015
+
+     AdaCore
+
+     Copyright (C) 2008-2015, Free Software Foundation
+-->
+<meta http-equiv="Content-Style-Type" content="text/css">
+<style type="text/css"><!--
+  pre.display { font-family:inherit }
+  pre.format  { font-family:inherit }
+  pre.smalldisplay { font-family:inherit; font-size:smaller }
+  pre.smallformat  { font-family:inherit; font-size:smaller }
+  pre.smallexample { font-size:smaller }
+  pre.smalllisp    { font-size:smaller }
+  span.sc    { font-variant:small-caps }
+  span.roman { font-family:serif; font-weight:normal; } 
+  span.sansserif { font-family:sans-serif; font-weight:normal; } 
+--></style>
+</head>
+<body>
+<div class="node">
+<a name="The-GNAT-Compilation-Model"></a>
+<p>
+Next:&nbsp;<a rel="next" accesskey="n" href="Building-Executable-Programs-with-GNAT.html#Building-Executable-Programs-with-GNAT">Building Executable Programs with GNAT</a>,
+Previous:&nbsp;<a rel="previous" accesskey="p" href="Getting-Started-with-GNAT.html#Getting-Started-with-GNAT">Getting Started with GNAT</a>,
+Up:&nbsp;<a rel="up" accesskey="u" href="index.html#Top">Top</a>
+<hr>
+</div>
+
+<p><a name="gnat_005fugn_002fthe_005fgnat_005fcompilation_005fmodel-doc"></a><a name="g_t3d"></a><a name="gnat_005fugn_002fthe_005fgnat_005fcompilation_005fmodel-the_002dgnat_002dcompilation_002dmodel"></a><a name="g_t9"></a><a name="gnat_005fugn_002fthe_005fgnat_005fcompilation_005fmodel-id1"></a><a name="g_t3e"></a>
+
+<h2 class="chapter">3 The GNAT Compilation Model</h2>
+
+<p><a name="index-GNAT-compilation-model-7"></a>
+<a name="index-Compilation-model-8"></a>
+This chapter describes the compilation model used by GNAT. Although
+similar to that used by other languages such as C and C++, this model
+is substantially different from the traditional Ada compilation models,
+which are based on a centralized program library. The chapter covers
+the following material:
+
+     <ul>
+<li>Topics related to source file makeup and naming
+
+          <ul>
+<li><a href="3f.html#g_t3f">Source Representation</a>
+
+          <li><a href="40.html#g_t40">Foreign Language Representation</a>
+
+          <li><a href="41.html#g_t41">File Naming Topics and Utilities</a>
+</ul>
+
+     <li><a href="16.html#g_t16">Configuration Pragmas</a>
+
+     <li><a href="42.html#g_t42">Generating Object Files</a>
+
+     <li><a href="43.html#g_t43">Source Dependencies</a>
+
+     <li><a href="44.html#g_t44">The Ada Library Information Files</a>
+
+     <li><a href="45.html#g_t45">Binding an Ada Program</a>
+
+     <li><a href="17.html#g_t17">GNAT and Libraries</a>
+
+     <li><a href="18.html#g_t18">Conditional Compilation</a>
+
+     <li><a href="46.html#g_t46">Mixed Language Programming</a>
+
+     <li><a href="47.html#g_t47">GNAT and Other Compilation Models</a>
+
+     <li><a href="1c.html#g_t1c">Using GNAT Files with External Tools</a>
+</ul>
+
+<ul class="menu">
+<li><a accesskey="1" href="Source-Representation.html#Source-Representation">Source Representation</a>
+<li><a accesskey="2" href="Foreign-Language-Representation.html#Foreign-Language-Representation">Foreign Language Representation</a>
+<li><a accesskey="3" href="File-Naming-Topics-and-Utilities.html#File-Naming-Topics-and-Utilities">File Naming Topics and Utilities</a>
+<li><a accesskey="4" href="Configuration-Pragmas.html#Configuration-Pragmas">Configuration Pragmas</a>
+<li><a accesskey="5" href="Generating-Object-Files.html#Generating-Object-Files">Generating Object Files</a>
+<li><a accesskey="6" href="Source-Dependencies.html#Source-Dependencies">Source Dependencies</a>
+<li><a accesskey="7" href="The-Ada-Library-Information-Files.html#The-Ada-Library-Information-Files">The Ada Library Information Files</a>
+<li><a accesskey="8" href="Binding-an-Ada-Program.html#Binding-an-Ada-Program">Binding an Ada Program</a>
+<li><a accesskey="9" href="GNAT-and-Libraries.html#GNAT-and-Libraries">GNAT and Libraries</a>
+<li><a href="Conditional-Compilation.html#Conditional-Compilation">Conditional Compilation</a>
+<li><a href="Mixed-Language-Programming.html#Mixed-Language-Programming">Mixed Language Programming</a>
+<li><a href="GNAT-and-Other-Compilation-Models.html#GNAT-and-Other-Compilation-Models">GNAT and Other Compilation Models</a>
+<li><a href="Using-GNAT-Files-with-External-Tools.html#Using-GNAT-Files-with-External-Tools">Using GNAT Files with External Tools</a>
+
+</ul>
+
+</body></html>
+

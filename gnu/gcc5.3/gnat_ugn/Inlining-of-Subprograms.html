@@ -1,0 +1,167 @@
+<html lang="en">
+<head>
+<title>Inlining of Subprograms - GNAT User's Guide for Native Platforms</title>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+<meta name="description" content="GNAT User's Guide for Native Platforms">
+<meta name="generator" content="makeinfo 4.13">
+<link title="Top" rel="start" href="index.html#Top">
+<link rel="up" href="Performance-Considerations.html#Performance-Considerations" title="Performance Considerations">
+<link rel="prev" href="Debugging-Optimized-Code.html#Debugging-Optimized-Code" title="Debugging Optimized Code">
+<link rel="next" href="Floating_005fPoint_005fOperations.html#Floating_005fPoint_005fOperations" title="Floating_Point_Operations">
+<link href="http://www.gnu.org/software/texinfo/" rel="generator-home" title="Texinfo Homepage">
+<!--
+
+     GNAT User's Guide for Native Platforms , March 24, 2015
+
+     AdaCore
+
+     Copyright (C) 2008-2015, Free Software Foundation
+-->
+<meta http-equiv="Content-Style-Type" content="text/css">
+<style type="text/css"><!--
+  pre.display { font-family:inherit }
+  pre.format  { font-family:inherit }
+  pre.smalldisplay { font-family:inherit; font-size:smaller }
+  pre.smallformat  { font-family:inherit; font-size:smaller }
+  pre.smallexample { font-size:smaller }
+  pre.smalllisp    { font-size:smaller }
+  span.sc    { font-variant:small-caps }
+  span.roman { font-family:serif; font-weight:normal; } 
+  span.sansserif { font-family:sans-serif; font-weight:normal; } 
+--></style>
+</head>
+<body>
+<div class="node">
+<a name="Inlining-of-Subprograms"></a>
+<p>
+Next:&nbsp;<a rel="next" accesskey="n" href="Floating_005fPoint_005fOperations.html#Floating_005fPoint_005fOperations">Floating_Point_Operations</a>,
+Previous:&nbsp;<a rel="previous" accesskey="p" href="Debugging-Optimized-Code.html#Debugging-Optimized-Code">Debugging Optimized Code</a>,
+Up:&nbsp;<a rel="up" accesskey="u" href="Performance-Considerations.html#Performance-Considerations">Performance Considerations</a>
+<hr>
+</div>
+
+<p><a name="gnat_005fugn_002fgnat_005fand_005fprogram_005fexecution-id34"></a><a name="g_t230"></a><a name="gnat_005fugn_002fgnat_005fand_005fprogram_005fexecution-inlining_002dof_002dsubprograms"></a><a name="g_t114"></a>
+
+<h5 class="subsubsection">8.3.1.5 Inlining of Subprograms</h5>
+
+<p>A call to a subprogram in the current unit is inlined if all the
+following conditions are met:
+
+     <ul>
+<li>The optimization level is at least `-O1'.
+
+     <li>The called subprogram is suitable for inlining: It must be small enough
+and not contain something that `gcc' cannot support in inlined
+subprograms.
+
+     <p><a name="index-pragma-Inline-1004"></a>
+<a name="index-Inline-1005"></a>
+<li>Any one of the following applies: <cite>pragma Inline</cite> is applied to the
+subprogram and the `-gnatn' switch is specified; the
+subprogram is local to the unit and called once from within it; the
+subprogram is small and optimization level `-O2' is specified;
+optimization level `-O3' is specified. 
+</ul>
+
+<p>Calls to subprograms in `with'ed units are normally not inlined. 
+To achieve actual inlining (that is, replacement of the call by the code
+in the body of the subprogram), the following conditions must all be true:
+
+     <ul>
+<li>The optimization level is at least `-O1'.
+
+     <li>The called subprogram is suitable for inlining: It must be small enough
+and not contain something that `gcc' cannot support in inlined
+subprograms.
+
+     <li>The call appears in a body (not in a package spec).
+
+     <li>There is a <cite>pragma Inline</cite> for the subprogram.
+
+     <li>The `-gnatn' switch is used on the command line. 
+</ul>
+
+<p>Even if all these conditions are met, it may not be possible for
+the compiler to inline the call, due to the length of the body,
+or features in the body that make it impossible for the compiler
+to do the inlining.
+
+<p>Note that specifying the `-gnatn' switch causes additional
+compilation dependencies. Consider the following:
+
+<blockquote>
+
+<pre class="example">    package R is
+       procedure Q;
+       pragma Inline (Q);
+    end R;
+    package body R is
+       ...
+    end R;
+    
+    with R;
+    procedure Main is
+    begin
+       ...
+       R.Q;
+    end Main;
+</pre>
+</blockquote>
+
+<p>With the default behavior (no `-gnatn' switch specified), the
+compilation of the <cite>Main</cite> procedure depends only on its own source,
+<code>main.adb</code>, and the spec of the package in file <code>r.ads</code>. This
+means that editing the body of <cite>R</cite> does not require recompiling
+<cite>Main</cite>.
+
+<p>On the other hand, the call <cite>R.Q</cite> is not inlined under these
+circumstances. If the `-gnatn' switch is present when <cite>Main</cite>
+is compiled, the call will be inlined if the body of <cite>Q</cite> is small
+enough, but now <cite>Main</cite> depends on the body of <cite>R</cite> in
+<code>r.adb</code> as well as on the spec. This means that if this body is edited,
+the main program must be recompiled. Note that this extra dependency
+occurs whether or not the call is in fact inlined by `gcc'.
+
+<p>The use of front end inlining with `-gnatN' generates similar
+additional dependencies.
+
+<p><a name="index-g_t_002dfno_002dinline-_0028gcc_0029-1006"></a>
+Note: The `-fno-inline' switch overrides all other conditions and ensures that
+no inlining occurs, unless requested with pragma Inline_Always for gcc
+back-ends. The extra dependences resulting from `-gnatn' will still be active,
+even if this switch is used to suppress the resulting inlining actions.
+
+<p><a name="index-g_t_002dfno_002dinline_002dfunctions-_0028gcc_0029-1007"></a>
+Note: The `-fno-inline-functions' switch can be used to prevent
+automatic inlining of subprograms if `-O3' is used.
+
+<p><a name="index-g_t_002dfno_002dinline_002dsmall_002dfunctions-_0028gcc_0029-1008"></a>
+Note: The `-fno-inline-small-functions' switch can be used to prevent
+automatic inlining of small subprograms if `-O2' is used.
+
+<p><a name="index-g_t_002dfno_002dinline_002dfunctions_002dcalled_002donce-_0028gcc_0029-1009"></a>
+Note: The `-fno-inline-functions-called-once' switch
+can be used to prevent inlining of subprograms local to the unit
+and called once from within it if `-O1' is used.
+
+<p>Note regarding the use of `-O3': `-gnatn' is made up of two
+sub-switches `-gnatn1' and `-gnatn2' that can be directly
+specified in lieu of it, `-gnatn' being translated into one of them
+based on the optimization level. With `-O2' or below, `-gnatn'
+is equivalent to `-gnatn1' which activates pragma <cite>Inline</cite> with
+moderate inlining across modules. With `-O3', `-gnatn' is
+equivalent to `-gnatn2' which activates pragma <cite>Inline</cite> with
+full inlining across modules. If you have used pragma <cite>Inline</cite> in
+appropriate cases, then it is usually much better to use `-O2'
+and `-gnatn' and avoid the use of `-O3' which has the additional
+effect of inlining subprograms you did not think should be inlined. We have
+found that the use of `-O3' may slow down the compilation and increase
+the code size by performing excessive inlining, leading to increased
+instruction cache pressure from the increased code size and thus minor
+performance improvements. So the bottom line here is that you should not
+automatically assume that `-O3' is better than `-O2', and
+indeed you should use `-O3' only if tests show that it actually
+improves performance for your program.
+
+</body></html>
+

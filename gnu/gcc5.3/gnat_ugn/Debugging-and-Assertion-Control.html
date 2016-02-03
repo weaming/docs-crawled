@@ -1,0 +1,79 @@
+<html lang="en">
+<head>
+<title>Debugging and Assertion Control - GNAT User's Guide for Native Platforms</title>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+<meta name="description" content="GNAT User's Guide for Native Platforms">
+<meta name="generator" content="makeinfo 4.13">
+<link title="Top" rel="start" href="index.html#Top">
+<link rel="up" href="Compiler-Switches.html#Compiler-Switches" title="Compiler Switches">
+<link rel="prev" href="Warning-Message-Control.html#Warning-Message-Control" title="Warning Message Control">
+<link rel="next" href="Validity-Checking.html#Validity-Checking" title="Validity Checking">
+<link href="http://www.gnu.org/software/texinfo/" rel="generator-home" title="Texinfo Homepage">
+<!--
+
+     GNAT User's Guide for Native Platforms , March 24, 2015
+
+     AdaCore
+
+     Copyright (C) 2008-2015, Free Software Foundation
+-->
+<meta http-equiv="Content-Style-Type" content="text/css">
+<style type="text/css"><!--
+  pre.display { font-family:inherit }
+  pre.format  { font-family:inherit }
+  pre.smalldisplay { font-family:inherit; font-size:smaller }
+  pre.smallformat  { font-family:inherit; font-size:smaller }
+  pre.smallexample { font-size:smaller }
+  pre.smalllisp    { font-size:smaller }
+  span.sc    { font-variant:small-caps }
+  span.roman { font-family:serif; font-weight:normal; } 
+  span.sansserif { font-family:sans-serif; font-weight:normal; } 
+--></style>
+</head>
+<body>
+<div class="node">
+<a name="Debugging-and-Assertion-Control"></a>
+<p>
+Next:&nbsp;<a rel="next" accesskey="n" href="Validity-Checking.html#Validity-Checking">Validity Checking</a>,
+Previous:&nbsp;<a rel="previous" accesskey="p" href="Warning-Message-Control.html#Warning-Message-Control">Warning Message Control</a>,
+Up:&nbsp;<a rel="up" accesskey="u" href="Compiler-Switches.html#Compiler-Switches">Compiler Switches</a>
+<hr>
+</div>
+
+<p><a name="gnat_005fugn_002fbuilding_005fexecutable_005fprograms_005fwith_005fgnat-debugging_002dand_002dassertion_002dcontrol"></a><a name="g_t105"></a><a name="gnat_005fugn_002fbuilding_005fexecutable_005fprograms_005fwith_005fgnat-id16"></a><a name="g_t106"></a>
+
+<h4 class="subsection">4.3.4 Debugging and Assertion Control</h4>
+
+<p><a name="index-g_t_002dgnata-_0028gcc_0029-525"></a>
+
+     <dl>
+<dt><code>-gnata</code><dd>
+<a name="index-Assert-526"></a>
+<a name="index-Debug-527"></a>
+<a name="index-Assertions-528"></a>
+The pragmas <cite>Assert</cite> and <cite>Debug</cite> normally have no effect and
+are ignored. This switch, where <code>a</code> stands for assert, causes
+<cite>Assert</cite> and <cite>Debug</cite> pragmas to be activated.
+
+     <p>The pragmas have the form:
+
+     <pre class="example">         pragma Assert (&lt;Boolean-expression&gt; [, &lt;static-string-expression&gt;])
+         pragma Debug (&lt;procedure call&gt;)
+</pre>
+     <p>The <cite>Assert</cite> pragma causes <cite>Boolean-expression</cite> to be tested. 
+If the result is <cite>True</cite>, the pragma has no effect (other than
+possible side effects from evaluating the expression). If the result is
+<cite>False</cite>, the exception <cite>Assert_Failure</cite> declared in the package
+<cite>System.Assertions</cite> is
+raised (passing <cite>static-string-expression</cite>, if present, as the
+message associated with the exception). If no string expression is
+given the default is a string giving the file name and line number
+of the pragma.
+
+     <p>The <cite>Debug</cite> pragma causes <cite>procedure</cite> to be called. Note that
+<cite>pragma Debug</cite> may appear within a declaration sequence, allowing
+debugging procedures to be called between declarations. 
+</dl>
+
+</body></html>
+

@@ -1,0 +1,140 @@
+<html lang="en">
+<head>
+<title>Debugging - A Special Case - GNAT User's Guide for Native Platforms</title>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+<meta name="description" content="GNAT User's Guide for Native Platforms">
+<meta name="generator" content="makeinfo 4.13">
+<link title="Top" rel="start" href="index.html#Top">
+<link rel="up" href="Modeling-Conditional-Compilation-in-Ada.html#Modeling-Conditional-Compilation-in-Ada" title="Modeling Conditional Compilation in Ada">
+<link rel="prev" href="Use-of-Boolean-Constants.html#Use-of-Boolean-Constants" title="Use of Boolean Constants">
+<link rel="next" href="Conditionalizing-Declarations.html#Conditionalizing-Declarations" title="Conditionalizing Declarations">
+<link href="http://www.gnu.org/software/texinfo/" rel="generator-home" title="Texinfo Homepage">
+<!--
+
+     GNAT User's Guide for Native Platforms , March 24, 2015
+
+     AdaCore
+
+     Copyright (C) 2008-2015, Free Software Foundation
+-->
+<meta http-equiv="Content-Style-Type" content="text/css">
+<style type="text/css"><!--
+  pre.display { font-family:inherit }
+  pre.format  { font-family:inherit }
+  pre.smalldisplay { font-family:inherit; font-size:smaller }
+  pre.smallformat  { font-family:inherit; font-size:smaller }
+  pre.smallexample { font-size:smaller }
+  pre.smalllisp    { font-size:smaller }
+  span.sc    { font-variant:small-caps }
+  span.roman { font-family:serif; font-weight:normal; } 
+  span.sansserif { font-family:sans-serif; font-weight:normal; } 
+--></style>
+</head>
+<body>
+<div class="node">
+<a name="Debugging---A-Special-Case"></a>
+<a name="Debugging-_002d-A-Special-Case"></a>
+<p>
+Next:&nbsp;<a rel="next" accesskey="n" href="Conditionalizing-Declarations.html#Conditionalizing-Declarations">Conditionalizing Declarations</a>,
+Previous:&nbsp;<a rel="previous" accesskey="p" href="Use-of-Boolean-Constants.html#Use-of-Boolean-Constants">Use of Boolean Constants</a>,
+Up:&nbsp;<a rel="up" accesskey="u" href="Modeling-Conditional-Compilation-in-Ada.html#Modeling-Conditional-Compilation-in-Ada">Modeling Conditional Compilation in Ada</a>
+<hr>
+</div>
+
+<p><a name="gnat_005fugn_002fthe_005fgnat_005fcompilation_005fmodel-debugging_002da_002dspecial_002dcase"></a><a name="a3"></a><a name="gnat_005fugn_002fthe_005fgnat_005fcompilation_005fmodel-id50"></a><a name="a4"></a>
+
+<h5 class="subsubsection">3.10.1.2 Debugging - A Special Case</h5>
+
+<p>A common use of conditional code is to execute statements (for example
+dynamic checks, or output of intermediate results) under control of a
+debug switch, so that the debugging behavior can be turned on and off. 
+This can be done using a Boolean constant to control whether the code
+is active:
+
+<pre class="example">    if Debugging then
+       Put_Line ("got to the first stage!");
+    end if;
+</pre>
+<p>or
+
+<pre class="example">    if Debugging and then Temperature &gt; 999.0 then
+       raise Temperature_Crazy;
+    end if;
+</pre>
+<p><a name="index-pragma-Assert-97"></a>
+Since this is a common case, there are special features to deal with
+this in a convenient manner. For the case of tests, Ada 2005 has added
+a pragma <cite>Assert</cite> that can be used for such tests. This pragma is modeled
+on the <cite>Assert</cite> pragma that has always been available in GNAT, so this
+feature may be used with GNAT even if you are not using Ada 2005 features. 
+The use of pragma <cite>Assert</cite> is described in the
+<cite>GNAT_Reference_Manual</cite>, but as an
+example, the last test could be written:
+
+<pre class="example">    pragma Assert (Temperature &lt;= 999.0, "Temperature Crazy");
+</pre>
+<p>or simply
+
+<pre class="example">    pragma Assert (Temperature &lt;= 999.0);
+</pre>
+<p>In both cases, if assertions are active and the temperature is excessive,
+the exception <cite>Assert_Failure</cite> will be raised, with the given string in
+the first case or a string indicating the location of the pragma in the second
+case used as the exception message.
+
+<p><a name="index-pragma-Assertion_005fPolicy-98"></a>
+You can turn assertions on and off by using the <cite>Assertion_Policy</cite>
+pragma.
+
+<p><a name="index-g_t_002dgnata-switch-99"></a>
+This is an Ada 2005 pragma which is implemented in all modes by
+GNAT. Alternatively, you can use the `-gnata' switch
+to enable assertions from the command line, which applies to
+all versions of Ada.
+
+<p><a name="index-pragma-Debug-100"></a>
+For the example above with the <cite>Put_Line</cite>, the GNAT-specific pragma
+<cite>Debug</cite> can be used:
+
+<pre class="example">    pragma Debug (Put_Line ("got to the first stage!"));
+</pre>
+<p>If debug pragmas are enabled, the argument, which must be of the form of
+a procedure call, is executed (in this case, <cite>Put_Line</cite> will be called). 
+Only one call can be present, but of course a special debugging procedure
+containing any code you like can be included in the program and then
+called in a pragma <cite>Debug</cite> argument as needed.
+
+<p>One advantage of pragma <cite>Debug</cite> over the <cite>if Debugging then</cite>
+construct is that pragma <cite>Debug</cite> can appear in declarative contexts,
+such as at the very beginning of a procedure, before local declarations have
+been elaborated.
+
+<p><a name="index-pragma-Debug_005fPolicy-101"></a>
+Debug pragmas are enabled using either the `-gnata' switch that also
+controls assertions, or with a separate Debug_Policy pragma.
+
+<p>The latter pragma is new in the Ada 2005 versions of GNAT (but it can be used
+in Ada 95 and Ada 83 programs as well), and is analogous to
+pragma <cite>Assertion_Policy</cite> to control assertions.
+
+<p><cite>Assertion_Policy</cite> and <cite>Debug_Policy</cite> are configuration pragmas,
+and thus they can appear in <code>gnat.adc</code> if you are not using a
+project file, or in the file designated to contain configuration pragmas
+in a project file. 
+They then apply to all subsequent compilations. In practice the use of
+the `-gnata' switch is often the most convenient method of controlling
+the status of these pragmas.
+
+<p>Note that a pragma is not a statement, so in contexts where a statement
+sequence is required, you can't just write a pragma on its own. You have
+to add a <cite>null</cite> statement.
+
+<pre class="example">    if ... then
+       ... -- some statements
+    else
+       pragma Assert (Num_Cases &lt; 10);
+       null;
+    end if;
+</pre>
+</body></html>
+

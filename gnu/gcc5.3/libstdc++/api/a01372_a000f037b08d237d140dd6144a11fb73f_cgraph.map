@@ -1,0 +1,15 @@
+<map id="__gnu_parallel::__parallel_sort" name="__gnu_parallel::__parallel_sort">
+<area shape="rect" id="node2" href="$a00163.html#a18b32829b31b902699690b750e190e59" title="Find out desired number of threads. " alt="" coords="249,5,411,44"/>
+<area shape="rect" id="node3" href="$a01372.html#a4093dd098b32542e3d3f43ebd4c6f940" title="Top&#45;level quicksort routine. " alt="" coords="247,68,413,107"/>
+<area shape="rect" id="node4" href="$a01372.html#ae8e1f6dc07de01f28bf591339cf8aa9c" title="Calculates the rounded&#45;down logarithm of __n for base 2. " alt="" coords="461,24,628,49"/>
+<area shape="rect" id="node5" href="$a01442.html#ga0409e288f07b697cb6885d1002df0bd6" title="A convenience wrapper for creating a pair from two objects. " alt="" coords="915,75,1017,100"/>
+<area shape="rect" id="node6" href="$a01372.html#a8d9c5686c4621822c7c3cdd015f7e693" title="Quicksort conquer step. " alt="" coords="472,125,617,164"/>
+<area shape="rect" id="node7" href="$a01372.html#a7565d258aacb02328cef6eb2781ab711" title="Quicksort step doing load&#45;balanced local sort. " alt="" coords="676,125,835,164"/>
+<area shape="rect" id="node10" href="$a01372.html#afc19882fd22d39e54475d41fd981ac49" title="Balanced quicksort divide step. " alt="" coords="683,225,828,264"/>
+<area shape="rect" id="node8" href="$a00146.html#abc4965eacae0b49945ebc887cb11adc1" title="Get the global settings. " alt="" coords="1097,167,1283,192"/>
+<area shape="rect" id="node9" href="$a01372.html#aaa76236af73146ae89f726921bc3f2cb" title="Yield control to another thread, without waiting for the end of the time slice. " alt="" coords="891,176,1041,201"/>
+<area shape="rect" id="node11" href="$a01372.html#a74914ea59d68887b517e12c90189dbcd" title="Compute the median of three referenced elements, according to __comp. " alt="" coords="883,225,1049,264"/>
+<area shape="rect" id="node12" href="$a01372.html#aa56788b479955dd136d6af173d2cae0b" title="Parallel implementation of std::partition. " alt="" coords="883,288,1049,327"/>
+<area shape="rect" id="node13" href="$a01372.html#accd4441e0f846fee44966195a91e9e68" title="Compare&#45;and&#45;swap. " alt="" coords="1103,256,1277,295"/>
+<area shape="rect" id="node14" href="$a01372.html#a56a5a84c8a6049cd3cc83968c6eae088" title="Add a value to a variable, atomically. " alt="" coords="1115,319,1265,357"/>
+</map>

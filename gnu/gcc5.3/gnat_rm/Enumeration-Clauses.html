@@ -1,0 +1,80 @@
+<html lang="en">
+<head>
+<title>Enumeration Clauses - GNAT Reference Manual</title>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+<meta name="description" content="GNAT Reference Manual">
+<meta name="generator" content="makeinfo 4.13">
+<link title="Top" rel="start" href="index.html#Top">
+<link rel="up" href="Representation-Clauses-and-Pragmas.html#Representation-Clauses-and-Pragmas" title="Representation Clauses and Pragmas">
+<link rel="prev" href="Handling-of-Records-with-Holes.html#Handling-of-Records-with-Holes" title="Handling of Records with Holes">
+<link rel="next" href="Address-Clauses.html#Address-Clauses" title="Address Clauses">
+<link href="http://www.gnu.org/software/texinfo/" rel="generator-home" title="Texinfo Homepage">
+<!--
+
+     GNAT Reference Manual , March 24, 2015
+
+     AdaCore
+
+     Copyright (C) 2008-2015, Free Software Foundation
+-->
+<meta http-equiv="Content-Style-Type" content="text/css">
+<style type="text/css"><!--
+  pre.display { font-family:inherit }
+  pre.format  { font-family:inherit }
+  pre.smalldisplay { font-family:inherit; font-size:smaller }
+  pre.smallformat  { font-family:inherit; font-size:smaller }
+  pre.smallexample { font-size:smaller }
+  pre.smalllisp    { font-size:smaller }
+  span.sc    { font-variant:small-caps }
+  span.roman { font-family:serif; font-weight:normal; } 
+  span.sansserif { font-family:sans-serif; font-weight:normal; } 
+--></style>
+</head>
+<body>
+<div class="node">
+<a name="Enumeration-Clauses"></a>
+<p>
+Next:&nbsp;<a rel="next" accesskey="n" href="Address-Clauses.html#Address-Clauses">Address Clauses</a>,
+Previous:&nbsp;<a rel="previous" accesskey="p" href="Handling-of-Records-with-Holes.html#Handling-of-Records-with-Holes">Handling of Records with Holes</a>,
+Up:&nbsp;<a rel="up" accesskey="u" href="Representation-Clauses-and-Pragmas.html#Representation-Clauses-and-Pragmas">Representation Clauses and Pragmas</a>
+<hr>
+</div>
+
+<p><a name="gnat_005frm_002frepresentation_005fclauses_005fand_005fpragmas-enumeration_002dclauses"></a><a name="g_t234"></a><a name="gnat_005frm_002frepresentation_005fclauses_005fand_005fpragmas-id15"></a><a name="g_t235"></a>
+
+<h3 class="section">9.14 Enumeration Clauses</h3>
+
+<p>The only restriction on enumeration clauses is that the range of values
+must be representable.  For the signed case, if one or more of the
+representation values are negative, all values must be in the range:
+
+<pre class="example">    System.Min_Int .. System.Max_Int
+</pre>
+<p>For the unsigned case, where all values are nonnegative, the values must
+be in the range:
+
+<pre class="example">    0 .. System.Max_Binary_Modulus;
+</pre>
+<p>A `confirming' representation clause is one in which the values range
+from 0 in sequence, i.e., a clause that confirms the default representation
+for an enumeration type. 
+Such a confirming representation
+is permitted by these rules, and is specially recognized by the compiler so
+that no extra overhead results from the use of such a clause.
+
+<p>If an array has an index type which is an enumeration type to which an
+enumeration clause has been applied, then the array is stored in a compact
+manner.  Consider the declarations:
+
+<pre class="example">    type r is (A, B, C);
+    for r use (A =&gt; 1, B =&gt; 5, C =&gt; 10);
+    type t is array (r) of Character;
+</pre>
+<p>The array type t corresponds to a vector with exactly three elements and
+has a default size equal to <cite>3*Character'Size</cite>.  This ensures efficient
+use of space, but means that accesses to elements of the array will incur
+the overhead of converting representation values to the corresponding
+positional values, (i.e., the value delivered by the <cite>Pos</cite> attribute).
+
+</body></html>
+

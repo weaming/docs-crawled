@@ -1,0 +1,91 @@
+<html lang="en">
+<head>
+<title>RM 13 1 21-24 Representation Clauses - GNAT Reference Manual</title>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+<meta name="description" content="GNAT Reference Manual">
+<meta name="generator" content="makeinfo 4.13">
+<link title="Top" rel="start" href="index.html#Top">
+<link rel="up" href="Implementation-Advice.html#Implementation-Advice" title="Implementation Advice">
+<link rel="prev" href="RM-11-5-28-Suppression-of-Checks.html#RM-11-5-28-Suppression-of-Checks" title="RM 11 5 28 Suppression of Checks">
+<link rel="next" href="RM-13-2-6_002d8-Packed-Types.html#RM-13-2-6_002d8-Packed-Types" title="RM 13 2 6-8 Packed Types">
+<link href="http://www.gnu.org/software/texinfo/" rel="generator-home" title="Texinfo Homepage">
+<!--
+
+     GNAT Reference Manual , March 24, 2015
+
+     AdaCore
+
+     Copyright (C) 2008-2015, Free Software Foundation
+-->
+<meta http-equiv="Content-Style-Type" content="text/css">
+<style type="text/css"><!--
+  pre.display { font-family:inherit }
+  pre.format  { font-family:inherit }
+  pre.smalldisplay { font-family:inherit; font-size:smaller }
+  pre.smallformat  { font-family:inherit; font-size:smaller }
+  pre.smallexample { font-size:smaller }
+  pre.smalllisp    { font-size:smaller }
+  span.sc    { font-variant:small-caps }
+  span.roman { font-family:serif; font-weight:normal; } 
+  span.sansserif { font-family:sans-serif; font-weight:normal; } 
+--></style>
+</head>
+<body>
+<div class="node">
+<a name="RM-13-1-21-24-Representation-Clauses"></a>
+<a name="RM-13-1-21_002d24-Representation-Clauses"></a>
+<p>
+Next:&nbsp;<a rel="next" accesskey="n" href="RM-13-2-6_002d8-Packed-Types.html#RM-13-2-6_002d8-Packed-Types">RM 13 2 6-8 Packed Types</a>,
+Previous:&nbsp;<a rel="previous" accesskey="p" href="RM-11-5-28-Suppression-of-Checks.html#RM-11-5-28-Suppression-of-Checks">RM 11 5 28 Suppression of Checks</a>,
+Up:&nbsp;<a rel="up" accesskey="u" href="Implementation-Advice.html#Implementation-Advice">Implementation Advice</a>
+<hr>
+</div>
+
+<p><a name="gnat_005frm_002fimplementation_005fadvice-rm_002d13_002d1_002d21_002d24_002drepresentation_002dclauses"></a><a name="g_t1cc"></a>
+
+<h3 class="section">6.16 RM 13.1 (21-24): Representation Clauses</h3>
+
+<blockquote>
+
+<p>"The recommended level of support for all representation items is
+qualified as follows:
+
+<p>An implementation need not support representation items containing
+non-static expressions, except that an implementation should support a
+representation item for a given entity if each non-static expression in
+the representation item is a name that statically denotes a constant
+declared before the entity." 
+</blockquote>
+
+<p>Followed.  In fact, GNAT goes beyond the recommended level of support
+by allowing nonstatic expressions in some representation clauses even
+without the need to declare constants initialized with the values of
+such expressions. 
+For example:
+
+<pre class="example">      X : Integer;
+      Y : Float;
+      for Y'Address use X'Address;&gt;&gt;
+    
+    
+    "An implementation need not support a specification for the `Size`
+    for a given composite subtype, nor the size or storage place for an
+    object (including a component) of a given composite subtype, unless the
+    constraints on the subtype and its composite subcomponents (if any) are
+    all static constraints."
+</pre>
+<p>Followed.  Size Clauses are not permitted on non-static components, as
+described above.
+
+<blockquote>
+
+<p>"An aliased component, or a component whose type is by-reference, should
+always be allocated at an addressable location." 
+</blockquote>
+
+<p>Followed.
+
+<p><a name="index-Packed-types-391"></a>
+
+</body></html>
+

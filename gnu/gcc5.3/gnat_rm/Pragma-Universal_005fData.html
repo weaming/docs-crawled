@@ -1,0 +1,66 @@
+<html lang="en">
+<head>
+<title>Pragma Universal_Data - GNAT Reference Manual</title>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+<meta name="description" content="GNAT Reference Manual">
+<meta name="generator" content="makeinfo 4.13">
+<link title="Top" rel="start" href="index.html#Top">
+<link rel="up" href="Implementation-Defined-Pragmas.html#Implementation-Defined-Pragmas" title="Implementation Defined Pragmas">
+<link rel="prev" href="Pragma-Universal_005fAliasing.html#Pragma-Universal_005fAliasing" title="Pragma Universal_Aliasing">
+<link rel="next" href="Pragma-Unmodified.html#Pragma-Unmodified" title="Pragma Unmodified">
+<link href="http://www.gnu.org/software/texinfo/" rel="generator-home" title="Texinfo Homepage">
+<!--
+
+     GNAT Reference Manual , March 24, 2015
+
+     AdaCore
+
+     Copyright (C) 2008-2015, Free Software Foundation
+-->
+<meta http-equiv="Content-Style-Type" content="text/css">
+<style type="text/css"><!--
+  pre.display { font-family:inherit }
+  pre.format  { font-family:inherit }
+  pre.smalldisplay { font-family:inherit; font-size:smaller }
+  pre.smallformat  { font-family:inherit; font-size:smaller }
+  pre.smallexample { font-size:smaller }
+  pre.smalllisp    { font-size:smaller }
+  span.sc    { font-variant:small-caps }
+  span.roman { font-family:serif; font-weight:normal; } 
+  span.sansserif { font-family:sans-serif; font-weight:normal; } 
+--></style>
+</head>
+<body>
+<div class="node">
+<a name="Pragma-Universal_Data"></a>
+<a name="Pragma-Universal_005fData"></a>
+<p>
+Next:&nbsp;<a rel="next" accesskey="n" href="Pragma-Unmodified.html#Pragma-Unmodified">Pragma Unmodified</a>,
+Previous:&nbsp;<a rel="previous" accesskey="p" href="Pragma-Universal_005fAliasing.html#Pragma-Universal_005fAliasing">Pragma Universal_Aliasing</a>,
+Up:&nbsp;<a rel="up" accesskey="u" href="Implementation-Defined-Pragmas.html#Implementation-Defined-Pragmas">Implementation Defined Pragmas</a>
+<hr>
+</div>
+
+<p><a name="gnat_005frm_002fimplementation_005fdefined_005fpragmas-pragma_002duniversal_002ddata"></a><a name="d3"></a>
+
+<h3 class="section">2.180 Pragma Universal_Data</h3>
+
+<p>Syntax:
+
+<pre class="example">    pragma Universal_Data [(library_unit_Name)];
+</pre>
+<p>This pragma is supported only for the AAMP target and is ignored for
+other targets. The pragma specifies that all library-level objects
+(Counter 0 data) associated with the library unit are to be accessed
+and updated using universal addressing (24-bit addresses for AAMP5)
+rather than the default of 16-bit Data Environment (DENV) addressing. 
+Use of this pragma will generally result in less efficient code for
+references to global data associated with the library unit, but
+allows such data to be located anywhere in memory. This pragma is
+a library unit pragma, but can also be used as a configuration pragma
+(including use in the <code>gnat.adc</code> file). The functionality
+of this pragma is also available by applying the -univ switch on the
+compilations of units where universal addressing of the data is desired.
+
+</body></html>
+

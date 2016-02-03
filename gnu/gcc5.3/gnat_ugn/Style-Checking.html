@@ -1,0 +1,617 @@
+<html lang="en">
+<head>
+<title>Style Checking - GNAT User's Guide for Native Platforms</title>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+<meta name="description" content="GNAT User's Guide for Native Platforms">
+<meta name="generator" content="makeinfo 4.13">
+<link title="Top" rel="start" href="index.html#Top">
+<link rel="up" href="Compiler-Switches.html#Compiler-Switches" title="Compiler Switches">
+<link rel="prev" href="Validity-Checking.html#Validity-Checking" title="Validity Checking">
+<link rel="next" href="Run_002dTime-Checks.html#Run_002dTime-Checks" title="Run-Time Checks">
+<link href="http://www.gnu.org/software/texinfo/" rel="generator-home" title="Texinfo Homepage">
+<!--
+
+     GNAT User's Guide for Native Platforms , March 24, 2015
+
+     AdaCore
+
+     Copyright (C) 2008-2015, Free Software Foundation
+-->
+<meta http-equiv="Content-Style-Type" content="text/css">
+<style type="text/css"><!--
+  pre.display { font-family:inherit }
+  pre.format  { font-family:inherit }
+  pre.smalldisplay { font-family:inherit; font-size:smaller }
+  pre.smallformat  { font-family:inherit; font-size:smaller }
+  pre.smallexample { font-size:smaller }
+  pre.smalllisp    { font-size:smaller }
+  span.sc    { font-variant:small-caps }
+  span.roman { font-family:serif; font-weight:normal; } 
+  span.sansserif { font-family:sans-serif; font-weight:normal; } 
+--></style>
+</head>
+<body>
+<div class="node">
+<a name="Style-Checking"></a>
+<p>
+Next:&nbsp;<a rel="next" accesskey="n" href="Run_002dTime-Checks.html#Run_002dTime-Checks">Run-Time Checks</a>,
+Previous:&nbsp;<a rel="previous" accesskey="p" href="Validity-Checking.html#Validity-Checking">Validity Checking</a>,
+Up:&nbsp;<a rel="up" accesskey="u" href="Compiler-Switches.html#Compiler-Switches">Compiler Switches</a>
+<hr>
+</div>
+
+<p><a name="gnat_005fugn_002fbuilding_005fexecutable_005fprograms_005fwith_005fgnat-id18"></a><a name="g_t108"></a><a name="gnat_005fugn_002fbuilding_005fexecutable_005fprograms_005fwith_005fgnat-style_002dchecking"></a><a name="g_t100"></a>
+
+<h4 class="subsection">4.3.6 Style Checking</h4>
+
+<p><a name="index-Style-checking-542"></a>
+<a name="index-g_t_002dgnaty-_0028gcc_0029-543"></a>
+The `-gnatyx' switch causes the compiler to
+enforce specified style rules. A limited set of style rules has been used
+in writing the GNAT sources themselves. This switch allows user programs
+to activate all or some of these checks. If the source program fails a
+specified style check, an appropriate message is given, preceded by
+the character sequence '(style)'. This message does not prevent
+successful compilation (unless the `-gnatwe' switch is used).
+
+<p>Note that this is by no means intended to be a general facility for
+checking arbitrary coding standards. It is simply an embedding of the
+style rules we have chosen for the GNAT sources. If you are starting
+a project which does not have established style standards, you may
+find it useful to adopt the entire set of GNAT coding standards, or
+some subset of them.
+
+<p>The string <cite>x</cite> is a sequence of letters or digits
+indicating the particular style
+checks to be performed. The following checks are defined:
+
+<p><a name="index-g_t_002dgnaty_005b0_002d9_005d-_0028gcc_0029-544"></a>
+
+     <dl>
+<dt><code>-gnaty0</code><dd>
+`Specify indentation level.'
+
+     <p>If a digit from 1-9 appears
+in the string after `-gnaty'
+then proper indentation is checked, with the digit indicating the
+indentation level required. A value of zero turns off this style check. 
+The general style of required indentation is as specified by
+the examples in the Ada Reference Manual. Full line comments must be
+aligned with the <cite>&ndash;</cite> starting on a column that is a multiple of
+the alignment level, or they may be aligned the same way as the following
+non-blank line (this is useful when full line comments appear in the middle
+of a statement, or they may be aligned with the source line on the previous
+non-blank line. 
+</dl>
+
+<p><a name="index-g_t_002dgnatya-_0028gcc_0029-545"></a>
+
+     <dl>
+<dt><code>-gnatya</code><dd>
+`Check attribute casing.'
+
+     <p>Attribute names, including the case of keywords such as <cite>digits</cite>
+used as attributes names, must be written in mixed case, that is, the
+initial letter and any letter following an underscore must be uppercase. 
+All other letters must be lowercase. 
+</dl>
+
+<p><a name="index-g_t_002dgnatyA-_0028gcc_0029-546"></a>
+
+     <dl>
+<dt><code>-gnatyA</code><dd>
+`Use of array index numbers in array attributes.'
+
+     <p>When using the array attributes First, Last, Range,
+or Length, the index number must be omitted for one-dimensional arrays
+and is required for multi-dimensional arrays. 
+</dl>
+
+<p><a name="index-g_t_002dgnatyb-_0028gcc_0029-547"></a>
+
+     <dl>
+<dt><code>-gnatyb</code><dd>
+`Blanks not allowed at statement end.'
+
+     <p>Trailing blanks are not allowed at the end of statements. The purpose of this
+rule, together with h (no horizontal tabs), is to enforce a canonical format
+for the use of blanks to separate source tokens. 
+</dl>
+
+<p><a name="index-g_t_002dgnatyB-_0028gcc_0029-548"></a>
+
+     <dl>
+<dt><code>-gnatyB</code><dd>
+`Check Boolean operators.'
+
+     <p>The use of AND/OR operators is not permitted except in the cases of modular
+operands, array operands, and simple stand-alone boolean variables or
+boolean constants. In all other cases <cite>and then</cite>/<cite>or else</cite> are
+required. 
+</dl>
+
+<p><a name="index-g_t_002dgnatyc-_0028gcc_0029-549"></a>
+
+     <dl>
+<dt><code>-gnatyc</code><dd>
+`Check comments, double space.'
+
+     <p>Comments must meet the following set of rules:
+
+          <ul>
+<li>The '<cite>&ndash;</cite>' that starts the column must either start in column one,
+or else at least one blank must precede this sequence.
+
+          <li>Comments that follow other tokens on a line must have at least one blank
+following the '<cite>&ndash;</cite>' at the start of the comment.
+
+          <li>Full line comments must have at least two blanks following the
+'<cite>&ndash;</cite>' that starts the comment, with the following exceptions.
+
+          <li>A line consisting only of the '<cite>&ndash;</cite>' characters, possibly preceded
+by blanks is permitted.
+
+          <li>A comment starting with '<cite>&ndash;x</cite>' where <cite>x</cite> is a special character
+is permitted. 
+This allows proper processing of the output generated by specialized tools
+including `gnatprep' (where '<cite>&ndash;!</cite>' is used) and the SPARK
+annotation
+language (where '<cite>&ndash;#</cite>' is used). For the purposes of this rule, a
+special character is defined as being in one of the ASCII ranges
+<cite>16#21#...16#2F#</cite> or <cite>16#3A#...16#3F#</cite>. 
+Note that this usage is not permitted
+in GNAT implementation units (i.e., when `-gnatg' is used).
+
+          <li>A line consisting entirely of minus signs, possibly preceded by blanks, is
+permitted. This allows the construction of box comments where lines of minus
+signs are used to form the top and bottom of the box.
+
+          <li>A comment that starts and ends with '<cite>&ndash;</cite>' is permitted as long as at
+least one blank follows the initial '<cite>&ndash;</cite>'. Together with the preceding
+rule, this allows the construction of box comments, as shown in the following
+example:
+
+          <pre class="example">              ---------------------------
+              -- This is a box comment --
+              -- with two text lines.  --
+              ---------------------------
+</pre>
+          </ul>
+     </dl>
+
+<p><a name="index-g_t_002dgnatyC-_0028gcc_0029-550"></a>
+
+     <dl>
+<dt><code>-gnatyC</code><dd>
+`Check comments, single space.'
+
+     <p>This is identical to <cite>c</cite> except that only one space
+is required following the <cite>&ndash;</cite> of a comment instead of two. 
+</dl>
+
+<p><a name="index-g_t_002dgnatyd-_0028gcc_0029-551"></a>
+
+     <dl>
+<dt><code>-gnatyd</code><dd>
+`Check no DOS line terminators present.'
+
+     <p>All lines must be terminated by a single ASCII.LF
+character (in particular the DOS line terminator sequence CR/LF is not
+allowed). 
+</dl>
+
+<p><a name="index-g_t_002dgnatye-_0028gcc_0029-552"></a>
+
+     <dl>
+<dt><code>-gnatye</code><dd>
+`Check end/exit labels.'
+
+     <p>Optional labels on <cite>end</cite> statements ending subprograms and on
+<cite>exit</cite> statements exiting named loops, are required to be present. 
+</dl>
+
+<p><a name="index-g_t_002dgnatyf-_0028gcc_0029-553"></a>
+
+     <dl>
+<dt><code>-gnatyf</code><dd>
+`No form feeds or vertical tabs.'
+
+     <p>Neither form feeds nor vertical tab characters are permitted
+in the source text. 
+</dl>
+
+<p><a name="index-g_t_002dgnatyg-_0028gcc_0029-554"></a>
+
+     <dl>
+<dt><code>-gnatyg</code><dd>
+`GNAT style mode.'
+
+     <p>The set of style check switches is set to match that used by the GNAT sources. 
+This may be useful when developing code that is eventually intended to be
+incorporated into GNAT. Currently this is equivalent to `-gnatwydISux')
+but additional style switches may be added to this set in the future without
+advance notice. 
+</dl>
+
+<p><a name="index-g_t_002dgnatyh-_0028gcc_0029-555"></a>
+
+     <dl>
+<dt><code>-gnatyh</code><dd>
+`No horizontal tabs.'
+
+     <p>Horizontal tab characters are not permitted in the source text. 
+Together with the b (no blanks at end of line) check, this
+enforces a canonical form for the use of blanks to separate
+source tokens. 
+</dl>
+
+<p><a name="index-g_t_002dgnatyi-_0028gcc_0029-556"></a>
+
+     <dl>
+<dt><code>-gnatyi</code><dd>
+`Check if-then layout.'
+
+     <p>The keyword <cite>then</cite> must appear either on the same
+line as corresponding <cite>if</cite>, or on a line on its own, lined
+up under the <cite>if</cite>. 
+</dl>
+
+<p><a name="index-g_t_002dgnatyI-_0028gcc_0029-557"></a>
+
+     <dl>
+<dt><code>-gnatyI</code><dd>
+`check mode IN keywords.'
+
+     <p>Mode <cite>in</cite> (the default mode) is not
+allowed to be given explicitly. <cite>in out</cite> is fine,
+but not <cite>in</cite> on its own. 
+</dl>
+
+<p><a name="index-g_t_002dgnatyk-_0028gcc_0029-558"></a>
+
+     <dl>
+<dt><code>-gnatyk</code><dd>
+`Check keyword casing.'
+
+     <p>All keywords must be in lower case (with the exception of keywords
+such as <cite>digits</cite> used as attribute names to which this check
+does not apply). 
+</dl>
+
+<p><a name="index-g_t_002dgnatyl-_0028gcc_0029-559"></a>
+
+     <dl>
+<dt><code>-gnatyl</code><dd>
+`Check layout.'
+
+     <p>Layout of statement and declaration constructs must follow the
+recommendations in the Ada Reference Manual, as indicated by the
+form of the syntax rules. For example an <cite>else</cite> keyword must
+be lined up with the corresponding <cite>if</cite> keyword.
+
+     <p>There are two respects in which the style rule enforced by this check
+option are more liberal than those in the Ada Reference Manual. First
+in the case of record declarations, it is permissible to put the
+<cite>record</cite> keyword on the same line as the <cite>type</cite> keyword, and
+then the <cite>end</cite> in <cite>end record</cite> must line up under <cite>type</cite>. 
+This is also permitted when the type declaration is split on two lines. 
+For example, any of the following three layouts is acceptable:
+
+     <pre class="example">         type q is record
+            a : integer;
+            b : integer;
+         end record;
+         
+         type q is
+            record
+               a : integer;
+               b : integer;
+            end record;
+         
+         type q is
+            record
+               a : integer;
+               b : integer;
+         end record;
+</pre>
+     <p>Second, in the case of a block statement, a permitted alternative
+is to put the block label on the same line as the <cite>declare</cite> or
+<cite>begin</cite> keyword, and then line the <cite>end</cite> keyword up under
+the block label. For example both the following are permitted:
+
+     <pre class="example">         Block : declare
+            A : Integer := 3;
+         begin
+            Proc (A, A);
+         end Block;
+         
+         Block :
+            declare
+               A : Integer := 3;
+            begin
+               Proc (A, A);
+            end Block;
+</pre>
+     <p>The same alternative format is allowed for loops. For example, both of
+the following are permitted:
+
+     <pre class="example">         Clear : while J &lt; 10 loop
+            A (J) := 0;
+         end loop Clear;
+         
+         Clear :
+            while J &lt; 10 loop
+               A (J) := 0;
+            end loop Clear;
+</pre>
+     </dl>
+
+<p><a name="index-g_t_002dgnatyLnnn-_0028gcc_0029-560"></a>
+
+     <dl>
+<dt><code>-gnatyL</code><dd>
+`Set maximum nesting level.'
+
+     <p>The maximum level of nesting of constructs (including subprograms, loops,
+blocks, packages, and conditionals) may not exceed the given value
+`nnn'. A value of zero disconnects this style check. 
+</dl>
+
+<p><a name="index-g_t_002dgnatym-_0028gcc_0029-561"></a>
+
+     <dl>
+<dt><code>-gnatym</code><dd>
+`Check maximum line length.'
+
+     <p>The length of source lines must not exceed 79 characters, including
+any trailing blanks. The value of 79 allows convenient display on an
+80 character wide device or window, allowing for possible special
+treatment of 80 character lines. Note that this count is of
+characters in the source text. This means that a tab character counts
+as one character in this count and a wide character sequence counts as
+a single character (however many bytes are needed in the encoding). 
+</dl>
+
+<p><a name="index-g_t_002dgnatyMnnn-_0028gcc_0029-562"></a>
+
+     <dl>
+<dt><code>-gnatyM</code><dd>
+`Set maximum line length.'
+
+     <p>The length of lines must not exceed the
+given value `nnn'. The maximum value that can be specified is 32767. 
+If neither style option for setting the line length is used, then the
+default is 255. This also controls the maximum length of lexical elements,
+where the only restriction is that they must fit on a single line. 
+</dl>
+
+<p><a name="index-g_t_002dgnatyn-_0028gcc_0029-563"></a>
+
+     <dl>
+<dt><code>-gnatyn</code><dd>
+`Check casing of entities in Standard.'
+
+     <p>Any identifier from Standard must be cased
+to match the presentation in the Ada Reference Manual (for example,
+<cite>Integer</cite> and <cite>ASCII.NUL</cite>). 
+</dl>
+
+<p><a name="index-g_t_002dgnatyN-_0028gcc_0029-564"></a>
+
+     <dl>
+<dt><code>-gnatyN</code><dd>
+`Turn off all style checks.'
+
+     <p>All style check options are turned off. 
+</dl>
+
+<p><a name="index-g_t_002dgnatyo-_0028gcc_0029-565"></a>
+
+     <dl>
+<dt><code>-gnatyo</code><dd>
+`Check order of subprogram bodies.'
+
+     <p>All subprogram bodies in a given scope
+(e.g., a package body) must be in alphabetical order. The ordering
+rule uses normal Ada rules for comparing strings, ignoring casing
+of letters, except that if there is a trailing numeric suffix, then
+the value of this suffix is used in the ordering (e.g., Junk2 comes
+before Junk10). 
+</dl>
+
+<p><a name="index-g_t_002dgnatyO-_0028gcc_0029-566"></a>
+
+     <dl>
+<dt><code>-gnatyO</code><dd>
+`Check that overriding subprograms are explicitly marked as such.'
+
+     <p>This applies to all subprograms of a derived type that override a primitive
+operation of the type, for both tagged and untagged types. In particular,
+the declaration of a primitive operation of a type extension that overrides
+an inherited operation must carry an overriding indicator. Another case is
+the declaration of a function that overrides a predefined operator (such
+as an equality operator). 
+</dl>
+
+<p><a name="index-g_t_002dgnatyp-_0028gcc_0029-567"></a>
+
+     <dl>
+<dt><code>-gnatyp</code><dd>
+`Check pragma casing.'
+
+     <p>Pragma names must be written in mixed case, that is, the
+initial letter and any letter following an underscore must be uppercase. 
+All other letters must be lowercase. An exception is that SPARK_Mode is
+allowed as an alternative for Spark_Mode. 
+</dl>
+
+<p><a name="index-g_t_002dgnatyr-_0028gcc_0029-568"></a>
+
+     <dl>
+<dt><code>-gnatyr</code><dd>
+`Check references.'
+
+     <p>All identifier references must be cased in the same way as the
+corresponding declaration. No specific casing style is imposed on
+identifiers. The only requirement is for consistency of references
+with declarations. 
+</dl>
+
+<p><a name="index-g_t_002dgnatys-_0028gcc_0029-569"></a>
+
+     <dl>
+<dt><code>-gnatys</code><dd>
+`Check separate specs.'
+
+     <p>Separate declarations ('specs') are required for subprograms (a
+body is not allowed to serve as its own declaration). The only
+exception is that parameterless library level procedures are
+not required to have a separate declaration. This exception covers
+the most frequent form of main program procedures. 
+</dl>
+
+<p><a name="index-g_t_002dgnatyS-_0028gcc_0029-570"></a>
+
+     <dl>
+<dt><code>-gnatyS</code><dd>
+`Check no statements after then/else.'
+
+     <p>No statements are allowed
+on the same line as a <cite>then</cite> or <cite>else</cite> keyword following the
+keyword in an <cite>if</cite> statement. <cite>or else</cite> and <cite>and then</cite> are not
+affected, and a special exception allows a pragma to appear after <cite>else</cite>. 
+</dl>
+
+<p><a name="index-g_t_002dgnatyt-_0028gcc_0029-571"></a>
+
+     <dl>
+<dt><code>-gnatyt</code><dd>
+`Check token spacing.'
+
+     <p>The following token spacing rules are enforced:
+
+          <ul>
+<li>The keywords <cite>abs</cite> and <cite>not</cite> must be followed by a space.
+
+          <li>The token <cite>=&gt;</cite> must be surrounded by spaces.
+
+          <li>The token <cite>&lt;&gt;</cite> must be preceded by a space or a left parenthesis.
+
+          <li>Binary operators other than <cite>**</cite> must be surrounded by spaces. 
+There is no restriction on the layout of the <cite>**</cite> binary operator.
+
+          <li>Colon must be surrounded by spaces.
+
+          <li>Colon-equal (assignment, initialization) must be surrounded by spaces.
+
+          <li>Comma must be the first non-blank character on the line, or be
+immediately preceded by a non-blank character, and must be followed
+by a space.
+
+          <li>If the token preceding a left parenthesis ends with a letter or digit, then
+a space must separate the two tokens.
+
+          <li>If the token following a right parenthesis starts with a letter or digit, then
+a space must separate the two tokens.
+
+          <li>A right parenthesis must either be the first non-blank character on
+a line, or it must be preceded by a non-blank character.
+
+          <li>A semicolon must not be preceded by a space, and must not be followed by
+a non-blank character.
+
+          <li>A unary plus or minus may not be followed by a space.
+
+          <li>A vertical bar must be surrounded by spaces. 
+</ul>
+
+     <p>Exactly one blank (and no other white space) must appear between
+a <cite>not</cite> token and a following <cite>in</cite> token. 
+</dl>
+
+<p><a name="index-g_t_002dgnatyu-_0028gcc_0029-572"></a>
+
+     <dl>
+<dt><code>-gnatyu</code><dd>
+`Check unnecessary blank lines.'
+
+     <p>Unnecessary blank lines are not allowed. A blank line is considered
+unnecessary if it appears at the end of the file, or if more than
+one blank line occurs in sequence. 
+</dl>
+
+<p><a name="index-g_t_002dgnatyx-_0028gcc_0029-573"></a>
+
+     <dl>
+<dt><code>-gnatyx</code><dd>
+`Check extra parentheses.'
+
+     <p>Unnecessary extra level of parentheses (C-style) are not allowed
+around conditions in <cite>if</cite> statements, <cite>while</cite> statements and
+<cite>exit</cite> statements. 
+</dl>
+
+<p><a name="index-g_t_002dgnatyy-_0028gcc_0029-574"></a>
+
+     <dl>
+<dt><code>-gnatyy</code><dd>
+`Set all standard style check options'
+
+     <p>This is equivalent to <cite>gnaty3aAbcefhiklmnprst</cite>, that is all checking
+options enabled with the exception of `-gnatyB', `-gnatyd',
+`-gnatyI', `-gnatyLnnn', `-gnatyo', `-gnatyO',
+`-gnatyS', `-gnatyu', and `-gnatyx'. 
+</dl>
+
+<p><a name="index-g_t_002dgnaty_002d-_0028gcc_0029-575"></a>
+
+     <dl>
+<dt><code>-gnaty-</code><dd>
+`Remove style check options'
+
+     <p>This causes any subsequent options in the string to act as canceling the
+corresponding style check option. To cancel maximum nesting level control,
+use `L' parameter witout any integer value after that, because any
+digit following `-' in the parameter string of the `-gnaty'
+option will be threated as canceling indentation check. The same is true
+for `M' parameter. `y' and `N' parameters are not
+allowed after `-'. 
+</dl>
+
+<p><a name="index-g_t_002dgnaty_002b-_0028gcc_0029-576"></a>
+
+     <dl>
+<dt><code>-gnaty+</code><dd>
+`Enable style check options'
+
+     <p>This causes any subsequent options in the string to enable the corresponding
+style check option. That is, it cancels the effect of a previous -,
+if any. 
+</dl>
+
+<!-- end of switch description (leave this comment to ease automatic parsing for -->
+<!-- GPS -->
+<p>In the above rules, appearing in column one is always permitted, that is,
+counts as meeting either a requirement for a required preceding space,
+or as meeting a requirement for no preceding space.
+
+<p>Appearing at the end of a line is also always permitted, that is, counts
+as meeting either a requirement for a following space, or as meeting
+a requirement for no following space.
+
+<p>If any of these style rules is violated, a message is generated giving
+details on the violation. The initial characters of such messages are
+always '<cite>(style)</cite>'. Note that these messages are treated as warning
+messages, so they normally do not prevent the generation of an object
+file. The `-gnatwe' switch can be used to treat warning messages,
+including style messages, as fatal errors.
+
+<p>The switch <code>-gnaty</code> on its own (that is not
+followed by any letters or digits) is equivalent
+to the use of `-gnatyy' as described above, that is all
+built-in standard style check options are enabled.
+
+<p>The switch <code>-gnatyN</code> clears any previously set style checks.
+
+</body></html>
+

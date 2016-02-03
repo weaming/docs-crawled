@@ -1,0 +1,76 @@
+<html lang="en">
+<head>
+<title>Executable File Names - GNAT User's Guide for Native Platforms</title>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+<meta name="description" content="GNAT User's Guide for Native Platforms">
+<meta name="generator" content="makeinfo 4.13">
+<link title="Top" rel="start" href="index.html#Top">
+<link rel="up" href="Building-With-Projects.html#Building-With-Projects" title="Building With Projects">
+<link rel="prev" href="Compiling-with-Project-Files.html#Compiling-with-Project-Files" title="Compiling with Project Files">
+<link rel="next" href="Avoid-Duplication-With-Variables.html#Avoid-Duplication-With-Variables" title="Avoid Duplication With Variables">
+<link href="http://www.gnu.org/software/texinfo/" rel="generator-home" title="Texinfo Homepage">
+<!--
+
+     GNAT User's Guide for Native Platforms , March 24, 2015
+
+     AdaCore
+
+     Copyright (C) 2008-2015, Free Software Foundation
+-->
+<meta http-equiv="Content-Style-Type" content="text/css">
+<style type="text/css"><!--
+  pre.display { font-family:inherit }
+  pre.format  { font-family:inherit }
+  pre.smalldisplay { font-family:inherit; font-size:smaller }
+  pre.smallformat  { font-family:inherit; font-size:smaller }
+  pre.smallexample { font-size:smaller }
+  pre.smalllisp    { font-size:smaller }
+  span.sc    { font-variant:small-caps }
+  span.roman { font-family:serif; font-weight:normal; } 
+  span.sansserif { font-family:sans-serif; font-weight:normal; } 
+--></style>
+</head>
+<body>
+<div class="node">
+<a name="Executable-File-Names"></a>
+<p>
+Next:&nbsp;<a rel="next" accesskey="n" href="Avoid-Duplication-With-Variables.html#Avoid-Duplication-With-Variables">Avoid Duplication With Variables</a>,
+Previous:&nbsp;<a rel="previous" accesskey="p" href="Compiling-with-Project-Files.html#Compiling-with-Project-Files">Compiling with Project Files</a>,
+Up:&nbsp;<a rel="up" accesskey="u" href="Building-With-Projects.html#Building-With-Projects">Building With Projects</a>
+<hr>
+</div>
+
+<p><a name="gnat_005fugn_002fgnat_005fproject_005fmanager-executable_002dfile_002dnames"></a><a name="g_t162"></a><a name="gnat_005fugn_002fgnat_005fproject_005fmanager-id9"></a><a name="g_t163"></a>
+
+<h4 class="subsection">5.2.7 Executable File Names</h4>
+
+<p><a name="index-Executable-_0028GNAT-Project-Manager_0029-799"></a>
+By default, the executable name corresponding to a main file is
+computed from the main source file name. Through the attribute
+`Builder.Executable', it is possible to change this default.
+
+<p>For instance, instead of building `proc' (or `proc.exe'
+on Windows), we could configure our project file to build "proc1"
+(resp proc1.exe) with the following addition:
+
+<pre class="example">    project Build is
+       ...  --  same as before
+       package Builder is
+          for Executable ("proc.adb") use "proc1";
+       end Builder
+    end Build;
+</pre>
+<p><a name="index-Executable_005fSuffix-_0028GNAT-Project-Manager_0029-800"></a>
+Attribute `Executable_Suffix', when specified, may change the suffix
+of the executable files, when no attribute <cite>Executable</cite> applies:
+its value replaces the platform-specific executable suffix. 
+The default executable suffix is empty on UNIX and ".exe" on Windows.
+
+<p>It is also possible to change the name of the produced executable by using the
+command line switch `-o'. When several mains are defined in the project,
+it is not possible to use the `-o' switch and the only way to change the
+names of the executable is provided by Attributes <cite>Executable</cite> and
+<cite>Executable_Suffix</cite>.
+
+</body></html>
+

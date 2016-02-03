@@ -1,0 +1,75 @@
+<html lang="en">
+<head>
+<title>Elaboration order - GNAT Reference Manual</title>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+<meta name="description" content="GNAT Reference Manual">
+<meta name="generator" content="makeinfo 4.13">
+<link title="Top" rel="start" href="index.html#Top">
+<link rel="up" href="Implementation_002ddependent-characteristics.html#Implementation_002ddependent-characteristics" title="Implementation-dependent characteristics">
+<link rel="prev" href="Libraries.html#Libraries" title="Libraries">
+<link rel="next" href="Target_002dspecific-aspects.html#Target_002dspecific-aspects" title="Target-specific aspects">
+<link href="http://www.gnu.org/software/texinfo/" rel="generator-home" title="Texinfo Homepage">
+<!--
+
+     GNAT Reference Manual , March 24, 2015
+
+     AdaCore
+
+     Copyright (C) 2008-2015, Free Software Foundation
+-->
+<meta http-equiv="Content-Style-Type" content="text/css">
+<style type="text/css"><!--
+  pre.display { font-family:inherit }
+  pre.format  { font-family:inherit }
+  pre.smalldisplay { font-family:inherit; font-size:smaller }
+  pre.smallformat  { font-family:inherit; font-size:smaller }
+  pre.smallexample { font-size:smaller }
+  pre.smalllisp    { font-size:smaller }
+  span.sc    { font-variant:small-caps }
+  span.roman { font-family:serif; font-weight:normal; } 
+  span.sansserif { font-family:sans-serif; font-weight:normal; } 
+--></style>
+</head>
+<body>
+<div class="node">
+<a name="Elaboration-order"></a>
+<p>
+Next:&nbsp;<a rel="next" accesskey="n" href="Target_002dspecific-aspects.html#Target_002dspecific-aspects">Target-specific aspects</a>,
+Previous:&nbsp;<a rel="previous" accesskey="p" href="Libraries.html#Libraries">Libraries</a>,
+Up:&nbsp;<a rel="up" accesskey="u" href="Implementation_002ddependent-characteristics.html#Implementation_002ddependent-characteristics">Implementation-dependent characteristics</a>
+<hr>
+</div>
+
+<p><a name="gnat_005frm_002fcompatibility_005fand_005fporting_005fguide-elaboration_002dorder"></a><a name="g_t3ed"></a><a name="gnat_005frm_002fcompatibility_005fand_005fporting_005fguide-id13"></a><a name="g_t3ee"></a>
+
+<h4 class="subsection">18.4.4 Elaboration order</h4>
+
+<p>The implementation can choose any elaboration order consistent with the unit
+dependency relationship.  This freedom means that some orders can result in
+Program_Error being raised due to an 'Access Before Elaboration': an attempt
+to invoke a subprogram its body has been elaborated, or to instantiate a
+generic before the generic body has been elaborated.  By default GNAT
+attempts to choose a safe order (one that will not encounter access before
+elaboration problems) by implicitly inserting <cite>Elaborate</cite> or
+<cite>Elaborate_All</cite> pragmas where
+needed.  However, this can lead to the creation of elaboration circularities
+and a resulting rejection of the program by gnatbind.  This issue is
+thoroughly described in the <cite>Elaboration Order Handling in GNAT</cite> appendix
+in the <cite>GNAT User's Guide</cite>. 
+In brief, there are several
+ways to deal with this situation:
+
+     <ul>
+<li>Modify the program to eliminate the circularities, e.g., by moving
+elaboration-time code into explicitly-invoked procedures
+
+     <li>Constrain the elaboration order by including explicit <cite>Elaborate_Body</cite> or
+<cite>Elaborate</cite> pragmas, and then inhibit the generation of implicit
+<cite>Elaborate_All</cite>
+pragmas either globally (as an effect of the `-gnatE' switch) or locally
+(by selectively suppressing elaboration checks via pragma
+<cite>Suppress(Elaboration_Check)</cite> when it is safe to do so). 
+</ul>
+
+</body></html>
+

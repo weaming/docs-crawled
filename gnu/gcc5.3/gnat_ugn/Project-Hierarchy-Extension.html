@@ -1,0 +1,118 @@
+<html lang="en">
+<head>
+<title>Project Hierarchy Extension - GNAT User's Guide for Native Platforms</title>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+<meta name="description" content="GNAT User's Guide for Native Platforms">
+<meta name="generator" content="makeinfo 4.13">
+<link title="Top" rel="start" href="index.html#Top">
+<link rel="up" href="Project-Extension.html#Project-Extension" title="Project Extension">
+<link href="http://www.gnu.org/software/texinfo/" rel="generator-home" title="Texinfo Homepage">
+<!--
+
+     GNAT User's Guide for Native Platforms , March 24, 2015
+
+     AdaCore
+
+     Copyright (C) 2008-2015, Free Software Foundation
+-->
+<meta http-equiv="Content-Style-Type" content="text/css">
+<style type="text/css"><!--
+  pre.display { font-family:inherit }
+  pre.format  { font-family:inherit }
+  pre.smalldisplay { font-family:inherit; font-size:smaller }
+  pre.smallformat  { font-family:inherit; font-size:smaller }
+  pre.smallexample { font-size:smaller }
+  pre.smalllisp    { font-size:smaller }
+  span.sc    { font-variant:small-caps }
+  span.roman { font-family:serif; font-weight:normal; } 
+  span.sansserif { font-family:sans-serif; font-weight:normal; } 
+--></style>
+</head>
+<body>
+<div class="node">
+<a name="Project-Hierarchy-Extension"></a>
+<p>
+Up:&nbsp;<a rel="up" accesskey="u" href="Project-Extension.html#Project-Extension">Project Extension</a>
+<hr>
+</div>
+
+<p><a name="gnat_005fugn_002fgnat_005fproject_005fmanager-project_002dhierarchy_002dextension"></a><a name="g_t17f"></a><a name="gnat_005fugn_002fgnat_005fproject_005fmanager-id26"></a><a name="g_t180"></a>
+
+<h4 class="subsection">5.6.1 Project Hierarchy Extension</h4>
+
+<p>One of the fundamental restrictions in project extension is the following:
+`A project is not allowed to import directly or indirectly at the same time an extending project and one of its ancestors'.
+
+<p>For example, consider the following hierarchy of projects.
+
+<pre class="example">    a.gpr  contains package A1
+    b.gpr, imports a.gpr and contains B1, which depends on A1
+    c.gpr, imports b.gpr and contains C1, which depends on B1
+</pre>
+<p>If we want to locally extend the packages <cite>A1</cite> and <cite>C1</cite>, we need to
+create several extending projects:
+
+<pre class="example">    a_ext.gpr which extends a.gpr, and overrides A1
+    b_ext.gpr which extends b.gpr and imports a_ext.gpr
+    c_ext.gpr which extends c.gpr, imports b_ext.gpr and overrides C1
+</pre>
+<pre class="example">    project A_Ext extends "a.gpr" is
+       for Source_Files use ("a1.adb", "a1.ads");
+    end A_Ext;
+    
+    with "a_ext.gpr";
+    project B_Ext extends "b.gpr" is
+    end B_Ext;
+    
+    with "b_ext.gpr";
+    project C_Ext extends "c.gpr" is
+       for Source_Files use ("c1.adb");
+    end C_Ext;
+</pre>
+<p>The extension <code>b_ext.gpr</code> is required, even though we are not overriding
+any of the sources of <code>b.gpr</code> because otherwise <code>c_expr.gpr</code> would
+import <code>b.gpr</code> which itself knows nothing about <code>a_ext.gpr</code>.
+
+<p><a name="index-extends-all-_0028GNAT-Project-Manager_0029-851"></a>
+When extending a large system spanning multiple projects, it is often
+inconvenient to extend every project in the hierarchy that is impacted by a
+small change introduced in a low layer. In such cases, it is possible to create
+an `implicit extension' of an entire hierarchy using `extends all'
+relationship.
+
+<p>When the project is extended using <cite>extends all</cite> inheritance, all projects
+that are imported by it, both directly and indirectly, are considered virtually
+extended. That is, the project manager creates implicit projects
+that extend every project in the hierarchy; all these implicit projects do not
+control sources on their own and use the object directory of
+the "extending all" project.
+
+<p>It is possible to explicitly extend one or more projects in the hierarchy
+in order to modify the sources. These extending projects must be imported by
+the "extending all" project, which will replace the corresponding virtual
+projects with the explicit ones.
+
+<p>When building such a project hierarchy extension, the project manager will
+ensure that both modified sources and sources in implicit extending projects
+that depend on them are recompiled.
+
+<p>Thus, in our example we could create the following projects instead:
+
+<pre class="example">    a_ext.gpr, extends a.gpr and overrides A1
+    c_ext.gpr, "extends all" c.gpr, imports a_ext.gpr and overrides C1
+</pre>
+<pre class="example">    project A_Ext extends "a.gpr" is
+       for Source_Files use ("a1.adb", "a1.ads");
+    end A_Ext;
+    
+    with "a_ext.gpr";
+    project C_Ext extends all "c.gpr" is
+      for Source_Files use ("c1.adb");
+    end C_Ext;
+</pre>
+<p>When building project <code>c_ext.gpr</code>, the entire modified project space is
+considered for recompilation, including the sources of <code>b.gpr</code> that are
+impacted by the changes in <cite>A1</cite> and <cite>C1</cite>.
+
+</body></html>
+

@@ -1,0 +1,80 @@
+<html lang="en">
+<head>
+<title>Pragma Invariant - GNAT Reference Manual</title>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+<meta name="description" content="GNAT Reference Manual">
+<meta name="generator" content="makeinfo 4.13">
+<link title="Top" rel="start" href="index.html#Top">
+<link rel="up" href="Implementation-Defined-Pragmas.html#Implementation-Defined-Pragmas" title="Implementation Defined Pragmas">
+<link rel="prev" href="Pragma-Interrupt_005fState.html#Pragma-Interrupt_005fState" title="Pragma Interrupt_State">
+<link rel="next" href="Pragma-Java_005fConstructor.html#Pragma-Java_005fConstructor" title="Pragma Java_Constructor">
+<link href="http://www.gnu.org/software/texinfo/" rel="generator-home" title="Texinfo Homepage">
+<!--
+
+     GNAT Reference Manual , March 24, 2015
+
+     AdaCore
+
+     Copyright (C) 2008-2015, Free Software Foundation
+-->
+<meta http-equiv="Content-Style-Type" content="text/css">
+<style type="text/css"><!--
+  pre.display { font-family:inherit }
+  pre.format  { font-family:inherit }
+  pre.smalldisplay { font-family:inherit; font-size:smaller }
+  pre.smallformat  { font-family:inherit; font-size:smaller }
+  pre.smallexample { font-size:smaller }
+  pre.smalllisp    { font-size:smaller }
+  span.sc    { font-variant:small-caps }
+  span.roman { font-family:serif; font-weight:normal; } 
+  span.sansserif { font-family:sans-serif; font-weight:normal; } 
+--></style>
+</head>
+<body>
+<div class="node">
+<a name="Pragma-Invariant"></a>
+<p>
+Next:&nbsp;<a rel="next" accesskey="n" href="Pragma-Java_005fConstructor.html#Pragma-Java_005fConstructor">Pragma Java_Constructor</a>,
+Previous:&nbsp;<a rel="previous" accesskey="p" href="Pragma-Interrupt_005fState.html#Pragma-Interrupt_005fState">Pragma Interrupt_State</a>,
+Up:&nbsp;<a rel="up" accesskey="u" href="Implementation-Defined-Pragmas.html#Implementation-Defined-Pragmas">Implementation Defined Pragmas</a>
+<hr>
+</div>
+
+<p><a name="gnat_005frm_002fimplementation_005fdefined_005fpragmas-pragma_002dinvariant"></a><a name="g_t73"></a>
+
+<h3 class="section">2.88 Pragma Invariant</h3>
+
+<p>Syntax:
+
+<pre class="example">    pragma Invariant
+      ([Entity =&gt;]    private_type_LOCAL_NAME,
+       [Check  =&gt;]    EXPRESSION
+       [,[Message =&gt;] String_Expression]);
+</pre>
+<p>This pragma provides exactly the same capabilities as the Type_Invariant aspect
+defined in AI05-0146-1, and in the Ada 2012 Reference Manual. The
+Type_Invariant aspect is fully implemented in Ada 2012 mode, but since it
+requires the use of the aspect syntax, which is not available except in 2012
+mode, it is not possible to use the Type_Invariant aspect in earlier versions
+of Ada. However the Invariant pragma may be used in any version of Ada. Also
+note that the aspect Invariant is a synonym in GNAT for the aspect
+Type_Invariant, but there is no pragma Type_Invariant.
+
+<p>The pragma must appear within the visible part of the package specification,
+after the type to which its Entity argument appears. As with the Invariant
+aspect, the Check expression is not analyzed until the end of the visible
+part of the package, so it may contain forward references. The Message
+argument, if present, provides the exception message used if the invariant
+is violated. If no Message parameter is provided, a default message that
+identifies the line on which the pragma appears is used.
+
+<p>It is permissible to have multiple Invariants for the same type entity, in
+which case they are and'ed together. It is permissible to use this pragma
+in Ada 2012 mode, but you cannot have both an invariant aspect and an
+invariant pragma for the same entity.
+
+<p>For further details on the use of this pragma, see the Ada 2012 documentation
+of the Type_Invariant aspect.
+
+</body></html>
+

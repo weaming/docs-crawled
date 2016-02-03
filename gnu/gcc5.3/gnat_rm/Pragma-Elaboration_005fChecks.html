@@ -1,0 +1,66 @@
+<html lang="en">
+<head>
+<title>Pragma Elaboration_Checks - GNAT Reference Manual</title>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+<meta name="description" content="GNAT Reference Manual">
+<meta name="generator" content="makeinfo 4.13">
+<link title="Top" rel="start" href="index.html#Top">
+<link rel="up" href="Implementation-Defined-Pragmas.html#Implementation-Defined-Pragmas" title="Implementation Defined Pragmas">
+<link rel="prev" href="Pragma-Effective_005fWrites.html#Pragma-Effective_005fWrites" title="Pragma Effective_Writes">
+<link rel="next" href="Pragma-Eliminate.html#Pragma-Eliminate" title="Pragma Eliminate">
+<link href="http://www.gnu.org/software/texinfo/" rel="generator-home" title="Texinfo Homepage">
+<!--
+
+     GNAT Reference Manual , March 24, 2015
+
+     AdaCore
+
+     Copyright (C) 2008-2015, Free Software Foundation
+-->
+<meta http-equiv="Content-Style-Type" content="text/css">
+<style type="text/css"><!--
+  pre.display { font-family:inherit }
+  pre.format  { font-family:inherit }
+  pre.smalldisplay { font-family:inherit; font-size:smaller }
+  pre.smallformat  { font-family:inherit; font-size:smaller }
+  pre.smallexample { font-size:smaller }
+  pre.smalllisp    { font-size:smaller }
+  span.sc    { font-variant:small-caps }
+  span.roman { font-family:serif; font-weight:normal; } 
+  span.sansserif { font-family:sans-serif; font-weight:normal; } 
+--></style>
+</head>
+<body>
+<div class="node">
+<a name="Pragma-Elaboration_Checks"></a>
+<a name="Pragma-Elaboration_005fChecks"></a>
+<p>
+Next:&nbsp;<a rel="next" accesskey="n" href="Pragma-Eliminate.html#Pragma-Eliminate">Pragma Eliminate</a>,
+Previous:&nbsp;<a rel="previous" accesskey="p" href="Pragma-Effective_005fWrites.html#Pragma-Effective_005fWrites">Pragma Effective_Writes</a>,
+Up:&nbsp;<a rel="up" accesskey="u" href="Implementation-Defined-Pragmas.html#Implementation-Defined-Pragmas">Implementation Defined Pragmas</a>
+<hr>
+</div>
+
+<p><a name="gnat_005frm_002fimplementation_005fdefined_005fpragmas-pragma_002delaboration_002dchecks"></a><a name="g_t4e"></a>
+
+<h3 class="section">2.51 Pragma Elaboration_Checks</h3>
+
+<p><a name="index-Elaboration-control-39"></a>
+Syntax:
+
+<pre class="example">    pragma Elaboration_Checks (Dynamic | Static);
+</pre>
+<p>This is a configuration pragma that provides control over the
+elaboration model used by the compilation affected by the
+pragma.  If the parameter is <cite>Dynamic</cite>,
+then the dynamic elaboration
+model described in the Ada Reference Manual is used, as though
+the `-gnatE' switch had been specified on the command
+line.  If the parameter is <cite>Static</cite>, then the default GNAT static
+model is used.  This configuration pragma overrides the setting
+of the command line.  For full details on the elaboration models
+used by the GNAT compiler, see the chapter on elaboration order handling
+in the `GNAT User's Guide'.
+
+</body></html>
+

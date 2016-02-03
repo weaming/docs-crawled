@@ -1,0 +1,129 @@
+<html lang="en">
+<head>
+<title>Legal Ada 83 programs that are illegal in Ada 95 - GNAT Reference Manual</title>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+<meta name="description" content="GNAT Reference Manual">
+<meta name="generator" content="makeinfo 4.13">
+<link title="Top" rel="start" href="index.html#Top">
+<link rel="up" href="Compatibility-with-Ada-83.html#Compatibility-with-Ada-83" title="Compatibility with Ada 83">
+<link rel="next" href="More-deterministic-semantics.html#More-deterministic-semantics" title="More deterministic semantics">
+<link href="http://www.gnu.org/software/texinfo/" rel="generator-home" title="Texinfo Homepage">
+<!--
+
+     GNAT Reference Manual , March 24, 2015
+
+     AdaCore
+
+     Copyright (C) 2008-2015, Free Software Foundation
+-->
+<meta http-equiv="Content-Style-Type" content="text/css">
+<style type="text/css"><!--
+  pre.display { font-family:inherit }
+  pre.format  { font-family:inherit }
+  pre.smalldisplay { font-family:inherit; font-size:smaller }
+  pre.smallformat  { font-family:inherit; font-size:smaller }
+  pre.smallexample { font-size:smaller }
+  pre.smalllisp    { font-size:smaller }
+  span.sc    { font-variant:small-caps }
+  span.roman { font-family:serif; font-weight:normal; } 
+  span.sansserif { font-family:sans-serif; font-weight:normal; } 
+--></style>
+</head>
+<body>
+<div class="node">
+<a name="Legal-Ada-83-programs-that-are-illegal-in-Ada-95"></a>
+<p>
+Next:&nbsp;<a rel="next" accesskey="n" href="More-deterministic-semantics.html#More-deterministic-semantics">More deterministic semantics</a>,
+Up:&nbsp;<a rel="up" accesskey="u" href="Compatibility-with-Ada-83.html#Compatibility-with-Ada-83">Compatibility with Ada 83</a>
+<hr>
+</div>
+
+<p><a name="gnat_005frm_002fcompatibility_005fand_005fporting_005fguide-id4"></a><a name="g_t3db"></a><a name="gnat_005frm_002fcompatibility_005fand_005fporting_005fguide-legal_002dada_002d83_002dprograms_002dthat_002dare_002dillegal_002din_002dada_002d95"></a><a name="g_t3dc"></a>
+
+<h4 class="subsection">18.2.1 Legal Ada 83 programs that are illegal in Ada 95</h4>
+
+<p>Some legal Ada 83 programs are illegal (i.e., they will fail to compile) in
+Ada 95 and later versions of the standard:
+
+     <ul>
+<li>`Character literals'
+
+     <p>Some uses of character literals are ambiguous.  Since Ada 95 has introduced
+<cite>Wide_Character</cite> as a new predefined character type, some uses of
+character literals that were legal in Ada 83 are illegal in Ada 95. 
+For example:
+
+     <pre class="example">         for Char in 'A' .. 'Z' loop ... end loop;
+</pre>
+     <p>The problem is that 'A' and 'Z' could be from either
+<cite>Character</cite> or <cite>Wide_Character</cite>.  The simplest correction
+is to make the type explicit; e.g.:
+
+     <pre class="example">         for Char in Character range 'A' .. 'Z' loop ... end loop;
+</pre>
+     <li>`New reserved words'
+
+     <p>The identifiers <cite>abstract</cite>, <cite>aliased</cite>, <cite>protected</cite>,
+<cite>requeue</cite>, <cite>tagged</cite>, and <cite>until</cite> are reserved in Ada 95. 
+Existing Ada 83 code using any of these identifiers must be edited to
+use some alternative name.
+
+     <li>`Freezing rules'
+
+     <p>The rules in Ada 95 are slightly different with regard to the point at
+which entities are frozen, and representation pragmas and clauses are
+not permitted past the freeze point.  This shows up most typically in
+the form of an error message complaining that a representation item
+appears too late, and the appropriate corrective action is to move
+the item nearer to the declaration of the entity to which it refers.
+
+     <p>A particular case is that representation pragmas
+cannot be applied to a subprogram body.  If necessary, a separate subprogram
+declaration must be introduced to which the pragma can be applied.
+
+     <li>`Optional bodies for library packages'
+
+     <p>In Ada 83, a package that did not require a package body was nevertheless
+allowed to have one.  This lead to certain surprises in compiling large
+systems (situations in which the body could be unexpectedly ignored by the
+binder).  In Ada 95, if a package does not require a body then it is not
+permitted to have a body.  To fix this problem, simply remove a redundant
+body if it is empty, or, if it is non-empty, introduce a dummy declaration
+into the spec that makes the body required.  One approach is to add a private
+part to the package declaration (if necessary), and define a parameterless
+procedure called <cite>Requires_Body</cite>, which must then be given a dummy
+procedure body in the package body, which then becomes required. 
+Another approach (assuming that this does not introduce elaboration
+circularities) is to add an <cite>Elaborate_Body</cite> pragma to the package spec,
+since one effect of this pragma is to require the presence of a package body.
+
+     <li>`Numeric_Error is the same exception as Constraint_Error'
+
+     <p>In Ada 95, the exception <cite>Numeric_Error</cite> is a renaming of <cite>Constraint_Error</cite>. 
+This means that it is illegal to have separate exception handlers for
+the two exceptions.  The fix is simply to remove the handler for the
+<cite>Numeric_Error</cite> case (since even in Ada 83, a compiler was free to raise
+<cite>Constraint_Error</cite> in place of <cite>Numeric_Error</cite> in all cases).
+
+     <li>`Indefinite subtypes in generics'
+
+     <p>In Ada 83, it was permissible to pass an indefinite type (e.g, <cite>String</cite>)
+as the actual for a generic formal private type, but then the instantiation
+would be illegal if there were any instances of declarations of variables
+of this type in the generic body.  In Ada 95, to avoid this clear violation
+of the methodological principle known as the 'contract model',
+the generic declaration explicitly indicates whether
+or not such instantiations are permitted.  If a generic formal parameter
+has explicit unknown discriminants, indicated by using <cite>(&lt;&gt;)</cite> after the
+subtype name, then it can be instantiated with indefinite types, but no
+stand-alone variables can be declared of this type.  Any attempt to declare
+such a variable will result in an illegality at the time the generic is
+declared.  If the <cite>(&lt;&gt;)</cite> notation is not used, then it is illegal
+to instantiate the generic with an indefinite type. 
+This is the potential incompatibility issue when porting Ada 83 code to Ada 95. 
+It will show up as a compile time error, and
+the fix is usually simply to add the <cite>(&lt;&gt;)</cite> to the generic declaration. 
+</ul>
+
+</body></html>
+

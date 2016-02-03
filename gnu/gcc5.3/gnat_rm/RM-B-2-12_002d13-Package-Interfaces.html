@@ -1,0 +1,73 @@
+<html lang="en">
+<head>
+<title>RM B 2 12-13 Package Interfaces - GNAT Reference Manual</title>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+<meta name="description" content="GNAT Reference Manual">
+<meta name="generator" content="makeinfo 4.13">
+<link title="Top" rel="start" href="index.html#Top">
+<link rel="up" href="Implementation-Advice.html#Implementation-Advice" title="Implementation Advice">
+<link rel="prev" href="RM-B-1-39_002d41-Pragma-Export.html#RM-B-1-39_002d41-Pragma-Export" title="RM B 1 39-41 Pragma Export">
+<link rel="next" href="RM-B-3-63_002d71-Interfacing-with-C.html#RM-B-3-63_002d71-Interfacing-with-C" title="RM B 3 63-71 Interfacing with C">
+<link href="http://www.gnu.org/software/texinfo/" rel="generator-home" title="Texinfo Homepage">
+<!--
+
+     GNAT Reference Manual , March 24, 2015
+
+     AdaCore
+
+     Copyright (C) 2008-2015, Free Software Foundation
+-->
+<meta http-equiv="Content-Style-Type" content="text/css">
+<style type="text/css"><!--
+  pre.display { font-family:inherit }
+  pre.format  { font-family:inherit }
+  pre.smalldisplay { font-family:inherit; font-size:smaller }
+  pre.smallformat  { font-family:inherit; font-size:smaller }
+  pre.smallexample { font-size:smaller }
+  pre.smalllisp    { font-size:smaller }
+  span.sc    { font-variant:small-caps }
+  span.roman { font-family:serif; font-weight:normal; } 
+  span.sansserif { font-family:sans-serif; font-weight:normal; } 
+--></style>
+</head>
+<body>
+<div class="node">
+<a name="RM-B-2-12-13-Package-Interfaces"></a>
+<a name="RM-B-2-12_002d13-Package-Interfaces"></a>
+<p>
+Next:&nbsp;<a rel="next" accesskey="n" href="RM-B-3-63_002d71-Interfacing-with-C.html#RM-B-3-63_002d71-Interfacing-with-C">RM B 3 63-71 Interfacing with C</a>,
+Previous:&nbsp;<a rel="previous" accesskey="p" href="RM-B-1-39_002d41-Pragma-Export.html#RM-B-1-39_002d41-Pragma-Export">RM B 1 39-41 Pragma Export</a>,
+Up:&nbsp;<a rel="up" accesskey="u" href="Implementation-Advice.html#Implementation-Advice">Implementation Advice</a>
+<hr>
+</div>
+
+<p><a name="gnat_005frm_002fimplementation_005fadvice-rm_002db_002d2_002d12_002d13_002dpackage_002dinterfaces"></a><a name="g_t1e3"></a>
+
+<h3 class="section">6.39 RM B.2(12-13): Package <cite>Interfaces</cite></h3>
+
+<blockquote>
+
+<p>"For each implementation-defined convention identifier, there should be a
+child package of package Interfaces with the corresponding name.  This
+package should contain any declarations that would be useful for
+interfacing to the language (implementation) represented by the
+convention.  Any declarations useful for interfacing to any language on
+the given hardware architecture should be provided directly in
+<cite>Interfaces</cite>." 
+</blockquote>
+
+<p>Followed.
+
+<blockquote>
+
+<p>"An implementation supporting an interface to C, COBOL, or Fortran should
+provide the corresponding package or packages described in the following
+clauses." 
+</blockquote>
+
+<p>Followed.  GNAT provides all the packages described in this section.
+
+<p><a name="index-C-426"></a><a name="index-interfacing-with-427"></a>
+
+</body></html>
+

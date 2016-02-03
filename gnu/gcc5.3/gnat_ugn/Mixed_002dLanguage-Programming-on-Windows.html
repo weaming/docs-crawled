@@ -1,0 +1,120 @@
+<html lang="en">
+<head>
+<title>Mixed-Language Programming on Windows - GNAT User's Guide for Native Platforms</title>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+<meta name="description" content="GNAT User's Guide for Native Platforms">
+<meta name="generator" content="makeinfo 4.13">
+<link title="Top" rel="start" href="index.html#Top">
+<link rel="up" href="Microsoft-Windows-Topics.html#Microsoft-Windows-Topics" title="Microsoft Windows Topics">
+<link rel="prev" href="Temporary-Files.html#Temporary-Files" title="Temporary Files">
+<link href="http://www.gnu.org/software/texinfo/" rel="generator-home" title="Texinfo Homepage">
+<!--
+
+     GNAT User's Guide for Native Platforms , March 24, 2015
+
+     AdaCore
+
+     Copyright (C) 2008-2015, Free Software Foundation
+-->
+<meta http-equiv="Content-Style-Type" content="text/css">
+<style type="text/css"><!--
+  pre.display { font-family:inherit }
+  pre.format  { font-family:inherit }
+  pre.smalldisplay { font-family:inherit; font-size:smaller }
+  pre.smallformat  { font-family:inherit; font-size:smaller }
+  pre.smallexample { font-size:smaller }
+  pre.smalllisp    { font-size:smaller }
+  span.sc    { font-variant:small-caps }
+  span.roman { font-family:serif; font-weight:normal; } 
+  span.sansserif { font-family:sans-serif; font-weight:normal; } 
+--></style>
+</head>
+<body>
+<div class="node">
+<a name="Mixed-Language-Programming-on-Windows"></a>
+<a name="Mixed_002dLanguage-Programming-on-Windows"></a>
+<p>
+Previous:&nbsp;<a rel="previous" accesskey="p" href="Temporary-Files.html#Temporary-Files">Temporary Files</a>,
+Up:&nbsp;<a rel="up" accesskey="u" href="Microsoft-Windows-Topics.html#Microsoft-Windows-Topics">Microsoft Windows Topics</a>
+<hr>
+</div>
+
+<p><a name="gnat_005fugn_002fplatform_005fspecific_005finformation-mixed_002dlanguage_002dprogramming_002don_002dwindows"></a><a name="g_t270"></a><a name="gnat_005fugn_002fplatform_005fspecific_005finformation-id14"></a><a name="g_t271"></a>
+
+<h4 class="subsection">9.3.5 Mixed-Language Programming on Windows</h4>
+
+<p>Developing pure Ada applications on Windows is no different than on
+other GNAT-supported platforms. However, when developing or porting an
+application that contains a mix of Ada and C/C++, the choice of your
+Windows C/C++ development environment conditions your overall
+interoperability strategy.
+
+<p>If you use `gcc' or Microsoft C to compile the non-Ada part of
+your application, there are no Windows-specific restrictions that
+affect the overall interoperability with your Ada code. If you do want
+to use the Microsoft tools for your C++ code, you have two choices:
+
+     <ul>
+<li>Encapsulate your C++ code in a DLL to be linked with your Ada
+application. In this case, use the Microsoft or whatever environment to
+build the DLL and use GNAT to build your executable
+(<a href="272.html#g_t272">Using DLLs with GNAT</a>).
+
+     <li>Or you can encapsulate your Ada code in a DLL to be linked with the
+other part of your application. In this case, use GNAT to build the DLL
+(<a href="273.html#g_t273">Building DLLs with GNAT Project files</a>) and use the Microsoft
+or whatever environment to build your executable. 
+</ul>
+
+<p>In addition to the description about C main in
+<a href="46.html#g_t46">Mixed Language Programming</a> section, if the C main uses a
+stand-alone library it is required on x86-windows to
+setup the SEH context. For this the C main must looks like this:
+
+<blockquote>
+
+<pre class="example">    /* main.c */
+    extern void adainit (void);
+    extern void adafinal (void);
+    extern void __gnat_initialize(void*);
+    extern void call_to_ada (void);
+    
+    int main (int argc, char *argv[])
+    {
+      int SEH [2];
+    
+      /* Initialize the SEH context */
+      __gnat_initialize (&amp;SEH);
+    
+      adainit();
+    
+      /* Then call Ada services in the stand-alone library */
+    
+      call_to_ada();
+    
+      adafinal();
+    }
+</pre>
+</blockquote>
+
+<p>Note that this is not needed on x86_64-windows where the Windows
+native SEH support is used.
+
+<ul class="menu">
+<li><a accesskey="1" href="Windows-Calling-Conventions.html#Windows-Calling-Conventions">Windows Calling Conventions</a>
+<li><a accesskey="2" href="Introduction-to-Dynamic-Link-Libraries-DLLs.html#Introduction-to-Dynamic-Link-Libraries-DLLs">Introduction to Dynamic Link Libraries (DLLs)</a>
+<li><a accesskey="3" href="Using-DLLs-with-GNAT.html#Using-DLLs-with-GNAT">Using DLLs with GNAT</a>
+<li><a accesskey="4" href="Building-DLLs-with-GNAT-Project-files.html#Building-DLLs-with-GNAT-Project-files">Building DLLs with GNAT Project files</a>
+<li><a accesskey="5" href="Building-DLLs-with-GNAT.html#Building-DLLs-with-GNAT">Building DLLs with GNAT</a>
+<li><a accesskey="6" href="Building-DLLs-with-gnatdll.html#Building-DLLs-with-gnatdll">Building DLLs with gnatdll</a>
+<li><a accesskey="7" href="Ada-DLLs-and-Finalization.html#Ada-DLLs-and-Finalization">Ada DLLs and Finalization</a>
+<li><a accesskey="8" href="Creating-a-Spec-for-Ada-DLLs.html#Creating-a-Spec-for-Ada-DLLs">Creating a Spec for Ada DLLs</a>
+<li><a accesskey="9" href="GNAT-and-Windows-Resources.html#GNAT-and-Windows-Resources">GNAT and Windows Resources</a>
+<li><a href="Debugging-a-DLL.html#Debugging-a-DLL">Debugging a DLL</a>
+<li><a href="Setting-Stack-Size-from-gnatlink.html#Setting-Stack-Size-from-gnatlink">Setting Stack Size from gnatlink</a>
+<li><a href="Setting-Heap-Size-from-gnatlink.html#Setting-Heap-Size-from-gnatlink">Setting Heap Size from gnatlink</a>
+
+</ul>
+
+</body></html>
+

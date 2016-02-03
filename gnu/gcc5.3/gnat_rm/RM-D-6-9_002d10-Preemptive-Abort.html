@@ -1,0 +1,70 @@
+<html lang="en">
+<head>
+<title>RM D 6 9-10 Preemptive Abort - GNAT Reference Manual</title>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+<meta name="description" content="GNAT Reference Manual">
+<meta name="generator" content="makeinfo 4.13">
+<link title="Top" rel="start" href="index.html#Top">
+<link rel="up" href="Implementation-Advice.html#Implementation-Advice" title="Implementation Advice">
+<link rel="prev" href="RM-D-4-16-Entry-Queuing-Policies.html#RM-D-4-16-Entry-Queuing-Policies" title="RM D 4 16 Entry Queuing Policies">
+<link rel="next" href="RM-D-7-21-Tasking-Restrictions.html#RM-D-7-21-Tasking-Restrictions" title="RM D 7 21 Tasking Restrictions">
+<link href="http://www.gnu.org/software/texinfo/" rel="generator-home" title="Texinfo Homepage">
+<!--
+
+     GNAT Reference Manual , March 24, 2015
+
+     AdaCore
+
+     Copyright (C) 2008-2015, Free Software Foundation
+-->
+<meta http-equiv="Content-Style-Type" content="text/css">
+<style type="text/css"><!--
+  pre.display { font-family:inherit }
+  pre.format  { font-family:inherit }
+  pre.smalldisplay { font-family:inherit; font-size:smaller }
+  pre.smallformat  { font-family:inherit; font-size:smaller }
+  pre.smallexample { font-size:smaller }
+  pre.smalllisp    { font-size:smaller }
+  span.sc    { font-variant:small-caps }
+  span.roman { font-family:serif; font-weight:normal; } 
+  span.sansserif { font-family:sans-serif; font-weight:normal; } 
+--></style>
+</head>
+<body>
+<div class="node">
+<a name="RM-D-6-9-10-Preemptive-Abort"></a>
+<a name="RM-D-6-9_002d10-Preemptive-Abort"></a>
+<p>
+Next:&nbsp;<a rel="next" accesskey="n" href="RM-D-7-21-Tasking-Restrictions.html#RM-D-7-21-Tasking-Restrictions">RM D 7 21 Tasking Restrictions</a>,
+Previous:&nbsp;<a rel="previous" accesskey="p" href="RM-D-4-16-Entry-Queuing-Policies.html#RM-D-4-16-Entry-Queuing-Policies">RM D 4 16 Entry Queuing Policies</a>,
+Up:&nbsp;<a rel="up" accesskey="u" href="Implementation-Advice.html#Implementation-Advice">Implementation Advice</a>
+<hr>
+</div>
+
+<p><a name="gnat_005frm_002fimplementation_005fadvice-rm_002dd_002d6_002d9_002d10_002dpreemptive_002dabort"></a><a name="g_t1f1"></a>
+
+<h3 class="section">6.53 RM D.6(9-10): Preemptive Abort</h3>
+
+<blockquote>
+
+<p>"Even though the <cite>abort_statement</cite> is included in the list of
+potentially blocking operations (see 9.5.1), it is recommended that this
+statement be implemented in a way that never requires the task executing
+the <cite>abort_statement</cite> to block." 
+</blockquote>
+
+<p>Followed.
+
+<blockquote>
+
+<p>"On a multi-processor, the delay associated with aborting a task on
+another processor should be bounded; the implementation should use
+periodic polling, if necessary, to achieve this." 
+</blockquote>
+
+<p>Followed.
+
+<p><a name="index-Tasking-restrictions-443"></a>
+
+</body></html>
+

@@ -1,0 +1,151 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+  "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+
+
+<html xmlns="http://www.w3.org/1999/xhtml">
+  <head>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+    
+    <title>前言 &mdash; Flask 0.10 文档</title>
+    
+    <link rel="stylesheet" href="_static/flasky.css" type="text/css" />
+    <link rel="stylesheet" href="_static/pygments.css" type="text/css" />
+    
+    <script type="text/javascript">
+      var DOCUMENTATION_OPTIONS = {
+        URL_ROOT:    './',
+        VERSION:     '0.10',
+        COLLAPSE_INDEX: false,
+        FILE_SUFFIX: '.html',
+        HAS_SOURCE:  true
+      };
+    </script>
+    <script type="text/javascript" src="_static/jquery.js"></script>
+    <script type="text/javascript" src="_static/underscore.js"></script>
+    <script type="text/javascript" src="_static/doctools.js"></script>
+    <script type="text/javascript" src="_static/translations.js"></script>
+    <link rel="top" title="Flask 0.10 文档" href="index.html" />
+    <link rel="next" title="针对高级程序员的前言" href="advanced_foreword.html" />
+    <link rel="prev" title="欢迎来到 Flask 的世界" href="index.html" />
+   
+  
+  <link rel="apple-touch-icon" href="_static/touch-icon.png" />
+  
+  <link media="only screen and (max-device-width: 480px)" href="_static/small_flask.css" type= "text/css" rel="stylesheet" />
+
+  </head>
+  <body role="document">
+    <div class="related" role="navigation" aria-label="related navigation">
+      <h3>导航</h3>
+      <ul>
+        <li class="right" style="margin-right: 10px">
+          <a href="genindex.html" title="总目录"
+             accesskey="I">索引</a></li>
+        <li class="right" >
+          <a href="advanced_foreword.html" title="针对高级程序员的前言"
+             accesskey="N">下一页</a> |</li>
+        <li class="right" >
+          <a href="index.html" title="欢迎来到 Flask 的世界"
+             accesskey="P">上一页</a> |</li>
+        <li class="nav-item nav-item-0"><a href="index.html">Flask 0.10 文档</a> &raquo;</li> 
+      </ul>
+    </div>  
+
+    <div class="document">
+      <div class="documentwrapper">
+        <div class="bodywrapper">
+          <div class="body" role="main">
+            
+  <div class="section" id="id1">
+<h1>前言<a class="headerlink" href="#id1" title="永久链接至标题">¶</a></h1>
+<p>在使用 Flask 前请阅读本文。希望本文可以回答您有关 Flask 的用途和目的，以及是
+否应当使用 Flask 等问题。</p>
+<div class="section" id="id2">
+<h2>“微”是什么意思？<a class="headerlink" href="#id2" title="永久链接至标题">¶</a></h2>
+<p>“微”并不代表整个应用只能塞在一个 Python 文件内，当然塞在单一文件内也是可以的。
+“微”也不代表 Flask 功能不强。微框架中的“微”字表示 Flask 的目标是保持核心既简
+单而又可扩展。 Flask 不会替你做出许多决定，比如选用何种数据库。类似的决定，如
+使用何种模板引擎，是非常容易改变的。 Flask 可以变成你任何想要的东西，一切恰到
+好处，由你做主。</p>
+<p>缺省情况下， Flask 不包含数据库抽象层、表单验证或者其他已有的库可以处理的东西。
+然而， Flask 通过扩展为你的应用添加这些功能，就如同这些功能是 Flask 原生的一样。
+大量的扩展用以支持数据库整合、表单验证、上传处理和各种开放验证等等。Flask 可能是
+“微小”的，但它已经为满足您的各种生产需要做出了充足的准备。</p>
+</div>
+<div class="section" id="id3">
+<h2>配置和惯例<a class="headerlink" href="#id3" title="永久链接至标题">¶</a></h2>
+<p>刚起步的时候 Flask 有许多带有合理缺省值的配置值和惯例。按照惯例，模板和静态文件
+存放在应用的 Python 源代码树的子目录中，名称分别为 <cite>templates</cite> 和 <cite>static</cite> 。惯
+例是可以改变的，但是你大可不必改变，尤其是刚起步的时候。</p>
+</div>
+<div class="section" id="flask">
+<h2>Flask 可持续发展<a class="headerlink" href="#flask" title="永久链接至标题">¶</a></h2>
+<p>一旦你开始使用 Flask ，你会发现有各种各样的扩展可供使用。 Flask 核心开发组会
+审查扩展，并保证通过检验的扩展可以在最新版本的 Flask 中可用。</p>
+<p>随着你的代码库日益壮大，你可以自由地决定设计目标。 Flask 会一直提供一个非常
+简约而优秀的胶合层，就像 Python 语言一样。你可以自由地使用 SQLAlchemy 执行高级
+模式，或者使用其他数据库工具，亦可引入非关系数据模型，甚至还可以利用用于
+Python 网络接口 WSGI 的非框架工具。</p>
+<p>Flask 包含许多可以自定义其行为的钩子。考虑到你的定制需求， Flask 的类专为继承
+而打造。
+如果对这一点感兴趣，请阅读 <a class="reference internal" href="becomingbig.html#becomingbig"><span>大型应用</span></a> 一节。如果对 Flask 的设计原则感
+兴趣，请移步 <a class="reference internal" href="design.html#design"><span>Flask 的设计思路</span></a> 。</p>
+<p>接下来请阅读 <a class="reference internal" href="installation.html#installation"><span>安装</span></a> 、 <a class="reference internal" href="quickstart.html#quickstart"><span>快速上手</span></a> 或者
+<a class="reference internal" href="advanced_foreword.html#advanced-foreword"><span>针对高级程序员的前言</span></a> 。</p>
+</div>
+</div>
+
+
+          </div>
+        </div>
+      </div>
+      <div class="sphinxsidebar" role="navigation" aria-label="main navigation">
+        <div class="sphinxsidebarwrapper"><p class="logo"><a href="index.html">
+  <img class="logo" src="_static/flask.png" alt="Logo"/>
+</a></p>
+  <h3><a href="index.html">內容目录</a></h3>
+  <ul>
+<li><a class="reference internal" href="#">前言</a><ul>
+<li><a class="reference internal" href="#id2">“微”是什么意思？</a></li>
+<li><a class="reference internal" href="#id3">配置和惯例</a></li>
+<li><a class="reference internal" href="#flask">Flask 可持续发展</a></li>
+</ul>
+</li>
+</ul>
+<h3>Related Topics</h3>
+<ul>
+  <li><a href="index.html">Documentation overview</a><ul>
+      <li>Previous: <a href="index.html" title="上一章">欢迎来到 Flask 的世界</a></li>
+      <li>Next: <a href="advanced_foreword.html" title="下一章">针对高级程序员的前言</a></li>
+  </ul></li>
+</ul>
+  <div role="note" aria-label="source link">
+    <h3>本页</h3>
+    <ul class="this-page-menu">
+      <li><a href="_sources/foreword.txt"
+            rel="nofollow">显示源代码</a></li>
+    </ul>
+   </div>
+<div id="searchbox" style="display: none" role="search">
+  <h3>快速搜索</h3>
+    <form class="search" action="search.html" method="get">
+      <input type="text" name="q" />
+      <input type="submit" value="转向" />
+      <input type="hidden" name="check_keywords" value="yes" />
+      <input type="hidden" name="area" value="default" />
+    </form>
+    <p class="searchtip" style="font-size: 90%">
+    输入相关的术语，模块，类或者函数名称进行搜索
+    </p>
+</div>
+<script type="text/javascript">$('#searchbox').show(0);</script>
+        </div>
+      </div>
+      <div class="clearer"></div>
+    </div>
+    <div class="footer">
+      &copy; Copyright 2013, Armin Ronacher.
+      Created using <a href="http://sphinx.pocoo.org/">Sphinx</a>.
+    </div>
+  </body>
+</html>

@@ -1,0 +1,89 @@
+<html lang="en">
+<head>
+<title>No_Elaboration_Code - GNAT Reference Manual</title>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+<meta name="description" content="GNAT Reference Manual">
+<meta name="generator" content="makeinfo 4.13">
+<link title="Top" rel="start" href="index.html#Top">
+<link rel="up" href="Program-Unit-Level-Restrictions.html#Program-Unit-Level-Restrictions" title="Program Unit Level Restrictions">
+<link rel="next" href="No_005fEntry_005fQueue.html#No_005fEntry_005fQueue" title="No_Entry_Queue">
+<link href="http://www.gnu.org/software/texinfo/" rel="generator-home" title="Texinfo Homepage">
+<!--
+
+     GNAT Reference Manual , March 24, 2015
+
+     AdaCore
+
+     Copyright (C) 2008-2015, Free Software Foundation
+-->
+<meta http-equiv="Content-Style-Type" content="text/css">
+<style type="text/css"><!--
+  pre.display { font-family:inherit }
+  pre.format  { font-family:inherit }
+  pre.smalldisplay { font-family:inherit; font-size:smaller }
+  pre.smallformat  { font-family:inherit; font-size:smaller }
+  pre.smallexample { font-size:smaller }
+  pre.smalllisp    { font-size:smaller }
+  span.sc    { font-variant:small-caps }
+  span.roman { font-family:serif; font-weight:normal; } 
+  span.sansserif { font-family:sans-serif; font-weight:normal; } 
+--></style>
+</head>
+<body>
+<div class="node">
+<a name="No_Elaboration_Code"></a>
+<a name="No_005fElaboration_005fCode"></a>
+<p>
+Next:&nbsp;<a rel="next" accesskey="n" href="No_005fEntry_005fQueue.html#No_005fEntry_005fQueue">No_Entry_Queue</a>,
+Up:&nbsp;<a rel="up" accesskey="u" href="Program-Unit-Level-Restrictions.html#Program-Unit-Level-Restrictions">Program Unit Level Restrictions</a>
+<hr>
+</div>
+
+<p><a name="gnat_005frm_002fstandard_005fand_005fimplementation_005fdefined_005frestrictions-no_002delaboration_002dcode"></a><a name="g_t1ae"></a>
+
+<h4 class="subsection">5.2.1 No_Elaboration_Code</h4>
+
+<p><a name="index-No_005fElaboration_005fCode-360"></a>
+[GNAT] This restriction ensures at compile time that no elaboration code is
+generated.  Note that this is not the same condition as is enforced
+by pragma <cite>Preelaborate</cite>.  There are cases in which pragma
+<cite>Preelaborate</cite> still permits code to be generated (e.g., code
+to initialize a large array to all zeroes), and there are cases of units
+which do not meet the requirements for pragma <cite>Preelaborate</cite>,
+but for which no elaboration code is generated.  Generally, it is
+the case that preelaborable units will meet the restrictions, with
+the exception of large aggregates initialized with an others_clause,
+and exception declarations (which generate calls to a run-time
+registry procedure).  This restriction is enforced on
+a unit by unit basis, it need not be obeyed consistently
+throughout a partition.
+
+<p>In the case of aggregates with others, if the aggregate has a dynamic
+size, there is no way to eliminate the elaboration code (such dynamic
+bounds would be incompatible with <cite>Preelaborate</cite> in any case). If
+the bounds are static, then use of this restriction actually modifies
+the code choice of the compiler to avoid generating a loop, and instead
+generate the aggregate statically if possible, no matter how many times
+the data for the others clause must be repeatedly generated.
+
+<p>It is not possible to precisely document
+the constructs which are compatible with this restriction, since,
+unlike most other restrictions, this is not a restriction on the
+source code, but a restriction on the generated object code. For
+example, if the source contains a declaration:
+
+<pre class="example">    Val : constant Integer := X;
+</pre>
+<p>where X is not a static constant, it may be possible, depending
+on complex optimization circuitry, for the compiler to figure
+out the value of X at compile time, in which case this initialization
+can be done by the loader, and requires no initialization code. It
+is not possible to document the precise conditions under which the
+optimizer can figure this out.
+
+<p>Note that this the implementation of this restriction requires full
+code generation. If it is used in conjunction with "semantics only"
+checking, then some cases of violations may be missed.
+
+</body></html>
+

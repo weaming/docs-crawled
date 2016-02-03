@@ -1,0 +1,71 @@
+<html lang="en">
+<head>
+<title>Pragma Ada_83 - GNAT Reference Manual</title>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+<meta name="description" content="GNAT Reference Manual">
+<meta name="generator" content="makeinfo 4.13">
+<link title="Top" rel="start" href="index.html#Top">
+<link rel="up" href="Implementation-Defined-Pragmas.html#Implementation-Defined-Pragmas" title="Implementation Defined Pragmas">
+<link rel="prev" href="Pragma-Abstract_005fState.html#Pragma-Abstract_005fState" title="Pragma Abstract_State">
+<link rel="next" href="Pragma-Ada_005f95.html#Pragma-Ada_005f95" title="Pragma Ada_95">
+<link href="http://www.gnu.org/software/texinfo/" rel="generator-home" title="Texinfo Homepage">
+<!--
+
+     GNAT Reference Manual , March 24, 2015
+
+     AdaCore
+
+     Copyright (C) 2008-2015, Free Software Foundation
+-->
+<meta http-equiv="Content-Style-Type" content="text/css">
+<style type="text/css"><!--
+  pre.display { font-family:inherit }
+  pre.format  { font-family:inherit }
+  pre.smalldisplay { font-family:inherit; font-size:smaller }
+  pre.smallformat  { font-family:inherit; font-size:smaller }
+  pre.smallexample { font-size:smaller }
+  pre.smalllisp    { font-size:smaller }
+  span.sc    { font-variant:small-caps }
+  span.roman { font-family:serif; font-weight:normal; } 
+  span.sansserif { font-family:sans-serif; font-weight:normal; } 
+--></style>
+</head>
+<body>
+<div class="node">
+<a name="Pragma-Ada_83"></a>
+<a name="Pragma-Ada_005f83"></a>
+<p>
+Next:&nbsp;<a rel="next" accesskey="n" href="Pragma-Ada_005f95.html#Pragma-Ada_005f95">Pragma Ada_95</a>,
+Previous:&nbsp;<a rel="previous" accesskey="p" href="Pragma-Abstract_005fState.html#Pragma-Abstract_005fState">Pragma Abstract_State</a>,
+Up:&nbsp;<a rel="up" accesskey="u" href="Implementation-Defined-Pragmas.html#Implementation-Defined-Pragmas">Implementation Defined Pragmas</a>
+<hr>
+</div>
+
+<p><a name="gnat_005frm_002fimplementation_005fdefined_005fpragmas-pragma_002dada_002d83"></a><a name="g_t1d"></a>
+
+<h3 class="section">2.3 Pragma Ada_83</h3>
+
+<p>Syntax:
+
+<pre class="example">    pragma Ada_83;
+</pre>
+<p>A configuration pragma that establishes Ada 83 mode for the unit to
+which it applies, regardless of the mode set by the command line
+switches.  In Ada 83 mode, GNAT attempts to be as compatible with
+the syntax and semantics of Ada 83, as defined in the original Ada
+83 Reference Manual as possible.  In particular, the keywords added by Ada 95
+and Ada 2005 are not recognized, optional package bodies are allowed,
+and generics may name types with unknown discriminants without using
+the <cite>(&lt;&gt;)</cite> notation.  In addition, some but not all of the additional
+restrictions of Ada 83 are enforced.
+
+<p>Ada 83 mode is intended for two purposes.  Firstly, it allows existing
+Ada 83 code to be compiled and adapted to GNAT with less effort. 
+Secondly, it aids in keeping code backwards compatible with Ada 83. 
+However, there is no guarantee that code that is processed correctly
+by GNAT in Ada 83 mode will in fact compile and execute with an Ada
+83 compiler, since GNAT does not enforce all the additional checks
+required by Ada 83.
+
+</body></html>
+

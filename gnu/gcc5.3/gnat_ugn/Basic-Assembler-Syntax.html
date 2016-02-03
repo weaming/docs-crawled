@@ -1,0 +1,102 @@
+<html lang="en">
+<head>
+<title>Basic Assembler Syntax - GNAT User's Guide for Native Platforms</title>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+<meta name="description" content="GNAT User's Guide for Native Platforms">
+<meta name="generator" content="makeinfo 4.13">
+<link title="Top" rel="start" href="index.html#Top">
+<link rel="up" href="Inline-Assembler.html#Inline-Assembler" title="Inline Assembler">
+<link rel="next" href="A-Simple-Example-of-Inline-Assembler.html#A-Simple-Example-of-Inline-Assembler" title="A Simple Example of Inline Assembler">
+<link href="http://www.gnu.org/software/texinfo/" rel="generator-home" title="Texinfo Homepage">
+<!--
+
+     GNAT User's Guide for Native Platforms , March 24, 2015
+
+     AdaCore
+
+     Copyright (C) 2008-2015, Free Software Foundation
+-->
+<meta http-equiv="Content-Style-Type" content="text/css">
+<style type="text/css"><!--
+  pre.display { font-family:inherit }
+  pre.format  { font-family:inherit }
+  pre.smalldisplay { font-family:inherit; font-size:smaller }
+  pre.smallformat  { font-family:inherit; font-size:smaller }
+  pre.smallexample { font-size:smaller }
+  pre.smalllisp    { font-size:smaller }
+  span.sc    { font-variant:small-caps }
+  span.roman { font-family:serif; font-weight:normal; } 
+  span.sansserif { font-family:sans-serif; font-weight:normal; } 
+--></style>
+</head>
+<body>
+<div class="node">
+<a name="Basic-Assembler-Syntax"></a>
+<p>
+Next:&nbsp;<a rel="next" accesskey="n" href="A-Simple-Example-of-Inline-Assembler.html#A-Simple-Example-of-Inline-Assembler">A Simple Example of Inline Assembler</a>,
+Up:&nbsp;<a rel="up" accesskey="u" href="Inline-Assembler.html#Inline-Assembler">Inline Assembler</a>
+<hr>
+</div>
+
+<p><a name="gnat_005fugn_002finline_005fassembler-id2"></a><a name="g_t2ce"></a><a name="gnat_005fugn_002finline_005fassembler-basic_002dassembler_002dsyntax"></a><a name="g_t2cf"></a>
+
+<h3 class="section">12.1 Basic Assembler Syntax</h3>
+
+<p>The assembler used by GNAT and gcc is based not on the Intel assembly
+language, but rather on a language that descends from the AT&amp;T Unix
+assembler `as' (and which is often referred to as 'AT&amp;T syntax'). 
+The following table summarizes the main features of `as' syntax
+and points out the differences from the Intel conventions. 
+See the gcc `as' and `gas' (an `as' macro
+pre-processor) documentation for further information.
+
+<pre class="display">    `Register names'&nbsp;<!-- /@w -->
+    <pre class="display">        gcc / `as': Prefix with '%'; for example <cite>%eax</cite>&nbsp;<!-- /@w -->
+        Intel: No extra punctuation; for example <cite>eax</cite>&nbsp;<!-- /@w -->
+</pre>
+</pre>
+<pre class="display">    `Immediate operand'&nbsp;<!-- /@w -->
+    <pre class="display">        gcc / `as': Prefix with '$'; for example <cite>$4</cite>&nbsp;<!-- /@w -->
+        Intel: No extra punctuation; for example <cite>4</cite>&nbsp;<!-- /@w -->
+</pre>
+</pre>
+<pre class="display">    `Address'&nbsp;<!-- /@w -->
+    <pre class="display">        gcc / `as': Prefix with '$'; for example <cite>$loc</cite>&nbsp;<!-- /@w -->
+        Intel: No extra punctuation; for example <cite>loc</cite>&nbsp;<!-- /@w -->
+</pre>
+</pre>
+<pre class="display">    `Memory contents'&nbsp;<!-- /@w -->
+    <pre class="display">        gcc / `as': No extra punctuation; for example <cite>loc</cite>&nbsp;<!-- /@w -->
+        Intel: Square brackets; for example <cite>[loc]</cite>&nbsp;<!-- /@w -->
+</pre>
+</pre>
+<pre class="display">    `Register contents'&nbsp;<!-- /@w -->
+    <pre class="display">        gcc / `as': Parentheses; for example <cite>(%eax)</cite>&nbsp;<!-- /@w -->
+        Intel: Square brackets; for example <cite>[eax]</cite>&nbsp;<!-- /@w -->
+</pre>
+</pre>
+<pre class="display">    `Hexadecimal numbers'&nbsp;<!-- /@w -->
+    <pre class="display">        gcc / `as': Leading '0x' (C language syntax); for example <cite>0xA0</cite>&nbsp;<!-- /@w -->
+        Intel: Trailing 'h'; for example <cite>A0h</cite>&nbsp;<!-- /@w -->
+</pre>
+</pre>
+<pre class="display">    `Operand size'&nbsp;<!-- /@w -->
+    <pre class="display">        gcc / `as': Explicit in op code; for example <cite>movw</cite> to move a 16-bit word&nbsp;<!-- /@w -->
+        Intel: Implicit, deduced by assembler; for example <cite>mov</cite>&nbsp;<!-- /@w -->
+</pre>
+</pre>
+<pre class="display">    `Instruction repetition'&nbsp;<!-- /@w -->
+    <pre class="display">        gcc / `as': Split into two lines; for example&nbsp;<!-- /@w -->
+        <pre class="display">            <cite>rep</cite>&nbsp;<!-- /@w -->
+            <cite>stosl</cite>&nbsp;<!-- /@w -->
+</pre>
+        <p>Intel: Keep on one line; for example <cite>rep stosl</cite>&nbsp;<!-- /@w -->
+</pre>
+</pre>
+<pre class="display">    `Order of operands'&nbsp;<!-- /@w -->
+    <pre class="display">        gcc / `as': Source first; for example <cite>movw $4, %eax</cite>&nbsp;<!-- /@w -->
+        Intel: Destination first; for example <cite>mov eax, 4</cite>&nbsp;<!-- /@w -->
+</pre>
+</pre>
+</body></html>
+

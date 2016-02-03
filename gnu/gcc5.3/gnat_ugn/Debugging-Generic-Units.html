@@ -1,0 +1,100 @@
+<html lang="en">
+<head>
+<title>Debugging Generic Units - GNAT User's Guide for Native Platforms</title>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+<meta name="description" content="GNAT User's Guide for Native Platforms">
+<meta name="generator" content="makeinfo 4.13">
+<link title="Top" rel="start" href="index.html#Top">
+<link rel="up" href="Running-and-Debugging-Ada-Programs.html#Running-and-Debugging-Ada-Programs" title="Running and Debugging Ada Programs">
+<link rel="prev" href="Ada-Tasks.html#Ada-Tasks" title="Ada Tasks">
+<link rel="next" href="Remote-Debugging-with-gdbserver.html#Remote-Debugging-with-gdbserver" title="Remote Debugging with gdbserver">
+<link href="http://www.gnu.org/software/texinfo/" rel="generator-home" title="Texinfo Homepage">
+<!--
+
+     GNAT User's Guide for Native Platforms , March 24, 2015
+
+     AdaCore
+
+     Copyright (C) 2008-2015, Free Software Foundation
+-->
+<meta http-equiv="Content-Style-Type" content="text/css">
+<style type="text/css"><!--
+  pre.display { font-family:inherit }
+  pre.format  { font-family:inherit }
+  pre.smalldisplay { font-family:inherit; font-size:smaller }
+  pre.smallformat  { font-family:inherit; font-size:smaller }
+  pre.smallexample { font-size:smaller }
+  pre.smalllisp    { font-size:smaller }
+  span.sc    { font-variant:small-caps }
+  span.roman { font-family:serif; font-weight:normal; } 
+  span.sansserif { font-family:sans-serif; font-weight:normal; } 
+--></style>
+</head>
+<body>
+<div class="node">
+<a name="Debugging-Generic-Units"></a>
+<p>
+Next:&nbsp;<a rel="next" accesskey="n" href="Remote-Debugging-with-gdbserver.html#Remote-Debugging-with-gdbserver">Remote Debugging with gdbserver</a>,
+Previous:&nbsp;<a rel="previous" accesskey="p" href="Ada-Tasks.html#Ada-Tasks">Ada Tasks</a>,
+Up:&nbsp;<a rel="up" accesskey="u" href="Running-and-Debugging-Ada-Programs.html#Running-and-Debugging-Ada-Programs">Running and Debugging Ada Programs</a>
+<hr>
+</div>
+
+<p><a name="gnat_005fugn_002fgnat_005fand_005fprogram_005fexecution-debugging_002dgeneric_002dunits"></a><a name="g_t207"></a><a name="gnat_005fugn_002fgnat_005fand_005fprogram_005fexecution-id11"></a><a name="g_t208"></a>
+
+<h4 class="subsection">8.1.9 Debugging Generic Units</h4>
+
+<p>GNAT always uses code expansion for generic instantiation. This means that
+each time an instantiation occurs, a complete copy of the original code is
+made, with appropriate substitutions of formals by actuals.
+
+<p>It is not possible to refer to the original generic entities in
+<cite>GDB</cite>, but it is always possible to debug a particular instance of
+a generic, by using the appropriate expanded names. For example, if we have
+
+<blockquote>
+
+<pre class="example">    procedure g is
+    
+       generic package k is
+          procedure kp (v1 : in out integer);
+       end k;
+    
+       package body k is
+          procedure kp (v1 : in out integer) is
+          begin
+             v1 := v1 + 1;
+          end kp;
+       end k;
+    
+       package k1 is new k;
+       package k2 is new k;
+    
+       var : integer := 1;
+    
+    begin
+       k1.kp (var);
+       k2.kp (var);
+       k1.kp (var);
+       k2.kp (var);
+    end;
+</pre>
+</blockquote>
+
+<p>Then to break on a call to procedure kp in the k2 instance, simply
+use the command:
+
+<blockquote>
+
+<pre class="example">    (gdb) break g.k2.kp
+</pre>
+</blockquote>
+
+<p>When the breakpoint occurs, you can step through the code of the
+instance in the normal manner and examine the values of local variables, as for
+other units.
+
+<p><a name="index-Remote-Debugging-with-gdbserver-959"></a>
+
+</body></html>
+

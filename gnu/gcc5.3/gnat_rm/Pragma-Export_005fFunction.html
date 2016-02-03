@@ -1,0 +1,109 @@
+<html lang="en">
+<head>
+<title>Pragma Export_Function - GNAT Reference Manual</title>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+<meta name="description" content="GNAT Reference Manual">
+<meta name="generator" content="makeinfo 4.13">
+<link title="Top" rel="start" href="index.html#Top">
+<link rel="up" href="Implementation-Defined-Pragmas.html#Implementation-Defined-Pragmas" title="Implementation Defined Pragmas">
+<link rel="prev" href="Pragma-Enable_005fAtomic_005fSynchronization.html#Pragma-Enable_005fAtomic_005fSynchronization" title="Pragma Enable_Atomic_Synchronization">
+<link rel="next" href="Pragma-Export_005fObject.html#Pragma-Export_005fObject" title="Pragma Export_Object">
+<link href="http://www.gnu.org/software/texinfo/" rel="generator-home" title="Texinfo Homepage">
+<!--
+
+     GNAT Reference Manual , March 24, 2015
+
+     AdaCore
+
+     Copyright (C) 2008-2015, Free Software Foundation
+-->
+<meta http-equiv="Content-Style-Type" content="text/css">
+<style type="text/css"><!--
+  pre.display { font-family:inherit }
+  pre.format  { font-family:inherit }
+  pre.smalldisplay { font-family:inherit; font-size:smaller }
+  pre.smallformat  { font-family:inherit; font-size:smaller }
+  pre.smallexample { font-size:smaller }
+  pre.smalllisp    { font-size:smaller }
+  span.sc    { font-variant:small-caps }
+  span.roman { font-family:serif; font-weight:normal; } 
+  span.sansserif { font-family:sans-serif; font-weight:normal; } 
+--></style>
+</head>
+<body>
+<div class="node">
+<a name="Pragma-Export_Function"></a>
+<a name="Pragma-Export_005fFunction"></a>
+<p>
+Next:&nbsp;<a rel="next" accesskey="n" href="Pragma-Export_005fObject.html#Pragma-Export_005fObject">Pragma Export_Object</a>,
+Previous:&nbsp;<a rel="previous" accesskey="p" href="Pragma-Enable_005fAtomic_005fSynchronization.html#Pragma-Enable_005fAtomic_005fSynchronization">Pragma Enable_Atomic_Synchronization</a>,
+Up:&nbsp;<a rel="up" accesskey="u" href="Implementation-Defined-Pragmas.html#Implementation-Defined-Pragmas">Implementation Defined Pragmas</a>
+<hr>
+</div>
+
+<p><a name="gnat_005frm_002fimplementation_005fdefined_005fpragmas-pragma_002dexport_002dfunction"></a><a name="g_t51"></a>
+
+<h3 class="section">2.54 Pragma Export_Function</h3>
+
+<p><a name="index-Argument-passing-mechanisms-42"></a>
+Syntax:
+
+<pre class="example">    pragma Export_Function (
+         [Internal         =&gt;] LOCAL_NAME
+      [, [External         =&gt;] EXTERNAL_SYMBOL]
+      [, [Parameter_Types  =&gt;] PARAMETER_TYPES]
+      [, [Result_Type      =&gt;] result_SUBTYPE_MARK]
+      [, [Mechanism        =&gt;] MECHANISM]
+      [, [Result_Mechanism =&gt;] MECHANISM_NAME]);
+    
+    EXTERNAL_SYMBOL ::=
+      IDENTIFIER
+    | static_string_EXPRESSION
+    | ""
+    
+    PARAMETER_TYPES ::=
+      null
+    | TYPE_DESIGNATOR {, TYPE_DESIGNATOR}
+    
+    TYPE_DESIGNATOR ::=
+      subtype_NAME
+    | subtype_Name ' Access
+    
+    MECHANISM ::=
+      MECHANISM_NAME
+    | (MECHANISM_ASSOCIATION {, MECHANISM_ASSOCIATION})
+    
+    MECHANISM_ASSOCIATION ::=
+      [formal_parameter_NAME =&gt;] MECHANISM_NAME
+    
+    MECHANISM_NAME ::= Value | Reference
+</pre>
+<p>Use this pragma to make a function externally callable and optionally
+provide information on mechanisms to be used for passing parameter and
+result values.  We recommend, for the purposes of improving portability,
+this pragma always be used in conjunction with a separate pragma
+<cite>Export</cite>, which must precede the pragma <cite>Export_Function</cite>. 
+GNAT does not require a separate pragma <cite>Export</cite>, but if none is
+present, <cite>Convention Ada</cite> is assumed, which is usually
+not what is wanted, so it is usually appropriate to use this
+pragma in conjunction with a <cite>Export</cite> or <cite>Convention</cite>
+pragma that specifies the desired foreign convention. 
+Pragma <cite>Export_Function</cite>
+(and <cite>Export</cite>, if present) must appear in the same declarative
+region as the function to which they apply.
+
+<p><cite>internal_name</cite> must uniquely designate the function to which the
+pragma applies.  If more than one function name exists of this name in
+the declarative part you must use the <cite>Parameter_Types</cite> and
+<cite>Result_Type</cite> parameters is mandatory to achieve the required
+unique designation.  <cite>subtype_mark`s in these parameters must exactly match the subtypes in the corresponding function specification, using positional notation to match parameters with subtype marks. The form with an `'Access</cite> attribute can be used to match an
+anonymous access parameter.
+
+<p><a name="index-Suppressing-external-name-43"></a>
+Special treatment is given if the EXTERNAL is an explicit null
+string or a static string expressions that evaluates to the null
+string. In this case, no external name is generated. This form
+still allows the specification of parameter mechanisms.
+
+</body></html>
+

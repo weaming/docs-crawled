@@ -1,0 +1,149 @@
+<html lang="en">
+<head>
+<title>Source Representation - GNAT User's Guide for Native Platforms</title>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+<meta name="description" content="GNAT User's Guide for Native Platforms">
+<meta name="generator" content="makeinfo 4.13">
+<link title="Top" rel="start" href="index.html#Top">
+<link rel="up" href="The-GNAT-Compilation-Model.html#The-GNAT-Compilation-Model" title="The GNAT Compilation Model">
+<link rel="next" href="Foreign-Language-Representation.html#Foreign-Language-Representation" title="Foreign Language Representation">
+<link href="http://www.gnu.org/software/texinfo/" rel="generator-home" title="Texinfo Homepage">
+<!--
+
+     GNAT User's Guide for Native Platforms , March 24, 2015
+
+     AdaCore
+
+     Copyright (C) 2008-2015, Free Software Foundation
+-->
+<meta http-equiv="Content-Style-Type" content="text/css">
+<style type="text/css"><!--
+  pre.display { font-family:inherit }
+  pre.format  { font-family:inherit }
+  pre.smalldisplay { font-family:inherit; font-size:smaller }
+  pre.smallformat  { font-family:inherit; font-size:smaller }
+  pre.smallexample { font-size:smaller }
+  pre.smalllisp    { font-size:smaller }
+  span.sc    { font-variant:small-caps }
+  span.roman { font-family:serif; font-weight:normal; } 
+  span.sansserif { font-family:sans-serif; font-weight:normal; } 
+--></style>
+</head>
+<body>
+<div class="node">
+<a name="Source-Representation"></a>
+<p>
+Next:&nbsp;<a rel="next" accesskey="n" href="Foreign-Language-Representation.html#Foreign-Language-Representation">Foreign Language Representation</a>,
+Up:&nbsp;<a rel="up" accesskey="u" href="The-GNAT-Compilation-Model.html#The-GNAT-Compilation-Model">The GNAT Compilation Model</a>
+<hr>
+</div>
+
+<p><a name="gnat_005fugn_002fthe_005fgnat_005fcompilation_005fmodel-source_002drepresentation"></a><a name="g_t3f"></a><a name="gnat_005fugn_002fthe_005fgnat_005fcompilation_005fmodel-id2"></a><a name="g_t48"></a>
+
+<h3 class="section">3.1 Source Representation</h3>
+
+<p><a name="index-Latin_002d1-9"></a>
+<a name="index-VT-10"></a><a name="index-HT-11"></a><a name="index-CR-12"></a><a name="index-LF-13"></a><a name="index-FF-14"></a>
+Ada source programs are represented in standard text files, using
+Latin-1 coding. Latin-1 is an 8-bit code that includes the familiar
+7-bit ASCII set, plus additional characters used for
+representing foreign languages (see <a href="40.html#g_t40">Foreign Language Representation</a>
+for support of non-USA character sets). The format effector characters
+are represented using their standard ASCII encodings, as follows:
+
+<blockquote>
+
+<p><table summary=""><tr align="left"><td valign="top">
+Character
+
+<p></td><td valign="top">
+
+<p>Effect
+
+<p></td><td valign="top">
+
+<p>Code
+
+<p><br></td></tr><tr align="left"><td valign="top">
+<code>VT</code>
+
+<p></td><td valign="top">
+
+<p>Vertical tab
+
+<p></td><td valign="top">
+
+<p><cite>16#0B#</cite>
+
+<p><br></td></tr><tr align="left"><td valign="top">
+<code>HT</code>
+
+<p></td><td valign="top">
+
+<p>Horizontal tab
+
+<p></td><td valign="top">
+
+<p><cite>16#09#</cite>
+
+<p><br></td></tr><tr align="left"><td valign="top">
+<code>CR</code>
+
+<p></td><td valign="top">
+
+<p>Carriage return
+
+<p></td><td valign="top">
+
+<p><cite>16#0D#</cite>
+
+<p><br></td></tr><tr align="left"><td valign="top">
+<code>LF</code>
+
+<p></td><td valign="top">
+
+<p>Line feed
+
+<p></td><td valign="top">
+
+<p><cite>16#0A#</cite>
+
+<p><br></td></tr><tr align="left"><td valign="top">
+<code>FF</code>
+
+<p></td><td valign="top">
+
+<p>Form feed
+
+<p></td><td valign="top">
+
+<p><cite>16#0C#</cite>
+
+<br></td></tr></table>
+
+</blockquote>
+
+<p>Source files are in standard text file format. In addition, GNAT will
+recognize a wide variety of stream formats, in which the end of
+physical lines is marked by any of the following sequences:
+<cite>LF</cite>, <cite>CR</cite>, <cite>CR-LF</cite>, or <cite>LF-CR</cite>. This is useful
+in accommodating files that are imported from other operating systems.
+
+<p><a name="index-End-of-source-file_003b-Source-file_0040comma_007b_007d-end-15"></a>
+<a name="index-SUB-_0028control-character_0029-16"></a>
+The end of a source file is normally represented by the physical end of
+file. However, the control character <cite>16#1A#</cite> (<code>SUB</code>) is also
+recognized as signalling the end of the source file. Again, this is
+provided for compatibility with other operating systems where this
+code is used to represent the end of file.
+
+<p><a name="index-spec-_0028definition_0029-17"></a><a name="index-compilation-_0028definition_0029-18"></a>
+Each file contains a single Ada compilation unit, including any pragmas
+associated with the unit. For example, this means you must place a
+package declaration (a package <cite>spec</cite>) and the corresponding body in
+separate files. An Ada <cite>compilation</cite> (which is a sequence of
+compilation units) is represented using a sequence of files. Similarly,
+you will place each subunit or child unit in a separate file.
+
+</body></html>
+

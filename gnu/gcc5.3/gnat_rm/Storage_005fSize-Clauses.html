@@ -1,0 +1,110 @@
+<html lang="en">
+<head>
+<title>Storage_Size Clauses - GNAT Reference Manual</title>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+<meta name="description" content="GNAT Reference Manual">
+<meta name="generator" content="makeinfo 4.13">
+<link title="Top" rel="start" href="index.html#Top">
+<link rel="up" href="Representation-Clauses-and-Pragmas.html#Representation-Clauses-and-Pragmas" title="Representation Clauses and Pragmas">
+<link rel="prev" href="Size-Clauses.html#Size-Clauses" title="Size Clauses">
+<link rel="next" href="Size-of-Variant-Record-Objects.html#Size-of-Variant-Record-Objects" title="Size of Variant Record Objects">
+<link href="http://www.gnu.org/software/texinfo/" rel="generator-home" title="Texinfo Homepage">
+<!--
+
+     GNAT Reference Manual , March 24, 2015
+
+     AdaCore
+
+     Copyright (C) 2008-2015, Free Software Foundation
+-->
+<meta http-equiv="Content-Style-Type" content="text/css">
+<style type="text/css"><!--
+  pre.display { font-family:inherit }
+  pre.format  { font-family:inherit }
+  pre.smalldisplay { font-family:inherit; font-size:smaller }
+  pre.smallformat  { font-family:inherit; font-size:smaller }
+  pre.smallexample { font-size:smaller }
+  pre.smalllisp    { font-size:smaller }
+  span.sc    { font-variant:small-caps }
+  span.roman { font-family:serif; font-weight:normal; } 
+  span.sansserif { font-family:sans-serif; font-weight:normal; } 
+--></style>
+</head>
+<body>
+<div class="node">
+<a name="Storage_Size-Clauses"></a>
+<a name="Storage_005fSize-Clauses"></a>
+<p>
+Next:&nbsp;<a rel="next" accesskey="n" href="Size-of-Variant-Record-Objects.html#Size-of-Variant-Record-Objects">Size of Variant Record Objects</a>,
+Previous:&nbsp;<a rel="previous" accesskey="p" href="Size-Clauses.html#Size-Clauses">Size Clauses</a>,
+Up:&nbsp;<a rel="up" accesskey="u" href="Representation-Clauses-and-Pragmas.html#Representation-Clauses-and-Pragmas">Representation Clauses and Pragmas</a>
+<hr>
+</div>
+
+<p><a name="gnat_005frm_002frepresentation_005fclauses_005fand_005fpragmas-storage_002dsize_002dclauses"></a><a name="g_t21e"></a><a name="gnat_005frm_002frepresentation_005fclauses_005fand_005fpragmas-id4"></a><a name="g_t21f"></a>
+
+<h3 class="section">9.3 Storage_Size Clauses</h3>
+
+<p><a name="index-Storage_005fSize-Clause-486"></a>
+For tasks, the <cite>Storage_Size</cite> clause specifies the amount of space
+to be allocated for the task stack.  This cannot be extended, and if the
+stack is exhausted, then <cite>Storage_Error</cite> will be raised (if stack
+checking is enabled).  Use a <cite>Storage_Size</cite> attribute definition clause,
+or a <cite>Storage_Size</cite> pragma in the task definition to set the
+appropriate required size.  A useful technique is to include in every
+task definition a pragma of the form:
+
+<pre class="example">    pragma Storage_Size (Default_Stack_Size);
+</pre>
+<p>Then <cite>Default_Stack_Size</cite> can be defined in a global package, and
+modified as required. Any tasks requiring stack sizes different from the
+default can have an appropriate alternative reference in the pragma.
+
+<p>You can also use the `-d' binder switch to modify the default stack
+size.
+
+<p>For access types, the <cite>Storage_Size</cite> clause specifies the maximum
+space available for allocation of objects of the type.  If this space is
+exceeded then <cite>Storage_Error</cite> will be raised by an allocation attempt. 
+In the case where the access type is declared local to a subprogram, the
+use of a <cite>Storage_Size</cite> clause triggers automatic use of a special
+predefined storage pool (<cite>System.Pool_Size</cite>) that ensures that all
+space for the pool is automatically reclaimed on exit from the scope in
+which the type is declared.
+
+<p>A special case recognized by the compiler is the specification of a
+<cite>Storage_Size</cite> of zero for an access type.  This means that no
+items can be allocated from the pool, and this is recognized at compile
+time, and all the overhead normally associated with maintaining a fixed
+size storage pool is eliminated.  Consider the following example:
+
+<pre class="example">    procedure p is
+       type R is array (Natural) of Character;
+       type P is access all R;
+       for P'Storage_Size use 0;
+       --  Above access type intended only for interfacing purposes
+    
+       y : P;
+    
+       procedure g (m : P);
+       pragma Import (C, g);
+    
+       --  ...
+    
+    begin
+       --  ...
+       y := new R;
+    end;
+</pre>
+<p>As indicated in this example, these dummy storage pools are often useful in
+connection with interfacing where no object will ever be allocated.  If you
+compile the above example, you get the warning:
+
+<pre class="example">    p.adb:16:09: warning: allocation from empty storage pool
+    p.adb:16:09: warning: Storage_Error will be raised at run time
+</pre>
+<p>Of course in practice, there will not be any explicit allocators in the
+case of such an access declaration.
+
+</body></html>
+

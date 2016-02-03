@@ -1,0 +1,67 @@
+<html lang="en">
+<head>
+<title>Pragma Machine_Attribute - GNAT Reference Manual</title>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+<meta name="description" content="GNAT Reference Manual">
+<meta name="generator" content="makeinfo 4.13">
+<link title="Top" rel="start" href="index.html#Top">
+<link rel="up" href="Implementation-Defined-Pragmas.html#Implementation-Defined-Pragmas" title="Implementation Defined Pragmas">
+<link rel="prev" href="Pragma-Loop_005fVariant.html#Pragma-Loop_005fVariant" title="Pragma Loop_Variant">
+<link rel="next" href="Pragma-Main.html#Pragma-Main" title="Pragma Main">
+<link href="http://www.gnu.org/software/texinfo/" rel="generator-home" title="Texinfo Homepage">
+<!--
+
+     GNAT Reference Manual , March 24, 2015
+
+     AdaCore
+
+     Copyright (C) 2008-2015, Free Software Foundation
+-->
+<meta http-equiv="Content-Style-Type" content="text/css">
+<style type="text/css"><!--
+  pre.display { font-family:inherit }
+  pre.format  { font-family:inherit }
+  pre.smalldisplay { font-family:inherit; font-size:smaller }
+  pre.smallformat  { font-family:inherit; font-size:smaller }
+  pre.smallexample { font-size:smaller }
+  pre.smalllisp    { font-size:smaller }
+  span.sc    { font-variant:small-caps }
+  span.roman { font-family:serif; font-weight:normal; } 
+  span.sansserif { font-family:sans-serif; font-weight:normal; } 
+--></style>
+</head>
+<body>
+<div class="node">
+<a name="Pragma-Machine_Attribute"></a>
+<a name="Pragma-Machine_005fAttribute"></a>
+<p>
+Next:&nbsp;<a rel="next" accesskey="n" href="Pragma-Main.html#Pragma-Main">Pragma Main</a>,
+Previous:&nbsp;<a rel="previous" accesskey="p" href="Pragma-Loop_005fVariant.html#Pragma-Loop_005fVariant">Pragma Loop_Variant</a>,
+Up:&nbsp;<a rel="up" accesskey="u" href="Implementation-Defined-Pragmas.html#Implementation-Defined-Pragmas">Implementation Defined Pragmas</a>
+<hr>
+</div>
+
+<p><a name="gnat_005frm_002fimplementation_005fdefined_005fpragmas-pragma_002dmachine_002dattribute"></a><a name="g_t81"></a>
+
+<h3 class="section">2.102 Pragma Machine_Attribute</h3>
+
+<p>Syntax:
+
+<pre class="example">    pragma Machine_Attribute (
+         [Entity         =&gt;] LOCAL_NAME,
+         [Attribute_Name =&gt;] static_string_EXPRESSION
+      [, [Info           =&gt;] static_EXPRESSION] );
+</pre>
+<p>Machine-dependent attributes can be specified for types and/or
+declarations.  This pragma is semantically equivalent to
+<cite>__attribute__((`attribute_name</cite>))` (if <cite>info</cite> is not
+specified) or <cite>__attribute__((`attribute_name`(`info</cite>)))
+in GNU C, where <code>attribute_name</code> is recognized by the
+compiler middle-end or the <cite>TARGET_ATTRIBUTE_TABLE</cite> machine
+specific macro.  A string literal for the optional parameter <cite>info</cite>
+is transformed into an identifier, which may make this pragma unusable
+for some attributes. 
+For further information see <cite>GNU Compiler Collection (GCC) Internals</cite>.
+
+</body></html>
+

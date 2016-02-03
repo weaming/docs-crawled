@@ -1,0 +1,269 @@
+<html lang="en">
+<head>
+<title>The GNAT Driver and Project Files - GNAT User's Guide for Native Platforms</title>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+<meta name="description" content="GNAT User's Guide for Native Platforms">
+<meta name="generator" content="makeinfo 4.13">
+<link title="Top" rel="start" href="index.html#Top">
+<link rel="up" href="Tools-Supporting-Project-Files.html#Tools-Supporting-Project-Files" title="Tools Supporting Project Files">
+<link rel="prev" href="gnatmake-and-Project-Files.html#gnatmake-and-Project-Files" title="gnatmake and Project Files">
+<link href="http://www.gnu.org/software/texinfo/" rel="generator-home" title="Texinfo Homepage">
+<!--
+
+     GNAT User's Guide for Native Platforms , March 24, 2015
+
+     AdaCore
+
+     Copyright (C) 2008-2015, Free Software Foundation
+-->
+<meta http-equiv="Content-Style-Type" content="text/css">
+<style type="text/css"><!--
+  pre.display { font-family:inherit }
+  pre.format  { font-family:inherit }
+  pre.smalldisplay { font-family:inherit; font-size:smaller }
+  pre.smallformat  { font-family:inherit; font-size:smaller }
+  pre.smallexample { font-size:smaller }
+  pre.smalllisp    { font-size:smaller }
+  span.sc    { font-variant:small-caps }
+  span.roman { font-family:serif; font-weight:normal; } 
+  span.sansserif { font-family:sans-serif; font-weight:normal; } 
+--></style>
+</head>
+<body>
+<div class="node">
+<a name="The-GNAT-Driver-and-Project-Files"></a>
+<p>
+Previous:&nbsp;<a rel="previous" accesskey="p" href="gnatmake-and-Project-Files.html#gnatmake-and-Project-Files">gnatmake and Project Files</a>,
+Up:&nbsp;<a rel="up" accesskey="u" href="Tools-Supporting-Project-Files.html#Tools-Supporting-Project-Files">Tools Supporting Project Files</a>
+<hr>
+</div>
+
+<p><a name="gnat_005fugn_002ftools_005fsupporting_005fproject_005ffiles-id8"></a><a name="g_t1cb"></a><a name="gnat_005fugn_002ftools_005fsupporting_005fproject_005ffiles-the_002dgnat_002ddriver_002dand_002dproject_002dfiles"></a><a name="g_t11f"></a>
+
+<h3 class="section">6.2 The GNAT Driver and Project Files</h3>
+
+<p>A number of GNAT tools beyond `gnatmake'
+can benefit from project files:
+
+     <ul>
+<li>`gnatbind'
+
+     <li>`gnatclean'
+
+     <li>`gnatfind'
+
+     <li>`gnatlink'
+
+     <li>`gnatls'
+
+     <li>`gnatxref'
+</ul>
+
+<p>However, none of these tools can be invoked
+directly with a project file switch (`-P'). 
+They must be invoked through the `gnat' driver.
+
+<p>The `gnat' driver is a wrapper that accepts a number of commands and
+calls the corresponding tool. It was designed initially for VMS platforms (to
+convert VMS qualifiers to Unix-style switches), but it is now available on all
+GNAT platforms.
+
+<p>On non-VMS platforms, the `gnat' driver accepts the following commands
+(case insensitive):
+
+     <ul>
+<li>BIND to invoke `gnatbind'
+
+     <li>CHOP to invoke `gnatchop'
+
+     <li>CLEAN to invoke `gnatclean'
+
+     <li>COMP or COMPILE to invoke the compiler
+
+     <li>FIND to invoke `gnatfind'
+
+     <li>KR or KRUNCH to invoke `gnatkr'
+
+     <li>LINK to invoke `gnatlink'
+
+     <li>LS or LIST to invoke `gnatls'
+
+     <li>MAKE to invoke `gnatmake'
+
+     <li>NAME to invoke `gnatname'
+
+     <li>PREP or PREPROCESS to invoke `gnatprep'
+
+     <li>XREF to invoke `gnatxref'
+</ul>
+
+<p>Note that the command
+`gnatmake -c -f -u' is used to invoke the compiler.
+
+<p>On non-VMS platforms, between `gnat' and the command, two
+special switches may be used:
+
+     <ul>
+<li>`-v' to display the invocation of the tool.
+
+     <li>`-dn' to prevent the `gnat' driver from removing
+the temporary files it has created. These temporary files are
+configuration files and temporary file list files. 
+</ul>
+
+<p>The command may be followed by switches and arguments for the invoked
+tool.
+
+<blockquote>
+
+<pre class="example">    $ gnat bind -C main.ali
+    $ gnat ls -a main
+    $ gnat chop foo.txt
+</pre>
+</blockquote>
+
+<p>Switches may also be put in text files, one switch per line, and the text
+files may be specified with their path name preceded by '@'.
+
+<blockquote>
+
+<pre class="example">    $ gnat bind @args.txt main.ali
+</pre>
+</blockquote>
+
+<p>In addition, for the following commands the project file related switches
+(`-P', `-X' and `-vPx') may be used in addition to
+the switches of the invoking tool:
+
+     <ul>
+<li>BIND
+
+     <li>COMP or COMPILE
+
+     <li>FIND
+
+     <li>LS or LIST
+
+     <li>LINK
+
+     <li>XREF
+</ul>
+
+<p>For each of the following commands, there is optionally a corresponding
+package in the main project.
+
+     <ul>
+<li>package <cite>Binder</cite> for command BIND (invoking <cite>gnatbind</cite>)
+
+     <li>package <cite>Compiler</cite> for command COMP or COMPILE (invoking the compiler)
+
+     <li>package <cite>Cross_Reference</cite> for command XREF (invoking <cite>gnatxref</cite>)
+
+     <li>package <cite>Finder</cite> for command FIND (invoking <cite>gnatfind</cite>)
+
+     <li>package <cite>Gnatls</cite> for command LS or LIST (invoking <cite>gnatls</cite>)
+
+     <li>package <cite>Linker</cite> for command LINK (invoking <cite>gnatlink</cite>)
+</ul>
+
+<p>Package <cite>Gnatls</cite> has a unique attribute <cite>Switches</cite>,
+a simple variable with a string list value. It contains switches
+for the invocation of <cite>gnatls</cite>.
+
+<blockquote>
+
+<pre class="example">    project Proj1 is
+       package gnatls is
+          for Switches
+              use ("-a",
+                   "-v");
+       end gnatls;
+    end Proj1;
+</pre>
+</blockquote>
+
+<p>All other packages have two attribute <cite>Switches</cite> and
+<cite>Default_Switches</cite>.
+
+<p><cite>Switches</cite> is an indexed attribute, indexed by the
+source file name, that has a string list value: the switches to be
+used when the tool corresponding to the package is invoked for the specific
+source file.
+
+<p><cite>Default_Switches</cite> is an attribute,
+indexed by  the programming language that has a string list value. 
+<cite>Default_Switches ("Ada")</cite> contains the
+switches for the invocation of the tool corresponding
+to the package, except if a specific <cite>Switches</cite> attribute
+is specified for the source file.
+
+<blockquote>
+
+<pre class="example">    project Proj is
+    
+       for Source_Dirs use ("");
+    
+       package gnatls is
+          for Switches use
+              ("-a",
+               "-v");
+       end gnatls;
+    
+       package Compiler is
+          for Default_Switches ("Ada")
+              use ("-gnatv",
+                   "-gnatwa");
+       end Binder;
+    
+       package Binder is
+          for Default_Switches ("Ada")
+              use ("-C",
+                   "-e");
+       end Binder;
+    
+       package Linker is
+          for Default_Switches ("Ada")
+              use ("-C");
+          for Switches ("main.adb")
+              use ("-C",
+                   "-v",
+                   "-v");
+       end Linker;
+    
+       package Finder is
+          for Default_Switches ("Ada")
+               use ("-a",
+                    "-f");
+       end Finder;
+    
+       package Cross_Reference is
+          for Default_Switches ("Ada")
+              use ("-a",
+                   "-f",
+                   "-d",
+                   "-u");
+       end Cross_Reference;
+    end Proj;
+</pre>
+</blockquote>
+
+<p>With the above project file, commands such as
+
+<blockquote>
+
+<pre class="example">    $ gnat comp -Pproj main
+    $ gnat ls -Pproj main
+    $ gnat xref -Pproj main
+    $ gnat bind -Pproj main.ali
+    $ gnat link -Pproj main.ali
+</pre>
+</blockquote>
+
+<p>will set up the environment properly and invoke the tool with the switches
+found in the package corresponding to the tool:
+<cite>Default_Switches ("Ada")</cite> for all tools,
+except <cite>Switches ("main.adb")</cite>
+for <cite>gnatlink</cite>.
+
+</body></html>
+

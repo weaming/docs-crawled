@@ -1,0 +1,105 @@
+<html lang="en">
+<head>
+<title>Naming Conventions for GNAT Source Files - GNAT User's Guide for Native Platforms</title>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+<meta name="description" content="GNAT User's Guide for Native Platforms">
+<meta name="generator" content="makeinfo 4.13">
+<link title="Top" rel="start" href="index.html#Top">
+<link rel="up" href="Running-and-Debugging-Ada-Programs.html#Running-and-Debugging-Ada-Programs" title="Running and Debugging Ada Programs">
+<link rel="prev" href="GNAT-Abnormal-Termination-or-Failure-to-Terminate.html#GNAT-Abnormal-Termination-or-Failure-to-Terminate" title="GNAT Abnormal Termination or Failure to Terminate">
+<link rel="next" href="Getting-Internal-Debugging-Information.html#Getting-Internal-Debugging-Information" title="Getting Internal Debugging Information">
+<link href="http://www.gnu.org/software/texinfo/" rel="generator-home" title="Texinfo Homepage">
+<!--
+
+     GNAT User's Guide for Native Platforms , March 24, 2015
+
+     AdaCore
+
+     Copyright (C) 2008-2015, Free Software Foundation
+-->
+<meta http-equiv="Content-Style-Type" content="text/css">
+<style type="text/css"><!--
+  pre.display { font-family:inherit }
+  pre.format  { font-family:inherit }
+  pre.smalldisplay { font-family:inherit; font-size:smaller }
+  pre.smallformat  { font-family:inherit; font-size:smaller }
+  pre.smallexample { font-size:smaller }
+  pre.smalllisp    { font-size:smaller }
+  span.sc    { font-variant:small-caps }
+  span.roman { font-family:serif; font-weight:normal; } 
+  span.sansserif { font-family:sans-serif; font-weight:normal; } 
+--></style>
+</head>
+<body>
+<div class="node">
+<a name="Naming-Conventions-for-GNAT-Source-Files"></a>
+<p>
+Next:&nbsp;<a rel="next" accesskey="n" href="Getting-Internal-Debugging-Information.html#Getting-Internal-Debugging-Information">Getting Internal Debugging Information</a>,
+Previous:&nbsp;<a rel="previous" accesskey="p" href="GNAT-Abnormal-Termination-or-Failure-to-Terminate.html#GNAT-Abnormal-Termination-or-Failure-to-Terminate">GNAT Abnormal Termination or Failure to Terminate</a>,
+Up:&nbsp;<a rel="up" accesskey="u" href="Running-and-Debugging-Ada-Programs.html#Running-and-Debugging-Ada-Programs">Running and Debugging Ada Programs</a>
+<hr>
+</div>
+
+<p><a name="gnat_005fugn_002fgnat_005fand_005fprogram_005fexecution-naming_002dconventions_002dfor_002dgnat_002dsource_002dfiles"></a><a name="g_t20d"></a><a name="gnat_005fugn_002fgnat_005fand_005fprogram_005fexecution-id14"></a><a name="g_t20e"></a>
+
+<h4 class="subsection">8.1.12 Naming Conventions for GNAT Source Files</h4>
+
+<p>In order to examine the workings of the GNAT system, the following
+brief description of its organization may be helpful:
+
+     <ul>
+<li>Files with prefix <code>sc</code> contain the lexical scanner.
+
+     <li>All files prefixed with <code>par</code> are components of the parser. The
+numbers correspond to chapters of the Ada Reference Manual. For example,
+parsing of select statements can be found in <code>par-ch9.adb</code>.
+
+     <li>All files prefixed with <code>sem</code> perform semantic analysis. The
+numbers correspond to chapters of the Ada standard. For example, all
+issues involving context clauses can be found in <code>sem_ch10.adb</code>. In
+addition, some features of the language require sufficient special processing
+to justify their own semantic files: sem_aggr for aggregates, sem_disp for
+dynamic dispatching, etc.
+
+     <li>All files prefixed with <code>exp</code> perform normalization and
+expansion of the intermediate representation (abstract syntax tree, or AST). 
+these files use the same numbering scheme as the parser and semantics files. 
+For example, the construction of record initialization procedures is done in
+<code>exp_ch3.adb</code>.
+
+     <li>The files prefixed with <code>bind</code> implement the binder, which
+verifies the consistency of the compilation, determines an order of
+elaboration, and generates the bind file.
+
+     <li>The files <code>atree.ads</code> and <code>atree.adb</code> detail the low-level
+data structures used by the front-end.
+
+     <li>The files <code>sinfo.ads</code> and <code>sinfo.adb</code> detail the structure of
+the abstract syntax tree as produced by the parser.
+
+     <li>The files <code>einfo.ads</code> and <code>einfo.adb</code> detail the attributes of
+all entities, computed during semantic analysis.
+
+     <li>Library management issues are dealt with in files with prefix
+<code>lib</code>.
+
+     <p><a name="index-Annex-A-_0028in-Ada-Reference-Manual_0029-962"></a>
+<li>Ada files with the prefix <code>a-</code> are children of <cite>Ada</cite>, as
+defined in Annex A.
+
+     <p><a name="index-Annex-B-_0028in-Ada-reference-Manual_0029-963"></a>
+<li>Files with prefix <code>i-</code> are children of <cite>Interfaces</cite>, as
+defined in Annex B.
+
+     <p><a name="index-System-_0028package-in-Ada-Reference-Manual_0029-964"></a>
+<li>Files with prefix <code>s-</code> are children of <cite>System</cite>. This includes
+both language-defined children and GNAT run-time routines.
+
+     <p><a name="index-GNAT-_0028package_0029-965"></a>
+<li>Files with prefix <code>g-</code> are children of <cite>GNAT</cite>. These are useful
+general-purpose packages, fully documented in their specs. All
+the other <code>.c</code> files are modifications of common `gcc' files. 
+</ul>
+
+</body></html>
+

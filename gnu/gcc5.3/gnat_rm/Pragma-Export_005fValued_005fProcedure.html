@@ -1,0 +1,99 @@
+<html lang="en">
+<head>
+<title>Pragma Export_Valued_Procedure - GNAT Reference Manual</title>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+<meta name="description" content="GNAT Reference Manual">
+<meta name="generator" content="makeinfo 4.13">
+<link title="Top" rel="start" href="index.html#Top">
+<link rel="up" href="Implementation-Defined-Pragmas.html#Implementation-Defined-Pragmas" title="Implementation Defined Pragmas">
+<link rel="prev" href="Pragma-Export_005fValue.html#Pragma-Export_005fValue" title="Pragma Export_Value">
+<link rel="next" href="Pragma-Extend_005fSystem.html#Pragma-Extend_005fSystem" title="Pragma Extend_System">
+<link href="http://www.gnu.org/software/texinfo/" rel="generator-home" title="Texinfo Homepage">
+<!--
+
+     GNAT Reference Manual , March 24, 2015
+
+     AdaCore
+
+     Copyright (C) 2008-2015, Free Software Foundation
+-->
+<meta http-equiv="Content-Style-Type" content="text/css">
+<style type="text/css"><!--
+  pre.display { font-family:inherit }
+  pre.format  { font-family:inherit }
+  pre.smalldisplay { font-family:inherit; font-size:smaller }
+  pre.smallformat  { font-family:inherit; font-size:smaller }
+  pre.smallexample { font-size:smaller }
+  pre.smalllisp    { font-size:smaller }
+  span.sc    { font-variant:small-caps }
+  span.roman { font-family:serif; font-weight:normal; } 
+  span.sansserif { font-family:sans-serif; font-weight:normal; } 
+--></style>
+</head>
+<body>
+<div class="node">
+<a name="Pragma-Export_Valued_Procedure"></a>
+<a name="Pragma-Export_005fValued_005fProcedure"></a>
+<p>
+Next:&nbsp;<a rel="next" accesskey="n" href="Pragma-Extend_005fSystem.html#Pragma-Extend_005fSystem">Pragma Extend_System</a>,
+Previous:&nbsp;<a rel="previous" accesskey="p" href="Pragma-Export_005fValue.html#Pragma-Export_005fValue">Pragma Export_Value</a>,
+Up:&nbsp;<a rel="up" accesskey="u" href="Implementation-Defined-Pragmas.html#Implementation-Defined-Pragmas">Implementation Defined Pragmas</a>
+<hr>
+</div>
+
+<p><a name="gnat_005frm_002fimplementation_005fdefined_005fpragmas-pragma_002dexport_002dvalued_002dprocedure"></a><a name="g_t55"></a>
+
+<h3 class="section">2.58 Pragma Export_Valued_Procedure</h3>
+
+<p>Syntax:
+
+<pre class="example">    pragma Export_Valued_Procedure (
+         [Internal        =&gt;] LOCAL_NAME
+      [, [External        =&gt;] EXTERNAL_SYMBOL]
+      [, [Parameter_Types =&gt;] PARAMETER_TYPES]
+      [, [Mechanism       =&gt;] MECHANISM]);
+    
+    EXTERNAL_SYMBOL ::=
+      IDENTIFIER
+    | static_string_EXPRESSION
+    | ""
+    
+    PARAMETER_TYPES ::=
+      null
+    | TYPE_DESIGNATOR {, TYPE_DESIGNATOR}
+    
+    TYPE_DESIGNATOR ::=
+      subtype_NAME
+    | subtype_Name ' Access
+    
+    MECHANISM ::=
+      MECHANISM_NAME
+    | (MECHANISM_ASSOCIATION {, MECHANISM_ASSOCIATION})
+    
+    MECHANISM_ASSOCIATION ::=
+      [formal_parameter_NAME =&gt;] MECHANISM_NAME
+    
+    MECHANISM_NAME ::= Value | Reference
+</pre>
+<p>This pragma is identical to <cite>Export_Procedure</cite> except that the
+first parameter of <cite>LOCAL_NAME</cite>, which must be present, must be of
+mode <cite>OUT</cite>, and externally the subprogram is treated as a function
+with this parameter as the result of the function.  GNAT provides for
+this capability to allow the use of <cite>OUT</cite> and <cite>IN OUT</cite>
+parameters in interfacing to external functions (which are not permitted
+in Ada functions). 
+GNAT does not require a separate pragma <cite>Export</cite>, but if none is
+present, <cite>Convention Ada</cite> is assumed, which is almost certainly
+not what is wanted since the whole point of this pragma is to interface
+with foreign language functions, so it is usually appropriate to use this
+pragma in conjunction with a <cite>Export</cite> or <cite>Convention</cite>
+pragma that specifies the desired foreign convention.
+
+<p><a name="index-Suppressing-external-name-45"></a>
+Special treatment is given if the EXTERNAL is an explicit null
+string or a static string expressions that evaluates to the null
+string. In this case, no external name is generated. This form
+still allows the specification of parameter mechanisms.
+
+</body></html>
+

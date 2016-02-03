@@ -1,0 +1,136 @@
+<html lang="en">
+<head>
+<title>A Note to Readers of Previous Versions of the Manual - GNAT User's Guide for Native Platforms</title>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+<meta name="description" content="GNAT User's Guide for Native Platforms">
+<meta name="generator" content="makeinfo 4.13">
+<link title="Top" rel="start" href="index.html#Top">
+<link rel="up" href="About-This-Guide.html#About-This-Guide" title="About This Guide">
+<link rel="prev" href="Related-Information.html#Related-Information" title="Related Information">
+<link rel="next" href="Conventions.html#Conventions" title="Conventions">
+<link href="http://www.gnu.org/software/texinfo/" rel="generator-home" title="Texinfo Homepage">
+<!--
+
+     GNAT User's Guide for Native Platforms , March 24, 2015
+
+     AdaCore
+
+     Copyright (C) 2008-2015, Free Software Foundation
+-->
+<meta http-equiv="Content-Style-Type" content="text/css">
+<style type="text/css"><!--
+  pre.display { font-family:inherit }
+  pre.format  { font-family:inherit }
+  pre.smalldisplay { font-family:inherit; font-size:smaller }
+  pre.smallformat  { font-family:inherit; font-size:smaller }
+  pre.smallexample { font-size:smaller }
+  pre.smalllisp    { font-size:smaller }
+  span.sc    { font-variant:small-caps }
+  span.roman { font-family:serif; font-weight:normal; } 
+  span.sansserif { font-family:sans-serif; font-weight:normal; } 
+--></style>
+</head>
+<body>
+<div class="node">
+<a name="A-Note-to-Readers-of-Previous-Versions-of-the-Manual"></a>
+<p>
+Next:&nbsp;<a rel="next" accesskey="n" href="Conventions.html#Conventions">Conventions</a>,
+Previous:&nbsp;<a rel="previous" accesskey="p" href="Related-Information.html#Related-Information">Related Information</a>,
+Up:&nbsp;<a rel="up" accesskey="u" href="About-This-Guide.html#About-This-Guide">About This Guide</a>
+<hr>
+</div>
+
+<p><a name="gnat_005fugn_002fabout_005fthis_005fguide-a_002dnote_002dto_002dreaders_002dof_002dprevious_002dversions_002dof_002dthe_002dmanual"></a><a name="g_t15"></a>
+
+<h3 class="section">1.4 A Note to Readers of Previous Versions of the Manual</h3>
+
+<p>In early 2015 the GNAT manuals were transitioned to the
+reStructuredText (rst) / Sphinx documentation generator technology. 
+During that process the <cite>GNAT User's Guide</cite> was reorganized
+so that related topics would be described together in the same chapter
+or appendix.  Here's a summary of the major changes realized in
+the new document structure.
+
+     <ul>
+<li><a href="9.html#g_t9">The GNAT Compilation Model</a> has been extended so that it now covers
+the following material:
+
+          <ul>
+<li>The <cite>gnatname</cite>, <cite>gnatkr</cite>, and <cite>gnatchop</cite> tools
+
+          <li><a href="16.html#g_t16">Configuration Pragmas</a>
+
+          <li><a href="17.html#g_t17">GNAT and Libraries</a>
+
+          <li><a href="18.html#g_t18">Conditional Compilation</a> including <a href="19.html#g_t19">Preprocessing with gnatprep</a>
+and <a href="1a.html#g_t1a">Integrated Preprocessing</a>
+
+          <li><a href="1b.html#g_t1b">Generating Ada Bindings for C and C++ headers</a>
+
+          <li><a href="1c.html#g_t1c">Using GNAT Files with External Tools</a>
+</ul>
+
+     <li><a href="a.html#a">Building Executable Programs with GNAT</a> is a new chapter consolidating
+the following content:
+
+          <ul>
+<li><a href="1d.html#g_t1d">Building with gnatmake</a>
+
+          <li><a href="1e.html#g_t1e">Compiling with gcc</a>
+
+          <li><a href="1f.html#g_t1f">Binding with gnatbind</a>
+
+          <li><a href="20.html#g_t20">Linking with gnatlink</a>
+
+          <li><a href="21.html#g_t21">Using the GNU make Utility</a>
+</ul>
+
+     <li><a href="d.html#d">GNAT Utility Programs</a> is a new chapter consolidating the information about several
+GNAT tools:
+
+          <ul>
+<li><a href="22.html#g_t22">The File Cleanup Utility gnatclean</a>
+
+          <li><a href="23.html#g_t23">The GNAT Library Browser gnatls</a>
+
+          <li><a href="24.html#g_t24">The Cross-Referencing Tools gnatxref and gnatfind</a>
+
+          <li><a href="25.html#g_t25">The Ada to HTML Converter gnathtml</a>
+</ul>
+
+     <li><a href="e.html#e">GNAT and Program Execution</a> is a new chapter consolidating the following:
+
+          <ul>
+<li><a href="26.html#g_t26">Running and Debugging Ada Programs</a>
+
+          <li><a href="27.html#g_t27">Code Coverage and Profiling</a>
+
+          <li><a href="28.html#g_t28">Improving Performance</a>
+
+          <li><a href="29.html#g_t29">Overflow Check Handling in GNAT</a>
+
+          <li><a href="2a.html#g_t2a">Performing Dimensionality Analysis in GNAT</a>
+
+          <li><a href="2b.html#g_t2b">Stack Related Facilities</a>
+
+          <li><a href="2c.html#g_t2c">Memory Management Issues</a>
+</ul>
+
+     <li><a href="f.html#f">Platform-Specific Information</a> is a new appendix consolidating the following:
+
+          <ul>
+<li><a href="2d.html#g_t2d">Run-Time Libraries</a>
+
+          <li><a href="2e.html#g_t2e">Microsoft Windows Topics</a>
+
+          <li><a href="2f.html#g_t2f">Mac OS Topics</a>
+</ul>
+
+     <li>The <cite>Compatibility and Porting Guide</cite> appendix has been moved to the
+<cite>GNAT Reference Manual</cite>. It now includes a section
+<cite>Writing Portable Fixed-Point Declarations</cite> which was previously
+a separate chapter in the <cite>GNAT User's Guide</cite>. 
+</ul>
+
+</body></html>
+

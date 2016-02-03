@@ -1,0 +1,78 @@
+<html lang="en">
+<head>
+<title>Setting Stack Size from gnatlink - GNAT User's Guide for Native Platforms</title>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+<meta name="description" content="GNAT User's Guide for Native Platforms">
+<meta name="generator" content="makeinfo 4.13">
+<link title="Top" rel="start" href="index.html#Top">
+<link rel="up" href="Mixed_002dLanguage-Programming-on-Windows.html#Mixed_002dLanguage-Programming-on-Windows" title="Mixed-Language Programming on Windows">
+<link rel="prev" href="Debugging-a-DLL.html#Debugging-a-DLL" title="Debugging a DLL">
+<link rel="next" href="Setting-Heap-Size-from-gnatlink.html#Setting-Heap-Size-from-gnatlink" title="Setting Heap Size from gnatlink">
+<link href="http://www.gnu.org/software/texinfo/" rel="generator-home" title="Texinfo Homepage">
+<!--
+
+     GNAT User's Guide for Native Platforms , March 24, 2015
+
+     AdaCore
+
+     Copyright (C) 2008-2015, Free Software Foundation
+-->
+<meta http-equiv="Content-Style-Type" content="text/css">
+<style type="text/css"><!--
+  pre.display { font-family:inherit }
+  pre.format  { font-family:inherit }
+  pre.smalldisplay { font-family:inherit; font-size:smaller }
+  pre.smallformat  { font-family:inherit; font-size:smaller }
+  pre.smallexample { font-size:smaller }
+  pre.smalllisp    { font-size:smaller }
+  span.sc    { font-variant:small-caps }
+  span.roman { font-family:serif; font-weight:normal; } 
+  span.sansserif { font-family:sans-serif; font-weight:normal; } 
+--></style>
+</head>
+<body>
+<div class="node">
+<a name="Setting-Stack-Size-from-gnatlink"></a>
+<p>
+Next:&nbsp;<a rel="next" accesskey="n" href="Setting-Heap-Size-from-gnatlink.html#Setting-Heap-Size-from-gnatlink">Setting Heap Size from gnatlink</a>,
+Previous:&nbsp;<a rel="previous" accesskey="p" href="Debugging-a-DLL.html#Debugging-a-DLL">Debugging a DLL</a>,
+Up:&nbsp;<a rel="up" accesskey="u" href="Mixed_002dLanguage-Programming-on-Windows.html#Mixed_002dLanguage-Programming-on-Windows">Mixed-Language Programming on Windows</a>
+<hr>
+</div>
+
+<p><a name="gnat_005fugn_002fplatform_005fspecific_005finformation-setting_002dstack_002dsize_002dfrom_002dgnatlink"></a><a name="g_t13a"></a><a name="gnat_005fugn_002fplatform_005fspecific_005finformation-id40"></a><a name="g_t2a8"></a>
+
+<h5 class="subsubsection">9.3.5.27 Setting Stack Size from `gnatlink'</h5>
+
+<p>It is possible to specify the program stack size at link time. On modern
+versions of Windows, starting with XP, this is mostly useful to set the size of
+the main stack (environment task). The other task stacks are set with pragma
+Storage_Size or with the `gnatbind -d' command.
+
+<p>Since older versions of Windows (2000, NT4, etc.) do not allow setting the
+reserve size of individual tasks, the link-time stack size applies to all
+tasks, and pragma Storage_Size has no effect. 
+In particular, Stack Overflow checks are made against this
+link-time specified size.
+
+<p>This setting can be done with `gnatlink' using either of the following:
+
+     <ul>
+<li>`-Xlinker' linker option
+
+     <pre class="example">         $ gnatlink hello -Xlinker --stack=0x10000,0x1000
+</pre>
+     <p>This sets the stack reserve size to 0x10000 bytes and the stack commit
+size to 0x1000 bytes.
+
+     <li>`-Wl' linker option
+
+     <pre class="example">         $ gnatlink hello -Wl,--stack=0x1000000
+</pre>
+     <p>This sets the stack reserve size to 0x1000000 bytes. Note that with
+`-Wl' option it is not possible to set the stack commit size
+because the coma is a separator for this option. 
+</ul>
+
+</body></html>
+

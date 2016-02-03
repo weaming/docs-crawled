@@ -1,0 +1,272 @@
+<html lang="en">
+<head>
+<title>Controlling the Elaboration Order - GNAT User's Guide for Native Platforms</title>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+<meta name="description" content="GNAT User's Guide for Native Platforms">
+<meta name="generator" content="makeinfo 4.13">
+<link title="Top" rel="start" href="index.html#Top">
+<link rel="up" href="Elaboration-Order-Handling-in-GNAT.html#Elaboration-Order-Handling-in-GNAT" title="Elaboration Order Handling in GNAT">
+<link rel="prev" href="Checking-the-Elaboration-Order.html#Checking-the-Elaboration-Order" title="Checking the Elaboration Order">
+<link rel="next" href="Controlling-Elaboration-in-GNAT-_002d-Internal-Calls.html#Controlling-Elaboration-in-GNAT-_002d-Internal-Calls" title="Controlling Elaboration in GNAT - Internal Calls">
+<link href="http://www.gnu.org/software/texinfo/" rel="generator-home" title="Texinfo Homepage">
+<!--
+
+     GNAT User's Guide for Native Platforms , March 24, 2015
+
+     AdaCore
+
+     Copyright (C) 2008-2015, Free Software Foundation
+-->
+<meta http-equiv="Content-Style-Type" content="text/css">
+<style type="text/css"><!--
+  pre.display { font-family:inherit }
+  pre.format  { font-family:inherit }
+  pre.smalldisplay { font-family:inherit; font-size:smaller }
+  pre.smallformat  { font-family:inherit; font-size:smaller }
+  pre.smallexample { font-size:smaller }
+  pre.smalllisp    { font-size:smaller }
+  span.sc    { font-variant:small-caps }
+  span.roman { font-family:serif; font-weight:normal; } 
+  span.sansserif { font-family:sans-serif; font-weight:normal; } 
+--></style>
+</head>
+<body>
+<div class="node">
+<a name="Controlling-the-Elaboration-Order"></a>
+<p>
+Next:&nbsp;<a rel="next" accesskey="n" href="Controlling-Elaboration-in-GNAT-_002d-Internal-Calls.html#Controlling-Elaboration-in-GNAT-_002d-Internal-Calls">Controlling Elaboration in GNAT - Internal Calls</a>,
+Previous:&nbsp;<a rel="previous" accesskey="p" href="Checking-the-Elaboration-Order.html#Checking-the-Elaboration-Order">Checking the Elaboration Order</a>,
+Up:&nbsp;<a rel="up" accesskey="u" href="Elaboration-Order-Handling-in-GNAT.html#Elaboration-Order-Handling-in-GNAT">Elaboration Order Handling in GNAT</a>
+<hr>
+</div>
+
+<p><a name="gnat_005fugn_002felaboration_005forder_005fhandling_005fin_005fgnat-id4"></a><a name="g_t2b4"></a><a name="gnat_005fugn_002felaboration_005forder_005fhandling_005fin_005fgnat-controlling_002dthe_002delaboration_002dorder"></a><a name="g_t2b5"></a>
+
+<h3 class="section">11.3 Controlling the Elaboration Order</h3>
+
+<p>In the previous section we discussed the rules in Ada which ensure
+that <cite>Program_Error</cite> is raised if an incorrect elaboration order is
+chosen. This prevents erroneous executions, but we need mechanisms to
+specify a correct execution and avoid the exception altogether. 
+To achieve this, Ada provides a number of features for controlling
+the order of elaboration. We discuss these features in this section.
+
+<p>First, there are several ways of indicating to the compiler that a given
+unit has no elaboration problems:
+
+     <ul>
+<li>`packages that do not require a body'
+
+     <p>A library package that does not require a body does not permit
+a body (this rule was introduced in Ada 95). 
+Thus if we have a such a package, as in:
+
+     <pre class="example">         package Definitions is
+            generic
+               type m is new integer;
+            package Subp is
+               type a is array (1 .. 10) of m;
+               type b is array (1 .. 20) of m;
+            end Subp;
+         end Definitions;
+</pre>
+     <p>A package that `with's <cite>Definitions</cite> may safely instantiate
+<cite>Definitions.Subp</cite> because the compiler can determine that there
+definitely is no package body to worry about in this case
+</ul>
+
+<p><a name="index-pragma-Pure-1144"></a>
+
+     <ul>
+<li>`pragma Pure'
+
+     <p>This pragma places sufficient restrictions on a unit to guarantee that
+no call to any subprogram in the unit can result in an
+elaboration problem. This means that the compiler does not need
+to worry about the point of elaboration of such units, and in
+particular, does not need to check any calls to any subprograms
+in this unit. 
+</ul>
+
+<p><a name="index-pragma-Preelaborate-1145"></a>
+
+     <ul>
+<li>`pragma Preelaborate'
+
+     <p>This pragma places slightly less stringent restrictions on a unit than
+does pragma Pure,
+but these restrictions are still sufficient to ensure that there
+are no elaboration problems with any calls to the unit. 
+</ul>
+
+<p><a name="index-pragma-Elaborate_005fBody-1146"></a>
+
+     <ul>
+<li>`pragma Elaborate_Body'
+
+     <p>This pragma requires that the body of a unit be elaborated immediately
+after its spec. Suppose a unit <cite>A</cite> has such a pragma,
+and unit <cite>B</cite> does
+a `with' of unit <cite>A</cite>. Recall that the standard rules require
+the spec of unit <cite>A</cite>
+to be elaborated before the `with'ing unit; given the pragma in
+<cite>A</cite>, we also know that the body of <cite>A</cite>
+will be elaborated before <cite>B</cite>, so
+that calls to <cite>A</cite> are safe and do not need a check.
+
+     <p>Note that, unlike pragma <cite>Pure</cite> and pragma <cite>Preelaborate</cite>,
+the use of <cite>Elaborate_Body</cite> does not guarantee that the program is
+free of elaboration problems, because it may not be possible
+to satisfy the requested elaboration order. 
+Let's go back to the example with <cite>Unit_1</cite> and <cite>Unit_2</cite>. 
+If a programmer marks <cite>Unit_1</cite> as <cite>Elaborate_Body</cite>,
+and not <cite>Unit_2,</cite> then the order of
+elaboration will be:
+
+     <pre class="example">         Spec of Unit_2
+         Spec of Unit_1
+         Body of Unit_1
+         Body of Unit_2
+</pre>
+     <p>Now that means that the call to <cite>Func_1</cite> in <cite>Unit_2</cite>
+need not be checked,
+it must be safe. But the call to <cite>Func_2</cite> in
+<cite>Unit_1</cite> may still fail if
+<cite>Expression_1</cite> is equal to 1,
+and the programmer must still take
+responsibility for this not being the case.
+
+     <p>If all units carry a pragma <cite>Elaborate_Body</cite>, then all problems are
+eliminated, except for calls entirely within a body, which are
+in any case fully under programmer control. However, using the pragma
+everywhere is not always possible. 
+In particular, for our <cite>Unit_1</cite>/<cite>Unit_2</cite> example, if
+we marked both of them as having pragma <cite>Elaborate_Body</cite>, then
+clearly there would be no possible elaboration order. 
+</ul>
+
+<p>The above pragmas allow a server to guarantee safe use by clients, and
+clearly this is the preferable approach. Consequently a good rule
+is to mark units as <cite>Pure</cite> or <cite>Preelaborate</cite> if possible,
+and if this is not possible,
+mark them as <cite>Elaborate_Body</cite> if possible. 
+As we have seen, there are situations where neither of these
+three pragmas can be used. 
+So we also provide methods for clients to control the
+order of elaboration of the servers on which they depend:
+
+<p><a name="index-pragma-Elaborate-1147"></a>
+
+     <ul>
+<li>`pragma Elaborate (unit)'
+
+     <p>This pragma is placed in the context clause, after a `with' clause,
+and it requires that the body of the named unit be elaborated before
+the unit in which the pragma occurs. The idea is to use this pragma
+if the current unit calls at elaboration time, directly or indirectly,
+some subprogram in the named unit. 
+</ul>
+
+<p><a name="index-pragma-Elaborate_005fAll-1148"></a>
+
+     <ul>
+<li>`pragma Elaborate_All (unit)'
+
+     <p>This is a stronger version of the Elaborate pragma. Consider the
+following example:
+
+     <pre class="example">         Unit A |withs| unit B and calls B.Func in elab code
+         Unit B |withs| unit C, and B.Func calls C.Func
+</pre>
+     <p>Now if we put a pragma <cite>Elaborate (B)</cite>
+in unit <cite>A</cite>, this ensures that the
+body of <cite>B</cite> is elaborated before the call, but not the
+body of <cite>C</cite>, so
+the call to <cite>C.Func</cite> could still cause <cite>Program_Error</cite> to
+be raised.
+
+     <p>The effect of a pragma <cite>Elaborate_All</cite> is stronger, it requires
+not only that the body of the named unit be elaborated before the
+unit doing the `with', but also the bodies of all units that the
+named unit uses, following `with' links transitively. For example,
+if we put a pragma <cite>Elaborate_All (B)</cite> in unit <cite>A</cite>,
+then it requires not only that the body of <cite>B</cite> be elaborated before <cite>A</cite>,
+but also the body of <cite>C</cite>, because <cite>B</cite> `with's <cite>C</cite>. 
+</ul>
+
+<p>We are now in a position to give a usage rule in Ada for avoiding
+elaboration problems, at least if dynamic dispatching and access to
+subprogram values are not used. We will handle these cases separately
+later.
+
+<p>The rule is simple:
+
+<p>`If a unit has elaboration code that can directly or
+indirectly make a call to a subprogram in a |withed| unit, or instantiate
+a generic package in a |withed| unit,
+then if the |withed| unit does not have
+pragma `Pure` or `Preelaborate`, then the client should have
+a pragma `Elaborate_All`for the |withed| unit.*'
+
+<p>By following this rule a client is
+assured that calls can be made without risk of an exception.
+
+<p>For generic subprogram instantiations, the rule can be relaxed to
+require only a pragma <cite>Elaborate</cite> since elaborating the body
+of a subprogram cannot cause any transitive elaboration (we are
+not calling the subprogram in this case, just elaborating its
+declaration).
+
+<p>If this rule is not followed, then a program may be in one of four
+states:
+
+     <ul>
+<li>`No order exists'
+
+     <p>No order of elaboration exists which follows the rules, taking into
+account any <cite>Elaborate</cite>, <cite>Elaborate_All</cite>,
+or <cite>Elaborate_Body</cite> pragmas. In
+this case, an Ada compiler must diagnose the situation at bind
+time, and refuse to build an executable program.
+
+     <li>`One or more orders exist, all incorrect'
+
+     <p>One or more acceptable elaboration orders exist, and all of them
+generate an elaboration order problem. In this case, the binder
+can build an executable program, but <cite>Program_Error</cite> will be raised
+when the program is run.
+
+     <li>`Several orders exist, some right, some incorrect'
+
+     <p>One or more acceptable elaboration orders exists, and some of them
+work, and some do not. The programmer has not controlled
+the order of elaboration, so the binder may or may not pick one of
+the correct orders, and the program may or may not raise an
+exception when it is run. This is the worst case, because it means
+that the program may fail when moved to another compiler, or even
+another version of the same compiler.
+
+     <li>`One or more orders exists, all correct'
+
+     <p>One ore more acceptable elaboration orders exist, and all of them
+work. In this case the program runs successfully. This state of
+affairs can be guaranteed by following the rule we gave above, but
+may be true even if the rule is not followed. 
+</ul>
+
+<p>Note that one additional advantage of following our rules on the use
+of <cite>Elaborate</cite> and <cite>Elaborate_All</cite>
+is that the program continues to stay in the ideal (all orders OK) state
+even if maintenance
+changes some bodies of some units. Conversely, if a program that does
+not follow this rule happens to be safe at some point, this state of affairs
+may deteriorate silently as a result of maintenance changes.
+
+<p>You may have noticed that the above discussion did not mention
+the use of <cite>Elaborate_Body</cite>. This was a deliberate omission. If you
+`with' an <cite>Elaborate_Body</cite> unit, it still may be the case that
+code in the body makes calls to some other unit, so it is still necessary
+to use <cite>Elaborate_All</cite> on such units.
+
+</body></html>
+

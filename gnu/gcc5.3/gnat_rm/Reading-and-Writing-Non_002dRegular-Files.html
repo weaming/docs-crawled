@@ -1,0 +1,89 @@
+<html lang="en">
+<head>
+<title>Reading and Writing Non-Regular Files - GNAT Reference Manual</title>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+<meta name="description" content="GNAT Reference Manual">
+<meta name="generator" content="makeinfo 4.13">
+<link title="Top" rel="start" href="index.html#Top">
+<link rel="up" href="Text_005fIO.html#Text_005fIO" title="Text_IO">
+<link rel="prev" href="Stream-Pointer-Positioning.html#Stream-Pointer-Positioning" title="Stream Pointer Positioning">
+<link rel="next" href="Get_005fImmediate.html#Get_005fImmediate" title="Get_Immediate">
+<link href="http://www.gnu.org/software/texinfo/" rel="generator-home" title="Texinfo Homepage">
+<!--
+
+     GNAT Reference Manual , March 24, 2015
+
+     AdaCore
+
+     Copyright (C) 2008-2015, Free Software Foundation
+-->
+<meta http-equiv="Content-Style-Type" content="text/css">
+<style type="text/css"><!--
+  pre.display { font-family:inherit }
+  pre.format  { font-family:inherit }
+  pre.smalldisplay { font-family:inherit; font-size:smaller }
+  pre.smallformat  { font-family:inherit; font-size:smaller }
+  pre.smallexample { font-size:smaller }
+  pre.smalllisp    { font-size:smaller }
+  span.sc    { font-variant:small-caps }
+  span.roman { font-family:serif; font-weight:normal; } 
+  span.sansserif { font-family:sans-serif; font-weight:normal; } 
+--></style>
+</head>
+<body>
+<div class="node">
+<a name="Reading-and-Writing-Non-Regular-Files"></a>
+<a name="Reading-and-Writing-Non_002dRegular-Files"></a>
+<p>
+Next:&nbsp;<a rel="next" accesskey="n" href="Get_005fImmediate.html#Get_005fImmediate">Get_Immediate</a>,
+Previous:&nbsp;<a rel="previous" accesskey="p" href="Stream-Pointer-Positioning.html#Stream-Pointer-Positioning">Stream Pointer Positioning</a>,
+Up:&nbsp;<a rel="up" accesskey="u" href="Text_005fIO.html#Text_005fIO">Text_IO</a>
+<hr>
+</div>
+
+<p><a name="gnat_005frm_002fthe_005fimplementation_005fof_005fstandard_005fi_005fo-reading_002dand_002dwriting_002dnon_002dregular_002dfiles"></a><a name="g_t250"></a><a name="gnat_005frm_002fthe_005fimplementation_005fof_005fstandard_005fi_005fo-id8"></a><a name="g_t251"></a>
+
+<h4 class="subsection">11.5.2 Reading and Writing Non-Regular Files</h4>
+
+<p>A non-regular file is a device (such as a keyboard), or a pipe.  Text_IO
+can be used for reading and writing.  Writing is not affected and the
+sequence of characters output is identical to the normal file case, but
+for reading, the behavior of Text_IO is modified to avoid undesirable
+look-ahead as follows:
+
+<p>An input file that is not a regular file is considered to have no page
+marks.  Any <cite>Ascii.FF</cite> characters (the character normally used for a
+page mark) appearing in the file are considered to be data
+characters.  In particular:
+
+     <ul>
+<li><cite>Get_Line</cite> and <cite>Skip_Line</cite> do not test for a page mark
+following a line mark.  If a page mark appears, it will be treated as a
+data character.
+
+     <li>This avoids the need to wait for an extra character to be typed or
+entered from the pipe to complete one of these operations.
+
+     <li><cite>End_Of_Page</cite> always returns <cite>False</cite>
+
+     <li><cite>End_Of_File</cite> will return <cite>False</cite> if there is a page mark at
+the end of the file. 
+</ul>
+
+<p>Output to non-regular files is the same as for regular files.  Page marks
+may be written to non-regular files using <cite>New_Page</cite>, but as noted
+above they will not be treated as page marks on input if the output is
+piped to another Ada program.
+
+<p>Another important discrepancy when reading non-regular files is that the end
+of file indication is not 'sticky'.  If an end of file is entered, e.g., by
+pressing the <code>EOT</code> key,
+then end of file
+is signaled once (i.e., the test <cite>End_Of_File</cite>
+will yield <cite>True</cite>, or a read will
+raise <cite>End_Error</cite>), but then reading can resume
+to read data past that end of
+file indication, until another end of file indication is entered.
+
+</body></html>
+

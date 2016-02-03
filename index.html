@@ -1,0 +1,147 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Python开发文档集</title>
+    <link rel="shortcut icon" href="./favicon.png">
+<style>
+    #main{margin-left:15%;margin-right:15%;}
+    a:link {color: #ccc;} /* 未访问的链接 */
+    a:visited {color: #ccc;} /* 已访问的链接 */
+    a:hover {color: #EA4335;} /* 鼠标划过链接 */
+    a{text-decoration:none;border-bottom:1px dashed;}
+    body{background-color:#222;color:#e0e0e0;
+        background-image: url(data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAGQAAABkAgMAAAANjH3HAAAACVBMVEUaGhohISElJSUh9lebAAAB20lEQVRIx4XWuZXDMAwE0C0SAQtggIIYoAAEU+aKOHhYojTrYP2+QfOW/5QIJOih/q8HwF/pb3EX+UPIveYcQGgEHiu9hI+ihEc5Jz5KBIlRRRaJ1JtoSAl5Hw96hLB1/up1tnIXOck5jZQy+3iU2hAOKSH1JvwxHsp+5TLF5MOl1/MQXsVs1miXc+KDbYydyMeUgpPQreZ7fWidbNhkXNJSeAhc6qHmHD8AYovunYyEACWEbyIhNeB9fRrH3hFi0bGPLuEW7xCNaohw1vAlS805nfsrTspclB/hVdoqusg53eH7FWot+wjYpOViX8KbFFKTwlnzvj65P9H/vD0/hibYBGhPwlPO8TmxRsaxsNnrUmUXpNhirlJMPr6Hqq9k5Xn/8iYQHYIuQsWFC6Z87IOxLxHphSY4SpuiU87xJnJr5axfeRd+lnMExXpEWPpuZ1v7qZdNBOjiHzDREHX5fs5Zz9p6X0vVKbKKchlSl5rv+3p//FJ/PYvoKryI8vs+2G9lzRmnEKkh+BU8yDk515jDj/HAswu7CCz6U/Mxb/PnC9N41ndpU4hUU7JGk/C9PmP/M2xZYdvBW2PObyf1IUiIzoHmHW9yTncliYs9A9tVNppdShfgQaTLMf+j3X723tLeHgAAAABJRU5ErkJggg==) !important;
+    }
+    #sidebar{position:absolute;top:-8px;right:8px;}
+    #sidebar #x {position:absolute;top:12px;right:3px;font-size:1.3em;color:red;}
+    #qr{border-radius:8px;}
+    @media all and (max-width: 1300px){#qr{display:none;}}
+    @media all and (min-width: 1300px){#main{margin:auto 30%;}}
+    #about{float:right;margin-right:16px;}
+    #sidebar a{border-bottom:none;}
+    #footer{float:right;}
+
+    #title{margin-top:50px;margin-bottom:50px;}
+    .ibox{margin-bottom:32px;border-radius:8px;padding:none;}
+    .category{font-size:18px;margin:auto;background-color:#428BCA;color:#fff;padding:10px 30px;border:1px solid #999;border-top-left-radius:4px;border-top-right-radius:4px;}
+    .ibox>a{display:block;padding:20px 30px;border:1px solid #999;margin:auto;margin-top:-1px;}
+    .ibox>a:hover{background-color: #333;color:#ccc;color:#fff;}
+    .ibox>a>span {float:right;}
+    .ibox .last{border-bottom-left-radius:4px;border-bottom-right-radius:4px;}
+
+</style>
+</head>
+<body>
+<script>
+    var ihost = "docs.ruanjiadeng.com";
+    if ((ihost == window.location.host) && (window.location.protocol != "http:")) window.location.protocol = "http";
+    var host = "ruanjiadeng.github.io";
+    if ((host == window.location.host) && (window.location.protocol != "http:")) window.location.protocol = "http";
+</script>
+<div id="main">
+    <div id="title"><h2>My documentations</h2></div>
+    <div id="list">
+    <div class="ibox">
+        <p class="category">书籍</p>
+        <a href="/python2.7/">python2.7 官方文档</a>
+        <a href="/python3.5/">python3.5 官方文档</a>
+        <a href="/progit/toc.html">Pro Git (zh)<span>代码版本控制</span></a>
+        <a href="https://marklodato.github.io/visual-git-guide/index-zh-cn.html">图解Git (zh)</a>
+        <a href="http://backlogtool.com/git-guide/cn/">猴子都能懂的Git入门</a>
+        <a href="/python3cookbook/">python3-cookbook (zh)</a>
+        <a href="/IntroductionToTornado/">Introduction to Tornado (zh)<span>Tornado框架</span></a>
+        <a href="http://javascript.ruanyifeng.com/">JavaScript 标准参考教程 (zh)<span>（alpha）</span></a>
+        <a href="/regex/regex.htm">正则表达式30分钟入门教程 (zh)</a>
+        <a href="http://golang-china.github.io/gopl-zh">Go语言圣经 (zh)</a>
+        <a href="https://nqdeng.github.io/7-days-nodejs/">七天学会nodejs (zh)</a>
+        <a class="last" href="/markdown/">Markdown 教程 (zh)</a>
+    </div>
+
+    <div class="ibox">
+        <p class="category">框架</p>
+        <a href="/django/">django<span>著名的python web框架</span></a>
+        <a href="/flask-zh/">flask (zh)<span>微框架</span></a>
+        <a class="last" href="/tornado/">Tornado 官方文档</a>
+    </div>
+
+    <div class="ibox">
+        <p class="category">数据库</p>
+        <a href="/sqlalchemy/">SQLAlchemy<span>广为人知的强大ORM</span></a>
+        <a class="last" href="/peewee/">peewee<span>轻巧的ORM</span></a>
+    </div>
+
+    <div class="ibox">
+        <p class="category">模块</p>
+        <a href="http://www.lfd.uci.edu/~gohlke/pythonlibs/">Unofficial Windows Binaries for Python Extension Packages<span>Python库下载</span></a>
+        <a href="/sphinx/">sphinx<span>python的文档生成管理</span></a>
+        <a href="/supervisor/">supervisor<span>linux进程守护工具</span></a>
+        <a href="/reStructuredText/rst.html">reStructuredText</a>
+        <a href="/misaka/">misaka<span>python的markdown处理模块</span></a>
+        <a href="/jinja2-en/">jinja2<span>网页模板语言</span></a>
+        <a class="last" href="/jinja2-zh/">jinja2 (zh)</a>
+    </div>
+
+    <div class="ibox">
+        <p class="category">网络</p>
+        <a href="/requests-en/">requests<span>HTTP库</span></a>
+        <a href="/requests-zh/">requests (zh)</a>
+        <a href="/gevent-tutorial-en/">gevent tutorial<span>一个基于libev的并发库</span></a>
+        <a class="last" href="/gevent-tutorial-zh/">gevent tutorial (zh)</a>
+    </div>
+
+    <div class="ibox">
+        <p class="category">Linux</p>
+        <a href="/gnu/bash/">Bash</a>
+        <a href="/vim-reference-manual/">vim参考手册 (zh)<span>v7.4 编辑器之神</span></a>
+        <a href="/emacs/emacs.html">emacs<span><del>神的编辑器</del></span></a>
+        <a href="/nginx/">Nginx</a>
+        <a href="/gnu/sed/">sed<span>a stream editor</span></a>
+        <a href="/gnu/gawk/index.html">GNU Awk<span>处理文本的编程语言工具</span></a>
+        <a href="/gnu/wget.html">wget</a>
+        <a href="/curl/">cURL</a>
+        <a class="last" href="https://www.gnu.org/manual/">GNU Manual Online<span>All in here!</span></a>
+    </div>
+
+    <div class="ibox">
+        <p class="category">前端</p>
+        <a href="https://developer.mozilla.org/zh-CN/docs/Web">Web 技术文档<span>MDN:Mozilla开发者中心</span></a>
+        <a href="https://developer.mozilla.org/zh-CN/docs/Web/CSS">MDN CSS (zh)</a>
+        <a href="https://developer.mozilla.org/zh-CN/docs/Web/JavaScript">MDN JavaScript (zh)</a>
+        <a href="/bootstrap/">Bootstrap</a>
+        <a href="/websafecolors/">Web安全色</a>
+        <a href="/es6tutorial/" title="2016.1.1版">ECMAScript 6入门 (zh)</a>
+        <a class="last" href="/learnlayout/">学习CSS布局</a>
+    </div>
+
+    <div class="ibox">
+        <p class="category">其他</p>
+        <a href="http://en.cppreference.com/w/">C/C++ reference</a>
+        <a href="/gnu/gnu-c-manual.html">GNU C Reference Manual</a>
+        <a href="/gnu/GNU-C-Library/">GNU C Library</a>
+        <a href="/gnu/gcc5.3/">GCC 5.3 Manual</a>
+        <a href="/nodejs/">nodejs<span>基于V8引擎的JavaScript运行环境</span></a>
+        <a class="last" href="/swift/">swift<span>ios开发语言</span></a>
+    </div>
+
+    <div class="ibox">
+        <p class="category">PDF下载</p>
+        <a href="/pdf/gun_make.pdf">GNU make 中文手册 (zh)<span>v3.8</span></a>
+        <a href="/pdf/Vim-user-manual-in-Chinese-v7.2.pdf">vim用户手册 (zh)<span>v7.2</span></a>
+    </div>
+
+</div>
+
+    </br>
+<div id="sidebar">
+    <p><img id="qr" src="./qr.png" alt="本站二维码"><a id="x" href="javascript:void(0)" onclick="document.getElementById('sidebar').style.display='none';"><span>×</span></a></p>
+    <div id="about">
+        <p class="i"><a target="_blank" href="https://github.com/weaming">Github</a></p>
+        <p class="i"><a target="_blank" href="https://twitter.com/ruanjiadeng">Twitter</a></p>
+    </div>
+</div>
+<div id="footer">
+</div>
+</div>
+</body>
+</html>

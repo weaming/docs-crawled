@@ -1,0 +1,106 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
+<HTML>
+<HEAD> <TITLE>cURL - HTTP Cookies</TITLE>
+<meta content="text/html; charset=UTF-8" http-equiv="Content-Type">
+<link rel="stylesheet" type="text/css" href="http://curl.haxx.se/curl.css">
+<link rel="shortcut icon" href="http://curl.haxx.se/favicon.ico">
+</HEAD>
+<body bgcolor="#ffffff" text="#000000">
+<div class="main">
+<div class="menu">
+<a href="index.html" class="menuitem" title="Documentation main page">Docs Overview</a>
+<a href="caextract.html" class="menuitem" title="CA cert bundle exatracted from Mozilla">CA Extract</a>
+<a href="http-cookies.html" class="itemselect">HTTP Cookies</a>
+<a href="http2.html" class="menuitem" title="HTTP/2 with curl">HTTP/2</a>
+<a href="sslcerts.html" class="menuitem" title="How curl works with SSL certficates">SSL Certs</a>
+<a href="ssl-compared.html" class="menuitem" title="An SSL library comparison">SSL libs compared</a>
+</div>
+<div class="contents">
+<div class="where"><a href="http://curl.haxx.se/">cURL</a> / <a href="index.html">Docs</a> / <a href="protdocs.html">Protocol docs</a> / <b>HTTP Cookies</b></div>
+<h1> HTTP Cookies </h1>
+<div class="relatedbox">
+<b>Related:</b>
+<br><a href="manpage.html">curl man page</a>
+<br><a href="manual.html">Manual</a>
+<br><a href="httpscripting.html">HTTP Scripting</a>
+</div>
+<h2>HTTP Cookies</h2>
+<p>
+<a href="http-cookies.html#Cookie_overview">1.1</a> Cookie overview<br>
+<a href="http-cookies.html#Cookies_saved_to_disk">1.2</a> Cookies saved to disk<br>
+<a href="http-cookies.html#Cookies_with_curl_the_command_li">1.3</a> Cookies with curl the command line tool<br>
+<a href="http-cookies.html#Cookies_with_libcurl">1.4</a> Cookies with libcurl<br>
+<a href="http-cookies.html#Cookies_with_javascript">1.5</a> Cookies with javascript<br>
+<hr>
+ <h2>1. HTTP Cookies</h2><a name="Cookie_overview"></a><h3>1.1 Cookie overview</h3>
+<p>  HTTP cookies are pieces of 'name=contents' snippets that a server tells the
+   client to hold and then the client sends back those the server on subsequent
+    requests to the same domains/paths for which the cookies were set.
+ <p>  Cookies are either "session cookies" which typically are forgotten when the
+   session is over which is often translated to equal when browser quits, or
+    the cookies aren't session cookies they have expiration dates after which
+    the client will throw them away.
+ <p>  Cookies are set to the client with the Set-Cookie: header and are sent to
+   servers with the Cookie: header.
+ <p>  For a very long time, the only spec explaining how to use cookies was the
+   original Netscape spec from 1994: <a href="http://curl.haxx.se/rfc/cookie_spec.html">http://curl.haxx.se/rfc/cookie_spec.html</a>
+ <p>  In 2011, RFC6265 (<a href="https://www.ietf.org/rfc/rfc6265.txt">https://www.ietf.org/rfc/rfc6265.txt</a>) was finally published
+   and details how cookies work within HTTP.
+ <a name="Cookies_saved_to_disk"></a><h3>1.2 Cookies saved to disk</h3>
+<p>  Netscape once created a file format for storing cookies on disk so that they
+   would survive browser restarts. curl adopted that file format to allow
+    sharing the cookies with browsers, only to see browsers move away from that
+    format. Modern browsers no longer use it, while curl still does.
+ <p>  The netscape cookie file format stores one cookie per physical line in the
+   file with a bunch of associated meta data, each field separated with
+    TAB. That file is called the cookiejar in curl terminology.
+ <p>  When libcurl saves a cookiejar, it creates a file header of its own in which
+   there is a URL mention that will link to the web version of this document.
+ <a name="Cookies_with_curl_the_command_li"></a><h3>1.3 Cookies with curl the command line tool</h3>
+<p>  curl has a full cookie "engine" built in. If you just activate it, you can
+   have curl receive and send cookies exactly as mandated in the specs.
+ <p>  Command line options:
+<p>  -b, --cookie
+<p>    tell curl a file to read cookies from and start the cookie engine, or if
+     it isn't a file it will pass on the given string. -b name=var works and so
+      does -b cookiefile.
+ <p>  -j, --junk-session-cookies
+<p>    when used in combination with -b, it will skip all "session cookies" on
+     load so as to appear to start a new cookie session.
+ <p>  -c, --cookie-jar
+<p>    tell curl to start the cookie engine and write cookies to the given file
+     after the request(s)
+ <a name="Cookies_with_libcurl"></a><h3>1.4 Cookies with libcurl</h3>
+<p>  libcurl offers several ways to enable and interface the cookie engine. These
+   options are the ones provided by the native API. libcurl bindings may offer
+    access to them using other means.
+ <p>  CURLOPT_COOKIE
+<p>    Is used when you want to specify the exact contents of a cookie header to
+     send to the server.
+ <p>  CURLOPT_COOKIEFILE
+<p>    Tell libcurl to activate the cookie engine, and to read the initial set of
+     cookies from the given file. Read-only.
+ <p>  CURLOPT_COOKIEJAR
+<p>    Tell libcurl to activate the cookie engine, and when the easy handle is
+     closed save all known cookies to the given cookiejar file. Write-only.
+ <p>  CURLOPT_COOKIELIST
+<p>    Provide detailed information about a single cookie to add to the internal
+     storage of cookies. Pass in the cookie as a HTTP header with all the
+      details set, or pass in a line from a netscape cookie file. This option
+      can also be used to flush the cookies etc.
+ <p>  CURLINFO_COOKIELIST
+<p>    Extract cookie information from the internal cookie storage as a linked
+     list.
+ <a name="Cookies_with_javascript"></a><h3>1.5 Cookies with javascript</h3>
+<p>  These days a lot of the web is built up by javascript. The webbrowser loads
+   complete programs that render the page you see. These javascript programs
+    can also set and access cookies.
+ <p>  Since curl and libcurl are plain HTTP clients without any knowledge of or
+   capability to handle javascript, such cookies will not be detected or used.
+ <p>  Often, if you want to mimic what a browser does on such web sites, you can
+   record web browser HTTP traffic when using such a site and then repeat the
+    cookie operations using curl or libcurl.
+</div>
+</div>
+</BODY>
+</HTML>

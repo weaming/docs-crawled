@@ -1,0 +1,141 @@
+<html lang="en">
+<head>
+<title>Project Declaration - GNAT User's Guide for Native Platforms</title>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+<meta name="description" content="GNAT User's Guide for Native Platforms">
+<meta name="generator" content="makeinfo 4.13">
+<link title="Top" rel="start" href="index.html#Top">
+<link rel="up" href="Project-File-Reference.html#Project-File-Reference" title="Project File Reference">
+<link rel="next" href="Qualified-Projects.html#Qualified-Projects" title="Qualified Projects">
+<link href="http://www.gnu.org/software/texinfo/" rel="generator-home" title="Texinfo Homepage">
+<!--
+
+     GNAT User's Guide for Native Platforms , March 24, 2015
+
+     AdaCore
+
+     Copyright (C) 2008-2015, Free Software Foundation
+-->
+<meta http-equiv="Content-Style-Type" content="text/css">
+<style type="text/css"><!--
+  pre.display { font-family:inherit }
+  pre.format  { font-family:inherit }
+  pre.smalldisplay { font-family:inherit; font-size:smaller }
+  pre.smallformat  { font-family:inherit; font-size:smaller }
+  pre.smallexample { font-size:smaller }
+  pre.smalllisp    { font-size:smaller }
+  span.sc    { font-variant:small-caps }
+  span.roman { font-family:serif; font-weight:normal; } 
+  span.sansserif { font-family:sans-serif; font-weight:normal; } 
+--></style>
+</head>
+<body>
+<div class="node">
+<a name="Project-Declaration"></a>
+<p>
+Next:&nbsp;<a rel="next" accesskey="n" href="Qualified-Projects.html#Qualified-Projects">Qualified Projects</a>,
+Up:&nbsp;<a rel="up" accesskey="u" href="Project-File-Reference.html#Project-File-Reference">Project File Reference</a>
+<hr>
+</div>
+
+<p><a name="gnat_005fugn_002fgnat_005fproject_005fmanager-id38"></a><a name="g_t195"></a><a name="gnat_005fugn_002fgnat_005fproject_005fmanager-project_002ddeclaration"></a><a name="g_t196"></a>
+
+<h4 class="subsection">5.9.1 Project Declaration</h4>
+
+<p>Project files have an Ada-like syntax. The minimal project file is:
+
+<pre class="example">    project Empty is
+    end Empty;
+</pre>
+<p>The identifier <cite>Empty</cite> is the name of the project. 
+This project name must be present after the reserved
+word <cite>end</cite> at the end of the project file, followed by a semi-colon.
+
+<p>`Identifiers' (i.e., the user-defined names such as project or variable names)
+have the same syntax as Ada identifiers: they must start with a letter,
+and be followed by zero or more letters, digits or underscore characters;
+it is also illegal to have two underscores next to each other. Identifiers
+are always case-insensitive ("Name" is the same as "name").
+
+<pre class="example">    simple_name ::= identifier
+    name        ::= simple_name { . simple_name }
+</pre>
+<p>`Strings' are used for values of attributes or as indexes for these
+attributes. They are in general case sensitive, except when noted
+otherwise (in particular, strings representing file names will be case
+insensitive on some systems, so that "file.adb" and "File.adb" both
+represent the same file).
+
+<p>`Reserved words' are the same as for standard Ada 95, and cannot
+be used for identifiers. In particular, the following words are currently
+used in project files, but others could be added later on. In bold are the
+extra reserved words in project files:
+<code>all</code>, <code>at</code>, <code>case</code>, <code>end</code>, <code>for</code>, <code>is</code>, <code>limited</code>,
+<code>null</code>, <code>others</code>, <code>package</code>, <code>renames</code>, <code>type</code>, <code>use</code>, <code>when</code>,
+<code>with</code>, `extends', `external', `project'.
+
+<p>`Comments' in project files have the same syntax as in Ada, two consecutive
+hyphens through the end of the line.
+
+<p>A project may be an `independent project', entirely defined by a single
+project file. Any source file in an independent project depends only
+on the predefined library and other source files in the same project. 
+But a project may also depend on other projects, either by importing them
+through `with clauses', or by `extending' at most one other project. Both
+types of dependency can be used in the same project.
+
+<p>A path name denotes a project file. It can be absolute or relative. 
+An absolute path name includes a sequence of directories, in the syntax of
+the host operating system, that identifies uniquely the project file in the
+file system. A relative path name identifies the project file, relative
+to the directory that contains the current project, or relative to a
+directory listed in the environment variables ADA_PROJECT_PATH and
+GPR_PROJECT_PATH. Path names are case sensitive if file names in the host
+operating system are case sensitive. As a special case, the directory
+separator can always be "/" even on Windows systems, so that project files
+can be made portable across architectures. 
+The syntax of the environment variables ADA_PROJECT_PATH and
+GPR_PROJECT_PATH is a list of directory names separated by colons on UNIX and
+semicolons on Windows.
+
+<p>A given project name can appear only once in a context clause.
+
+<p>It is illegal for a project imported by a context clause to refer, directly
+or indirectly, to the project in which this context clause appears (the
+dependency graph cannot contain cycles), except when one of the with clauses
+in the cycle is a `limited with'.
+
+<pre class="example">    with "other_project.gpr";
+    project My_Project extends "extended.gpr" is
+    end My_Project;
+</pre>
+<p>These dependencies form a `directed graph', potentially cyclic when using
+`limited with'. The subgraph reflecting the `extends' relations is a tree.
+
+<p>A project's `immediate sources' are the source files directly defined by
+that project, either implicitly by residing in the project source directories,
+or explicitly through any of the source-related attributes. 
+More generally, a project's `sources' are the immediate sources of the
+project together with the immediate sources (unless overridden) of any project
+on which it depends directly or indirectly.
+
+<p>A `project hierarchy' can be created, where projects are children of
+other projects. The name of such a child project must be <cite>Parent.Child</cite>,
+where <cite>Parent</cite> is the name of the parent project. In particular, this
+makes all `with' clauses of the parent project automatically visible
+in the child project.
+
+<pre class="example">    project        ::= context_clause project_declaration
+    
+    context_clause ::= {with_clause}
+    with_clause    ::= *with* path_name { , path_name } ;
+    path_name      ::= string_literal
+    
+    project_declaration ::= simple_project_declaration | project_extension
+    simple_project_declaration ::=
+      project &lt;project_&gt;name is
+        {declarative_item}
+      end &lt;project_&gt;simple_name;
+</pre>
+</body></html>
+

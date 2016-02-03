@@ -1,0 +1,615 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
+<HTML>
+<HEAD> <TITLE>cURL - TODO</TITLE>
+<meta content="text/html; charset=UTF-8" http-equiv="Content-Type">
+<link rel="stylesheet" type="text/css" href="http://curl.haxx.se/curl.css">
+<link rel="shortcut icon" href="http://curl.haxx.se/favicon.ico">
+</HEAD>
+<body bgcolor="#ffffff" text="#000000">
+<div class="main">
+<div class="menu">
+<a href="index.html" class="menuitem" title="Documentation main page">Docs Overview</a>
+<a href="bugs.html" class="menuitem" title="How to report a problem">Bug Report</a>
+<a href="http://curl.haxx.se/donation.html" class="menuitem" title="Donate to the cURL project">Donate</a>
+<a href="libs.html" class="menuitem" title="Libraries to use">Dependencies</a>
+<a href="features.html" class="menuitem" title="All features summed up">Features</a>
+<a href="history.html" class="menuitem" title="A project history overview">History</a>
+<a href="install.html" class="menuitem" title="Installing curl from source">Install</a>
+<a href="knownbugs.html" class="menuitem" title="Already known problems ">Known Bugs</a>
+<a href="todo.html" class="itemselect">TODO</a>
+<a href="http://curl.haxx.se/about.html" class="menuitem" title="Infrastructure details">Web Site Info</a>
+</div>
+<div class="contents">
+<div class="where"><a href="http://curl.haxx.se/">cURL</a> / <a href="index.html">Docs</a> / <a href="projdocs.html">Project Documentation</a> / <b>TODO</b></div>
+<h1> TODO -- what to expect of the curl future </h1>
+<div class="relatedbox">
+<b>Related:</b>
+<br><a href="knownbugs.html">Known Bugs</a>
+<br><a href="bugs.html">How To Report Bugs</a>
+</div>
+<h2>libcurl</h2>
+<p>
+<a href="todo.html#More_data_sharing">1.2</a> More data sharing<br>
+<a href="todo.html#struct_lifreq">1.3</a> struct lifreq<br>
+<a href="todo.html#signal_based_resolver_timeouts">1.4</a> signal-based resolver timeouts<br>
+<a href="todo.html#get_rid_of_PATH_MAX">1.5</a> get rid of PATH_MAX<br>
+<a href="todo.html#Modified_buffer_size_approach">1.6</a> Modified buffer size approach<br>
+<a href="todo.html#Detect_when_called_from_within_c">1.7</a> Detect when called from within callbacks<br>
+<a href="todo.html#Allow_SSL_HTTPS_to_proxy">1.8</a> Allow SSL (HTTPS) to proxy<br>
+<a href="todo.html#Cache_negative_name_resolves">1.9</a> Cache negative name resolves<br>
+<a href="todo.html#Support_IDNA2008">1.10</a> Support IDNA2008<br>
+<a href="todo.html#minimize_dependencies_with_dynam">1.11</a> minimize dependencies with dynamicly loaded modules<br>
+<a href="todo.html#have_form_functions_use_CURL_han">1.12</a> have form functions use CURL handle argument<br>
+<a href="todo.html#Add_CURLOPT_MAIL_CLIENT_option">1.13</a> Add CURLOPT_MAIL_CLIENT option<br>
+<a href="todo.html#Typesafe_curl_easy_setopt">1.14</a> Typesafe curl_easy_setopt()<br>
+<a href="todo.html#TCP_Fast_Open">1.15</a> TCP Fast Open<br>
+<h2>libcurl - multi interface</h2>
+<p>
+<a href="todo.html#More_non_blocking">2.1</a> More non-blocking<br>
+<a href="todo.html#Better_support_for_same_name_res">2.2</a> Better support for same name resolves<br>
+<a href="todo.html#Non_blocking_curl_multi_remove_h">2.3</a> Non-blocking curl_multi_remove_handle()<br>
+<a href="todo.html#Split_connect_and_authentication">2.4</a> Split connect and authentication process<br>
+<h2>Documentation</h2>
+<p>
+<a href="todo.html#Update_date_and_version_in_man_p">3.1</a> Update date and version in man pages<br>
+<h2>FTP</h2>
+<p>
+<a href="todo.html#HOST">4.1</a> HOST<br>
+<a href="todo.html#Alter_passive_active_on_failure">4.2</a> Alter passive/active on failure and retry<br>
+<a href="todo.html#Earlier_bad_letter_detection">4.3</a> Earlier bad letter detection<br>
+<a href="todo.html#REST_for_large_files">4.4</a> REST for large files<br>
+<a href="todo.html#ASCII_support">4.5</a> ASCII support<br>
+<a href="todo.html#GSSAPI_via_Windows_SSPI">4.6</a> GSSAPI via Windows SSPI<br>
+<a href="todo.html#STAT_for_LIST_without_data_conne">4.7</a> STAT for LIST without data connection<br>
+<h2>HTTP</h2>
+<p>
+<a href="todo.html#Better_persistency_for_HTTP_1_0">5.1</a> Better persistency for HTTP 1.0<br>
+<a href="todo.html#support_FF3_sqlite_cookie_files">5.2</a> support FF3 sqlite cookie files<br>
+<a href="todo.html#Rearrange_request_header_order">5.3</a> Rearrange request header order<br>
+<a href="todo.html#SPDY">5.4</a> SPDY<br>
+<a href="todo.html#auth_in_URLs">5.5</a> auth= in URLs<br>
+<a href="todo.html#Refuse_downgrade_redirects">5.6</a> Refuse "downgrade" redirects<br>
+<a href="todo.html#More_compressions">5.7</a> More compressions<br>
+<h2>TELNET</h2>
+<p>
+<a href="todo.html#ditch_stdin">6.1</a> ditch stdin<br>
+<a href="todo.html#ditch_telnet_specific_select">6.2</a> ditch telnet-specific select<br>
+<a href="todo.html#feature_negotiation_debug_data">6.3</a> feature negotiation debug data<br>
+<a href="todo.html#send_data_in_chunks">6.4</a> send data in chunks<br>
+<h2>SMTP</h2>
+<p>
+<a href="todo.html#Pipelining">7.1</a> Pipelining<br>
+<a href="todo.html#Enhanced_capability_support">7.2</a> Enhanced capability support<br>
+<h2>POP3</h2>
+<p>
+<a href="todo.html#Pipelining">8.1</a> Pipelining<br>
+<a href="todo.html#Enhanced_capability_support">8.2</a> Enhanced capability support<br>
+<h2>IMAP</h2>
+<p>
+<a href="todo.html#Enhanced_capability_support">9.1</a> Enhanced capability support<br>
+<h2>LDAP</h2>
+<p>
+<a href="todo.html#SASL_based_authentication_mechan">10.1</a> SASL based authentication mechanisms<br>
+<h2>SMB</h2>
+<p>
+<a href="todo.html#File_listing_support">11.1</a> File listing support<br>
+<a href="todo.html#Honor_file_timestamps">11.2</a> Honor file timestamps<br>
+<a href="todo.html#Use_NTLMv2">11.3</a> Use NTLMv2<br>
+<h2>New protocols</h2>
+<p>
+<a href="todo.html#RSYNC">12.1</a> RSYNC<br>
+<h2>SSL</h2>
+<p>
+<a href="todo.html#Disable_specific_versions">13.1</a> Disable specific versions<br>
+<a href="todo.html#Provide_mutex_locking_API">13.2</a> Provide mutex locking API<br>
+<a href="todo.html#Evaluate_SSL_patches">13.3</a> Evaluate SSL patches<br>
+<a href="todo.html#Cache_OpenSSL_contexts">13.4</a> Cache OpenSSL contexts<br>
+<a href="todo.html#Export_session_ids">13.5</a> Export session ids<br>
+<a href="todo.html#Provide_callback_for_cert_verifi">13.6</a> Provide callback for cert verification<br>
+<a href="todo.html#improve_configure_with_ssl">13.7</a> improve configure --with-ssl<br>
+<a href="todo.html#Support_DANE">13.8</a> Support DANE<br>
+<h2>GnuTLS</h2>
+<p>
+<a href="todo.html#SSL_engine_stuff">14.1</a> SSL engine stuff<br>
+<a href="todo.html#check_connection">14.2</a> check connection<br>
+<h2>WinSSL/SChannel</h2>
+<p>
+<a href="todo.html#Add_support_for_client_certifica">15.1</a> Add support for client certificate authentication<br>
+<a href="todo.html#Add_support_for_custom_server_ce">15.2</a> Add support for custom server certificate validation<br>
+<a href="todo.html#Add_support_for_the_ciphers_op">15.3</a> Add support for the --ciphers option<br>
+<h2>SASL</h2>
+<p>
+<a href="todo.html#Other_authentication_mechanisms">16.1</a> Other authentication mechanisms<br>
+<a href="todo.html#Add_QOP_support_to_GSSAPI_authen">16.2</a> Add QOP support to GSSAPI authentication<br>
+<h2>Client</h2>
+<p>
+<a href="todo.html#sync">17.1</a> sync<br>
+<a href="todo.html#glob_posts">17.2</a> glob posts<br>
+<a href="todo.html#prevent_file_overwriting">17.3</a> prevent file overwriting<br>
+<a href="todo.html#simultaneous_parallel_transfers">17.4</a> simultaneous parallel transfers<br>
+<a href="todo.html#provide_formpost_headers">17.5</a> provide formpost headers<br>
+<a href="todo.html#warning_when_setting_an_option">17.6</a> warning when setting an option<br>
+<a href="todo.html#warning_when_sending_binary_outp">17.7</a> warning when sending binary output to terminal<br>
+<a href="todo.html#offer_color_coded_HTTP_header_ou">17.8</a> offer color-coded HTTP header output<br>
+<a href="todo.html#Choose_the_name_of_file_in_brace">17.9</a> Choose the name of file in braces for complex URLs<br>
+<a href="todo.html#improve_how_curl_works_in_a_wind">17.10</a> improve how curl works in a windows console window<br>
+<h2>Build</h2>
+<p>
+<a href="todo.html#roffit">18.1</a> roffit<br>
+<h2>Test suite</h2>
+<p>
+<a href="todo.html#SSL_tunnel">19.1</a> SSL tunnel<br>
+<a href="todo.html#nicer_lacking_perl_message">19.2</a> nicer lacking perl message<br>
+<a href="todo.html#more_protocols_supported">19.3</a> more protocols supported<br>
+<a href="todo.html#more_platforms_supported">19.4</a> more platforms supported<br>
+<a href="todo.html#Add_support_for_concurrent_conne">19.5</a> Add support for concurrent connections<br>
+<h2>Next SONAME bump</h2>
+<p>
+<a href="todo.html#http_style_HEAD_output_for_FTP">20.1</a> http-style HEAD output for FTP<br>
+<a href="todo.html#combine_error_codes">20.2</a> combine error codes<br>
+<a href="todo.html#extend_CURLOPT_SOCKOPTFUNCTION_p">20.3</a> extend CURLOPT_SOCKOPTFUNCTION prototype<br>
+<h2>Next major release</h2>
+<p>
+<a href="todo.html#cleanup_return_codes">21.1</a> cleanup return codes<br>
+<a href="todo.html#remove_obsolete_defines">21.2</a> remove obsolete defines<br>
+<a href="todo.html#size_t">21.3</a> size_t<br>
+<a href="todo.html#remove_several_functions">21.4</a> remove several functions<br>
+<a href="todo.html#remove_CURLOPT_FAILONERROR">21.5</a> remove CURLOPT_FAILONERROR<br>
+<a href="todo.html#remove_CURLOPT_DNS_USE_GLOBAL_CA">21.6</a> remove CURLOPT_DNS_USE_GLOBAL_CACHE<br>
+<a href="todo.html#remove_progress_meter_from_libcu">21.7</a> remove progress meter from libcurl<br>
+<a href="todo.html#remove_curl_httppost_from_publ">21.8</a> remove 'curl_httppost' from public<br>
+<hr>
+ <h2>1. libcurl</h2><a name="More_data_sharing"></a><h3>1.2 More data sharing</h3>
+<p> curl_share_&#42; functions already exist and work, and they can be extended to
+  share more. For example, enable sharing of the ares channel and the
+   connection cache.
+ <a name="struct_lifreq"></a><h3>1.3 struct lifreq</h3>
+<p> Use 'struct lifreq' and SIOCGLIFADDR instead of 'struct ifreq' and
+  SIOCGIFADDR on newer Solaris versions as they claim the latter is obsolete.
+   To support IPv6 interface addresses for network interfaces properly.
+ <a name="signal_based_resolver_timeouts"></a><h3>1.4 signal-based resolver timeouts</h3>
+<p> libcurl built without an asynchronous resolver library uses alarm() to time
+  out DNS lookups. When a timeout occurs, this causes libcurl to jump from the
+   signal handler back into the library with a sigsetjmp, which effectively
+   causes libcurl to continue running within the signal handler. This is
+   non-portable and could cause problems on some platforms. A discussion on the
+   problem is available at <a href="http://curl.haxx.se/mail/lib-2008-09/0197.html">http://curl.haxx.se/mail/lib-2008-09/0197.html</a>
+ <p> Also, alarm() provides timeout resolution only to the nearest second. alarm
+  ought to be replaced by setitimer on systems that support it.
+ <a name="get_rid_of_PATH_MAX"></a><h3>1.5 get rid of PATH_MAX</h3>
+<p> Having code use and rely on PATH_MAX is not nice:
+  <a href="http://insanecoding.blogspot.com/2007/11/pathmax-simply-isnt.html">http://insanecoding.blogspot.com/2007/11/pathmax-simply-isnt.html</a>
+ <p> Currently the SSH based code uses it a bit, but to remove PATH_MAX from there
+  we need libssh2 to properly tell us when we pass in a too small buffer and
+   its current API (as of libssh2 1.2.7) doesn't.
+ <a name="Modified_buffer_size_approach"></a><h3>1.6 Modified buffer size approach</h3>
+<p> Current libcurl allocates a fixed 16K size buffer for download and an
+  additional 16K for upload. They are always unconditionally part of the easy
+   handle. If CRLF translations are requested, an additional 32K "scratch
+   buffer" is allocated. A total of 64K transfer buffers in the worst case.
+ <p> First, while the handles are not actually in use these buffers could be freed
+  so that lingering handles just kept in queues or whatever waste less memory.
+ <p> Secondly, SFTP is a protocol that needs to handle many ~30K blocks at once
+  since each need to be individually acked and therefore libssh2 must be
+   allowed to send (or receive) many separate ones in parallel to achieve high
+   transfer speeds. A current libcurl build with a 16K buffer makes that
+   impossible, but one with a 512K buffer will reach MUCH faster transfers. But
+   allocating 512K unconditionally for all buffers just in case they would like
+   to do fast SFTP transfers at some point is not a good solution either.
+ <p> Dynamically allocate buffer size depending on protocol in use in combination
+  with freeing it after each individual transfer? Other suggestions?
+ <a name="Detect_when_called_from_within_c"></a><h3>1.7 Detect when called from within callbacks</h3>
+<p> We should set a state variable before calling callbacks, so that we
+  subsequently can add code within libcurl that returns error if called within
+   callbacks for when that's not supported.
+ <a name="Allow_SSL_HTTPS_to_proxy"></a><h3>1.8 Allow SSL (HTTPS) to proxy</h3>
+<p> To prevent local users from snooping on your traffic to the proxy. Supported
+  by Chrome already:
+   <a href="https://www.chromium.org/developers/design-documents/secure-web-proxy">https://www.chromium.org/developers/design-documents/secure-web-proxy</a>
+ <p> ...and by Firefox soon:
+  <a href="https://bugzilla.mozilla.org/show_bug.cgi?id=378637">https://bugzilla.mozilla.org/show_bug.cgi?id=378637</a>
+ <a name="Cache_negative_name_resolves"></a><h3>1.9 Cache negative name resolves</h3>
+<p> A name resolve that has failed is likely to fail when made again within a
+  short period of time. Currently we only cache positive responses.
+ <a name="Support_IDNA2008"></a><h3>1.10 Support IDNA2008</h3>
+<p> International Domain Names are supported in libcurl since years back, powered
+  by libidn. libidn implements IDNA2003 which has been superseded by IDNA2008.
+   libidn2 is an existing library offering support for IDNA2008.
+ <a name="minimize_dependencies_with_dynam"></a><h3>1.11 minimize dependencies with dynamicly loaded modules</h3>
+<p> We can create a system with loadable modules/plug-ins, where these modules
+  would be the ones that link to 3rd party libs. That would allow us to avoid
+   having to load ALL dependencies since only the necessary ones for this
+   app/invoke/used protocols would be necessary to load.  See
+   <a href="https://github.com/bagder/curl/issues/349">https://github.com/bagder/curl/issues/349</a>
+ <a name="have_form_functions_use_CURL_han"></a><h3>1.12 have form functions use CURL handle argument</h3>
+<p> curl_formadd() and curl_formget() both currently have no CURL handle
+  argument, but both can use a callback that is set in the easy handle, and
+   thus curl_formget() with callback cannot function without first having
+   curl_easy_perform() (or similar) called - which is hard to grasp and a design
+   mistake.
+ <p> The curl_formadd() design can probably also be reconsidered to make it easier
+  to use and less error-prone. Probably easiest by splitting it into several
+   function calls.
+ <a name="Add_CURLOPT_MAIL_CLIENT_option"></a><h3>1.13 Add CURLOPT_MAIL_CLIENT option</h3>
+<p> Rather than use the URL to specify the mail client string to present in the
+  HELO and EHLO commands, libcurl should support a new CURLOPT specifically for
+   specifying this data as the URL is non-standard and to be honest a bit of a
+   hack ;-)
+ <p> Please see the following thread for more information:
+  <a href="http://curl.haxx.se/mail/lib-2012-05/0178.html">http://curl.haxx.se/mail/lib-2012-05/0178.html</a>
+ <a name="Typesafe_curl_easy_setopt"></a><h3>1.14 Typesafe curl_easy_setopt()</h3>
+<p> One of the most common problems in libcurl using applications is the lack of
+  type checks for curl_easy_setopt() which happens because it accepts varargs
+   and thus can take any type.
+ <p> One possible solution to this is to introduce a few different versions of the
+  setopt version for the different kinds of data you can set.
+ <p>  curl_easy_set_num() - sets a long value
+<p>  curl_easy_set_large() - sets a curl_off_t value
+<p>  curl_easy_set_ptr() - sets a pointer
+<p>  curl_easy_set_cb() - sets a callback PLUS its callback data
+<a name="TCP_Fast_Open"></a><h3>1.15 TCP Fast Open</h3>
+<p> RFC 7413 defines how to include data already in the TCP SYN handshake to
+  reduce latency.
+ <h2>2. libcurl - multi interface</h2><a name="More_non_blocking"></a><h3>2.1 More non-blocking</h3>
+<p> Make sure we don't ever loop because of non-blocking sockets returning
+  EWOULDBLOCK or similar. Blocking cases include:
+ <p> - Name resolves on non-windows unless c-ares is used
+  - NSS SSL connections
+   - HTTP proxy CONNECT operations
+   - SOCKS proxy handshakes
+   - file:// transfers
+   - TELNET transfers
+   - The "DONE" operation (post transfer protocol-specific actions) for the
+ <p>   protocols SFTP, SMTP, FTP. Fixing Curl_done() for this is a worthy task.
+<a name="Better_support_for_same_name_res"></a><h3>2.2 Better support for same name resolves</h3>
+<p> If a name resolve has been initiated for name NN and a second easy handle
+  wants to resolve that name as well, make it wait for the first resolve to end
+   up in the cache instead of doing a second separate resolve. This is
+   especially needed when adding many simultaneous handles using the same host
+   name when the DNS resolver can get flooded.
+ <a name="Non_blocking_curl_multi_remove_h"></a><h3>2.3 Non-blocking curl_multi_remove_handle()</h3>
+<p> The multi interface has a few API calls that assume a blocking behavior, like
+  add_handle() and remove_handle() which limits what we can do internally. The
+   multi API need to be moved even more into a single function that "drives"
+   everything in a non-blocking manner and signals when something is done. A
+   remove or add would then only ask for the action to get started and then
+   multi_perform() etc still be called until the add/remove is completed.
+ <a name="Split_connect_and_authentication"></a><h3>2.4 Split connect and authentication process</h3>
+<p> The multi interface treats the authentication process as part of the connect
+  phase. As such any failures during authentication won't trigger the relevant
+   QUIT or LOGOFF for protocols such as IMAP, POP3 and SMTP.
+ <h2>3. Documentation</h2><a name="Update_date_and_version_in_man_p"></a><h3>3.1 Update date and version in man pages</h3>
+<p> 'maketgz' or another suitable script could update the .TH sections of the man
+  pages at release time to use the current date and curl/libcurl version
+   number.
+ <h2>4. FTP</h2><a name="HOST"></a><h3>4.1 HOST</h3>
+<p> HOST is a command for a client to tell which host name to use, to offer FTP
+  servers named-based virtual hosting:
+ <p> <a href="https://tools.ietf.org/html/rfc7151">https://tools.ietf.org/html/rfc7151</a>
+<a name="Alter_passive_active_on_failure"></a><h3>4.2 Alter passive/active on failure and retry</h3>
+<p> When trying to connect passively to a server which only supports active
+  connections, libcurl returns CURLE_FTP_WEIRD_PASV_REPLY and closes the
+   connection. There could be a way to fallback to an active connection (and
+   vice versa). <a href="http://curl.haxx.se/bug/feature.cgi?id=1754793">http://curl.haxx.se/bug/feature.cgi?id=1754793</a>
+ <a name="Earlier_bad_letter_detection"></a><h3>4.3 Earlier bad letter detection</h3>
+<p> Make the detection of (bad) %0d and %0a codes in FTP URL parts earlier in the
+  process to avoid doing a resolve and connect in vain.
+ <a name="REST_for_large_files"></a><h3>4.4 REST for large files</h3>
+<p> REST fix for servers not behaving well on &gt;2GB requests. This should fail if
+  the server doesn't set the pointer to the requested index. The tricky
+   (impossible?) part is to figure out if the server did the right thing or not.
+ <a name="ASCII_support"></a><h3>4.5 ASCII support</h3>
+<p> FTP ASCII transfers do not follow RFC959. They don't convert the data
+  accordingly.
+ <a name="GSSAPI_via_Windows_SSPI"></a><h3>4.6 GSSAPI via Windows SSPI</h3>
+ In addition to currently supporting the SASL GSSAPI mechanism (Kerberos V5)
+  via third-party GSS-API libraries, such as Heimdal or MIT Kerberos, also add
+  support for GSSAPI authentication via Windows SSPI.
+ <a name="STAT_for_LIST_without_data_conne"></a><h3>4.7 STAT for LIST without data connection</h3>
+ Some FTP servers allow STAT for listing directories instead of using LIST, and
+  the response is then sent over the control connection instead of as the
+  otherwise usedw data connection: <a href="http://www.nsftools.com/tips/RawFTP.htm">http://www.nsftools.com/tips/RawFTP.htm</a>#STAT
+  This is not detailed in any FTP specification.
+ <h2>5. HTTP</h2><a name="Better_persistency_for_HTTP_1_0"></a><h3>5.1 Better persistency for HTTP 1.0</h3>
+<p> "Better" support for persistent connections over HTTP 1.0
+  <a href="http://curl.haxx.se/bug/feature.cgi?id=1089001">http://curl.haxx.se/bug/feature.cgi?id=1089001</a>
+ <a name="support_FF3_sqlite_cookie_files"></a><h3>5.2 support FF3 sqlite cookie files</h3>
+<p> Firefox 3 is changing from its former format to a a sqlite database instead.
+  We should consider how (lib)curl can/should support this.
+   <a href="http://curl.haxx.se/bug/feature.cgi?id=1871388">http://curl.haxx.se/bug/feature.cgi?id=1871388</a>
+ <a name="Rearrange_request_header_order"></a><h3>5.3 Rearrange request header order</h3>
+<p> Server implementors often make an effort to detect browser and to reject
+  clients it can detect to not match. One of the last details we cannot yet
+   control in libcurl's HTTP requests, which also can be exploited to detect
+   that libcurl is in fact used even when it tries to impersonate a browser, is
+   the order of the request headers. I propose that we introduce a new option in
+   which you give headers a value, and then when the HTTP request is built it
+   sorts the headers based on that number. We could then have internally created
+   headers use a default value so only headers that need to be moved have to be
+   specified.
+ <a name="SPDY"></a><h3>5.4 SPDY</h3>
+<p> Chrome and Firefox already support SPDY and lots of web services do. There's
+  a library for us to use for this (spdylay) that has a similar API and the
+   same author as nghttp2.
+ <p> spdylay: <a href="https://github.com/tatsuhiro-t/spdylay">https://github.com/tatsuhiro-t/spdylay</a>
+<a name="auth_in_URLs"></a><h3>5.5 auth= in URLs</h3>
+<p> Add the ability to specify the preferred authentication mechanism to use by
+  using ;auth=&lt;mech&gt; in the login part of the URL.
+ <p> For example:
+<p> <a href="http://test:pass;auth">http://test:pass;auth</a>=NTLM@example.com would be equivalent to specifying --user
+  test:pass;auth=NTLM or --user test:pass --ntlm from the command line.
+ <p> Additionally this should be implemented for proxy base URLs as well.
+<a name="Refuse_downgrade_redirects"></a><h3>5.6 Refuse "downgrade" redirects</h3>
+<p> See <a href="https://github.com/bagder/curl/issues/226">https://github.com/bagder/curl/issues/226</a>
+<p> Consider a way to tell curl to refuse to "downgrade" protocol with a redirect
+  and/or possibly a bit that refuses redirect to change protocol completely.
+ <a name="More_compressions"></a><h3>5.7 More compressions</h3>
+<p> Compression algorithms that perform better than gzip are being considered for
+  use and inclusion in existing browsers. For example 'brotli'. If servers
+   follow along it is a good reason for us to also allow users to take advantage
+   of this. The algorithm: <a href="https://github.com/google/brotli">https://github.com/google/brotli</a> The Firefox bug:
+   <a href="https://bugzilla.mozilla.org/show_bug.cgi?id=366559">https://bugzilla.mozilla.org/show_bug.cgi?id=366559</a>
+ <h2>6. TELNET</h2><a name="ditch_stdin"></a><h3>6.1 ditch stdin</h3>
+ Reading input (to send to the remote server) on stdin is a crappy solution for
+  library purposes. We need to invent a good way for the application to be able
+  to provide the data to send.
+ <a name="ditch_telnet_specific_select"></a><h3>6.2 ditch telnet-specific select</h3>
+<p> Move the telnet support's network select() loop go away and merge the code
+  into the main transfer loop. Until this is done, the multi interface won't
+   work for telnet.
+ <a name="feature_negotiation_debug_data"></a><h3>6.3 feature negotiation debug data</h3>
+<p>  Add telnet feature negotiation data to the debug callback as header data.
+<a name="send_data_in_chunks"></a><h3>6.4 send data in chunks</h3>
+<p>  Currently, telnet sends data one byte at a time.  This is fine for interactive
+   use, but inefficient for any other.  Sent data should be sent in larger
+    chunks.
+ <h2>7. SMTP</h2><a name="Pipelining"></a><h3>7.1 Pipelining</h3>
+<p> Add support for pipelining emails.
+<a name="Enhanced_capability_support"></a><h3>7.2 Enhanced capability support</h3>
+<p> Add the ability, for an application that uses libcurl, to obtain the list of
+  capabilities returned from the EHLO command.
+ <h2>8. POP3</h2><a name="Pipelining"></a><h3>8.1 Pipelining</h3>
+<p> Add support for pipelining commands.
+<a name="Enhanced_capability_support"></a><h3>8.2 Enhanced capability support</h3>
+<p> Add the ability, for an application that uses libcurl, to obtain the list of
+  capabilities returned from the CAPA command.
+ <h2>9. IMAP</h2><a name="Enhanced_capability_support"></a><h3>9.1 Enhanced capability support</h3>
+<p> Add the ability, for an application that uses libcurl, to obtain the list of
+  capabilities returned from the CAPABILITY command.
+ <h2>10. LDAP</h2><a name="SASL_based_authentication_mechan"></a><h3>10.1 SASL based authentication mechanisms</h3>
+<p> Currently the LDAP module only supports ldap_simple_bind_s() in order to bind
+  to an LDAP server. However, this function sends username and password details
+   using the simple authentication mechanism (as clear text). However, it should
+   be possible to use ldap_bind_s() instead specifying the security context
+   information ourselves.
+ <h2>11. SMB</h2><a name="File_listing_support"></a><h3>11.1 File listing support</h3>
+ Add support for listing the contents of a SMB share. The output should probably
+  be the same as/similar to FTP.
+ <a name="Honor_file_timestamps"></a><h3>11.2 Honor file timestamps</h3>
+ The timestamp of the transferred file should reflect that of the original file.
+ <a name="Use_NTLMv2"></a><h3>11.3 Use NTLMv2</h3>
+ Currently the SMB authentication uses NTLMv1.
+ <h2>12. New protocols</h2><a name="RSYNC"></a><h3>12.1 RSYNC</h3>
+<p> There's no RFC for the protocol or an URI/URL format.  An implementation
+  should most probably use an existing rsync library, such as librsync.
+ <h2>13. SSL</h2><a name="Disable_specific_versions"></a><h3>13.1 Disable specific versions</h3>
+<p> Provide an option that allows for disabling specific SSL versions, such as
+  SSLv2 <a href="http://curl.haxx.se/bug/feature.cgi?id=1767276">http://curl.haxx.se/bug/feature.cgi?id=1767276</a>
+ <a name="Provide_mutex_locking_API"></a><h3>13.2 Provide mutex locking API</h3>
+<p> Provide a libcurl API for setting mutex callbacks in the underlying SSL
+  library, so that the same application code can use mutex-locking
+   independently of OpenSSL or GnutTLS being used.
+ <a name="Evaluate_SSL_patches"></a><h3>13.3 Evaluate SSL patches</h3>
+<p> Evaluate/apply Gertjan van Wingerde's SSL patches:
+  <a href="http://curl.haxx.se/mail/lib-2004-03/0087.html">http://curl.haxx.se/mail/lib-2004-03/0087.html</a>
+ <a name="Cache_OpenSSL_contexts"></a><h3>13.4 Cache OpenSSL contexts</h3>
+<p> "Look at SSL cafile - quick traces look to me like these are done on every
+  request as well, when they should only be necessary once per SSL context (or
+   once per handle)". The major improvement we can rather easily do is to make
+   sure we don't create and kill a new SSL "context" for every request, but
+   instead make one for every connection and re-use that SSL context in the same
+   style connections are re-used. It will make us use slightly more memory but
+   it will libcurl do less creations and deletions of SSL contexts.
+ <a name="Export_session_ids"></a><h3>13.5 Export session ids</h3>
+<p> Add an interface to libcurl that enables "session IDs" to get
+  exported/imported. Cris Bailiff said: "OpenSSL has functions which can
+   serialise the current SSL state to a buffer of your choice, and recover/reset
+   the state from such a buffer at a later date - this is used by mod_ssl for
+   apache to implement and SSL session ID cache".
+ <a name="Provide_callback_for_cert_verifi"></a><h3>13.6 Provide callback for cert verification</h3>
+<p> OpenSSL supports a callback for customised verification of the peer
+  certificate, but this doesn't seem to be exposed in the libcurl APIs. Could
+   it be? There's so much that could be done if it were!
+ <a name="improve_configure_with_ssl"></a><h3>13.7 improve configure --with-ssl</h3>
+<p> make the configure --with-ssl option first check for OpenSSL, then GnuTLS,
+  then NSS...
+ <a name="Support_DANE"></a><h3>13.8 Support DANE</h3>
+<p> DNS-Based Authentication of Named Entities (DANE) is a way to provide SSL
+  keys and certs over DNS using DNSSEC as an alternative to the CA model.
+   <a href="https://www.rfc-editor.org/rfc/rfc6698.txt">https://www.rfc-editor.org/rfc/rfc6698.txt</a>
+ <p> An initial patch was posted by Suresh Krishnaswamy on March 7th 2013
+  (<a href="http://curl.haxx.se/mail/lib-2013-03/0075.html">http://curl.haxx.se/mail/lib-2013-03/0075.html</a>) but it was a too simple
+   approach. See Daniel's comments:
+   <a href="http://curl.haxx.se/mail/lib-2013-03/0103.html">http://curl.haxx.se/mail/lib-2013-03/0103.html</a> . libunbound may be the
+   correct library to base this development on.
+ <h2>14. GnuTLS</h2><a name="SSL_engine_stuff"></a><h3>14.1 SSL engine stuff</h3>
+<p> Is this even possible?
+<a name="check_connection"></a><h3>14.2 check connection</h3>
+<p> Add a way to check if the connection seems to be alive, to correspond to the
+  SSL_peak() way we use with OpenSSL.
+ <h2>15. WinSSL/SChannel</h2><a name="Add_support_for_client_certifica"></a><h3>15.1 Add support for client certificate authentication</h3>
+<p> WinSSL/SChannel currently makes use of the OS-level system and user
+  certificate and private key stores. This does not allow the application
+   or the user to supply a custom client certificate using curl or libcurl.
+ <p> Therefore support for the existing -E/--cert and --key options should be
+  implemented by supplying a custom certificate to the SChannel APIs, see:
+   - Getting a Certificate for Schannel
+ <p>   <a href="https://msdn.microsoft.com/en-us/library/windows/desktop/aa375447.aspx">https://msdn.microsoft.com/en-us/library/windows/desktop/aa375447.aspx</a>
+<a name="Add_support_for_custom_server_ce"></a><h3>15.2 Add support for custom server certificate validation</h3>
+<p> WinSSL/SChannel currently makes use of the OS-level system and user
+  certificate trust store. This does not allow the application or user to
+   customize the server certificate validation process using curl or libcurl.
+ <p> Therefore support for the existing --cacert or --capath options should be
+  implemented by supplying a custom certificate to the SChannel APIs, see:
+   - Getting a Certificate for Schannel
+ <p>   <a href="https://msdn.microsoft.com/en-us/library/windows/desktop/aa375447.aspx">https://msdn.microsoft.com/en-us/library/windows/desktop/aa375447.aspx</a>
+<a name="Add_support_for_the_ciphers_op"></a><h3>15.3 Add support for the --ciphers option</h3>
+<p> The cipher suites used by WinSSL/SChannel are configured on an OS-level
+  instead of an application-level. This does not allow the application or
+   the user to customize the configured cipher suites using curl or libcurl.
+ <p> Therefore support for the existing --ciphers option should be implemented
+  by mapping the OpenSSL/GnuTLS cipher suites to the SChannel APIs, see
+   - Specifying Schannel Ciphers and Cipher Strengths
+ <p>   <a href="https://msdn.microsoft.com/en-us/library/windows/desktop/aa380161.aspx">https://msdn.microsoft.com/en-us/library/windows/desktop/aa380161.aspx</a>
+<h2>16. SASL</h2><a name="Other_authentication_mechanisms"></a><h3>16.1 Other authentication mechanisms</h3>
+<p> Add support for other authentication mechanisms such as OLP,
+  GSS-SPNEGO and others.
+ <a name="Add_QOP_support_to_GSSAPI_authen"></a><h3>16.2 Add QOP support to GSSAPI authentication</h3>
+<p> Currently the GSSAPI authentication only supports the default QOP of auth
+  (Authentication), whilst Kerberos V5 supports both auth-int (Authentication
+   with integrity protection) and auth-conf (Authentication with integrity and
+   privacy protection).
+ <h2>17. Client</h2><a name="sync"></a><h3>17.1 sync</h3>
+<p> "curl --sync <a href="http://example.com/feed">http://example.com/feed</a>[1-100].rss" or
+  "curl --sync <a href="http://example.net/">http://example.net/</a>{index,calendar,history}.html"
+ <p> Downloads a range or set of URLs using the remote name, but only if the
+  remote file is newer than the local file. A Last-Modified HTTP date header
+   should also be used to set the mod date on the downloaded file.
+ <a name="glob_posts"></a><h3>17.2 glob posts</h3>
+<p> Globbing support for -d and -F, as in 'curl -d "name=foo[0-9]" URL'.
+  This is easily scripted though.
+ <a name="prevent_file_overwriting"></a><h3>17.3 prevent file overwriting</h3>
+<p> Add an option that prevents cURL from overwriting existing local files. When
+  used, and there already is an existing file with the target file name
+   (either -O or -o), a number should be appended (and increased if already
+   existing). So that index.html becomes first index.html.1 and then
+   index.html.2 etc.
+ <a name="simultaneous_parallel_transfers"></a><h3>17.4 simultaneous parallel transfers</h3>
+<p> The client could be told to use maximum N simultaneous parallel transfers and
+  then just make sure that happens. It should of course not make more than one
+   connection to the same remote host. This would require the client to use the
+   multi interface. <a href="http://curl.haxx.se/bug/feature.cgi?id=1558595">http://curl.haxx.se/bug/feature.cgi?id=1558595</a>
+ <a name="provide_formpost_headers"></a><h3>17.5 provide formpost headers</h3>
+<p> Extending the capabilities of the multipart formposting. How about leaving
+  the ';type=foo' syntax as it is and adding an extra tag (headers) which
+   works like this: curl -F "coolfiles=@fil1.txt;headers=@fil1.hdr" where
+   fil1.hdr contains extra headers like
+ <p>   Content-Type: text/plain; charset=KOI8-R"
+    Content-Transfer-Encoding: base64
+     X-User-Comment: Please don't use browser specific HTML code
+ <p> which should overwrite the program reasonable defaults (plain/text,
+  8bit...)
+ <a name="warning_when_setting_an_option"></a><h3>17.6 warning when setting an option</h3>
+<p> Display a warning when libcurl returns an error when setting an option.
+  This can be useful to tell when support for a particular feature hasn't been
+   compiled into the library.
+ <a name="warning_when_sending_binary_outp"></a><h3>17.7 warning when sending binary output to terminal</h3>
+<p> Provide a way that prompts the user for confirmation before binary data is
+  sent to the terminal, much in the style 'less' does it.
+ <a name="offer_color_coded_HTTP_header_ou"></a><h3>17.8 offer color-coded HTTP header output</h3>
+<p> By offering different color output on the header name and the header
+  contents, they could be made more readable and thus help users working on
+   HTTP services.
+ <a name="Choose_the_name_of_file_in_brace"></a><h3>17.9 Choose the name of file in braces for complex URLs</h3>
+<p> When using braces to download a list of URLs and you use complicated names
+  in the list of alternatives, it could be handy to allow curl to use other
+   names when saving.
+ <p> Consider a way to offer that. Possibly like
+  {partURL1:name1,partURL2:name2,partURL3:name3} where the name following the
+   colon is the output name.
+ <p> See <a href="https://github.com/bagder/curl/issues/221">https://github.com/bagder/curl/issues/221</a>
+<a name="improve_how_curl_works_in_a_wind"></a><h3>17.10 improve how curl works in a windows console window</h3>
+<p> If you pull the scrollbar when transferring with curl in a Windows console
+  window, the transfer is interrupted and can get disconnected. This can
+   probably be improved. See <a href="https://github.com/bagder/curl/issues/322">https://github.com/bagder/curl/issues/322</a>
+ <h2>18. Build</h2><a name="roffit"></a><h3>18.1 roffit</h3>
+<p> Consider extending 'roffit' to produce decent ASCII output, and use that
+  instead of (g)nroff when building src/tool_hugehelp.c
+ <h2>19. Test suite</h2><a name="SSL_tunnel"></a><h3>19.1 SSL tunnel</h3>
+<p> Make our own version of stunnel for simple port forwarding to enable HTTPS
+  and FTP-SSL tests without the stunnel dependency, and it could allow us to
+   provide test tools built with either OpenSSL or GnuTLS
+ <a name="nicer_lacking_perl_message"></a><h3>19.2 nicer lacking perl message</h3>
+<p> If perl wasn't found by the configure script, don't attempt to run the tests
+  but explain something nice why it doesn't.
+ <a name="more_protocols_supported"></a><h3>19.3 more protocols supported</h3>
+<p> Extend the test suite to include more protocols. The telnet could just do FTP
+  or http operations (for which we have test servers).
+ <a name="more_platforms_supported"></a><h3>19.4 more platforms supported</h3>
+<p> Make the test suite work on more platforms. OpenBSD and Mac OS. Remove
+  fork()s and it should become even more portable.
+ <a name="Add_support_for_concurrent_conne"></a><h3>19.5 Add support for concurrent connections</h3>
+<p> Tests 836, 882 and 938 were designed to verify that separate connections aren't
+  used when using different login credentials in protocols that shouldn't re-use
+   a connection under such circumstances.
+ <p> Unfortunately, ftpserver.pl doesn't appear to support multiple concurrent
+  connections. The read while() loop seems to loop until it receives a disconnect
+   from the client, where it then enters the waiting for connections loop. When
+   the client opens a second connection to the server, the first connection hasn't
+   been dropped (unless it has been forced - which we shouldn't do in these tests)
+   and thus the wait for connections loop is never entered to receive the second
+   connection.
+ <h2>20. Next SONAME bump</h2><a name="http_style_HEAD_output_for_FTP"></a><h3>20.1 http-style HEAD output for FTP</h3>
+<p> &#35;undef CURL_FTP_HTTPSTYLE_HEAD in lib/ftp.c to remove the HTTP-style headers
+  from being output in NOBODY requests over FTP
+ <a name="combine_error_codes"></a><h3>20.2 combine error codes</h3>
+<p> Combine some of the error codes to remove duplicates.  The original
+  numbering should not be changed, and the old identifiers would be
+   macroed to the new ones in an CURL_NO_OLDIES section to help with
+   backward compatibility.
+ <p> Candidates for removal and their replacements:
+<p>    CURLE_FILE_COULDNT_READ_FILE =&gt; CURLE_REMOTE_FILE_NOT_FOUND
+<p>    CURLE_FTP_COULDNT_RETR_FILE =&gt; CURLE_REMOTE_FILE_NOT_FOUND
+<p>    CURLE_FTP_COULDNT_USE_REST =&gt; CURLE_RANGE_ERROR
+<p>    CURLE_FUNCTION_NOT_FOUND =&gt; CURLE_FAILED_INIT
+<p>    CURLE_LDAP_INVALID_URL =&gt; CURLE_URL_MALFORMAT
+<p>    CURLE_TFTP_NOSUCHUSER =&gt; CURLE_TFTP_ILLEGAL
+<p>    CURLE_TFTP_NOTFOUND =&gt; CURLE_REMOTE_FILE_NOT_FOUND
+<p>    CURLE_TFTP_PERM =&gt; CURLE_REMOTE_ACCESS_DENIED
+<a name="extend_CURLOPT_SOCKOPTFUNCTION_p"></a><h3>20.3 extend CURLOPT_SOCKOPTFUNCTION prototype</h3>
+<p> The current prototype only provides 'purpose' that tells what the
+  connection/socket is for, but not any protocol or similar. It makes it hard
+   for applications to differentiate on TCP vs UDP and even HTTP vs FTP and
+   similar.
+ <h2>21. Next major release</h2><a name="cleanup_return_codes"></a><h3>21.1 cleanup return codes</h3>
+<p> curl_easy_cleanup() returns void, but curl_multi_cleanup() returns a
+  CURLMcode. These should be changed to be the same.
+ <a name="remove_obsolete_defines"></a><h3>21.2 remove obsolete defines</h3>
+<p> remove obsolete defines from curl/curl.h
+<a name="size_t"></a><h3>21.3 size_t</h3>
+<p> make several functions use size_t instead of int in their APIs
+<a name="remove_several_functions"></a><h3>21.4 remove several functions</h3>
+<p> remove the following functions from the public API:
+<p> curl_getenv
+<p> curl_mprintf (and variations)
+<p> curl_strequal
+<p> curl_strnequal
+<p> They will instead become curlx_ - alternatives. That makes the curl app
+  still capable of using them, by building with them from source.
+ <p> These functions have no purpose anymore:
+<p> curl_multi_socket
+<p> curl_multi_socket_all
+<a name="remove_CURLOPT_FAILONERROR"></a><h3>21.5 remove CURLOPT_FAILONERROR</h3>
+<p> Remove support for CURLOPT_FAILONERROR, it has gotten too kludgy and weird
+  internally. Let the app judge success or not for itself.
+ <a name="remove_CURLOPT_DNS_USE_GLOBAL_CA"></a><h3>21.6 remove CURLOPT_DNS_USE_GLOBAL_CACHE</h3>
+<p> Remove support for a global DNS cache. Anything global is silly, and we
+  already offer the share interface for the same functionality but done
+   "right".
+ <a name="remove_progress_meter_from_libcu"></a><h3>21.7 remove progress meter from libcurl</h3>
+<p> The internally provided progress meter output doesn't belong in the library.
+  Basically no application wants it (apart from curl) but instead applications
+   can and should do their own progress meters using the progress callback.
+ <p> The progress callback should then be bumped as well to get proper 64bit
+  variable types passed to it instead of doubles so that big files work
+   correctly.
+ <a name="remove_curl_httppost_from_publ"></a><h3>21.8 remove 'curl_httppost' from public</h3>
+<p> curl_formadd() was made to fill in a public struct, but the fact that the
+  struct is public is never really used by application for their own advantage
+   but instead often restricts how the form functions can or can't be modified.
+ <p> Changing them to return a private handle will benefit the implementation and
+  allow us much greater freedoms while still maintaining a solid API and ABI.
+</div>
+</div>
+</BODY>
+</HTML>

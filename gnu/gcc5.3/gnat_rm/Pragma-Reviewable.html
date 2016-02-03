@@ -1,0 +1,126 @@
+<html lang="en">
+<head>
+<title>Pragma Reviewable - GNAT Reference Manual</title>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+<meta name="description" content="GNAT Reference Manual">
+<meta name="generator" content="makeinfo 4.13">
+<link title="Top" rel="start" href="index.html#Top">
+<link rel="up" href="Implementation-Defined-Pragmas.html#Implementation-Defined-Pragmas" title="Implementation Defined Pragmas">
+<link rel="prev" href="Pragma-Restriction_005fWarnings.html#Pragma-Restriction_005fWarnings" title="Pragma Restriction_Warnings">
+<link rel="next" href="Pragma-Share_005fGeneric.html#Pragma-Share_005fGeneric" title="Pragma Share_Generic">
+<link href="http://www.gnu.org/software/texinfo/" rel="generator-home" title="Texinfo Homepage">
+<!--
+
+     GNAT Reference Manual , March 24, 2015
+
+     AdaCore
+
+     Copyright (C) 2008-2015, Free Software Foundation
+-->
+<meta http-equiv="Content-Style-Type" content="text/css">
+<style type="text/css"><!--
+  pre.display { font-family:inherit }
+  pre.format  { font-family:inherit }
+  pre.smalldisplay { font-family:inherit; font-size:smaller }
+  pre.smallformat  { font-family:inherit; font-size:smaller }
+  pre.smallexample { font-size:smaller }
+  pre.smalllisp    { font-size:smaller }
+  span.sc    { font-variant:small-caps }
+  span.roman { font-family:serif; font-weight:normal; } 
+  span.sansserif { font-family:sans-serif; font-weight:normal; } 
+--></style>
+</head>
+<body>
+<div class="node">
+<a name="Pragma-Reviewable"></a>
+<p>
+Next:&nbsp;<a rel="next" accesskey="n" href="Pragma-Share_005fGeneric.html#Pragma-Share_005fGeneric">Pragma Share_Generic</a>,
+Previous:&nbsp;<a rel="previous" accesskey="p" href="Pragma-Restriction_005fWarnings.html#Pragma-Restriction_005fWarnings">Pragma Restriction_Warnings</a>,
+Up:&nbsp;<a rel="up" accesskey="u" href="Implementation-Defined-Pragmas.html#Implementation-Defined-Pragmas">Implementation Defined Pragmas</a>
+<hr>
+</div>
+
+<p><a name="gnat_005frm_002fimplementation_005fdefined_005fpragmas-pragma_002dreviewable"></a><a name="b1"></a>
+
+<h3 class="section">2.149 Pragma Reviewable</h3>
+
+<p>Syntax:
+
+<pre class="example">    pragma Reviewable;
+</pre>
+<p>This pragma is an RM-defined standard pragma, but has no effect on the
+program being compiled, or on the code generated for the program.
+
+<p>To obtain the required output specified in RM H.3.1, the compiler must be
+run with various special switches as follows:
+
+     <ul>
+<li>`Where compiler-generated run-time checks remain'
+
+     <p>The switch `-gnatGL'
+may be used to list the expanded code in pseudo-Ada form. 
+Runtime checks show up in the listing either as explicit
+checks or operators marked with {} to indicate a check is present.
+
+     <li>`An identification of known exceptions at compile time'
+
+     <p>If the program is compiled with `-gnatwa',
+the compiler warning messages will indicate all cases where the compiler
+detects that an exception is certain to occur at run time.
+
+     <li>`Possible reads of uninitialized variables'
+
+     <p>The compiler warns of many such cases, but its output is incomplete. 
+</ul>
+
+<p>A supplemental static analysis tool
+may be used to obtain a comprehensive list of all
+possible points at which uninitialized data may be read.
+
+     <ul>
+<li>`Where run-time support routines are implicitly invoked'
+
+     <p>In the output from `-gnatGL',
+run-time calls are explicitly listed as calls to the relevant
+run-time routine.
+
+     <li>`Object code listing'
+
+     <p>This may be obtained either by using the `-S' switch,
+or the objdump utility.
+
+     <li>`Constructs known to be erroneous at compile time'
+
+     <p>These are identified by warnings issued by the compiler (use `-gnatwa').
+
+     <li>`Stack usage information'
+
+     <p>Static stack usage data (maximum per-subprogram) can be obtained via the
+`-fstack-usage' switch to the compiler. 
+Dynamic stack usage data (per task) can be obtained via the `-u' switch
+to gnatbind
+</ul>
+
+     <ul>
+<li>`Object code listing of entire partition'
+
+     <p>This can be obtained by compiling the partition with `-S',
+or by applying objdump
+to all the object files that are part of the partition.
+
+     <li>`A description of the run-time model'
+
+     <p>The full sources of the run-time are available, and the documentation of
+these routines describes how these run-time routines interface to the
+underlying operating system facilities.
+
+     <li>`Control and data-flow information'
+</ul>
+
+<p>A supplemental static analysis tool
+may be used to obtain complete control and data-flow information, as well as
+comprehensive messages identifying possible problems based on this
+information.
+
+</body></html>
+

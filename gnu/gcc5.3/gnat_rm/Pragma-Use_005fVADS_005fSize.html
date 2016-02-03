@@ -1,0 +1,63 @@
+<html lang="en">
+<head>
+<title>Pragma Use_VADS_Size - GNAT Reference Manual</title>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+<meta name="description" content="GNAT Reference Manual">
+<meta name="generator" content="makeinfo 4.13">
+<link title="Top" rel="start" href="index.html#Top">
+<link rel="up" href="Implementation-Defined-Pragmas.html#Implementation-Defined-Pragmas" title="Implementation Defined Pragmas">
+<link rel="prev" href="Pragma-Unsuppress.html#Pragma-Unsuppress" title="Pragma Unsuppress">
+<link rel="next" href="Pragma-Validity_005fChecks.html#Pragma-Validity_005fChecks" title="Pragma Validity_Checks">
+<link href="http://www.gnu.org/software/texinfo/" rel="generator-home" title="Texinfo Homepage">
+<!--
+
+     GNAT Reference Manual , March 24, 2015
+
+     AdaCore
+
+     Copyright (C) 2008-2015, Free Software Foundation
+-->
+<meta http-equiv="Content-Style-Type" content="text/css">
+<style type="text/css"><!--
+  pre.display { font-family:inherit }
+  pre.format  { font-family:inherit }
+  pre.smalldisplay { font-family:inherit; font-size:smaller }
+  pre.smallformat  { font-family:inherit; font-size:smaller }
+  pre.smallexample { font-size:smaller }
+  pre.smalllisp    { font-size:smaller }
+  span.sc    { font-variant:small-caps }
+  span.roman { font-family:serif; font-weight:normal; } 
+  span.sansserif { font-family:sans-serif; font-weight:normal; } 
+--></style>
+</head>
+<body>
+<div class="node">
+<a name="Pragma-Use_VADS_Size"></a>
+<a name="Pragma-Use_005fVADS_005fSize"></a>
+<p>
+Next:&nbsp;<a rel="next" accesskey="n" href="Pragma-Validity_005fChecks.html#Pragma-Validity_005fChecks">Pragma Validity_Checks</a>,
+Previous:&nbsp;<a rel="previous" accesskey="p" href="Pragma-Unsuppress.html#Pragma-Unsuppress">Pragma Unsuppress</a>,
+Up:&nbsp;<a rel="up" accesskey="u" href="Implementation-Defined-Pragmas.html#Implementation-Defined-Pragmas">Implementation Defined Pragmas</a>
+<hr>
+</div>
+
+<p><a name="gnat_005frm_002fimplementation_005fdefined_005fpragmas-pragma_002duse_002dvads_002dsize"></a><a name="d9"></a>
+
+<h3 class="section">2.186 Pragma Use_VADS_Size</h3>
+
+<p><a name="index-Size-106"></a><a name="index-VADS-compatibility-107"></a>
+<a name="index-Rational-profile-108"></a>
+Syntax:
+
+<pre class="example">    pragma Use_VADS_Size;
+</pre>
+<p>This is a configuration pragma.  In a unit to which it applies, any use
+of the 'Size attribute is automatically interpreted as a use of the
+'VADS_Size attribute.  Note that this may result in incorrect semantic
+processing of valid Ada 95 or Ada 2005 programs.  This is intended to aid in
+the handling of existing code which depends on the interpretation of Size
+as implemented in the VADS compiler.  See description of the VADS_Size
+attribute for further details.
+
+</body></html>
+

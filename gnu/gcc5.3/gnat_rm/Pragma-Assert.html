@@ -1,0 +1,113 @@
+<html lang="en">
+<head>
+<title>Pragma Assert - GNAT Reference Manual</title>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+<meta name="description" content="GNAT Reference Manual">
+<meta name="generator" content="makeinfo 4.13">
+<link title="Top" rel="start" href="index.html#Top">
+<link rel="up" href="Implementation-Defined-Pragmas.html#Implementation-Defined-Pragmas" title="Implementation Defined Pragmas">
+<link rel="prev" href="Pragma-Annotate.html#Pragma-Annotate" title="Pragma Annotate">
+<link rel="next" href="Pragma-Assert_005fAnd_005fCut.html#Pragma-Assert_005fAnd_005fCut" title="Pragma Assert_And_Cut">
+<link href="http://www.gnu.org/software/texinfo/" rel="generator-home" title="Texinfo Homepage">
+<!--
+
+     GNAT Reference Manual , March 24, 2015
+
+     AdaCore
+
+     Copyright (C) 2008-2015, Free Software Foundation
+-->
+<meta http-equiv="Content-Style-Type" content="text/css">
+<style type="text/css"><!--
+  pre.display { font-family:inherit }
+  pre.format  { font-family:inherit }
+  pre.smalldisplay { font-family:inherit; font-size:smaller }
+  pre.smallformat  { font-family:inherit; font-size:smaller }
+  pre.smallexample { font-size:smaller }
+  pre.smalllisp    { font-size:smaller }
+  span.sc    { font-variant:small-caps }
+  span.roman { font-family:serif; font-weight:normal; } 
+  span.sansserif { font-family:sans-serif; font-weight:normal; } 
+--></style>
+</head>
+<body>
+<div class="node">
+<a name="Pragma-Assert"></a>
+<p>
+Next:&nbsp;<a rel="next" accesskey="n" href="Pragma-Assert_005fAnd_005fCut.html#Pragma-Assert_005fAnd_005fCut">Pragma Assert_And_Cut</a>,
+Previous:&nbsp;<a rel="previous" accesskey="p" href="Pragma-Annotate.html#Pragma-Annotate">Pragma Annotate</a>,
+Up:&nbsp;<a rel="up" accesskey="u" href="Implementation-Defined-Pragmas.html#Implementation-Defined-Pragmas">Implementation Defined Pragmas</a>
+<hr>
+</div>
+
+<p><a name="gnat_005frm_002fimplementation_005fdefined_005fpragmas-pragma_002dassert"></a><a name="g_t25"></a>
+
+<h3 class="section">2.11 Pragma Assert</h3>
+
+<p>Syntax:
+
+<pre class="example">    pragma Assert (
+      boolean_EXPRESSION
+      [, string_EXPRESSION]);
+</pre>
+<p>The effect of this pragma depends on whether the corresponding command
+line switch is set to activate assertions.  The pragma expands into code
+equivalent to the following:
+
+<pre class="example">    if assertions-enabled then
+       if not boolean_EXPRESSION then
+          System.Assertions.Raise_Assert_Failure
+            (string_EXPRESSION);
+       end if;
+    end if;
+</pre>
+<p>The string argument, if given, is the message that will be associated
+with the exception occurrence if the exception is raised.  If no second
+argument is given, the default message is <cite>file</cite>:<cite>nnn</cite>,
+where <cite>file</cite> is the name of the source file containing the assert,
+and <cite>nnn</cite> is the line number of the assert.  A pragma is not a
+statement, so if a statement sequence contains nothing but a pragma
+assert, then a null statement is required in addition, as in:
+
+<pre class="example">    ...
+    if J &gt; 3 then
+       pragma Assert (K &gt; 3, "Bad value for K");
+       null;
+    end if;
+</pre>
+<p>Note that, as with the <cite>if</cite> statement to which it is equivalent, the
+type of the expression is either <cite>Standard.Boolean</cite>, or any type derived
+from this standard type.
+
+<p>Assert checks can be either checked or ignored. By default they are ignored. 
+They will be checked if either the command line switch `-gnata' is
+used, or if an <cite>Assertion_Policy</cite> or <cite>Check_Policy</cite> pragma is used
+to enable <cite>Assert_Checks</cite>.
+
+<p>If assertions are ignored, then there
+is no run-time effect (and in particular, any side effects from the
+expression will not occur at run time).  (The expression is still
+analyzed at compile time, and may cause types to be frozen if they are
+mentioned here for the first time).
+
+<p>If assertions are checked, then the given expression is tested, and if
+it is <cite>False</cite> then <cite>System.Assertions.Raise_Assert_Failure</cite> is called
+which results in the raising of <cite>Assert_Failure</cite> with the given message.
+
+<p>You should generally avoid side effects in the expression arguments of
+this pragma, because these side effects will turn on and off with the
+setting of the assertions mode, resulting in assertions that have an
+effect on the program.  However, the expressions are analyzed for
+semantic correctness whether or not assertions are enabled, so turning
+assertions on and off cannot affect the legality of a program.
+
+<p>Note that the implementation defined policy <cite>DISABLE</cite>, given in a
+pragma <cite>Assertion_Policy</cite>, can be used to suppress this semantic analysis.
+
+<p>Note: this is a standard language-defined pragma in versions
+of Ada from 2005 on. In GNAT, it is implemented in all versions
+of Ada, and the DISABLE policy is an implementation-defined
+addition.
+
+</body></html>
+

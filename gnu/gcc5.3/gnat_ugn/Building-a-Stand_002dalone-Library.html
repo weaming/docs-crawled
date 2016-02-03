@@ -1,0 +1,149 @@
+<html lang="en">
+<head>
+<title>Building a Stand-alone Library - GNAT User's Guide for Native Platforms</title>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+<meta name="description" content="GNAT User's Guide for Native Platforms">
+<meta name="generator" content="makeinfo 4.13">
+<link title="Top" rel="start" href="index.html#Top">
+<link rel="up" href="Stand_002dalone-Ada-Libraries.html#Stand_002dalone-Ada-Libraries" title="Stand-alone Ada Libraries">
+<link rel="prev" href="Introduction-to-Stand_002dalone-Libraries.html#Introduction-to-Stand_002dalone-Libraries" title="Introduction to Stand-alone Libraries">
+<link rel="next" href="Creating-a-Stand_002dalone-Library-to-be-used-in-a-non_002dAda-context.html#Creating-a-Stand_002dalone-Library-to-be-used-in-a-non_002dAda-context" title="Creating a Stand-alone Library to be used in a non-Ada context">
+<link href="http://www.gnu.org/software/texinfo/" rel="generator-home" title="Texinfo Homepage">
+<!--
+
+     GNAT User's Guide for Native Platforms , March 24, 2015
+
+     AdaCore
+
+     Copyright (C) 2008-2015, Free Software Foundation
+-->
+<meta http-equiv="Content-Style-Type" content="text/css">
+<style type="text/css"><!--
+  pre.display { font-family:inherit }
+  pre.format  { font-family:inherit }
+  pre.smalldisplay { font-family:inherit; font-size:smaller }
+  pre.smallformat  { font-family:inherit; font-size:smaller }
+  pre.smallexample { font-size:smaller }
+  pre.smalllisp    { font-size:smaller }
+  span.sc    { font-variant:small-caps }
+  span.roman { font-family:serif; font-weight:normal; } 
+  span.sansserif { font-family:sans-serif; font-weight:normal; } 
+--></style>
+</head>
+<body>
+<div class="node">
+<a name="Building-a-Stand-alone-Library"></a>
+<a name="Building-a-Stand_002dalone-Library"></a>
+<p>
+Next:&nbsp;<a rel="next" accesskey="n" href="Creating-a-Stand_002dalone-Library-to-be-used-in-a-non_002dAda-context.html#Creating-a-Stand_002dalone-Library-to-be-used-in-a-non_002dAda-context">Creating a Stand-alone Library to be used in a non-Ada context</a>,
+Previous:&nbsp;<a rel="previous" accesskey="p" href="Introduction-to-Stand_002dalone-Libraries.html#Introduction-to-Stand_002dalone-Libraries">Introduction to Stand-alone Libraries</a>,
+Up:&nbsp;<a rel="up" accesskey="u" href="Stand_002dalone-Ada-Libraries.html#Stand_002dalone-Ada-Libraries">Stand-alone Ada Libraries</a>
+<hr>
+</div>
+
+<p><a name="gnat_005fugn_002fthe_005fgnat_005fcompilation_005fmodel-id43"></a><a name="g_t95"></a><a name="gnat_005fugn_002fthe_005fgnat_005fcompilation_005fmodel-building_002da_002dstand_002dalone_002dlibrary"></a><a name="g_t96"></a>
+
+<h5 class="subsubsection">3.9.3.2 Building a Stand-alone Library</h5>
+
+<p>GNAT's Project facility provides a simple way of building and installing
+stand-alone libraries; see <a href="97.html#g_t97">Stand-alone Library Projects</a>. 
+To be a Stand-alone Library Project, in addition to the two attributes
+that make a project a Library Project (<cite>Library_Name</cite> and
+<cite>Library_Dir</cite>; see <a href="8a.html#g_t8a">Library Projects</a>), the attribute
+<cite>Library_Interface</cite> must be defined.  For example:
+
+<pre class="example">    for Library_Dir use "lib_dir";
+    for Library_Name use "dummy";
+    for Library_Interface use ("int1", "int1.child");
+</pre>
+<p>Attribute <cite>Library_Interface</cite> has a non-empty string list value,
+each string in the list designating a unit contained in an immediate source
+of the project file.
+
+<p>When a Stand-alone Library is built, first the binder is invoked to build
+a package whose name depends on the library name
+(<code>b~dummy.ads/b</code> in the example above). 
+This binder-generated package includes initialization and
+finalization procedures whose
+names depend on the library name (<cite>dummyinit</cite> and <cite>dummyfinal</cite>
+in the example
+above). The object corresponding to this package is included in the library.
+
+<p>You must ensure timely (e.g., prior to any use of interfaces in the SAL)
+calling of these procedures if a static SAL is built, or if a shared SAL
+is built
+with the project-level attribute <cite>Library_Auto_Init</cite> set to
+<cite>"false"</cite>.
+
+<p>For a Stand-Alone Library, only the <code>ALI</code> files of the Interface Units
+(those that are listed in attribute <cite>Library_Interface</cite>) are copied to
+the Library Directory. As a consequence, only the Interface Units may be
+imported from Ada units outside of the library. If other units are imported,
+the binding phase will fail.
+
+<p>It is also possible to build an encapsulated library where not only
+the code to elaborate and finalize the library is embedded but also
+ensuring that the library is linked only against static
+libraries. So an encapsulated library only depends on system
+libraries, all other code, including the GNAT runtime, is embedded. To
+build an encapsulated library the attribute
+<cite>Library_Standalone</cite> must be set to <cite>encapsulated</cite>:
+
+<pre class="example">    for Library_Dir use "lib_dir";
+    for Library_Name use "dummy";
+    for Library_Kind use "dynamic";
+    for Library_Interface use ("int1", "int1.child");
+    for Library_Standalone use "encapsulated";
+</pre>
+<p>The default value for this attribute is <cite>standard</cite> in which case
+a stand-alone library is built.
+
+<p>The attribute <cite>Library_Src_Dir</cite> may be specified for a
+Stand-Alone Library. <cite>Library_Src_Dir</cite> is a simple attribute that has a
+single string value. Its value must be the path (absolute or relative to the
+project directory) of an existing directory. This directory cannot be the
+object directory or one of the source directories, but it can be the same as
+the library directory. The sources of the Interface
+Units of the library that are needed by an Ada client of the library will be
+copied to the designated directory, called the Interface Copy directory. 
+These sources include the specs of the Interface Units, but they may also
+include bodies and subunits, when pragmas <cite>Inline</cite> or <cite>Inline_Always</cite>
+are used, or when there is a generic unit in the spec. Before the sources
+are copied to the Interface Copy directory, an attempt is made to delete all
+files in the Interface Copy directory.
+
+<p>Building stand-alone libraries by hand is somewhat tedious, but for those
+occasions when it is necessary here are the steps that you need to perform:
+
+     <ul>
+<li>Compile all library sources.
+
+     <li>Invoke the binder with the switch `-n' (No Ada main program),
+with all the <code>ALI</code> files of the interfaces, and
+with the switch `-L' to give specific names to the <cite>init</cite>
+and <cite>final</cite> procedures.  For example:
+
+     <pre class="example">         $ gnatbind -n int1.ali int2.ali -Lsal1
+</pre>
+     <li>Compile the binder generated file:
+
+     <pre class="example">         $ gcc -c b~int2.adb
+</pre>
+     <li>Link the dynamic library with all the necessary object files,
+indicating to the linker the names of the <cite>init</cite> (and possibly
+<cite>final</cite>) procedures for automatic initialization (and finalization). 
+The built library should be placed in a directory different from
+the object directory.
+
+     <li>Copy the <cite>ALI</cite> files of the interface to the library directory,
+add in this copy an indication that it is an interface to a SAL
+(i.e., add a word `SL' on the line in the <code>ALI</code> file that starts
+with letter 'P') and make the modified copy of the <code>ALI</code> file
+read-only. 
+</ul>
+
+<p>Using SALs is not different from using other libraries
+(see <a href="8f.html#g_t8f">Using a library</a>).
+
+</body></html>
+

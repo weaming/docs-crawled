@@ -1,0 +1,187 @@
+<html lang="en">
+<head>
+<title>Vectorization of loops - GNAT User's Guide for Native Platforms</title>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+<meta name="description" content="GNAT User's Guide for Native Platforms">
+<meta name="generator" content="makeinfo 4.13">
+<link title="Top" rel="start" href="index.html#Top">
+<link rel="up" href="Performance-Considerations.html#Performance-Considerations" title="Performance Considerations">
+<link rel="prev" href="Floating_005fPoint_005fOperations.html#Floating_005fPoint_005fOperations" title="Floating_Point_Operations">
+<link rel="next" href="Other-Optimization-Switches.html#Other-Optimization-Switches" title="Other Optimization Switches">
+<link href="http://www.gnu.org/software/texinfo/" rel="generator-home" title="Texinfo Homepage">
+<!--
+
+     GNAT User's Guide for Native Platforms , March 24, 2015
+
+     AdaCore
+
+     Copyright (C) 2008-2015, Free Software Foundation
+-->
+<meta http-equiv="Content-Style-Type" content="text/css">
+<style type="text/css"><!--
+  pre.display { font-family:inherit }
+  pre.format  { font-family:inherit }
+  pre.smalldisplay { font-family:inherit; font-size:smaller }
+  pre.smallformat  { font-family:inherit; font-size:smaller }
+  pre.smallexample { font-size:smaller }
+  pre.smalllisp    { font-size:smaller }
+  span.sc    { font-variant:small-caps }
+  span.roman { font-family:serif; font-weight:normal; } 
+  span.sansserif { font-family:sans-serif; font-weight:normal; } 
+--></style>
+</head>
+<body>
+<div class="node">
+<a name="Vectorization-of-loops"></a>
+<p>
+Next:&nbsp;<a rel="next" accesskey="n" href="Other-Optimization-Switches.html#Other-Optimization-Switches">Other Optimization Switches</a>,
+Previous:&nbsp;<a rel="previous" accesskey="p" href="Floating_005fPoint_005fOperations.html#Floating_005fPoint_005fOperations">Floating_Point_Operations</a>,
+Up:&nbsp;<a rel="up" accesskey="u" href="Performance-Considerations.html#Performance-Considerations">Performance Considerations</a>
+<hr>
+</div>
+
+<p><a name="gnat_005fugn_002fgnat_005fand_005fprogram_005fexecution-id36"></a><a name="g_t233"></a><a name="gnat_005fugn_002fgnat_005fand_005fprogram_005fexecution-vectorization_002dof_002dloops"></a><a name="g_t234"></a>
+
+<h5 class="subsubsection">8.3.1.7 Vectorization of loops</h5>
+
+<p><a name="index-Optimization-Switches-1011"></a>
+You can take advantage of the auto-vectorizer present in the `gcc'
+back end to vectorize loops with GNAT.  The corresponding command line switch
+is `-ftree-vectorize' but, as it is enabled by default at `-O3'
+and other aggressive optimizations helpful for vectorization also are enabled
+by default at this level, using `-O3' directly is recommended.
+
+<p>You also need to make sure that the target architecture features a supported
+SIMD instruction set.  For example, for the x86 architecture, you should at
+least specify `-msse2' to get significant vectorization (but you don't
+need to specify it for x86-64 as it is part of the base 64-bit architecture). 
+Similarly, for the PowerPC architecture, you should specify `-maltivec'.
+
+<p>The preferred loop form for vectorization is the <cite>for</cite> iteration scheme. 
+Loops with a <cite>while</cite> iteration scheme can also be vectorized if they are
+very simple, but the vectorizer will quickly give up otherwise.  With either
+iteration scheme, the flow of control must be straight, in particular no
+<cite>exit</cite> statement may appear in the loop body.  The loop may however
+contain a single nested loop, if it can be vectorized when considered alone:
+
+<blockquote>
+
+<pre class="example">    A : array (1..4, 1..4) of Long_Float;
+    S : array (1..4) of Long_Float;
+    
+    procedure Sum is
+    begin
+       for I in A'Range(1) loop
+          for J in A'Range(2) loop
+             S (I) := S (I) + A (I, J);
+          end loop;
+       end loop;
+    end Sum;
+</pre>
+</blockquote>
+
+<p>The vectorizable operations depend on the targeted SIMD instruction set, but
+the adding and some of the multiplying operators are generally supported, as
+well as the logical operators for modular types.  Note that, in the former
+case, enabling overflow checks, for example with `-gnato', totally
+disables vectorization.  The other checks are not supposed to have the same
+definitive effect, although compiling with `-gnatp' might well reveal
+cases where some checks do thwart vectorization.
+
+<p>Type conversions may also prevent vectorization if they involve semantics that
+are not directly supported by the code generator or the SIMD instruction set. 
+A typical example is direct conversion from floating-point to integer types. 
+The solution in this case is to use the following idiom:
+
+<blockquote>
+
+<pre class="example">    Integer (S'Truncation (F))
+</pre>
+</blockquote>
+
+<p>if <cite>S</cite> is the subtype of floating-point object <cite>F</cite>.
+
+<p>In most cases, the vectorizable loops are loops that iterate over arrays. 
+All kinds of array types are supported, i.e. constrained array types with
+static bounds:
+
+<blockquote>
+
+<pre class="example">    type Array_Type is array (1 .. 4) of Long_Float;
+</pre>
+</blockquote>
+
+<p>constrained array types with dynamic bounds:
+
+<blockquote>
+
+<pre class="example">    type Array_Type is array (1 .. Q.N) of Long_Float;
+    
+    type Array_Type is array (Q.K .. 4) of Long_Float;
+    
+    type Array_Type is array (Q.K .. Q.N) of Long_Float;
+</pre>
+</blockquote>
+
+<p>or unconstrained array types:
+
+<blockquote>
+
+<pre class="example">    type Array_Type is array (Positive range &lt;&gt;) of Long_Float;
+</pre>
+</blockquote>
+
+<p>The quality of the generated code decreases when the dynamic aspect of the
+array type increases, the worst code being generated for unconstrained array
+types.  This is so because, the less information the compiler has about the
+bounds of the array, the more fallback code it needs to generate in order to
+fix things up at run time.
+
+<p>It is possible to specify that a given loop should be subject to vectorization
+preferably to other optimizations by means of pragma <cite>Loop_Optimize</cite>:
+
+<blockquote>
+
+<pre class="example">    pragma Loop_Optimize (Vector);
+</pre>
+</blockquote>
+
+<p>placed immediately within the loop will convey the appropriate hint to the
+compiler for this loop.
+
+<p>It is also possible to help the compiler generate better vectorized code
+for a given loop by asserting that there are no loop-carried dependencies
+in the loop.  Consider for example the procedure:
+
+<blockquote>
+
+<pre class="example">    type Arr is array (1 .. 4) of Long_Float;
+    
+    procedure Add (X, Y : not null access Arr; R : not null access Arr) is
+    begin
+      for I in Arr'Range loop
+        R(I) := X(I) + Y(I);
+      end loop;
+    end;
+</pre>
+</blockquote>
+
+<p>By default, the compiler cannot unconditionally vectorize the loop because
+assigning to a component of the array designated by R in one iteration could
+change the value read from the components of the array designated by X or Y
+in a later iteration.  As a result, the compiler will generate two versions
+of the loop in the object code, one vectorized and the other not vectorized,
+as well as a test to select the appropriate version at run time.  This can
+be overcome by another hint:
+
+<blockquote>
+
+<pre class="example">    pragma Loop_Optimize (Ivdep);
+</pre>
+</blockquote>
+
+<p>placed immediately within the loop will tell the compiler that it can safely
+omit the non-vectorized version of the loop as well as the run-time test.
+
+</body></html>
+

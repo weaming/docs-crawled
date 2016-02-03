@@ -1,0 +1,94 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
+<HTML>
+<HEAD> <TITLE>cURL - libcurl cookie leak for TLDs</TITLE>
+<meta content="text/html; charset=UTF-8" http-equiv="Content-Type">
+<link rel="stylesheet" type="text/css" href="http://curl.haxx.se/curl.css">
+<link rel="shortcut icon" href="http://curl.haxx.se/favicon.ico">
+<link rel="STYLESHEET" type="text/css" href="http://curl.haxx.se/manpage.css">
+</HEAD>
+<body bgcolor="#ffffff" text="#000000">
+<div class="main">
+<div class="menu">
+<a href="index.html" class="menuitem" title="Documentation main page">Docs Overview</a>
+</div>
+<div class="contents">
+<div class="where"><a href="http://curl.haxx.se/">cURL</a> / <a href="index.html">Docs</a> / <a href="security.html">Security</a> / <b>libcurl cookie leak for TLDs</b></div>
+<h1> libcurl cookie leak for TLDs </h1>
+<div class="relatedbox">
+<b>Related:</b>
+<br><a href="http://curl.haxx.se/changes.html">Changelog</a>
+<br><a href="faq.html">FAQ</a>
+<br><a href="http://curl.haxx.se/dev/security.html">Security dev process</a>
+<br><a href="vulnerabilities.html">Vulnerabilities Table</a>
+</div>
+<pre>
+                         libcurl cookie leak for TLDs
+                         ============================
+&nbsp;
+Project cURL Security Advisory, September 10th 2014
+<a href="security.html">http://curl.haxx.se/docs/security.html</a>
+&nbsp;
+1. VULNERABILITY
+&nbsp;
+  libcurl wrongly allows cookies to be set for Top Level Domains (TLDs), thus
+  making them apply broader than cookies are allowed. This can allow arbitrary
+  sites to set cookies that then would get sent to a different and unrelated
+  site or domain.
+&nbsp;
+2. INFO
+&nbsp;
+  Cookie parsing and use is opt-in by applications and is not enabled by
+  default.
+&nbsp;
+  libcurl's cookie parser has no Public Suffix awareness, so apart from
+  rejecting TLDs from being allowed it might still allow cookies for domains
+  that are otherwise widely rejected by ordinary browsers. See
+  <a href="https://publicsuffix.org/">https://publicsuffix.org/</a> for details.
+&nbsp;
+  The Common Vulnerabilities and Exposures (CVE) project has assigned the name
+  CVE-2014-3620 to this issue.
+&nbsp;
+3. AFFECTED VERSIONS
+&nbsp;
+  Affected versions: from libcurl 7.31.0 to and including 7.37.1
+  Not affected versions: libcurl &lt; 7.31.0 and libcurl &gt;= 7.38.0
+&nbsp;
+  libcurl is used by many applications, but not always advertised as such!
+&nbsp;
+4. THE SOLUTION
+&nbsp;
+  libcurl 7.38.0 doesn't accept cookies set for just a TLD. Note that it does
+  not add any public suffix awareness apart from that.
+&nbsp;
+  A patch for this problem is available at:
+&nbsp;
+    <a href="http://curl.haxx.se/CVE-2014-3620.patch">http://curl.haxx.se/CVE-2014-3620.patch</a>
+&nbsp;
+5. RECOMMENDATIONS
+&nbsp;
+  We suggest you take one of the following actions immediately, in order of
+  preference:
+&nbsp;
+  A - Upgrade to curl and libcurl 7.38.0
+&nbsp;
+  B - Apply the patch and rebuild libcurl
+&nbsp;
+  C - Avoid using cookies in your application
+&nbsp;
+6. TIME LINE
+&nbsp;
+  It was reported to the curl project on August 15th 2014. We contacted
+  distros@openwall on September 1st.
+&nbsp;
+  libcurl 7.38.0 was released on September 10th 2014, coordinated with the
+  publication of this advisory.
+&nbsp;
+7. CREDITS
+&nbsp;
+  Reported by Tim Ruehsen. Patch written by Daniel Stenberg.
+&nbsp;
+  Thanks a lot!
+</pre>
+</div>
+</div>
+</body> </html>

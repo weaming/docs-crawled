@@ -1,0 +1,170 @@
+<html lang="en">
+<head>
+<title>Invoking gnathtml - GNAT User's Guide for Native Platforms</title>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+<meta name="description" content="GNAT User's Guide for Native Platforms">
+<meta name="generator" content="makeinfo 4.13">
+<link title="Top" rel="start" href="index.html#Top">
+<link rel="up" href="The-Ada-to-HTML-Converter-gnathtml.html#The-Ada-to-HTML-Converter-gnathtml" title="The Ada to HTML Converter gnathtml">
+<link rel="next" href="Installing-gnathtml.html#Installing-gnathtml" title="Installing gnathtml">
+<link href="http://www.gnu.org/software/texinfo/" rel="generator-home" title="Texinfo Homepage">
+<!--
+
+     GNAT User's Guide for Native Platforms , March 24, 2015
+
+     AdaCore
+
+     Copyright (C) 2008-2015, Free Software Foundation
+-->
+<meta http-equiv="Content-Style-Type" content="text/css">
+<style type="text/css"><!--
+  pre.display { font-family:inherit }
+  pre.format  { font-family:inherit }
+  pre.smalldisplay { font-family:inherit; font-size:smaller }
+  pre.smallformat  { font-family:inherit; font-size:smaller }
+  pre.smallexample { font-size:smaller }
+  pre.smalllisp    { font-size:smaller }
+  span.sc    { font-variant:small-caps }
+  span.roman { font-family:serif; font-weight:normal; } 
+  span.sansserif { font-family:sans-serif; font-weight:normal; } 
+--></style>
+</head>
+<body>
+<div class="node">
+<a name="Invoking-gnathtml"></a>
+<p>
+Next:&nbsp;<a rel="next" accesskey="n" href="Installing-gnathtml.html#Installing-gnathtml">Installing gnathtml</a>,
+Up:&nbsp;<a rel="up" accesskey="u" href="The-Ada-to-HTML-Converter-gnathtml.html#The-Ada-to-HTML-Converter-gnathtml">The Ada to HTML Converter gnathtml</a>
+<hr>
+</div>
+
+<p><a name="gnat_005fugn_002fgnat_005futility_005fprograms-invoking_002dgnathtml"></a><a name="g_t1eb"></a><a name="gnat_005fugn_002fgnat_005futility_005fprograms-id17"></a><a name="g_t1ec"></a>
+
+<h4 class="subsection">7.4.1 Invoking `gnathtml'</h4>
+
+<p>The command line is as follows:
+
+<blockquote>
+
+<pre class="example">    $ perl gnathtml.pl [`switches`] `ada-files`
+</pre>
+</blockquote>
+
+<p>You can specify as many Ada files as you want. <cite>gnathtml</cite> will generate
+an html file for every ada file, and a global file called <code>index.htm</code>. 
+This file is an index of every identifier defined in the files.
+
+<p>The following switches are available:
+
+<p><a name="index-g_t_002d83-_0028gnathtml_0029-937"></a>
+
+     <dl>
+<dt><code>83</code><dd>
+Only the Ada 83 subset of keywords will be highlighted. 
+</dl>
+
+<p><a name="index-g_t_002dcc-_0028gnathtml_0029-938"></a>
+
+     <dl>
+<dt><code>cc `color'</code><dd>
+This option allows you to change the color used for comments. The default
+value is green. The color argument can be any name accepted by html. 
+</dl>
+
+<p><a name="index-g_t_002dd-_0028gnathtml_0029-939"></a>
+
+     <dl>
+<dt><code>d</code><dd>
+If the Ada files depend on some other files (for instance through
+<cite>with</cite> clauses, the latter files will also be converted to html. 
+Only the files in the user project will be converted to html, not the files
+in the run-time library itself. 
+</dl>
+
+<p><a name="index-g_t_002dD-_0028gnathtml_0029-940"></a>
+
+     <dl>
+<dt><code>D</code><dd>
+This command is the same as `-d' above, but `gnathtml' will
+also look for files in the run-time library, and generate html files for them. 
+</dl>
+
+<p><a name="index-g_t_002dext-_0028gnathtml_0029-941"></a>
+
+     <dl>
+<dt><code>ext `extension'</code><dd>
+This option allows you to change the extension of the generated HTML files. 
+If you do not specify an extension, it will default to <code>htm</code>. 
+</dl>
+
+<p><a name="index-g_t_002df-_0028gnathtml_0029-942"></a>
+
+     <dl>
+<dt><code>f</code><dd>
+By default, gnathtml will generate html links only for global entities
+('with'ed units, global variables and types,...).  If you specify
+`-f' on the command line, then links will be generated for local
+entities too. 
+</dl>
+
+<p><a name="index-g_t_002dl-_0028gnathtml_0029-943"></a>
+
+     <dl>
+<dt><code>l `number'</code><dd>
+If this switch is provided and <cite>number</cite> is not 0, then
+<cite>gnathtml</cite> will number the html files every <cite>number</cite> line. 
+</dl>
+
+<p><a name="index-g_t_002dI-_0028gnathtml_0029-944"></a>
+
+     <dl>
+<dt><code>I `dir'</code><dd>
+Specify a directory to search for library files (<code>.ALI</code> files) and
+source files. You can provide several -I switches on the command line,
+and the directories will be parsed in the order of the command line. 
+</dl>
+
+<p><a name="index-g_t_002do-_0028gnathtml_0029-945"></a>
+
+     <dl>
+<dt><code>o `dir'</code><dd>
+Specify the output directory for html files. By default, gnathtml will
+saved the generated html files in a subdirectory named <code>html/</code>. 
+</dl>
+
+<p><a name="index-g_t_002dp-_0028gnathtml_0029-946"></a>
+
+     <dl>
+<dt><code>p `file'</code><dd>
+If you are using Emacs and the most recent Emacs Ada mode, which provides
+a full Integrated Development Environment for compiling, checking,
+running and debugging applications, you may use <code>.gpr</code> files
+to give the directories where Emacs can find sources and object files.
+
+     <p>Using this switch, you can tell gnathtml to use these files. 
+This allows you to get an html version of your application, even if it
+is spread over multiple directories. 
+</dl>
+
+<p><a name="index-g_t_002dsc-_0028gnathtml_0029-947"></a>
+
+     <dl>
+<dt><code>sc `color'</code><dd>
+This switch allows you to change the color used for symbol
+definitions. 
+The default value is red. The color argument can be any name accepted by html. 
+</dl>
+
+<p><a name="index-g_t_002dt-_0028gnathtml_0029-948"></a>
+
+     <dl>
+<dt><code>t `file'</code><dd>
+This switch provides the name of a file. This file contains a list of
+file names to be converted, and the effect is exactly as though they had
+appeared explicitly on the command line. This
+is the recommended way to work around the command line length limit on some
+systems. 
+</dl>
+
+</body></html>
+

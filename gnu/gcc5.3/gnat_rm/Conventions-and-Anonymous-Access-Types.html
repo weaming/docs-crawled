@@ -1,0 +1,115 @@
+<html lang="en">
+<head>
+<title>Conventions and Anonymous Access Types - GNAT Reference Manual</title>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+<meta name="description" content="GNAT Reference Manual">
+<meta name="generator" content="makeinfo 4.13">
+<link title="Top" rel="start" href="index.html#Top">
+<link rel="up" href="Representation-Clauses-and-Pragmas.html#Representation-Clauses-and-Pragmas" title="Representation Clauses and Pragmas">
+<link rel="prev" href="Effect-of-Convention-on-Representation.html#Effect-of-Convention-on-Representation" title="Effect of Convention on Representation">
+<link rel="next" href="Determining-the-Representations-chosen-by-GNAT.html#Determining-the-Representations-chosen-by-GNAT" title="Determining the Representations chosen by GNAT">
+<link href="http://www.gnu.org/software/texinfo/" rel="generator-home" title="Texinfo Homepage">
+<!--
+
+     GNAT Reference Manual , March 24, 2015
+
+     AdaCore
+
+     Copyright (C) 2008-2015, Free Software Foundation
+-->
+<meta http-equiv="Content-Style-Type" content="text/css">
+<style type="text/css"><!--
+  pre.display { font-family:inherit }
+  pre.format  { font-family:inherit }
+  pre.smalldisplay { font-family:inherit; font-size:smaller }
+  pre.smallformat  { font-family:inherit; font-size:smaller }
+  pre.smallexample { font-size:smaller }
+  pre.smalllisp    { font-size:smaller }
+  span.sc    { font-variant:small-caps }
+  span.roman { font-family:serif; font-weight:normal; } 
+  span.sansserif { font-family:sans-serif; font-weight:normal; } 
+--></style>
+</head>
+<body>
+<div class="node">
+<a name="Conventions-and-Anonymous-Access-Types"></a>
+<p>
+Next:&nbsp;<a rel="next" accesskey="n" href="Determining-the-Representations-chosen-by-GNAT.html#Determining-the-Representations-chosen-by-GNAT">Determining the Representations chosen by GNAT</a>,
+Previous:&nbsp;<a rel="previous" accesskey="p" href="Effect-of-Convention-on-Representation.html#Effect-of-Convention-on-Representation">Effect of Convention on Representation</a>,
+Up:&nbsp;<a rel="up" accesskey="u" href="Representation-Clauses-and-Pragmas.html#Representation-Clauses-and-Pragmas">Representation Clauses and Pragmas</a>
+<hr>
+</div>
+
+<p><a name="gnat_005frm_002frepresentation_005fclauses_005fand_005fpragmas-conventions_002dand_002danonymous_002daccess_002dtypes"></a><a name="g_t23c"></a><a name="gnat_005frm_002frepresentation_005fclauses_005fand_005fpragmas-id19"></a><a name="g_t23d"></a>
+
+<h3 class="section">9.18 Conventions and Anonymous Access Types</h3>
+
+<p><a name="index-Anonymous-access-types-521"></a>
+<a name="index-Convention-for-anonymous-access-types-522"></a>
+The RM is not entirely clear on convention handling in a number of cases,
+and in particular, it is not clear on the convention to be given to
+anonymous access types in general, and in particular what is to be
+done for the case of anonymous access-to-subprogram.
+
+<p>In GNAT, we decide that if an explicit Convention is applied
+to an object or component, and its type is such an anonymous type,
+then the convention will apply to this anonymous type as well. This
+seems to make sense since it is anomolous in any case to have a
+different convention for an object and its type, and there is clearly
+no way to explicitly specify a convention for an anonymous type, since
+it doesn't have a name to specify!
+
+<p>Furthermore, we decide that if a convention is applied to a record type,
+then this convention is inherited by any of its components that are of an
+anonymous access type which do not have an explicitly specified convention.
+
+<p>The following program shows these conventions in action:
+
+<pre class="example">    package ConvComp is
+       type Foo is range 1 .. 10;
+       type T1 is record
+          A : access function (X : Foo) return Integer;
+          B : Integer;
+       end record;
+       pragma Convention (C, T1);
+    
+       type T2 is record
+          A : access function (X : Foo) return Integer;
+          pragma Convention  (C, A);
+          B : Integer;
+       end record;
+       pragma Convention (COBOL, T2);
+    
+       type T3 is record
+          A : access function (X : Foo) return Integer;
+          pragma Convention  (COBOL, A);
+          B : Integer;
+       end record;
+       pragma Convention (C, T3);
+    
+       type T4 is record
+          A : access function (X : Foo) return Integer;
+          B : Integer;
+       end record;
+       pragma Convention (COBOL, T4);
+    
+       function F (X : Foo) return Integer;
+       pragma Convention (C, F);
+    
+       function F (X : Foo) return Integer is (13);
+    
+       TV1 : T1 := (F'Access, 12);  -- OK
+       TV2 : T2 := (F'Access, 13);  -- OK
+    
+       TV3 : T3 := (F'Access, 13);  -- ERROR
+                    |
+    &gt;&gt;&gt; subprogram "F" has wrong convention
+    &gt;&gt;&gt; does not match access to subprogram declared at line 17
+         38.    TV4 : T4 := (F'Access, 13);  -- ERROR
+                    |
+    &gt;&gt;&gt; subprogram "F" has wrong convention
+    &gt;&gt;&gt; does not match access to subprogram declared at line 24
+         39. end ConvComp;
+</pre>
+</body></html>
+

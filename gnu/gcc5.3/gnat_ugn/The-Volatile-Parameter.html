@@ -1,0 +1,75 @@
+<html lang="en">
+<head>
+<title>The Volatile Parameter - GNAT User's Guide for Native Platforms</title>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+<meta name="description" content="GNAT User's Guide for Native Platforms">
+<meta name="generator" content="makeinfo 4.13">
+<link title="Top" rel="start" href="index.html#Top">
+<link rel="up" href="Other-Asm-Functionality.html#Other-Asm-Functionality" title="Other Asm Functionality">
+<link rel="prev" href="The-Clobber-Parameter.html#The-Clobber-Parameter" title="The Clobber Parameter">
+<link href="http://www.gnu.org/software/texinfo/" rel="generator-home" title="Texinfo Homepage">
+<!--
+
+     GNAT User's Guide for Native Platforms , March 24, 2015
+
+     AdaCore
+
+     Copyright (C) 2008-2015, Free Software Foundation
+-->
+<meta http-equiv="Content-Style-Type" content="text/css">
+<style type="text/css"><!--
+  pre.display { font-family:inherit }
+  pre.format  { font-family:inherit }
+  pre.smalldisplay { font-family:inherit; font-size:smaller }
+  pre.smallformat  { font-family:inherit; font-size:smaller }
+  pre.smallexample { font-size:smaller }
+  pre.smalllisp    { font-size:smaller }
+  span.sc    { font-variant:small-caps }
+  span.roman { font-family:serif; font-weight:normal; } 
+  span.sansserif { font-family:sans-serif; font-weight:normal; } 
+--></style>
+</head>
+<body>
+<div class="node">
+<a name="The-Volatile-Parameter"></a>
+<p>
+Previous:&nbsp;<a rel="previous" accesskey="p" href="The-Clobber-Parameter.html#The-Clobber-Parameter">The Clobber Parameter</a>,
+Up:&nbsp;<a rel="up" accesskey="u" href="Other-Asm-Functionality.html#Other-Asm-Functionality">Other Asm Functionality</a>
+<hr>
+</div>
+
+<p><a name="gnat_005fugn_002finline_005fassembler-the_002dvolatile_002dparameter"></a><a name="g_t2dc"></a><a name="gnat_005fugn_002finline_005fassembler-id9"></a><a name="g_t2dd"></a>
+
+<h4 class="subsection">12.6.2 The <cite>Volatile</cite> Parameter</h4>
+
+<p><a name="index-Volatile-parameter-1158"></a>
+Compiler optimizations in the presence of Inline Assembler may sometimes have
+unwanted effects.  For example, when an <cite>Asm</cite> invocation with an input
+variable is inside a loop, the compiler might move the loading of the input
+variable outside the loop, regarding it as a one-time initialization.
+
+<p>If this effect is not desired, you can disable such optimizations by setting
+the <cite>Volatile</cite> parameter to <cite>True</cite>; for example:
+
+<blockquote>
+
+<pre class="example">    Asm ("movl %0, %%ebx" &amp; LF &amp; HT &amp;
+         "movl %%ebx, %1",
+         Outputs  =&gt; Unsigned_32'Asm_Output ("=g", Var_Out),
+         Inputs   =&gt; Unsigned_32'Asm_Input  ("g", Var_In),
+         Clobber  =&gt; "ebx",
+         Volatile =&gt; True);
+</pre>
+</blockquote>
+
+<p>By default, <cite>Volatile</cite> is set to <cite>False</cite> unless there is no
+<cite>Outputs</cite> parameter.
+
+<p>Although setting <cite>Volatile</cite> to <cite>True</cite> prevents unwanted
+optimizations, it will also disable other optimizations that might be
+important for efficiency. In general, you should set <cite>Volatile</cite>
+to <cite>True</cite> only if the compiler's optimizations have created
+problems.
+
+</body></html>
+

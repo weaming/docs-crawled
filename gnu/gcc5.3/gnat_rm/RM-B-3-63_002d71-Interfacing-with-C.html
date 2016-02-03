@@ -1,0 +1,131 @@
+<html lang="en">
+<head>
+<title>RM B 3 63-71 Interfacing with C - GNAT Reference Manual</title>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+<meta name="description" content="GNAT Reference Manual">
+<meta name="generator" content="makeinfo 4.13">
+<link title="Top" rel="start" href="index.html#Top">
+<link rel="up" href="Implementation-Advice.html#Implementation-Advice" title="Implementation Advice">
+<link rel="prev" href="RM-B-2-12_002d13-Package-Interfaces.html#RM-B-2-12_002d13-Package-Interfaces" title="RM B 2 12-13 Package Interfaces">
+<link rel="next" href="RM-B-4-95_002d98-Interfacing-with-COBOL.html#RM-B-4-95_002d98-Interfacing-with-COBOL" title="RM B 4 95-98 Interfacing with COBOL">
+<link href="http://www.gnu.org/software/texinfo/" rel="generator-home" title="Texinfo Homepage">
+<!--
+
+     GNAT Reference Manual , March 24, 2015
+
+     AdaCore
+
+     Copyright (C) 2008-2015, Free Software Foundation
+-->
+<meta http-equiv="Content-Style-Type" content="text/css">
+<style type="text/css"><!--
+  pre.display { font-family:inherit }
+  pre.format  { font-family:inherit }
+  pre.smalldisplay { font-family:inherit; font-size:smaller }
+  pre.smallformat  { font-family:inherit; font-size:smaller }
+  pre.smallexample { font-size:smaller }
+  pre.smalllisp    { font-size:smaller }
+  span.sc    { font-variant:small-caps }
+  span.roman { font-family:serif; font-weight:normal; } 
+  span.sansserif { font-family:sans-serif; font-weight:normal; } 
+--></style>
+</head>
+<body>
+<div class="node">
+<a name="RM-B-3-63-71-Interfacing-with-C"></a>
+<a name="RM-B-3-63_002d71-Interfacing-with-C"></a>
+<p>
+Next:&nbsp;<a rel="next" accesskey="n" href="RM-B-4-95_002d98-Interfacing-with-COBOL.html#RM-B-4-95_002d98-Interfacing-with-COBOL">RM B 4 95-98 Interfacing with COBOL</a>,
+Previous:&nbsp;<a rel="previous" accesskey="p" href="RM-B-2-12_002d13-Package-Interfaces.html#RM-B-2-12_002d13-Package-Interfaces">RM B 2 12-13 Package Interfaces</a>,
+Up:&nbsp;<a rel="up" accesskey="u" href="Implementation-Advice.html#Implementation-Advice">Implementation Advice</a>
+<hr>
+</div>
+
+<p><a name="gnat_005frm_002fimplementation_005fadvice-rm_002db_002d3_002d63_002d71_002dinterfacing_002dwith_002dc"></a><a name="g_t1e4"></a>
+
+<h3 class="section">6.40 RM B.3(63-71): Interfacing with C</h3>
+
+<blockquote>
+
+<p>"An implementation should support the following interface correspondences
+between Ada and C." 
+</blockquote>
+
+<p>Followed.
+
+<blockquote>
+
+<p>"An Ada procedure corresponds to a void-returning C function." 
+</blockquote>
+
+<p>Followed.
+
+<blockquote>
+
+<p>"An Ada function corresponds to a non-void C function." 
+</blockquote>
+
+<p>Followed.
+
+<blockquote>
+
+<p>"An Ada <cite>in</cite> scalar parameter is passed as a scalar argument to a C
+function." 
+</blockquote>
+
+<p>Followed.
+
+<blockquote>
+
+<p>"An Ada <cite>in</cite> parameter of an access-to-object type with designated
+type <cite>T</cite> is passed as a <code>t*</code> argument to a C function,
+where <code>t</code> is the C type corresponding to the Ada type <cite>T</cite>." 
+</blockquote>
+
+<p>Followed.
+
+<blockquote>
+
+<p>"An Ada access <cite>T</cite> parameter, or an Ada <cite>out</cite> or <cite>in out</cite>
+parameter of an elementary type <cite>T</cite>, is passed as a <code>t*</code>
+argument to a C function, where <code>t</code> is the C type corresponding to
+the Ada type <cite>T</cite>.  In the case of an elementary <cite>out</cite> or
+<cite>in out</cite> parameter, a pointer to a temporary copy is used to
+preserve by-copy semantics." 
+</blockquote>
+
+<p>Followed.
+
+<blockquote>
+
+<p>"An Ada parameter of a record type <cite>T</cite>, of any mode, is passed as a
+<code>t*</code> argument to a C function, where <code>t</code> is the C
+structure corresponding to the Ada type <cite>T</cite>." 
+</blockquote>
+
+<p>Followed.  This convention may be overridden by the use of the C_Pass_By_Copy
+pragma, or Convention, or by explicitly specifying the mechanism for a given
+call using an extended import or export pragma.
+
+<blockquote>
+
+<p>"An Ada parameter of an array type with component type <cite>T</cite>, of any
+mode, is passed as a <code>t*</code> argument to a C function, where
+<code>t</code> is the C type corresponding to the Ada type <cite>T</cite>." 
+</blockquote>
+
+<p>Followed.
+
+<blockquote>
+
+<p>"An Ada parameter of an access-to-subprogram type is passed as a pointer
+to a C function whose prototype corresponds to the designated
+subprogram's specification." 
+</blockquote>
+
+<p>Followed.
+
+<p><a name="index-COBOL-428"></a><a name="index-interfacing-with-429"></a>
+
+</body></html>
+

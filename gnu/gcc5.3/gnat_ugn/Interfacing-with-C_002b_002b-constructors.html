@@ -1,0 +1,216 @@
+<html lang="en">
+<head>
+<title>Interfacing with C++ constructors - GNAT User's Guide for Native Platforms</title>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+<meta name="description" content="GNAT User's Guide for Native Platforms">
+<meta name="generator" content="makeinfo 4.13">
+<link title="Top" rel="start" href="index.html#Top">
+<link rel="up" href="Building-Mixed-Ada-and-C_002b_002b-Programs.html#Building-Mixed-Ada-and-C_002b_002b-Programs" title="Building Mixed Ada and C++ Programs">
+<link rel="prev" href="A-Simple-Example.html#A-Simple-Example" title="A Simple Example">
+<link rel="next" href="Interfacing-with-C_002b_002b-at-the-Class-Level.html#Interfacing-with-C_002b_002b-at-the-Class-Level" title="Interfacing with C++ at the Class Level">
+<link href="http://www.gnu.org/software/texinfo/" rel="generator-home" title="Texinfo Homepage">
+<!--
+
+     GNAT User's Guide for Native Platforms , March 24, 2015
+
+     AdaCore
+
+     Copyright (C) 2008-2015, Free Software Foundation
+-->
+<meta http-equiv="Content-Style-Type" content="text/css">
+<style type="text/css"><!--
+  pre.display { font-family:inherit }
+  pre.format  { font-family:inherit }
+  pre.smalldisplay { font-family:inherit; font-size:smaller }
+  pre.smallformat  { font-family:inherit; font-size:smaller }
+  pre.smallexample { font-size:smaller }
+  pre.smalllisp    { font-size:smaller }
+  span.sc    { font-variant:small-caps }
+  span.roman { font-family:serif; font-weight:normal; } 
+  span.sansserif { font-family:sans-serif; font-weight:normal; } 
+--></style>
+</head>
+<body>
+<div class="node">
+<a name="Interfacing-with-C++-constructors"></a>
+<a name="Interfacing-with-C_002b_002b-constructors"></a>
+<p>
+Next:&nbsp;<a rel="next" accesskey="n" href="Interfacing-with-C_002b_002b-at-the-Class-Level.html#Interfacing-with-C_002b_002b-at-the-Class-Level">Interfacing with C++ at the Class Level</a>,
+Previous:&nbsp;<a rel="previous" accesskey="p" href="A-Simple-Example.html#A-Simple-Example">A Simple Example</a>,
+Up:&nbsp;<a rel="up" accesskey="u" href="Building-Mixed-Ada-and-C_002b_002b-Programs.html#Building-Mixed-Ada-and-C_002b_002b-Programs">Building Mixed Ada and C++ Programs</a>
+<hr>
+</div>
+
+<p><a name="gnat_005fugn_002fthe_005fgnat_005fcompilation_005fmodel-id68"></a><a name="c5"></a><a name="gnat_005fugn_002fthe_005fgnat_005fcompilation_005fmodel-interfacing_002dwith_002dc_002dconstructors"></a><a name="c6"></a>
+
+<h5 class="subsubsection">3.11.3.4 Interfacing with C++ constructors</h5>
+
+<p>In order to interface with C++ constructors GNAT provides the
+<cite>pragma CPP_Constructor</cite> (see the <cite>GNAT_Reference_Manual</cite>
+for additional information). 
+In this section we present some common uses of C++ constructors
+in mixed-languages programs in GNAT.
+
+<p>Let us assume that we need to interface with the following
+C++ class:
+
+<pre class="example">    class Root {
+    public:
+      int  a_value;
+      int  b_value;
+      virtual int Get_Value ();
+      Root();              // Default constructor
+      Root(int v);         // 1st non-default constructor
+      Root(int v, int w);  // 2nd non-default constructor
+    };
+</pre>
+<p>For this purpose we can write the following package spec (further
+information on how to build this spec is available in
+<a href="c7.html#c7">Interfacing with C++ at the Class Level</a> and
+<a href="1b.html#g_t1b">Generating Ada Bindings for C and C++ headers</a>).
+
+<pre class="example">    with Interfaces.C; use Interfaces.C;
+    package Pkg_Root is
+      type Root is tagged limited record
+         A_Value : int;
+         B_Value : int;
+      end record;
+      pragma Import (CPP, Root);
+    
+      function Get_Value (Obj : Root) return int;
+      pragma Import (CPP, Get_Value);
+    
+      function Constructor return Root;
+      pragma Cpp_Constructor (Constructor, "_ZN4RootC1Ev");
+    
+      function Constructor (v : Integer) return Root;
+      pragma Cpp_Constructor (Constructor, "_ZN4RootC1Ei");
+    
+      function Constructor (v, w : Integer) return Root;
+      pragma Cpp_Constructor (Constructor, "_ZN4RootC1Eii");
+    end Pkg_Root;
+</pre>
+<p>On the Ada side the constructor is represented by a function (whose
+name is arbitrary) that returns the classwide type corresponding to
+the imported C++ class. Although the constructor is described as a
+function, it is typically a procedure with an extra implicit argument
+(the object being initialized) at the implementation level. GNAT
+issues the appropriate call, whatever it is, to get the object
+properly initialized.
+
+<p>Constructors can only appear in the following contexts:
+
+     <ul>
+<li>On the right side of an initialization of an object of type <cite>T</cite>.
+
+     <li>On the right side of an initialization of a record component of type <cite>T</cite>.
+
+     <li>In an Ada 2005 limited aggregate.
+
+     <li>In an Ada 2005 nested limited aggregate.
+
+     <li>In an Ada 2005 limited aggregate that initializes an object built in
+place by an extended return statement. 
+</ul>
+
+<p>In a declaration of an object whose type is a class imported from C++,
+either the default C++ constructor is implicitly called by GNAT, or
+else the required C++ constructor must be explicitly called in the
+expression that initializes the object. For example:
+
+<pre class="example">    Obj1 : Root;
+    Obj2 : Root := Constructor;
+    Obj3 : Root := Constructor (v =&gt; 10);
+    Obj4 : Root := Constructor (30, 40);
+</pre>
+<p>The first two declarations are equivalent: in both cases the default C++
+constructor is invoked (in the former case the call to the constructor is
+implicit, and in the latter case the call is explicit in the object
+declaration). <cite>Obj3</cite> is initialized by the C++ non-default constructor
+that takes an integer argument, and <cite>Obj4</cite> is initialized by the
+non-default C++ constructor that takes two integers.
+
+<p>Let us derive the imported C++ class in the Ada side. For example:
+
+<pre class="example">    type DT is new Root with record
+       C_Value : Natural := 2009;
+    end record;
+</pre>
+<p>In this case the components DT inherited from the C++ side must be
+initialized by a C++ constructor, and the additional Ada components
+of type DT are initialized by GNAT. The initialization of such an
+object is done either by default, or by means of a function returning
+an aggregate of type DT, or by means of an extension aggregate.
+
+<pre class="example">    Obj5 : DT;
+    Obj6 : DT := Function_Returning_DT (50);
+    Obj7 : DT := (Constructor (30,40) with C_Value =&gt; 50);
+</pre>
+<p>The declaration of <cite>Obj5</cite> invokes the default constructors: the
+C++ default constructor of the parent type takes care of the initialization
+of the components inherited from Root, and GNAT takes care of the default
+initialization of the additional Ada components of type DT (that is,
+<cite>C_Value</cite> is initialized to value 2009). The order of invocation of
+the constructors is consistent with the order of elaboration required by
+Ada and C++. That is, the constructor of the parent type is always called
+before the constructor of the derived type.
+
+<p>Let us now consider a record that has components whose type is imported
+from C++. For example:
+
+<pre class="example">    type Rec1 is limited record
+       Data1 : Root := Constructor (10);
+       Value : Natural := 1000;
+    end record;
+    
+    type Rec2 (D : Integer := 20) is limited record
+       Rec   : Rec1;
+       Data2 : Root := Constructor (D, 30);
+    end record;
+</pre>
+<p>The initialization of an object of type <cite>Rec2</cite> will call the
+non-default C++ constructors specified for the imported components. 
+For example:
+
+<pre class="example">    Obj8 : Rec2 (40);
+</pre>
+<p>Using Ada 2005 we can use limited aggregates to initialize an object
+invoking C++ constructors that differ from those specified in the type
+declarations. For example:
+
+<pre class="example">    Obj9 : Rec2 := (Rec =&gt; (Data1 =&gt; Constructor (15, 16),
+                            others =&gt; &lt;&gt;),
+                    others =&gt; &lt;&gt;);
+</pre>
+<p>The above declaration uses an Ada 2005 limited aggregate to
+initialize <cite>Obj9</cite>, and the C++ constructor that has two integer
+arguments is invoked to initialize the <cite>Data1</cite> component instead
+of the constructor specified in the declaration of type <cite>Rec1</cite>. In
+Ada 2005 the box in the aggregate indicates that unspecified components
+are initialized using the expression (if any) available in the component
+declaration. That is, in this case discriminant <cite>D</cite> is initialized
+to value <cite>20</cite>, <cite>Value</cite> is initialized to value 1000, and the
+non-default C++ constructor that handles two integers takes care of
+initializing component <cite>Data2</cite> with values <cite>20,30</cite>.
+
+<p>In Ada 2005 we can use the extended return statement to build the Ada
+equivalent to C++ non-default constructors. For example:
+
+<pre class="example">    function Constructor (V : Integer) return Rec2 is
+    begin
+       return Obj : Rec2 := (Rec =&gt; (Data1  =&gt; Constructor (V, 20),
+                                     others =&gt; &lt;&gt;),
+                             others =&gt; &lt;&gt;) do
+          --  Further actions required for construction of
+          --  objects of type Rec2
+          ...
+       end record;
+    end Constructor;
+</pre>
+<p>In this example the extended return statement construct is used to
+build in place the returned object whose components are initialized
+by means of a limited aggregate. Any further action associated with
+the constructor can be placed inside the construct.
+
+</body></html>
+

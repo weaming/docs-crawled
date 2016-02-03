@@ -1,0 +1,158 @@
+<html lang="en">
+<head>
+<title>Background - GNAT User's Guide for Native Platforms</title>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+<meta name="description" content="GNAT User's Guide for Native Platforms">
+<meta name="generator" content="makeinfo 4.13">
+<link title="Top" rel="start" href="index.html#Top">
+<link rel="up" href="Overflow-Check-Handling-in-GNAT.html#Overflow-Check-Handling-in-GNAT" title="Overflow Check Handling in GNAT">
+<link rel="next" href="Overflow-Checking-Modes-in-GNAT.html#Overflow-Checking-Modes-in-GNAT" title="Overflow Checking Modes in GNAT">
+<link href="http://www.gnu.org/software/texinfo/" rel="generator-home" title="Texinfo Homepage">
+<!--
+
+     GNAT User's Guide for Native Platforms , March 24, 2015
+
+     AdaCore
+
+     Copyright (C) 2008-2015, Free Software Foundation
+-->
+<meta http-equiv="Content-Style-Type" content="text/css">
+<style type="text/css"><!--
+  pre.display { font-family:inherit }
+  pre.format  { font-family:inherit }
+  pre.smalldisplay { font-family:inherit; font-size:smaller }
+  pre.smallformat  { font-family:inherit; font-size:smaller }
+  pre.smallexample { font-size:smaller }
+  pre.smalllisp    { font-size:smaller }
+  span.sc    { font-variant:small-caps }
+  span.roman { font-family:serif; font-weight:normal; } 
+  span.sansserif { font-family:sans-serif; font-weight:normal; } 
+--></style>
+</head>
+<body>
+<div class="node">
+<a name="Background"></a>
+<p>
+Next:&nbsp;<a rel="next" accesskey="n" href="Overflow-Checking-Modes-in-GNAT.html#Overflow-Checking-Modes-in-GNAT">Overflow Checking Modes in GNAT</a>,
+Up:&nbsp;<a rel="up" accesskey="u" href="Overflow-Check-Handling-in-GNAT.html#Overflow-Check-Handling-in-GNAT">Overflow Check Handling in GNAT</a>
+<hr>
+</div>
+
+<p><a name="gnat_005fugn_002fgnat_005fand_005fprogram_005fexecution-id55"></a><a name="g_t248"></a><a name="gnat_005fugn_002fgnat_005fand_005fprogram_005fexecution-background"></a><a name="g_t249"></a>
+
+<h4 class="subsection">8.4.1 Background</h4>
+
+<p>Overflow checks are checks that the compiler may make to ensure
+that intermediate results are not out of range. For example:
+
+<blockquote>
+
+<pre class="example">    A : Integer;
+    ...
+    A := A + 1;
+</pre>
+</blockquote>
+
+<p>If <cite>A</cite> has the value <cite>Integer'Last</cite>, then the addition may cause
+overflow since the result is out of range of the type <cite>Integer</cite>. 
+In this case <cite>Constraint_Error</cite> will be raised if checks are
+enabled.
+
+<p>A trickier situation arises in examples like the following:
+
+<blockquote>
+
+<pre class="example">    A, C : Integer;
+    ...
+    A := (A + 1) + C;
+</pre>
+</blockquote>
+
+<p>where <cite>A</cite> is <cite>Integer'Last</cite> and <cite>C</cite> is <cite>-1</cite>. 
+Now the final result of the expression on the right hand side is
+<cite>Integer'Last</cite> which is in range, but the question arises whether the
+intermediate addition of <cite>(A + 1)</cite> raises an overflow error.
+
+<p>The (perhaps surprising) answer is that the Ada language
+definition does not answer this question. Instead it leaves
+it up to the implementation to do one of two things if overflow
+checks are enabled.
+
+     <ul>
+<li>raise an exception (<cite>Constraint_Error</cite>), or
+
+     <li>yield the correct mathematical result which is then used in
+subsequent operations. 
+</ul>
+
+<p>If the compiler chooses the first approach, then the assignment of this
+example will indeed raise <cite>Constraint_Error</cite> if overflow checking is
+enabled, or result in erroneous execution if overflow checks are suppressed.
+
+<p>But if the compiler
+chooses the second approach, then it can perform both additions yielding
+the correct mathematical result, which is in range, so no exception
+will be raised, and the right result is obtained, regardless of whether
+overflow checks are suppressed.
+
+<p>Note that in the first example an
+exception will be raised in either case, since if the compiler
+gives the correct mathematical result for the addition, it will
+be out of range of the target type of the assignment, and thus
+fails the range check.
+
+<p>This lack of specified behavior in the handling of overflow for
+intermediate results is a source of non-portability, and can thus
+be problematic when programs are ported. Most typically this arises
+in a situation where the original compiler did not raise an exception,
+and then the application is moved to a compiler where the check is
+performed on the intermediate result and an unexpected exception is
+raised.
+
+<p>Furthermore, when using Ada 2012's preconditions and other
+assertion forms, another issue arises. Consider:
+
+<blockquote>
+
+<pre class="example">    procedure P (A, B : Integer) with
+      Pre =&gt; A + B &lt;= Integer'Last;
+</pre>
+</blockquote>
+
+<p>One often wants to regard arithmetic in a context like this from
+a mathematical point of view. So for example, if the two actual parameters
+for a call to <cite>P</cite> are both <cite>Integer'Last</cite>, then
+the precondition should be regarded as False. If we are executing
+in a mode with run-time checks enabled for preconditions, then we would
+like this precondition to fail, rather than raising an exception
+because of the intermediate overflow.
+
+<p>However, the language definition leaves the specification of
+whether the above condition fails (raising <cite>Assert_Error</cite>) or
+causes an intermediate overflow (raising <cite>Constraint_Error</cite>)
+up to the implementation.
+
+<p>The situation is worse in a case such as the following:
+
+<blockquote>
+
+<pre class="example">    procedure Q (A, B, C : Integer) with
+      Pre =&gt; A + B + C &lt;= Integer'Last;
+</pre>
+</blockquote>
+
+<p>Consider the call
+
+<blockquote>
+
+<pre class="example">    Q (A =&gt; Integer'Last, B =&gt; 1, C =&gt; -1);
+</pre>
+</blockquote>
+
+<p>From a mathematical point of view the precondition
+is True, but at run time we may (but are not guaranteed to) get an
+exception raised because of the intermediate overflow (and we really
+would prefer this precondition to be considered True at run time).
+
+</body></html>
+

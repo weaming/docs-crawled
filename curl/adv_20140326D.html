@@ -1,0 +1,99 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
+<HTML>
+<HEAD> <TITLE>cURL - libcurl not verifying certs for TLS to IP address / Winssl</TITLE>
+<meta content="text/html; charset=UTF-8" http-equiv="Content-Type">
+<link rel="stylesheet" type="text/css" href="http://curl.haxx.se/curl.css">
+<link rel="shortcut icon" href="http://curl.haxx.se/favicon.ico">
+<link rel="STYLESHEET" type="text/css" href="http://curl.haxx.se/manpage.css">
+</HEAD>
+<body bgcolor="#ffffff" text="#000000">
+<div class="main">
+<div class="menu">
+<a href="index.html" class="menuitem" title="Documentation main page">Docs Overview</a>
+</div>
+<div class="contents">
+<div class="where"><a href="http://curl.haxx.se/">cURL</a> / <a href="index.html">Docs</a> / <a href="security.html">Security</a> / <b>libcurl not verifying certs for TLS to IP address / Winssl</b></div>
+<h1> libcurl not verifying certs for TLS to IP address / Winssl </h1>
+<div class="relatedbox">
+<b>Related:</b>
+<br><a href="http://curl.haxx.se/changes.html">Changelog</a>
+<br><a href="faq.html">FAQ</a>
+<br><a href="http://curl.haxx.se/dev/security.html">Security dev process</a>
+<br><a href="vulnerabilities.html">Vulnerabilities Table</a>
+</div>
+<pre>
+          libcurl not verifying certs for TLS to IP address / Winssl
+          ==========================================================
+&nbsp;
+Project cURL Security Advisory, March 26th 2014
+<a href="security.html">http://curl.haxx.se/docs/security.html</a>
+&nbsp;
+1. VULNERABILITY
+&nbsp;
+  When asked to do a TLS connection (HTTPS, FTPS, IMAPS, etc) to a URL
+  specified with an IP address instead of a name, libcurl would wrongly not
+  verify the server's name in the certificate. The signature (whether it was
+  signed by a trusted CA) and validity (whether the date was within the
+  certificate's lifetime and it was not revoked) verifications were still
+  performed.
+&nbsp;
+  This is a problem in libcurl built to use the SChannel/Winssl TLS backend.
+  SChannel/Winssl is the native library provided by Microsoft Windows.
+&nbsp;
+  Only users on Windows can be affected by this. And only if libcurl was built
+  to use the native TLS backend library.
+&nbsp;
+  The Common Vulnerabilities and Exposures (CVE) project has assigned the name
+  CVE-2014-2522 to this issue.
+&nbsp;
+2. AFFECTED VERSIONS
+&nbsp;
+  This flaw has existed ever since libcurl started to support the
+  SChannel/Winssl backend.
+&nbsp;
+  Affected versions: from libcurl 7.27.0 to and including 7.35.0
+  Not affected versions: libcurl &gt;= 7.36.0
+&nbsp;
+  libcurl is used by many applications, but not always advertised as such!
+&nbsp;
+3. THE SOLUTION
+&nbsp;
+  libcurl 7.36.0 makes sure that all TLS using requests verify the host name
+  even if specified as an IP address in the URL.
+&nbsp;
+  A patch for this problem is available at:
+&nbsp;
+    <a href="https://github.com/bagder/curl/commit/63fc8ee7be2b71">https://github.com/bagder/curl/commit/63fc8ee7be2b71</a>
+&nbsp;
+  The fix was committed to the public source code repository because the full
+  security impact wasn't properly realized until after the fact.
+&nbsp;
+4. RECOMMENDATIONS
+&nbsp;
+  We suggest you take one of the following actions immediately, in order of
+  preference:
+&nbsp;
+  A - Upgrade to curl and libcurl 7.36.0
+&nbsp;
+  B - Apply the patch and rebuild libcurl
+&nbsp;
+  C - Rebuild libcurl to use another TLS backend
+&nbsp;
+5. TIME LINE
+&nbsp;
+  It was discovered by the curl project during late February 2014.
+&nbsp;
+  libcurl 7.36.0 was released on March 26th 2014, coordinated with the
+  publication of this advisory.
+&nbsp;
+6. CREDITS
+&nbsp;
+  David Ryskalczyk made us aware of this flaw and wrote the patch.
+&nbsp;
+  Marc Hoersken helped coordinate the bug fix.
+&nbsp;
+  Thanks a lot!
+</pre>
+</div>
+</div>
+</body> </html>

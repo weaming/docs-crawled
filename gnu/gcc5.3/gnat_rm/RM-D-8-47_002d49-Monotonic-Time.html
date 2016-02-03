@@ -1,0 +1,78 @@
+<html lang="en">
+<head>
+<title>RM D 8 47-49 Monotonic Time - GNAT Reference Manual</title>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+<meta name="description" content="GNAT Reference Manual">
+<meta name="generator" content="makeinfo 4.13">
+<link title="Top" rel="start" href="index.html#Top">
+<link rel="up" href="Implementation-Advice.html#Implementation-Advice" title="Implementation Advice">
+<link rel="prev" href="RM-D-7-21-Tasking-Restrictions.html#RM-D-7-21-Tasking-Restrictions" title="RM D 7 21 Tasking Restrictions">
+<link rel="next" href="RM-E-5-28_002d29-Partition-Communication-Subsystem.html#RM-E-5-28_002d29-Partition-Communication-Subsystem" title="RM E 5 28-29 Partition Communication Subsystem">
+<link href="http://www.gnu.org/software/texinfo/" rel="generator-home" title="Texinfo Homepage">
+<!--
+
+     GNAT Reference Manual , March 24, 2015
+
+     AdaCore
+
+     Copyright (C) 2008-2015, Free Software Foundation
+-->
+<meta http-equiv="Content-Style-Type" content="text/css">
+<style type="text/css"><!--
+  pre.display { font-family:inherit }
+  pre.format  { font-family:inherit }
+  pre.smalldisplay { font-family:inherit; font-size:smaller }
+  pre.smallformat  { font-family:inherit; font-size:smaller }
+  pre.smallexample { font-size:smaller }
+  pre.smalllisp    { font-size:smaller }
+  span.sc    { font-variant:small-caps }
+  span.roman { font-family:serif; font-weight:normal; } 
+  span.sansserif { font-family:sans-serif; font-weight:normal; } 
+--></style>
+</head>
+<body>
+<div class="node">
+<a name="RM-D-8-47-49-Monotonic-Time"></a>
+<a name="RM-D-8-47_002d49-Monotonic-Time"></a>
+<p>
+Next:&nbsp;<a rel="next" accesskey="n" href="RM-E-5-28_002d29-Partition-Communication-Subsystem.html#RM-E-5-28_002d29-Partition-Communication-Subsystem">RM E 5 28-29 Partition Communication Subsystem</a>,
+Previous:&nbsp;<a rel="previous" accesskey="p" href="RM-D-7-21-Tasking-Restrictions.html#RM-D-7-21-Tasking-Restrictions">RM D 7 21 Tasking Restrictions</a>,
+Up:&nbsp;<a rel="up" accesskey="u" href="Implementation-Advice.html#Implementation-Advice">Implementation Advice</a>
+<hr>
+</div>
+
+<p><a name="gnat_005frm_002fimplementation_005fadvice-rm_002dd_002d8_002d47_002d49_002dmonotonic_002dtime"></a><a name="g_t1f3"></a>
+
+<h3 class="section">6.55 RM D.8(47-49): Monotonic Time</h3>
+
+<blockquote>
+
+<p>"When appropriate, implementations should provide configuration
+mechanisms to change the value of <cite>Tick</cite>." 
+</blockquote>
+
+<p>Such configuration mechanisms are not appropriate to this implementation
+and are thus not supported.
+
+<blockquote>
+
+<p>"It is recommended that <cite>Calendar.Clock</cite> and <cite>Real_Time.Clock</cite>
+be implemented as transformations of the same time base." 
+</blockquote>
+
+<p>Followed.
+
+<blockquote>
+
+<p>"It is recommended that the best time base which exists in
+the underlying system be available to the application through
+<cite>Clock</cite>.  <cite>Best</cite> may mean highest accuracy or largest range." 
+</blockquote>
+
+<p>Followed.
+
+<p><a name="index-Partition-communication-subsystem-446"></a>
+<a name="index-PCS-447"></a>
+
+</body></html>
+

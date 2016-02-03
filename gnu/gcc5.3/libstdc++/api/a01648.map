@@ -1,0 +1,4 @@
+<map id="__gnu_debug::_Safe_sequence&lt; _Sequence &gt;" name="__gnu_debug::_Safe_sequence&lt; _Sequence &gt;">
+<area shape="rect" id="node3" href="$a00071.html" title="Like _Safe_sequence but with a special _M_invalidate_all implementation not invalidating past&#45;the&#45;end..." alt="" coords="5,179,207,217"/>
+<area shape="rect" id="node2" href="$a00073.html" title="Base class that supports tracking of iterators that reference a sequence. " alt="" coords="37,5,175,44"/>
+</map>

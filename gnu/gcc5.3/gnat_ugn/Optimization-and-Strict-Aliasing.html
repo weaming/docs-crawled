@@ -1,0 +1,275 @@
+<html lang="en">
+<head>
+<title>Optimization and Strict Aliasing - GNAT User's Guide for Native Platforms</title>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+<meta name="description" content="GNAT User's Guide for Native Platforms">
+<meta name="generator" content="makeinfo 4.13">
+<link title="Top" rel="start" href="index.html#Top">
+<link rel="up" href="Performance-Considerations.html#Performance-Considerations" title="Performance Considerations">
+<link rel="prev" href="Other-Optimization-Switches.html#Other-Optimization-Switches" title="Other Optimization Switches">
+<link rel="next" href="Aliased-Variables-and-Optimization.html#Aliased-Variables-and-Optimization" title="Aliased Variables and Optimization">
+<link href="http://www.gnu.org/software/texinfo/" rel="generator-home" title="Texinfo Homepage">
+<!--
+
+     GNAT User's Guide for Native Platforms , March 24, 2015
+
+     AdaCore
+
+     Copyright (C) 2008-2015, Free Software Foundation
+-->
+<meta http-equiv="Content-Style-Type" content="text/css">
+<style type="text/css"><!--
+  pre.display { font-family:inherit }
+  pre.format  { font-family:inherit }
+  pre.smalldisplay { font-family:inherit; font-size:smaller }
+  pre.smallformat  { font-family:inherit; font-size:smaller }
+  pre.smallexample { font-size:smaller }
+  pre.smalllisp    { font-size:smaller }
+  span.sc    { font-variant:small-caps }
+  span.roman { font-family:serif; font-weight:normal; } 
+  span.sansserif { font-family:sans-serif; font-weight:normal; } 
+--></style>
+</head>
+<body>
+<div class="node">
+<a name="Optimization-and-Strict-Aliasing"></a>
+<p>
+Next:&nbsp;<a rel="next" accesskey="n" href="Aliased-Variables-and-Optimization.html#Aliased-Variables-and-Optimization">Aliased Variables and Optimization</a>,
+Previous:&nbsp;<a rel="previous" accesskey="p" href="Other-Optimization-Switches.html#Other-Optimization-Switches">Other Optimization Switches</a>,
+Up:&nbsp;<a rel="up" accesskey="u" href="Performance-Considerations.html#Performance-Considerations">Performance Considerations</a>
+<hr>
+</div>
+
+<p><a name="gnat_005fugn_002fgnat_005fand_005fprogram_005fexecution-optimization_002dand_002dstrict_002daliasing"></a><a name="f8"></a><a name="gnat_005fugn_002fgnat_005fand_005fprogram_005fexecution-id38"></a><a name="g_t237"></a>
+
+<h5 class="subsubsection">8.3.1.9 Optimization and Strict Aliasing</h5>
+
+<p><a name="index-Aliasing-1013"></a>
+<a name="index-Strict-Aliasing-1014"></a>
+<a name="index-No_005fStrict_005fAliasing-1015"></a>
+The strong typing capabilities of Ada allow an optimizer to generate
+efficient code in situations where other languages would be forced to
+make worst case assumptions preventing such optimizations. Consider
+the following example:
+
+<blockquote>
+
+<pre class="example">    procedure R is
+       type Int1 is new Integer;
+       type Int2 is new Integer;
+       type Int1A is access Int1;
+       type Int2A is access Int2;
+       Int1V : Int1A;
+       Int2V : Int2A;
+       ...
+    
+    begin
+       ...
+       for J in Data'Range loop
+          if Data (J) = Int1V.all then
+             Int2V.all := Int2V.all + 1;
+          end if;
+       end loop;
+       ...
+    end R;
+</pre>
+</blockquote>
+
+<p>In this example, since the variable <cite>Int1V</cite> can only access objects
+of type <cite>Int1</cite>, and <cite>Int2V</cite> can only access objects of type
+<cite>Int2</cite>, there is no possibility that the assignment to
+<cite>Int2V.all</cite> affects the value of <cite>Int1V.all</cite>. This means that
+the compiler optimizer can "know" that the value <cite>Int1V.all</cite> is constant
+for all iterations of the loop and avoid the extra memory reference
+required to dereference it each time through the loop.
+
+<p>This kind of optimization, called strict aliasing analysis, is
+triggered by specifying an optimization level of `-O2' or
+higher or `-Os' and allows <cite>GNAT</cite> to generate more efficient code
+when access values are involved.
+
+<p>However, although this optimization is always correct in terms of
+the formal semantics of the Ada Reference Manual, difficulties can
+arise if features like <cite>Unchecked_Conversion</cite> are used to break
+the typing system. Consider the following complete program example:
+
+<blockquote>
+
+<pre class="example">    package p1 is
+       type int1 is new integer;
+       type int2 is new integer;
+       type a1 is access int1;
+       type a2 is access int2;
+    end p1;
+    
+    with p1; use p1;
+    package p2 is
+       function to_a2 (Input : a1) return a2;
+    end p2;
+    
+    with Unchecked_Conversion;
+    package body p2 is
+       function to_a2 (Input : a1) return a2 is
+          function to_a2u is
+            new Unchecked_Conversion (a1, a2);
+       begin
+          return to_a2u (Input);
+       end to_a2;
+    end p2;
+    
+    with p2; use p2;
+    with p1; use p1;
+    with Text_IO; use Text_IO;
+    procedure m is
+       v1 : a1 := new int1;
+       v2 : a2 := to_a2 (v1);
+    begin
+       v1.all := 1;
+       v2.all := 0;
+       put_line (int1'image (v1.all));
+    end;
+</pre>
+</blockquote>
+
+<p>This program prints out 0 in `-O0' or `-O1'
+mode, but it prints out 1 in `-O2' mode. That's
+because in strict aliasing mode, the compiler can and
+does assume that the assignment to <cite>v2.all</cite> could not
+affect the value of <cite>v1.all</cite>, since different types
+are involved.
+
+<p>This behavior is not a case of non-conformance with the standard, since
+the Ada RM specifies that an unchecked conversion where the resulting
+bit pattern is not a correct value of the target type can result in an
+abnormal value and attempting to reference an abnormal value makes the
+execution of a program erroneous.  That's the case here since the result
+does not point to an object of type <cite>int2</cite>.  This means that the
+effect is entirely unpredictable.
+
+<p>However, although that explanation may satisfy a language
+lawyer, in practice an applications programmer expects an
+unchecked conversion involving pointers to create true
+aliases and the behavior of printing 1 seems plain wrong. 
+In this case, the strict aliasing optimization is unwelcome.
+
+<p>Indeed the compiler recognizes this possibility, and the
+unchecked conversion generates a warning:
+
+<blockquote>
+
+<pre class="example">    p2.adb:5:07: warning: possible aliasing problem with type "a2"
+    p2.adb:5:07: warning: use -fno-strict-aliasing switch for references
+    p2.adb:5:07: warning:  or use "pragma No_Strict_Aliasing (a2);"
+</pre>
+</blockquote>
+
+<p>Unfortunately the problem is recognized when compiling the body of
+package <cite>p2</cite>, but the actual "bad" code is generated while
+compiling the body of <cite>m</cite> and this latter compilation does not see
+the suspicious <cite>Unchecked_Conversion</cite>.
+
+<p>As implied by the warning message, there are approaches you can use to
+avoid the unwanted strict aliasing optimization in a case like this.
+
+<p>One possibility is to simply avoid the use of `-O2', but
+that is a bit drastic, since it throws away a number of useful
+optimizations that do not involve strict aliasing assumptions.
+
+<p>A less drastic approach is to compile the program using the
+option `-fno-strict-aliasing'. Actually it is only the
+unit containing the dereferencing of the suspicious pointer
+that needs to be compiled. So in this case, if we compile
+unit <cite>m</cite> with this switch, then we get the expected
+value of zero printed. Analyzing which units might need
+the switch can be painful, so a more reasonable approach
+is to compile the entire program with options `-O2'
+and `-fno-strict-aliasing'. If the performance is
+satisfactory with this combination of options, then the
+advantage is that the entire issue of possible "wrong"
+optimization due to strict aliasing is avoided.
+
+<p>To avoid the use of compiler switches, the configuration
+pragma <cite>No_Strict_Aliasing</cite> with no parameters may be
+used to specify that for all access types, the strict
+aliasing optimization should be suppressed.
+
+<p>However, these approaches are still overkill, in that they causes
+all manipulations of all access values to be deoptimized. A more
+refined approach is to concentrate attention on the specific
+access type identified as problematic.
+
+<p>First, if a careful analysis of uses of the pointer shows
+that there are no possible problematic references, then
+the warning can be suppressed by bracketing the
+instantiation of <cite>Unchecked_Conversion</cite> to turn
+the warning off:
+
+<blockquote>
+
+<pre class="example">    pragma Warnings (Off);
+    function to_a2u is
+      new Unchecked_Conversion (a1, a2);
+    pragma Warnings (On);
+</pre>
+</blockquote>
+
+<p>Of course that approach is not appropriate for this particular
+example, since indeed there is a problematic reference. In this
+case we can take one of two other approaches.
+
+<p>The first possibility is to move the instantiation of unchecked
+conversion to the unit in which the type is declared. In
+this example, we would move the instantiation of
+<cite>Unchecked_Conversion</cite> from the body of package
+<cite>p2</cite> to the spec of package <cite>p1</cite>. Now the
+warning disappears. That's because any use of the
+access type knows there is a suspicious unchecked
+conversion, and the strict aliasing optimization
+is automatically suppressed for the type.
+
+<p>If it is not practical to move the unchecked conversion to the same unit
+in which the destination access type is declared (perhaps because the
+source type is not visible in that unit), you may use pragma
+<cite>No_Strict_Aliasing</cite> for the type. This pragma must occur in the
+same declarative sequence as the declaration of the access type:
+
+<blockquote>
+
+<pre class="example">    type a2 is access int2;
+    pragma No_Strict_Aliasing (a2);
+</pre>
+</blockquote>
+
+<p>Here again, the compiler now knows that the strict aliasing optimization
+should be suppressed for any reference to type <cite>a2</cite> and the
+expected behavior is obtained.
+
+<p>Finally, note that although the compiler can generate warnings for
+simple cases of unchecked conversions, there are tricker and more
+indirect ways of creating type incorrect aliases which the compiler
+cannot detect. Examples are the use of address overlays and unchecked
+conversions involving composite types containing access types as
+components. In such cases, no warnings are generated, but there can
+still be aliasing problems. One safe coding practice is to forbid the
+use of address clauses for type overlaying, and to allow unchecked
+conversion only for primitive types. This is not really a significant
+restriction since any possible desired effect can be achieved by
+unchecked conversion of access values.
+
+<p>The aliasing analysis done in strict aliasing mode can certainly
+have significant benefits. We have seen cases of large scale
+application code where the time is increased by up to 5% by turning
+this optimization off. If you have code that includes significant
+usage of unchecked conversion, you might want to just stick with
+`-O1' and avoid the entire issue. If you get adequate
+performance at this level of optimization level, that's probably
+the safest approach. If tests show that you really need higher
+levels of optimization, then you can experiment with `-O2'
+and `-O2 -fno-strict-aliasing' to see how much effect this
+has on size and speed of the code. If you really need to use
+`-O2' with strict aliasing in effect, then you should
+review any uses of unchecked conversion of access types,
+particularly if you are getting the warnings described above.
+
+</body></html>
+

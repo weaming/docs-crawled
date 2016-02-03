@@ -1,0 +1,80 @@
+<html lang="en">
+<head>
+<title>Use of Boolean Constants - GNAT User's Guide for Native Platforms</title>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+<meta name="description" content="GNAT User's Guide for Native Platforms">
+<meta name="generator" content="makeinfo 4.13">
+<link title="Top" rel="start" href="index.html#Top">
+<link rel="up" href="Modeling-Conditional-Compilation-in-Ada.html#Modeling-Conditional-Compilation-in-Ada" title="Modeling Conditional Compilation in Ada">
+<link rel="next" href="Debugging-_002d-A-Special-Case.html#Debugging-_002d-A-Special-Case" title="Debugging - A Special Case">
+<link href="http://www.gnu.org/software/texinfo/" rel="generator-home" title="Texinfo Homepage">
+<!--
+
+     GNAT User's Guide for Native Platforms , March 24, 2015
+
+     AdaCore
+
+     Copyright (C) 2008-2015, Free Software Foundation
+-->
+<meta http-equiv="Content-Style-Type" content="text/css">
+<style type="text/css"><!--
+  pre.display { font-family:inherit }
+  pre.format  { font-family:inherit }
+  pre.smalldisplay { font-family:inherit; font-size:smaller }
+  pre.smallformat  { font-family:inherit; font-size:smaller }
+  pre.smallexample { font-size:smaller }
+  pre.smalllisp    { font-size:smaller }
+  span.sc    { font-variant:small-caps }
+  span.roman { font-family:serif; font-weight:normal; } 
+  span.sansserif { font-family:sans-serif; font-weight:normal; } 
+--></style>
+</head>
+<body>
+<div class="node">
+<a name="Use-of-Boolean-Constants"></a>
+<p>
+Next:&nbsp;<a rel="next" accesskey="n" href="Debugging-_002d-A-Special-Case.html#Debugging-_002d-A-Special-Case">Debugging - A Special Case</a>,
+Up:&nbsp;<a rel="up" accesskey="u" href="Modeling-Conditional-Compilation-in-Ada.html#Modeling-Conditional-Compilation-in-Ada">Modeling Conditional Compilation in Ada</a>
+<hr>
+</div>
+
+<p><a name="gnat_005fugn_002fthe_005fgnat_005fcompilation_005fmodel-id49"></a><a name="a1"></a><a name="gnat_005fugn_002fthe_005fgnat_005fcompilation_005fmodel-use_002dof_002dboolean_002dconstants"></a><a name="a2"></a>
+
+<h5 class="subsubsection">3.10.1.1 Use of Boolean Constants</h5>
+
+<p>In the case where the difference is simply which code
+sequence is executed, the cleanest solution is to use Boolean
+constants to control which code is executed.
+
+<pre class="example">    FP_Initialize_Required : constant Boolean := True;
+    ...
+    if FP_Initialize_Required then
+    ...
+    end if;
+</pre>
+<p>Not only will the code inside the <cite>if</cite> statement not be executed if
+the constant Boolean is <cite>False</cite>, but it will also be completely
+deleted from the program. 
+However, the code is only deleted after the <cite>if</cite> statement
+has been checked for syntactic and semantic correctness. 
+(In contrast, with preprocessors the code is deleted before the
+compiler ever gets to see it, so it is not checked until the switch
+is turned on.)
+
+<p><a name="index-Preprocessors-_0028contrasted-with-conditional-compilation_0029-96"></a>
+Typically the Boolean constants will be in a separate package,
+something like:
+
+<pre class="example">    package Config is
+       FP_Initialize_Required : constant Boolean := True;
+       Reset_Available        : constant Boolean := False;
+       ...
+    end Config;
+</pre>
+<p>The <cite>Config</cite> package exists in multiple forms for the various targets,
+with an appropriate script selecting the version of <cite>Config</cite> needed. 
+Then any other unit requiring conditional compilation can do a `with'
+of <cite>Config</cite> to make the constants visible.
+
+</body></html>
+

@@ -1,0 +1,78 @@
+<html lang="en">
+<head>
+<title>Windows Calling Conventions - GNAT User's Guide for Native Platforms</title>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+<meta name="description" content="GNAT User's Guide for Native Platforms">
+<meta name="generator" content="makeinfo 4.13">
+<link title="Top" rel="start" href="index.html#Top">
+<link rel="up" href="Mixed_002dLanguage-Programming-on-Windows.html#Mixed_002dLanguage-Programming-on-Windows" title="Mixed-Language Programming on Windows">
+<link rel="next" href="Introduction-to-Dynamic-Link-Libraries-DLLs.html#Introduction-to-Dynamic-Link-Libraries-DLLs" title="Introduction to Dynamic Link Libraries DLLs">
+<link href="http://www.gnu.org/software/texinfo/" rel="generator-home" title="Texinfo Homepage">
+<!--
+
+     GNAT User's Guide for Native Platforms , March 24, 2015
+
+     AdaCore
+
+     Copyright (C) 2008-2015, Free Software Foundation
+-->
+<meta http-equiv="Content-Style-Type" content="text/css">
+<style type="text/css"><!--
+  pre.display { font-family:inherit }
+  pre.format  { font-family:inherit }
+  pre.smalldisplay { font-family:inherit; font-size:smaller }
+  pre.smallformat  { font-family:inherit; font-size:smaller }
+  pre.smallexample { font-size:smaller }
+  pre.smalllisp    { font-size:smaller }
+  span.sc    { font-variant:small-caps }
+  span.roman { font-family:serif; font-weight:normal; } 
+  span.sansserif { font-family:sans-serif; font-weight:normal; } 
+--></style>
+</head>
+<body>
+<div class="node">
+<a name="Windows-Calling-Conventions"></a>
+<p>
+Next:&nbsp;<a rel="next" accesskey="n" href="Introduction-to-Dynamic-Link-Libraries-DLLs.html#Introduction-to-Dynamic-Link-Libraries-DLLs">Introduction to Dynamic Link Libraries DLLs</a>,
+Up:&nbsp;<a rel="up" accesskey="u" href="Mixed_002dLanguage-Programming-on-Windows.html#Mixed_002dLanguage-Programming-on-Windows">Mixed-Language Programming on Windows</a>
+<hr>
+</div>
+
+<p><a name="gnat_005fugn_002fplatform_005fspecific_005finformation-windows_002dcalling_002dconventions"></a><a name="g_t274"></a><a name="gnat_005fugn_002fplatform_005fspecific_005finformation-id15"></a><a name="g_t275"></a>
+
+<h5 class="subsubsection">9.3.5.1 Windows Calling Conventions</h5>
+
+<p><a name="index-Stdcall-1086"></a>
+<a name="index-APIENTRY-1087"></a>
+This section pertain only to Win32. On Win64 there is a single native
+calling convention. All convention specifiers are ignored on this
+platform.
+
+<p>When a subprogram <cite>F</cite> (caller) calls a subprogram <cite>G</cite>
+(callee), there are several ways to push <cite>G</cite>'s parameters on the
+stack and there are several possible scenarios to clean up the stack
+upon <cite>G</cite>'s return. A calling convention is an agreed upon software
+protocol whereby the responsibilities between the caller (<cite>F</cite>) and
+the callee (<cite>G</cite>) are clearly defined. Several calling conventions
+are available for Windows:
+
+     <ul>
+<li><cite>C</cite> (Microsoft defined)
+
+     <li><cite>Stdcall</cite> (Microsoft defined)
+
+     <li><cite>Win32</cite> (GNAT specific)
+
+     <li><cite>DLL</cite> (GNAT specific)
+</ul>
+
+<ul class="menu">
+<li><a accesskey="1" href="C-Calling-Convention.html#C-Calling-Convention">C Calling Convention</a>
+<li><a accesskey="2" href="Stdcall-Calling-Convention.html#Stdcall-Calling-Convention">Stdcall Calling Convention</a>
+<li><a accesskey="3" href="Win32-Calling-Convention.html#Win32-Calling-Convention">Win32 Calling Convention</a>
+<li><a accesskey="4" href="DLL-Calling-Convention.html#DLL-Calling-Convention">DLL Calling Convention</a>
+
+</ul>
+
+</body></html>
+

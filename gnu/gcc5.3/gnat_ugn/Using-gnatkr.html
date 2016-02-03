@@ -1,0 +1,78 @@
+<html lang="en">
+<head>
+<title>Using gnatkr - GNAT User's Guide for Native Platforms</title>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+<meta name="description" content="GNAT User's Guide for Native Platforms">
+<meta name="generator" content="makeinfo 4.13">
+<link title="Top" rel="start" href="index.html#Top">
+<link rel="up" href="File-Name-Krunching-with-gnatkr.html#File-Name-Krunching-with-gnatkr" title="File Name Krunching with gnatkr">
+<link rel="prev" href="About-gnatkr.html#About-gnatkr" title="About gnatkr">
+<link rel="next" href="Krunching-Method.html#Krunching-Method" title="Krunching Method">
+<link href="http://www.gnu.org/software/texinfo/" rel="generator-home" title="Texinfo Homepage">
+<!--
+
+     GNAT User's Guide for Native Platforms , March 24, 2015
+
+     AdaCore
+
+     Copyright (C) 2008-2015, Free Software Foundation
+-->
+<meta http-equiv="Content-Style-Type" content="text/css">
+<style type="text/css"><!--
+  pre.display { font-family:inherit }
+  pre.format  { font-family:inherit }
+  pre.smalldisplay { font-family:inherit; font-size:smaller }
+  pre.smallformat  { font-family:inherit; font-size:smaller }
+  pre.smallexample { font-size:smaller }
+  pre.smalllisp    { font-size:smaller }
+  span.sc    { font-variant:small-caps }
+  span.roman { font-family:serif; font-weight:normal; } 
+  span.sansserif { font-family:sans-serif; font-weight:normal; } 
+--></style>
+</head>
+<body>
+<div class="node">
+<a name="Using-gnatkr"></a>
+<p>
+Next:&nbsp;<a rel="next" accesskey="n" href="Krunching-Method.html#Krunching-Method">Krunching Method</a>,
+Previous:&nbsp;<a rel="previous" accesskey="p" href="About-gnatkr.html#About-gnatkr">About gnatkr</a>,
+Up:&nbsp;<a rel="up" accesskey="u" href="File-Name-Krunching-with-gnatkr.html#File-Name-Krunching-with-gnatkr">File Name Krunching with gnatkr</a>
+<hr>
+</div>
+
+<p><a name="gnat_005fugn_002fthe_005fgnat_005fcompilation_005fmodel-id19"></a><a name="g_t69"></a><a name="gnat_005fugn_002fthe_005fgnat_005fcompilation_005fmodel-using_002dgnatkr"></a><a name="g_t56"></a>
+
+<h5 class="subsubsection">3.3.5.2 Using <cite>gnatkr</cite></h5>
+
+<p>The <cite>gnatkr</cite> command has the form:
+
+<pre class="example">    $ gnatkr `name` [`length`]
+</pre>
+<p><cite>name</cite> is the uncrunched file name, derived from the name of the unit
+in the standard manner described in the previous section (i.e., in particular
+all dots are replaced by hyphens). The file name may or may not have an
+extension (defined as a suffix of the form period followed by arbitrary
+characters other than period). If an extension is present then it will
+be preserved in the output. For example, when krunching <code>hellofile.ads</code>
+to eight characters, the result will be hellofil.ads.
+
+<p>Note: for compatibility with previous versions of <cite>gnatkr</cite> dots may
+appear in the name instead of hyphens, but the last dot will always be
+taken as the start of an extension. So if <cite>gnatkr</cite> is given an argument
+such as <code>Hello.World.adb</code> it will be treated exactly as if the first
+period had been a hyphen, and for example krunching to eight characters
+gives the result <code>hellworl.adb</code>.
+
+<p>Note that the result is always all lower case. 
+Characters of the other case are folded as required.
+
+<p><cite>length</cite> represents the length of the krunched name. The default
+when no argument is given is 8 characters. A length of zero stands for
+unlimited, in other words do not chop except for system files where the
+implied crunching length is always eight characters.
+
+<p>The output is the krunched name. The output has an extension only if the
+original argument was a file name with an extension.
+
+</body></html>
+

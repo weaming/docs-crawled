@@ -1,0 +1,296 @@
+<html lang="en">
+<head>
+<title>Output and Error Message Control - GNAT User's Guide for Native Platforms</title>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+<meta name="description" content="GNAT User's Guide for Native Platforms">
+<meta name="generator" content="makeinfo 4.13">
+<link title="Top" rel="start" href="index.html#Top">
+<link rel="up" href="Compiler-Switches.html#Compiler-Switches" title="Compiler Switches">
+<link rel="prev" href="Alphabetical-List-of-All-Switches.html#Alphabetical-List-of-All-Switches" title="Alphabetical List of All Switches">
+<link rel="next" href="Warning-Message-Control.html#Warning-Message-Control" title="Warning Message Control">
+<link href="http://www.gnu.org/software/texinfo/" rel="generator-home" title="Texinfo Homepage">
+<!--
+
+     GNAT User's Guide for Native Platforms , March 24, 2015
+
+     AdaCore
+
+     Copyright (C) 2008-2015, Free Software Foundation
+-->
+<meta http-equiv="Content-Style-Type" content="text/css">
+<style type="text/css"><!--
+  pre.display { font-family:inherit }
+  pre.format  { font-family:inherit }
+  pre.smalldisplay { font-family:inherit; font-size:smaller }
+  pre.smallformat  { font-family:inherit; font-size:smaller }
+  pre.smallexample { font-size:smaller }
+  pre.smalllisp    { font-size:smaller }
+  span.sc    { font-variant:small-caps }
+  span.roman { font-family:serif; font-weight:normal; } 
+  span.sansserif { font-family:sans-serif; font-weight:normal; } 
+--></style>
+</head>
+<body>
+<div class="node">
+<a name="Output-and-Error-Message-Control"></a>
+<p>
+Next:&nbsp;<a rel="next" accesskey="n" href="Warning-Message-Control.html#Warning-Message-Control">Warning Message Control</a>,
+Previous:&nbsp;<a rel="previous" accesskey="p" href="Alphabetical-List-of-All-Switches.html#Alphabetical-List-of-All-Switches">Alphabetical List of All Switches</a>,
+Up:&nbsp;<a rel="up" accesskey="u" href="Compiler-Switches.html#Compiler-Switches">Compiler Switches</a>
+<hr>
+</div>
+
+<p><a name="gnat_005fugn_002fbuilding_005fexecutable_005fprograms_005fwith_005fgnat-id14"></a><a name="g_t102"></a><a name="gnat_005fugn_002fbuilding_005fexecutable_005fprograms_005fwith_005fgnat-output_002dand_002derror_002dmessage_002dcontrol"></a><a name="g_t103"></a>
+
+<h4 class="subsection">4.3.2 Output and Error Message Control</h4>
+
+<p><a name="index-stderr-358"></a>
+The standard default format for error messages is called 'brief format'. 
+Brief format messages are written to <code>stderr</code> (the standard error
+file) and have the following form:
+
+<pre class="example">    e.adb:3:04: Incorrect spelling of keyword "function"
+    e.adb:4:20: ";" should be "is"
+</pre>
+<p>The first integer after the file name is the line number in the file,
+and the second integer is the column number within the line. 
+<cite>GPS</cite> can parse the error messages
+and point to the referenced character. 
+The following switches provide control over the error message
+format:
+
+<p><a name="index-g_t_002dgnatv-_0028gcc_0029-359"></a>
+
+     <dl>
+<dt><code>-gnatv</code><dd>
+The <cite>v</cite> stands for verbose. 
+The effect of this setting is to write long-format error
+messages to <code>stdout</code> (the standard output file. 
+The same program compiled with the
+`-gnatv' switch would generate:
+
+     <pre class="example">         3. funcion X (Q : Integer)
+            |
+         &gt;&gt;&gt; Incorrect spelling of keyword "function"
+         4. return Integer;
+                          |
+         &gt;&gt;&gt; ";" should be "is"
+</pre>
+     <p>The vertical bar indicates the location of the error, and the <code>&gt;&gt;&gt;</code>
+prefix can be used to search for error messages. When this switch is
+used the only source lines output are those with errors. 
+</dl>
+
+<p><a name="index-g_t_002dgnatl-_0028gcc_0029-360"></a>
+
+     <dl>
+<dt><code>-gnatl</code><dd>
+The <cite>l</cite> stands for list. 
+This switch causes a full listing of
+the file to be generated. In the case where a body is
+compiled, the corresponding spec is also listed, along
+with any subunits. Typical output from compiling a package
+body <code>p.adb</code> might look like:
+
+     <pre class="example">         Compiling: p.adb
+         
+              1. package body p is
+              2.    procedure a;
+              3.    procedure a is separate;
+              4. begin
+              5.    null
+                        |
+                 &gt;&gt;&gt; missing ";"
+         
+              6. end;
+         
+         Compiling: p.ads
+         
+              1. package p is
+              2.    pragma Elaborate_Body
+                                         |
+                 &gt;&gt;&gt; missing ";"
+         
+              3. end p;
+         
+         Compiling: p-a.adb
+         
+              1. separate p
+                         |
+                 &gt;&gt;&gt; missing "("
+         
+              2. procedure a is
+              3. begin
+              4.    null
+                        |
+                 &gt;&gt;&gt; missing ";"
+         
+              5. end;
+</pre>
+     <p>When you specify the `-gnatv' or `-gnatl' switches and
+standard output is redirected, a brief summary is written to
+<code>stderr</code> (standard error) giving the number of error messages and
+warning messages generated. 
+</dl>
+
+<p><a name="index-g_t_002dgnatl_003dfname-_0028gcc_0029-361"></a>
+
+     <dl>
+<dt><code>-gnatl=`fname'</code><dd>
+This has the same effect as `-gnatl' except that the output is
+written to a file instead of to standard output. If the given name
+<code>fname</code> does not start with a period, then it is the full name
+of the file to be written. If <code>fname</code> is an extension, it is
+appended to the name of the file being compiled. For example, if
+file <code>xyz.adb</code> is compiled with `-gnatl=.lst',
+then the output is written to file xyz.adb.lst. 
+</dl>
+
+<p><a name="index-g_t_002dgnatU-_0028gcc_0029-362"></a>
+
+     <dl>
+<dt><code>-gnatU</code><dd>
+This switch forces all error messages to be preceded by the unique
+string 'error:'. This means that error messages take a few more
+characters in space, but allows easy searching for and identification
+of error messages. 
+</dl>
+
+<p><a name="index-g_t_002dgnatb-_0028gcc_0029-363"></a>
+
+     <dl>
+<dt><code>-gnatb</code><dd>
+The <cite>b</cite> stands for brief. 
+This switch causes GNAT to generate the
+brief format error messages to <code>stderr</code> (the standard error
+file) as well as the verbose
+format message or full listing (which as usual is written to
+<code>stdout</code> (the standard output file). 
+</dl>
+
+<p><a name="index-g_t_002dgnatm-_0028gcc_0029-364"></a>
+
+     <dl>
+<dt><code>-gnatm=`n'</code><dd>
+The <cite>m</cite> stands for maximum. 
+<cite>n</cite> is a decimal integer in the
+range of 1 to 999999 and limits the number of error or warning
+messages to be generated. For example, using
+`-gnatm2' might yield
+
+     <pre class="example">         e.adb:3:04: Incorrect spelling of keyword "function"
+         e.adb:5:35: missing ".."
+         fatal error: maximum number of errors detected
+         compilation abandoned
+</pre>
+     <p>The default setting if
+no switch is given is 9999. If the number of warnings reaches this
+limit, then a message is output and further warnings are suppressed,
+but the compilation is continued. If the number of error messages
+reaches this limit, then a message is output and the compilation
+is abandoned. A value of zero means that no limit applies.
+
+     <p>Note that the equal sign is optional, so the switches
+`-gnatm2' and `-gnatm=2' are equivalent. 
+</dl>
+
+<p><a name="index-g_t_002dgnatf-_0028gcc_0029-365"></a>
+
+     <dl>
+<dt><code>-gnatf</code><dd>
+<a name="index-Error-messages-366"></a><a name="index-suppressing-367"></a>
+The <cite>f</cite> stands for full. 
+Normally, the compiler suppresses error messages that are likely to be
+redundant. This switch causes all error
+messages to be generated. In particular, in the case of
+references to undefined variables. If a given variable is referenced
+several times, the normal format of messages is
+
+     <pre class="example">         e.adb:7:07: "V" is undefined (more references follow)
+</pre>
+     <p>where the parenthetical comment warns that there are additional
+references to the variable <cite>V</cite>. Compiling the same program with the
+`-gnatf' switch yields
+
+     <pre class="example">         e.adb:7:07: "V" is undefined
+         e.adb:8:07: "V" is undefined
+         e.adb:8:12: "V" is undefined
+         e.adb:8:16: "V" is undefined
+         e.adb:9:07: "V" is undefined
+         e.adb:9:12: "V" is undefined
+</pre>
+     <p>The `-gnatf' switch also generates additional information for
+some error messages.  Some examples are:
+
+          <ul>
+<li>Details on possibly non-portable unchecked conversion
+
+          <li>List possible interpretations for ambiguous calls
+
+          <li>Additional details on incorrect parameters
+</ul>
+     </dl>
+
+<p><a name="index-g_t_002dgnatjnn-_0028gcc_0029-368"></a>
+
+     <dl>
+<dt><code>-gnatjnn</code><dd>
+In normal operation mode (or if `-gnatj0' is used), then error messages
+with continuation lines are treated as though the continuation lines were
+separate messages (and so a warning with two continuation lines counts as
+three warnings, and is listed as three separate messages).
+
+     <p>If the `-gnatjnn' switch is used with a positive value for nn, then
+messages are output in a different manner. A message and all its continuation
+lines are treated as a unit, and count as only one warning or message in the
+statistics totals. Furthermore, the message is reformatted so that no line
+is longer than nn characters. 
+</dl>
+
+<p><a name="index-g_t_002dgnatq-_0028gcc_0029-369"></a>
+
+     <dl>
+<dt><code>-gnatq</code><dd>
+The <cite>q</cite> stands for quit (really 'don't quit'). 
+In normal operation mode, the compiler first parses the program and
+determines if there are any syntax errors. If there are, appropriate
+error messages are generated and compilation is immediately terminated. 
+This switch tells
+GNAT to continue with semantic analysis even if syntax errors have been
+found. This may enable the detection of more errors in a single run. On
+the other hand, the semantic analyzer is more likely to encounter some
+internal fatal error when given a syntactically invalid tree. 
+</dl>
+
+<p><a name="index-g_t_002dgnatQ-_0028gcc_0029-370"></a>
+
+     <dl>
+<dt><code>-gnatQ</code><dd>
+In normal operation mode, the <code>ALI</code> file is not generated if any
+illegalities are detected in the program. The use of `-gnatQ' forces
+generation of the <code>ALI</code> file. This file is marked as being in
+error, so it cannot be used for binding purposes, but it does contain
+reasonably complete cross-reference information, and thus may be useful
+for use by tools (e.g., semantic browsing tools or integrated development
+environments) that are driven from the <code>ALI</code> file. This switch
+implies `-gnatq', since the semantic phase must be run to get a
+meaningful ALI file.
+
+     <p>In addition, if `-gnatt' is also specified, then the tree file is
+generated even if there are illegalities. It may be useful in this case
+to also specify `-gnatq' to ensure that full semantic processing
+occurs. The resulting tree file can be processed by ASIS, for the purpose
+of providing partial information about illegal units, but if the error
+causes the tree to be badly malformed, then ASIS may crash during the
+analysis.
+
+     <p>When `-gnatQ' is used and the generated <code>ALI</code> file is marked as
+being in error, `gnatmake' will attempt to recompile the source when it
+finds such an <code>ALI</code> file, including with switch `-gnatc'.
+
+     <p>Note that `-gnatQ' has no effect if `-gnats' is specified,
+since ALI files are never generated if `-gnats' is set. 
+</dl>
+
+</body></html>
+

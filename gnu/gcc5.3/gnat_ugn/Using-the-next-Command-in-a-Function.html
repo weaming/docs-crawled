@@ -1,0 +1,66 @@
+<html lang="en">
+<head>
+<title>Using the next Command in a Function - GNAT User's Guide for Native Platforms</title>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+<meta name="description" content="GNAT User's Guide for Native Platforms">
+<meta name="generator" content="makeinfo 4.13">
+<link title="Top" rel="start" href="index.html#Top">
+<link rel="up" href="Running-and-Debugging-Ada-Programs.html#Running-and-Debugging-Ada-Programs" title="Running and Debugging Ada Programs">
+<link rel="prev" href="Calling-User_002dDefined-Subprograms.html#Calling-User_002dDefined-Subprograms" title="Calling User-Defined Subprograms">
+<link rel="next" href="Stopping-When-Ada-Exceptions-Are-Raised.html#Stopping-When-Ada-Exceptions-Are-Raised" title="Stopping When Ada Exceptions Are Raised">
+<link href="http://www.gnu.org/software/texinfo/" rel="generator-home" title="Texinfo Homepage">
+<!--
+
+     GNAT User's Guide for Native Platforms , March 24, 2015
+
+     AdaCore
+
+     Copyright (C) 2008-2015, Free Software Foundation
+-->
+<meta http-equiv="Content-Style-Type" content="text/css">
+<style type="text/css"><!--
+  pre.display { font-family:inherit }
+  pre.format  { font-family:inherit }
+  pre.smalldisplay { font-family:inherit; font-size:smaller }
+  pre.smallformat  { font-family:inherit; font-size:smaller }
+  pre.smallexample { font-size:smaller }
+  pre.smalllisp    { font-size:smaller }
+  span.sc    { font-variant:small-caps }
+  span.roman { font-family:serif; font-weight:normal; } 
+  span.sansserif { font-family:sans-serif; font-weight:normal; } 
+--></style>
+</head>
+<body>
+<div class="node">
+<a name="Using-the-next-Command-in-a-Function"></a>
+<p>
+Next:&nbsp;<a rel="next" accesskey="n" href="Stopping-When-Ada-Exceptions-Are-Raised.html#Stopping-When-Ada-Exceptions-Are-Raised">Stopping When Ada Exceptions Are Raised</a>,
+Previous:&nbsp;<a rel="previous" accesskey="p" href="Calling-User_002dDefined-Subprograms.html#Calling-User_002dDefined-Subprograms">Calling User-Defined Subprograms</a>,
+Up:&nbsp;<a rel="up" accesskey="u" href="Running-and-Debugging-Ada-Programs.html#Running-and-Debugging-Ada-Programs">Running and Debugging Ada Programs</a>
+<hr>
+</div>
+
+<p><a name="gnat_005fugn_002fgnat_005fand_005fprogram_005fexecution-using_002dthe_002dnext_002dcommand_002din_002da_002dfunction"></a><a name="g_t201"></a><a name="gnat_005fugn_002fgnat_005fand_005fprogram_005fexecution-id8"></a><a name="g_t202"></a>
+
+<h4 class="subsection">8.1.6 Using the `next' Command in a Function</h4>
+
+<p>When you use the <cite>next</cite> command in a function, the current source
+location will advance to the next statement as usual. A special case
+arises in the case of a <cite>return</cite> statement.
+
+<p>Part of the code for a return statement is the 'epilogue' of the function. 
+This is the code that returns to the caller. There is only one copy of
+this epilogue code, and it is typically associated with the last return
+statement in the function if there is more than one return. In some
+implementations, this epilogue is associated with the first statement
+of the function.
+
+<p>The result is that if you use the <cite>next</cite> command from a return
+statement that is not the last return statement of the function you
+may see a strange apparent jump to the last return statement or to
+the start of the function. You should simply ignore this odd jump. 
+The value returned is always that from the first return statement
+that was stepped through.
+
+</body></html>
+

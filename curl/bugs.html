@@ -1,0 +1,135 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
+<HTML>
+<HEAD> <TITLE>cURL - Report Bugs</TITLE>
+<meta content="text/html; charset=UTF-8" http-equiv="Content-Type">
+<link rel="stylesheet" type="text/css" href="http://curl.haxx.se/curl.css">
+<link rel="shortcut icon" href="http://curl.haxx.se/favicon.ico">
+</HEAD>
+<body bgcolor="#ffffff" text="#000000">
+<div class="main">
+<div class="menu">
+<a href="index.html" class="menuitem" title="Documentation main page">Docs Overview</a>
+<a href="bugs.html" class="itemselect">Bug Report</a>
+<a href="http://curl.haxx.se/donation.html" class="menuitem" title="Donate to the cURL project">Donate</a>
+<a href="libs.html" class="menuitem" title="Libraries to use">Dependencies</a>
+<a href="features.html" class="menuitem" title="All features summed up">Features</a>
+<a href="history.html" class="menuitem" title="A project history overview">History</a>
+<a href="install.html" class="menuitem" title="Installing curl from source">Install</a>
+<a href="knownbugs.html" class="menuitem" title="Already known problems ">Known Bugs</a>
+<a href="todo.html" class="menuitem" title="Things we might do in the future">TODO</a>
+<a href="http://curl.haxx.se/about.html" class="menuitem" title="Infrastructure details">Web Site Info</a>
+</div>
+<div class="contents">
+<div class="where"><a href="http://curl.haxx.se/">cURL</a> / <a href="index.html">Docs</a> / <a href="projdocs.html">Project Documentation</a> / <b>Report Bugs</b></div>
+<h1> Report Bugs </h1>
+<div class="relatedbox">
+<b>Related:</b>
+<br><a href="manpage.html">curl man page</a>
+<br><a href="manual.html">Manual</a>
+<br><a href="knownbugs.html">Known bugs</a>
+</div>
+<h2>Bugs</h2>
+<p>
+<a href="bugs.html#There_are_still_bugs">1.1</a> There are still bugs<br>
+<a href="bugs.html#Where_to_report">1.2</a> Where to report<br>
+<a href="bugs.html#What_to_report">1.3</a> What to report<br>
+<a href="bugs.html#libcurl_problems">1.4</a> libcurl problems<br>
+<a href="bugs.html#Who_will_fix_the_problems">1.5</a> Who will fix the problems<br>
+<a href="bugs.html#How_to_get_a_stack_trace">1.6</a> How to get a stack trace<br>
+<a href="bugs.html#Bugs_in_libcurl_bindings">1.7</a> Bugs in libcurl bindings<br>
+<hr>
+ <a name="There_are_still_bugs"></a><h3>1.1 There are still bugs</h3>
+<p>  Curl and libcurl have grown substantially since the beginning. At the time
+   of writing (January 2013), there are about 83,000 lines of source code, and
+    by the time you read this it has probably grown even more.
+ <p>  Of course there are lots of bugs left. And lots of misfeatures.
+<p>  To help us make curl the stable and solid product we want it to be, we need
+   bug reports and bug fixes.
+ <a name="Where_to_report"></a><h3>1.2 Where to report</h3>
+<p>  If you can't fix a bug yourself and submit a fix for it, try to report an as
+   detailed report as possible to a curl mailing list to allow one of us to
+    have a go at a solution. You can optionally also post your bug/problem at
+    curl's bug tracking system over at
+ <pre>
+ <a href="https://github.com/bagder/curl/issues">https://github.com/bagder/curl/issues</a>
+</pre>
+<p>  Please read the rest of this document below first before doing that!
+<p>  If you feel you need to ask around first, find a suitable mailing list and
+   post there. The lists are available on <a href="http://curl.haxx.se/mail/">http://curl.haxx.se/mail/</a>
+ <a name="What_to_report"></a><h3>1.3 What to report</h3>
+<p>  When reporting a bug, you should include all information that will help us
+   understand what's wrong, what you expected to happen and how to repeat the
+    bad behavior. You therefore need to tell us:
+ <p>   - your operating system's name and version number
+<p>   - what version of curl you're using (curl -V is fine)
+<p>   - versions of the used libraries that libcurl is built to use
+<p>   - what URL you were working with (if possible), at least which protocol
+<p>  and anything and everything else you think matters. Tell us what you
+   expected to happen, tell use what did happen, tell us how you could make it
+    work another way. Dig around, try out, test. Then include all the tiny bits
+    and pieces in your report. You will benefit from this yourself, as it will
+    enable us to help you quicker and more accurately.
+ <p>  Since curl deals with networks, it often helps us if you include a protocol
+   debug dump with your bug report. The output you get by using the -v or
+    --trace options.
+ <p>  If curl crashed, causing a core dump (in unix), there is hardly any use to
+   send that huge file to anyone of us. Unless we have an exact same system
+    setup as you, we can't do much with it. Instead we ask you to get a stack
+    trace and send that (much smaller) output to us instead!
+ <p>  The address and how to subscribe to the mailing lists are detailed in the
+   MANUAL file.
+ <a name="libcurl_problems"></a><h3>1.4 libcurl problems</h3>
+<p>  First, post all libcurl problems on the curl-library mailing list.
+<p>  When you've written your own application with libcurl to perform transfers,
+   it is even more important to be specific and detailed when reporting bugs.
+ <p>  Tell us the libcurl version and your operating system. Tell us the name and
+   version of all relevant sub-components like for example the SSL library
+    you're using and what name resolving your libcurl uses. If you use SFTP or
+    SCP, the libssh2 version is relevant etc.
+ <p>  Showing us a real source code example repeating your problem is the best way
+   to get our attention and it will greatly increase our chances to understand
+    your problem and to work on a fix (if we agree it truly is a problem).
+ <p>  Lots of problems that appear to be libcurl problems are actually just abuses
+   of the libcurl API or other malfunctions in your applications. It is advised
+    that you run your problematic program using a memory debug tool like
+    valgrind or similar before you post memory-related or "crashing" problems to
+    us.
+ <a name="Who_will_fix_the_problems"></a><h3>1.5 Who will fix the problems</h3>
+<p>  If the problems or bugs you describe are considered to be bugs, we want to
+   have the problems fixed.
+ <p>  There are no developers in the curl project that are paid to work on bugs.
+   All developers that take on reported bugs do this on a voluntary basis. We
+    do it out of an ambition to keep curl and libcurl excellent products and out
+    of pride.
+ <p>  But please do not assume that you can just lump over something to us and it
+   will then magically be fixed after some given time. Most often we need
+    feedback and help to understand what you've experienced and how to repeat a
+    problem. Then we may only be able to assist YOU to debug the problem and to
+    track down the proper fix.
+ <p>  We get reports from many people every month and each report can take a
+   considerable amount of time to really go to the bottom with.
+ <a name="How_to_get_a_stack_trace"></a><h3>1.6 How to get a stack trace</h3>
+<p>  First, you must make sure that you compile all sources with -g and that you
+   don't 'strip' the final executable. Try to avoid optimizing the code as
+    well, remove -O, -O2 etc from the compiler options.
+ <p>  Run the program until it cores.
+<p>  Run your debugger on the core file, like '&lt;debugger&gt; curl core'. &lt;debugger&gt;
+   should be replaced with the name of your debugger, in most cases that will
+    be 'gdb', but 'dbx' and others also occur.
+ <p>  When the debugger has finished loading the core file and presents you a
+   prompt, enter 'where' (without the quotes) and press return.
+ <p>  The list that is presented is the stack trace. If everything worked, it is
+   supposed to contain the chain of functions that were called when curl
+    crashed. Include the stack trace with your detailed bug report. It'll help a
+    lot.
+ <a name="Bugs_in_libcurl_bindings"></a><h3>1.7 Bugs in libcurl bindings</h3>
+<p>  There will of course pop up bugs in libcurl bindings. You should then
+   primarily approach the team that works on that particular binding and see
+    what you can do to help them fix the problem.
+ <p>  If you suspect that the problem exists in the underlying libcurl, then
+   please convert your program over to plain C and follow the steps outlined
+    above.
+</div>
+</div>
+</BODY>
+</HTML>

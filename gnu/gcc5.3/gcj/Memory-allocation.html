@@ -1,0 +1,81 @@
+<html lang="en">
+<head>
+<title>Memory allocation - Guide to GNU gcj</title>
+<meta http-equiv="Content-Type" content="text/html">
+<meta name="description" content="Guide to GNU gcj">
+<meta name="generator" content="makeinfo 4.13">
+<link title="Top" rel="start" href="index.html#Top">
+<link rel="up" href="About-CNI.html#About-CNI" title="About CNI">
+<link rel="prev" href="Object-allocation.html#Object-allocation" title="Object allocation">
+<link rel="next" href="Arrays.html#Arrays" title="Arrays">
+<link href="http://www.gnu.org/software/texinfo/" rel="generator-home" title="Texinfo Homepage">
+<!--
+Copyright (C) 2001-2015 Free Software Foundation, Inc.
+
+Permission is granted to copy, distribute and/or modify this document
+under the terms of the GNU Free Documentation License, Version 1.3 or
+any later version published by the Free Software Foundation; with no
+Invariant Sections, the Front-Cover Texts being (a) (see below), and
+with the Back-Cover Texts being (b) (see below).
+A copy of the license is included in the
+section entitled ``GNU Free Documentation License''.
+
+
+(a) The FSF's Front-Cover Text is:
+
+     A GNU Manual
+
+(b) The FSF's Back-Cover Text is:
+
+     You have freedom to copy and modify this GNU Manual, like GNU
+     software.  Copies published by the Free Software Foundation raise
+     funds for GNU development.
+-->
+<meta http-equiv="Content-Style-Type" content="text/css">
+<style type="text/css"><!--
+  pre.display { font-family:inherit }
+  pre.format  { font-family:inherit }
+  pre.smalldisplay { font-family:inherit; font-size:smaller }
+  pre.smallformat  { font-family:inherit; font-size:smaller }
+  pre.smallexample { font-size:smaller }
+  pre.smalllisp    { font-size:smaller }
+  span.sc    { font-variant:small-caps }
+  span.roman { font-family:serif; font-weight:normal; } 
+  span.sansserif { font-family:sans-serif; font-weight:normal; } 
+--></style>
+</head>
+<body>
+<div class="node">
+<a name="Memory-allocation"></a>
+<p>
+Next:&nbsp;<a rel="next" accesskey="n" href="Arrays.html#Arrays">Arrays</a>,
+Previous:&nbsp;<a rel="previous" accesskey="p" href="Object-allocation.html#Object-allocation">Object allocation</a>,
+Up:&nbsp;<a rel="up" accesskey="u" href="About-CNI.html#About-CNI">About CNI</a>
+<hr>
+</div>
+
+<h3 class="section">11.9 Memory allocation</h3>
+
+<p>When allocating memory in <acronym>CNI</acronym> methods it is best to handle
+out-of-memory conditions by throwing a Java exception.  These
+functions are provided for that purpose:
+
+<div class="defun">
+&mdash; Function: void* <b>JvMalloc</b> (<var>jsize size</var>)<var><a name="index-JvMalloc-10"></a></var><br>
+<blockquote><p>Calls malloc.  Throws <code>java.lang.OutOfMemoryError</code> if allocation
+fails. 
+</p></blockquote></div>
+
+<div class="defun">
+&mdash; Function: void* <b>JvRealloc</b> (<var>void* ptr, jsize size</var>)<var><a name="index-JvRealloc-11"></a></var><br>
+<blockquote><p>Calls realloc.  Throws <code>java.lang.OutOfMemoryError</code> if
+reallocation fails. 
+</p></blockquote></div>
+
+<div class="defun">
+&mdash; Function: void <b>JvFree</b> (<var>void* ptr</var>)<var><a name="index-JvFree-12"></a></var><br>
+<blockquote><p>Calls free. 
+</p></blockquote></div>
+
+   </body></html>
+

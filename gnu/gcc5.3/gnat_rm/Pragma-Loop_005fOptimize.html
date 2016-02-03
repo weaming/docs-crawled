@@ -1,0 +1,97 @@
+<html lang="en">
+<head>
+<title>Pragma Loop_Optimize - GNAT Reference Manual</title>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+<meta name="description" content="GNAT Reference Manual">
+<meta name="generator" content="makeinfo 4.13">
+<link title="Top" rel="start" href="index.html#Top">
+<link rel="up" href="Implementation-Defined-Pragmas.html#Implementation-Defined-Pragmas" title="Implementation Defined Pragmas">
+<link rel="prev" href="Pragma-Loop_005fInvariant.html#Pragma-Loop_005fInvariant" title="Pragma Loop_Invariant">
+<link rel="next" href="Pragma-Loop_005fVariant.html#Pragma-Loop_005fVariant" title="Pragma Loop_Variant">
+<link href="http://www.gnu.org/software/texinfo/" rel="generator-home" title="Texinfo Homepage">
+<!--
+
+     GNAT Reference Manual , March 24, 2015
+
+     AdaCore
+
+     Copyright (C) 2008-2015, Free Software Foundation
+-->
+<meta http-equiv="Content-Style-Type" content="text/css">
+<style type="text/css"><!--
+  pre.display { font-family:inherit }
+  pre.format  { font-family:inherit }
+  pre.smalldisplay { font-family:inherit; font-size:smaller }
+  pre.smallformat  { font-family:inherit; font-size:smaller }
+  pre.smallexample { font-size:smaller }
+  pre.smalllisp    { font-size:smaller }
+  span.sc    { font-variant:small-caps }
+  span.roman { font-family:serif; font-weight:normal; } 
+  span.sansserif { font-family:sans-serif; font-weight:normal; } 
+--></style>
+</head>
+<body>
+<div class="node">
+<a name="Pragma-Loop_Optimize"></a>
+<a name="Pragma-Loop_005fOptimize"></a>
+<p>
+Next:&nbsp;<a rel="next" accesskey="n" href="Pragma-Loop_005fVariant.html#Pragma-Loop_005fVariant">Pragma Loop_Variant</a>,
+Previous:&nbsp;<a rel="previous" accesskey="p" href="Pragma-Loop_005fInvariant.html#Pragma-Loop_005fInvariant">Pragma Loop_Invariant</a>,
+Up:&nbsp;<a rel="up" accesskey="u" href="Implementation-Defined-Pragmas.html#Implementation-Defined-Pragmas">Implementation Defined Pragmas</a>
+<hr>
+</div>
+
+<p><a name="gnat_005frm_002fimplementation_005fdefined_005fpragmas-pragma_002dloop_002doptimize"></a><a name="g_t7f"></a>
+
+<h3 class="section">2.100 Pragma Loop_Optimize</h3>
+
+<p>Syntax:
+
+<pre class="example">    pragma Loop_Optimize (OPTIMIZATION_HINT {, OPTIMIZATION_HINT});
+    
+    OPTIMIZATION_HINT ::= Ivdep | No_Unroll | Unroll | No_Vector | Vector
+</pre>
+<p>This pragma must appear immediately within a loop statement.  It allows the
+programmer to specify optimization hints for the enclosing loop.  The hints
+are not mutually exclusive and can be freely mixed, but not all combinations
+will yield a sensible outcome.
+
+<p>There are five supported optimization hints for a loop:
+
+     <ul>
+<li>Ivdep
+
+     <p>The programmer asserts that there are no loop-carried dependencies
+which would prevent consecutive iterations of the loop from being
+executed simultaneously.
+
+     <li>No_Unroll
+
+     <p>The loop must not be unrolled.  This is a strong hint: the compiler will not
+unroll a loop marked with this hint.
+
+     <li>Unroll
+
+     <p>The loop should be unrolled.  This is a weak hint: the compiler will try to
+apply unrolling to this loop preferably to other optimizations, notably
+vectorization, but there is no guarantee that the loop will be unrolled.
+
+     <li>No_Vector
+
+     <p>The loop must not be vectorized.  This is a strong hint: the compiler will not
+vectorize a loop marked with this hint.
+
+     <li>Vector
+
+     <p>The loop should be vectorized.  This is a weak hint: the compiler will try to
+apply vectorization to this loop preferably to other optimizations, notably
+unrolling, but there is no guarantee that the loop will be vectorized. 
+</ul>
+
+<p>These hints do not remove the need to pass the appropriate switches to the
+compiler in order to enable the relevant optimizations, that is to say
+`-funroll-loops' for unrolling and `-ftree-vectorize' for
+vectorization.
+
+</body></html>
+

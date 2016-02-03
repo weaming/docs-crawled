@@ -1,0 +1,96 @@
+<html lang="en">
+<head>
+<title>Building with gnatmake - GNAT User's Guide for Native Platforms</title>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+<meta name="description" content="GNAT User's Guide for Native Platforms">
+<meta name="generator" content="makeinfo 4.13">
+<link title="Top" rel="start" href="index.html#Top">
+<link rel="up" href="Building-Executable-Programs-with-GNAT.html#Building-Executable-Programs-with-GNAT" title="Building Executable Programs with GNAT">
+<link rel="next" href="Compiling-with-gcc.html#Compiling-with-gcc" title="Compiling with gcc">
+<link href="http://www.gnu.org/software/texinfo/" rel="generator-home" title="Texinfo Homepage">
+<!--
+
+     GNAT User's Guide for Native Platforms , March 24, 2015
+
+     AdaCore
+
+     Copyright (C) 2008-2015, Free Software Foundation
+-->
+<meta http-equiv="Content-Style-Type" content="text/css">
+<style type="text/css"><!--
+  pre.display { font-family:inherit }
+  pre.format  { font-family:inherit }
+  pre.smalldisplay { font-family:inherit; font-size:smaller }
+  pre.smallformat  { font-family:inherit; font-size:smaller }
+  pre.smallexample { font-size:smaller }
+  pre.smalllisp    { font-size:smaller }
+  span.sc    { font-variant:small-caps }
+  span.roman { font-family:serif; font-weight:normal; } 
+  span.sansserif { font-family:sans-serif; font-weight:normal; } 
+--></style>
+</head>
+<body>
+<div class="node">
+<a name="Building-with-gnatmake"></a>
+<p>
+Next:&nbsp;<a rel="next" accesskey="n" href="Compiling-with-gcc.html#Compiling-with-gcc">Compiling with gcc</a>,
+Up:&nbsp;<a rel="up" accesskey="u" href="Building-Executable-Programs-with-GNAT.html#Building-Executable-Programs-with-GNAT">Building Executable Programs with GNAT</a>
+<hr>
+</div>
+
+<p><a name="gnat_005fugn_002fbuilding_005fexecutable_005fprograms_005fwith_005fgnat-the_002dgnat_002dmake_002dprogram_002dgnatmake"></a><a name="g_t1d"></a><a name="gnat_005fugn_002fbuilding_005fexecutable_005fprograms_005fwith_005fgnat-building_002dwith_002dgnatmake"></a><a name="dc"></a>
+
+<h3 class="section">4.1 Building with `gnatmake'</h3>
+
+<p><a name="index-gnatmake-173"></a>
+A typical development cycle when working on an Ada program consists of
+the following steps:
+
+     <ol type=1 start=1>
+
+     <li>Edit some sources to fix bugs;
+
+     <li>Add enhancements;
+
+     <li>Compile all sources affected;
+
+     <li>Rebind and relink; and
+
+     <li>Test.
+     </ol>
+
+<p><a name="index-Dependency-rules-_0028compilation_0029-174"></a>
+The third step in particular can be tricky, because not only do the modified
+files have to be compiled, but any files depending on these files must also be
+recompiled. The dependency rules in Ada can be quite complex, especially
+in the presence of overloading, <cite>use</cite> clauses, generics and inlined
+subprograms.
+
+<p>`gnatmake' automatically takes care of the third and fourth steps
+of this process. It determines which sources need to be compiled,
+compiles them, and binds and links the resulting object files.
+
+<p>Unlike some other Ada make programs, the dependencies are always
+accurately recomputed from the new sources. The source based approach of
+the GNAT compilation model makes this possible. This means that if
+changes to the source program cause corresponding changes in
+dependencies, they will always be tracked exactly correctly by
+`gnatmake'.
+
+<p>Note that for advanced description of project structure, we recommend creating
+a project file as explained in <a href="b.html#b">GNAT Project Manager</a> and use the
+`gprbuild' tool which supports building with project files and works similarly
+to `gnatmake'.
+
+<ul class="menu">
+<li><a accesskey="1" href="Running-gnatmake.html#Running-gnatmake">Running gnatmake</a>
+<li><a accesskey="2" href="Switches-for-gnatmake.html#Switches-for-gnatmake">Switches for gnatmake</a>
+<li><a accesskey="3" href="Mode-Switches-for-gnatmake.html#Mode-Switches-for-gnatmake">Mode Switches for gnatmake</a>
+<li><a accesskey="4" href="Notes-on-the-Command-Line.html#Notes-on-the-Command-Line">Notes on the Command Line</a>
+<li><a accesskey="5" href="How-gnatmake-Works.html#How-gnatmake-Works">How gnatmake Works</a>
+<li><a accesskey="6" href="Examples-of-gnatmake-Usage.html#Examples-of-gnatmake-Usage">Examples of gnatmake Usage</a>
+
+</ul>
+
+</body></html>
+

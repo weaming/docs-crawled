@@ -1,0 +1,160 @@
+<html lang="en">
+<head>
+<title>A Simple Example - GNAT User's Guide for Native Platforms</title>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+<meta name="description" content="GNAT User's Guide for Native Platforms">
+<meta name="generator" content="makeinfo 4.13">
+<link title="Top" rel="start" href="index.html#Top">
+<link rel="up" href="Building-Mixed-Ada-and-C_002b_002b-Programs.html#Building-Mixed-Ada-and-C_002b_002b-Programs" title="Building Mixed Ada and C++ Programs">
+<link rel="prev" href="Linking-a-Mixed-C_002b_002b-_0026-Ada-Program.html#Linking-a-Mixed-C_002b_002b-_0026-Ada-Program" title="Linking a Mixed C++ &amp; Ada Program">
+<link rel="next" href="Interfacing-with-C_002b_002b-constructors.html#Interfacing-with-C_002b_002b-constructors" title="Interfacing with C++ constructors">
+<link href="http://www.gnu.org/software/texinfo/" rel="generator-home" title="Texinfo Homepage">
+<!--
+
+     GNAT User's Guide for Native Platforms , March 24, 2015
+
+     AdaCore
+
+     Copyright (C) 2008-2015, Free Software Foundation
+-->
+<meta http-equiv="Content-Style-Type" content="text/css">
+<style type="text/css"><!--
+  pre.display { font-family:inherit }
+  pre.format  { font-family:inherit }
+  pre.smalldisplay { font-family:inherit; font-size:smaller }
+  pre.smallformat  { font-family:inherit; font-size:smaller }
+  pre.smallexample { font-size:smaller }
+  pre.smalllisp    { font-size:smaller }
+  span.sc    { font-variant:small-caps }
+  span.roman { font-family:serif; font-weight:normal; } 
+  span.sansserif { font-family:sans-serif; font-weight:normal; } 
+--></style>
+</head>
+<body>
+<div class="node">
+<a name="A-Simple-Example"></a>
+<p>
+Next:&nbsp;<a rel="next" accesskey="n" href="Interfacing-with-C_002b_002b-constructors.html#Interfacing-with-C_002b_002b-constructors">Interfacing with C++ constructors</a>,
+Previous:&nbsp;<a rel="previous" accesskey="p" href="Linking-a-Mixed-C_002b_002b-_0026-Ada-Program.html#Linking-a-Mixed-C_002b_002b-_0026-Ada-Program">Linking a Mixed C++ &amp; Ada Program</a>,
+Up:&nbsp;<a rel="up" accesskey="u" href="Building-Mixed-Ada-and-C_002b_002b-Programs.html#Building-Mixed-Ada-and-C_002b_002b-Programs">Building Mixed Ada and C++ Programs</a>
+<hr>
+</div>
+
+<p><a name="gnat_005fugn_002fthe_005fgnat_005fcompilation_005fmodel-id67"></a><a name="c3"></a><a name="gnat_005fugn_002fthe_005fgnat_005fcompilation_005fmodel-a_002dsimple_002dexample"></a><a name="c4"></a>
+
+<h5 class="subsubsection">3.11.3.3 A Simple Example</h5>
+
+<p>The following example, provided as part of the GNAT examples, shows how
+to achieve procedural interfacing between Ada and C++ in both
+directions. The C++ class A has two methods. The first method is exported
+to Ada by the means of an extern C wrapper function. The second method
+calls an Ada subprogram. On the Ada side, The C++ calls are modelled by
+a limited record with a layout comparable to the C++ class. The Ada
+subprogram, in turn, calls the C++ method. So, starting from the C++
+main program, the process passes back and forth between the two
+languages.
+
+<p>Here are the compilation commands:
+
+<pre class="example">    $ gnatmake -c simple_cpp_interface
+    $ g++ -c cpp_main.C
+    $ g++ -c ex7.C
+    $ gnatbind -n simple_cpp_interface
+    $ gnatlink simple_cpp_interface -o cpp_main --LINK=g++ -lstdc++ ex7.o cpp_main.o
+</pre>
+<p>Here are the corresponding sources:
+
+<pre class="example">    //cpp_main.C
+    
+    #include "ex7.h"
+    
+    extern "C" {
+      void adainit (void);
+      void adafinal (void);
+      void method1 (A *t);
+    }
+    
+    void method1 (A *t)
+    {
+      t-&gt;method1 ();
+    }
+    
+    int main ()
+    {
+      A obj;
+      adainit ();
+      obj.method2 (3030);
+      adafinal ();
+    }
+</pre>
+<pre class="example">    //ex7.h
+    
+    class Origin {
+     public:
+      int o_value;
+    };
+    class A : public Origin {
+     public:
+      void method1 (void);
+      void method2 (int v);
+      A();
+      int   a_value;
+    };
+</pre>
+<pre class="example">    //ex7.C
+    
+    #include "ex7.h"
+    #include &lt;stdio.h&gt;
+    
+    extern "C" { void ada_method2 (A *t, int v);}
+    
+    void A::method1 (void)
+    {
+      a_value = 2020;
+      printf ("in A::method1, a_value = %d \\n",a_value);
+    }
+    
+    void A::method2 (int v)
+    {
+       ada_method2 (this, v);
+       printf ("in A::method2, a_value = %d \\n",a_value);
+    }
+    
+    A::A(void)
+    {
+       a_value = 1010;
+      printf ("in A::A, a_value = %d \\n",a_value);
+    }
+</pre>
+<pre class="example">    -- simple_cpp_interface.ads
+    with System;
+    package Simple_Cpp_Interface is
+       type A is limited
+          record
+             Vptr    : System.Address;
+             O_Value : Integer;
+             A_Value : Integer;
+          end record;
+       pragma Convention (C, A);
+    
+       procedure Method1 (This : in out A);
+       pragma Import (C, Method1);
+    
+       procedure Ada_Method2 (This : in out A; V : Integer);
+       pragma Export (C, Ada_Method2);
+    
+    end Simple_Cpp_Interface;
+</pre>
+<pre class="example">    -- simple_cpp_interface.adb
+    package body Simple_Cpp_Interface is
+    
+       procedure Ada_Method2 (This : in out A; V : Integer) is
+       begin
+          Method1 (This);
+          This.A_Value := V;
+       end Ada_Method2;
+    
+    end Simple_Cpp_Interface;
+</pre>
+</body></html>
+

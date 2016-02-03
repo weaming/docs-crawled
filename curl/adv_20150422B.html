@@ -1,0 +1,75 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
+<HTML>
+<HEAD> <TITLE>cURL - Negotiate not treated as connection-oriented</TITLE>
+<meta content="text/html; charset=UTF-8" http-equiv="Content-Type">
+<link rel="stylesheet" type="text/css" href="http://curl.haxx.se/curl.css">
+<link rel="shortcut icon" href="http://curl.haxx.se/favicon.ico">
+<link rel="STYLESHEET" type="text/css" href="http://curl.haxx.se/manpage.css">
+</HEAD>
+<body bgcolor="#ffffff" text="#000000">
+<div class="main">
+<div class="menu">
+<a href="index.html" class="menuitem" title="Documentation main page">Docs Overview</a>
+</div>
+<div class="contents">
+<div class="where"><a href="http://curl.haxx.se/">cURL</a> / <a href="index.html">Docs</a> / <a href="security.html">Security</a> / <b>Negotiate not treated as connection-oriented</b></div>
+<h1> Negotiate not treated as connection-oriented </h1>
+<div class="relatedbox">
+<b>Related:</b>
+<br><a href="http://curl.haxx.se/changes.html">Changelog</a>
+<br><a href="faq.html">FAQ</a>
+<br><a href="http://curl.haxx.se/dev/security.html">Security dev process</a>
+<br><a href="vulnerabilities.html">Vulnerabilities Table</a>
+</div>
+<h1>Negotiate not treated as connection-oriented</h1>
+<p>Project cURL Security Advisory, April 22nd 2015 -
+<a href="adv_20150422B.html">Permalink</a></p>
+<h2>VULNERABILITY</h2>
+<p>libcurl keeps a pool of its last few connections around after use to
+fascilitate easy, conventient and completely transparent connection re-use for
+applications.</p>
+<p>When doing HTTP requests Negotiate authenticated, the entire connnection may
+become authenticated and not just the specific HTTP request which is otherwise
+how HTTP works, as Negotiate can basically use NTLM under the hood. curl was
+not adhering to this fact but would assume that such requests would also be
+authenticated per request.</p>
+<p>The net effect is that libcurl may end up re-using an authenticated Negotiate
+connection and sending subsequent requests on it using new credentials, while
+the connection remains authenticated with a previous initial credentials
+setup.</p>
+<p>We are not aware of any exploits of this flaw.</p>
+<h2>INFO</h2>
+<p>This flaw can also affect the curl command line tool if a similar operation
+series is made with that.</p>
+<p>The Common Vulnerabilities and Exposures (CVE) project has assigned the name
+CVE-2015-3148 to this issue.</p>
+<h2>AFFECTED VERSIONS</h2>
+<ul>
+<li>Affected versions: from libcurl 7.10.6 to and including 7.41.0</li>
+<li>Not affected versions: libcurl >= 7.42.0</li>
+</ul>
+<p>libcurl is used by many applications, but not always advertised as such!</p>
+<h2>THE WORK-AROUND</h2>
+<p>libcurl 7.42.0 closes Negotiate connections after they're done, effectively
+preventing wrongful re-use. We decided to do this blunt short-term fix to
+avoid this current problem and then continue to work on a better fix.</p>
+<p>A patch for this problem is available at:</p>
+<pre><code>http://curl.haxx.se/CVE-2015-3148.patch
+</code></pre>
+<h2>RECOMMENDATIONS</h2>
+<p>We suggest you take one of the following actions immediately, in order of
+preference:</p>
+<p>A - Upgrade to curl and libcurl 7.42.0</p>
+<p>B - Apply the patch and rebuild libcurl</p>
+<p>C - Avoid using Negotiate with libcurl</p>
+<h2>TIME LINE</h2>
+<p>It was first reported to the curl project on March 31 2015. We contacted
+distros@openwall on April 18.</p>
+<p>libcurl 7.42.0 was released on April 22nd 2015, coordinated with the
+publication of this advisory.</p>
+<h2>CREDITS</h2>
+<p>Reported by Isaac Boukris</p>
+<p>Thanks a lot!</p>
+</div>
+</div>
+</body> </html>

@@ -1,0 +1,85 @@
+<html lang="en">
+<head>
+<title>Stopping When Ada Exceptions Are Raised - GNAT User's Guide for Native Platforms</title>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+<meta name="description" content="GNAT User's Guide for Native Platforms">
+<meta name="generator" content="makeinfo 4.13">
+<link title="Top" rel="start" href="index.html#Top">
+<link rel="up" href="Running-and-Debugging-Ada-Programs.html#Running-and-Debugging-Ada-Programs" title="Running and Debugging Ada Programs">
+<link rel="prev" href="Using-the-next-Command-in-a-Function.html#Using-the-next-Command-in-a-Function" title="Using the next Command in a Function">
+<link rel="next" href="Ada-Tasks.html#Ada-Tasks" title="Ada Tasks">
+<link href="http://www.gnu.org/software/texinfo/" rel="generator-home" title="Texinfo Homepage">
+<!--
+
+     GNAT User's Guide for Native Platforms , March 24, 2015
+
+     AdaCore
+
+     Copyright (C) 2008-2015, Free Software Foundation
+-->
+<meta http-equiv="Content-Style-Type" content="text/css">
+<style type="text/css"><!--
+  pre.display { font-family:inherit }
+  pre.format  { font-family:inherit }
+  pre.smalldisplay { font-family:inherit; font-size:smaller }
+  pre.smallformat  { font-family:inherit; font-size:smaller }
+  pre.smallexample { font-size:smaller }
+  pre.smalllisp    { font-size:smaller }
+  span.sc    { font-variant:small-caps }
+  span.roman { font-family:serif; font-weight:normal; } 
+  span.sansserif { font-family:sans-serif; font-weight:normal; } 
+--></style>
+</head>
+<body>
+<div class="node">
+<a name="Stopping-When-Ada-Exceptions-Are-Raised"></a>
+<p>
+Next:&nbsp;<a rel="next" accesskey="n" href="Ada-Tasks.html#Ada-Tasks">Ada Tasks</a>,
+Previous:&nbsp;<a rel="previous" accesskey="p" href="Using-the-next-Command-in-a-Function.html#Using-the-next-Command-in-a-Function">Using the next Command in a Function</a>,
+Up:&nbsp;<a rel="up" accesskey="u" href="Running-and-Debugging-Ada-Programs.html#Running-and-Debugging-Ada-Programs">Running and Debugging Ada Programs</a>
+<hr>
+</div>
+
+<p><a name="gnat_005fugn_002fgnat_005fand_005fprogram_005fexecution-stopping_002dwhen_002dada_002dexceptions_002dare_002draised"></a><a name="g_t203"></a><a name="gnat_005fugn_002fgnat_005fand_005fprogram_005fexecution-id9"></a><a name="g_t204"></a>
+
+<h4 class="subsection">8.1.7 Stopping When Ada Exceptions Are Raised</h4>
+
+<p><a name="index-Exceptions-_0028in-gdb_0029-953"></a>
+You can set catchpoints that stop the program execution when your program
+raises selected exceptions.
+
+     <ul>
+<li>
+          <dl>
+<dt>`catch exception'<dd>
+Set a catchpoint that stops execution whenever (any task in the) program
+raises any exception. 
+</dl>
+
+     <li>
+          <dl>
+<dt>`catch exception `name`'<dd>
+Set a catchpoint that stops execution whenever (any task in the) program
+raises the exception <cite>name</cite>. 
+</dl>
+
+     <li>
+          <dl>
+<dt>`catch exception unhandled'<dd>
+Set a catchpoint that stops executing whenever (any task in the) program
+raises an exception for which there is no handler. 
+</dl>
+
+     <li>
+          <dl>
+<dt>`info exceptions', `info exceptions `regexp`'<dd>
+The <cite>info exceptions</cite> command permits the user to examine all defined
+exceptions within Ada programs. With a regular expression, <cite>regexp</cite>, as
+argument, prints out only those exceptions whose name matches <cite>regexp</cite>. 
+</dl>
+     </ul>
+
+<p><a name="index-Tasks-_0028in-gdb_0029-954"></a>
+
+</body></html>
+

@@ -1,0 +1,60 @@
+<html lang="en">
+<head>
+<title>System Memory s-memory ads - GNAT Reference Manual</title>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+<meta name="description" content="GNAT Reference Manual">
+<meta name="generator" content="makeinfo 4.13">
+<link title="Top" rel="start" href="index.html#Top">
+<link rel="up" href="The-GNAT-Library.html#The-GNAT-Library" title="The GNAT Library">
+<link rel="prev" href="System-Atomic_005fCounters-s_002datocou-ads.html#System-Atomic_005fCounters-s_002datocou-ads" title="System Atomic_Counters s-atocou ads">
+<link rel="next" href="System-Multiprocessors-s_002dmultip-ads.html#System-Multiprocessors-s_002dmultip-ads" title="System Multiprocessors s-multip ads">
+<link href="http://www.gnu.org/software/texinfo/" rel="generator-home" title="Texinfo Homepage">
+<!--
+
+     GNAT Reference Manual , March 24, 2015
+
+     AdaCore
+
+     Copyright (C) 2008-2015, Free Software Foundation
+-->
+<meta http-equiv="Content-Style-Type" content="text/css">
+<style type="text/css"><!--
+  pre.display { font-family:inherit }
+  pre.format  { font-family:inherit }
+  pre.smalldisplay { font-family:inherit; font-size:smaller }
+  pre.smallformat  { font-family:inherit; font-size:smaller }
+  pre.smallexample { font-size:smaller }
+  pre.smalllisp    { font-size:smaller }
+  span.sc    { font-variant:small-caps }
+  span.roman { font-family:serif; font-weight:normal; } 
+  span.sansserif { font-family:sans-serif; font-weight:normal; } 
+--></style>
+</head>
+<body>
+<div class="node">
+<a name="System-Memory-s-memory-ads"></a>
+<a name="System-Memory-s_002dmemory-ads"></a>
+<p>
+Next:&nbsp;<a rel="next" accesskey="n" href="System-Multiprocessors-s_002dmultip-ads.html#System-Multiprocessors-s_002dmultip-ads">System Multiprocessors s-multip ads</a>,
+Previous:&nbsp;<a rel="previous" accesskey="p" href="System-Atomic_005fCounters-s_002datocou-ads.html#System-Atomic_005fCounters-s_002datocou-ads">System Atomic_Counters s-atocou ads</a>,
+Up:&nbsp;<a rel="up" accesskey="u" href="The-GNAT-Library.html#The-GNAT-Library">The GNAT Library</a>
+<hr>
+</div>
+
+<p><a name="gnat_005frm_002fthe_005fgnat_005flibrary-system_002dmemory_002ds_002dmemory_002dads"></a><a name="g_t387"></a><a name="gnat_005frm_002fthe_005fgnat_005flibrary-id138"></a><a name="g_t388"></a>
+
+<h3 class="section">12.137 <cite>System.Memory</cite> (<code>s-memory.ads</code>)</h3>
+
+<p><a name="index-System_002eMemory-_0028s_002dmemory_002eads_0029-897"></a>
+<a name="index-Memory-allocation-898"></a>
+This package provides the interface to the low level routines used
+by the generated code for allocation and freeing storage for the
+default storage pool (analogous to the C routines malloc and free. 
+It also provides a reallocation interface analogous to the C routine
+realloc. The body of this unit may be modified to provide alternative
+allocation mechanisms for the default pool, and in addition, direct
+calls to this unit may be made for low level allocation uses (for
+example see the body of <cite>GNAT.Tables</cite>).
+
+</body></html>
+

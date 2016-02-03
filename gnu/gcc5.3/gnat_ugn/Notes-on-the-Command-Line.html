@@ -1,0 +1,103 @@
+<html lang="en">
+<head>
+<title>Notes on the Command Line - GNAT User's Guide for Native Platforms</title>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+<meta name="description" content="GNAT User's Guide for Native Platforms">
+<meta name="generator" content="makeinfo 4.13">
+<link title="Top" rel="start" href="index.html#Top">
+<link rel="up" href="Building-with-gnatmake.html#Building-with-gnatmake" title="Building with gnatmake">
+<link rel="prev" href="Mode-Switches-for-gnatmake.html#Mode-Switches-for-gnatmake" title="Mode Switches for gnatmake">
+<link rel="next" href="How-gnatmake-Works.html#How-gnatmake-Works" title="How gnatmake Works">
+<link href="http://www.gnu.org/software/texinfo/" rel="generator-home" title="Texinfo Homepage">
+<!--
+
+     GNAT User's Guide for Native Platforms , March 24, 2015
+
+     AdaCore
+
+     Copyright (C) 2008-2015, Free Software Foundation
+-->
+<meta http-equiv="Content-Style-Type" content="text/css">
+<style type="text/css"><!--
+  pre.display { font-family:inherit }
+  pre.format  { font-family:inherit }
+  pre.smalldisplay { font-family:inherit; font-size:smaller }
+  pre.smallformat  { font-family:inherit; font-size:smaller }
+  pre.smallexample { font-size:smaller }
+  pre.smalllisp    { font-size:smaller }
+  span.sc    { font-variant:small-caps }
+  span.roman { font-family:serif; font-weight:normal; } 
+  span.sansserif { font-family:sans-serif; font-weight:normal; } 
+--></style>
+</head>
+<body>
+<div class="node">
+<a name="Notes-on-the-Command-Line"></a>
+<p>
+Next:&nbsp;<a rel="next" accesskey="n" href="How-gnatmake-Works.html#How-gnatmake-Works">How gnatmake Works</a>,
+Previous:&nbsp;<a rel="previous" accesskey="p" href="Mode-Switches-for-gnatmake.html#Mode-Switches-for-gnatmake">Mode Switches for gnatmake</a>,
+Up:&nbsp;<a rel="up" accesskey="u" href="Building-with-gnatmake.html#Building-with-gnatmake">Building with gnatmake</a>
+<hr>
+</div>
+
+<p><a name="gnat_005fugn_002fbuilding_005fexecutable_005fprograms_005fwith_005fgnat-id5"></a><a name="e6"></a><a name="gnat_005fugn_002fbuilding_005fexecutable_005fprograms_005fwith_005fgnat-notes_002don_002dthe_002dcommand_002dline"></a><a name="e7"></a>
+
+<h4 class="subsection">4.1.4 Notes on the Command Line</h4>
+
+<p>This section contains some additional useful notes on the operation
+of the `gnatmake' command.
+
+<p><a name="index-Recompilation-_0028by-gnatmake_0029-238"></a>
+
+     <ul>
+<li>If `gnatmake' finds no ALI files, it recompiles the main program
+and all other units required by the main program. 
+This means that `gnatmake'
+can be used for the initial compile, as well as during subsequent steps of
+the development cycle.
+
+     <li>If you enter <code>gnatmake foo.adb</code>, where <code>foo</code>
+is a subunit or body of a generic unit, `gnatmake' recompiles
+<code>foo.adb</code> (because it finds no ALI) and stops, issuing a
+warning.
+
+     <li>In `gnatmake' the switch `-I'
+is used to specify both source and
+library file paths. Use `-aI'
+instead if you just want to specify
+source paths only and `-aO'
+if you want to specify library paths
+only.
+
+     <li>`gnatmake' will ignore any files whose ALI file is write-protected. 
+This may conveniently be used to exclude standard libraries from
+consideration and in particular it means that the use of the
+`-f' switch will not recompile these files
+unless `-a' is also specified.
+
+     <li>`gnatmake' has been designed to make the use of Ada libraries
+particularly convenient. Assume you have an Ada library organized
+as follows: `obj-dir' contains the objects and ALI files for
+of your Ada compilation units,
+whereas `include-dir' contains the
+specs of these units, but no bodies. Then to compile a unit
+stored in <cite>main.adb</cite>, which uses this Ada library you would just type:
+
+     <pre class="example">         $ gnatmake -aI`include-dir`  -aL`obj-dir`  main
+</pre>
+     <li>Using `gnatmake' along with the `-m (minimal recompilation)'
+switch provides a mechanism for avoiding unnecessary recompilations. Using
+this switch,
+you can update the comments/format of your
+source files without having to recompile everything. Note, however, that
+adding or deleting lines in a source files may render its debugging
+info obsolete. If the file in question is a spec, the impact is rather
+limited, as that debugging info will only be useful during the
+elaboration phase of your program. For bodies the impact can be more
+significant. In all events, your debugger will warn you if a source file
+is more recent than the corresponding object, and alert you to the fact
+that the debugging information may be out of date. 
+</ul>
+
+</body></html>
+

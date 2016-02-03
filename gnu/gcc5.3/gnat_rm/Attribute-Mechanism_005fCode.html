@@ -1,0 +1,66 @@
+<html lang="en">
+<head>
+<title>Attribute Mechanism_Code - GNAT Reference Manual</title>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+<meta name="description" content="GNAT Reference Manual">
+<meta name="generator" content="makeinfo 4.13">
+<link title="Top" rel="start" href="index.html#Top">
+<link rel="up" href="Implementation-Defined-Attributes.html#Implementation-Defined-Attributes" title="Implementation Defined Attributes">
+<link rel="prev" href="Attribute-Maximum_005fAlignment.html#Attribute-Maximum_005fAlignment" title="Attribute Maximum_Alignment">
+<link rel="next" href="Attribute-Null_005fParameter.html#Attribute-Null_005fParameter" title="Attribute Null_Parameter">
+<link href="http://www.gnu.org/software/texinfo/" rel="generator-home" title="Texinfo Homepage">
+<!--
+
+     GNAT Reference Manual , March 24, 2015
+
+     AdaCore
+
+     Copyright (C) 2008-2015, Free Software Foundation
+-->
+<meta http-equiv="Content-Style-Type" content="text/css">
+<style type="text/css"><!--
+  pre.display { font-family:inherit }
+  pre.format  { font-family:inherit }
+  pre.smalldisplay { font-family:inherit; font-size:smaller }
+  pre.smallformat  { font-family:inherit; font-size:smaller }
+  pre.smallexample { font-size:smaller }
+  pre.smalllisp    { font-size:smaller }
+  span.sc    { font-variant:small-caps }
+  span.roman { font-family:serif; font-weight:normal; } 
+  span.sansserif { font-family:sans-serif; font-weight:normal; } 
+--></style>
+</head>
+<body>
+<div class="node">
+<a name="Attribute-Mechanism_Code"></a>
+<a name="Attribute-Mechanism_005fCode"></a>
+<p>
+Next:&nbsp;<a rel="next" accesskey="n" href="Attribute-Null_005fParameter.html#Attribute-Null_005fParameter">Attribute Null_Parameter</a>,
+Previous:&nbsp;<a rel="previous" accesskey="p" href="Attribute-Maximum_005fAlignment.html#Attribute-Maximum_005fAlignment">Attribute Maximum_Alignment</a>,
+Up:&nbsp;<a rel="up" accesskey="u" href="Implementation-Defined-Attributes.html#Implementation-Defined-Attributes">Implementation Defined Attributes</a>
+<hr>
+</div>
+
+<p><a name="gnat_005frm_002fimplementation_005fdefined_005fattributes-attribute_002dmechanism_002dcode"></a><a name="g_t140"></a>
+
+<h3 class="section">4.40 Attribute Mechanism_Code</h3>
+
+<p><a name="index-Return-values-218"></a><a name="index-passing-mechanism-219"></a>
+<a name="index-Parameters-220"></a><a name="index-passing-mechanism-221"></a>
+<a name="index-Mechanism_005fCode-222"></a>
+<code>function'Mechanism_Code</code> yields an integer code for the
+mechanism used for the result of function, and
+<code>subprogram'Mechanism_Code (n)</code> yields the mechanism
+used for formal parameter number <cite>n</cite> (a static integer value with 1
+meaning the first parameter) of <cite>subprogram</cite>.  The code returned is:
+
+     <dl>
+<dt>`1'<dd>
+by copy (value)
+
+     <br><dt>`2'<dd>
+by reference
+</dl>
+
+</body></html>
+

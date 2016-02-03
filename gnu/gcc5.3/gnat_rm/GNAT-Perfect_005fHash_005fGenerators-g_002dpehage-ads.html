@@ -1,0 +1,60 @@
+<html lang="en">
+<head>
+<title>GNAT Perfect_Hash_Generators g-pehage ads - GNAT Reference Manual</title>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+<meta name="description" content="GNAT Reference Manual">
+<meta name="generator" content="makeinfo 4.13">
+<link title="Top" rel="start" href="index.html#Top">
+<link rel="up" href="The-GNAT-Library.html#The-GNAT-Library" title="The GNAT Library">
+<link rel="prev" href="GNAT-OS_005fLib-g_002dos_005flib-ads.html#GNAT-OS_005fLib-g_002dos_005flib-ads" title="GNAT OS_Lib g-os_lib ads">
+<link rel="next" href="GNAT-Random_005fNumbers-g_002drannum-ads.html#GNAT-Random_005fNumbers-g_002drannum-ads" title="GNAT Random_Numbers g-rannum ads">
+<link href="http://www.gnu.org/software/texinfo/" rel="generator-home" title="Texinfo Homepage">
+<!--
+
+     GNAT Reference Manual , March 24, 2015
+
+     AdaCore
+
+     Copyright (C) 2008-2015, Free Software Foundation
+-->
+<meta http-equiv="Content-Style-Type" content="text/css">
+<style type="text/css"><!--
+  pre.display { font-family:inherit }
+  pre.format  { font-family:inherit }
+  pre.smalldisplay { font-family:inherit; font-size:smaller }
+  pre.smallformat  { font-family:inherit; font-size:smaller }
+  pre.smallexample { font-size:smaller }
+  pre.smalllisp    { font-size:smaller }
+  span.sc    { font-variant:small-caps }
+  span.roman { font-family:serif; font-weight:normal; } 
+  span.sansserif { font-family:sans-serif; font-weight:normal; } 
+--></style>
+</head>
+<body>
+<div class="node">
+<a name="GNAT-Perfect_Hash_Generators-g-pehage-ads"></a>
+<a name="GNAT-Perfect_005fHash_005fGenerators-g_002dpehage-ads"></a>
+<p>
+Next:&nbsp;<a rel="next" accesskey="n" href="GNAT-Random_005fNumbers-g_002drannum-ads.html#GNAT-Random_005fNumbers-g_002drannum-ads">GNAT Random_Numbers g-rannum ads</a>,
+Previous:&nbsp;<a rel="previous" accesskey="p" href="GNAT-OS_005fLib-g_002dos_005flib-ads.html#GNAT-OS_005fLib-g_002dos_005flib-ads">GNAT OS_Lib g-os_lib ads</a>,
+Up:&nbsp;<a rel="up" accesskey="u" href="The-GNAT-Library.html#The-GNAT-Library">The GNAT Library</a>
+<hr>
+</div>
+
+<p><a name="gnat_005frm_002fthe_005fgnat_005flibrary-id90"></a><a name="g_t328"></a><a name="gnat_005frm_002fthe_005fgnat_005flibrary-gnat_002dperfect_002dhash_002dgenerators_002dg_002dpehage_002dads"></a><a name="g_t329"></a>
+
+<h3 class="section">12.89 <cite>GNAT.Perfect_Hash_Generators</cite> (<code>g-pehage.ads</code>)</h3>
+
+<p><a name="index-GNAT_002ePerfect_005fHash_005fGenerators-_0028g_002dpehage_002eads_0029-777"></a>
+<a name="index-Hash-functions-778"></a>
+Provides a generator of static minimal perfect hash functions. No
+collisions occur and each item can be retrieved from the table in one
+probe (perfect property). The hash table size corresponds to the exact
+size of the key set and no larger (minimal property). The key set has to
+be know in advance (static property). The hash functions are also order
+preserving. If w2 is inserted after w1 in the generator, their
+hashcode are in the same order. These hashing functions are very
+convenient for use with realtime applications.
+
+</body></html>
+

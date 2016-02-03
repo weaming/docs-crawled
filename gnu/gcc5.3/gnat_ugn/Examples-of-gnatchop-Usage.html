@@ -1,0 +1,76 @@
+<html lang="en">
+<head>
+<title>Examples of gnatchop Usage - GNAT User's Guide for Native Platforms</title>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+<meta name="description" content="GNAT User's Guide for Native Platforms">
+<meta name="generator" content="makeinfo 4.13">
+<link title="Top" rel="start" href="index.html#Top">
+<link rel="up" href="Renaming-Files-with-gnatchop.html#Renaming-Files-with-gnatchop" title="Renaming Files with gnatchop">
+<link rel="prev" href="Switches-for-gnatchop.html#Switches-for-gnatchop" title="Switches for gnatchop">
+<link href="http://www.gnu.org/software/texinfo/" rel="generator-home" title="Texinfo Homepage">
+<!--
+
+     GNAT User's Guide for Native Platforms , March 24, 2015
+
+     AdaCore
+
+     Copyright (C) 2008-2015, Free Software Foundation
+-->
+<meta http-equiv="Content-Style-Type" content="text/css">
+<style type="text/css"><!--
+  pre.display { font-family:inherit }
+  pre.format  { font-family:inherit }
+  pre.smalldisplay { font-family:inherit; font-size:smaller }
+  pre.smallformat  { font-family:inherit; font-size:smaller }
+  pre.smallexample { font-size:smaller }
+  pre.smalllisp    { font-size:smaller }
+  span.sc    { font-variant:small-caps }
+  span.roman { font-family:serif; font-weight:normal; } 
+  span.sansserif { font-family:sans-serif; font-weight:normal; } 
+--></style>
+</head>
+<body>
+<div class="node">
+<a name="Examples-of-gnatchop-Usage"></a>
+<p>
+Previous:&nbsp;<a rel="previous" accesskey="p" href="Switches-for-gnatchop.html#Switches-for-gnatchop">Switches for gnatchop</a>,
+Up:&nbsp;<a rel="up" accesskey="u" href="Renaming-Files-with-gnatchop.html#Renaming-Files-with-gnatchop">Renaming Files with gnatchop</a>
+<hr>
+</div>
+
+<p><a name="gnat_005fugn_002fthe_005fgnat_005fcompilation_005fmodel-id27"></a><a name="g_t77"></a><a name="gnat_005fugn_002fthe_005fgnat_005fcompilation_005fmodel-examples_002dof_002dgnatchop_002dusage"></a><a name="g_t78"></a>
+
+<h5 class="subsubsection">3.3.6.5 Examples of <cite>gnatchop</cite> Usage</h5>
+
+<pre class="example">    $ gnatchop -w hello_s.ada prerelease/files
+</pre>
+<p>Chops the source file <code>hello_s.ada</code>. The output files will be
+placed in the directory <code>prerelease/files</code>,
+overwriting any
+files with matching names in that directory (no files in the current
+directory are modified).
+
+<pre class="example">    $ gnatchop archive
+</pre>
+<p>Chops the source file <code>archive</code>
+into the current directory. One
+useful application of <cite>gnatchop</cite> is in sending sets of sources
+around, for example in email messages. The required sources are simply
+concatenated (for example, using a Unix <cite>cat</cite>
+command), and then
+`gnatchop' is used at the other end to reconstitute the original
+file names.
+
+<pre class="example">    $ gnatchop file1 file2 file3 direc
+</pre>
+<p>Chops all units in files <code>file1</code>, <code>file2</code>, <code>file3</code>, placing
+the resulting files in the directory <code>direc</code>. Note that if any units
+occur more than once anywhere within this set of files, an error message
+is generated, and no files are written. To override this check, use the
+`-w' switch,
+in which case the last occurrence in the last file will
+be the one that is output, and earlier duplicate occurrences for a given
+unit will be skipped.
+
+</body></html>
+

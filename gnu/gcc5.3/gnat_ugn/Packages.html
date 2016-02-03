@@ -1,0 +1,192 @@
+<html lang="en">
+<head>
+<title>Packages - GNAT User's Guide for Native Platforms</title>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+<meta name="description" content="GNAT User's Guide for Native Platforms">
+<meta name="generator" content="makeinfo 4.13">
+<link title="Top" rel="start" href="index.html#Top">
+<link rel="up" href="Project-File-Reference.html#Project-File-Reference" title="Project File Reference">
+<link rel="prev" href="Declarations.html#Declarations" title="Declarations">
+<link rel="next" href="Expressions.html#Expressions" title="Expressions">
+<link href="http://www.gnu.org/software/texinfo/" rel="generator-home" title="Texinfo Homepage">
+<!--
+
+     GNAT User's Guide for Native Platforms , March 24, 2015
+
+     AdaCore
+
+     Copyright (C) 2008-2015, Free Software Foundation
+-->
+<meta http-equiv="Content-Style-Type" content="text/css">
+<style type="text/css"><!--
+  pre.display { font-family:inherit }
+  pre.format  { font-family:inherit }
+  pre.smalldisplay { font-family:inherit; font-size:smaller }
+  pre.smallformat  { font-family:inherit; font-size:smaller }
+  pre.smallexample { font-size:smaller }
+  pre.smalllisp    { font-size:smaller }
+  span.sc    { font-variant:small-caps }
+  span.roman { font-family:serif; font-weight:normal; } 
+  span.sansserif { font-family:sans-serif; font-weight:normal; } 
+--></style>
+</head>
+<body>
+<div class="node">
+<a name="Packages"></a>
+<p>
+Next:&nbsp;<a rel="next" accesskey="n" href="Expressions.html#Expressions">Expressions</a>,
+Previous:&nbsp;<a rel="previous" accesskey="p" href="Declarations.html#Declarations">Declarations</a>,
+Up:&nbsp;<a rel="up" accesskey="u" href="Project-File-Reference.html#Project-File-Reference">Project File Reference</a>
+<hr>
+</div>
+
+<p><a name="gnat_005fugn_002fgnat_005fproject_005fmanager-packages"></a><a name="g_t153"></a><a name="gnat_005fugn_002fgnat_005fproject_005fmanager-id41"></a><a name="g_t19a"></a>
+
+<h4 class="subsection">5.9.4 Packages</h4>
+
+<p>A project file may contain `packages', that group attributes (typically
+all the attributes that are used by one of the GNAT tools).
+
+<p>A package with a given name may only appear once in a project file. 
+The following packages are currently supported in project files
+(See <a href="152.html#g_t152">Attributes</a> for the list of attributes that each can contain).
+
+     <dl>
+<dt>`Binder'<dd>
+This package specifies characteristics useful when invoking the binder either
+directly via the `gnat' driver or when using a builder such as
+`gnatmake' or `gprbuild'. See <a href="15d.html#g_t15d">Main Subprograms</a>.
+
+     <br><dt>`Builder'<dd>
+This package specifies the compilation options used when building an
+executable or a library for a project. Most of the options should be
+set in one of <cite>Compiler</cite>, <cite>Binder</cite> or <cite>Linker</cite> packages,
+but there are some general options that should be defined in this
+package. See <a href="15d.html#g_t15d">Main Subprograms</a>, and <a href="162.html#g_t162">Executable File Names</a> in
+particular. 
+</dl>
+
+     <dl>
+<dt>`Clean'<dd>
+This package specifies the options used when cleaning a project or a project
+tree using the tools `gnatclean' or `gprclean'.
+
+     <br><dt>`Compiler'<dd>
+This package specifies the compilation options used by the compiler for
+each languages. See <a href="15e.html#g_t15e">Tools Options in Project Files</a>.
+
+     <br><dt>`Cross_Reference'<dd>
+This package specifies the options used when calling the library tool
+`gnatxref' via the `gnat' driver. Its attributes
+`Default_Switches' and `Switches' have the same semantics as for the
+package <cite>Builder</cite>. 
+</dl>
+
+     <dl>
+<dt>`Finder'<dd>
+This package specifies the options used when calling the search tool
+`gnatfind' via the `gnat' driver. Its attributes
+`Default_Switches' and `Switches' have the same semantics as for the
+package <cite>Builder</cite>.
+
+     <br><dt>`Gnatls'<dd>
+This package specifies the options to use when invoking `gnatls'
+via the `gnat' driver. 
+</dl>
+
+     <dl>
+<dt>`IDE'<dd>
+This package specifies the options used when starting an integrated
+development environment, for instance `GPS' or `Gnatbench'.
+
+     <br><dt>`Install'<dd>
+This package specifies the options used when installing a project
+with `gprinstall'. See <a href="168.html#g_t168">Installation</a>.
+
+     <br><dt>`Linker'<dd>
+This package specifies the options used by the linker. 
+See <a href="15d.html#g_t15d">Main Subprograms</a>. 
+</dl>
+
+     <dl>
+<dt>`Naming'<dd>
+<blockquote>
+
+     <p>This package specifies the naming conventions that apply
+to the source files in a project. In particular, these conventions are
+used to automatically find all source files in the source directories,
+or given a file name to find out its language for proper processing. 
+See <a href="14b.html#g_t14b">Naming Schemes</a>. 
+</blockquote>
+
+     <!-- only: PRO or GPL -->
+     <!-- *Pretty_Printer* -->
+     <!-- This package specifies the options used when calling the formatting tool -->
+     <!-- *gnatpp* via the *gnat* driver. Its attributes -->
+     <!-- **Default_Switches** and **Switches** have the same semantics as for the -->
+     <!-- package `Builder`. -->
+     <br><dt>`Remote'<dd>
+This package is used by `gprbuild' to describe how distributed
+compilation should be done.
+
+     <br><dt>`Stack'<dd>
+This package specifies the options used when calling the tool
+`gnatstack' via the `gnat' driver. Its attributes
+`Default_Switches' and `Switches' have the same semantics as for the
+package <cite>Builder</cite>.
+
+     <br><dt>`Synchronize'<dd>
+This package specifies the options used when calling the tool
+`gnatsync' via the `gnat' driver. 
+</dl>
+
+<p>In its simplest form, a package may be empty:
+
+<pre class="example">    project Simple is
+      package Builder is
+      end Builder;
+    end Simple;
+</pre>
+<p>A package may contain `attribute declarations',
+`variable declarations' and `case constructions', as will be
+described below.
+
+<p>When there is ambiguity between a project name and a package name,
+the name always designates the project. To avoid possible confusion, it is
+always a good idea to avoid naming a project with one of the
+names allowed for packages or any name that starts with <cite>gnat</cite>.
+
+<p>A package can also be defined by a `renaming declaration'. The new package
+renames a package declared in a different project file, and has the same
+attributes as the package it renames. The name of the renamed package
+must be the same as the name of the renaming package. The project must
+contain a package declaration with this name, and the project
+must appear in the context clause of the current project, or be its parent
+project. It is not possible to add or override attributes to the renaming
+project. If you need to do so, you should use an `extending declaration'
+(see below).
+
+<p>Packages that are renamed in other project files often come from project files
+that have no sources: they are just used as templates. Any modification in the
+template will be reflected automatically in all the project files that rename
+a package from the template. This is a very common way to share settings
+between projects.
+
+<p>Finally, a package can also be defined by an `extending declaration'. This is
+similar to a `renaming declaration', except that it is possible to add or
+override attributes.
+
+<pre class="example">    package_declaration ::= package_spec | package_renaming | package_extension
+    package_spec ::=
+      package &lt;package_&gt;simple_name is
+        {simple_declarative_item}
+      end package_identifier ;
+    package_renaming ::==
+      package &lt;package_&gt;simple_name renames &lt;project_&gt;simple_name.package_identifier ;
+    package_extension ::==
+      package &lt;package_&gt;simple_name extends &lt;project_&gt;simple_name.package_identifier is
+        {simple_declarative_item}
+      end package_identifier ;
+</pre>
+</body></html>
+

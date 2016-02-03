@@ -1,0 +1,62 @@
+<html lang="en">
+<head>
+<title>Pragma Favor_Top_Level - GNAT Reference Manual</title>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+<meta name="description" content="GNAT Reference Manual">
+<meta name="generator" content="makeinfo 4.13">
+<link title="Top" rel="start" href="index.html#Top">
+<link rel="up" href="Implementation-Defined-Pragmas.html#Implementation-Defined-Pragmas" title="Implementation Defined Pragmas">
+<link rel="prev" href="Pragma-Fast_005fMath.html#Pragma-Fast_005fMath" title="Pragma Fast_Math">
+<link rel="next" href="Pragma-Finalize_005fStorage_005fOnly.html#Pragma-Finalize_005fStorage_005fOnly" title="Pragma Finalize_Storage_Only">
+<link href="http://www.gnu.org/software/texinfo/" rel="generator-home" title="Texinfo Homepage">
+<!--
+
+     GNAT Reference Manual , March 24, 2015
+
+     AdaCore
+
+     Copyright (C) 2008-2015, Free Software Foundation
+-->
+<meta http-equiv="Content-Style-Type" content="text/css">
+<style type="text/css"><!--
+  pre.display { font-family:inherit }
+  pre.format  { font-family:inherit }
+  pre.smalldisplay { font-family:inherit; font-size:smaller }
+  pre.smallformat  { font-family:inherit; font-size:smaller }
+  pre.smallexample { font-size:smaller }
+  pre.smalllisp    { font-size:smaller }
+  span.sc    { font-variant:small-caps }
+  span.roman { font-family:serif; font-weight:normal; } 
+  span.sansserif { font-family:sans-serif; font-weight:normal; } 
+--></style>
+</head>
+<body>
+<div class="node">
+<a name="Pragma-Favor_Top_Level"></a>
+<a name="Pragma-Favor_005fTop_005fLevel"></a>
+<p>
+Next:&nbsp;<a rel="next" accesskey="n" href="Pragma-Finalize_005fStorage_005fOnly.html#Pragma-Finalize_005fStorage_005fOnly">Pragma Finalize_Storage_Only</a>,
+Previous:&nbsp;<a rel="previous" accesskey="p" href="Pragma-Fast_005fMath.html#Pragma-Fast_005fMath">Pragma Fast_Math</a>,
+Up:&nbsp;<a rel="up" accesskey="u" href="Implementation-Defined-Pragmas.html#Implementation-Defined-Pragmas">Implementation Defined Pragmas</a>
+<hr>
+</div>
+
+<p><a name="gnat_005frm_002fimplementation_005fdefined_005fpragmas-pragma_002dfavor_002dtop_002dlevel"></a><a name="g_t5b"></a>
+
+<h3 class="section">2.64 Pragma Favor_Top_Level</h3>
+
+<p>Syntax:
+
+<pre class="example">    pragma Favor_Top_Level (type_NAME);
+</pre>
+<p>The named type must be an access-to-subprogram type. This pragma is an
+efficiency hint to the compiler, regarding the use of 'Access or
+'Unrestricted_Access on nested (non-library-level) subprograms. The
+pragma means that nested subprograms are not used with this type, or
+are rare, so that the generated code should be efficient in the
+top-level case. When this pragma is used, dynamically generated
+trampolines may be used on some targets for nested subprograms. 
+See also the No_Implicit_Dynamic_Code restriction.
+
+</body></html>
+

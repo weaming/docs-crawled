@@ -1,0 +1,91 @@
+<html lang="en">
+<head>
+<title>Mode Switches for gnatmake - GNAT User's Guide for Native Platforms</title>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+<meta name="description" content="GNAT User's Guide for Native Platforms">
+<meta name="generator" content="makeinfo 4.13">
+<link title="Top" rel="start" href="index.html#Top">
+<link rel="up" href="Building-with-gnatmake.html#Building-with-gnatmake" title="Building with gnatmake">
+<link rel="prev" href="Switches-for-gnatmake.html#Switches-for-gnatmake" title="Switches for gnatmake">
+<link rel="next" href="Notes-on-the-Command-Line.html#Notes-on-the-Command-Line" title="Notes on the Command Line">
+<link href="http://www.gnu.org/software/texinfo/" rel="generator-home" title="Texinfo Homepage">
+<!--
+
+     GNAT User's Guide for Native Platforms , March 24, 2015
+
+     AdaCore
+
+     Copyright (C) 2008-2015, Free Software Foundation
+-->
+<meta http-equiv="Content-Style-Type" content="text/css">
+<style type="text/css"><!--
+  pre.display { font-family:inherit }
+  pre.format  { font-family:inherit }
+  pre.smalldisplay { font-family:inherit; font-size:smaller }
+  pre.smallformat  { font-family:inherit; font-size:smaller }
+  pre.smallexample { font-size:smaller }
+  pre.smalllisp    { font-size:smaller }
+  span.sc    { font-variant:small-caps }
+  span.roman { font-family:serif; font-weight:normal; } 
+  span.sansserif { font-family:sans-serif; font-weight:normal; } 
+--></style>
+</head>
+<body>
+<div class="node">
+<a name="Mode-Switches-for-gnatmake"></a>
+<p>
+Next:&nbsp;<a rel="next" accesskey="n" href="Notes-on-the-Command-Line.html#Notes-on-the-Command-Line">Notes on the Command Line</a>,
+Previous:&nbsp;<a rel="previous" accesskey="p" href="Switches-for-gnatmake.html#Switches-for-gnatmake">Switches for gnatmake</a>,
+Up:&nbsp;<a rel="up" accesskey="u" href="Building-with-gnatmake.html#Building-with-gnatmake">Building with gnatmake</a>
+<hr>
+</div>
+
+<p><a name="gnat_005fugn_002fbuilding_005fexecutable_005fprograms_005fwith_005fgnat-id4"></a><a name="e4"></a><a name="gnat_005fugn_002fbuilding_005fexecutable_005fprograms_005fwith_005fgnat-mode_002dswitches_002dfor_002dgnatmake"></a><a name="e5"></a>
+
+<h4 class="subsection">4.1.3 Mode Switches for `gnatmake'</h4>
+
+<p>The mode switches (referred to as <cite>mode_switches</cite>) allow the
+inclusion of switches that are to be passed to the compiler itself, the
+binder or the linker. The effect of a mode switch is to cause all
+subsequent switches up to the end of the switch list, or up to the next
+mode switch, to be interpreted as switches to be passed on to the
+designated component of GNAT.
+
+<p><a name="index-g_t_002dcargs-_0028gnatmake_0029-234"></a>
+
+     <dl>
+<dt><code>-cargs `switches'</code><dd>
+Compiler switches. Here <cite>switches</cite> is a list of switches
+that are valid switches for `gcc'. They will be passed on to
+all compile steps performed by `gnatmake'. 
+</dl>
+
+<p><a name="index-g_t_002dbargs-_0028gnatmake_0029-235"></a>
+
+     <dl>
+<dt><code>-bargs `switches'</code><dd>
+Binder switches. Here <cite>switches</cite> is a list of switches
+that are valid switches for <cite>gnatbind</cite>. They will be passed on to
+all bind steps performed by `gnatmake'. 
+</dl>
+
+<p><a name="index-g_t_002dlargs-_0028gnatmake_0029-236"></a>
+
+     <dl>
+<dt><code>-largs `switches'</code><dd>
+Linker switches. Here <cite>switches</cite> is a list of switches
+that are valid switches for `gnatlink'. They will be passed on to
+all link steps performed by `gnatmake'. 
+</dl>
+
+<p><a name="index-g_t_002dmargs-_0028gnatmake_0029-237"></a>
+
+     <dl>
+<dt><code>-margs `switches'</code><dd>
+Make switches. The switches are directly interpreted by `gnatmake',
+regardless of any previous occurrence of `-cargs', `-bargs'
+or `-largs'. 
+</dl>
+
+</body></html>
+

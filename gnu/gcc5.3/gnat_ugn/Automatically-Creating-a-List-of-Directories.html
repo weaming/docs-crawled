@@ -1,0 +1,114 @@
+<html lang="en">
+<head>
+<title>Automatically Creating a List of Directories - GNAT User's Guide for Native Platforms</title>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+<meta name="description" content="GNAT User's Guide for Native Platforms">
+<meta name="generator" content="makeinfo 4.13">
+<link title="Top" rel="start" href="index.html#Top">
+<link rel="up" href="Using-the-GNU-make-Utility.html#Using-the-GNU-make-Utility" title="Using the GNU make Utility">
+<link rel="prev" href="Using-gnatmake-in-a-Makefile.html#Using-gnatmake-in-a-Makefile" title="Using gnatmake in a Makefile">
+<link rel="next" href="Generating-the-Command-Line-Switches.html#Generating-the-Command-Line-Switches" title="Generating the Command Line Switches">
+<link href="http://www.gnu.org/software/texinfo/" rel="generator-home" title="Texinfo Homepage">
+<!--
+
+     GNAT User's Guide for Native Platforms , March 24, 2015
+
+     AdaCore
+
+     Copyright (C) 2008-2015, Free Software Foundation
+-->
+<meta http-equiv="Content-Style-Type" content="text/css">
+<style type="text/css"><!--
+  pre.display { font-family:inherit }
+  pre.format  { font-family:inherit }
+  pre.smalldisplay { font-family:inherit; font-size:smaller }
+  pre.smallformat  { font-family:inherit; font-size:smaller }
+  pre.smallexample { font-size:smaller }
+  pre.smalllisp    { font-size:smaller }
+  span.sc    { font-variant:small-caps }
+  span.roman { font-family:serif; font-weight:normal; } 
+  span.sansserif { font-family:sans-serif; font-weight:normal; } 
+--></style>
+</head>
+<body>
+<div class="node">
+<a name="Automatically-Creating-a-List-of-Directories"></a>
+<p>
+Next:&nbsp;<a rel="next" accesskey="n" href="Generating-the-Command-Line-Switches.html#Generating-the-Command-Line-Switches">Generating the Command Line Switches</a>,
+Previous:&nbsp;<a rel="previous" accesskey="p" href="Using-gnatmake-in-a-Makefile.html#Using-gnatmake-in-a-Makefile">Using gnatmake in a Makefile</a>,
+Up:&nbsp;<a rel="up" accesskey="u" href="Using-the-GNU-make-Utility.html#Using-the-GNU-make-Utility">Using the GNU make Utility</a>
+<hr>
+</div>
+
+<p><a name="gnat_005fugn_002fbuilding_005fexecutable_005fprograms_005fwith_005fgnat-automatically_002dcreating_002da_002dlist_002dof_002ddirectories"></a><a name="g_t141"></a><a name="gnat_005fugn_002fbuilding_005fexecutable_005fprograms_005fwith_005fgnat-id49"></a><a name="g_t142"></a>
+
+<h4 class="subsection">4.6.2 Automatically Creating a List of Directories</h4>
+
+<p>In most makefiles, you will have to specify a list of directories, and
+store it in a variable. For small projects, it is often easier to
+specify each of them by hand, since you then have full control over what
+is the proper order for these directories, which ones should be
+included.
+
+<p>However, in larger projects, which might involve hundreds of
+subdirectories, it might be more convenient to generate this list
+automatically.
+
+<p>The example below presents two methods. The first one, although less
+general, gives you more control over the list. It involves wildcard
+characters, that are automatically expanded by `make'. Its
+shortcoming is that you need to explicitly specify some of the
+organization of your project, such as for instance the directory tree
+depth, whether some directories are found in a separate tree, etc.
+
+<p>The second method is the most general one. It requires an external
+program, called `find', which is standard on all Unix systems. All
+the directories found under a given root directory will be added to the
+list.
+
+<pre class="example">    # The examples below are based on the following directory hierarchy:
+    # All the directories can contain any number of files
+    # ROOT_DIRECTORY -&gt;  a  -&gt;  aa  -&gt;  aaa
+    #                       -&gt;  ab
+    #                       -&gt;  ac
+    #                -&gt;  b  -&gt;  ba  -&gt;  baa
+    #                       -&gt;  bb
+    #                       -&gt;  bc
+    # This Makefile creates a variable called DIRS, that can be reused any time
+    # you need this list (see the other examples in this section)
+    
+    # The root of your project's directory hierarchy
+    ROOT_DIRECTORY=.
+    
+    ####
+    # First method: specify explicitly the list of directories
+    # This allows you to specify any subset of all the directories you need.
+    ####
+    
+    DIRS := a/aa/ a/ab/ b/ba/
+    
+    ####
+    # Second method: use wildcards
+    # Note that the argument(s) to wildcard below should end with a '/'.
+    # Since wildcards also return file names, we have to filter them out
+    # to avoid duplicate directory names.
+    # We thus use make's `dir` and `sort` functions.
+    # It sets DIRs to the following value (note that the directories aaa and baa
+    # are not given, unless you change the arguments to wildcard).
+    # DIRS= ./a/a/ ./b/ ./a/aa/ ./a/ab/ ./a/ac/ ./b/ba/ ./b/bb/ ./b/bc/
+    ####
+    
+    DIRS := ${sort ${dir ${wildcard ${ROOT_DIRECTORY}/*/
+                        ${ROOT_DIRECTORY}/*/*/}}}
+    
+    ####
+    # Third method: use an external program
+    # This command is much faster if run on local disks, avoiding NFS slowdowns.
+    # This is the most complete command: it sets DIRs to the following value:
+    # DIRS= ./a ./a/aa ./a/aa/aaa ./a/ab ./a/ac ./b ./b/ba ./b/ba/baa ./b/bb ./b/bc
+    ####
+    
+    DIRS := ${shell find ${ROOT_DIRECTORY} -type d -print}
+</pre>
+</body></html>
+

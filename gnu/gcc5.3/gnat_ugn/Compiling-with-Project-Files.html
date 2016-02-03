@@ -1,0 +1,100 @@
+<html lang="en">
+<head>
+<title>Compiling with Project Files - GNAT User's Guide for Native Platforms</title>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+<meta name="description" content="GNAT User's Guide for Native Platforms">
+<meta name="generator" content="makeinfo 4.13">
+<link title="Top" rel="start" href="index.html#Top">
+<link rel="up" href="Building-With-Projects.html#Building-With-Projects" title="Building With Projects">
+<link rel="prev" href="Tools-Options-in-Project-Files.html#Tools-Options-in-Project-Files" title="Tools Options in Project Files">
+<link rel="next" href="Executable-File-Names.html#Executable-File-Names" title="Executable File Names">
+<link href="http://www.gnu.org/software/texinfo/" rel="generator-home" title="Texinfo Homepage">
+<!--
+
+     GNAT User's Guide for Native Platforms , March 24, 2015
+
+     AdaCore
+
+     Copyright (C) 2008-2015, Free Software Foundation
+-->
+<meta http-equiv="Content-Style-Type" content="text/css">
+<style type="text/css"><!--
+  pre.display { font-family:inherit }
+  pre.format  { font-family:inherit }
+  pre.smalldisplay { font-family:inherit; font-size:smaller }
+  pre.smallformat  { font-family:inherit; font-size:smaller }
+  pre.smallexample { font-size:smaller }
+  pre.smalllisp    { font-size:smaller }
+  span.sc    { font-variant:small-caps }
+  span.roman { font-family:serif; font-weight:normal; } 
+  span.sansserif { font-family:sans-serif; font-weight:normal; } 
+--></style>
+</head>
+<body>
+<div class="node">
+<a name="Compiling-with-Project-Files"></a>
+<p>
+Next:&nbsp;<a rel="next" accesskey="n" href="Executable-File-Names.html#Executable-File-Names">Executable File Names</a>,
+Previous:&nbsp;<a rel="previous" accesskey="p" href="Tools-Options-in-Project-Files.html#Tools-Options-in-Project-Files">Tools Options in Project Files</a>,
+Up:&nbsp;<a rel="up" accesskey="u" href="Building-With-Projects.html#Building-With-Projects">Building With Projects</a>
+<hr>
+</div>
+
+<p><a name="gnat_005fugn_002fgnat_005fproject_005fmanager-compiling_002dwith_002dproject_002dfiles"></a><a name="g_t160"></a><a name="gnat_005fugn_002fgnat_005fproject_005fmanager-id8"></a><a name="g_t161"></a>
+
+<h4 class="subsection">5.2.6 Compiling with Project Files</h4>
+
+<p>Now that our project files are written, let's build our executable. 
+Here is the command we would use from the command line:
+
+<pre class="example">    gnatmake -Pbuild
+</pre>
+<p>This will automatically build the executables specified through the
+`Main' attribute: for each, it will compile or recompile the
+sources for which the object file does not exist or is not up-to-date; it
+will then run the binder; and finally run the linker to create the
+executable itself.
+
+<p>`gnatmake' only knows how to handle Ada files. By using
+`gprbuild' as a builder, you could automatically manage C files the
+same way: create the file <code>utils.c</code> in the <code>common</code> directory,
+set the attribute `Languages' to <cite>"(Ada, C)"</cite>, and run
+
+<pre class="example">    gprbuild -Pbuild
+</pre>
+<p>Gprbuild knows how to recompile the C files and will
+recompile them only if one of their dependencies has changed. No direct
+indication on how to build the various elements is given in the
+project file, which describes the project properties rather than a
+set of actions to be executed. Here is the invocation of
+`gprbuild' when building a multi-language program:
+
+<pre class="example">    $ gprbuild -Pbuild
+    gcc -c proc.adb
+    gcc -c pack.adb
+    gcc -c utils.c
+    gprbind proc
+    ...
+    gcc proc.o -o proc
+</pre>
+<p>Notice the three steps described earlier:
+
+     <ul>
+<li>The first three gcc commands correspond to the compilation phase.
+
+     <li>The gprbind command corresponds to the post-compilation phase.
+
+     <li>The last gcc command corresponds to the final link. 
+</ul>
+
+<p><a name="index-g_t_002dv-option-_0028for-GPRbuild_0029-798"></a>
+The default output of GPRbuild's execution is kept reasonably simple and easy
+to understand. In particular, some of the less frequently used commands are not
+shown, and some parameters are abbreviated. So it is not possible to rerun the
+effect of the `gprbuild' command by cut-and-pasting its output. 
+GPRbuild's option <cite>-v</cite> provides a much more verbose output which includes,
+among other information, more complete compilation, post-compilation and link
+commands.
+
+</body></html>
+

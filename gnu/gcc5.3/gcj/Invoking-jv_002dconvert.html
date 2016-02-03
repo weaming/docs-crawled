@@ -1,0 +1,95 @@
+<html lang="en">
+<head>
+<title>Invoking jv-convert - Guide to GNU gcj</title>
+<meta http-equiv="Content-Type" content="text/html">
+<meta name="description" content="Guide to GNU gcj">
+<meta name="generator" content="makeinfo 4.13">
+<link title="Top" rel="start" href="index.html#Top">
+<link rel="prev" href="Invoking-gcj_002ddbtool.html#Invoking-gcj_002ddbtool" title="Invoking gcj-dbtool">
+<link rel="next" href="Invoking-grmic.html#Invoking-grmic" title="Invoking grmic">
+<link href="http://www.gnu.org/software/texinfo/" rel="generator-home" title="Texinfo Homepage">
+<!--
+Copyright (C) 2001-2015 Free Software Foundation, Inc.
+
+Permission is granted to copy, distribute and/or modify this document
+under the terms of the GNU Free Documentation License, Version 1.3 or
+any later version published by the Free Software Foundation; with no
+Invariant Sections, the Front-Cover Texts being (a) (see below), and
+with the Back-Cover Texts being (b) (see below).
+A copy of the license is included in the
+section entitled ``GNU Free Documentation License''.
+
+
+(a) The FSF's Front-Cover Text is:
+
+     A GNU Manual
+
+(b) The FSF's Back-Cover Text is:
+
+     You have freedom to copy and modify this GNU Manual, like GNU
+     software.  Copies published by the Free Software Foundation raise
+     funds for GNU development.
+-->
+<meta http-equiv="Content-Style-Type" content="text/css">
+<style type="text/css"><!--
+  pre.display { font-family:inherit }
+  pre.format  { font-family:inherit }
+  pre.smalldisplay { font-family:inherit; font-size:smaller }
+  pre.smallformat  { font-family:inherit; font-size:smaller }
+  pre.smallexample { font-size:smaller }
+  pre.smalllisp    { font-size:smaller }
+  span.sc    { font-variant:small-caps }
+  span.roman { font-family:serif; font-weight:normal; } 
+  span.sansserif { font-family:sans-serif; font-weight:normal; } 
+--></style>
+</head>
+<body>
+<div class="node">
+<a name="Invoking-jv-convert"></a>
+<a name="Invoking-jv_002dconvert"></a>
+<p>
+Next:&nbsp;<a rel="next" accesskey="n" href="Invoking-grmic.html#Invoking-grmic">Invoking grmic</a>,
+Previous:&nbsp;<a rel="previous" accesskey="p" href="Invoking-gcj_002ddbtool.html#Invoking-gcj_002ddbtool">Invoking gcj-dbtool</a>,
+Up:&nbsp;<a rel="up" accesskey="u" href="index.html#Top">Top</a>
+<hr>
+</div>
+
+<h2 class="chapter">6 Invoking jv-convert</h2>
+
+<!-- man title jv-convert Convert file from one encoding to another -->
+<!-- man begin SYNOPSIS jv-convert -->
+<p><samp><span class="command">jv-convert</span></samp> [<samp><span class="option">OPTION</span></samp>] <small class="dots">...</small> [<var>INPUTFILE</var> [<var>OUTPUTFILE</var>]]
+<!-- man end -->
+
+<!-- man begin DESCRIPTION jv-convert -->
+   <p><samp><span class="command">jv-convert</span></samp> is a utility included with <code>libgcj</code> which
+converts a file from one encoding to another.  It is similar to the Unix
+<samp><span class="command">iconv</span></samp> utility.
+
+   <p>The encodings supported by <samp><span class="command">jv-convert</span></samp> are platform-dependent. 
+Currently there is no way to get a list of all supported encodings.
+
+<!-- man end -->
+<!-- man begin OPTIONS jv-convert -->
+     <dl>
+<dt><code>--encoding </code><var>name</var><dt><code>--from </code><var>name</var><dd>Use <var>name</var> as the input encoding.  The default is the current
+locale's encoding.
+
+     <br><dt><code>--to </code><var>name</var><dd>Use <var>name</var> as the output encoding.  The default is the
+<code>JavaSrc</code> encoding; this is ASCII with &lsquo;<samp><span class="samp">\u</span></samp>&rsquo; escapes for
+non-ASCII characters.
+
+     <br><dt><code>-i </code><var>file</var><dd>Read from <var>file</var>.  The default is to read from standard input.
+
+     <br><dt><code>-o </code><var>file</var><dd>Write to <var>file</var>.  The default is to write to standard output.
+
+     <br><dt><code>--reverse</code><dd>Swap the input and output encodings.
+
+     <br><dt><code>--help</code><dd>Print a help message, then exit.
+
+     <br><dt><code>--version</code><dd>Print version information, then exit. 
+</dl>
+
+<!-- man end -->
+   </body></html>
+

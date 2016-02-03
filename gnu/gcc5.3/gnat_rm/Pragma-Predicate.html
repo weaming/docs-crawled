@@ -1,0 +1,91 @@
+<html lang="en">
+<head>
+<title>Pragma Predicate - GNAT Reference Manual</title>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+<meta name="description" content="GNAT Reference Manual">
+<meta name="generator" content="makeinfo 4.13">
+<link title="Top" rel="start" href="index.html#Top">
+<link rel="up" href="Implementation-Defined-Pragmas.html#Implementation-Defined-Pragmas" title="Implementation Defined Pragmas">
+<link rel="prev" href="Pragma-Precondition.html#Pragma-Precondition" title="Pragma Precondition">
+<link rel="next" href="Pragma-Preelaborable_005fInitialization.html#Pragma-Preelaborable_005fInitialization" title="Pragma Preelaborable_Initialization">
+<link href="http://www.gnu.org/software/texinfo/" rel="generator-home" title="Texinfo Homepage">
+<!--
+
+     GNAT Reference Manual , March 24, 2015
+
+     AdaCore
+
+     Copyright (C) 2008-2015, Free Software Foundation
+-->
+<meta http-equiv="Content-Style-Type" content="text/css">
+<style type="text/css"><!--
+  pre.display { font-family:inherit }
+  pre.format  { font-family:inherit }
+  pre.smalldisplay { font-family:inherit; font-size:smaller }
+  pre.smallformat  { font-family:inherit; font-size:smaller }
+  pre.smallexample { font-size:smaller }
+  pre.smalllisp    { font-size:smaller }
+  span.sc    { font-variant:small-caps }
+  span.roman { font-family:serif; font-weight:normal; } 
+  span.sansserif { font-family:sans-serif; font-weight:normal; } 
+--></style>
+</head>
+<body>
+<div class="node">
+<a name="Pragma-Predicate"></a>
+<p>
+Next:&nbsp;<a rel="next" accesskey="n" href="Pragma-Preelaborable_005fInitialization.html#Pragma-Preelaborable_005fInitialization">Pragma Preelaborable_Initialization</a>,
+Previous:&nbsp;<a rel="previous" accesskey="p" href="Pragma-Precondition.html#Pragma-Precondition">Pragma Precondition</a>,
+Up:&nbsp;<a rel="up" accesskey="u" href="Implementation-Defined-Pragmas.html#Implementation-Defined-Pragmas">Implementation Defined Pragmas</a>
+<hr>
+</div>
+
+<p><a name="gnat_005frm_002fimplementation_005fdefined_005fpragmas-pragma_002dpredicate"></a><a name="g_t9c"></a>
+
+<h3 class="section">2.128 Pragma Predicate</h3>
+
+<p>Syntax:
+
+<pre class="example">    pragma Predicate
+      ([Entity =&gt;] type_LOCAL_NAME,
+       [Check  =&gt;] EXPRESSION);
+</pre>
+<p>This pragma (available in all versions of Ada in GNAT) encompasses both
+the <cite>Static_Predicate</cite> and <cite>Dynamic_Predicate</cite> aspects in
+Ada 2012. A predicate is regarded as static if it has an allowed form
+for <cite>Static_Predicate</cite> and is otherwise treated as a
+<cite>Dynamic_Predicate</cite>. Otherwise, predicates specified by this
+pragma behave exactly as described in the Ada 2012 reference manual. 
+For example, if we have
+
+<pre class="example">    type R is range 1 .. 10;
+    subtype S is R;
+    pragma Predicate (Entity =&gt; S, Check =&gt; S not in 4 .. 6);
+    subtype Q is R
+    pragma Predicate (Entity =&gt; Q, Check =&gt; F(Q) or G(Q));
+</pre>
+<p>the effect is identical to the following Ada 2012 code:
+
+<pre class="example">    type R is range 1 .. 10;
+    subtype S is R with
+      Static_Predicate =&gt; S not in 4 .. 6;
+    subtype Q is R with
+      Dynamic_Predicate =&gt; F(Q) or G(Q);
+</pre>
+<p>Note that there is are no pragmas <cite>Dynamic_Predicate</cite>
+or <cite>Static_Predicate</cite>. That is
+because these pragmas would affect legality and semantics of
+the program and thus do not have a neutral effect if ignored. 
+The motivation behind providing pragmas equivalent to
+corresponding aspects is to allow a program to be written
+using the pragmas, and then compiled with a compiler that
+will ignore the pragmas. That doesn't work in the case of
+static and dynamic predicates, since if the corresponding
+pragmas are ignored, then the behavior of the program is
+fundamentally changed (for example a membership test
+<cite>A in B</cite> would not take into account a predicate
+defined for subtype B). When following this approach, the
+use of predicates should be avoided.
+
+</body></html>
+

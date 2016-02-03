@@ -1,0 +1,128 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
+<HTML>
+<HEAD> <TITLE>cURL - Security Advisory (re-use of wrong HTTP NTLM connection)</TITLE>
+<meta content="text/html; charset=UTF-8" http-equiv="Content-Type">
+<link rel="stylesheet" type="text/css" href="http://curl.haxx.se/curl.css">
+<link rel="shortcut icon" href="http://curl.haxx.se/favicon.ico">
+<link rel="STYLESHEET" type="text/css" href="http://curl.haxx.se/manpage.css">
+</HEAD>
+<body bgcolor="#ffffff" text="#000000">
+<div class="main">
+<div class="menu">
+<a href="index.html" class="menuitem" title="Documentation main page">Docs Overview</a>
+</div>
+<div class="contents">
+<div class="where"><a href="http://curl.haxx.se/">cURL</a> / <a href="index.html">Docs</a> / <a href="security.html">Security</a> / <b>libcurl re-use of wrong HTTP NTLM connection</b></div>
+<h1> libcurl re-use of wrong HTTP NTLM connection </h1>
+<div class="relatedbox">
+<b>Related:</b>
+<br><a href="http://curl.haxx.se/changes.html">Changelog</a>
+<br><a href="faq.html">FAQ</a>
+<br><a href="http://curl.haxx.se/dev/security.html">Security dev process</a>
+<br><a href="vulnerabilities.html">Vulnerabilities Table</a>
+</div>
+<pre>
+                 libcurl re-use of wrong HTTP NTLM connection
+                 ============================================
+&nbsp;
+Project cURL Security Advisory, January 29th 2014
+<a href="security.html">http://curl.haxx.se/docs/security.html</a>
+&nbsp;
+1. VULNERABILITY
+&nbsp;
+  libcurl can in some circumstances re-use the wrong connection when asked to
+  do an NTLM-authenticated HTTP or HTTPS request.
+&nbsp;
+  libcurl features a pool of recent connections so that subsequent requests
+  can re-use an existing connection to avoid overhead.
+&nbsp;
+  When re-using a connection a range of criterion must first be met. Due to a
+  logical error in the code, a request that was issued by an application could
+  wrongfully re-use an existing connection to the same server that was
+  authenticated using different credentials. One underlying reason being that
+  NTLM authenticates connections and not requests, contrary to how HTTP is
+  designed to work and how other authentication methods work.
+&nbsp;
+  An application that allows NTLM and another auth method (the bug only
+  triggers if more than one auth method is asked for) to a server (that
+  responds wanting NTLM) with user1:password1 and then does another operation
+  to the same server with user2:password2 (when the previous connection was
+  left alive) - the second request will re-use the same connection and since
+  it'll then see that the NTLM negotiation is already made, it will just send
+  the request over that connection thinking it uses 'user2' credentials when
+  it is in fact still using the connection authenticated for user1...
+&nbsp;
+  The set of auth methods to use is set with CURLOPT_HTTPAUTH.
+&nbsp;
+  Two common auth defines in libcurl are CURLAUTH_ANY and CURLAUTH_ANYSAFE.
+  Both of them ask for NTLM and other methods and can therefore trigger this
+  problem.
+&nbsp;
+  Applications can disable libcurl's re-use of connections and thus mitigate
+  this problem, by using one of the following libcurl options to alter how
+  connections are or aren't re-used: CURLOPT_FRESH_CONNECT,
+  CURLOPT_MAXCONNECTS and CURLMOPT_MAX_HOST_CONNECTIONS (if using curl_multi
+  API).
+&nbsp;
+  The Common Vulnerabilities and Exposures (CVE) project has assigned the name
+  CVE-2014-0015 to this issue.
+&nbsp;
+2. AFFECTED VERSIONS
+&nbsp;
+  This flaw has existed ever since libcurl started to support NTLM, although
+  the code has been restructured a few times over the years so the mistake has
+  altered shape over the years.
+&nbsp;
+  Affected versions: from libcurl 7.10.6 to and including 7.34.0
+  Not affected versions: libcurl before 7.10.6 and &gt;= 7.35.0
+&nbsp;
+  libcurl is used by many applications, but not always advertised as such!
+&nbsp;
+3. THE SOLUTION
+&nbsp;
+  libcurl 7.35.0 makes sure that connections that may use NTLM cannot re-use
+  another NTLM-using connection unless the credentials match.
+&nbsp;
+  A patch for this problem (that applies to libcurl &gt;= 7.28.0) is
+  available at:
+&nbsp;
+    <a href="https://github.com/bagder/curl/commit/8ae35102c43d8d">https://github.com/bagder/curl/commit/8ae35102c43d8d</a>
+&nbsp;
+  A patch that applies for 7.27.0 is available at:
+&nbsp;
+    <a href="http://curl.haxx.se/CVE-2014-0015-7-27.patch">http://curl.haxx.se/CVE-2014-0015-7-27.patch</a>
+&nbsp;
+  This fix is already committed to the public source code repository because
+  the full security impact wasn't properly realized until after the fact.
+&nbsp;
+4. RECOMMENDATIONS
+&nbsp;
+  We suggest you take one of the following actions immediately, in order of
+  preference:
+&nbsp;
+  A - Upgrade to curl and libcurl 7.35.0
+&nbsp;
+  B - Apply the patch and rebuild libcurl
+&nbsp;
+  C - Avoid using HTTP NTLM in your application, or make sure to *only*
+      specify NTLM as the requested authentication method.
+&nbsp;
+5. TIME LINE
+&nbsp;
+  It was reported to the curl project on January 7th 2014. We contacted
+  distros@openwall on January 14th.
+&nbsp;
+  libcurl 7.35.0 was released on January 29th 2014, coordinated with the
+  publication of this advisory.
+&nbsp;
+&nbsp;
+6. CREDITS
+&nbsp;
+  Bug originally reported by Paras Sethia. The security impact of it was
+  flagged by Yehezkel Horowitz.
+&nbsp;
+  Thanks a lot!
+</pre>
+</div>
+</div>
+</body> </html>

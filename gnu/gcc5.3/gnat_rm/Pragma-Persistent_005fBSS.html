@@ -1,0 +1,73 @@
+<html lang="en">
+<head>
+<title>Pragma Persistent_BSS - GNAT Reference Manual</title>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+<meta name="description" content="GNAT Reference Manual">
+<meta name="generator" content="makeinfo 4.13">
+<link title="Top" rel="start" href="index.html#Top">
+<link rel="up" href="Implementation-Defined-Pragmas.html#Implementation-Defined-Pragmas" title="Implementation Defined Pragmas">
+<link rel="prev" href="Pragma-Passive.html#Pragma-Passive" title="Pragma Passive">
+<link rel="next" href="Pragma-Polling.html#Pragma-Polling" title="Pragma Polling">
+<link href="http://www.gnu.org/software/texinfo/" rel="generator-home" title="Texinfo Homepage">
+<!--
+
+     GNAT Reference Manual , March 24, 2015
+
+     AdaCore
+
+     Copyright (C) 2008-2015, Free Software Foundation
+-->
+<meta http-equiv="Content-Style-Type" content="text/css">
+<style type="text/css"><!--
+  pre.display { font-family:inherit }
+  pre.format  { font-family:inherit }
+  pre.smalldisplay { font-family:inherit; font-size:smaller }
+  pre.smallformat  { font-family:inherit; font-size:smaller }
+  pre.smallexample { font-size:smaller }
+  pre.smalllisp    { font-size:smaller }
+  span.sc    { font-variant:small-caps }
+  span.roman { font-family:serif; font-weight:normal; } 
+  span.sansserif { font-family:sans-serif; font-weight:normal; } 
+--></style>
+</head>
+<body>
+<div class="node">
+<a name="Pragma-Persistent_BSS"></a>
+<a name="Pragma-Persistent_005fBSS"></a>
+<p>
+Next:&nbsp;<a rel="next" accesskey="n" href="Pragma-Polling.html#Pragma-Polling">Pragma Polling</a>,
+Previous:&nbsp;<a rel="previous" accesskey="p" href="Pragma-Passive.html#Pragma-Passive">Pragma Passive</a>,
+Up:&nbsp;<a rel="up" accesskey="u" href="Implementation-Defined-Pragmas.html#Implementation-Defined-Pragmas">Implementation Defined Pragmas</a>
+<hr>
+</div>
+
+<p><a name="gnat_005frm_002fimplementation_005fdefined_005fpragmas-pragma_002dpersistent_002dbss"></a><a name="g_t95"></a>
+
+<h3 class="section">2.121 Pragma Persistent_BSS</h3>
+
+<p>Syntax:
+
+<pre class="example">    pragma Persistent_BSS [(LOCAL_NAME)]
+</pre>
+<p>This pragma allows selected objects to be placed in the <cite>.persistent_bss</cite>
+section. On some targets the linker and loader provide for special
+treatment of this section, allowing a program to be reloaded without
+affecting the contents of this data (hence the name persistent).
+
+<p>There are two forms of usage. If an argument is given, it must be the
+local name of a library level object, with no explicit initialization
+and whose type is potentially persistent. If no argument is given, then
+the pragma is a configuration pragma, and applies to all library level
+objects with no explicit initialization of potentially persistent types.
+
+<p>A potentially persistent type is a scalar type, or an untagged,
+non-discriminated record, all of whose components have no explicit
+initialization and are themselves of a potentially persistent type,
+or an array, all of whose constraints are static, and whose component
+type is potentially persistent.
+
+<p>If this pragma is used on a target where this feature is not supported,
+then the pragma will be ignored. See also <cite>pragma Linker_Section</cite>.
+
+</body></html>
+

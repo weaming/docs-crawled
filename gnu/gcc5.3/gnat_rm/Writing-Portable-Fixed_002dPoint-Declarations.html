@@ -1,0 +1,144 @@
+<html lang="en">
+<head>
+<title>Writing Portable Fixed-Point Declarations - GNAT Reference Manual</title>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+<meta name="description" content="GNAT Reference Manual">
+<meta name="generator" content="makeinfo 4.13">
+<link title="Top" rel="start" href="index.html#Top">
+<link rel="up" href="Compatibility-and-Porting-Guide.html#Compatibility-and-Porting-Guide" title="Compatibility and Porting Guide">
+<link rel="next" href="Compatibility-with-Ada-83.html#Compatibility-with-Ada-83" title="Compatibility with Ada 83">
+<link href="http://www.gnu.org/software/texinfo/" rel="generator-home" title="Texinfo Homepage">
+<!--
+
+     GNAT Reference Manual , March 24, 2015
+
+     AdaCore
+
+     Copyright (C) 2008-2015, Free Software Foundation
+-->
+<meta http-equiv="Content-Style-Type" content="text/css">
+<style type="text/css"><!--
+  pre.display { font-family:inherit }
+  pre.format  { font-family:inherit }
+  pre.smalldisplay { font-family:inherit; font-size:smaller }
+  pre.smallformat  { font-family:inherit; font-size:smaller }
+  pre.smallexample { font-size:smaller }
+  pre.smalllisp    { font-size:smaller }
+  span.sc    { font-variant:small-caps }
+  span.roman { font-family:serif; font-weight:normal; } 
+  span.sansserif { font-family:sans-serif; font-weight:normal; } 
+--></style>
+</head>
+<body>
+<div class="node">
+<a name="Writing-Portable-Fixed-Point-Declarations"></a>
+<a name="Writing-Portable-Fixed_002dPoint-Declarations"></a>
+<p>
+Next:&nbsp;<a rel="next" accesskey="n" href="Compatibility-with-Ada-83.html#Compatibility-with-Ada-83">Compatibility with Ada 83</a>,
+Up:&nbsp;<a rel="up" accesskey="u" href="Compatibility-and-Porting-Guide.html#Compatibility-and-Porting-Guide">Compatibility and Porting Guide</a>
+<hr>
+</div>
+
+<p><a name="gnat_005frm_002fcompatibility_005fand_005fporting_005fguide-id2"></a><a name="g_t3d7"></a><a name="gnat_005frm_002fcompatibility_005fand_005fporting_005fguide-writing_002dportable_002dfixed_002dpoint_002ddeclarations"></a><a name="g_t3d8"></a>
+
+<h3 class="section">18.1 Writing Portable Fixed-Point Declarations</h3>
+
+<p>The Ada Reference Manual gives an implementation freedom to choose bounds
+that are narrower by <cite>Small</cite> from the given bounds. 
+For example, if we write
+
+<pre class="example">    type F1 is delta 1.0 range -128.0 .. +128.0;
+</pre>
+<p>then the implementation is allowed to choose -128.0 .. +127.0 if it
+likes, but is not required to do so.
+
+<p>This leads to possible portability problems, so let's have a closer
+look at this, and figure out how to avoid these problems.
+
+<p>First, why does this freedom exist, and why would an implementation
+take advantage of it? To answer this, take a closer look at the type
+declaration for <cite>F1</cite> above. If the compiler uses the given bounds,
+it would need 9 bits to hold the largest positive value (and typically
+that means 16 bits on all machines). But if the implementation chooses
+the +127.0 bound then it can fit values of the type in 8 bits.
+
+<p>Why not make the user write +127.0 if that's what is wanted? 
+The rationale is that if you are thinking of fixed point
+as a kind of 'poor man's floating-point', then you don't want
+to be thinking about the scaled integers that are used in its
+representation. Let's take another example:
+
+<pre class="example">    type F2 is delta 2.0**(-15) range -1.0 .. +1.0;
+</pre>
+<p>Looking at this declaration, it seems casually as though
+it should fit in 16 bits, but again that extra positive value
++1.0 has the scaled integer equivalent of 2**15 which is one too
+big for signed 16 bits. The implementation can treat this as:
+
+<pre class="example">    type F2 is delta 2.0**(-15) range -1.0 .. +1.0-(2.0**(-15));
+</pre>
+<p>and the Ada language design team felt that this was too annoying
+to require. We don't need to debate this decision at this point,
+since it is well established (the rule about narrowing the ranges
+dates to Ada 83).
+
+<p>But the important point is that an implementation is not required
+to do this narrowing, so we have a potential portability problem. 
+We could imagine three types of implementation:
+
+     <ol type=a start=1>
+
+     <li>those that narrow the range automatically if they can figure
+out that the narrower range will allow storage in a smaller machine unit,
+
+     <li>those that will narrow only if forced to by a <cite>'Size</cite> clause, and
+
+     <li>those that will never narrow.
+     </ol>
+
+<p>Now if we are language theoreticians, we can imagine a fourth
+approach: to narrow all the time, e.g. to treat
+
+<pre class="example">    type F3 is delta 1.0 range -10.0 .. +23.0;
+</pre>
+<p>as though it had been written:
+
+<pre class="example">    type F3 is delta 1.0 range -9.0 .. +22.0;
+</pre>
+<p>But although technically allowed, such a behavior would be hostile and silly,
+and no real compiler would do this. All real compilers will fall into one of
+the categories (a), (b) or (c) above.
+
+<p>So, how do you get the compiler to do what you want? The answer is give the
+actual bounds you want, and then use a <cite>'Small</cite> clause and a
+<cite>'Size</cite> clause to absolutely pin down what the compiler does. 
+E.g., for <cite>F2</cite> above, we will write:
+
+<pre class="example">    My_Small : constant := 2.0**(-15);
+    My_First : constant := -1.0;
+    My_Last  : constant := +1.0 - My_Small;
+    
+    type F2 is delta My_Small range My_First .. My_Last;
+</pre>
+<p>and then add
+
+<pre class="example">    for F2'Small use my_Small;
+    for F2'Size  use 16;
+</pre>
+<p>In practice all compilers will do the same thing here and will give you
+what you want, so the above declarations are fully portable. If you really
+want to play language lawyer and guard against ludicrous behavior by the
+compiler you could add
+
+<pre class="example">    Test1 : constant := 1 / Boolean'Pos (F2'First = My_First);
+    Test2 : constant := 1 / Boolean'Pos (F2'Last  = My_Last);
+</pre>
+<p>One or other or both are allowed to be illegal if the compiler is
+behaving in a silly manner, but at least the silly compiler will not
+get away with silently messing with your (very clear) intentions.
+
+<p>If you follow this scheme you will be guaranteed that your fixed-point
+types will be portable.
+
+</body></html>
+

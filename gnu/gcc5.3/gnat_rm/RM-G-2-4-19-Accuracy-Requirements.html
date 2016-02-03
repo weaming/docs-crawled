@@ -1,0 +1,65 @@
+<html lang="en">
+<head>
+<title>RM G 2 4 19 Accuracy Requirements - GNAT Reference Manual</title>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+<meta name="description" content="GNAT Reference Manual">
+<meta name="generator" content="makeinfo 4.13">
+<link title="Top" rel="start" href="index.html#Top">
+<link rel="up" href="Implementation-Advice.html#Implementation-Advice" title="Implementation Advice">
+<link rel="prev" href="RM-G-1-2-49-Complex-Elementary-Functions.html#RM-G-1-2-49-Complex-Elementary-Functions" title="RM G 1 2 49 Complex Elementary Functions">
+<link rel="next" href="RM-G-2-6-15-Complex-Arithmetic-Accuracy.html#RM-G-2-6-15-Complex-Arithmetic-Accuracy" title="RM G 2 6 15 Complex Arithmetic Accuracy">
+<link href="http://www.gnu.org/software/texinfo/" rel="generator-home" title="Texinfo Homepage">
+<!--
+
+     GNAT Reference Manual , March 24, 2015
+
+     AdaCore
+
+     Copyright (C) 2008-2015, Free Software Foundation
+-->
+<meta http-equiv="Content-Style-Type" content="text/css">
+<style type="text/css"><!--
+  pre.display { font-family:inherit }
+  pre.format  { font-family:inherit }
+  pre.smalldisplay { font-family:inherit; font-size:smaller }
+  pre.smallformat  { font-family:inherit; font-size:smaller }
+  pre.smallexample { font-size:smaller }
+  pre.smalllisp    { font-size:smaller }
+  span.sc    { font-variant:small-caps }
+  span.roman { font-family:serif; font-weight:normal; } 
+  span.sansserif { font-family:sans-serif; font-weight:normal; } 
+--></style>
+</head>
+<body>
+<div class="node">
+<a name="RM-G-2-4-19-Accuracy-Requirements"></a>
+<p>
+Next:&nbsp;<a rel="next" accesskey="n" href="RM-G-2-6-15-Complex-Arithmetic-Accuracy.html#RM-G-2-6-15-Complex-Arithmetic-Accuracy">RM G 2 6 15 Complex Arithmetic Accuracy</a>,
+Previous:&nbsp;<a rel="previous" accesskey="p" href="RM-G-1-2-49-Complex-Elementary-Functions.html#RM-G-1-2-49-Complex-Elementary-Functions">RM G 1 2 49 Complex Elementary Functions</a>,
+Up:&nbsp;<a rel="up" accesskey="u" href="Implementation-Advice.html#Implementation-Advice">Implementation Advice</a>
+<hr>
+</div>
+
+<p><a name="gnat_005frm_002fimplementation_005fadvice-rm_002dg_002d2_002d4_002d19_002daccuracy_002drequirements"></a><a name="g_t1fa"></a>
+
+<h3 class="section">6.62 RM G.2.4(19): Accuracy Requirements</h3>
+
+<blockquote>
+
+<p>"The versions of the forward trigonometric functions without a
+<cite>Cycle</cite> parameter should not be implemented by calling the
+corresponding version with a <cite>Cycle</cite> parameter of
+<cite>2.0*Numerics.Pi</cite>, since this will not provide the required
+accuracy in some portions of the domain.  For the same reason, the
+version of <cite>Log</cite> without a <cite>Base</cite> parameter should not be
+implemented by calling the corresponding version with a <cite>Base</cite>
+parameter of <cite>Numerics.e</cite>." 
+</blockquote>
+
+<p>Followed.
+
+<p><a name="index-Complex-arithmetic-accuracy-454"></a>
+<a name="index-Accuracy-455"></a><a name="index-complex-arithmetic-456"></a>
+
+</body></html>
+

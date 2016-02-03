@@ -1,0 +1,82 @@
+<html lang="en">
+<head>
+<title>Program and DLL Both Built with GCC/GNAT - GNAT User's Guide for Native Platforms</title>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+<meta name="description" content="GNAT User's Guide for Native Platforms">
+<meta name="generator" content="makeinfo 4.13">
+<link title="Top" rel="start" href="index.html#Top">
+<link rel="up" href="Debugging-a-DLL.html#Debugging-a-DLL" title="Debugging a DLL">
+<link rel="next" href="Program-Built-with-Foreign-Tools-and-DLL-Built-with-GCC_002fGNAT.html#Program-Built-with-Foreign-Tools-and-DLL-Built-with-GCC_002fGNAT" title="Program Built with Foreign Tools and DLL Built with GCC/GNAT">
+<link href="http://www.gnu.org/software/texinfo/" rel="generator-home" title="Texinfo Homepage">
+<!--
+
+     GNAT User's Guide for Native Platforms , March 24, 2015
+
+     AdaCore
+
+     Copyright (C) 2008-2015, Free Software Foundation
+-->
+<meta http-equiv="Content-Style-Type" content="text/css">
+<style type="text/css"><!--
+  pre.display { font-family:inherit }
+  pre.format  { font-family:inherit }
+  pre.smalldisplay { font-family:inherit; font-size:smaller }
+  pre.smallformat  { font-family:inherit; font-size:smaller }
+  pre.smallexample { font-size:smaller }
+  pre.smalllisp    { font-size:smaller }
+  span.sc    { font-variant:small-caps }
+  span.roman { font-family:serif; font-weight:normal; } 
+  span.sansserif { font-family:sans-serif; font-weight:normal; } 
+--></style>
+</head>
+<body>
+<div class="node">
+<a name="Program-and-DLL-Both-Built-with-GCC%2fGNAT"></a>
+<a name="Program-and-DLL-Both-Built-with-GCC_002fGNAT"></a>
+<p>
+Next:&nbsp;<a rel="next" accesskey="n" href="Program-Built-with-Foreign-Tools-and-DLL-Built-with-GCC_002fGNAT.html#Program-Built-with-Foreign-Tools-and-DLL-Built-with-GCC_002fGNAT">Program Built with Foreign Tools and DLL Built with GCC/GNAT</a>,
+Up:&nbsp;<a rel="up" accesskey="u" href="Debugging-a-DLL.html#Debugging-a-DLL">Debugging a DLL</a>
+<hr>
+</div>
+
+<p><a name="gnat_005fugn_002fplatform_005fspecific_005finformation-program_002dand_002ddll_002dboth_002dbuilt_002dwith_002dgcc_002dgnat"></a><a name="g_t2a4"></a><a name="gnat_005fugn_002fplatform_005fspecific_005finformation-id38"></a><a name="g_t2a5"></a>
+
+<h5 class="subsubsection">9.3.5.25 Program and DLL Both Built with GCC/GNAT</h5>
+
+<p>This is the simplest case. Both the DLL and the program have <cite>GDB</cite>
+compatible debugging information. It is then possible to break anywhere in
+the process. Let's suppose here that the main procedure is named
+<cite>ada_main</cite> and that in the DLL there is an entry point named
+<cite>ada_dll</cite>.
+
+<p>The DLL (<a href="27f.html#g_t27f">Introduction to Dynamic Link Libraries (DLLs)</a>) and
+program must have been built with the debugging information (see GNAT -g
+switch). Here are the step-by-step instructions for debugging it:
+
+     <ul>
+<li>Launch <cite>GDB</cite> on the main program.
+
+     <pre class="example">         $ gdb -nw ada_main
+</pre>
+     <li>Start the program and stop at the beginning of the main procedure
+
+     <pre class="example">         (gdb) start
+</pre>
+     <p>This step is required to be able to set a breakpoint inside the DLL. As long
+as the program is not run, the DLL is not loaded. This has the
+consequence that the DLL debugging information is also not loaded, so it is not
+possible to set a breakpoint in the DLL.
+
+     <li>Set a breakpoint inside the DLL
+
+     <pre class="example">         (gdb) break ada_dll
+         (gdb) cont
+</pre>
+     </ul>
+
+<p>At this stage a breakpoint is set inside the DLL. From there on
+you can use the standard approach to debug the whole program
+(<a href="26.html#g_t26">Running and Debugging Ada Programs</a>).
+
+</body></html>
+

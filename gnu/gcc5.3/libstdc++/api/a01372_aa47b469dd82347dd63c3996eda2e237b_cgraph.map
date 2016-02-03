@@ -1,0 +1,19 @@
+<map id="__gnu_parallel::__parallel_sort" name="__gnu_parallel::__parallel_sort">
+<area shape="rect" id="node2" href="$a00163.html#a18b32829b31b902699690b750e190e59" title="Find out desired number of threads. " alt="" coords="249,5,411,44"/>
+<area shape="rect" id="node3" href="$a01372.html#ac416a1c7e347b429bbf7a8fb17e847b2" title="Unbalanced quicksort main call. " alt="" coords="247,120,413,159"/>
+<area shape="rect" id="node10" href="$a00146.html#abc4965eacae0b49945ebc887cb11adc1" title="Get the global settings. " alt="" coords="1105,145,1291,171"/>
+<area shape="rect" id="node11" href="$a01372.html#a4093dd098b32542e3d3f43ebd4c6f940" title="Top&#45;level quicksort routine. " alt="" coords="247,285,413,324"/>
+<area shape="rect" id="node4" href="$a01372.html#a06c506308856b684737d24944a93a42e" title="Unbalanced quicksort conquer step. " alt="" coords="461,120,628,159"/>
+<area shape="rect" id="node5" href="$a01372.html#a55defa3d8e8ca7b4e52330b9afc0b1ce" title="Unbalanced quicksort divide step. " alt="" coords="676,171,843,209"/>
+<area shape="rect" id="node6" href="$a01403.html#gad48656de2f272a953455e1fff2532125" title="This does what you think it does. " alt="" coords="942,171,1006,196"/>
+<area shape="rect" id="node7" href="$a01372.html#aa56788b479955dd136d6af173d2cae0b" title="Parallel implementation of std::partition. " alt="" coords="891,220,1057,259"/>
+<area shape="rect" id="node8" href="$a01372.html#accd4441e0f846fee44966195a91e9e68" title="Compare&#45;and&#45;swap. " alt="" coords="1111,207,1285,245"/>
+<area shape="rect" id="node9" href="$a01372.html#a56a5a84c8a6049cd3cc83968c6eae088" title="Add a value to a variable, atomically. " alt="" coords="1123,269,1273,308"/>
+<area shape="rect" id="node12" href="$a01372.html#ae8e1f6dc07de01f28bf591339cf8aa9c" title="Calculates the rounded&#45;down logarithm of __n for base 2. " alt="" coords="461,264,628,289"/>
+<area shape="rect" id="node13" href="$a01442.html#ga0409e288f07b697cb6885d1002df0bd6" title="A convenience wrapper for creating a pair from two objects. " alt="" coords="923,447,1025,472"/>
+<area shape="rect" id="node14" href="$a01372.html#a8d9c5686c4621822c7c3cdd015f7e693" title="Quicksort conquer step. " alt="" coords="472,313,617,352"/>
+<area shape="rect" id="node15" href="$a01372.html#a7565d258aacb02328cef6eb2781ab711" title="Quicksort step doing load&#45;balanced local sort. " alt="" coords="680,355,839,393"/>
+<area shape="rect" id="node17" href="$a01372.html#afc19882fd22d39e54475d41fd981ac49" title="Balanced quicksort divide step. " alt="" coords="687,283,832,321"/>
+<area shape="rect" id="node16" href="$a01372.html#aaa76236af73146ae89f726921bc3f2cb" title="Yield control to another thread, without waiting for the end of the time slice. " alt="" coords="899,397,1049,423"/>
+<area shape="rect" id="node18" href="$a01372.html#a74914ea59d68887b517e12c90189dbcd" title="Compute the median of three referenced elements, according to __comp. " alt="" coords="891,283,1057,321"/>
+</map>

@@ -1,0 +1,70 @@
+<html lang="en">
+<head>
+<title>File content encoding - GNAT Reference Manual</title>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+<meta name="description" content="GNAT Reference Manual">
+<meta name="generator" content="makeinfo 4.13">
+<link title="Top" rel="start" href="index.html#Top">
+<link rel="up" href="The-Implementation-of-Standard-I_002fO.html#The-Implementation-of-Standard-I_002fO" title="The Implementation of Standard I/O">
+<link rel="prev" href="Filenames-encoding.html#Filenames-encoding" title="Filenames encoding">
+<link rel="next" href="Open-Modes.html#Open-Modes" title="Open Modes">
+<link href="http://www.gnu.org/software/texinfo/" rel="generator-home" title="Texinfo Homepage">
+<!--
+
+     GNAT Reference Manual , March 24, 2015
+
+     AdaCore
+
+     Copyright (C) 2008-2015, Free Software Foundation
+-->
+<meta http-equiv="Content-Style-Type" content="text/css">
+<style type="text/css"><!--
+  pre.display { font-family:inherit }
+  pre.format  { font-family:inherit }
+  pre.smalldisplay { font-family:inherit; font-size:smaller }
+  pre.smallformat  { font-family:inherit; font-size:smaller }
+  pre.smallexample { font-size:smaller }
+  pre.smalllisp    { font-size:smaller }
+  span.sc    { font-variant:small-caps }
+  span.roman { font-family:serif; font-weight:normal; } 
+  span.sansserif { font-family:sans-serif; font-weight:normal; } 
+--></style>
+</head>
+<body>
+<div class="node">
+<a name="File-content-encoding"></a>
+<p>
+Next:&nbsp;<a rel="next" accesskey="n" href="Open-Modes.html#Open-Modes">Open Modes</a>,
+Previous:&nbsp;<a rel="previous" accesskey="p" href="Filenames-encoding.html#Filenames-encoding">Filenames encoding</a>,
+Up:&nbsp;<a rel="up" accesskey="u" href="The-Implementation-of-Standard-I_002fO.html#The-Implementation-of-Standard-I_002fO">The Implementation of Standard I/O</a>
+<hr>
+</div>
+
+<p><a name="gnat_005frm_002fthe_005fimplementation_005fof_005fstandard_005fi_005fo-file_002dcontent_002dencoding"></a><a name="g_t26e"></a><a name="gnat_005frm_002fthe_005fimplementation_005fof_005fstandard_005fi_005fo-id23"></a><a name="g_t26f"></a>
+
+<h3 class="section">11.12 File content encoding</h3>
+
+<p>For text files it is possible to specify the encoding to use. This is
+controlled by the by the <code>GNAT_CCS_ENCODING</code> environment
+variable. And if not set <code>TEXT</code> is assumed.
+
+<p>The possible values are those supported on Windows:
+
+     <dl>
+<dt>`TEXT'<dd>
+Translated text mode
+
+     <br><dt>`WTEXT'<dd>
+Translated unicode encoding
+
+     <br><dt>`U16TEXT'<dd>
+Unicode 16-bit encoding
+
+     <br><dt>`U8TEXT'<dd>
+Unicode 8-bit encoding
+</dl>
+
+<p>This encoding is only supported on the Windows platform.
+
+</body></html>
+

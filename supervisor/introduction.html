@@ -1,0 +1,258 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+  "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+
+
+<html xmlns="http://www.w3.org/1999/xhtml">
+  <head>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+    
+    <title>Introduction &mdash; Supervisor 4.0.0.dev0 documentation</title>
+    
+    <link rel="stylesheet" href="_static/repoze.css" type="text/css" />
+    <link rel="stylesheet" href="_static/pygments.css" type="text/css" />
+    
+    <script type="text/javascript">
+      var DOCUMENTATION_OPTIONS = {
+        URL_ROOT:    './',
+        VERSION:     '4.0.0.dev0',
+        COLLAPSE_INDEX: false,
+        FILE_SUFFIX: '.html',
+        HAS_SOURCE:  true
+      };
+    </script>
+    <script type="text/javascript" src="_static/jquery.js"></script>
+    <script type="text/javascript" src="_static/underscore.js"></script>
+    <script type="text/javascript" src="_static/doctools.js"></script>
+    <link rel="top" title="Supervisor 4.0.0.dev0 documentation" href="index.html" />
+    <link rel="next" title="Installing" href="installing.html" />
+    <link rel="prev" title="Supervisor: A Process Control System" href="index.html" />
+   
+  
+  <meta name="viewport" content="width=device-width, initial-scale=0.9, maximum-scale=0.9" />
+
+  </head>
+  <body role="document">  
+
+    <div class="document">
+      <div class="documentwrapper">
+        <div class="bodywrapper">
+          <div class="body" role="main">
+            
+  <div class="section" id="introduction">
+<h1>Introduction<a class="headerlink" href="#introduction" title="Permalink to this headline">¶</a></h1>
+<div class="section" id="overview">
+<h2>Overview<a class="headerlink" href="#overview" title="Permalink to this headline">¶</a></h2>
+<p>Supervisor is a client/server system that allows its users to control
+a number of processes on UNIX-like operating systems.  It was inspired
+by the following:</p>
+<p>Convenience</p>
+<blockquote>
+<div>It is often inconvenient to need to write <code class="docutils literal"><span class="pre">rc.d</span></code> scripts for every
+single process instance.  <code class="docutils literal"><span class="pre">rc.d</span></code> scripts are a great
+lowest-common-denominator form of process
+initialization/autostart/management, but they can be painful to
+write and maintain.  Additionally, <code class="docutils literal"><span class="pre">rc.d</span></code> scripts cannot
+automatically restart a crashed process and many programs do not
+restart themselves properly on a crash.  Supervisord starts
+processes as its subprocesses, and can be configured to
+automatically restart them on a crash.  It can also automatically be
+configured to start processes on its own invocation.</div></blockquote>
+<p>Accuracy</p>
+<blockquote>
+<div>It&#8217;s often difficult to get accurate up/down status on processes on
+UNIX.  Pidfiles often lie.  Supervisord starts processes as
+subprocesses, so it always knows the true up/down status of its
+children and can be queried conveniently for this data.</div></blockquote>
+<p>Delegation</p>
+<blockquote>
+<div>Users who need to control process state often need only to do that.
+They don&#8217;t want or need full-blown shell access to the machine on
+which the processes are running.  Processes which listen on &#8220;low&#8221;
+TCP ports often need to be started and restarted as the root user (a
+UNIX misfeature).  It&#8217;s usually the case that it&#8217;s perfectly fine to
+allow &#8220;normal&#8221; people to stop or restart such a process, but
+providing them with shell access is often impractical, and providing
+them with root access or sudo access is often impossible.  It&#8217;s also
+(rightly) difficult to explain to them why this problem exists.  If
+supervisord is started as root, it is possible to allow &#8220;normal&#8221;
+users to control such processes without needing to explain the
+intricacies of the problem to them.  Supervisorctl allows a very
+limited form of access to the machine, essentially allowing users to
+see process status and control supervisord-controlled subprocesses
+by emitting &#8220;stop&#8221;, &#8220;start&#8221;, and &#8220;restart&#8221; commands from a simple
+shell or web UI.</div></blockquote>
+<p>Process Groups</p>
+<blockquote>
+<div>Processes often need to be started and stopped in groups, sometimes
+even in a &#8220;priority order&#8221;.  It&#8217;s often difficult to explain to
+people how to do this.  Supervisor allows you to assign priorities
+to processes, and allows user to emit commands via the supervisorctl
+client like &#8220;start all&#8221;, and &#8220;restart all&#8221;, which starts them in the
+preassigned priority order.  Additionally, processes can be grouped
+into &#8220;process groups&#8221; and a set of logically related processes can
+be stopped and started as a unit.</div></blockquote>
+</div>
+<div class="section" id="features">
+<h2>Features<a class="headerlink" href="#features" title="Permalink to this headline">¶</a></h2>
+<p>Simple</p>
+<blockquote>
+<div>Supervisor is configured through a simple INI-style config file
+that’s easy to learn. It provides many per-process options that make
+your life easier like restarting failed processes and automatic log
+rotation.</div></blockquote>
+<p>Centralized</p>
+<blockquote>
+<div>Supervisor provides you with one place to start, stop, and monitor
+your processes. Processes can be controlled individually or in
+groups. You can configure Supervisor to provide a local or remote
+command line and web interface.</div></blockquote>
+<p>Efficient</p>
+<blockquote>
+<div>Supervisor starts its subprocesses via fork/exec and subprocesses
+don’t daemonize. The operating system signals Supervisor immediately
+when a process terminates, unlike some solutions that rely on
+troublesome PID files and periodic polling to restart failed
+processes.</div></blockquote>
+<p>Extensible</p>
+<blockquote>
+<div>Supervisor has a simple event notification protocol that programs
+written in any language can use to monitor it, and an XML-RPC
+interface for control. It is also built with extension points that
+can be leveraged by Python developers.</div></blockquote>
+<p>Compatible</p>
+<blockquote>
+<div>Supervisor works on just about everything except for Windows. It is
+tested and supported on Linux, Mac OS X, Solaris, and FreeBSD. It is
+written entirely in Python, so installation does not require a C
+compiler.</div></blockquote>
+<p>Proven</p>
+<blockquote>
+<div>While Supervisor is very actively developed today, it is not new
+software. Supervisor has been around for years and is already in use
+on many servers.</div></blockquote>
+</div>
+<div class="section" id="supervisor-components">
+<h2>Supervisor Components<a class="headerlink" href="#supervisor-components" title="Permalink to this headline">¶</a></h2>
+<p><strong class="program">supervisord</strong></p>
+<blockquote>
+<div><p>The server piece of supervisor is named <strong class="program">supervisord</strong>.  It
+is responsible for starting child programs at its own invocation,
+responding to commands from clients, restarting crashed or exited
+subprocesseses, logging its subprocess <code class="docutils literal"><span class="pre">stdout</span></code> and <code class="docutils literal"><span class="pre">stderr</span></code>
+output, and generating and handling &#8220;events&#8221; corresponding to points
+in subprocess lifetimes.</p>
+<p>The server process uses a configuration file.  This is typically
+located in <code class="file docutils literal"><span class="pre">/etc/supervisord.conf</span></code>.  This configuration file
+is a &#8220;Windows-INI&#8221; style config file.  It is important to keep this
+file secure via proper filesystem permissions because it may contain
+unencrypted usernames and passwords.</p>
+</div></blockquote>
+<p><strong class="program">supervisorctl</strong></p>
+<blockquote>
+<div><p>The command-line client piece of the supervisor is named
+<strong class="program">supervisorctl</strong>.  It provides a shell-like interface to the
+features provided by <strong class="program">supervisord</strong>.  From
+<strong class="program">supervisorctl</strong>, a user can connect to different
+<strong class="program">supervisord</strong> processes, get status on the subprocesses
+controlled by, stop and start subprocesses of, and get lists of
+running processes of a <strong class="program">supervisord</strong>.</p>
+<p>The command-line client talks to the server across a UNIX domain
+socket or an internet (TCP) socket.  The server can assert that the
+user of a client should present authentication credentials before it
+allows him to perform commands.  The client process typically uses
+the same configuration file as the server but any configuration file
+with a <code class="docutils literal"><span class="pre">[supervisorctl]</span></code> section in it will work.</p>
+</div></blockquote>
+<p>Web Server</p>
+<blockquote>
+<div>A (sparse) web user interface with functionality comparable to
+<strong class="program">supervisorctl</strong> may be accessed via a browser if you start
+<strong class="program">supervisord</strong> against an internet socket.  Visit the server
+URL (e.g. <code class="docutils literal"><span class="pre">http://localhost:9001/</span></code>) to view and control process
+status through the web interface after activating the configuration
+file&#8217;s <code class="docutils literal"><span class="pre">[inet_http_server]</span></code> section.</div></blockquote>
+<p>XML-RPC Interface</p>
+<blockquote>
+<div>The same HTTP server which serves the web UI serves up an XML-RPC
+interface that can be used to interrogate and control supervisor and
+the programs it runs.  See <a class="reference internal" href="api.html#xml-rpc"><span>XML-RPC API Documentation</span></a>.</div></blockquote>
+</div>
+<div class="section" id="platform-requirements">
+<h2>Platform Requirements<a class="headerlink" href="#platform-requirements" title="Permalink to this headline">¶</a></h2>
+<p>Supervisor has been tested and is known to run on Linux (Ubuntu 9.10),
+Mac OS X (10.4/10.5/10.6), and Solaris (10 for Intel) and FreeBSD 6.1.
+It will likely work fine on most UNIX systems.</p>
+<p>Supervisor will <em>not</em> run at all under any version of Windows.</p>
+<p>Supervisor works under Python 2 version 2.6 or greater and Python 3 version 3.2 or greater.</p>
+</div>
+</div>
+
+
+          </div>
+        </div>
+      </div>
+      <div class="sphinxsidebar" role="navigation" aria-label="main navigation">
+        <div class="sphinxsidebarwrapper">
+            <p class="logo"><a href="index.html">
+              <img class="logo" src="_static/logo_hi.gif" alt="Logo"/>
+            </a></p>
+  <h3><a href="index.html">Table Of Contents</a></h3>
+  <ul>
+<li><a class="reference internal" href="#">Introduction</a><ul>
+<li><a class="reference internal" href="#overview">Overview</a></li>
+<li><a class="reference internal" href="#features">Features</a></li>
+<li><a class="reference internal" href="#supervisor-components">Supervisor Components</a></li>
+<li><a class="reference internal" href="#platform-requirements">Platform Requirements</a></li>
+</ul>
+</li>
+</ul>
+<div class="relations">
+<h3>Related Topics</h3>
+<ul>
+  <li><a href="index.html">Documentation overview</a><ul>
+      <li>Previous: <a href="index.html" title="previous chapter">Supervisor: A Process Control System</a></li>
+      <li>Next: <a href="installing.html" title="next chapter">Installing</a></li>
+  </ul></li>
+</ul>
+</div>
+  <div role="note" aria-label="source link">
+    <h3>This Page</h3>
+    <ul class="this-page-menu">
+      <li><a href="_sources/introduction.txt"
+            rel="nofollow">Show Source</a></li>
+    </ul>
+   </div>
+<div id="searchbox" style="display: none" role="search">
+  <h3>Quick search</h3>
+    <form class="search" action="search.html" method="get">
+      <input type="text" name="q" />
+      <input type="submit" value="Go" />
+      <input type="hidden" name="check_keywords" value="yes" />
+      <input type="hidden" name="area" value="default" />
+    </form>
+    <p class="searchtip" style="font-size: 90%">
+    Enter search terms or a module, class or function name.
+    </p>
+</div>
+<script type="text/javascript">$('#searchbox').show(0);</script>
+        </div>
+      </div>
+      <div class="clearer"></div>
+    </div>
+    <div class="footer">
+      &copy;2004-2016, Agendaless Consulting and Contributors.
+      
+      |
+      Powered by <a href="http://sphinx-doc.org/">Sphinx 1.3.3</a>
+      &amp; <a href="https://github.com/bitprophet/alabaster">Alabaster 0.7.7</a>
+      
+      |
+      <a href="_sources/introduction.txt"
+          rel="nofollow">Page source</a>
+    </div>
+
+    
+
+    
+  </body>
+</html>

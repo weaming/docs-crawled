@@ -1,0 +1,241 @@
+<html lang="en">
+<head>
+<title>Character Set Control - GNAT User's Guide for Native Platforms</title>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+<meta name="description" content="GNAT User's Guide for Native Platforms">
+<meta name="generator" content="makeinfo 4.13">
+<link title="Top" rel="start" href="index.html#Top">
+<link rel="up" href="Compiler-Switches.html#Compiler-Switches" title="Compiler Switches">
+<link rel="prev" href="Compiling-Different-Versions-of-Ada.html#Compiling-Different-Versions-of-Ada" title="Compiling Different Versions of Ada">
+<link rel="next" href="File-Naming-Control.html#File-Naming-Control" title="File Naming Control">
+<link href="http://www.gnu.org/software/texinfo/" rel="generator-home" title="Texinfo Homepage">
+<!--
+
+     GNAT User's Guide for Native Platforms , March 24, 2015
+
+     AdaCore
+
+     Copyright (C) 2008-2015, Free Software Foundation
+-->
+<meta http-equiv="Content-Style-Type" content="text/css">
+<style type="text/css"><!--
+  pre.display { font-family:inherit }
+  pre.format  { font-family:inherit }
+  pre.smalldisplay { font-family:inherit; font-size:smaller }
+  pre.smallformat  { font-family:inherit; font-size:smaller }
+  pre.smallexample { font-size:smaller }
+  pre.smalllisp    { font-size:smaller }
+  span.sc    { font-variant:small-caps }
+  span.roman { font-family:serif; font-weight:normal; } 
+  span.sansserif { font-family:sans-serif; font-weight:normal; } 
+--></style>
+</head>
+<body>
+<div class="node">
+<a name="Character-Set-Control"></a>
+<p>
+Next:&nbsp;<a rel="next" accesskey="n" href="File-Naming-Control.html#File-Naming-Control">File Naming Control</a>,
+Previous:&nbsp;<a rel="previous" accesskey="p" href="Compiling-Different-Versions-of-Ada.html#Compiling-Different-Versions-of-Ada">Compiling Different Versions of Ada</a>,
+Up:&nbsp;<a rel="up" accesskey="u" href="Compiler-Switches.html#Compiler-Switches">Compiler Switches</a>
+<hr>
+</div>
+
+<p><a name="gnat_005fugn_002fbuilding_005fexecutable_005fprograms_005fwith_005fgnat-id23"></a><a name="g_t10f"></a><a name="gnat_005fugn_002fbuilding_005fexecutable_005fprograms_005fwith_005fgnat-character_002dset_002dcontrol"></a><a name="g_t4a"></a>
+
+<h4 class="subsection">4.3.11 Character Set Control</h4>
+
+<p><a name="index-g_t_002dgnati-_0028gcc_0029-629"></a>
+
+     <dl>
+<dt><code>-gnati`c'</code><dd>
+Normally GNAT recognizes the Latin-1 character set in source program
+identifiers, as described in the Ada Reference Manual. 
+This switch causes
+GNAT to recognize alternate character sets in identifiers. <cite>c</cite> is a
+single character  indicating the character set, as follows:
+
+     <p><table summary=""><tr align="left"><td valign="top">
+`1'
+
+     <p></td><td valign="top">
+
+     <p>ISO 8859-1 (Latin-1) identifiers
+
+     <p><br></td></tr><tr align="left"><td valign="top">
+`2'
+
+     <p></td><td valign="top">
+
+     <p>ISO 8859-2 (Latin-2) letters allowed in identifiers
+
+     <p><br></td></tr><tr align="left"><td valign="top">
+`3'
+
+     <p></td><td valign="top">
+
+     <p>ISO 8859-3 (Latin-3) letters allowed in identifiers
+
+     <p><br></td></tr><tr align="left"><td valign="top">
+`4'
+
+     <p></td><td valign="top">
+
+     <p>ISO 8859-4 (Latin-4) letters allowed in identifiers
+
+     <p><br></td></tr><tr align="left"><td valign="top">
+`5'
+
+     <p></td><td valign="top">
+
+     <p>ISO 8859-5 (Cyrillic) letters allowed in identifiers
+
+     <p><br></td></tr><tr align="left"><td valign="top">
+`9'
+
+     <p></td><td valign="top">
+
+     <p>ISO 8859-15 (Latin-9) letters allowed in identifiers
+
+     <p><br></td></tr><tr align="left"><td valign="top">
+`p'
+
+     <p></td><td valign="top">
+
+     <p>IBM PC letters (code page 437) allowed in identifiers
+
+     <p><br></td></tr><tr align="left"><td valign="top">
+`8'
+
+     <p></td><td valign="top">
+
+     <p>IBM PC letters (code page 850) allowed in identifiers
+
+     <p><br></td></tr><tr align="left"><td valign="top">
+`f'
+
+     <p></td><td valign="top">
+
+     <p>Full upper-half codes allowed in identifiers
+
+     <p><br></td></tr><tr align="left"><td valign="top">
+`n'
+
+     <p></td><td valign="top">
+
+     <p>No upper-half codes allowed in identifiers
+
+     <p><br></td></tr><tr align="left"><td valign="top">
+`w'
+
+     <p></td><td valign="top">
+
+     <p>Wide-character codes (that is, codes greater than 255)
+allowed in identifiers
+
+     <br></td></tr></table>
+
+     <p>See <a href="40.html#g_t40">Foreign Language Representation</a> for full details on the
+implementation of these character sets. 
+</dl>
+
+<p><a name="index-g_t_002dgnatW-_0028gcc_0029-630"></a>
+
+     <dl>
+<dt><code>-gnatW`e'</code><dd>
+Specify the method of encoding for wide characters. 
+<cite>e</cite> is one of the following:
+
+     <p><table summary=""><tr align="left"><td valign="top">
+`h'
+
+     <p></td><td valign="top">
+
+     <p>Hex encoding (brackets coding also recognized)
+
+     <p><br></td></tr><tr align="left"><td valign="top">
+`u'
+
+     <p></td><td valign="top">
+
+     <p>Upper half encoding (brackets encoding also recognized)
+
+     <p><br></td></tr><tr align="left"><td valign="top">
+`s'
+
+     <p></td><td valign="top">
+
+     <p>Shift/JIS encoding (brackets encoding also recognized)
+
+     <p><br></td></tr><tr align="left"><td valign="top">
+`e'
+
+     <p></td><td valign="top">
+
+     <p>EUC encoding (brackets encoding also recognized)
+
+     <p><br></td></tr><tr align="left"><td valign="top">
+`8'
+
+     <p></td><td valign="top">
+
+     <p>UTF-8 encoding (brackets encoding also recognized)
+
+     <p><br></td></tr><tr align="left"><td valign="top">
+`b'
+
+     <p></td><td valign="top">
+
+     <p>Brackets encoding only (default value)
+
+     <br></td></tr></table>
+
+     <p>For full details on these encoding
+methods see <a href="50.html#g_t50">Wide_Character Encodings</a>. 
+Note that brackets coding is always accepted, even if one of the other
+options is specified, so for example `-gnatW8' specifies that both
+brackets and UTF-8 encodings will be recognized. The units that are
+with'ed directly or indirectly will be scanned using the specified
+representation scheme, and so if one of the non-brackets scheme is
+used, it must be used consistently throughout the program. However,
+since brackets encoding is always recognized, it may be conveniently
+used in standard libraries, allowing these libraries to be used with
+any of the available coding schemes.
+
+     <p>Note that brackets encoding only applies to program text. Within comments,
+brackets are considered to be normal graphic characters, and bracket sequences
+are never recognized as wide characters.
+
+     <p>If no `-gnatW?' parameter is present, then the default
+representation is normally Brackets encoding only. However, if the
+first three characters of the file are 16#EF# 16#BB# 16#BF# (the standard
+byte order mark or BOM for UTF-8), then these three characters are
+skipped and the default representation for the file is set to UTF-8.
+
+     <p>Note that the wide character representation that is specified (explicitly
+or by default) for the main program also acts as the default encoding used
+for Wide_Text_IO files if not specifically overridden by a WCEM form
+parameter. 
+</dl>
+
+<p>When no `-gnatW?' is specified, then characters (other than wide
+characters represented using brackets notation) are treated as 8-bit
+Latin-1 codes. The codes recognized are the Latin-1 graphic characters,
+and ASCII format effectors (CR, LF, HT, VT). Other lower half control
+characters in the range 16#00#..16#1F# are not accepted in program text
+or in comments. Upper half control characters (16#80#..16#9F#) are rejected
+in program text, but allowed and ignored in comments. Note in particular
+that the Next Line (NEL) character whose encoding is 16#85# is not recognized
+as an end of line in this default mode. If your source program contains
+instances of the NEL character used as a line terminator,
+you must use UTF-8 encoding for the whole
+source program. In default mode, all lines must be ended by a standard
+end of line sequence (CR, CR/LF, or LF).
+
+<p>Note that the convention of simply accepting all upper half characters in
+comments means that programs that use standard ASCII for program text, but
+UTF-8 encoding for comments are accepted in default mode, providing that the
+comments are ended by an appropriate (CR, or CR/LF, or LF) line terminator. 
+This is a common mode for many programs with foreign language comments.
+
+</body></html>
+

@@ -1,0 +1,66 @@
+<html lang="en">
+<head>
+<title>Attribute Descriptor_Size - GNAT Reference Manual</title>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+<meta name="description" content="GNAT Reference Manual">
+<meta name="generator" content="makeinfo 4.13">
+<link title="Top" rel="start" href="index.html#Top">
+<link rel="up" href="Implementation-Defined-Attributes.html#Implementation-Defined-Attributes" title="Implementation Defined Attributes">
+<link rel="prev" href="Attribute-Deref.html#Attribute-Deref" title="Attribute Deref">
+<link rel="next" href="Attribute-Elaborated.html#Attribute-Elaborated" title="Attribute Elaborated">
+<link href="http://www.gnu.org/software/texinfo/" rel="generator-home" title="Texinfo Homepage">
+<!--
+
+     GNAT Reference Manual , March 24, 2015
+
+     AdaCore
+
+     Copyright (C) 2008-2015, Free Software Foundation
+-->
+<meta http-equiv="Content-Style-Type" content="text/css">
+<style type="text/css"><!--
+  pre.display { font-family:inherit }
+  pre.format  { font-family:inherit }
+  pre.smalldisplay { font-family:inherit; font-size:smaller }
+  pre.smallformat  { font-family:inherit; font-size:smaller }
+  pre.smallexample { font-size:smaller }
+  pre.smalllisp    { font-size:smaller }
+  span.sc    { font-variant:small-caps }
+  span.roman { font-family:serif; font-weight:normal; } 
+  span.sansserif { font-family:sans-serif; font-weight:normal; } 
+--></style>
+</head>
+<body>
+<div class="node">
+<a name="Attribute-Descriptor_Size"></a>
+<a name="Attribute-Descriptor_005fSize"></a>
+<p>
+Next:&nbsp;<a rel="next" accesskey="n" href="Attribute-Elaborated.html#Attribute-Elaborated">Attribute Elaborated</a>,
+Previous:&nbsp;<a rel="previous" accesskey="p" href="Attribute-Deref.html#Attribute-Deref">Attribute Deref</a>,
+Up:&nbsp;<a rel="up" accesskey="u" href="Implementation-Defined-Attributes.html#Implementation-Defined-Attributes">Implementation Defined Attributes</a>
+<hr>
+</div>
+
+<p><a name="gnat_005frm_002fimplementation_005fdefined_005fattributes-attribute_002ddescriptor_002dsize"></a><a name="g_t125"></a>
+
+<h3 class="section">4.14 Attribute Descriptor_Size</h3>
+
+<p><a name="index-Descriptor-178"></a>
+<a name="index-Dope-vector-179"></a>
+<a name="index-Descriptor_005fSize-180"></a>
+Non-static attribute <cite>Descriptor_Size</cite> returns the size in bits of the
+descriptor allocated for a type.  The result is non-zero only for unconstrained
+array types and the returned value is of type universal integer.  In GNAT, an
+array descriptor contains bounds information and is located immediately before
+the first element of the array.
+
+<pre class="example">    type Unconstr_Array is array (Positive range &lt;&gt;) of Boolean;
+    Put_Line ("Descriptor size = " &amp; Unconstr_Array'Descriptor_Size'Img);
+</pre>
+<p>The attribute takes into account any additional padding due to type alignment. 
+In the example above, the descriptor contains two values of type
+<cite>Positive</cite> representing the low and high bound.  Since <cite>Positive</cite> has
+a size of 31 bits and an alignment of 4, the descriptor size is <cite>2 * Positive'Size + 2</cite> or 64 bits.
+
+</body></html>
+

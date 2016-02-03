@@ -1,0 +1,61 @@
+<html lang="en">
+<head>
+<title>RM G 2 6 15 Complex Arithmetic Accuracy - GNAT Reference Manual</title>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+<meta name="description" content="GNAT Reference Manual">
+<meta name="generator" content="makeinfo 4.13">
+<link title="Top" rel="start" href="index.html#Top">
+<link rel="up" href="Implementation-Advice.html#Implementation-Advice" title="Implementation Advice">
+<link rel="prev" href="RM-G-2-4-19-Accuracy-Requirements.html#RM-G-2-4-19-Accuracy-Requirements" title="RM G 2 4 19 Accuracy Requirements">
+<link rel="next" href="RM-H-6-15_002f2-Pragma-Partition_005fElaboration_005fPolicy.html#RM-H-6-15_002f2-Pragma-Partition_005fElaboration_005fPolicy" title="RM H 6 15/2 Pragma Partition_Elaboration_Policy">
+<link href="http://www.gnu.org/software/texinfo/" rel="generator-home" title="Texinfo Homepage">
+<!--
+
+     GNAT Reference Manual , March 24, 2015
+
+     AdaCore
+
+     Copyright (C) 2008-2015, Free Software Foundation
+-->
+<meta http-equiv="Content-Style-Type" content="text/css">
+<style type="text/css"><!--
+  pre.display { font-family:inherit }
+  pre.format  { font-family:inherit }
+  pre.smalldisplay { font-family:inherit; font-size:smaller }
+  pre.smallformat  { font-family:inherit; font-size:smaller }
+  pre.smallexample { font-size:smaller }
+  pre.smalllisp    { font-size:smaller }
+  span.sc    { font-variant:small-caps }
+  span.roman { font-family:serif; font-weight:normal; } 
+  span.sansserif { font-family:sans-serif; font-weight:normal; } 
+--></style>
+</head>
+<body>
+<div class="node">
+<a name="RM-G-2-6-15-Complex-Arithmetic-Accuracy"></a>
+<p>
+Next:&nbsp;<a rel="next" accesskey="n" href="RM-H-6-15_002f2-Pragma-Partition_005fElaboration_005fPolicy.html#RM-H-6-15_002f2-Pragma-Partition_005fElaboration_005fPolicy">RM H 6 15/2 Pragma Partition_Elaboration_Policy</a>,
+Previous:&nbsp;<a rel="previous" accesskey="p" href="RM-G-2-4-19-Accuracy-Requirements.html#RM-G-2-4-19-Accuracy-Requirements">RM G 2 4 19 Accuracy Requirements</a>,
+Up:&nbsp;<a rel="up" accesskey="u" href="Implementation-Advice.html#Implementation-Advice">Implementation Advice</a>
+<hr>
+</div>
+
+<p><a name="gnat_005frm_002fimplementation_005fadvice-rm_002dg_002d2_002d6_002d15_002dcomplex_002darithmetic_002daccuracy"></a><a name="g_t1fb"></a>
+
+<h3 class="section">6.63 RM G.2.6(15): Complex Arithmetic Accuracy</h3>
+
+<blockquote>
+
+<p>"The version of the <cite>Compose_From_Polar</cite> function without a
+<cite>Cycle</cite> parameter should not be implemented by calling the
+corresponding version with a <cite>Cycle</cite> parameter of
+<cite>2.0*Numerics.Pi</cite>, since this will not provide the required
+accuracy in some portions of the domain." 
+</blockquote>
+
+<p>Followed.
+
+<p><a name="index-Sequential-elaboration-policy-457"></a>
+
+</body></html>
+

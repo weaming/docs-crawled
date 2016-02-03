@@ -1,0 +1,85 @@
+<html lang="en">
+<head>
+<title>Static Stack Usage Analysis - GNAT User's Guide for Native Platforms</title>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+<meta name="description" content="GNAT User's Guide for Native Platforms">
+<meta name="generator" content="makeinfo 4.13">
+<link title="Top" rel="start" href="index.html#Top">
+<link rel="up" href="Stack-Related-Facilities.html#Stack-Related-Facilities" title="Stack Related Facilities">
+<link rel="prev" href="Stack-Overflow-Checking.html#Stack-Overflow-Checking" title="Stack Overflow Checking">
+<link rel="next" href="Dynamic-Stack-Usage-Analysis.html#Dynamic-Stack-Usage-Analysis" title="Dynamic Stack Usage Analysis">
+<link href="http://www.gnu.org/software/texinfo/" rel="generator-home" title="Texinfo Homepage">
+<!--
+
+     GNAT User's Guide for Native Platforms , March 24, 2015
+
+     AdaCore
+
+     Copyright (C) 2008-2015, Free Software Foundation
+-->
+<meta http-equiv="Content-Style-Type" content="text/css">
+<style type="text/css"><!--
+  pre.display { font-family:inherit }
+  pre.format  { font-family:inherit }
+  pre.smalldisplay { font-family:inherit; font-size:smaller }
+  pre.smallformat  { font-family:inherit; font-size:smaller }
+  pre.smallexample { font-size:smaller }
+  pre.smalllisp    { font-size:smaller }
+  span.sc    { font-variant:small-caps }
+  span.roman { font-family:serif; font-weight:normal; } 
+  span.sansserif { font-family:sans-serif; font-weight:normal; } 
+--></style>
+</head>
+<body>
+<div class="node">
+<a name="Static-Stack-Usage-Analysis"></a>
+<p>
+Next:&nbsp;<a rel="next" accesskey="n" href="Dynamic-Stack-Usage-Analysis.html#Dynamic-Stack-Usage-Analysis">Dynamic Stack Usage Analysis</a>,
+Previous:&nbsp;<a rel="previous" accesskey="p" href="Stack-Overflow-Checking.html#Stack-Overflow-Checking">Stack Overflow Checking</a>,
+Up:&nbsp;<a rel="up" accesskey="u" href="Stack-Related-Facilities.html#Stack-Related-Facilities">Stack Related Facilities</a>
+<hr>
+</div>
+
+<p><a name="gnat_005fugn_002fgnat_005fand_005fprogram_005fexecution-static_002dstack_002dusage_002danalysis"></a><a name="fa"></a><a name="gnat_005fugn_002fgnat_005fand_005fprogram_005fexecution-id63"></a><a name="g_t252"></a>
+
+<h4 class="subsection">8.6.2 Static Stack Usage Analysis</h4>
+
+<p><a name="index-Static-Stack-Usage-Analysis-1039"></a>
+<a name="index-g_t_002dfstack_002dusage-1040"></a>
+A unit compiled with <code>-fstack-usage</code> will generate an extra file
+that specifies
+the maximum amount of stack used, on a per-function basis. 
+The file has the same
+basename as the target object file with a <code>.su</code> extension. 
+Each line of this file is made up of three fields:
+
+     <ul>
+<li>The name of the function.
+
+     <li>A number of bytes.
+
+     <li>One or more qualifiers: <cite>static</cite>, <cite>dynamic</cite>, <cite>bounded</cite>. 
+</ul>
+
+<p>The second field corresponds to the size of the known part of the function
+frame.
+
+<p>The qualifier <cite>static</cite> means that the function frame size
+is purely static. 
+It usually means that all local variables have a static size. 
+In this case, the second field is a reliable measure of the function stack
+utilization.
+
+<p>The qualifier <cite>dynamic</cite> means that the function frame size is not static. 
+It happens mainly when some local variables have a dynamic size. When this
+qualifier appears alone, the second field is not a reliable measure
+of the function stack analysis. When it is qualified with  <cite>bounded</cite>, it
+means that the second field is a reliable maximum of the function stack
+utilization.
+
+<p>A unit compiled with <code>-Wstack-usage</code> will issue a warning for each
+subprogram whose stack usage might be larger than the specified amount of
+bytes.  The wording is in keeping with the qualifier documented above.
+
+</body></html>
+

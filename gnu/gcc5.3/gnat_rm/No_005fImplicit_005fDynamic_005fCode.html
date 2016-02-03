@@ -1,0 +1,72 @@
+<html lang="en">
+<head>
+<title>No_Implicit_Dynamic_Code - GNAT Reference Manual</title>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+<meta name="description" content="GNAT Reference Manual">
+<meta name="generator" content="makeinfo 4.13">
+<link title="Top" rel="start" href="index.html#Top">
+<link rel="up" href="Partition_002dWide-Restrictions.html#Partition_002dWide-Restrictions" title="Partition-Wide Restrictions">
+<link rel="prev" href="No_005fImplicit_005fConditionals.html#No_005fImplicit_005fConditionals" title="No_Implicit_Conditionals">
+<link rel="next" href="No_005fImplicit_005fHeap_005fAllocations.html#No_005fImplicit_005fHeap_005fAllocations" title="No_Implicit_Heap_Allocations">
+<link href="http://www.gnu.org/software/texinfo/" rel="generator-home" title="Texinfo Homepage">
+<!--
+
+     GNAT Reference Manual , March 24, 2015
+
+     AdaCore
+
+     Copyright (C) 2008-2015, Free Software Foundation
+-->
+<meta http-equiv="Content-Style-Type" content="text/css">
+<style type="text/css"><!--
+  pre.display { font-family:inherit }
+  pre.format  { font-family:inherit }
+  pre.smalldisplay { font-family:inherit; font-size:smaller }
+  pre.smallformat  { font-family:inherit; font-size:smaller }
+  pre.smallexample { font-size:smaller }
+  pre.smalllisp    { font-size:smaller }
+  span.sc    { font-variant:small-caps }
+  span.roman { font-family:serif; font-weight:normal; } 
+  span.sansserif { font-family:sans-serif; font-weight:normal; } 
+--></style>
+</head>
+<body>
+<div class="node">
+<a name="No_Implicit_Dynamic_Code"></a>
+<a name="No_005fImplicit_005fDynamic_005fCode"></a>
+<p>
+Next:&nbsp;<a rel="next" accesskey="n" href="No_005fImplicit_005fHeap_005fAllocations.html#No_005fImplicit_005fHeap_005fAllocations">No_Implicit_Heap_Allocations</a>,
+Previous:&nbsp;<a rel="previous" accesskey="p" href="No_005fImplicit_005fConditionals.html#No_005fImplicit_005fConditionals">No_Implicit_Conditionals</a>,
+Up:&nbsp;<a rel="up" accesskey="u" href="Partition_002dWide-Restrictions.html#Partition_002dWide-Restrictions">Partition-Wide Restrictions</a>
+<hr>
+</div>
+
+<p><a name="gnat_005frm_002fstandard_005fand_005fimplementation_005fdefined_005frestrictions-no_002dimplicit_002ddynamic_002dcode"></a><a name="g_t188"></a>
+
+<h4 class="subsection">5.1.34 No_Implicit_Dynamic_Code</h4>
+
+<p><a name="index-No_005fImplicit_005fDynamic_005fCode-320"></a>
+<a name="index-trampoline-321"></a>
+[GNAT] This restriction prevents the compiler from building 'trampolines'. 
+This is a structure that is built on the stack and contains dynamic
+code to be executed at run time. On some targets, a trampoline is
+built for the following features: <cite>Access</cite>,
+<cite>Unrestricted_Access</cite>, or <cite>Address</cite> of a nested subprogram;
+nested task bodies; primitive operations of nested tagged types. 
+Trampolines do not work on machines that prevent execution of stack
+data. For example, on windows systems, enabling DEP (data execution
+protection) will cause trampolines to raise an exception. 
+Trampolines are also quite slow at run time.
+
+<p>On many targets, trampolines have been largely eliminated. Look at the
+version of system.ads for your target &mdash; if it has
+Always_Compatible_Rep equal to False, then trampolines are largely
+eliminated. In particular, a trampoline is built for the following
+features: <cite>Address</cite> of a nested subprogram;
+<cite>Access</cite> or <cite>Unrestricted_Access</cite> of a nested subprogram,
+but only if pragma Favor_Top_Level applies, or the access type has a
+foreign-language convention; primitive operations of nested tagged
+types.
+
+</body></html>
+

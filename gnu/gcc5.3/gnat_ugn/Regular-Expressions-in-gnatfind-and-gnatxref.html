@@ -1,0 +1,120 @@
+<html lang="en">
+<head>
+<title>Regular Expressions in gnatfind and gnatxref - GNAT User's Guide for Native Platforms</title>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+<meta name="description" content="GNAT User's Guide for Native Platforms">
+<meta name="generator" content="makeinfo 4.13">
+<link title="Top" rel="start" href="index.html#Top">
+<link rel="up" href="The-Cross_002dReferencing-Tools-gnatxref-and-gnatfind.html#The-Cross_002dReferencing-Tools-gnatxref-and-gnatfind" title="The Cross-Referencing Tools gnatxref and gnatfind">
+<link rel="prev" href="Project-Files-for-gnatxref-and-gnatfind.html#Project-Files-for-gnatxref-and-gnatfind" title="Project Files for gnatxref and gnatfind">
+<link rel="next" href="Examples-of-gnatxref-Usage.html#Examples-of-gnatxref-Usage" title="Examples of gnatxref Usage">
+<link href="http://www.gnu.org/software/texinfo/" rel="generator-home" title="Texinfo Homepage">
+<!--
+
+     GNAT User's Guide for Native Platforms , March 24, 2015
+
+     AdaCore
+
+     Copyright (C) 2008-2015, Free Software Foundation
+-->
+<meta http-equiv="Content-Style-Type" content="text/css">
+<style type="text/css"><!--
+  pre.display { font-family:inherit }
+  pre.format  { font-family:inherit }
+  pre.smalldisplay { font-family:inherit; font-size:smaller }
+  pre.smallformat  { font-family:inherit; font-size:smaller }
+  pre.smallexample { font-size:smaller }
+  pre.smalllisp    { font-size:smaller }
+  span.sc    { font-variant:small-caps }
+  span.roman { font-family:serif; font-weight:normal; } 
+  span.sansserif { font-family:sans-serif; font-weight:normal; } 
+--></style>
+</head>
+<body>
+<div class="node">
+<a name="Regular-Expressions-in-gnatfind-and-gnatxref"></a>
+<p>
+Next:&nbsp;<a rel="next" accesskey="n" href="Examples-of-gnatxref-Usage.html#Examples-of-gnatxref-Usage">Examples of gnatxref Usage</a>,
+Previous:&nbsp;<a rel="previous" accesskey="p" href="Project-Files-for-gnatxref-and-gnatfind.html#Project-Files-for-gnatxref-and-gnatfind">Project Files for gnatxref and gnatfind</a>,
+Up:&nbsp;<a rel="up" accesskey="u" href="The-Cross_002dReferencing-Tools-gnatxref-and-gnatfind.html#The-Cross_002dReferencing-Tools-gnatxref-and-gnatfind">The Cross-Referencing Tools gnatxref and gnatfind</a>
+<hr>
+</div>
+
+<p><a name="gnat_005fugn_002fgnat_005futility_005fprograms-id13"></a><a name="g_t1e4"></a><a name="gnat_005fugn_002fgnat_005futility_005fprograms-regular_002dexpressions_002din_002dgnatfind_002dand_002dgnatxref"></a><a name="g_t1e0"></a>
+
+<h4 class="subsection">7.3.4 Regular Expressions in <cite>gnatfind</cite> and <cite>gnatxref</cite></h4>
+
+<p>As specified in the section about `gnatfind', the pattern can be a
+regular expression. Two kinds of regular expressions
+are recognized:
+
+     <ul>
+<li>
+          <dl>
+<dt>`Globbing pattern'<dd>
+These are the most common regular expression. They are the same as are
+generally used in a Unix shell command line, or in a DOS session.
+
+          <p>Here is a more formal grammar:
+
+          <pre class="example">              regexp ::= term
+              term   ::= elmt            -- matches elmt
+              term   ::= elmt elmt       -- concatenation (elmt then elmt)
+              term   ::= *               -- any string of 0 or more characters
+              term   ::= ?               -- matches any character
+              term   ::= [char {char}]   -- matches any character listed
+              term   ::= [char - char]   -- matches any character in range
+</pre>
+          </dl>
+
+     <li>
+          <dl>
+<dt>`Full regular expression'<dd>
+The second set of regular expressions is much more powerful. This is the
+type of regular expressions recognized by utilities such as <code>grep</code>.
+
+          <p>The following is the form of a regular expression, expressed in same BNF
+style as is found in the Ada Reference Manual:
+
+          <pre class="example">              regexp ::= term {| term}   -- alternation (term or term ...)
+              
+              term ::= item {item}       -- concatenation (item then item)
+              
+              item ::= elmt              -- match elmt
+              item ::= elmt *            -- zero or more elmt's
+              item ::= elmt +            -- one or more elmt's
+              item ::= elmt ?            -- matches elmt or nothing
+              
+              elmt ::= nschar            -- matches given character
+              elmt ::= [nschar {nschar}]   -- matches any character listed
+              elmt ::= [^ nschar {nschar}] -- matches any character not listed
+              elmt ::= [char - char]     -- matches chars in given range
+              elmt ::= \\ char            -- matches given character
+              elmt ::= .                 -- matches any single character
+              elmt ::= ( regexp )        -- parens used for grouping
+              
+              char ::= any character, including special characters
+              nschar ::= any character except ()[].*+?^
+</pre>
+          <p>Here are a few examples:
+
+          <blockquote>
+
+               <dl>
+<dt><code>abcde|fghi</code><dd>
+will match any of the two strings <code>abcde</code> and <code>fghi</code>,
+
+               <br><dt><code>abc*d</code><dd>
+will match any string like <code>abd</code>, <code>abcd</code>, <code>abccd</code>,
+<code>abcccd</code>, and so on,
+
+               <br><dt><code>[a-z]+</code><dd>
+will match any string which has only lowercase characters in it (and at
+least one character. 
+</dl>
+</blockquote>
+          </dl>
+     </ul>
+
+</body></html>
+

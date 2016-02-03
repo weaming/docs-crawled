@@ -1,0 +1,191 @@
+<html lang="en">
+<head>
+<title>Switches for gnatclean - GNAT User's Guide for Native Platforms</title>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+<meta name="description" content="GNAT User's Guide for Native Platforms">
+<meta name="generator" content="makeinfo 4.13">
+<link title="Top" rel="start" href="index.html#Top">
+<link rel="up" href="The-File-Cleanup-Utility-gnatclean.html#The-File-Cleanup-Utility-gnatclean" title="The File Cleanup Utility gnatclean">
+<link rel="prev" href="Running-gnatclean.html#Running-gnatclean" title="Running gnatclean">
+<link href="http://www.gnu.org/software/texinfo/" rel="generator-home" title="Texinfo Homepage">
+<!--
+
+     GNAT User's Guide for Native Platforms , March 24, 2015
+
+     AdaCore
+
+     Copyright (C) 2008-2015, Free Software Foundation
+-->
+<meta http-equiv="Content-Style-Type" content="text/css">
+<style type="text/css"><!--
+  pre.display { font-family:inherit }
+  pre.format  { font-family:inherit }
+  pre.smalldisplay { font-family:inherit; font-size:smaller }
+  pre.smallformat  { font-family:inherit; font-size:smaller }
+  pre.smallexample { font-size:smaller }
+  pre.smalllisp    { font-size:smaller }
+  span.sc    { font-variant:small-caps }
+  span.roman { font-family:serif; font-weight:normal; } 
+  span.sansserif { font-family:sans-serif; font-weight:normal; } 
+--></style>
+</head>
+<body>
+<div class="node">
+<a name="Switches-for-gnatclean"></a>
+<p>
+Previous:&nbsp;<a rel="previous" accesskey="p" href="Running-gnatclean.html#Running-gnatclean">Running gnatclean</a>,
+Up:&nbsp;<a rel="up" accesskey="u" href="The-File-Cleanup-Utility-gnatclean.html#The-File-Cleanup-Utility-gnatclean">The File Cleanup Utility gnatclean</a>
+<hr>
+</div>
+
+<p><a name="gnat_005fugn_002fgnat_005futility_005fprograms-id4"></a><a name="g_t1d1"></a><a name="gnat_005fugn_002fgnat_005futility_005fprograms-switches_002dfor_002dgnatclean"></a><a name="g_t1d2"></a>
+
+<h4 class="subsection">7.1.2 Switches for <cite>gnatclean</cite></h4>
+
+<p><cite>gnatclean</cite> recognizes the following switches:
+
+<p><a name="index-g_t_002d_002dversion-_0028gnatclean_0029-867"></a>
+
+     <dl>
+<dt><code>--version</code><dd>
+Display Copyright and version, then exit disregarding all other options. 
+</dl>
+
+<p><a name="index-g_t_002d_002dhelp-_0028gnatclean_0029-868"></a>
+
+     <dl>
+<dt><code>--help</code><dd>
+If `&ndash;version' was not used, display usage, then exit disregarding
+all other options.
+
+     <br><dt><code>--subdirs=`subdir'</code><dd>
+Actual object directory of each project file is the subdirectory subdir of the
+object directory specified or defaulted in the project file.
+
+     <br><dt><code>--unchecked-shared-lib-imports</code><dd>
+By default, shared library projects are not allowed to import static library
+projects. When this switch is used on the command line, this restriction is
+relaxed. 
+</dl>
+
+<p><a name="index-g_t_002dc-_0028gnatclean_0029-869"></a>
+
+     <dl>
+<dt><code>-c</code><dd>
+Only attempt to delete the files produced by the compiler, not those produced
+by the binder or the linker. The files that are not to be deleted are library
+files, interface copy files, binder generated files and executable files. 
+</dl>
+
+<p><a name="index-g_t_002dD-_0028gnatclean_0029-870"></a>
+
+     <dl>
+<dt><code>-D `dir'</code><dd>
+Indicate that ALI and object files should normally be found in directory <cite>dir</cite>. 
+</dl>
+
+<p><a name="index-g_t_002dF-_0028gnatclean_0029-871"></a>
+
+     <dl>
+<dt><code>-F</code><dd>
+When using project files, if some errors or warnings are detected during
+parsing and verbose mode is not in effect (no use of switch
+-v), then error lines start with the full path name of the project
+file, rather than its simple file name. 
+</dl>
+
+<p><a name="index-g_t_002dh-_0028gnatclean_0029-872"></a>
+
+     <dl>
+<dt><code>-h</code><dd>
+Output a message explaining the usage of <cite>gnatclean</cite>. 
+</dl>
+
+<p><a name="index-g_t_002dn-_0028gnatclean_0029-873"></a>
+
+     <dl>
+<dt><code>-n</code><dd>
+Informative-only mode. Do not delete any files. Output the list of the files
+that would have been deleted if this switch was not specified. 
+</dl>
+
+<p><a name="index-g_t_002dP-_0028gnatclean_0029-874"></a>
+
+     <dl>
+<dt><code>-P`project'</code><dd>
+Use project file <cite>project</cite>. Only one such switch can be used. 
+When cleaning a project file, the files produced by the compilation of the
+immediate sources or inherited sources of the project files are to be
+deleted. This is not depending on the presence or not of executable names
+on the command line. 
+</dl>
+
+<p><a name="index-g_t_002dq-_0028gnatclean_0029-875"></a>
+
+     <dl>
+<dt><code>-q</code><dd>
+Quiet output. If there are no errors, do not output anything, except in
+verbose mode (switch -v) or in informative-only mode
+(switch -n). 
+</dl>
+
+<p><a name="index-g_t_002dr-_0028gnatclean_0029-876"></a>
+
+     <dl>
+<dt><code>-r</code><dd>
+When a project file is specified (using switch -P),
+clean all imported and extended project files, recursively. If this switch
+is not specified, only the files related to the main project file are to be
+deleted. This switch has no effect if no project file is specified. 
+</dl>
+
+<p><a name="index-g_t_002dv-_0028gnatclean_0029-877"></a>
+
+     <dl>
+<dt><code>-v</code><dd>
+Verbose mode. 
+</dl>
+
+<p><a name="index-g_t_002dvP-_0028gnatclean_0029-878"></a>
+
+     <dl>
+<dt><code>-vP`x'</code><dd>
+Indicates the verbosity of the parsing of GNAT project files. 
+<a href="e3.html#e3">Switches Related to Project Files</a>. 
+</dl>
+
+<p><a name="index-g_t_002dX-_0028gnatclean_0029-879"></a>
+
+     <dl>
+<dt><code>-X`name'=`value'</code><dd>
+Indicates that external variable <cite>name</cite> has the value <cite>value</cite>. 
+The Project Manager will use this value for occurrences of
+<cite>external(name)</cite> when parsing the project file. 
+<a href="e3.html#e3">Switches Related to Project Files</a>. 
+</dl>
+
+<p><a name="index-g_t_002daO-_0028gnatclean_0029-880"></a>
+
+     <dl>
+<dt><code>-aO`dir'</code><dd>
+When searching for ALI and object files, look in directory <cite>dir</cite>. 
+</dl>
+
+<p><a name="index-g_t_002dI-_0028gnatclean_0029-881"></a>
+
+     <dl>
+<dt><code>-I`dir'</code><dd>
+Equivalent to <code>-aO`dir'</code>. 
+</dl>
+
+<p><a name="index-g_t_002dI_002d-_0028gnatclean_0029-882"></a>
+<a name="index-Source-files-883"></a><a name="index-suppressing-search-884"></a>
+
+     <dl>
+<dt><code>-I-</code><dd>
+Do not look for ALI or object files in the directory
+where <cite>gnatclean</cite> was invoked. 
+</dl>
+
+</body></html>
+

@@ -1,0 +1,78 @@
+<html lang="en">
+<head>
+<title>Order of Compilation Issues - GNAT User's Guide for Native Platforms</title>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+<meta name="description" content="GNAT User's Guide for Native Platforms">
+<meta name="generator" content="makeinfo 4.13">
+<link title="Top" rel="start" href="index.html#Top">
+<link rel="up" href="Compiling-with-gcc.html#Compiling-with-gcc" title="Compiling with gcc">
+<link rel="prev" href="Search-Paths-and-the-Run_002dTime-Library-RTL.html#Search-Paths-and-the-Run_002dTime-Library-RTL" title="Search Paths and the Run-Time Library RTL">
+<link rel="next" href="Examples.html#Examples" title="Examples">
+<link href="http://www.gnu.org/software/texinfo/" rel="generator-home" title="Texinfo Homepage">
+<!--
+
+     GNAT User's Guide for Native Platforms , March 24, 2015
+
+     AdaCore
+
+     Copyright (C) 2008-2015, Free Software Foundation
+-->
+<meta http-equiv="Content-Style-Type" content="text/css">
+<style type="text/css"><!--
+  pre.display { font-family:inherit }
+  pre.format  { font-family:inherit }
+  pre.smalldisplay { font-family:inherit; font-size:smaller }
+  pre.smallformat  { font-family:inherit; font-size:smaller }
+  pre.smallexample { font-size:smaller }
+  pre.smalllisp    { font-size:smaller }
+  span.sc    { font-variant:small-caps }
+  span.roman { font-family:serif; font-weight:normal; } 
+  span.sansserif { font-family:sans-serif; font-weight:normal; } 
+--></style>
+</head>
+<body>
+<div class="node">
+<a name="Order-of-Compilation-Issues"></a>
+<p>
+Next:&nbsp;<a rel="next" accesskey="n" href="Examples.html#Examples">Examples</a>,
+Previous:&nbsp;<a rel="previous" accesskey="p" href="Search-Paths-and-the-Run_002dTime-Library-RTL.html#Search-Paths-and-the-Run_002dTime-Library-RTL">Search Paths and the Run-Time Library RTL</a>,
+Up:&nbsp;<a rel="up" accesskey="u" href="Compiling-with-gcc.html#Compiling-with-gcc">Compiling with gcc</a>
+<hr>
+</div>
+
+<p><a name="gnat_005fugn_002fbuilding_005fexecutable_005fprograms_005fwith_005fgnat-id11"></a><a name="f1"></a><a name="gnat_005fugn_002fbuilding_005fexecutable_005fprograms_005fwith_005fgnat-order_002dof_002dcompilation_002dissues"></a><a name="f2"></a>
+
+<h4 class="subsection">4.2.3 Order of Compilation Issues</h4>
+
+<p>If, in our earlier example, there was a spec for the <cite>hello</cite>
+procedure, it would be contained in the file <code>hello.ads</code>; yet this
+file would not have to be explicitly compiled. This is the result of the
+model we chose to implement library management. Some of the consequences
+of this model are as follows:
+
+     <ul>
+<li>There is no point in compiling specs (except for package
+specs with no bodies) because these are compiled as needed by clients. If
+you attempt a useless compilation, you will receive an error message. 
+It is also useless to compile subunits because they are compiled as needed
+by the parent.
+
+     <li>There are no order of compilation requirements: performing a
+compilation never obsoletes anything. The only way you can obsolete
+something and require recompilations is to modify one of the
+source files on which it depends.
+
+     <li>There is no library as such, apart from the ALI files
+(<a href="44.html#g_t44">The Ada Library Information Files</a>, for information on the format
+of these files). For now we find it convenient to create separate ALI files,
+but eventually the information therein may be incorporated into the object
+file directly.
+
+     <li>When you compile a unit, the source files for the specs of all units
+that it `with's, all its subunits, and the bodies of any generics it
+instantiates must be available (reachable by the search-paths mechanism
+described above), or you will receive a fatal error message. 
+</ul>
+
+</body></html>
+

@@ -1,0 +1,95 @@
+<html lang="en">
+<head>
+<title>Pragma Precondition - GNAT Reference Manual</title>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+<meta name="description" content="GNAT Reference Manual">
+<meta name="generator" content="makeinfo 4.13">
+<link title="Top" rel="start" href="index.html#Top">
+<link rel="up" href="Implementation-Defined-Pragmas.html#Implementation-Defined-Pragmas" title="Implementation Defined Pragmas">
+<link rel="prev" href="Pragma-Pre.html#Pragma-Pre" title="Pragma Pre">
+<link rel="next" href="Pragma-Predicate.html#Pragma-Predicate" title="Pragma Predicate">
+<link href="http://www.gnu.org/software/texinfo/" rel="generator-home" title="Texinfo Homepage">
+<!--
+
+     GNAT Reference Manual , March 24, 2015
+
+     AdaCore
+
+     Copyright (C) 2008-2015, Free Software Foundation
+-->
+<meta http-equiv="Content-Style-Type" content="text/css">
+<style type="text/css"><!--
+  pre.display { font-family:inherit }
+  pre.format  { font-family:inherit }
+  pre.smalldisplay { font-family:inherit; font-size:smaller }
+  pre.smallformat  { font-family:inherit; font-size:smaller }
+  pre.smallexample { font-size:smaller }
+  pre.smalllisp    { font-size:smaller }
+  span.sc    { font-variant:small-caps }
+  span.roman { font-family:serif; font-weight:normal; } 
+  span.sansserif { font-family:sans-serif; font-weight:normal; } 
+--></style>
+</head>
+<body>
+<div class="node">
+<a name="Pragma-Precondition"></a>
+<p>
+Next:&nbsp;<a rel="next" accesskey="n" href="Pragma-Predicate.html#Pragma-Predicate">Pragma Predicate</a>,
+Previous:&nbsp;<a rel="previous" accesskey="p" href="Pragma-Pre.html#Pragma-Pre">Pragma Pre</a>,
+Up:&nbsp;<a rel="up" accesskey="u" href="Implementation-Defined-Pragmas.html#Implementation-Defined-Pragmas">Implementation Defined Pragmas</a>
+<hr>
+</div>
+
+<p><a name="gnat_005frm_002fimplementation_005fdefined_005fpragmas-pragma_002dprecondition"></a><a name="g_t9b"></a>
+
+<h3 class="section">2.127 Pragma Precondition</h3>
+
+<p><a name="index-Preconditions-75"></a>
+<a name="index-Checks-76"></a><a name="index-preconditions-77"></a>
+Syntax:
+
+<pre class="example">    pragma Precondition (
+       [Check   =&gt;] Boolean_Expression
+     [,[Message =&gt;] String_Expression]);
+</pre>
+<p>The <cite>Precondition</cite> pragma is similar to <cite>Postcondition</cite>
+except that the corresponding checks take place immediately upon
+entry to the subprogram, and if a precondition fails, the exception
+is raised in the context of the caller, and the attribute 'Result
+cannot be used within the precondition expression.
+
+<p>Otherwise, the placement and visibility rules are identical to those
+described for postconditions. The following is an example of use
+within a package spec:
+
+<pre class="example">    package Math_Functions is
+       ...
+       function Sqrt (Arg : Float) return Float;
+       pragma Precondition (Arg &gt;= 0.0)
+       ...
+    end Math_Functions;
+</pre>
+<p><cite>Precondition</cite> pragmas may appear either immediately following the
+(separate) declaration of a subprogram, or at the start of the
+declarations of a subprogram body. Only other pragmas may intervene
+(that is appear between the subprogram declaration and its
+postconditions, or appear before the postcondition in the
+declaration sequence in a subprogram body).
+
+<p>Note: precondition pragmas associated with subprograms that are
+marked as Inline_Always, or those marked as Inline with front-end
+inlining (-gnatN option set) are accepted and legality-checked
+by the compiler, but are ignored at run-time even if precondition
+checking is enabled.
+
+<p>Note that pragma <cite>Precondition</cite> differs from the language-defined
+<cite>Pre</cite> aspect (and corresponding <cite>Pre</cite> pragma) in allowing
+multiple occurrences, allowing occurences in the body even if there
+is a separate spec, and allowing a second string parameter, and the
+use of the pragma identifier <cite>Check</cite>. Historically, pragma
+<cite>Precondition</cite> was implemented prior to the development of
+Ada 2012, and has been retained in its original form for
+compatibility purposes.
+
+</body></html>
+

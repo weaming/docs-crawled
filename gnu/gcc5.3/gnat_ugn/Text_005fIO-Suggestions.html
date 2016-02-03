@@ -1,0 +1,66 @@
+<html lang="en">
+<head>
+<title>Text_IO Suggestions - GNAT User's Guide for Native Platforms</title>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+<meta name="description" content="GNAT User's Guide for Native Platforms">
+<meta name="generator" content="makeinfo 4.13">
+<link title="Top" rel="start" href="index.html#Top">
+<link rel="up" href="Improving-Performance.html#Improving-Performance" title="Improving Performance">
+<link rel="prev" href="Performance-Considerations.html#Performance-Considerations" title="Performance Considerations">
+<link rel="next" href="Reducing-Size-of-Executables-with-Unused-Subprogram_002fData-Elimination.html#Reducing-Size-of-Executables-with-Unused-Subprogram_002fData-Elimination" title="Reducing Size of Executables with Unused Subprogram/Data Elimination">
+<link href="http://www.gnu.org/software/texinfo/" rel="generator-home" title="Texinfo Homepage">
+<!--
+
+     GNAT User's Guide for Native Platforms , March 24, 2015
+
+     AdaCore
+
+     Copyright (C) 2008-2015, Free Software Foundation
+-->
+<meta http-equiv="Content-Style-Type" content="text/css">
+<style type="text/css"><!--
+  pre.display { font-family:inherit }
+  pre.format  { font-family:inherit }
+  pre.smalldisplay { font-family:inherit; font-size:smaller }
+  pre.smallformat  { font-family:inherit; font-size:smaller }
+  pre.smallexample { font-size:smaller }
+  pre.smalllisp    { font-size:smaller }
+  span.sc    { font-variant:small-caps }
+  span.roman { font-family:serif; font-weight:normal; } 
+  span.sansserif { font-family:sans-serif; font-weight:normal; } 
+--></style>
+</head>
+<body>
+<div class="node">
+<a name="Text_IO-Suggestions"></a>
+<a name="Text_005fIO-Suggestions"></a>
+<p>
+Next:&nbsp;<a rel="next" accesskey="n" href="Reducing-Size-of-Executables-with-Unused-Subprogram_002fData-Elimination.html#Reducing-Size-of-Executables-with-Unused-Subprogram_002fData-Elimination">Reducing Size of Executables with Unused Subprogram/Data Elimination</a>,
+Previous:&nbsp;<a rel="previous" accesskey="p" href="Performance-Considerations.html#Performance-Considerations">Performance Considerations</a>,
+Up:&nbsp;<a rel="up" accesskey="u" href="Improving-Performance.html#Improving-Performance">Improving Performance</a>
+<hr>
+</div>
+
+<p><a name="gnat_005fugn_002fgnat_005fand_005fprogram_005fexecution-text_002dio_002dsuggestions"></a><a name="g_t23e"></a><a name="gnat_005fugn_002fgnat_005fand_005fprogram_005fexecution-id42"></a><a name="g_t23f"></a>
+
+<h4 class="subsection">8.3.2 <cite>Text_IO</cite> Suggestions</h4>
+
+<p><a name="index-Text_005fIO-and-performance-1019"></a>
+The <cite>Ada.Text_IO</cite> package has fairly high overheads due in part to
+the requirement of maintaining page and line counts. If performance
+is critical, a recommendation is to use <cite>Stream_IO</cite> instead of
+<cite>Text_IO</cite> for volume output, since this package has less overhead.
+
+<p>If <cite>Text_IO</cite> must be used, note that by default output to the standard
+output and standard error files is unbuffered (this provides better
+behavior when output statements are used for debugging, or if the
+progress of a program is observed by tracking the output, e.g. by
+using the Unix `tail -f' command to watch redirected output.
+
+<p>If you are generating large volumes of output with <cite>Text_IO</cite> and
+performance is an important factor, use a designated file instead
+of the standard output file, or change the standard output file to
+be buffered using <cite>Interfaces.C_Streams.setvbuf</cite>.
+
+</body></html>
+

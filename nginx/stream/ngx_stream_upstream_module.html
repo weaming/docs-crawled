@@ -1,0 +1,714 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
+<html><head><meta http-equiv="Content-Type" content="text/html; charset=utf-8"><title>Module ngx_stream_upstream_module</title><style type="text/css">body { background: white; color: black; font-family: sans-serif; line-height: 1.4em; text-align: center; margin: 0; padding: 0; } #banner { background: black; color: #F2F2F2; line-height: 1.2em; padding: .3em 0; box-shadow: 0 5px 10px black; } #banner a { color: #00B140; } #main { text-align: left; margin: 0 auto; min-width: 32em; max-width: 64em; } #menu { float: right; width: 11em; padding: 0 .5em 1em .5em; border-left: 2px solid #DDD; } #content { margin-right: 13.5em; padding: 0 .2em 0 1.5em; } h1 { display: block; font-size: 3em; text-align: left; height: .7em; margin: 0; margin-bottom: .5em; } h1 img { width: 100%; } h2 { text-align: center; } p { text-align: justify; } table.news p { margin-top: 0; } table.news td { vertical-align: baseline; } table.news .date { text-align: right; padding-right: 0.5em; white-space: nowrap; } table.donors td { vertical-align: baseline; } table.donors li { text-align: left; } div.directive { background: #F2F2F2; line-height: 1em; margin: 1em 0 1em -1em; padding: .7em .7em .7em 1em; border-top: 2px solid #DDD; } div.directive th { padding-left: 0; padding-right: .5em; vertical-align: baseline; text-align: left; font-weight: normal; } div.directive td { vertical-align: baseline; } div.directive pre { padding: 0; margin: 0; } div.directive p { margin: .5em 0 0 .1em; font-size: .8em; } a.notrans { color: gray; text-decoration:none; } span.initial { font-size: 200%; float: left; padding-right: 10pt;} ul, ol { margin: .5em 0 1em 1em; padding: 0 .5em; } ol { list-style-position: inside; } li { text-align: justify; padding: .5em 0 0 1px; } .compact li { padding-top: 0; } dl { margin: .5em 0 1em 0; } dt { margin: .5em 0; } .compact dt { margin-bottom: .2em; } dd { margin-left: 1.5em; padding-left: 1px; text-align: justify; } td.list { background: #F2F2F2; } blockquote { margin: 1em 0 1em 1em; padding: .5em; } li blockquote, dd blockquote { margin: .7em 0; } blockquote.note { border: 1px dotted #999; line-height: 1.2em; text-align: justify; } blockquote.example { line-height: 1em; border-left: 1px solid #BBB; } blockquote.example pre { padding: 0; margin: 0; } sup { font-size: 50%; }</style><script>
+        (function(w, d, s, l, i) {
+            w[l] = w[l] || [];
+            w[l].push({
+                'gtm.start': new Date().getTime(),
+                event: 'gtm.js'
+            });
+            var f = d.getElementsByTagName(s)[0],
+                j = d.createElement(s),
+                dl = l != 'dataLayer' ? '&l=' + l : '';
+            j.async = true;
+            j.src = '//www.googletagmanager.com/gtm.js?id=' + i + dl;
+            f.parentNode.insertBefore(j, f);
+        })(window, document, 'script', 'dataLayer', 'GTM-TPSP33');
+    </script></head><body><div id="banner"><strong>NGINX Amplify is in private beta now!</strong><br>
+        Looking for a simple yet efficient monitoring tool for NGINX?<br><a href="https://www.nginx.com/amplify/?utm_source=nginxorg&amp;utm_medium=banner&amp;utm_campaign=amplify">Join our early adopters program today and try it out!</a><br></div><div id="main"><div id="menu"><h1><a href="http://nginx.org/"><img src="http://nginx.org/nginx.png" alt="nginx"></a></h1><div>english<br><a class="notrans">русский</a><br><br><a href="http://nginx.org/">news</a><br><a href="http://nginx.org/en/">about</a><br><a href="http://nginx.org/en/download.html">download</a><br><a href="http://nginx.org/en/security_advisories.html">security</a><br><a href="../index.html">documentation</a><br><a href="../faq.html">faq</a><br><a href="http://nginx.org/en/books.html">books</a><br><a href="http://nginx.org/en/support.html">support</a><br><a href="http://nginx.org/en/donation.html">donation</a><br><br><a href="http://trac.nginx.org/nginx">trac</a><br><a href="http://wiki.nginx.org/">wiki</a><br><a href="http://twitter.com/nginxorg">twitter</a><br><a href="https://www.nginx.com/blog/">blog</a><br></div></div><div id="content"><h2>Module ngx_stream_upstream_module</h2><table width="100%"><tr><td align="left"><a href="ngx_stream_upstream_module.html#example">Example Configuration</a><br><a href="ngx_stream_upstream_module.html#directives">Directives</a><br>     <a href="ngx_stream_upstream_module.html#upstream">upstream</a><br>     <a href="ngx_stream_upstream_module.html#server">server</a><br>     <a href="ngx_stream_upstream_module.html#zone">zone</a><br>     <a href="ngx_stream_upstream_module.html#hash">hash</a><br>     <a href="ngx_stream_upstream_module.html#least_conn">least_conn</a><br>     <a href="ngx_stream_upstream_module.html#least_time">least_time</a><br>     <a href="ngx_stream_upstream_module.html#health_check">health_check</a><br>     <a href="ngx_stream_upstream_module.html#health_check_timeout">health_check_timeout</a><br>     <a href="ngx_stream_upstream_module.html#match">match</a><br></td></tr></table>
+
+<a name="summary"></a><p>
+The <code>ngx_stream_upstream_module</code> module (1.9.0)
+is used to define groups of servers that can be referenced
+by the <a href="ngx_stream_proxy_module.html#proxy_pass">proxy_pass</a>
+directive.
+</p>
+
+
+<a name="example"></a><center><h4>Example Configuration</h4></center><p>
+</p> <blockquote class="example"><pre>
+upstream <strong>backend</strong> {
+    hash $remote_addr consistent;
+
+    server backend1.example.com:12345  weight=5;
+    server backend2.example.com:12345;
+    server unix:/tmp/backend3;
+
+    server backup1.example.com:12345   backup;
+    server backup2.example.com:12345   backup;
+}
+
+server {
+    listen 12346;
+    proxy_pass <strong>backend</strong>;
+}
+</pre></blockquote><p> 
+</p><p>
+Dynamically configurable group,
+available as part of our
+<a href="http://nginx.com/products/">commercial subscription</a>:
+</p> <blockquote class="example"><pre>
+resolver 10.0.0.1;
+
+upstream <strong>dynamic</strong> {
+    zone upstream_dynamic 64k;
+
+    server backend1.example.com:12345 weight=5;
+    server backend2.example.com:12345 fail_timeout=5s slow_start=30s;
+    server 192.0.2.1:12345            max_fails=3;
+    server backend3.example.com:12345 resolve;
+
+    server backup1.example.com:12345  backup;
+    server backup2.example.com:12345  backup;
+}
+
+server {
+    listen 12346;
+    proxy_pass <strong>dynamic</strong>;
+    health_check;
+}
+</pre></blockquote><p> 
+</p>
+
+
+<a name="directives"></a><center><h4>Directives</h4></center><a name="upstream"></a><div class="directive"><table cellspacing="0">
+                <tr>
+                <th>
+            Syntax:
+                </th>
+                <td>
+            <code><strong>upstream</strong> <code><i>name</i></code> { ... }</code><br>
+                </td>
+                </tr>
+            
+                <tr>
+                <th>
+            Default:
+                </th>
+                <td>
+            
+            —
+        
+                </td>
+                </tr>
+            
+                <tr>
+                <th>
+            Context:
+                </th>
+                <td>
+            <code>stream</code><br>
+                </td>
+                </tr>
+            </table></div><p>
+Defines a group of servers.
+Servers can listen on different ports.
+In addition, servers listening on TCP and UNIX-domain sockets
+can be mixed.
+</p><p>
+Example:
+</p> <blockquote class="example"><pre>
+upstream backend {
+    server backend1.example.com:12345 weight=5;
+    server 127.0.0.1:12345            max_fails=3 fail_timeout=30s;
+    server unix:/tmp/backend2;
+    server backend3.example.com:12345 resolve;
+
+    server backup1.example.com:12345  backup;
+}
+</pre></blockquote><p> 
+</p><p>
+By default, connections are distributed between the servers using a
+weighted round-robin balancing method.
+In the above example, each 7 connections will be distributed as follows:
+5 connections go to <code>backend1.example.com:12345</code>
+and one connection to each of the second and third servers.
+If an error occurs during communication with a server, the connection will
+be passed to the next server, and so on until all of the functioning
+servers will be tried.
+If communication with all servers fails, the connection will be closed.
+</p><a name="server"></a><div class="directive"><table cellspacing="0">
+                <tr>
+                <th>
+            Syntax:
+                </th>
+                <td>
+            <code><strong>server</strong> <code><i>address</i></code> [<code><i>parameters</i></code>];</code><br>
+                </td>
+                </tr>
+            
+                <tr>
+                <th>
+            Default:
+                </th>
+                <td>
+            
+            —
+        
+                </td>
+                </tr>
+            
+                <tr>
+                <th>
+            Context:
+                </th>
+                <td>
+            <code>upstream</code><br>
+                </td>
+                </tr>
+            </table></div><p>
+Defines the <code><i>address</i></code> and other <code><i>parameters</i></code>
+of a server.
+The address can be specified as a domain name or IP address
+with an obligatory port, or as a UNIX-domain socket path
+specified after the “<code>unix:</code>” prefix.
+A domain name that resolves to several IP addresses defines
+multiple servers at once.
+</p><p>
+The following parameters can be defined:
+</p> <dl class="compact">
+
+<dt id="weight">
+<code>weight</code>=<code><i>number</i></code>
+</dt>
+<dd>
+sets the weight of the server, by default, 1.
+</dd>
+
+<dt id="max_fails">
+<code>max_fails</code>=<code><i>number</i></code>
+</dt>
+<dd>
+sets the number of unsuccessful attempts to communicate with the server
+that should happen in the duration set by the <code>fail_timeout</code>
+parameter to consider the server unavailable for a duration also set by the
+<code>fail_timeout</code> parameter.
+By default, the number of unsuccessful attempts is set to 1.
+The zero value disables the accounting of attempts.
+Here, an unsuccessful attempt is an error or timeout
+while establishing a connection with the server.
+</dd>
+
+<dt id="fail_timeout">
+<code>fail_timeout</code>=<code><i>time</i></code>
+</dt>
+<dd>
+sets
+<ul class="compact">
+
+<li>
+the time during which the specified number of unsuccessful attempts to
+communicate with the server should happen to consider the server unavailable;
+</li>
+
+<li>
+and the period of time the server will be considered unavailable.
+</li>
+
+</ul>
+By default, the parameter is set to 10 seconds.
+</dd>
+
+<dt id="backup">
+<code>backup</code>
+</dt>
+<dd>
+marks the server as a backup server.
+Connections to the backup server will be passed
+when the primary servers are unavailable.
+</dd>
+
+<dt id="down">
+<code>down</code>
+</dt>
+<dd>
+marks the server as permanently unavailable.
+</dd>
+
+</dl><p> 
+</p><p>
+Additionally,
+the following parameters are available as part of our
+<a href="http://nginx.com/products/">commercial subscription</a>:
+</p> <dl class="compact">
+
+<dt id="max_conns">
+<code>max_conns</code>=<code><i>number</i></code>
+</dt>
+<dd>
+limits the maximum <code><i>number</i></code> of simultaneous connections to the
+proxied server.
+Default value is zero, meaning there is no limit.
+</dd>
+
+<dt id="resolve">
+<code>resolve</code>
+</dt>
+<dd>
+monitors changes of the IP addresses
+that correspond to a domain name of the server,
+and automatically modifies the upstream configuration
+without the need of restarting nginx.
+The server group must reside in the <a href="ngx_stream_upstream_module.html#zone">shared memory</a>.
+<p>
+In order for this parameter to work,
+the <a href="ngx_stream_core_module.html#resolver">resolver</a> directive
+must be specified in the
+<a href="ngx_stream_core_module.html#stream">stream</a> block.
+Example:
+</p> <blockquote class="example"><pre>
+stream {
+    resolver 10.0.0.1;
+
+    upstream u {
+        zone ...;
+        ...
+        server example.com:12345 resolve;
+    }
+}
+</pre></blockquote><p> 
+</p>
+</dd>
+
+<dt id="slow_start">
+<code>slow_start</code>=<code><i>time</i></code>
+</dt>
+<dd>
+sets the <code><i>time</i></code> during which the server will recover its weight
+from zero to a nominal value,
+or when the server becomes available after a period of time
+it was considered <a href="ngx_stream_upstream_module.html#fail_timeout">unavailable</a>.
+Default value is zero, i.e. slow start is disabled.
+</dd>
+
+</dl><p> 
+</p><p>
+</p> <blockquote class="note">
+If there is only a single server in a group, <code>max_fails</code>,
+<code>fail_timeout</code> and <code>slow_start</code> parameters
+are ignored, and such a server will never be considered unavailable.
+</blockquote><p> 
+</p><a name="zone"></a><div class="directive"><table cellspacing="0">
+                <tr>
+                <th>
+            Syntax:
+                </th>
+                <td>
+            <code><strong>zone</strong> <code><i>name</i></code> [<code><i>size</i></code>];</code><br>
+                </td>
+                </tr>
+            
+                <tr>
+                <th>
+            Default:
+                </th>
+                <td>
+            
+            —
+        
+                </td>
+                </tr>
+            
+                <tr>
+                <th>
+            Context:
+                </th>
+                <td>
+            <code>upstream</code><br>
+                </td>
+                </tr>
+            </table></div><p>
+Defines the <code><i>name</i></code> and <code><i>size</i></code> of the shared
+memory zone that keeps the group’s configuration and run-time state that are
+shared between worker processes.
+Several groups may share the same zone.
+In this case, it is enough to specify the zone size only once.
+</p><p>
+Additionally,
+as part of our <a href="http://nginx.com/products/">commercial subscription</a>,
+such groups allow changing the group membership
+or modifying the settings of a particular server
+without the need of restarting nginx.
+The configuration is accessible via a special location
+handled by
+<a href="../http/ngx_http_upstream_conf_module.html#upstream_conf">upstream_conf</a>.
+</p><a name="hash"></a><div class="directive"><table cellspacing="0">
+                <tr>
+                <th>
+            Syntax:
+                </th>
+                <td>
+            <code><strong>hash</strong> <code><i>key</i></code> [<code>consistent</code>];</code><br>
+                </td>
+                </tr>
+            
+                <tr>
+                <th>
+            Default:
+                </th>
+                <td>
+            
+            —
+        
+                </td>
+                </tr>
+            
+                <tr>
+                <th>
+            Context:
+                </th>
+                <td>
+            <code>upstream</code><br>
+                </td>
+                </tr>
+            </table></div><p>
+Specifies a load balancing method for a server group
+where client-server mapping is based on the hashed <code><i>key</i></code> value.
+Currently, the only supported value for the <code>key</code>
+is the client remote address specified as <code>$remote_addr</code>.
+Note that adding or removing a server from the group
+may result in remapping most of the keys to different servers.
+The method is compatible with the
+<a href="http://search.cpan.org/perldoc?Cache%3A%3AMemcached">Cache::Memcached</a>
+Perl library.
+</p><p>
+If the <code>consistent</code> parameter is specified,
+the <a href="http://www.last.fm/user/RJ/journal/2007/04/10/392555/">ketama</a>
+consistent hashing method will be used instead.
+The method ensures that only a few keys
+will be remapped to different servers
+when a server is added to or removed from the group.
+This helps to achieve a higher cache hit ratio for caching servers.
+The method is compatible with the
+<a href="http://search.cpan.org/perldoc?Cache%3A%3AMemcached%3A%3AFast">Cache::Memcached::Fast</a>
+Perl library with the <code><i>ketama_points</i></code> parameter set to 160.
+</p><a name="least_conn"></a><div class="directive"><table cellspacing="0">
+                <tr>
+                <th>
+            Syntax:
+                </th>
+                <td>
+            <code><strong>least_conn</strong>;</code><br>
+                </td>
+                </tr>
+            
+                <tr>
+                <th>
+            Default:
+                </th>
+                <td>
+            
+            —
+        
+                </td>
+                </tr>
+            
+                <tr>
+                <th>
+            Context:
+                </th>
+                <td>
+            <code>upstream</code><br>
+                </td>
+                </tr>
+            </table></div><p>
+Specifies that a server group should use a load balancing method
+where a connection
+is passed to the server with the least number of active connections,
+taking into account weights of servers.
+If there are several such servers, they are tried in turn using a
+weighted round-robin balancing method.
+</p><a name="least_time"></a><div class="directive"><table cellspacing="0">
+                <tr>
+                <th>
+            Syntax:
+                </th>
+                <td>
+            <code><strong>least_time</strong> <code>connect</code> |
+     <code>first_byte</code> |
+     <code>last_byte</code>;</code><br>
+                </td>
+                </tr>
+            
+                <tr>
+                <th>
+            Default:
+                </th>
+                <td>
+            
+            —
+        
+                </td>
+                </tr>
+            
+                <tr>
+                <th>
+            Context:
+                </th>
+                <td>
+            <code>upstream</code><br>
+                </td>
+                </tr>
+            </table></div><p>
+Specifies that a group should use a load balancing method where a connection
+is passed to the server with the least average time and
+least number of active connections, taking into account weights of servers.
+If there are several such servers, they are tried in turn using a
+weighted round-robin balancing method.
+</p><p>
+If the <code>connect</code> parameter is specified,
+time to connect to the upstream server is used.
+If the <code>first_byte</code> parameter is specified,
+time to receive the first byte of data is used.
+If the <code>last_byte</code> is specified,
+time to receive the last byte of data is used.
+</p><p>
+</p> <blockquote class="note">
+This directive is available as part of our
+<a href="http://nginx.com/products/">commercial subscription</a>.
+</blockquote><p> 
+</p><a name="health_check"></a><div class="directive"><table cellspacing="0">
+                <tr>
+                <th>
+            Syntax:
+                </th>
+                <td>
+            <code><strong>health_check</strong> [<code><i>parameters</i></code>];</code><br>
+                </td>
+                </tr>
+            
+                <tr>
+                <th>
+            Default:
+                </th>
+                <td>
+            
+            —
+        
+                </td>
+                </tr>
+            
+                <tr>
+                <th>
+            Context:
+                </th>
+                <td>
+            <code>server</code><br>
+                </td>
+                </tr>
+            </table></div><p>
+Enables periodic health checks of the servers in a
+<a href="ngx_stream_upstream_module.html#upstream">group</a>.
+</p><p>
+The following optional parameters are supported:
+</p> <dl class="compact">
+
+<dt id="interval">
+<code>interval</code>=<code><i>time</i></code>
+</dt>
+<dd>
+sets the interval between two consecutive health checks,
+by default, 5 seconds;
+</dd>
+
+<dt id="fails">
+<code>fails</code>=<code><i>number</i></code>
+</dt>
+<dd>
+sets the number of consecutive failed health checks of a particular server
+after which this server will be considered unhealthy,
+by default, 1;
+</dd>
+
+<dt id="passes">
+<code>passes</code>=<code><i>number</i></code>
+</dt>
+<dd>
+sets the number of consecutive passed health checks of a particular server
+after which the server will be considered healthy,
+by default, 1;
+</dd>
+
+<dt id="hc_match">
+<code>match</code>=<code><i>name</i></code>
+</dt>
+<dd>
+specifies the <code>match</code> block configuring the tests that a
+successful connection should pass in order for a health check to pass;
+by default, only the ability to connect to the server is checked.
+</dd>
+
+</dl><p> 
+</p><p>
+For example,
+</p> <blockquote class="example"><pre>
+server {
+    proxy_pass backend;
+    health_check;
+}
+</pre></blockquote><p> 
+will check the ability to connect to each
+server in the <code>backend</code> group every five seconds.
+When a connection to the server cannot be established,
+the health check will fail, and the server will
+be considered unhealthy.
+Client connections are not passed to unhealthy servers.
+</p><p>
+Health checks can also be configured to test data obtained from the server.
+Tests are configured separately using the <a href="ngx_stream_upstream_module.html#match">match</a> directive
+and referenced in the <code>match</code> parameter.
+</p><p>
+The server group must reside in the <a href="ngx_stream_upstream_module.html#zone">shared memory</a>.
+</p><p>
+If several health checks are defined for the same group of servers,
+a single failure of any check will make the corresponding server be
+considered unhealthy.
+</p><p>
+</p> <blockquote class="note">
+This directive is available as part of our
+<a href="http://nginx.com/products/">commercial subscription</a>.
+</blockquote><p> 
+</p><a name="health_check_timeout"></a><div class="directive"><table cellspacing="0">
+                <tr>
+                <th>
+            Syntax:
+                </th>
+                <td>
+            <code><strong>health_check_timeout</strong> <code><i>timeout</i></code>;</code><br>
+                </td>
+                </tr>
+            
+                <tr>
+                <th>
+            Default:
+                </th>
+                <td>
+            <pre>health_check_timeout 5s;</pre>
+                </td>
+                </tr>
+            
+                <tr>
+                <th>
+            Context:
+                </th>
+                <td>
+            <code>stream</code>, <code>server</code><br>
+                </td>
+                </tr>
+            </table></div><p>
+Overrides the
+<a href="ngx_stream_proxy_module.html#proxy_timeout">proxy_timeout</a>
+value for health checks.
+</p><p>
+</p> <blockquote class="note">
+This directive is available as part of our
+<a href="http://nginx.com/products/">commercial subscription</a>.
+</blockquote><p> 
+</p><a name="match"></a><div class="directive"><table cellspacing="0">
+                <tr>
+                <th>
+            Syntax:
+                </th>
+                <td>
+            <code><strong>match</strong> <code><i>name</i></code>  { ... }</code><br>
+                </td>
+                </tr>
+            
+                <tr>
+                <th>
+            Default:
+                </th>
+                <td>
+            
+            —
+        
+                </td>
+                </tr>
+            
+                <tr>
+                <th>
+            Context:
+                </th>
+                <td>
+            <code>stream</code><br>
+                </td>
+                </tr>
+            </table></div><p>
+Defines the named test set used to verify server responses to health checks.
+</p><p>
+The following parameters can be configured:
+</p> <dl class="compact">
+
+<dt>
+<code>send</code> <code><i>string</i></code>;
+</dt>
+<dd>
+sends a <code><i>string</i></code> to the server;
+</dd>
+
+<dt>
+<code>expect</code> <code>~</code> <code><i>regexp</i></code>;
+</dt>
+<dd>
+a regular expression that the data obtained from the server should match.
+The regular expression is specified with the preceding
+“<code>~*</code>” modifier (for case-insensitive matching), or the
+“<code>~</code>” modifier (for case-sensitive matching).
+</dd>
+
+</dl><p> 
+</p><p>
+Health check is passed if:
+</p> <ul class="compact">
+<li>
+the connection was successfully established;
+</li>
+
+<li>
+the <code><i>string</i></code> from the <code>send</code> parameter,
+if specified, was sent;
+</li>
+
+<li>
+the data obtained from the server matched the regular expression
+from the <code>expect</code> parameter, if specified;
+</li>
+
+<li>
+the time elapsed does not exceed the value specified
+in the <a href="ngx_stream_upstream_module.html#health_check_timeout">health_check_timeout</a> directive.
+</li>
+
+</ul><p> 
+</p><p>
+Example:
+</p> <blockquote class="example"><pre>
+upstream backend {
+    zone     upstream_backend 10m;
+    server   127.0.0.1:12345;
+}
+
+match http {
+    send     "GET / HTTP/1.0\r\nHost: localhost\r\n\r\n";
+    expect ~ "200 OK";
+}
+
+server {
+    listen       12346;
+    proxy_pass   backend;
+    health_check match=http;
+}
+</pre></blockquote><p> 
+</p><p>
+</p> <blockquote class="note">
+Only the first
+<a href="ngx_stream_proxy_module.html#proxy_upstream_buffer">proxy_upstream_buffer</a>
+bytes of data obtained from the server are examined.
+</blockquote><p> 
+</p><p>
+</p> <blockquote class="note">
+This directive is available as part of our
+<a href="http://nginx.com/products/">commercial subscription</a>.
+</blockquote><p> 
+</p>
+
+</div></div></body></html>

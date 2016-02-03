@@ -1,0 +1,83 @@
+<html lang="en">
+<head>
+<title>RM 13 2 6-8 Packed Types - GNAT Reference Manual</title>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+<meta name="description" content="GNAT Reference Manual">
+<meta name="generator" content="makeinfo 4.13">
+<link title="Top" rel="start" href="index.html#Top">
+<link rel="up" href="Implementation-Advice.html#Implementation-Advice" title="Implementation Advice">
+<link rel="prev" href="RM-13-1-21_002d24-Representation-Clauses.html#RM-13-1-21_002d24-Representation-Clauses" title="RM 13 1 21-24 Representation Clauses">
+<link rel="next" href="RM-13-3-14_002d19-Address-Clauses.html#RM-13-3-14_002d19-Address-Clauses" title="RM 13 3 14-19 Address Clauses">
+<link href="http://www.gnu.org/software/texinfo/" rel="generator-home" title="Texinfo Homepage">
+<!--
+
+     GNAT Reference Manual , March 24, 2015
+
+     AdaCore
+
+     Copyright (C) 2008-2015, Free Software Foundation
+-->
+<meta http-equiv="Content-Style-Type" content="text/css">
+<style type="text/css"><!--
+  pre.display { font-family:inherit }
+  pre.format  { font-family:inherit }
+  pre.smalldisplay { font-family:inherit; font-size:smaller }
+  pre.smallformat  { font-family:inherit; font-size:smaller }
+  pre.smallexample { font-size:smaller }
+  pre.smalllisp    { font-size:smaller }
+  span.sc    { font-variant:small-caps }
+  span.roman { font-family:serif; font-weight:normal; } 
+  span.sansserif { font-family:sans-serif; font-weight:normal; } 
+--></style>
+</head>
+<body>
+<div class="node">
+<a name="RM-13-2-6-8-Packed-Types"></a>
+<a name="RM-13-2-6_002d8-Packed-Types"></a>
+<p>
+Next:&nbsp;<a rel="next" accesskey="n" href="RM-13-3-14_002d19-Address-Clauses.html#RM-13-3-14_002d19-Address-Clauses">RM 13 3 14-19 Address Clauses</a>,
+Previous:&nbsp;<a rel="previous" accesskey="p" href="RM-13-1-21_002d24-Representation-Clauses.html#RM-13-1-21_002d24-Representation-Clauses">RM 13 1 21-24 Representation Clauses</a>,
+Up:&nbsp;<a rel="up" accesskey="u" href="Implementation-Advice.html#Implementation-Advice">Implementation Advice</a>
+<hr>
+</div>
+
+<p><a name="gnat_005frm_002fimplementation_005fadvice-rm_002d13_002d2_002d6_002d8_002dpacked_002dtypes"></a><a name="g_t1cd"></a>
+
+<h3 class="section">6.17 RM 13.2(6-8): Packed Types</h3>
+
+<blockquote>
+
+<p>"If a type is packed, then the implementation should try to minimize
+storage allocated to objects of the type, possibly at the expense of
+speed of accessing components, subject to reasonable complexity in
+addressing calculations.
+
+<p>The recommended level of support pragma <cite>Pack</cite> is:
+
+<p>For a packed record type, the components should be packed as tightly as
+possible subject to the Sizes of the component subtypes, and subject to
+any <cite>record_representation_clause</cite> that applies to the type; the
+implementation may, but need not, reorder components or cross aligned
+word boundaries to improve the packing.  A component whose <cite>Size</cite> is
+greater than the word size may be allocated an integral number of words." 
+</blockquote>
+
+<p>Followed.  Tight packing of arrays is supported for all component sizes
+up to 64-bits. If the array component size is 1 (that is to say, if
+the component is a boolean type or an enumeration type with two values)
+then values of the type are implicitly initialized to zero. This
+happens both for objects of the packed type, and for objects that have a
+subcomponent of the packed type.
+
+<blockquote>
+
+<p>"An implementation should support Address clauses for imported
+subprograms." 
+</blockquote>
+
+<p>Followed.
+
+<p><a name="index-Address-clauses-392"></a>
+
+</body></html>
+

@@ -1,0 +1,65 @@
+<html lang="en">
+<head>
+<title>RM 9 6 30-31 Duration'Small - GNAT Reference Manual</title>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+<meta name="description" content="GNAT Reference Manual">
+<meta name="generator" content="makeinfo 4.13">
+<link title="Top" rel="start" href="index.html#Top">
+<link rel="up" href="Implementation-Advice.html#Implementation-Advice" title="Implementation Advice">
+<link rel="prev" href="RM-3-6-2-11-Multidimensional-Arrays.html#RM-3-6-2-11-Multidimensional-Arrays" title="RM 3 6 2 11 Multidimensional Arrays">
+<link rel="next" href="RM-10-2-1-12-Consistent-Representation.html#RM-10-2-1-12-Consistent-Representation" title="RM 10 2 1 12 Consistent Representation">
+<link href="http://www.gnu.org/software/texinfo/" rel="generator-home" title="Texinfo Homepage">
+<!--
+
+     GNAT Reference Manual , March 24, 2015
+
+     AdaCore
+
+     Copyright (C) 2008-2015, Free Software Foundation
+-->
+<meta http-equiv="Content-Style-Type" content="text/css">
+<style type="text/css"><!--
+  pre.display { font-family:inherit }
+  pre.format  { font-family:inherit }
+  pre.smalldisplay { font-family:inherit; font-size:smaller }
+  pre.smallformat  { font-family:inherit; font-size:smaller }
+  pre.smallexample { font-size:smaller }
+  pre.smalllisp    { font-size:smaller }
+  span.sc    { font-variant:small-caps }
+  span.roman { font-family:serif; font-weight:normal; } 
+  span.sansserif { font-family:sans-serif; font-weight:normal; } 
+--></style>
+</head>
+<body>
+<div class="node">
+<a name="RM-9-6-30-31-Duration'Small"></a>
+<a name="RM-9-6-30_002d31-Duration_0027Small"></a>
+<p>
+Next:&nbsp;<a rel="next" accesskey="n" href="RM-10-2-1-12-Consistent-Representation.html#RM-10-2-1-12-Consistent-Representation">RM 10 2 1 12 Consistent Representation</a>,
+Previous:&nbsp;<a rel="previous" accesskey="p" href="RM-3-6-2-11-Multidimensional-Arrays.html#RM-3-6-2-11-Multidimensional-Arrays">RM 3 6 2 11 Multidimensional Arrays</a>,
+Up:&nbsp;<a rel="up" accesskey="u" href="Implementation-Advice.html#Implementation-Advice">Implementation Advice</a>
+<hr>
+</div>
+
+<p><a name="gnat_005frm_002fimplementation_005fadvice-rm_002d9_002d6_002d30_002d31_002dduration_002dsmall"></a><a name="g_t1c8"></a>
+
+<h3 class="section">6.12 RM 9.6(30-31): Duration'Small</h3>
+
+<blockquote>
+
+<p>"Whenever possible in an implementation, the value of <cite>Duration'Small</cite>
+should be no greater than 100 microseconds." 
+</blockquote>
+
+<p>Followed.  (<cite>Duration'Small</cite> = 10**(-9)).
+
+<blockquote>
+
+<p>"The time base for <cite>delay_relative_statements</cite> should be monotonic;
+it need not be the same time base as used for <cite>Calendar.Clock</cite>." 
+</blockquote>
+
+<p>Followed.
+
+</body></html>
+

@@ -1,0 +1,325 @@
+<html lang="en">
+<head>
+<title>Using gnatdll - GNAT User's Guide for Native Platforms</title>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+<meta name="description" content="GNAT User's Guide for Native Platforms">
+<meta name="generator" content="makeinfo 4.13">
+<link title="Top" rel="start" href="index.html#Top">
+<link rel="up" href="Creating-a-Spec-for-Ada-DLLs.html#Creating-a-Spec-for-Ada-DLLs" title="Creating a Spec for Ada DLLs">
+<link rel="prev" href="Creating-the-Definition-File.html#Creating-the-Definition-File" title="Creating the Definition File">
+<link href="http://www.gnu.org/software/texinfo/" rel="generator-home" title="Texinfo Homepage">
+<!--
+
+     GNAT User's Guide for Native Platforms , March 24, 2015
+
+     AdaCore
+
+     Copyright (C) 2008-2015, Free Software Foundation
+-->
+<meta http-equiv="Content-Style-Type" content="text/css">
+<style type="text/css"><!--
+  pre.display { font-family:inherit }
+  pre.format  { font-family:inherit }
+  pre.smalldisplay { font-family:inherit; font-size:smaller }
+  pre.smallformat  { font-family:inherit; font-size:smaller }
+  pre.smallexample { font-size:smaller }
+  pre.smalllisp    { font-size:smaller }
+  span.sc    { font-variant:small-caps }
+  span.roman { font-family:serif; font-weight:normal; } 
+  span.sansserif { font-family:sans-serif; font-weight:normal; } 
+--></style>
+</head>
+<body>
+<div class="node">
+<a name="Using-gnatdll"></a>
+<p>
+Previous:&nbsp;<a rel="previous" accesskey="p" href="Creating-the-Definition-File.html#Creating-the-Definition-File">Creating the Definition File</a>,
+Up:&nbsp;<a rel="up" accesskey="u" href="Creating-a-Spec-for-Ada-DLLs.html#Creating-a-Spec-for-Ada-DLLs">Creating a Spec for Ada DLLs</a>
+<hr>
+</div>
+
+<p><a name="gnat_005fugn_002fplatform_005fspecific_005finformation-using_002dgnatdll"></a><a name="g_t287"></a><a name="gnat_005fugn_002fplatform_005fspecific_005finformation-id32"></a><a name="g_t298"></a>
+
+<h5 class="subsubsection">9.3.5.19 Using <cite>gnatdll</cite></h5>
+
+<p><a name="index-gnatdll-1100"></a>
+<cite>gnatdll</cite> is a tool to automate the DLL build process once all the Ada
+and non-Ada sources that make up your DLL have been compiled. 
+<cite>gnatdll</cite> is actually in charge of two distinct tasks: build the
+static import library for the DLL and the actual DLL. The form of the
+<cite>gnatdll</cite> command is
+
+<blockquote>
+
+<pre class="example">    $ gnatdll [`switches`] `list-of-files` [-largs `opts`]
+</pre>
+</blockquote>
+
+<p>where <cite>list-of-files</cite> is a list of ALI and object files. The object
+file list must be the exact list of objects corresponding to the non-Ada
+sources whose services are to be included in the DLL. The ALI file list
+must be the exact list of ALI files for the corresponding Ada sources
+whose services are to be included in the DLL. If <cite>list-of-files</cite> is
+missing, only the static import library is generated.
+
+<p>You may specify any of the following switches to <cite>gnatdll</cite>:
+
+<blockquote>
+
+<p><a name="index-g_t_002da-_0028gnatdll_0029-1101"></a></blockquote>
+
+     <dl>
+<dt><code>-a[`address']</code><dd>
+Build a non-relocatable DLL at <cite>address</cite>. If <cite>address</cite> is not
+specified the default address <cite>0x11000000</cite> will be used. By default,
+when this switch is missing, <cite>gnatdll</cite> builds relocatable DLL. We
+advise the reader to build relocatable DLL.
+
+     <p><a name="index-g_t_002db-_0028gnatdll_0029-1102"></a>
+<br><dt><code>-b `address'</code><dd>
+Set the relocatable DLL base address. By default the address is
+<cite>0x11000000</cite>.
+
+     <p><a name="index-g_t_002dbargs-_0028gnatdll_0029-1103"></a>
+<br><dt><code>-bargs `opts'</code><dd>
+Binder options. Pass <cite>opts</cite> to the binder.
+
+     <p><a name="index-g_t_002dd-_0028gnatdll_0029-1104"></a>
+<br><dt><code>-d `dllfile'</code><dd>
+<cite>dllfile</cite> is the name of the DLL. This switch must be present for
+<cite>gnatdll</cite> to do anything. The name of the generated import library is
+obtained algorithmically from <cite>dllfile</cite> as shown in the following
+example: if <cite>dllfile</cite> is <cite>xyz.dll</cite>, the import library name is
+<cite>libxyz.dll.a</cite>. The name of the definition file to use (if not specified
+by option `-e') is obtained algorithmically from <cite>dllfile</cite>
+as shown in the following example:
+if <cite>dllfile</cite> is <cite>xyz.dll</cite>, the definition
+file used is <cite>xyz.def</cite>.
+
+     <p><a name="index-g_t_002de-_0028gnatdll_0029-1105"></a>
+<br><dt><code>-e `deffile'</code><dd>
+<cite>deffile</cite> is the name of the definition file.
+
+     <p><a name="index-g_t_002dg-_0028gnatdll_0029-1106"></a>
+<br><dt><code>-g</code><dd>
+Generate debugging information. This information is stored in the object
+file and copied from there to the final DLL file by the linker,
+where it can be read by the debugger. You must use the
+`-g' switch if you plan on using the debugger or the symbolic
+stack traceback.
+
+     <p><a name="index-g_t_002dh-_0028gnatdll_0029-1107"></a>
+<br><dt><code>-h</code><dd>
+Help mode. Displays <cite>gnatdll</cite> switch usage information.
+
+     <p><a name="index-g_t_002dI-_0028gnatdll_0029-1108"></a>
+<br><dt><code>-I`dir'</code><dd>
+Direct <cite>gnatdll</cite> to search the <cite>dir</cite> directory for source and
+object files needed to build the DLL. 
+(<a href="8e.html#g_t8e">Search Paths and the Run-Time Library (RTL)</a>).
+
+     <p><a name="index-g_t_002dk-_0028gnatdll_0029-1109"></a>
+<br><dt><code>-k</code><dd>
+Removes the <code>@`nn'</code> suffix from the import library's exported
+names, but keeps them for the link names. You must specify this
+option if you want to use a <cite>Stdcall</cite> function in a DLL for which
+the <code>@`nn'</code> suffix has been removed. This is the case for most
+of the Windows NT DLL for example. This option has no effect when
+`-n' option is specified.
+
+     <p><a name="index-g_t_002dl-_0028gnatdll_0029-1110"></a>
+<br><dt><code>-l `file'</code><dd>
+The list of ALI and object files used to build the DLL are listed in
+<cite>file</cite>, instead of being given in the command line. Each line in
+<cite>file</cite> contains the name of an ALI or object file.
+
+     <p><a name="index-g_t_002dn-_0028gnatdll_0029-1111"></a>
+<br><dt><code>-n</code><dd>
+No Import. Do not create the import library.
+
+     <p><a name="index-g_t_002dq-_0028gnatdll_0029-1112"></a>
+<br><dt><code>-q</code><dd>
+Quiet mode. Do not display unnecessary messages.
+
+     <p><a name="index-g_t_002dv-_0028gnatdll_0029-1113"></a>
+<br><dt><code>-v</code><dd>
+Verbose mode. Display extra information.
+
+     <p><a name="index-g_t_002dlargs-_0028gnatdll_0029-1114"></a>
+<br><dt><code>-largs `opts'</code><dd>
+Linker options. Pass <cite>opts</cite> to the linker. 
+</dl>
+
+<h5 class="subsubheading"><cite>gnatdll</cite> Example</h5>
+
+<p>As an example the command to build a relocatable DLL from <code>api.adb</code>
+once <code>api.adb</code> has been compiled and <code>api.def</code> created is
+
+<blockquote>
+
+<pre class="example">    $ gnatdll -d api.dll api.ali
+</pre>
+</blockquote>
+
+<p>The above command creates two files: <code>libapi.dll.a</code> (the import
+library) and <code>api.dll</code> (the actual DLL). If you want to create
+only the DLL, just type:
+
+<blockquote>
+
+<pre class="example">    $ gnatdll -d api.dll -n api.ali
+</pre>
+</blockquote>
+
+<p>Alternatively if you want to create just the import library, type:
+
+<blockquote>
+
+<pre class="example">    $ gnatdll -d api.dll
+</pre>
+</blockquote>
+
+<h5 class="subsubheading"><cite>gnatdll</cite> behind the Scenes</h5>
+
+<p>This section details the steps involved in creating a DLL. <cite>gnatdll</cite>
+does these steps for you. Unless you are interested in understanding what
+goes on behind the scenes, you should skip this section.
+
+<p>We use the previous example of a DLL containing the Ada package <cite>API</cite>,
+to illustrate the steps necessary to build a DLL. The starting point is a
+set of objects that will make up the DLL and the corresponding ALI
+files. In the case of this example this means that <code>api.o</code> and
+<code>api.ali</code> are available. To build a relocatable DLL, <cite>gnatdll</cite> does
+the following:
+
+     <ul>
+<li><cite>gnatdll</cite> builds the base file (<code>api.base</code>). A base file gives
+the information necessary to generate relocation information for the
+DLL.
+
+     <pre class="example">         $ gnatbind -n api
+         $ gnatlink api -o api.jnk -mdll -Wl,--base-file,api.base
+</pre>
+     <p>In addition to the base file, the `gnatlink' command generates an
+output file <code>api.jnk</code> which can be discarded. The `-mdll' switch
+asks `gnatlink' to generate the routines <cite>DllMain</cite> and
+<cite>DllMainCRTStartup</cite> that are called by the Windows loader when the DLL
+is loaded into memory.
+
+     <li><cite>gnatdll</cite> uses <cite>dlltool</cite> (see <a href="299.html#g_t299">Using dlltool</a>) to build the
+export table (<code>api.exp</code>). The export table contains the relocation
+information in a form which can be used during the final link to ensure
+that the Windows loader is able to place the DLL anywhere in memory.
+
+     <pre class="example">         $ dlltool --dllname api.dll --def api.def --base-file api.base \\
+                   --output-exp api.exp
+</pre>
+     <li><cite>gnatdll</cite> builds the base file using the new export table. Note that
+`gnatbind' must be called once again since the binder generated file
+has been deleted during the previous call to `gnatlink'.
+
+     <pre class="example">         $ gnatbind -n api
+         $ gnatlink api -o api.jnk api.exp -mdll
+               -Wl,--base-file,api.base
+</pre>
+     <li><cite>gnatdll</cite> builds the new export table using the new base file and
+generates the DLL import library <code>libAPI.dll.a</code>.
+
+     <pre class="example">         $ dlltool --dllname api.dll --def api.def --base-file api.base \\
+                   --output-exp api.exp --output-lib libAPI.a
+</pre>
+     <li>Finally <cite>gnatdll</cite> builds the relocatable DLL using the final export
+table.
+
+     <pre class="example">         $ gnatbind -n api
+         $ gnatlink api api.exp -o api.dll -mdll
+</pre>
+     </ul>
+<a name="gnat_005fugn_002fplatform_005fspecific_005finformation-using_002ddlltool"></a><a name="g_t299"></a>
+
+<h5 class="subsubheading">Using <cite>dlltool</cite></h5>
+
+<p><cite>dlltool</cite> is the low-level tool used by <cite>gnatdll</cite> to build
+DLLs and static import libraries. This section summarizes the most
+common <cite>dlltool</cite> switches. The form of the <cite>dlltool</cite> command
+is
+
+<blockquote>
+
+<pre class="example">    $ dlltool [`switches`]
+</pre>
+</blockquote>
+
+<p><cite>dlltool</cite> switches include:
+
+<p><a name="index-g_t_002d_002dbase_002dfile-_0028dlltool_0029-1115"></a>
+
+     <dl>
+<dt><code>--base-file `basefile'</code><dd>
+Read the base file <cite>basefile</cite> generated by the linker. This switch
+is used to create a relocatable DLL. 
+</dl>
+
+<p><a name="index-g_t_002d_002ddef-_0028dlltool_0029-1116"></a>
+
+     <dl>
+<dt><code>--def `deffile'</code><dd>
+Read the definition file. 
+</dl>
+
+<p><a name="index-g_t_002d_002ddllname-_0028dlltool_0029-1117"></a>
+
+     <dl>
+<dt><code>--dllname `name'</code><dd>
+Gives the name of the DLL. This switch is used to embed the name of the
+DLL in the static import library generated by <cite>dlltool</cite> with switch
+`&ndash;output-lib'. 
+</dl>
+
+<p><a name="index-g_t_002dk-_0028dlltool_0029-1118"></a>
+
+     <dl>
+<dt><code>-k</code><dd>
+Kill <code>@`nn'</code> from exported names
+(<a href="274.html#g_t274">Windows Calling Conventions</a>
+for a discussion about <cite>Stdcall</cite>-style symbols. 
+</dl>
+
+<p><a name="index-g_t_002d_002dhelp-_0028dlltool_0029-1119"></a>
+
+     <dl>
+<dt><code>--help</code><dd>
+Prints the <cite>dlltool</cite> switches with a concise description. 
+</dl>
+
+<p><a name="index-g_t_002d_002doutput_002dexp-_0028dlltool_0029-1120"></a>
+
+     <dl>
+<dt><code>--output-exp `exportfile'</code><dd>
+Generate an export file <cite>exportfile</cite>. The export file contains the
+export table (list of symbols in the DLL) and is used to create the DLL. 
+</dl>
+
+<p><a name="index-g_t_002d_002doutput_002dlib-_0028dlltool_0029-1121"></a>
+
+     <dl>
+<dt><code>--output-lib `libfile'</code><dd>
+Generate a static import library <cite>libfile</cite>. 
+</dl>
+
+<p><a name="index-g_t_002dv-_0028dlltool_0029-1122"></a>
+
+     <dl>
+<dt><code>-v</code><dd>
+Verbose mode. 
+</dl>
+
+<p><a name="index-g_t_002d_002das-_0028dlltool_0029-1123"></a>
+
+     <dl>
+<dt><code>--as `assembler-name'</code><dd>
+Use <cite>assembler-name</cite> as the assembler. The default is <cite>as</cite>. 
+</dl>
+
+</body></html>
+

@@ -1,0 +1,118 @@
+<html lang="en">
+<head>
+<title>Solaris Threads Issues - GNAT User's Guide for Native Platforms</title>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+<meta name="description" content="GNAT User's Guide for Native Platforms">
+<meta name="generator" content="makeinfo 4.13">
+<link title="Top" rel="start" href="index.html#Top">
+<link rel="up" href="Specifying-a-Run_002dTime-Library.html#Specifying-a-Run_002dTime-Library" title="Specifying a Run-Time Library">
+<link rel="prev" href="Solaris_002dSpecific-Considerations.html#Solaris_002dSpecific-Considerations" title="Solaris-Specific Considerations">
+<link rel="next" href="AIX_002dSpecific-Considerations.html#AIX_002dSpecific-Considerations" title="AIX-Specific Considerations">
+<link href="http://www.gnu.org/software/texinfo/" rel="generator-home" title="Texinfo Homepage">
+<!--
+
+     GNAT User's Guide for Native Platforms , March 24, 2015
+
+     AdaCore
+
+     Copyright (C) 2008-2015, Free Software Foundation
+-->
+<meta http-equiv="Content-Style-Type" content="text/css">
+<style type="text/css"><!--
+  pre.display { font-family:inherit }
+  pre.format  { font-family:inherit }
+  pre.smalldisplay { font-family:inherit; font-size:smaller }
+  pre.smallformat  { font-family:inherit; font-size:smaller }
+  pre.smallexample { font-size:smaller }
+  pre.smalllisp    { font-size:smaller }
+  span.sc    { font-variant:small-caps }
+  span.roman { font-family:serif; font-weight:normal; } 
+  span.sansserif { font-family:sans-serif; font-weight:normal; } 
+--></style>
+</head>
+<body>
+<div class="node">
+<a name="Solaris-Threads-Issues"></a>
+<p>
+Next:&nbsp;<a rel="next" accesskey="n" href="AIX_002dSpecific-Considerations.html#AIX_002dSpecific-Considerations">AIX-Specific Considerations</a>,
+Previous:&nbsp;<a rel="previous" accesskey="p" href="Solaris_002dSpecific-Considerations.html#Solaris_002dSpecific-Considerations">Solaris-Specific Considerations</a>,
+Up:&nbsp;<a rel="up" accesskey="u" href="Specifying-a-Run_002dTime-Library.html#Specifying-a-Run_002dTime-Library">Specifying a Run-Time Library</a>
+<hr>
+</div>
+
+<p><a name="gnat_005fugn_002fplatform_005fspecific_005finformation-id7"></a><a name="g_t263"></a><a name="gnat_005fugn_002fplatform_005fspecific_005finformation-solaris_002dthreads_002dissues"></a><a name="g_t264"></a>
+
+<h4 class="subsection">9.2.3 Solaris Threads Issues</h4>
+
+<p>GNAT under Solaris/Sparc 32 bits comes with an alternate tasking run-time
+library based on POSIX threads &mdash; `rts-pthread'.
+
+<p><a name="index-PTHREAD_005fPRIO_005fINHERIT-policy-_0028under-rts_002dpthread_0029-1064"></a>
+<a name="index-PTHREAD_005fPRIO_005fPROTECT-policy-_0028under-rts_002dpthread_0029-1065"></a>
+<a name="index-pragma-Locking_005fPolicy-_0028under-rts_002dpthread_0029-1066"></a>
+<a name="index-Inheritance_005fLocking-_0028under-rts_002dpthread_0029-1067"></a>
+<a name="index-Ceiling_005fLocking-_0028under-rts_002dpthread_0029-1068"></a>
+This run-time library has the advantage of being mostly shared across all
+POSIX-compliant thread implementations, and it also provides under
+Solaris 8 the <cite>PTHREAD_PRIO_INHERIT</cite>
+and <cite>PTHREAD_PRIO_PROTECT</cite>
+semantics that can be selected using the predefined pragma
+<cite>Locking_Policy</cite>
+with respectively
+<cite>Inheritance_Locking</cite> and <cite>Ceiling_Locking</cite> as the policy.
+
+<p>As explained above, the native run-time library is based on the Solaris thread
+library (<cite>libthread</cite>) and is the default library.
+
+<p><a name="index-GNAT_005fPROCESSOR-environment-variable-_0028on-Sparc-Solaris_0029-1069"></a>
+When the Solaris threads library is used (this is the default), programs
+compiled with GNAT can automatically take advantage of
+and can thus execute on multiple processors. 
+The user can alternatively specify a processor on which the program should run
+to emulate a single-processor system. The multiprocessor / uniprocessor choice
+is made by
+setting the environment variable
+<a name="index-GNAT_005fPROCESSOR-1070"></a><a name="index-environment-variable_003b-GNAT_005fPROCESSOR-1071"></a><code>GNAT_PROCESSOR</code>
+to one of the following:
+
+<blockquote>
+
+<p><table summary=""><tr align="left"><th valign="top">
+<code>GNAT_PROCESSOR</code> Value
+
+<p></th><th valign="top">
+
+<p>Effect
+
+<p><br></th></tr><tr align="left"><td valign="top">
+`-2'
+
+<p></td><td valign="top">
+
+<p>Use the default configuration (run the program on all
+available processors) - this is the same as having <cite>GNAT_PROCESSOR</cite>
+unset
+
+<p><br></td></tr><tr align="left"><td valign="top">
+`-1'
+
+<p></td><td valign="top">
+
+<p>Let the run-time implementation choose one processor and run the
+program on that processor
+
+<p><br></td></tr><tr align="left"><td valign="top">
+`0 .. Last_Proc'
+
+<p></td><td valign="top">
+
+<p>Run the program on the specified processor. 
+<cite>Last_Proc</cite> is equal to <cite>_SC_NPROCESSORS_CONF - 1</cite>
+(where <cite>_SC_NPROCESSORS_CONF</cite> is a system variable).
+
+<br></td></tr></table>
+
+</blockquote>
+
+</body></html>
+

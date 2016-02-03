@@ -1,0 +1,58 @@
+<html lang="en">
+<head>
+<title>Attribute Bit_Position - GNAT Reference Manual</title>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+<meta name="description" content="GNAT Reference Manual">
+<meta name="generator" content="makeinfo 4.13">
+<link title="Top" rel="start" href="index.html#Top">
+<link rel="up" href="Implementation-Defined-Attributes.html#Implementation-Defined-Attributes" title="Implementation Defined Attributes">
+<link rel="prev" href="Attribute-Bit.html#Attribute-Bit" title="Attribute Bit">
+<link rel="next" href="Attribute-Code_005fAddress.html#Attribute-Code_005fAddress" title="Attribute Code_Address">
+<link href="http://www.gnu.org/software/texinfo/" rel="generator-home" title="Texinfo Homepage">
+<!--
+
+     GNAT Reference Manual , March 24, 2015
+
+     AdaCore
+
+     Copyright (C) 2008-2015, Free Software Foundation
+-->
+<meta http-equiv="Content-Style-Type" content="text/css">
+<style type="text/css"><!--
+  pre.display { font-family:inherit }
+  pre.format  { font-family:inherit }
+  pre.smalldisplay { font-family:inherit; font-size:smaller }
+  pre.smallformat  { font-family:inherit; font-size:smaller }
+  pre.smallexample { font-size:smaller }
+  pre.smalllisp    { font-size:smaller }
+  span.sc    { font-variant:small-caps }
+  span.roman { font-family:serif; font-weight:normal; } 
+  span.sansserif { font-family:sans-serif; font-weight:normal; } 
+--></style>
+</head>
+<body>
+<div class="node">
+<a name="Attribute-Bit_Position"></a>
+<a name="Attribute-Bit_005fPosition"></a>
+<p>
+Next:&nbsp;<a rel="next" accesskey="n" href="Attribute-Code_005fAddress.html#Attribute-Code_005fAddress">Attribute Code_Address</a>,
+Previous:&nbsp;<a rel="previous" accesskey="p" href="Attribute-Bit.html#Attribute-Bit">Attribute Bit</a>,
+Up:&nbsp;<a rel="up" accesskey="u" href="Implementation-Defined-Attributes.html#Implementation-Defined-Attributes">Implementation Defined Attributes</a>
+<hr>
+</div>
+
+<p><a name="gnat_005frm_002fimplementation_005fdefined_005fattributes-attribute_002dbit_002dposition"></a><a name="g_t11e"></a>
+
+<h3 class="section">4.7 Attribute Bit_Position</h3>
+
+<p><a name="index-Bit_005fPosition-165"></a>
+<code>R.C'Bit_Position</code>, where <cite>R</cite> is a record object and <cite>C</cite> is one
+of the fields of the record type, yields the bit
+offset within the record contains the first bit of
+storage allocated for the object.  The value of this attribute is of the
+type <cite>Universal_Integer</cite>.  The value depends only on the field
+<cite>C</cite> and is independent of the alignment of
+the containing record <cite>R</cite>.
+
+</body></html>
+

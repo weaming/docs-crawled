@@ -1,0 +1,136 @@
+<html lang="en">
+<head>
+<title>Linking a Mixed C++ &amp; Ada Program - GNAT User's Guide for Native Platforms</title>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+<meta name="description" content="GNAT User's Guide for Native Platforms">
+<meta name="generator" content="makeinfo 4.13">
+<link title="Top" rel="start" href="index.html#Top">
+<link rel="up" href="Building-Mixed-Ada-and-C_002b_002b-Programs.html#Building-Mixed-Ada-and-C_002b_002b-Programs" title="Building Mixed Ada and C++ Programs">
+<link rel="prev" href="Interfacing-to-C_002b_002b.html#Interfacing-to-C_002b_002b" title="Interfacing to C++">
+<link rel="next" href="A-Simple-Example.html#A-Simple-Example" title="A Simple Example">
+<link href="http://www.gnu.org/software/texinfo/" rel="generator-home" title="Texinfo Homepage">
+<!--
+
+     GNAT User's Guide for Native Platforms , March 24, 2015
+
+     AdaCore
+
+     Copyright (C) 2008-2015, Free Software Foundation
+-->
+<meta http-equiv="Content-Style-Type" content="text/css">
+<style type="text/css"><!--
+  pre.display { font-family:inherit }
+  pre.format  { font-family:inherit }
+  pre.smalldisplay { font-family:inherit; font-size:smaller }
+  pre.smallformat  { font-family:inherit; font-size:smaller }
+  pre.smallexample { font-size:smaller }
+  pre.smalllisp    { font-size:smaller }
+  span.sc    { font-variant:small-caps }
+  span.roman { font-family:serif; font-weight:normal; } 
+  span.sansserif { font-family:sans-serif; font-weight:normal; } 
+--></style>
+</head>
+<body>
+<div class="node">
+<a name="Linking-a-Mixed-C++-%26-Ada-Program"></a>
+<a name="Linking-a-Mixed-C_002b_002b-_0026-Ada-Program"></a>
+<p>
+Next:&nbsp;<a rel="next" accesskey="n" href="A-Simple-Example.html#A-Simple-Example">A Simple Example</a>,
+Previous:&nbsp;<a rel="previous" accesskey="p" href="Interfacing-to-C_002b_002b.html#Interfacing-to-C_002b_002b">Interfacing to C++</a>,
+Up:&nbsp;<a rel="up" accesskey="u" href="Building-Mixed-Ada-and-C_002b_002b-Programs.html#Building-Mixed-Ada-and-C_002b_002b-Programs">Building Mixed Ada and C++ Programs</a>
+<hr>
+</div>
+
+<p><a name="gnat_005fugn_002fthe_005fgnat_005fcompilation_005fmodel-linking_002da_002dmixed_002dc_002dada_002dprogram"></a><a name="c1"></a><a name="gnat_005fugn_002fthe_005fgnat_005fcompilation_005fmodel-linking_002da_002dmixed_002dc_002dand_002dada_002dprogram"></a><a name="c2"></a>
+
+<h5 class="subsubsection">3.11.3.2 Linking a Mixed C++ &amp; Ada Program</h5>
+
+<p>Usually the linker of the C++ development system must be used to link
+mixed applications because most C++ systems will resolve elaboration
+issues (such as calling constructors on global class instances)
+transparently during the link phase. GNAT has been adapted to ease the
+use of a foreign linker for the last phase. Three cases can be
+considered:
+
+     <ul>
+<li>Using GNAT and G++ (GNU C++ compiler) from the same GCC installation:
+The C++ linker can simply be called by using the C++ specific driver
+called <cite>g++</cite>.
+
+     <p>Note that if the C++ code uses inline functions, you will need to
+compile your C++ code with the <cite>-fkeep-inline-functions</cite> switch in
+order to provide an existing function implementation that the Ada code can
+link with.
+
+     <pre class="example">         $ g++ -c -fkeep-inline-functions file1.C
+         $ g++ -c -fkeep-inline-functions file2.C
+         $ gnatmake ada_unit -largs file1.o file2.o --LINK=g++
+</pre>
+     <li>Using GNAT and G++ from two different GCC installations: If both
+compilers are on the :envvar`PATH`, the previous method may be used. It is
+important to note that environment variables such as
+<a name="index-C_005fINCLUDE_005fPATH-154"></a><a name="index-environment-variable_003b-C_005fINCLUDE_005fPATH-155"></a><code>C_INCLUDE_PATH</code>,
+<a name="index-GCC_005fEXEC_005fPREFIX-156"></a><a name="index-environment-variable_003b-GCC_005fEXEC_005fPREFIX-157"></a><code>GCC_EXEC_PREFIX</code>,
+<a name="index-BINUTILS_005fROOT-158"></a><a name="index-environment-variable_003b-BINUTILS_005fROOT-159"></a><code>BINUTILS_ROOT</code>, and
+<a name="index-GCC_005fROOT-160"></a><a name="index-environment-variable_003b-GCC_005fROOT-161"></a><code>GCC_ROOT</code> will affect both compilers
+at the same time and may make one of the two compilers operate
+improperly if set during invocation of the wrong compiler.  It is also
+very important that the linker uses the proper <code>libgcc.a</code> GCC
+library &ndash; that is, the one from the C++ compiler installation. The
+implicit link command as suggested in the <cite>gnatmake</cite> command
+from the former example can be replaced by an explicit link command with
+the full-verbosity option in order to verify which library is used:
+
+     <pre class="example">         $ gnatbind ada_unit
+         $ gnatlink -v -v ada_unit file1.o file2.o --LINK=c++
+</pre>
+     <p>If there is a problem due to interfering environment variables, it can
+be worked around by using an intermediate script. The following example
+shows the proper script to use when GNAT has not been installed at its
+default location and g++ has been installed at its default location:
+
+     <pre class="example">         $ cat ./my_script
+         #!/bin/sh
+         unset BINUTILS_ROOT
+         unset GCC_ROOT
+         c++ $*
+         $ gnatlink -v -v ada_unit file1.o file2.o --LINK=./my_script
+</pre>
+     <li>Using a non-GNU C++ compiler: The commands previously described can be
+used to insure that the C++ linker is used. Nonetheless, you need to add
+a few more parameters to the link command line, depending on the exception
+mechanism used.
+
+     <p>If the <cite>setjmp/longjmp</cite> exception mechanism is used, only the paths
+to the libgcc libraries are required:
+
+     <pre class="example">         $ cat ./my_script
+         #!/bin/sh
+         CC $* `gcc -print-file-name=libgcc.a` `gcc -print-file-name=libgcc_eh.a`
+         $ gnatlink ada_unit file1.o file2.o --LINK=./my_script
+</pre>
+     <p>where CC is the name of the non-GNU C++ compiler.
+
+     <p>If the <cite>zero cost</cite> exception mechanism is used, and the platform
+supports automatic registration of exception tables (e.g., Solaris),
+paths to more objects are required:
+
+     <pre class="example">         $ cat ./my_script
+         #!/bin/sh
+         CC `gcc -print-file-name=crtbegin.o` $* \\
+         `gcc -print-file-name=libgcc.a` `gcc -print-file-name=libgcc_eh.a` \\
+         `gcc -print-file-name=crtend.o`
+         $ gnatlink ada_unit file1.o file2.o --LINK=./my_script
+</pre>
+     <p>If the "zero cost exception" mechanism is used, and the platform
+doesn't support automatic registration of exception tables (e.g., HP-UX
+or AIX), the simple approach described above will not work and
+a pre-linking phase using GNAT will be necessary. 
+</ul>
+
+<p>Another alternative is to use the <code>gprbuild</code> multi-language builder
+which has a large knowledge base and knows how to link Ada and C++ code
+together automatically in most cases.
+
+</body></html>
+

@@ -1,0 +1,776 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+  "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+
+
+<html xmlns="http://www.w3.org/1999/xhtml">
+  <head>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+    
+    <title>XML-RPC API Documentation &mdash; Supervisor 4.0.0.dev0 documentation</title>
+    
+    <link rel="stylesheet" href="_static/repoze.css" type="text/css" />
+    <link rel="stylesheet" href="_static/pygments.css" type="text/css" />
+    
+    <script type="text/javascript">
+      var DOCUMENTATION_OPTIONS = {
+        URL_ROOT:    './',
+        VERSION:     '4.0.0.dev0',
+        COLLAPSE_INDEX: false,
+        FILE_SUFFIX: '.html',
+        HAS_SOURCE:  true
+      };
+    </script>
+    <script type="text/javascript" src="_static/jquery.js"></script>
+    <script type="text/javascript" src="_static/underscore.js"></script>
+    <script type="text/javascript" src="_static/doctools.js"></script>
+    <link rel="top" title="Supervisor 4.0.0.dev0 documentation" href="index.html" />
+    <link rel="next" title="Third Party Applications and Libraries" href="plugins.html" />
+    <link rel="prev" title="Glossary" href="glossary.html" />
+   
+  
+  <meta name="viewport" content="width=device-width, initial-scale=0.9, maximum-scale=0.9" />
+
+  </head>
+  <body role="document">  
+
+    <div class="document">
+      <div class="documentwrapper">
+        <div class="bodywrapper">
+          <div class="body" role="main">
+            
+  <div class="section" id="xml-rpc-api-documentation">
+<span id="xml-rpc"></span><h1>XML-RPC API Documentation<a class="headerlink" href="#xml-rpc-api-documentation" title="Permalink to this headline">¶</a></h1>
+<p>To use the XML-RPC interface, connect to supervisor&#8217;s HTTP port
+with any XML-RPC client library and run commands against it.  An
+example of doing this using Python&#8217;s <code class="docutils literal"><span class="pre">xmlrpclib</span></code> client library
+is as follows.</p>
+<div class="highlight-python"><div class="highlight"><pre><span class="kn">import</span> <span class="nn">xmlrpclib</span>
+<span class="n">server</span> <span class="o">=</span> <span class="n">xmlrpclib</span><span class="o">.</span><span class="n">Server</span><span class="p">(</span><span class="s">&#39;http://localhost:9001/RPC2&#39;</span><span class="p">)</span>
+</pre></div>
+</div>
+<p>You may call methods against <strong class="program">supervisord</strong> and its
+subprocesses by using the <code class="docutils literal"><span class="pre">supervisor</span></code> namespace.  An example is
+provided below.</p>
+<div class="highlight-python"><div class="highlight"><pre><span class="n">server</span><span class="o">.</span><span class="n">supervisor</span><span class="o">.</span><span class="n">getState</span><span class="p">()</span>
+</pre></div>
+</div>
+<p>You can get a list of methods supported by the
+<strong class="program">supervisord</strong> XML-RPC interface by using the XML-RPC
+<code class="docutils literal"><span class="pre">system.listMethods</span></code> API:</p>
+<div class="highlight-python"><div class="highlight"><pre><span class="n">server</span><span class="o">.</span><span class="n">system</span><span class="o">.</span><span class="n">listMethods</span><span class="p">()</span>
+</pre></div>
+</div>
+<p>You can see help on a method by using the <code class="docutils literal"><span class="pre">system.methodHelp</span></code> API
+against the method:</p>
+<div class="highlight-python"><div class="highlight"><pre><span class="n">server</span><span class="o">.</span><span class="n">system</span><span class="o">.</span><span class="n">methodHelp</span><span class="p">(</span><span class="s">&#39;supervisor.shutdown&#39;</span><span class="p">)</span>
+</pre></div>
+</div>
+<p>The <strong class="program">supervisord</strong> XML-RPC interface also supports the
+<a class="reference external" href="http://web.archive.org/web/20060824100531/http://www.xmlrpc.com/discuss/msgReader$1208">XML-RPC multicall API</a>.</p>
+<p>You can extend <strong class="program">supervisord</strong> functionality with new XML-RPC
+API methods by adding new top-level RPC interfaces as necessary.
+See <a class="reference internal" href="xmlrpc.html#rpcinterface-factories"><span>Configuring XML-RPC Interface Factories</span></a>.</p>
+<div class="admonition note">
+<p class="first admonition-title">Note</p>
+<p class="last">Any XML-RPC method call may result in a fault response.  This includes errors caused
+by the client such as bad arguments, and any errors that make <strong class="program">supervisord</strong>
+unable to fulfill the request.  Many XML-RPC client programs will raise an exception
+when a fault response is encountered.</p>
+</div>
+<span class="target" id="module-supervisor.rpcinterface"></span><div class="section" id="status-and-control">
+<h2>Status and Control<a class="headerlink" href="#status-and-control" title="Permalink to this headline">¶</a></h2>
+<blockquote>
+<div><dl class="class">
+<dt id="supervisor.rpcinterface.SupervisorNamespaceRPCInterface">
+<em class="property">class </em><code class="descclassname">supervisor.rpcinterface.</code><code class="descname">SupervisorNamespaceRPCInterface</code><span class="sig-paren">(</span><em>supervisord</em><span class="sig-paren">)</span><a class="headerlink" href="#supervisor.rpcinterface.SupervisorNamespaceRPCInterface" title="Permalink to this definition">¶</a></dt>
+<dd><dl class="method">
+<dt id="supervisor.rpcinterface.SupervisorNamespaceRPCInterface.getAPIVersion">
+<code class="descname">getAPIVersion</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#supervisor.rpcinterface.SupervisorNamespaceRPCInterface.getAPIVersion" title="Permalink to this definition">¶</a></dt>
+<dd><p>Return the version of the RPC API used by supervisord</p>
+<p>&#64;return string version version id</p>
+<p>This API is versioned separately from Supervisor itself. The API version
+returned by <code class="docutils literal"><span class="pre">getAPIVersion</span></code> only changes when the API changes. Its purpose
+is to help the client identify with which version of the Supervisor API it
+is communicating.</p>
+<p>When writing software that communicates with this API, it is highly
+recommended that you first test the API version for compatibility before
+making method calls.</p>
+<div class="admonition note">
+<p class="first admonition-title">Note</p>
+<p class="last">The <code class="docutils literal"><span class="pre">getAPIVersion</span></code> method replaces <code class="docutils literal"><span class="pre">getVersion</span></code> found in Supervisor
+versions prior to 3.0a1. It is aliased for compatibility but getVersion()
+is deprecated and support will be dropped from Supervisor in a future
+version.</p>
+</div>
+</dd></dl>
+
+<dl class="method">
+<dt id="supervisor.rpcinterface.SupervisorNamespaceRPCInterface.getSupervisorVersion">
+<code class="descname">getSupervisorVersion</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#supervisor.rpcinterface.SupervisorNamespaceRPCInterface.getSupervisorVersion" title="Permalink to this definition">¶</a></dt>
+<dd><p>Return the version of the supervisor package in use by supervisord</p>
+<p>&#64;return string version version id</p>
+</dd></dl>
+
+<dl class="method">
+<dt id="supervisor.rpcinterface.SupervisorNamespaceRPCInterface.getIdentification">
+<code class="descname">getIdentification</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#supervisor.rpcinterface.SupervisorNamespaceRPCInterface.getIdentification" title="Permalink to this definition">¶</a></dt>
+<dd><p>Return identifying string of supervisord</p>
+<p>&#64;return string identifier identifying string</p>
+<p>This method allows the client to identify with which Supervisor
+instance it is communicating in the case of environments where
+multiple Supervisors may be running.</p>
+<p>The identification is a string that must be set in Supervisor’s
+configuration file. This method simply returns that value back to the
+client.</p>
+</dd></dl>
+
+<dl class="method">
+<dt id="supervisor.rpcinterface.SupervisorNamespaceRPCInterface.getState">
+<code class="descname">getState</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#supervisor.rpcinterface.SupervisorNamespaceRPCInterface.getState" title="Permalink to this definition">¶</a></dt>
+<dd><p>Return current state of supervisord as a struct</p>
+<p>&#64;return struct A struct with keys int statecode, string statename</p>
+<p>This is an internal value maintained by Supervisor that determines what
+Supervisor believes to be its current operational state.</p>
+<p>Some method calls can alter the current state of the Supervisor. For
+example, calling the method supervisor.shutdown() while the station is
+in the RUNNING state places the Supervisor in the SHUTDOWN state while
+it is shutting down.</p>
+<p>The supervisor.getState() method provides a means for the client to check
+Supervisor&#8217;s state, both for informational purposes and to ensure that the
+methods it intends to call will be permitted.</p>
+<p>The return value is a struct:</p>
+<div class="highlight-python"><div class="highlight"><pre><span class="p">{</span><span class="s">&#39;statecode&#39;</span><span class="p">:</span> <span class="mi">1</span><span class="p">,</span>
+ <span class="s">&#39;statename&#39;</span><span class="p">:</span> <span class="s">&#39;RUNNING&#39;</span><span class="p">}</span>
+</pre></div>
+</div>
+<p>The possible return values are:</p>
+<table border="1" class="docutils">
+<colgroup>
+<col width="14%" />
+<col width="15%" />
+<col width="71%" />
+</colgroup>
+<thead valign="bottom">
+<tr class="row-odd"><th class="head">statecode</th>
+<th class="head">statename</th>
+<th class="head">Description</th>
+</tr>
+</thead>
+<tbody valign="top">
+<tr class="row-even"><td>2</td>
+<td>FATAL</td>
+<td>Supervisor has experienced a serious error.</td>
+</tr>
+<tr class="row-odd"><td>1</td>
+<td>RUNNING</td>
+<td>Supervisor is working normally.</td>
+</tr>
+<tr class="row-even"><td>0</td>
+<td>RESTARTING</td>
+<td>Supervisor is in the process of restarting.</td>
+</tr>
+<tr class="row-odd"><td>-1</td>
+<td>SHUTDOWN</td>
+<td>Supervisor is in the process of shutting down.</td>
+</tr>
+</tbody>
+</table>
+<p>The <code class="docutils literal"><span class="pre">FATAL</span></code> state reports unrecoverable errors, such as internal
+errors inside Supervisor or system runaway conditions. Once set to
+<code class="docutils literal"><span class="pre">FATAL</span></code>, the Supervisor can never return to any other state without
+being restarted.</p>
+<p>In the <code class="docutils literal"><span class="pre">FATAL</span></code> state, all future methods except
+supervisor.shutdown() and supervisor.restart() will automatically fail
+without being called and the fault <code class="docutils literal"><span class="pre">FATAL_STATE</span></code> will be raised.</p>
+<p>In the <code class="docutils literal"><span class="pre">SHUTDOWN</span></code> or <code class="docutils literal"><span class="pre">RESTARTING</span></code> states, all method calls are
+ignored and their possible return values are undefined.</p>
+</dd></dl>
+
+<dl class="method">
+<dt id="supervisor.rpcinterface.SupervisorNamespaceRPCInterface.getPID">
+<code class="descname">getPID</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#supervisor.rpcinterface.SupervisorNamespaceRPCInterface.getPID" title="Permalink to this definition">¶</a></dt>
+<dd><p>Return the PID of supervisord</p>
+<p>&#64;return int PID</p>
+</dd></dl>
+
+<dl class="method">
+<dt id="supervisor.rpcinterface.SupervisorNamespaceRPCInterface.readLog">
+<code class="descname">readLog</code><span class="sig-paren">(</span><em>offset</em>, <em>length</em><span class="sig-paren">)</span><a class="headerlink" href="#supervisor.rpcinterface.SupervisorNamespaceRPCInterface.readLog" title="Permalink to this definition">¶</a></dt>
+<dd><p>Read length bytes from the main log starting at offset</p>
+<p>&#64;param int offset         offset to start reading from.
+&#64;param int length         number of bytes to read from the log.
+&#64;return string result     Bytes of log</p>
+<p>It can either return the entire log, a number of characters from the
+tail of the log, or a slice of the log specified by the offset and
+length parameters:</p>
+<table border="1" class="docutils">
+<colgroup>
+<col width="12%" />
+<col width="14%" />
+<col width="74%" />
+</colgroup>
+<thead valign="bottom">
+<tr class="row-odd"><th class="head">Offset</th>
+<th class="head">Length</th>
+<th class="head">Behavior of <code class="docutils literal"><span class="pre">readProcessLog</span></code></th>
+</tr>
+</thead>
+<tbody valign="top">
+<tr class="row-even"><td>Negative</td>
+<td>Not Zero</td>
+<td>Bad arguments. This will raise the fault
+<code class="docutils literal"><span class="pre">BAD_ARGUMENTS</span></code>.</td>
+</tr>
+<tr class="row-odd"><td>Negative</td>
+<td>Zero</td>
+<td>This will return the tail of the log, or offset
+number of characters from the end of the log.
+For example, if <code class="docutils literal"><span class="pre">offset</span></code> = -4 and <code class="docutils literal"><span class="pre">length</span></code>
+= 0, then the last four characters will be
+returned from the end of the log.</td>
+</tr>
+<tr class="row-even"><td>Zero or
+Positive</td>
+<td>Negative</td>
+<td>Bad arguments. This will raise the fault
+<code class="docutils literal"><span class="pre">BAD_ARGUMENTS</span></code>.</td>
+</tr>
+<tr class="row-odd"><td>Zero or
+Positive</td>
+<td>Zero</td>
+<td>All characters will be returned from the
+<code class="docutils literal"><span class="pre">offset</span></code> specified.</td>
+</tr>
+<tr class="row-even"><td>Zero or
+Positive</td>
+<td>Positive</td>
+<td>A number of characters length will be returned
+from the <code class="docutils literal"><span class="pre">offset</span></code>.</td>
+</tr>
+</tbody>
+</table>
+<p>If the log is empty and the entire log is requested, an empty string
+is returned.</p>
+<p>If either offset or length is out of range, the fault
+<code class="docutils literal"><span class="pre">BAD_ARGUMENTS</span></code> will be returned.</p>
+<p>If the log cannot be read, this method will raise either the
+<code class="docutils literal"><span class="pre">NO_FILE</span></code> error if the file does not exist or the <code class="docutils literal"><span class="pre">FAILED</span></code> error
+if any other problem was encountered.</p>
+<div class="admonition note">
+<p class="first admonition-title">Note</p>
+<p class="last">The readLog() method replaces readMainLog() found in Supervisor
+versions prior to 2.1. It is aliased for compatibility but
+readMainLog() is deprecated and support will be dropped from
+Supervisor in a future version.</p>
+</div>
+</dd></dl>
+
+<dl class="method">
+<dt id="supervisor.rpcinterface.SupervisorNamespaceRPCInterface.clearLog">
+<code class="descname">clearLog</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#supervisor.rpcinterface.SupervisorNamespaceRPCInterface.clearLog" title="Permalink to this definition">¶</a></dt>
+<dd><p>Clear the main log.</p>
+<p>&#64;return boolean result always returns True unless error</p>
+<p>If the log cannot be cleared because the log file does not exist, the
+fault <code class="docutils literal"><span class="pre">NO_FILE</span></code> will be raised. If the log cannot be cleared for any
+other reason, the fault <code class="docutils literal"><span class="pre">FAILED</span></code> will be raised.</p>
+</dd></dl>
+
+<dl class="method">
+<dt id="supervisor.rpcinterface.SupervisorNamespaceRPCInterface.shutdown">
+<code class="descname">shutdown</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#supervisor.rpcinterface.SupervisorNamespaceRPCInterface.shutdown" title="Permalink to this definition">¶</a></dt>
+<dd><p>Shut down the supervisor process</p>
+<p>&#64;return boolean result always returns True unless error</p>
+<p>This method shuts down the Supervisor daemon. If any processes are running,
+they are automatically killed without warning.</p>
+<p>Unlike most other methods, if Supervisor is in the <code class="docutils literal"><span class="pre">FATAL</span></code> state,
+this method will still function.</p>
+</dd></dl>
+
+<dl class="method">
+<dt id="supervisor.rpcinterface.SupervisorNamespaceRPCInterface.restart">
+<code class="descname">restart</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#supervisor.rpcinterface.SupervisorNamespaceRPCInterface.restart" title="Permalink to this definition">¶</a></dt>
+<dd><p>Restart the supervisor process</p>
+<p>&#64;return boolean result  always return True unless error</p>
+<p>This method soft restarts the Supervisor daemon. If any processes are
+running, they are automatically killed without warning. Note that the
+actual UNIX process for Supervisor cannot restart; only Supervisor’s
+main program loop. This has the effect of resetting the internal
+states of Supervisor.</p>
+<p>Unlike most other methods, if Supervisor is in the <code class="docutils literal"><span class="pre">FATAL</span></code> state,
+this method will still function.</p>
+</dd></dl>
+
+</dd></dl>
+
+</div></blockquote>
+</div>
+<div class="section" id="process-control">
+<h2>Process Control<a class="headerlink" href="#process-control" title="Permalink to this headline">¶</a></h2>
+<blockquote>
+<div><dl class="class">
+<dt>
+<em class="property">class </em><code class="descclassname">supervisor.rpcinterface.</code><code class="descname">SupervisorNamespaceRPCInterface</code><span class="sig-paren">(</span><em>supervisord</em><span class="sig-paren">)</span></dt>
+<dd><dl class="method">
+<dt id="supervisor.rpcinterface.SupervisorNamespaceRPCInterface.getProcessInfo">
+<code class="descname">getProcessInfo</code><span class="sig-paren">(</span><em>name</em><span class="sig-paren">)</span><a class="headerlink" href="#supervisor.rpcinterface.SupervisorNamespaceRPCInterface.getProcessInfo" title="Permalink to this definition">¶</a></dt>
+<dd><p>Get info about a process named name</p>
+<p>&#64;param string name The name of the process (or &#8216;group:name&#8217;)
+&#64;return struct result     A structure containing data about the process</p>
+<p>The return value is a struct:</p>
+<div class="highlight-python"><div class="highlight"><pre><span class="p">{</span><span class="s">&#39;name&#39;</span><span class="p">:</span>           <span class="s">&#39;process name&#39;</span><span class="p">,</span>
+ <span class="s">&#39;group&#39;</span><span class="p">:</span>          <span class="s">&#39;group name&#39;</span><span class="p">,</span>
+ <span class="s">&#39;description&#39;</span><span class="p">:</span>    <span class="s">&#39;pid 18806, uptime 0:03:12&#39;</span>
+ <span class="s">&#39;start&#39;</span><span class="p">:</span>          <span class="mi">1200361776</span><span class="p">,</span>
+ <span class="s">&#39;stop&#39;</span><span class="p">:</span>           <span class="mi">0</span><span class="p">,</span>
+ <span class="s">&#39;now&#39;</span><span class="p">:</span>            <span class="mi">1200361812</span><span class="p">,</span>
+ <span class="s">&#39;state&#39;</span><span class="p">:</span>          <span class="mi">1</span><span class="p">,</span>
+ <span class="s">&#39;statename&#39;</span><span class="p">:</span>      <span class="s">&#39;RUNNING&#39;</span><span class="p">,</span>
+ <span class="s">&#39;spawnerr&#39;</span><span class="p">:</span>       <span class="s">&#39;&#39;</span><span class="p">,</span>
+ <span class="s">&#39;exitstatus&#39;</span><span class="p">:</span>     <span class="mi">0</span><span class="p">,</span>
+ <span class="s">&#39;logfile&#39;</span><span class="p">:</span>        <span class="s">&#39;/path/to/stdout-log&#39;</span><span class="p">,</span> <span class="c"># deprecated, b/c only</span>
+ <span class="s">&#39;stdout_logfile&#39;</span><span class="p">:</span> <span class="s">&#39;/path/to/stdout-log&#39;</span><span class="p">,</span>
+ <span class="s">&#39;stderr_logfile&#39;</span><span class="p">:</span> <span class="s">&#39;/path/to/stderr-log&#39;</span><span class="p">,</span>
+ <span class="s">&#39;pid&#39;</span><span class="p">:</span>            <span class="mi">1</span><span class="p">}</span>
+</pre></div>
+</div>
+<dl class="describe">
+<dt>
+<code class="descname">name</code></dt>
+<dd><p>Name of the process</p>
+</dd></dl>
+
+<dl class="describe">
+<dt>
+<code class="descname">group</code></dt>
+<dd><p>Name of the process&#8217; group</p>
+</dd></dl>
+
+<dl class="describe">
+<dt>
+<code class="descname">description</code></dt>
+<dd><p>If process state is running description&#8217;s value is process_id
+and uptime. Example &#8220;pid 18806, uptime 0:03:12 &#8221;.
+If process state is stopped description&#8217;s value is stop time.
+Example:&#8221;Jun 5 03:16 PM &#8221;.</p>
+</dd></dl>
+
+<dl class="describe">
+<dt>
+<code class="descname">start</code></dt>
+<dd><p>UNIX timestamp of when the process was started</p>
+</dd></dl>
+
+<dl class="describe">
+<dt>
+<code class="descname">stop</code></dt>
+<dd><p>UNIX timestamp of when the process last ended, or 0 if the process
+has never been stopped.</p>
+</dd></dl>
+
+<dl class="describe">
+<dt>
+<code class="descname">now</code></dt>
+<dd><p>UNIX timestamp of the current time, which can be used to calculate
+process up-time.</p>
+</dd></dl>
+
+<dl class="describe">
+<dt>
+<code class="descname">state</code></dt>
+<dd><p>State code, see <a class="reference internal" href="subprocess.html#process-states"><span>Process States</span></a>.</p>
+</dd></dl>
+
+<dl class="describe">
+<dt>
+<code class="descname">statename</code></dt>
+<dd><p>String description of <cite>state</cite>, see <a class="reference internal" href="subprocess.html#process-states"><span>Process States</span></a>.</p>
+</dd></dl>
+
+<dl class="describe">
+<dt>
+<code class="descname">logfile</code></dt>
+<dd><p>Deprecated alias for <code class="docutils literal"><span class="pre">stdout_logfile</span></code>.  This is provided only
+for compatibility with clients written for Supervisor 2.x and
+may be removed in the future.  Use <code class="docutils literal"><span class="pre">stdout_logfile</span></code> instead.</p>
+</dd></dl>
+
+<dl class="describe">
+<dt>
+<code class="descname">stdout_logfile</code></dt>
+<dd><p>Absolute path and filename to the STDOUT logfile</p>
+</dd></dl>
+
+<dl class="describe">
+<dt>
+<code class="descname">stderr_logfile</code></dt>
+<dd><p>Absolute path and filename to the STDOUT logfile</p>
+</dd></dl>
+
+<dl class="describe">
+<dt>
+<code class="descname">spawnerr</code></dt>
+<dd><p>Description of error that occurred during spawn, or empty string
+if none.</p>
+</dd></dl>
+
+<dl class="describe">
+<dt>
+<code class="descname">exitstatus</code></dt>
+<dd><p>Exit status (errorlevel) of process, or 0 if the process is still
+running.</p>
+</dd></dl>
+
+<dl class="describe">
+<dt>
+<code class="descname">pid</code></dt>
+<dd><p>UNIX process ID (PID) of the process, or 0 if the process is not
+running.</p>
+</dd></dl>
+
+</dd></dl>
+
+<dl class="method">
+<dt id="supervisor.rpcinterface.SupervisorNamespaceRPCInterface.getAllProcessInfo">
+<code class="descname">getAllProcessInfo</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#supervisor.rpcinterface.SupervisorNamespaceRPCInterface.getAllProcessInfo" title="Permalink to this definition">¶</a></dt>
+<dd><p>Get info about all processes</p>
+<p>&#64;return array result  An array of process status results</p>
+<p>Each element contains a struct, and this struct contains the exact
+same elements as the struct returned by <code class="docutils literal"><span class="pre">getProcessInfo</span></code>. If the process
+table is empty, an empty array is returned.</p>
+</dd></dl>
+
+<dl class="method">
+<dt id="supervisor.rpcinterface.SupervisorNamespaceRPCInterface.startProcess">
+<code class="descname">startProcess</code><span class="sig-paren">(</span><em>name</em>, <em>wait=True</em><span class="sig-paren">)</span><a class="headerlink" href="#supervisor.rpcinterface.SupervisorNamespaceRPCInterface.startProcess" title="Permalink to this definition">¶</a></dt>
+<dd><p>Start a process</p>
+<p>&#64;param string name Process name (or <code class="docutils literal"><span class="pre">group:name</span></code>, or <code class="docutils literal"><span class="pre">group:*</span></code>)
+&#64;param boolean wait Wait for process to be fully started
+&#64;return boolean result     Always true unless error</p>
+</dd></dl>
+
+<dl class="method">
+<dt id="supervisor.rpcinterface.SupervisorNamespaceRPCInterface.startAllProcesses">
+<code class="descname">startAllProcesses</code><span class="sig-paren">(</span><em>wait=True</em><span class="sig-paren">)</span><a class="headerlink" href="#supervisor.rpcinterface.SupervisorNamespaceRPCInterface.startAllProcesses" title="Permalink to this definition">¶</a></dt>
+<dd><p>Start all processes listed in the configuration file</p>
+<p>&#64;param boolean wait    Wait for each process to be fully started
+&#64;return array result   An array of process status info structs</p>
+</dd></dl>
+
+<dl class="method">
+<dt id="supervisor.rpcinterface.SupervisorNamespaceRPCInterface.startProcessGroup">
+<code class="descname">startProcessGroup</code><span class="sig-paren">(</span><em>name</em>, <em>wait=True</em><span class="sig-paren">)</span><a class="headerlink" href="#supervisor.rpcinterface.SupervisorNamespaceRPCInterface.startProcessGroup" title="Permalink to this definition">¶</a></dt>
+<dd><p>Start all processes in the group named &#8216;name&#8217;</p>
+<p>&#64;param string name     The group name
+&#64;param boolean wait    Wait for each process to be fully started
+&#64;return array result   An array of process status info structs</p>
+</dd></dl>
+
+<dl class="method">
+<dt id="supervisor.rpcinterface.SupervisorNamespaceRPCInterface.stopProcess">
+<code class="descname">stopProcess</code><span class="sig-paren">(</span><em>name</em>, <em>wait=True</em><span class="sig-paren">)</span><a class="headerlink" href="#supervisor.rpcinterface.SupervisorNamespaceRPCInterface.stopProcess" title="Permalink to this definition">¶</a></dt>
+<dd><p>Stop a process named by name</p>
+<p>&#64;param string name  The name of the process to stop (or &#8216;group:name&#8217;)
+&#64;param boolean wait        Wait for the process to be fully stopped
+&#64;return boolean result     Always return True unless error</p>
+</dd></dl>
+
+<dl class="method">
+<dt id="supervisor.rpcinterface.SupervisorNamespaceRPCInterface.stopProcessGroup">
+<code class="descname">stopProcessGroup</code><span class="sig-paren">(</span><em>name</em>, <em>wait=True</em><span class="sig-paren">)</span><a class="headerlink" href="#supervisor.rpcinterface.SupervisorNamespaceRPCInterface.stopProcessGroup" title="Permalink to this definition">¶</a></dt>
+<dd><p>Stop all processes in the process group named &#8216;name&#8217;</p>
+<p>&#64;param string name     The group name
+&#64;param boolean wait    Wait for each process to be fully stopped
+&#64;return array result   An array of process status info structs</p>
+</dd></dl>
+
+<dl class="method">
+<dt id="supervisor.rpcinterface.SupervisorNamespaceRPCInterface.stopAllProcesses">
+<code class="descname">stopAllProcesses</code><span class="sig-paren">(</span><em>wait=True</em><span class="sig-paren">)</span><a class="headerlink" href="#supervisor.rpcinterface.SupervisorNamespaceRPCInterface.stopAllProcesses" title="Permalink to this definition">¶</a></dt>
+<dd><p>Stop all processes in the process list</p>
+<p>&#64;param  boolean wait   Wait for each process to be fully stopped
+&#64;return array result   An array of process status info structs</p>
+</dd></dl>
+
+<dl class="method">
+<dt id="supervisor.rpcinterface.SupervisorNamespaceRPCInterface.signalProcess">
+<code class="descname">signalProcess</code><span class="sig-paren">(</span><em>name</em>, <em>signal</em><span class="sig-paren">)</span><a class="headerlink" href="#supervisor.rpcinterface.SupervisorNamespaceRPCInterface.signalProcess" title="Permalink to this definition">¶</a></dt>
+<dd><p>Send an arbitrary UNIX signal to the process named by name</p>
+<p>&#64;param string name    Name of the process to signal (or &#8216;group:name&#8217;)
+&#64;param string signal  Signal to send, as name (&#8216;HUP&#8217;) or number (&#8216;1&#8217;)
+&#64;return boolean</p>
+</dd></dl>
+
+<dl class="method">
+<dt id="supervisor.rpcinterface.SupervisorNamespaceRPCInterface.signalProcessGroup">
+<code class="descname">signalProcessGroup</code><span class="sig-paren">(</span><em>name</em>, <em>signal</em><span class="sig-paren">)</span><a class="headerlink" href="#supervisor.rpcinterface.SupervisorNamespaceRPCInterface.signalProcessGroup" title="Permalink to this definition">¶</a></dt>
+<dd><p>Send a signal to all processes in the group named &#8216;name&#8217;</p>
+<p>&#64;param string name    The group name
+&#64;param string signal  Signal to send, as name (&#8216;HUP&#8217;) or number (&#8216;1&#8217;)
+&#64;return array</p>
+</dd></dl>
+
+<dl class="method">
+<dt id="supervisor.rpcinterface.SupervisorNamespaceRPCInterface.signalAllProcesses">
+<code class="descname">signalAllProcesses</code><span class="sig-paren">(</span><em>signal</em><span class="sig-paren">)</span><a class="headerlink" href="#supervisor.rpcinterface.SupervisorNamespaceRPCInterface.signalAllProcesses" title="Permalink to this definition">¶</a></dt>
+<dd><p>Send a signal to all processes in the process list</p>
+<p>&#64;param string signal  Signal to send, as name (&#8216;HUP&#8217;) or number (&#8216;1&#8217;)
+&#64;return array         An array of process status info structs</p>
+</dd></dl>
+
+<dl class="method">
+<dt id="supervisor.rpcinterface.SupervisorNamespaceRPCInterface.sendProcessStdin">
+<code class="descname">sendProcessStdin</code><span class="sig-paren">(</span><em>name</em>, <em>chars</em><span class="sig-paren">)</span><a class="headerlink" href="#supervisor.rpcinterface.SupervisorNamespaceRPCInterface.sendProcessStdin" title="Permalink to this definition">¶</a></dt>
+<dd><p>Send a string of chars to the stdin of the process name.
+If non-7-bit data is sent (unicode), it is encoded to utf-8
+before being sent to the process&#8217; stdin.  If chars is not a
+string or is not unicode, raise INCORRECT_PARAMETERS.  If the
+process is not running, raise NOT_RUNNING.  If the process&#8217;
+stdin cannot accept input (e.g. it was closed by the child
+process), raise NO_FILE.</p>
+<p>&#64;param string name        The process name to send to (or &#8216;group:name&#8217;)
+&#64;param string chars       The character data to send to the process
+&#64;return boolean result    Always return True unless error</p>
+</dd></dl>
+
+<dl class="method">
+<dt id="supervisor.rpcinterface.SupervisorNamespaceRPCInterface.sendRemoteCommEvent">
+<code class="descname">sendRemoteCommEvent</code><span class="sig-paren">(</span><em>type</em>, <em>data</em><span class="sig-paren">)</span><a class="headerlink" href="#supervisor.rpcinterface.SupervisorNamespaceRPCInterface.sendRemoteCommEvent" title="Permalink to this definition">¶</a></dt>
+<dd><p>Send an event that will be received by event listener
+subprocesses subscribing to the RemoteCommunicationEvent.</p>
+<p>&#64;param  string  type  String for the &#8220;type&#8221; key in the event header
+&#64;param  string  data  Data for the event body
+&#64;return boolean       Always return True unless error</p>
+</dd></dl>
+
+<dl class="method">
+<dt id="supervisor.rpcinterface.SupervisorNamespaceRPCInterface.reloadConfig">
+<code class="descname">reloadConfig</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#supervisor.rpcinterface.SupervisorNamespaceRPCInterface.reloadConfig" title="Permalink to this definition">¶</a></dt>
+<dd><p>Reload configuration</p>
+<p>&#64;return boolean result  always return True unless error</p>
+</dd></dl>
+
+<dl class="method">
+<dt id="supervisor.rpcinterface.SupervisorNamespaceRPCInterface.addProcessGroup">
+<code class="descname">addProcessGroup</code><span class="sig-paren">(</span><em>name</em><span class="sig-paren">)</span><a class="headerlink" href="#supervisor.rpcinterface.SupervisorNamespaceRPCInterface.addProcessGroup" title="Permalink to this definition">¶</a></dt>
+<dd><p>Update the config for a running process from config file.</p>
+<p>&#64;param string name         name of process group to add
+&#64;return boolean result     true if successful</p>
+</dd></dl>
+
+<dl class="method">
+<dt id="supervisor.rpcinterface.SupervisorNamespaceRPCInterface.removeProcessGroup">
+<code class="descname">removeProcessGroup</code><span class="sig-paren">(</span><em>name</em><span class="sig-paren">)</span><a class="headerlink" href="#supervisor.rpcinterface.SupervisorNamespaceRPCInterface.removeProcessGroup" title="Permalink to this definition">¶</a></dt>
+<dd><p>Remove a stopped process from the active configuration.</p>
+<p>&#64;param string name         name of process group to remove
+&#64;return boolean result     Indicates whether the removal was successful</p>
+</dd></dl>
+
+</dd></dl>
+
+</div></blockquote>
+</div>
+<div class="section" id="process-logging">
+<h2>Process Logging<a class="headerlink" href="#process-logging" title="Permalink to this headline">¶</a></h2>
+<blockquote>
+<div><dl class="class">
+<dt>
+<em class="property">class </em><code class="descclassname">supervisor.rpcinterface.</code><code class="descname">SupervisorNamespaceRPCInterface</code><span class="sig-paren">(</span><em>supervisord</em><span class="sig-paren">)</span></dt>
+<dd><dl class="method">
+<dt id="supervisor.rpcinterface.SupervisorNamespaceRPCInterface.readProcessStdoutLog">
+<code class="descname">readProcessStdoutLog</code><span class="sig-paren">(</span><em>name</em>, <em>offset</em>, <em>length</em><span class="sig-paren">)</span><a class="headerlink" href="#supervisor.rpcinterface.SupervisorNamespaceRPCInterface.readProcessStdoutLog" title="Permalink to this definition">¶</a></dt>
+<dd><p>Read length bytes from name&#8217;s stdout log starting at offset</p>
+<p>&#64;param string name        the name of the process (or &#8216;group:name&#8217;)
+&#64;param int offset         offset to start reading from.
+&#64;param int length         number of bytes to read from the log.
+&#64;return string result     Bytes of log</p>
+</dd></dl>
+
+<dl class="method">
+<dt id="supervisor.rpcinterface.SupervisorNamespaceRPCInterface.readProcessStderrLog">
+<code class="descname">readProcessStderrLog</code><span class="sig-paren">(</span><em>name</em>, <em>offset</em>, <em>length</em><span class="sig-paren">)</span><a class="headerlink" href="#supervisor.rpcinterface.SupervisorNamespaceRPCInterface.readProcessStderrLog" title="Permalink to this definition">¶</a></dt>
+<dd><p>Read length bytes from name&#8217;s stderr log starting at offset</p>
+<p>&#64;param string name        the name of the process (or &#8216;group:name&#8217;)
+&#64;param int offset         offset to start reading from.
+&#64;param int length         number of bytes to read from the log.
+&#64;return string result     Bytes of log</p>
+</dd></dl>
+
+<dl class="method">
+<dt id="supervisor.rpcinterface.SupervisorNamespaceRPCInterface.tailProcessStdoutLog">
+<code class="descname">tailProcessStdoutLog</code><span class="sig-paren">(</span><em>name</em>, <em>offset</em>, <em>length</em><span class="sig-paren">)</span><a class="headerlink" href="#supervisor.rpcinterface.SupervisorNamespaceRPCInterface.tailProcessStdoutLog" title="Permalink to this definition">¶</a></dt>
+<dd><p>Provides a more efficient way to tail the (stdout) log than
+readProcessStdoutLog().  Use readProcessStdoutLog() to read
+chunks and tailProcessStdoutLog() to tail.</p>
+<p>Requests (length) bytes from the (name)&#8217;s log, starting at
+(offset).  If the total log size is greater than (offset +
+length), the overflow flag is set and the (offset) is
+automatically increased to position the buffer at the end of
+the log.  If less than (length) bytes are available, the
+maximum number of available bytes will be returned.  (offset)
+returned is always the last offset in the log +1.</p>
+<p>&#64;param string name         the name of the process (or &#8216;group:name&#8217;)
+&#64;param int offset          offset to start reading from
+&#64;param int length          maximum number of bytes to return
+&#64;return array result       [string bytes, int offset, bool overflow]</p>
+</dd></dl>
+
+<dl class="method">
+<dt id="supervisor.rpcinterface.SupervisorNamespaceRPCInterface.tailProcessStderrLog">
+<code class="descname">tailProcessStderrLog</code><span class="sig-paren">(</span><em>name</em>, <em>offset</em>, <em>length</em><span class="sig-paren">)</span><a class="headerlink" href="#supervisor.rpcinterface.SupervisorNamespaceRPCInterface.tailProcessStderrLog" title="Permalink to this definition">¶</a></dt>
+<dd><p>Provides a more efficient way to tail the (stderr) log than
+readProcessStderrLog().  Use readProcessStderrLog() to read
+chunks and tailProcessStderrLog() to tail.</p>
+<p>Requests (length) bytes from the (name)&#8217;s log, starting at
+(offset).  If the total log size is greater than (offset +
+length), the overflow flag is set and the (offset) is
+automatically increased to position the buffer at the end of
+the log.  If less than (length) bytes are available, the
+maximum number of available bytes will be returned.  (offset)
+returned is always the last offset in the log +1.</p>
+<p>&#64;param string name         the name of the process (or &#8216;group:name&#8217;)
+&#64;param int offset          offset to start reading from
+&#64;param int length          maximum number of bytes to return
+&#64;return array result       [string bytes, int offset, bool overflow]</p>
+</dd></dl>
+
+<dl class="method">
+<dt id="supervisor.rpcinterface.SupervisorNamespaceRPCInterface.clearProcessLogs">
+<code class="descname">clearProcessLogs</code><span class="sig-paren">(</span><em>name</em><span class="sig-paren">)</span><a class="headerlink" href="#supervisor.rpcinterface.SupervisorNamespaceRPCInterface.clearProcessLogs" title="Permalink to this definition">¶</a></dt>
+<dd><p>Clear the stdout and stderr logs for the named process and
+reopen them.</p>
+<p>&#64;param string name   The name of the process (or &#8216;group:name&#8217;)
+&#64;return boolean result      Always True unless error</p>
+</dd></dl>
+
+<dl class="method">
+<dt id="supervisor.rpcinterface.SupervisorNamespaceRPCInterface.clearAllProcessLogs">
+<code class="descname">clearAllProcessLogs</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#supervisor.rpcinterface.SupervisorNamespaceRPCInterface.clearAllProcessLogs" title="Permalink to this definition">¶</a></dt>
+<dd><p>Clear all process log files</p>
+<p>&#64;return array result   An array of process status info structs</p>
+</dd></dl>
+
+</dd></dl>
+
+</div></blockquote>
+<span class="target" id="module-supervisor.xmlrpc"></span></div>
+<div class="section" id="system-methods">
+<h2>System Methods<a class="headerlink" href="#system-methods" title="Permalink to this headline">¶</a></h2>
+<blockquote>
+<div><dl class="class">
+<dt id="supervisor.xmlrpc.SystemNamespaceRPCInterface">
+<em class="property">class </em><code class="descclassname">supervisor.xmlrpc.</code><code class="descname">SystemNamespaceRPCInterface</code><span class="sig-paren">(</span><em>namespaces</em><span class="sig-paren">)</span><a class="headerlink" href="#supervisor.xmlrpc.SystemNamespaceRPCInterface" title="Permalink to this definition">¶</a></dt>
+<dd><dl class="method">
+<dt id="supervisor.xmlrpc.SystemNamespaceRPCInterface.listMethods">
+<code class="descname">listMethods</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#supervisor.xmlrpc.SystemNamespaceRPCInterface.listMethods" title="Permalink to this definition">¶</a></dt>
+<dd><p>Return an array listing the available method names</p>
+<p>&#64;return array result  An array of method names available (strings).</p>
+</dd></dl>
+
+<dl class="method">
+<dt id="supervisor.xmlrpc.SystemNamespaceRPCInterface.methodHelp">
+<code class="descname">methodHelp</code><span class="sig-paren">(</span><em>name</em><span class="sig-paren">)</span><a class="headerlink" href="#supervisor.xmlrpc.SystemNamespaceRPCInterface.methodHelp" title="Permalink to this definition">¶</a></dt>
+<dd><p>Return a string showing the method&#8217;s documentation</p>
+<p>&#64;param string name   The name of the method.
+&#64;return string result The documentation for the method name.</p>
+</dd></dl>
+
+<dl class="method">
+<dt id="supervisor.xmlrpc.SystemNamespaceRPCInterface.methodSignature">
+<code class="descname">methodSignature</code><span class="sig-paren">(</span><em>name</em><span class="sig-paren">)</span><a class="headerlink" href="#supervisor.xmlrpc.SystemNamespaceRPCInterface.methodSignature" title="Permalink to this definition">¶</a></dt>
+<dd><p>Return an array describing the method signature in the
+form [rtype, ptype, ptype...] where rtype is the return data type
+of the method, and ptypes are the parameter data types that the
+method accepts in method argument order.</p>
+<p>&#64;param string name  The name of the method.
+&#64;return array result  The result.</p>
+</dd></dl>
+
+<dl class="method">
+<dt id="supervisor.xmlrpc.SystemNamespaceRPCInterface.multicall">
+<code class="descname">multicall</code><span class="sig-paren">(</span><em>calls</em><span class="sig-paren">)</span><a class="headerlink" href="#supervisor.xmlrpc.SystemNamespaceRPCInterface.multicall" title="Permalink to this definition">¶</a></dt>
+<dd><p>Process an array of calls, and return an array of
+results. Calls should be structs of the form {&#8216;methodName&#8217;:
+string, &#8216;params&#8217;: array}. Each result will either be a
+single-item array containing the result value, or a struct of
+the form {&#8216;faultCode&#8217;: int, &#8216;faultString&#8217;: string}. This is
+useful when you need to make lots of small calls without lots
+of round trips.</p>
+<p>&#64;param array calls  An array of call requests
+&#64;return array result  An array of results</p>
+</dd></dl>
+
+</dd></dl>
+
+</div></blockquote>
+</div>
+</div>
+
+
+          </div>
+        </div>
+      </div>
+      <div class="sphinxsidebar" role="navigation" aria-label="main navigation">
+        <div class="sphinxsidebarwrapper">
+            <p class="logo"><a href="index.html">
+              <img class="logo" src="_static/logo_hi.gif" alt="Logo"/>
+            </a></p>
+  <h3><a href="index.html">Table Of Contents</a></h3>
+  <ul>
+<li><a class="reference internal" href="#">XML-RPC API Documentation</a><ul>
+<li><a class="reference internal" href="#status-and-control">Status and Control</a></li>
+<li><a class="reference internal" href="#process-control">Process Control</a></li>
+<li><a class="reference internal" href="#process-logging">Process Logging</a></li>
+<li><a class="reference internal" href="#system-methods">System Methods</a></li>
+</ul>
+</li>
+</ul>
+<div class="relations">
+<h3>Related Topics</h3>
+<ul>
+  <li><a href="index.html">Documentation overview</a><ul>
+      <li>Previous: <a href="glossary.html" title="previous chapter">Glossary</a></li>
+      <li>Next: <a href="plugins.html" title="next chapter">Third Party Applications and Libraries</a></li>
+  </ul></li>
+</ul>
+</div>
+  <div role="note" aria-label="source link">
+    <h3>This Page</h3>
+    <ul class="this-page-menu">
+      <li><a href="_sources/api.txt"
+            rel="nofollow">Show Source</a></li>
+    </ul>
+   </div>
+<div id="searchbox" style="display: none" role="search">
+  <h3>Quick search</h3>
+    <form class="search" action="search.html" method="get">
+      <input type="text" name="q" />
+      <input type="submit" value="Go" />
+      <input type="hidden" name="check_keywords" value="yes" />
+      <input type="hidden" name="area" value="default" />
+    </form>
+    <p class="searchtip" style="font-size: 90%">
+    Enter search terms or a module, class or function name.
+    </p>
+</div>
+<script type="text/javascript">$('#searchbox').show(0);</script>
+        </div>
+      </div>
+      <div class="clearer"></div>
+    </div>
+    <div class="footer">
+      &copy;2004-2016, Agendaless Consulting and Contributors.
+      
+      |
+      Powered by <a href="http://sphinx-doc.org/">Sphinx 1.3.3</a>
+      &amp; <a href="https://github.com/bitprophet/alabaster">Alabaster 0.7.7</a>
+      
+      |
+      <a href="_sources/api.txt"
+          rel="nofollow">Page source</a>
+    </div>
+
+    
+
+    
+  </body>
+</html>

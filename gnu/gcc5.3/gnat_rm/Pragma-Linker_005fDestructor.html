@@ -1,0 +1,65 @@
+<html lang="en">
+<head>
+<title>Pragma Linker_Destructor - GNAT Reference Manual</title>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+<meta name="description" content="GNAT Reference Manual">
+<meta name="generator" content="makeinfo 4.13">
+<link title="Top" rel="start" href="index.html#Top">
+<link rel="up" href="Implementation-Defined-Pragmas.html#Implementation-Defined-Pragmas" title="Implementation Defined Pragmas">
+<link rel="prev" href="Pragma-Linker_005fConstructor.html#Pragma-Linker_005fConstructor" title="Pragma Linker_Constructor">
+<link rel="next" href="Pragma-Linker_005fSection.html#Pragma-Linker_005fSection" title="Pragma Linker_Section">
+<link href="http://www.gnu.org/software/texinfo/" rel="generator-home" title="Texinfo Homepage">
+<!--
+
+     GNAT Reference Manual , March 24, 2015
+
+     AdaCore
+
+     Copyright (C) 2008-2015, Free Software Foundation
+-->
+<meta http-equiv="Content-Style-Type" content="text/css">
+<style type="text/css"><!--
+  pre.display { font-family:inherit }
+  pre.format  { font-family:inherit }
+  pre.smalldisplay { font-family:inherit; font-size:smaller }
+  pre.smallformat  { font-family:inherit; font-size:smaller }
+  pre.smallexample { font-size:smaller }
+  pre.smalllisp    { font-size:smaller }
+  span.sc    { font-variant:small-caps }
+  span.roman { font-family:serif; font-weight:normal; } 
+  span.sansserif { font-family:sans-serif; font-weight:normal; } 
+--></style>
+</head>
+<body>
+<div class="node">
+<a name="Pragma-Linker_Destructor"></a>
+<a name="Pragma-Linker_005fDestructor"></a>
+<p>
+Next:&nbsp;<a rel="next" accesskey="n" href="Pragma-Linker_005fSection.html#Pragma-Linker_005fSection">Pragma Linker_Section</a>,
+Previous:&nbsp;<a rel="previous" accesskey="p" href="Pragma-Linker_005fConstructor.html#Pragma-Linker_005fConstructor">Pragma Linker_Constructor</a>,
+Up:&nbsp;<a rel="up" accesskey="u" href="Implementation-Defined-Pragmas.html#Implementation-Defined-Pragmas">Implementation Defined Pragmas</a>
+<hr>
+</div>
+
+<p><a name="gnat_005frm_002fimplementation_005fdefined_005fpragmas-pragma_002dlinker_002ddestructor"></a><a name="g_t7b"></a>
+
+<h3 class="section">2.96 Pragma Linker_Destructor</h3>
+
+<p>Syntax:
+
+<pre class="example">    pragma Linker_Destructor (procedure_LOCAL_NAME);
+</pre>
+<p><cite>procedure_LOCAL_NAME</cite> must refer to a parameterless procedure that
+is declared at the library level. A procedure to which this pragma is
+applied will be treated as a finalization routine by the linker. 
+It is equivalent to <cite>__attribute__((destructor))</cite> in GNU C and
+causes <cite>procedure_LOCAL_NAME</cite> to be invoked after the entry point
+of the executable has exited (or immediately before the shared library
+is unloaded if the procedure is linked in a shared library), in particular
+after the Ada run-time environment is shut down.
+
+<p>See <cite>pragma Linker_Constructor</cite> for the set of restrictions that apply
+because of these specific contexts.
+
+</body></html>
+

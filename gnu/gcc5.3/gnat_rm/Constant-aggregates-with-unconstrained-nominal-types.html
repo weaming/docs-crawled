@@ -1,0 +1,56 @@
+<html lang="en">
+<head>
+<title>Constant aggregates with unconstrained nominal types - GNAT Reference Manual</title>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+<meta name="description" content="GNAT Reference Manual">
+<meta name="generator" content="makeinfo 4.13">
+<link title="Top" rel="start" href="index.html#Top">
+<link rel="up" href="Code-Generation-for-Array-Aggregates.html#Code-Generation-for-Array-Aggregates" title="Code Generation for Array Aggregates">
+<link rel="prev" href="Static-constant-aggregates-with-static-bounds.html#Static-constant-aggregates-with-static-bounds" title="Static constant aggregates with static bounds">
+<link rel="next" href="Aggregates-with-static-bounds.html#Aggregates-with-static-bounds" title="Aggregates with static bounds">
+<link href="http://www.gnu.org/software/texinfo/" rel="generator-home" title="Texinfo Homepage">
+<!--
+
+     GNAT Reference Manual , March 24, 2015
+
+     AdaCore
+
+     Copyright (C) 2008-2015, Free Software Foundation
+-->
+<meta http-equiv="Content-Style-Type" content="text/css">
+<style type="text/css"><!--
+  pre.display { font-family:inherit }
+  pre.format  { font-family:inherit }
+  pre.smalldisplay { font-family:inherit; font-size:smaller }
+  pre.smallformat  { font-family:inherit; font-size:smaller }
+  pre.smallexample { font-size:smaller }
+  pre.smalllisp    { font-size:smaller }
+  span.sc    { font-variant:small-caps }
+  span.roman { font-family:serif; font-weight:normal; } 
+  span.sansserif { font-family:sans-serif; font-weight:normal; } 
+--></style>
+</head>
+<body>
+<div class="node">
+<a name="Constant-aggregates-with-unconstrained-nominal-types"></a>
+<p>
+Next:&nbsp;<a rel="next" accesskey="n" href="Aggregates-with-static-bounds.html#Aggregates-with-static-bounds">Aggregates with static bounds</a>,
+Previous:&nbsp;<a rel="previous" accesskey="p" href="Static-constant-aggregates-with-static-bounds.html#Static-constant-aggregates-with-static-bounds">Static constant aggregates with static bounds</a>,
+Up:&nbsp;<a rel="up" accesskey="u" href="Code-Generation-for-Array-Aggregates.html#Code-Generation-for-Array-Aggregates">Code Generation for Array Aggregates</a>
+<hr>
+</div>
+
+<p><a name="gnat_005frm_002fimplementation_005fof_005fspecific_005fada_005ffeatures-constant_002daggregates_002dwith_002dunconstrained_002dnominal_002dtypes"></a><a name="g_t3bb"></a><a name="gnat_005frm_002fimplementation_005fof_005fspecific_005fada_005ffeatures-id9"></a><a name="g_t3bc"></a>
+
+<h4 class="subsection">15.4.2 Constant aggregates with unconstrained nominal types</h4>
+
+<p>In such cases the aggregate itself establishes the subtype, so that
+associations with <cite>others</cite> cannot be used.  GNAT determines the
+bounds for the actual subtype of the aggregate, and allocates the
+aggregate statically as well.  No code is generated for the following:
+
+<pre class="example">    type One_Unc is array (natural range &lt;&gt;) of integer;
+    Cr_Unc : constant One_Unc := (12,24,36);
+</pre>
+</body></html>
+

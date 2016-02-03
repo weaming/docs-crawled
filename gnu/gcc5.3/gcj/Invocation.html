@@ -1,0 +1,182 @@
+<html lang="en">
+<head>
+<title>Invocation - Guide to GNU gcj</title>
+<meta http-equiv="Content-Type" content="text/html">
+<meta name="description" content="Guide to GNU gcj">
+<meta name="generator" content="makeinfo 4.13">
+<link title="Top" rel="start" href="index.html#Top">
+<link rel="up" href="About-CNI.html#About-CNI" title="About CNI">
+<link rel="prev" href="Synchronization.html#Synchronization" title="Synchronization">
+<link rel="next" href="Reflection.html#Reflection" title="Reflection">
+<link href="http://www.gnu.org/software/texinfo/" rel="generator-home" title="Texinfo Homepage">
+<!--
+Copyright (C) 2001-2015 Free Software Foundation, Inc.
+
+Permission is granted to copy, distribute and/or modify this document
+under the terms of the GNU Free Documentation License, Version 1.3 or
+any later version published by the Free Software Foundation; with no
+Invariant Sections, the Front-Cover Texts being (a) (see below), and
+with the Back-Cover Texts being (b) (see below).
+A copy of the license is included in the
+section entitled ``GNU Free Documentation License''.
+
+
+(a) The FSF's Front-Cover Text is:
+
+     A GNU Manual
+
+(b) The FSF's Back-Cover Text is:
+
+     You have freedom to copy and modify this GNU Manual, like GNU
+     software.  Copies published by the Free Software Foundation raise
+     funds for GNU development.
+-->
+<meta http-equiv="Content-Style-Type" content="text/css">
+<style type="text/css"><!--
+  pre.display { font-family:inherit }
+  pre.format  { font-family:inherit }
+  pre.smalldisplay { font-family:inherit; font-size:smaller }
+  pre.smallformat  { font-family:inherit; font-size:smaller }
+  pre.smallexample { font-size:smaller }
+  pre.smalllisp    { font-size:smaller }
+  span.sc    { font-variant:small-caps }
+  span.roman { font-family:serif; font-weight:normal; } 
+  span.sansserif { font-family:sans-serif; font-weight:normal; } 
+--></style>
+</head>
+<body>
+<div class="node">
+<a name="Invocation"></a>
+<p>
+Next:&nbsp;<a rel="next" accesskey="n" href="Reflection.html#Reflection">Reflection</a>,
+Previous:&nbsp;<a rel="previous" accesskey="p" href="Synchronization.html#Synchronization">Synchronization</a>,
+Up:&nbsp;<a rel="up" accesskey="u" href="About-CNI.html#About-CNI">About CNI</a>
+<hr>
+</div>
+
+<h3 class="section">11.16 Invocation</h3>
+
+<p>CNI permits C++ applications to make calls into Java classes, in addition to
+allowing Java code to call into C++. Several functions, known as the
+<dfn>invocation API</dfn>, are provided to support this.
+
+<div class="defun">
+&mdash; Function: jint <b>JvCreateJavaVM</b> (<var>JvVMInitArgs* vm_args</var>)<var><a name="index-JvCreateJavaVM-25"></a></var><br>
+<blockquote>
+        <p>Initializes the Java runtime. This function performs essential initialization
+of the threads interface, garbage collector, exception handling and other key
+aspects of the runtime. It must be called once by an application with
+a non-Java <code>main()</code> function, before any other Java or CNI calls are made. 
+It is safe, but not recommended, to call <code>JvCreateJavaVM()</code> more than
+once provided it is only called from a single thread. 
+The <var>vmargs</var> parameter can be used to specify initialization parameters
+for the Java runtime. It may be <code>NULL</code>.
+
+        <p>JvVMInitArgs represents a list of virtual machine initialization
+arguments. <code>JvCreateJavaVM()</code> ignores the version field.
+
+     <pre class="example">          typedef struct JvVMOption
+          {
+            // a VM initialization option
+            char* optionString;
+            // extra information associated with this option
+            void* extraInfo;
+          } JvVMOption;
+          
+          typedef struct JvVMInitArgs
+          {
+            // for compatibility with JavaVMInitArgs
+            jint version;
+          
+            // number of VM initialization options
+            jint nOptions;
+          
+            // an array of VM initialization options
+            JvVMOption* options;
+          
+            // true if the option parser should ignore unrecognized options
+            jboolean ignoreUnrecognized;
+          } JvVMInitArgs;
+</pre>
+        <p><code>JvCreateJavaVM()</code> returns <code>0</code> upon success, or <code>-1</code> if
+the runtime is already initialized.
+
+        <p><em>Note:</em> In GCJ 3.1, the <code>vm_args</code> parameter is ignored. It
+is recognized and used as of release 4.0. 
+</p></blockquote></div>
+
+<div class="defun">
+&mdash; Function: java::lang::Thread* <b>JvAttachCurrentThread</b> (<var>jstring name, java::lang::ThreadGroup* group</var>)<var><a name="index-JvAttachCurrentThread-26"></a></var><br>
+<blockquote><p>Registers an existing thread with the Java runtime.  This must be called once
+from each thread, before that thread makes any other Java or CNI calls. It
+must be called after <code>JvCreateJavaVM</code>. 
+<var>name</var> specifies a name for the thread. It may be <code>NULL</code>, in which
+case a name will be generated. 
+<var>group</var> is the ThreadGroup in which this thread will be a member. If it
+is <code>NULL</code>, the thread will be a member of the main thread group. 
+The return value is the Java <code>Thread</code> object that represents the thread. 
+It is safe to call <code>JvAttachCurrentThread()</code> more than once from the same
+thread. If the thread is already attached, the call is ignored and the current
+thread object is returned. 
+</p></blockquote></div>
+
+<div class="defun">
+&mdash; Function: jint <b>JvDetachCurrentThread</b> ()<var><a name="index-JvDetachCurrentThread-27"></a></var><br>
+<blockquote><p>Unregisters a thread from the Java runtime. This should be called by threads
+that were attached using <code>JvAttachCurrentThread()</code>, after they have
+finished making calls to Java code. This ensures that any resources associated
+with the thread become eligible for garbage collection. 
+This function returns <code>0</code> upon success, or <code>-1</code> if the current thread
+is not attached. 
+</p></blockquote></div>
+
+<h4 class="subsection">11.16.1 Handling uncaught exceptions</h4>
+
+<p>If an exception is thrown from Java code called using the invocation API, and
+no handler for the exception can be found, the runtime will abort the
+application. In order to make the application more robust, it is recommended
+that code which uses the invocation API be wrapped by a top-level try/catch
+block that catches all Java exceptions.
+
+<h4 class="subsection">11.16.2 Example</h4>
+
+<p>The following code demonstrates the use of the invocation API. In this
+example, the C++ application initializes the Java runtime and attaches
+itself. The <code>java.lang.System</code> class is initialized in order to
+access its <code>out</code> field, and a Java string is printed. Finally, the thread
+is detached from the runtime once it has finished making Java calls. Everything
+is wrapped with a try/catch block to provide a default handler for any uncaught
+exceptions.
+
+   <p>The example can be compiled with <samp><span class="command">c++ -c test.cc; gcj test.o</span></samp>.
+
+<pre class="example">     // test.cc
+     #include &lt;gcj/cni.h&gt;
+     #include &lt;java/lang/System.h&gt;
+     #include &lt;java/io/PrintStream.h&gt;
+     #include &lt;java/lang/Throwable.h&gt;
+     
+     int main(int argc, char *argv[])
+     {
+       using namespace java::lang;
+     
+       try
+       {
+         JvCreateJavaVM(NULL);
+         JvAttachCurrentThread(NULL, NULL);
+     
+         String *message = JvNewStringLatin1("Hello from C++");
+         JvInitClass(&amp;System::class$);
+         System::out-&gt;println(message);
+     
+         JvDetachCurrentThread();
+       }
+       catch (Throwable *t)
+       {
+         System::err-&gt;println(JvNewStringLatin1("Unhandled Java exception:"));
+         t-&gt;printStackTrace();
+       }
+     }
+</pre>
+   </body></html>
+

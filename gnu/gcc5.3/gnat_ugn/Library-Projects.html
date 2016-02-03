@@ -1,0 +1,80 @@
+<html lang="en">
+<head>
+<title>Library Projects - GNAT User's Guide for Native Platforms</title>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+<meta name="description" content="GNAT User's Guide for Native Platforms">
+<meta name="generator" content="makeinfo 4.13">
+<link title="Top" rel="start" href="index.html#Top">
+<link rel="up" href="GNAT-Project-Manager.html#GNAT-Project-Manager" title="GNAT Project Manager">
+<link rel="prev" href="Scenarios-in-Projects.html#Scenarios-in-Projects" title="Scenarios in Projects">
+<link rel="next" href="Project-Extension.html#Project-Extension" title="Project Extension">
+<link href="http://www.gnu.org/software/texinfo/" rel="generator-home" title="Texinfo Homepage">
+<!--
+
+     GNAT User's Guide for Native Platforms , March 24, 2015
+
+     AdaCore
+
+     Copyright (C) 2008-2015, Free Software Foundation
+-->
+<meta http-equiv="Content-Style-Type" content="text/css">
+<style type="text/css"><!--
+  pre.display { font-family:inherit }
+  pre.format  { font-family:inherit }
+  pre.smalldisplay { font-family:inherit; font-size:smaller }
+  pre.smallformat  { font-family:inherit; font-size:smaller }
+  pre.smallexample { font-size:smaller }
+  pre.smalllisp    { font-size:smaller }
+  span.sc    { font-variant:small-caps }
+  span.roman { font-family:serif; font-weight:normal; } 
+  span.sansserif { font-family:sans-serif; font-weight:normal; } 
+--></style>
+</head>
+<body>
+<div class="node">
+<a name="Library-Projects"></a>
+<p>
+Next:&nbsp;<a rel="next" accesskey="n" href="Project-Extension.html#Project-Extension">Project Extension</a>,
+Previous:&nbsp;<a rel="previous" accesskey="p" href="Scenarios-in-Projects.html#Scenarios-in-Projects">Scenarios in Projects</a>,
+Up:&nbsp;<a rel="up" accesskey="u" href="GNAT-Project-Manager.html#GNAT-Project-Manager">GNAT Project Manager</a>
+<hr>
+</div>
+
+<p><a name="gnat_005fugn_002fgnat_005fproject_005fmanager-library_002dprojects"></a><a name="g_t8a"></a><a name="gnat_005fugn_002fgnat_005fproject_005fmanager-id20"></a><a name="g_t177"></a>
+
+<h3 class="section">5.5 Library Projects</h3>
+
+<p>So far, we have seen examples of projects that create executables. However,
+it is also possible to create libraries instead. A `library' is a specific
+type of subsystem where, for convenience, objects are grouped together
+using system-specific means such as archives or windows DLLs.
+
+<p>Library projects provide a system- and language-independent way of building
+both `static' and `dynamic' libraries. They also support the concept of
+`standalone libraries' (SAL) which offer two significant properties: the
+elaboration (e.g. initialization) of the library is either automatic or
+very simple; a change in the
+implementation part of the library implies minimal post-compilation actions on
+the complete system and potentially no action at all for the rest of the
+system in the case of dynamic SALs.
+
+<p>There is a restriction on shared library projects: by default, they are only
+allowed to import other shared library projects. They are not allowed to
+import non library projects or static library projects.
+
+<p>The GNAT Project Manager takes complete care of the library build, rebuild and
+installation tasks, including recompilation of the source files for which
+objects do not exist or are not up to date, assembly of the library archive, and
+installation of the library (i.e., copying associated source, object and
+<code>ALI</code> files to the specified location).
+
+<ul class="menu">
+<li><a accesskey="1" href="Building-Libraries.html#Building-Libraries">Building Libraries</a>
+<li><a accesskey="2" href="Using-Library-Projects.html#Using-Library-Projects">Using Library Projects</a>
+<li><a accesskey="3" href="Stand_002dalone-Library-Projects.html#Stand_002dalone-Library-Projects">Stand-alone Library Projects</a>
+<li><a accesskey="4" href="Installing-a-library-with-project-files.html#Installing-a-library-with-project-files">Installing a library with project files</a>
+
+</ul>
+
+</body></html>
+

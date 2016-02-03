@@ -1,0 +1,120 @@
+<html lang="en">
+<head>
+<title>Specifying a Run-Time Library - GNAT User's Guide for Native Platforms</title>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+<meta name="description" content="GNAT User's Guide for Native Platforms">
+<meta name="generator" content="makeinfo 4.13">
+<link title="Top" rel="start" href="index.html#Top">
+<link rel="up" href="Platform_002dSpecific-Information.html#Platform_002dSpecific-Information" title="Platform-Specific Information">
+<link rel="prev" href="Run_002dTime-Libraries.html#Run_002dTime-Libraries" title="Run-Time Libraries">
+<link rel="next" href="Microsoft-Windows-Topics.html#Microsoft-Windows-Topics" title="Microsoft Windows Topics">
+<link href="http://www.gnu.org/software/texinfo/" rel="generator-home" title="Texinfo Homepage">
+<!--
+
+     GNAT User's Guide for Native Platforms , March 24, 2015
+
+     AdaCore
+
+     Copyright (C) 2008-2015, Free Software Foundation
+-->
+<meta http-equiv="Content-Style-Type" content="text/css">
+<style type="text/css"><!--
+  pre.display { font-family:inherit }
+  pre.format  { font-family:inherit }
+  pre.smalldisplay { font-family:inherit; font-size:smaller }
+  pre.smallformat  { font-family:inherit; font-size:smaller }
+  pre.smallexample { font-size:smaller }
+  pre.smalllisp    { font-size:smaller }
+  span.sc    { font-variant:small-caps }
+  span.roman { font-family:serif; font-weight:normal; } 
+  span.sansserif { font-family:sans-serif; font-weight:normal; } 
+--></style>
+</head>
+<body>
+<div class="node">
+<a name="Specifying-a-Run-Time-Library"></a>
+<a name="Specifying-a-Run_002dTime-Library"></a>
+<p>
+Next:&nbsp;<a rel="next" accesskey="n" href="Microsoft-Windows-Topics.html#Microsoft-Windows-Topics">Microsoft Windows Topics</a>,
+Previous:&nbsp;<a rel="previous" accesskey="p" href="Run_002dTime-Libraries.html#Run_002dTime-Libraries">Run-Time Libraries</a>,
+Up:&nbsp;<a rel="up" accesskey="u" href="Platform_002dSpecific-Information.html#Platform_002dSpecific-Information">Platform-Specific Information</a>
+<hr>
+</div>
+
+<p><a name="gnat_005fugn_002fplatform_005fspecific_005finformation-specifying_002da_002drun_002dtime_002dlibrary"></a><a name="g_t25d"></a><a name="gnat_005fugn_002fplatform_005fspecific_005finformation-id4"></a><a name="g_t25e"></a>
+
+<h3 class="section">9.2 Specifying a Run-Time Library</h3>
+
+<p>The <code>adainclude</code> subdirectory containing the sources of the GNAT
+run-time library, and the <code>adalib</code> subdirectory containing the
+<code>ALI</code> files and the static and/or shared GNAT library, are located
+in the gcc target-dependent area:
+
+<blockquote>
+
+<pre class="example">    target=$prefix/lib/gcc/gcc-*dumpmachine*/gcc-*dumpversion*/
+</pre>
+</blockquote>
+
+<p>As indicated above, on some platforms several run-time libraries are supplied. 
+These libraries are installed in the target dependent area and
+contain a complete source and binary subdirectory. The detailed description
+below explains the differences between the different libraries in terms of
+their thread support.
+
+<p>The default run-time library (when GNAT is installed) is `rts-native'. 
+This default run time is selected by the means of soft links. 
+For example on x86-linux:
+
+<pre class="example">    --
+    --  $(target-dir)
+    --      |
+    --      +--- adainclude----------+
+    --      |                        |
+    --      +--- adalib-----------+  |
+    --      |                     |  |
+    --      +--- rts-native       |  |
+    --      |    |                |  |
+    --      |    +--- adainclude &lt;---+
+    --      |    |                |
+    --      |    +--- adalib &lt;----+
+    --      |
+    --      +--- rts-sjlj
+    --           |
+    --           +--- adainclude
+    --           |
+    --           +--- adalib
+</pre>
+<p>If the `rts-sjlj' library is to be selected on a permanent basis,
+these soft links can be modified with the following commands:
+
+<blockquote>
+
+<pre class="example">    $ cd $target
+    $ rm -f adainclude adalib
+    $ ln -s rts-sjlj/adainclude adainclude
+    $ ln -s rts-sjlj/adalib adalib
+</pre>
+</blockquote>
+
+<p>Alternatively, you can specify <code>rts-sjlj/adainclude</code> in the file
+<code>$target/ada_source_path</code> and <code>rts-sjlj/adalib</code> in
+<code>$target/ada_object_path</code>.
+
+<p><a name="index-g_t_002d_002dRTS-option-1055"></a>
+Selecting another run-time library temporarily can be
+achieved by using the `&ndash;RTS' switch, e.g., `&ndash;RTS=sjlj'
+<a name="gnat_005fugn_002fplatform_005fspecific_005finformation-choosing_002dthe_002dscheduling_002dpolicy"></a><a name="g_t25f"></a><a name="index-SCHED_005fFIFO-scheduling-policy-1056"></a>
+<a name="index-SCHED_005fRR-scheduling-policy-1057"></a>
+<a name="index-SCHED_005fOTHER-scheduling-policy-1058"></a>
+
+<ul class="menu">
+<li><a accesskey="1" href="Choosing-the-Scheduling-Policy.html#Choosing-the-Scheduling-Policy">Choosing the Scheduling Policy</a>
+<li><a accesskey="2" href="Solaris_002dSpecific-Considerations.html#Solaris_002dSpecific-Considerations">Solaris-Specific Considerations</a>
+<li><a accesskey="3" href="Solaris-Threads-Issues.html#Solaris-Threads-Issues">Solaris Threads Issues</a>
+<li><a accesskey="4" href="AIX_002dSpecific-Considerations.html#AIX_002dSpecific-Considerations">AIX-Specific Considerations</a>
+
+</ul>
+
+</body></html>
+

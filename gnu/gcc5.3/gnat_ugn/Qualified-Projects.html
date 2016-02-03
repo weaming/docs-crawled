@@ -1,0 +1,81 @@
+<html lang="en">
+<head>
+<title>Qualified Projects - GNAT User's Guide for Native Platforms</title>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+<meta name="description" content="GNAT User's Guide for Native Platforms">
+<meta name="generator" content="makeinfo 4.13">
+<link title="Top" rel="start" href="index.html#Top">
+<link rel="up" href="Project-File-Reference.html#Project-File-Reference" title="Project File Reference">
+<link rel="prev" href="Project-Declaration.html#Project-Declaration" title="Project Declaration">
+<link rel="next" href="Declarations.html#Declarations" title="Declarations">
+<link href="http://www.gnu.org/software/texinfo/" rel="generator-home" title="Texinfo Homepage">
+<!--
+
+     GNAT User's Guide for Native Platforms , March 24, 2015
+
+     AdaCore
+
+     Copyright (C) 2008-2015, Free Software Foundation
+-->
+<meta http-equiv="Content-Style-Type" content="text/css">
+<style type="text/css"><!--
+  pre.display { font-family:inherit }
+  pre.format  { font-family:inherit }
+  pre.smalldisplay { font-family:inherit; font-size:smaller }
+  pre.smallformat  { font-family:inherit; font-size:smaller }
+  pre.smallexample { font-size:smaller }
+  pre.smalllisp    { font-size:smaller }
+  span.sc    { font-variant:small-caps }
+  span.roman { font-family:serif; font-weight:normal; } 
+  span.sansserif { font-family:sans-serif; font-weight:normal; } 
+--></style>
+</head>
+<body>
+<div class="node">
+<a name="Qualified-Projects"></a>
+<p>
+Next:&nbsp;<a rel="next" accesskey="n" href="Declarations.html#Declarations">Declarations</a>,
+Previous:&nbsp;<a rel="previous" accesskey="p" href="Project-Declaration.html#Project-Declaration">Project Declaration</a>,
+Up:&nbsp;<a rel="up" accesskey="u" href="Project-File-Reference.html#Project-File-Reference">Project File Reference</a>
+<hr>
+</div>
+
+<p><a name="gnat_005fugn_002fgnat_005fproject_005fmanager-qualified_002dprojects"></a><a name="g_t173"></a><a name="gnat_005fugn_002fgnat_005fproject_005fmanager-id39"></a><a name="g_t197"></a>
+
+<h4 class="subsection">5.9.2 Qualified Projects</h4>
+
+<p>Before the reserved <cite>project</cite>, there may be one or two `qualifiers', that
+is identifiers or reserved words, to qualify the project. 
+The current list of qualifiers is:
+
+     <dl>
+<dt>`abstract':<dd>
+Qualifies a project with no sources. 
+Such a   project must either have no declaration of attributes <cite>Source_Dirs</cite>,
+<cite>Source_Files</cite>, <cite>Languages</cite> or <cite>Source_List_File</cite>, or one of
+<cite>Source_Dirs</cite>, <cite>Source_Files</cite>, or <cite>Languages</cite> must be declared
+as empty. If it extends another project, the project it extends must also be a
+qualified abstract project.
+
+     <br><dt>`standard':<dd>
+A standard project is a non library project with sources. 
+This is the default (implicit) qualifier.
+
+     <br><dt>`aggregate':<dd>
+A project whose sources are aggregated from other project files.
+
+     <br><dt>`aggregate library':<dd>
+A library whose sources are aggregated from other project
+or library project files.
+
+     <br><dt>`library':<dd>
+A library project must declare both attributes
+Library_Name` and <cite>Library_Dir</cite>.
+
+     <br><dt>`configuration':<dd>
+A configuration project cannot be in a project tree. 
+It describes compilers and other tools to `gprbuild'. 
+</dl>
+
+</body></html>
+

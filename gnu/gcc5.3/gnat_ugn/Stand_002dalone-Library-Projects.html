@@ -1,0 +1,250 @@
+<html lang="en">
+<head>
+<title>Stand-alone Library Projects - GNAT User's Guide for Native Platforms</title>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+<meta name="description" content="GNAT User's Guide for Native Platforms">
+<meta name="generator" content="makeinfo 4.13">
+<link title="Top" rel="start" href="index.html#Top">
+<link rel="up" href="Library-Projects.html#Library-Projects" title="Library Projects">
+<link rel="prev" href="Using-Library-Projects.html#Using-Library-Projects" title="Using Library Projects">
+<link rel="next" href="Installing-a-library-with-project-files.html#Installing-a-library-with-project-files" title="Installing a library with project files">
+<link href="http://www.gnu.org/software/texinfo/" rel="generator-home" title="Texinfo Homepage">
+<!--
+
+     GNAT User's Guide for Native Platforms , March 24, 2015
+
+     AdaCore
+
+     Copyright (C) 2008-2015, Free Software Foundation
+-->
+<meta http-equiv="Content-Style-Type" content="text/css">
+<style type="text/css"><!--
+  pre.display { font-family:inherit }
+  pre.format  { font-family:inherit }
+  pre.smalldisplay { font-family:inherit; font-size:smaller }
+  pre.smallformat  { font-family:inherit; font-size:smaller }
+  pre.smallexample { font-size:smaller }
+  pre.smalllisp    { font-size:smaller }
+  span.sc    { font-variant:small-caps }
+  span.roman { font-family:serif; font-weight:normal; } 
+  span.sansserif { font-family:sans-serif; font-weight:normal; } 
+--></style>
+</head>
+<body>
+<div class="node">
+<a name="Stand-alone-Library-Projects"></a>
+<a name="Stand_002dalone-Library-Projects"></a>
+<p>
+Next:&nbsp;<a rel="next" accesskey="n" href="Installing-a-library-with-project-files.html#Installing-a-library-with-project-files">Installing a library with project files</a>,
+Previous:&nbsp;<a rel="previous" accesskey="p" href="Using-Library-Projects.html#Using-Library-Projects">Using Library Projects</a>,
+Up:&nbsp;<a rel="up" accesskey="u" href="Library-Projects.html#Library-Projects">Library Projects</a>
+<hr>
+</div>
+
+<p><a name="gnat_005fugn_002fgnat_005fproject_005fmanager-id23"></a><a name="g_t17c"></a><a name="gnat_005fugn_002fgnat_005fproject_005fmanager-stand_002dalone_002dlibrary_002dprojects"></a><a name="g_t97"></a>
+
+<h4 class="subsection">5.5.3 Stand-alone Library Projects</h4>
+
+<p><a name="index-standalone-libraries-_0028usage-with-GNAT-Project-Manager_0029-840"></a>
+A `stand-alone library' is a library that contains the necessary code to
+elaborate the Ada units that are included in the library. A stand-alone
+library is a convenient way to add an Ada subsystem to a more global system
+whose main is not in Ada since it makes the elaboration of the Ada part mostly
+transparent. However, stand-alone libraries are also useful when the main is in
+Ada: they provide a means for minimizing relinking &amp; redeployment of complex
+systems when localized changes are made.
+
+<p>The name of a stand-alone library, specified with attribute
+<cite>Library_Name</cite>, must have the syntax of an Ada identifier.
+
+<p>The most prominent characteristic of a stand-alone library is that it offers a
+distinction between interface units and implementation units. Only the former
+are visible to units outside the library. A stand-alone library project is thus
+characterised by a third attribute, usually `Library_Interface', in addition
+to the two attributes that make a project a Library Project
+(<cite>Library_Name</cite> and <cite>Library_Dir</cite>). This third attribute may also be
+`Interfaces'. `Library_Interface' only works when the interface is in Ada
+and takes a list of units as parameter. `Interfaces' works for any supported
+language and takes a list of sources as parameter.
+
+<p><a name="index-Library_005fInterface-_0028GNAT-Project-Manager_0029-841"></a>
+`Library_Interface':
+
+<blockquote>
+
+<p>This attribute defines an explicit subset of the units of the project. Units
+from projects importing this library project may only "with" units whose
+sources are listed in the <cite>Library_Interface</cite>. Other sources are
+considered implementation units.
+
+<pre class="example">    for Library_Dir use "lib";
+    for Library_Name use "logging";
+    for Library_Interface use ("lib1", "lib2");  --  unit names
+</pre>
+</blockquote>
+
+<p>`Interfaces'
+
+<blockquote>
+
+<p>This attribute defines an explicit subset of the source files of a project. 
+Sources from projects importing this project, can only depend on sources from
+this subset. This attribute can be used on non library projects. It can also
+be used as a replacement for attribute <cite>Library_Interface</cite>, in which
+case, units have to be replaced by source files. For multi-language library
+projects, it is the only way to make the project a Stand-Alone Library project
+whose interface is not purely Ada. 
+</blockquote>
+
+<p><a name="index-Library_005fStandalone-_0028GNAT-Project-Manager_0029-842"></a>
+`Library_Standalone':
+
+<blockquote>
+
+<p>This attribute defines the kind of standalone library to
+build. Values are either <cite>standard</cite> (the default), <cite>no</cite> or
+<cite>encapsulated</cite>. When <cite>standard</cite> is used the code to elaborate and
+finalize the library is embedded, when <cite>encapsulated</cite> is used the
+library can furthermore depend only on static libraries (including
+the GNAT runtime). This attribute can be set to <cite>no</cite> to make it clear
+that the library should not be standalone in which case the
+<cite>Library_Interface</cite> should not defined. Note that this attribute
+only applies to shared libraries, so <cite>Library_Kind</cite> must be set
+to <cite>dynamic</cite>.
+
+<pre class="example">    for Library_Dir use "lib";
+    for Library_Name use "logging";
+    for Library_Kind use "dynamic";
+    for Library_Interface use ("lib1", "lib2");  --  unit names
+    for Library_Standalone use "encapsulated";
+</pre>
+</blockquote>
+
+<p>In order to include the elaboration code in the stand-alone library, the binder
+is invoked on the closure of the library units creating a package whose name
+depends on the library name (b~logging.ads/b in the example). 
+This binder-generated package includes `initialization' and `finalization'
+procedures whose names depend on the library name (<cite>logginginit</cite> and
+<cite>loggingfinal</cite> in the example). The object corresponding to this package is
+included in the library.
+
+<p><a name="index-Library_005fAuto_005fInit-_0028GNAT-Project-Manager_0029-843"></a>
+`Library_Auto_Init':
+
+<blockquote>
+
+<p>A dynamic stand-alone Library is automatically initialized
+if automatic initialization of Stand-alone Libraries is supported on the
+platform and if attribute `Library_Auto_Init' is not specified or
+is specified with the value "true". A static Stand-alone Library is never
+automatically initialized. Specifying "false" for this attribute
+prevents automatic initialization.
+
+<p>When a non-automatically initialized stand-alone library is used in an
+executable, its initialization procedure must be called before any service of
+the library is used. When the main subprogram is in Ada, it may mean that the
+initialization procedure has to be called during elaboration of another
+package. 
+</blockquote>
+
+<p><a name="index-Library_005fDir-_0028GNAT-Project-Manager_0029-844"></a>
+`Library_Dir':
+
+<blockquote>
+
+<p>For a stand-alone library, only the <code>ALI</code> files of the interface units
+(those that are listed in attribute <cite>Library_Interface</cite>) are copied to
+the library directory. As a consequence, only the interface units may be
+imported from Ada units outside of the library. If other units are imported,
+the binding phase will fail. 
+</blockquote>
+
+<p>`Binder.Default_Switches':
+
+<blockquote>
+
+<p>When a stand-alone library is bound, the switches that are specified in
+the attribute `Binder.Default_Switches ("Ada")' are
+used in the call to `gnatbind'. 
+</blockquote>
+
+<p><a name="index-Library_005fSrc_005fDir-_0028GNAT-Project-Manager_0029-845"></a>
+`Library_Src_Dir':
+
+<blockquote>
+
+<p>This attribute defines the location (absolute or relative to the project
+directory) where the sources of the interface units are copied at
+installation time. 
+These sources includes the specs of the interface units along with the
+closure of sources necessary to compile them successfully. That may include
+bodies and subunits, when pragmas <cite>Inline</cite> are used, or when there are
+generic units in specs. This directory cannot point to the object directory
+or one of the source directories, but it can point to the library directory,
+which is the default value for this attribute. 
+</blockquote>
+
+<p><a name="index-Library_005fSymbol_005fPolicy-_0028GNAT-Project-Manager_0029-846"></a>
+`Library_Symbol_Policy':
+
+<blockquote>
+
+<p>This attribute controls the export of symbols and, on some platforms (like
+VMS) that have the notions of major and minor IDs built in the library
+files, it controls the setting of these IDs. It is not supported on all
+platforms (where it will just have no effect). It may have one of the
+following values:
+
+     <ul>
+<li><cite>"autonomous"</cite> or <cite>"default"</cite>: exported symbols are not controlled
+
+     <li><cite>"compliant"</cite>: if attribute `Library_Reference_Symbol_File'
+is not defined, then it is equivalent to policy "autonomous". If there
+are exported symbols in the reference symbol file that are not in the
+object files of the interfaces, the major ID of the library is increased. 
+If there are symbols in the object files of the interfaces that are not
+in the reference symbol file, these symbols are put at the end of the list
+in the newly created symbol file and the minor ID is increased.
+
+     <li><cite>"controlled"</cite>: the attribute `Library_Reference_Symbol_File' must be
+defined. The library will fail to build if the exported symbols in the
+object files of the interfaces do not match exactly the symbol in the
+symbol file.
+
+     <li><cite>"restricted"</cite>: The attribute `Library_Symbol_File' must be defined. 
+The library will fail to build if there are symbols in the symbol file that
+are not in the exported symbols of the object files of the interfaces. 
+Additional symbols in the object files are not added to the symbol file.
+
+     <li><cite>"direct"</cite>: The attribute `Library_Symbol_File' must be defined and
+must designate an existing file in the object directory. This symbol file
+is passed directly to the underlying linker without any symbol processing. 
+</ul>
+</blockquote>
+
+<p><a name="index-Library_005fReference_005fSymbol_005fFile-_0028GNAT-Project-Manager_0029-847"></a>
+`Library_Reference_Symbol_File'
+
+<blockquote>
+
+<p>This attribute may define the path name of a reference symbol file that is
+read when the symbol policy is either "compliant" or "controlled", on
+platforms that support symbol control, such as VMS, when building a
+stand-alone library. The path may be an absolute path or a path relative
+to the project directory. 
+</blockquote>
+
+<p><a name="index-Library_005fSymbol_005fFile-_0028GNAT-Project-Manager_0029-848"></a>
+`Library_Symbol_File'
+
+<blockquote>
+
+<p>This attribute may define the name of the symbol file to be created when
+building a stand-alone library when the symbol policy is either "compliant",
+"controlled" or "restricted", on platforms that support symbol control,
+such as VMS. When symbol policy is "direct", then a file with this name
+must exist in the object directory. 
+</blockquote>
+
+</body></html>
+

@@ -1,0 +1,95 @@
+<html lang="en">
+<head>
+<title>Pragma Check_Float_Overflow - GNAT Reference Manual</title>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+<meta name="description" content="GNAT Reference Manual">
+<meta name="generator" content="makeinfo 4.13">
+<link title="Top" rel="start" href="index.html#Top">
+<link rel="up" href="Implementation-Defined-Pragmas.html#Implementation-Defined-Pragmas" title="Implementation Defined Pragmas">
+<link rel="prev" href="Pragma-Check.html#Pragma-Check" title="Pragma Check">
+<link rel="next" href="Pragma-Check_005fName.html#Pragma-Check_005fName" title="Pragma Check_Name">
+<link href="http://www.gnu.org/software/texinfo/" rel="generator-home" title="Texinfo Homepage">
+<!--
+
+     GNAT Reference Manual , March 24, 2015
+
+     AdaCore
+
+     Copyright (C) 2008-2015, Free Software Foundation
+-->
+<meta http-equiv="Content-Style-Type" content="text/css">
+<style type="text/css"><!--
+  pre.display { font-family:inherit }
+  pre.format  { font-family:inherit }
+  pre.smalldisplay { font-family:inherit; font-size:smaller }
+  pre.smallformat  { font-family:inherit; font-size:smaller }
+  pre.smallexample { font-size:smaller }
+  pre.smalllisp    { font-size:smaller }
+  span.sc    { font-variant:small-caps }
+  span.roman { font-family:serif; font-weight:normal; } 
+  span.sansserif { font-family:sans-serif; font-weight:normal; } 
+--></style>
+</head>
+<body>
+<div class="node">
+<a name="Pragma-Check_Float_Overflow"></a>
+<a name="Pragma-Check_005fFloat_005fOverflow"></a>
+<p>
+Next:&nbsp;<a rel="next" accesskey="n" href="Pragma-Check_005fName.html#Pragma-Check_005fName">Pragma Check_Name</a>,
+Previous:&nbsp;<a rel="previous" accesskey="p" href="Pragma-Check.html#Pragma-Check">Pragma Check</a>,
+Up:&nbsp;<a rel="up" accesskey="u" href="Implementation-Defined-Pragmas.html#Implementation-Defined-Pragmas">Implementation Defined Pragmas</a>
+<hr>
+</div>
+
+<p><a name="gnat_005frm_002fimplementation_005fdefined_005fpragmas-pragma_002dcheck_002dfloat_002doverflow"></a><a name="g_t2f"></a>
+
+<h3 class="section">2.21 Pragma Check_Float_Overflow</h3>
+
+<p><a name="index-Floating_002dpoint-overflow-13"></a>
+Syntax:
+
+<pre class="example">    pragma Check_Float_Overflow;
+</pre>
+<p>In Ada, the predefined floating-point types (<cite>Short_Float</cite>,
+<cite>Float</cite>, <cite>Long_Float</cite>, <cite>Long_Long_Float</cite>) are
+defined to be `unconstrained'. This means that even though each
+has a well-defined base range, an operation that delivers a result
+outside this base range is not required to raise an exception. 
+This implementation permission accommodates the notion
+of infinities in IEEE floating-point, and corresponds to the
+efficient execution mode on most machines. GNAT will not raise
+overflow exceptions on these machines; instead it will generate
+infinities and NaN's as defined in the IEEE standard.
+
+<p>Generating infinities, although efficient, is not always desirable. 
+Often the preferable approach is to check for overflow, even at the
+(perhaps considerable) expense of run-time performance. 
+This can be accomplished by defining your own constrained floating-point subtypes &ndash; i.e., by supplying explicit
+range constraints &ndash; and indeed such a subtype
+can have the same base range as its base type. For example:
+
+<pre class="example">    subtype My_Float is Float range Float'Range;
+</pre>
+<p>Here <cite>My_Float</cite> has the same range as
+<cite>Float</cite> but is constrained, so operations on
+<cite>My_Float</cite> values will be checked for overflow
+against this range.
+
+<p>This style will achieve the desired goal, but
+it is often more convenient to be able to simply use
+the standard predefined floating-point types as long
+as overflow checking could be guaranteed. 
+The <cite>Check_Float_Overflow</cite>
+configuration pragma achieves this effect. If a unit is compiled
+subject to this configuration pragma, then all operations
+on predefined floating-point types including operations on
+base types of these floating-point types will be treated as
+though those types were constrained, and overflow checks
+will be generated. The <cite>Constraint_Error</cite>
+exception is raised if the result is out of range.
+
+<p>This mode can also be set by use of the compiler
+switch `-gnateF'.
+
+</body></html>
+

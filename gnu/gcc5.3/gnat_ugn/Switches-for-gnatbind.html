@@ -1,0 +1,418 @@
+<html lang="en">
+<head>
+<title>Switches for gnatbind - GNAT User's Guide for Native Platforms</title>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+<meta name="description" content="GNAT User's Guide for Native Platforms">
+<meta name="generator" content="makeinfo 4.13">
+<link title="Top" rel="start" href="index.html#Top">
+<link rel="up" href="Binding-with-gnatbind.html#Binding-with-gnatbind" title="Binding with gnatbind">
+<link rel="prev" href="Running-gnatbind.html#Running-gnatbind" title="Running gnatbind">
+<link rel="next" href="Command_002dLine-Access.html#Command_002dLine-Access" title="Command-Line Access">
+<link href="http://www.gnu.org/software/texinfo/" rel="generator-home" title="Texinfo Homepage">
+<!--
+
+     GNAT User's Guide for Native Platforms , March 24, 2015
+
+     AdaCore
+
+     Copyright (C) 2008-2015, Free Software Foundation
+-->
+<meta http-equiv="Content-Style-Type" content="text/css">
+<style type="text/css"><!--
+  pre.display { font-family:inherit }
+  pre.format  { font-family:inherit }
+  pre.smalldisplay { font-family:inherit; font-size:smaller }
+  pre.smallformat  { font-family:inherit; font-size:smaller }
+  pre.smallexample { font-size:smaller }
+  pre.smalllisp    { font-size:smaller }
+  span.sc    { font-variant:small-caps }
+  span.roman { font-family:serif; font-weight:normal; } 
+  span.sansserif { font-family:sans-serif; font-weight:normal; } 
+--></style>
+</head>
+<body>
+<div class="node">
+<a name="Switches-for-gnatbind"></a>
+<p>
+Next:&nbsp;<a rel="next" accesskey="n" href="Command_002dLine-Access.html#Command_002dLine-Access">Command-Line Access</a>,
+Previous:&nbsp;<a rel="previous" accesskey="p" href="Running-gnatbind.html#Running-gnatbind">Running gnatbind</a>,
+Up:&nbsp;<a rel="up" accesskey="u" href="Binding-with-gnatbind.html#Binding-with-gnatbind">Binding with gnatbind</a>
+<hr>
+</div>
+
+<p><a name="gnat_005fugn_002fbuilding_005fexecutable_005fprograms_005fwith_005fgnat-id33"></a><a name="g_t122"></a><a name="gnat_005fugn_002fbuilding_005fexecutable_005fprograms_005fwith_005fgnat-switches_002dfor_002dgnatbind"></a><a name="g_t123"></a>
+
+<h4 class="subsection">4.4.2 Switches for `gnatbind'</h4>
+
+<p>The following switches are available with <cite>gnatbind</cite>; details will
+be presented in subsequent sections.
+
+<p><a name="index-g_t_002d_002dversion-_0028gnatbind_0029-658"></a>
+
+     <dl>
+<dt><code>--version</code><dd>
+Display Copyright and version, then exit disregarding all other options. 
+</dl>
+
+<p><a name="index-g_t_002d_002dhelp-_0028gnatbind_0029-659"></a>
+
+     <dl>
+<dt><code>--help</code><dd>
+If `&ndash;version' was not used, display usage, then exit disregarding
+all other options. 
+</dl>
+
+<p><a name="index-g_t_002da-_0028gnatbind_0029-660"></a>
+
+     <dl>
+<dt><code>-a</code><dd>
+Indicates that, if supported by the platform, the adainit procedure should
+be treated as an initialisation routine by the linker (a constructor). This
+is intended to be used by the Project Manager to automatically initialize
+shared Stand-Alone Libraries. 
+</dl>
+
+<p><a name="index-g_t_002daO-_0028gnatbind_0029-661"></a>
+
+     <dl>
+<dt><code>-aO</code><dd>
+Specify directory to be searched for ALI files. 
+</dl>
+
+<p><a name="index-g_t_002daI-_0028gnatbind_0029-662"></a>
+
+     <dl>
+<dt><code>-aI</code><dd>
+Specify directory to be searched for source file. 
+</dl>
+
+<p><a name="index-g_t_002dA-_0028gnatbind_0029-663"></a>
+
+     <dl>
+<dt><code>-A[=`filename']</code><dd>
+Output ALI list (to standard output or to the named file). 
+</dl>
+
+<p><a name="index-g_t_002db-_0028gnatbind_0029-664"></a>
+
+     <dl>
+<dt><code>-b</code><dd>
+Generate brief messages to <code>stderr</code> even if verbose mode set. 
+</dl>
+
+<p><a name="index-g_t_002dc-_0028gnatbind_0029-665"></a>
+
+     <dl>
+<dt><code>-c</code><dd>
+Check only, no generation of binder output file. 
+</dl>
+
+<p><a name="index-g_t_002ddnn_005bk_007cm_005d-_0028gnatbind_0029-666"></a>
+
+     <dl>
+<dt><code>-d`nn'[k|m]</code><dd>
+This switch can be used to change the default task stack size value
+to a specified size <cite>nn</cite>, which is expressed in bytes by default, or
+in kilobytes when suffixed with <cite>k</cite> or in megabytes when suffixed
+with <cite>m</cite>. 
+In the absence of a <code>[k|m]</code> suffix, this switch is equivalent,
+in effect, to completing all task specs with
+
+     <pre class="example">         pragma Storage_Size (nn);
+</pre>
+     <p>When they do not already have such a pragma. 
+</dl>
+
+<p><a name="index-g_t_002dD-_0028gnatbind_0029-667"></a>
+
+     <dl>
+<dt><code>-D`nn'[k|m]</code><dd>
+This switch can be used to change the default secondary stack size value
+to a specified size <cite>nn</cite>, which is expressed in bytes by default, or
+in kilobytes when suffixed with <cite>k</cite> or in megabytes when suffixed
+with <cite>m</cite>.
+
+     <p>The secondary stack is used to deal with functions that return a variable
+sized result, for example a function returning an unconstrained
+String. There are two ways in which this secondary stack is allocated.
+
+     <p>For most targets, the secondary stack is growing on demand and is allocated
+as a chain of blocks in the heap. The -D option is not very
+relevant. It only give some control over the size of the allocated
+blocks (whose size is the minimum of the default secondary stack size value,
+and the actual size needed for the current allocation request).
+
+     <p>For certain targets, notably VxWorks 653,
+the secondary stack is allocated by carving off a fixed ratio chunk of the
+primary task stack. The -D option is used to define the
+size of the environment task's secondary stack. 
+</dl>
+
+<p><a name="index-g_t_002de-_0028gnatbind_0029-668"></a>
+
+     <dl>
+<dt><code>-e</code><dd>
+Output complete list of elaboration-order dependencies. 
+</dl>
+
+<p><a name="index-g_t_002dE-_0028gnatbind_0029-669"></a>
+
+     <dl>
+<dt><code>-E</code><dd>
+Store tracebacks in exception occurrences when the target supports it.
+
+     <p>See also the packages <cite>GNAT.Traceback</cite> and
+<cite>GNAT.Traceback.Symbolic</cite> for more information. 
+Note that on x86 ports, you must not use `-fomit-frame-pointer'
+`gcc' option. 
+</dl>
+
+<p><a name="index-g_t_002dF-_0028gnatbind_0029-670"></a>
+
+     <dl>
+<dt><code>-F</code><dd>
+Force the checks of elaboration flags. `gnatbind' does not normally
+generate checks of elaboration flags for the main executable, except when
+a Stand-Alone Library is used. However, there are cases when this cannot be
+detected by gnatbind. An example is importing an interface of a Stand-Alone
+Library through a pragma Import and only specifying through a linker switch
+this Stand-Alone Library. This switch is used to guarantee that elaboration
+flag checks are generated. 
+</dl>
+
+<p><a name="index-g_t_002dh-_0028gnatbind_0029-671"></a>
+
+     <dl>
+<dt><code>-h</code><dd>
+Output usage (help) information
+
+     <p><a name="index-g_t_002dH32-_0028gnatbind_0029-672"></a>
+<br><dt><code>-H32</code><dd>
+Use 32-bit allocations for <cite>__gnat_malloc</cite> (and thus for access types). 
+For further details see <a href="124.html#g_t124">Dynamic Allocation Control</a>.
+
+     <p><a name="index-g_t_002dH64-_0028gnatbind_0029-673"></a>
+<a name="index-g_t_005f_005fgnat_005fmalloc-674"></a>
+<br><dt><code>-H64</code><dd>
+Use 64-bit allocations for <cite>__gnat_malloc</cite> (and thus for access types). 
+For further details see <a href="124.html#g_t124">Dynamic Allocation Control</a>.
+
+     <p><a name="index-g_t_002dI-_0028gnatbind_0029-675"></a>
+<br><dt><code>-I</code><dd>
+Specify directory to be searched for source and ALI files.
+
+     <p><a name="index-g_t_002dI_002d-_0028gnatbind_0029-676"></a>
+<br><dt><code>-I-</code><dd>
+Do not look for sources in the current directory where <cite>gnatbind</cite> was
+invoked, and do not look for ALI files in the directory containing the
+ALI file named in the <cite>gnatbind</cite> command line.
+
+     <p><a name="index-g_t_002dl-_0028gnatbind_0029-677"></a>
+<br><dt><code>-l</code><dd>
+Output chosen elaboration order.
+
+     <p><a name="index-g_t_002dL-_0028gnatbind_0029-678"></a>
+<br><dt><code>-L`xxx'</code><dd>
+Bind the units for library building. In this case the adainit and
+adafinal procedures (<a href="ba.html#ba">Binding with Non-Ada Main Programs</a>)
+are renamed to <cite>xxx`init and `xxx`final. Implies -n. (:ref:`GNAT_and_Libraries</cite>, for more details.)
+
+     <p><a name="index-g_t_002dM-_0028gnatbind_0029-679"></a>
+<br><dt><code>-M`xyz'</code><dd>
+Rename generated main program from main to xyz. This option is
+supported on cross environments only.
+
+     <p><a name="index-g_t_002dm-_0028gnatbind_0029-680"></a>
+<br><dt><code>-m`n'</code><dd>
+Limit number of detected errors or warnings to <cite>n</cite>, where <cite>n</cite> is
+in the range 1..999999. The default value if no switch is
+given is 9999. If the number of warnings reaches this limit, then a
+message is output and further warnings are suppressed, the bind
+continues in this case. If the number of errors reaches this
+limit, then a message is output and the bind is abandoned. 
+A value of zero means that no limit is enforced. The equal
+sign is optional.
+
+     <p><a name="index-g_t_002dn-_0028gnatbind_0029-681"></a>
+<br><dt><code>-n</code><dd>
+No main program.
+
+     <p><a name="index-g_t_002dnostdinc-_0028gnatbind_0029-682"></a>
+<br><dt><code>-nostdinc</code><dd>
+Do not look for sources in the system default directory.
+
+     <p><a name="index-g_t_002dnostdlib-_0028gnatbind_0029-683"></a>
+<br><dt><code>-nostdlib</code><dd>
+Do not look for library files in the system default directory.
+
+     <p><a name="index-g_t_002d_002dRTS-_0028gnatbind_0029-684"></a>
+<br><dt><code>--RTS=`rts-path'</code><dd>
+Specifies the default location of the runtime library. Same meaning as the
+equivalent `gnatmake' flag (<a href="df.html#df">Switches for gnatmake</a>).
+
+     <p><a name="index-g_t_002do-_0028gnatbind_0029-685"></a>
+<br><dt><code>-o `file'</code><dd>
+Name the output file <cite>file</cite> (default is <code>b~`xxx</code>.adb`). 
+Note that if this option is used, then linking must be done manually,
+gnatlink cannot be used.
+
+     <p><a name="index-g_t_002dO-_0028gnatbind_0029-686"></a>
+<br><dt><code>-O[=`filename']</code><dd>
+Output object list (to standard output or to the named file).
+
+     <p><a name="index-g_t_002dp-_0028gnatbind_0029-687"></a>
+<br><dt><code>-p</code><dd>
+Pessimistic (worst-case) elaboration order
+
+     <p><a name="index-g_t_002dP-_0028gnatbind_0029-688"></a>
+<br><dt><code>-P</code><dd>
+Generate binder file suitable for CodePeer.
+
+     <p><a name="index-g_t_002dR-_0028gnatbind_0029-689"></a>
+<br><dt><code>-R</code><dd>
+Output closure source list, which includes all non-run-time units that are
+included in the bind.
+
+     <p><a name="index-g_t_002dRa-_0028gnatbind_0029-690"></a>
+<br><dt><code>-Ra</code><dd>
+Like `-R' but the list includes run-time units.
+
+     <p><a name="index-g_t_002ds-_0028gnatbind_0029-691"></a>
+<br><dt><code>-s</code><dd>
+Require all source files to be present.
+
+     <p><a name="index-g_t_002dS-_0028gnatbind_0029-692"></a>
+<br><dt><code>-S`xxx'</code><dd>
+Specifies the value to be used when detecting uninitialized scalar
+objects with pragma Initialize_Scalars. 
+The <cite>xxx</cite> string specified with the switch is one of:
+
+          <ul>
+<li><code>in</code> for an invalid value*.
+
+          <p>If zero is invalid for the discrete type in question,
+then the scalar value is set to all zero bits. 
+For signed discrete types, the largest possible negative value of
+the underlying scalar is set (i.e. a one bit followed by all zero bits). 
+For unsigned discrete types, the underlying scalar value is set to all
+one bits. For floating-point types, a NaN value is set
+(see body of package System.Scalar_Values for exact values).
+
+          <li><code>lo</code> for low value.
+
+          <p>If zero is invalid for the discrete type in question,
+then the scalar value is set to all zero bits. 
+For signed discrete types, the largest possible negative value of
+the underlying scalar is set (i.e. a one bit followed by all zero bits). 
+For unsigned discrete types, the underlying scalar value is set to all
+zero bits. For floating-point, a small value is set
+(see body of package System.Scalar_Values for exact values).
+
+          <li><code>hi</code> for high value.
+
+          <p>If zero is invalid for the discrete type in question,
+then the scalar value is set to all one bits. 
+For signed discrete types, the largest possible positive value of
+the underlying scalar is set (i.e. a zero bit followed by all one bits). 
+For unsigned discrete types, the underlying scalar value is set to all
+one bits. For floating-point, a large value is set
+(see body of package System.Scalar_Values for exact values).
+
+          <li><cite>xx</cite> for hex value (two hex digits).
+
+          <p>The underlying scalar is set to a value consisting of repeated bytes, whose
+value corresponds to the given value. For example if <code>BF</code> is given,
+then a 32-bit scalar value will be set to the bit patterm <code>16#BFBFBFBF#</code>. 
+</ul>
+
+     <p><a name="index-GNAT_005fINIT_005fSCALARS-693"></a>
+In addition, you can specify `-Sev' to indicate that the value is
+to be set at run time. In this case, the program will look for an environment
+variable of the form <code>GNAT_INIT_SCALARS=`yy'</code>, where <cite>yy</cite> is one
+of `in/lo/hi/`xx*` with the same meanings as above. 
+If no environment variable is found, or if it does not have a valid value,
+then the default is *in' (invalid values). 
+</dl>
+
+<p><a name="index-g_t_002dstatic-_0028gnatbind_0029-694"></a>
+
+     <dl>
+<dt><code>-static</code><dd>
+Link against a static GNAT run time.
+
+     <p><a name="index-g_t_002dshared-_0028gnatbind_0029-695"></a>
+<br><dt><code>-shared</code><dd>
+Link against a shared GNAT run time when available.
+
+     <p><a name="index-g_t_002dt-_0028gnatbind_0029-696"></a>
+<br><dt><code>-t</code><dd>
+Tolerate time stamp and other consistency errors
+
+     <p><a name="index-g_t_002dT-_0028gnatbind_0029-697"></a>
+<br><dt><code>-T`n'</code><dd>
+Set the time slice value to <cite>n</cite> milliseconds. If the system supports
+the specification of a specific time slice value, then the indicated value
+is used. If the system does not support specific time slice values, but
+does support some general notion of round-robin scheduling, then any
+nonzero value will activate round-robin scheduling.
+
+     <p>A value of zero is treated specially. It turns off time
+slicing, and in addition, indicates to the tasking run time that the
+semantics should match as closely as possible the Annex D
+requirements of the Ada RM, and in particular sets the default
+scheduling policy to <cite>FIFO_Within_Priorities</cite>.
+
+     <p><a name="index-g_t_002du-_0028gnatbind_0029-698"></a>
+<br><dt><code>-u`n'</code><dd>
+Enable dynamic stack usage, with <cite>n</cite> results stored and displayed
+at program termination. A result is generated when a task
+terminates. Results that can't be stored are displayed on the fly, at
+task termination. This option is currently not supported on Itanium
+platforms. (See <a href="125.html#g_t125">Dynamic Stack Usage Analysis</a> for details.)
+
+     <p><a name="index-g_t_002dv-_0028gnatbind_0029-699"></a>
+<br><dt><code>-v</code><dd>
+Verbose mode. Write error messages, header, summary output to
+<code>stdout</code>.
+
+     <p><a name="index-g_t_002dw-_0028gnatbind_0029-700"></a>
+<br><dt><code>-w`x'</code><dd>
+Warning mode; <cite>x</cite> = s/e for suppress/treat as error
+
+     <p><a name="index-g_t_002dWx-_0028gnatbind_0029-701"></a>
+<br><dt><code>-Wx`e'</code><dd>
+Override default wide character encoding for standard Text_IO files.
+
+     <p><a name="index-g_t_002dx-_0028gnatbind_0029-702"></a>
+<br><dt><code>-x</code><dd>
+Exclude source files (check object consistency only).
+
+     <p><a name="index-g_t_002dXnnn-_0028gnatbind_0029-703"></a>
+<br><dt><code>-X`nnn'</code><dd>
+Set default exit status value, normally 0 for POSIX compliance.
+
+     <p><a name="index-g_t_002dy-_0028gnatbind_0029-704"></a>
+<br><dt><code>-y</code><dd>
+Enable leap seconds support in <cite>Ada.Calendar</cite> and its children.
+
+     <p><a name="index-g_t_002dz-_0028gnatbind_0029-705"></a>
+<br><dt><code>-z</code><dd>
+No main subprogram. 
+</dl>
+
+<p>You may obtain this listing of switches by running <cite>gnatbind</cite> with
+no arguments.
+
+<ul class="menu">
+<li><a accesskey="1" href="Consistency_002dChecking-Modes.html#Consistency_002dChecking-Modes">Consistency-Checking Modes</a>
+<li><a accesskey="2" href="Binder-Error-Message-Control.html#Binder-Error-Message-Control">Binder Error Message Control</a>
+<li><a accesskey="3" href="Elaboration-Control.html#Elaboration-Control">Elaboration Control</a>
+<li><a accesskey="4" href="Output-Control.html#Output-Control">Output Control</a>
+<li><a accesskey="5" href="Dynamic-Allocation-Control.html#Dynamic-Allocation-Control">Dynamic Allocation Control</a>
+<li><a accesskey="6" href="Binding-with-Non_002dAda-Main-Programs.html#Binding-with-Non_002dAda-Main-Programs">Binding with Non-Ada Main Programs</a>
+<li><a accesskey="7" href="Binding-Programs-with-No-Main-Subprogram.html#Binding-Programs-with-No-Main-Subprogram">Binding Programs with No Main Subprogram</a>
+
+</ul>
+
+</body></html>
+

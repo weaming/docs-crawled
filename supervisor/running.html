@@ -1,0 +1,392 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+  "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+
+
+<html xmlns="http://www.w3.org/1999/xhtml">
+  <head>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+    
+    <title>Running Supervisor &mdash; Supervisor 4.0.0.dev0 documentation</title>
+    
+    <link rel="stylesheet" href="_static/repoze.css" type="text/css" />
+    <link rel="stylesheet" href="_static/pygments.css" type="text/css" />
+    
+    <script type="text/javascript">
+      var DOCUMENTATION_OPTIONS = {
+        URL_ROOT:    './',
+        VERSION:     '4.0.0.dev0',
+        COLLAPSE_INDEX: false,
+        FILE_SUFFIX: '.html',
+        HAS_SOURCE:  true
+      };
+    </script>
+    <script type="text/javascript" src="_static/jquery.js"></script>
+    <script type="text/javascript" src="_static/underscore.js"></script>
+    <script type="text/javascript" src="_static/doctools.js"></script>
+    <link rel="top" title="Supervisor 4.0.0.dev0 documentation" href="index.html" />
+    <link rel="next" title="Configuration File" href="configuration.html" />
+    <link rel="prev" title="Installing" href="installing.html" />
+   
+  
+  <meta name="viewport" content="width=device-width, initial-scale=0.9, maximum-scale=0.9" />
+
+  </head>
+  <body role="document">  
+
+    <div class="document">
+      <div class="documentwrapper">
+        <div class="bodywrapper">
+          <div class="body" role="main">
+            
+  <div class="section" id="running-supervisor">
+<span id="running"></span><h1>Running Supervisor<a class="headerlink" href="#running-supervisor" title="Permalink to this headline">¶</a></h1>
+<p>This section makes reference to a <span class="target" id="index-0"></span><code class="xref std std-envvar docutils literal"><span class="pre">BINDIR</span></code> when explaining how
+to run the <strong class="command">supervisord</strong> and <strong class="command">supervisorctl</strong>
+commands.  This is the &#8220;bindir&#8221; directory that your Python
+installation has been configured with.  For example, for an
+installation of Python installed via <code class="docutils literal"><span class="pre">./configure</span>
+<span class="pre">--prefix=/usr/local/py;</span> <span class="pre">make;</span> <span class="pre">make</span> <span class="pre">install</span></code>, <span class="target" id="index-1"></span><code class="xref std std-envvar docutils literal"><span class="pre">BINDIR</span></code> would
+be <code class="file docutils literal"><span class="pre">/usr/local/py/bin</span></code>. Python interpreters on different
+platforms use a different <span class="target" id="index-2"></span><code class="xref std std-envvar docutils literal"><span class="pre">BINDIR</span></code>.  Look at the output of
+<code class="docutils literal"><span class="pre">setup.py</span> <span class="pre">install</span></code> if you can&#8217;t figure out where yours is.</p>
+<div class="section" id="adding-a-program">
+<h2>Adding a Program<a class="headerlink" href="#adding-a-program" title="Permalink to this headline">¶</a></h2>
+<p>Before <strong class="program">supervisord</strong> will do anything useful for you, you&#8217;ll
+need to add at least one <code class="docutils literal"><span class="pre">program</span></code> section to its configuration.
+The <code class="docutils literal"><span class="pre">program</span></code> section will define a program that is run and managed
+when you invoke the <strong class="command">supervisord</strong> command.  To add a program,
+you&#8217;ll need to edit the <code class="file docutils literal"><span class="pre">supervisord.conf</span></code> file.</p>
+<p>One of the simplest possible programs to run is the UNIX
+<strong class="program">cat</strong> program.  A <code class="docutils literal"><span class="pre">program</span></code> section that will run <code class="docutils literal"><span class="pre">cat</span></code>
+when the <strong class="program">supervisord</strong> process starts up is shown below.</p>
+<div class="highlight-ini"><div class="highlight"><pre><span class="k">[program:foo]</span>
+<span class="na">command</span><span class="o">=</span><span class="s">/bin/cat</span>
+</pre></div>
+</div>
+<p>This stanza may be cut and pasted into the <code class="file docutils literal"><span class="pre">supervisord.conf</span></code>
+file.  This is the simplest possible program configuration, because it
+only names a command.  Program configuration sections have many other
+configuration options which aren&#8217;t shown here.  See
+<a class="reference internal" href="configuration.html#programx-section"><span>[program:x] Section Settings</span></a> for more information.</p>
+</div>
+<div class="section" id="running-supervisord">
+<h2>Running <strong class="program">supervisord</strong><a class="headerlink" href="#running-supervisord" title="Permalink to this headline">¶</a></h2>
+<p>To start <strong class="program">supervisord</strong>, run <code class="file docutils literal"><span class="pre">$BINDIR/supervisord</span></code>.  The
+resulting process will daemonize itself and detach from the terminal.
+It keeps an operations log at <code class="file docutils literal"><span class="pre">$CWD/supervisor.log</span></code> by default.</p>
+<p>You may start the <strong class="command">supervisord</strong> executable in the foreground
+by passing the <code class="docutils literal"><span class="pre">-n</span></code> flag on its command line.  This is useful to
+debug startup problems.</p>
+<div class="admonition warning">
+<p class="first admonition-title">Warning</p>
+<p class="last">When <strong class="program">supervisord</strong> starts up, it will search for its
+configuration file in default locations <em>including the current working
+directory</em>.  If you are security-conscious you will probably want to
+specify a &#8220;-c&#8221; argument after the <strong class="program">supervisord</strong> command
+specifying an absolute path to a configuration file to ensure that someone
+doesn&#8217;t trick you into running supervisor from within a directory that
+contains a rogue <code class="docutils literal"><span class="pre">supervisord.conf</span></code> file.  A warning is emitted when
+supervisor is started as root without this <code class="docutils literal"><span class="pre">-c</span></code> argument.</p>
+</div>
+<p>To change the set of programs controlled by <strong class="program">supervisord</strong>,
+edit the <code class="file docutils literal"><span class="pre">supervisord.conf</span></code> file and <code class="docutils literal"><span class="pre">kill</span> <span class="pre">-HUP</span></code> or otherwise
+restart the <strong class="program">supervisord</strong> process.  This file has several
+example program definitions.</p>
+<p>The <strong class="command">supervisord</strong> command accepts a number of command-line
+options.  Each of these command line options overrides any equivalent
+value in the configuration file.</p>
+<div class="section" id="supervisord-command-line-options">
+<h3><strong class="command">supervisord</strong> Command-Line Options<a class="headerlink" href="#supervisord-command-line-options" title="Permalink to this headline">¶</a></h3>
+<table class="docutils option-list" frame="void" rules="none">
+<col class="option" />
+<col class="description" />
+<tbody valign="top">
+<tr><td class="option-group" colspan="2">
+<kbd><span class="option">-c <var>FILE</var></span>, <span class="option">--configuration=<var>FILE</var></span></kbd></td>
+</tr>
+<tr><td>&nbsp;</td><td>The path to a <strong class="program">supervisord</strong> configuration file.</td></tr>
+<tr><td class="option-group">
+<kbd><span class="option">-n</span>, <span class="option">--nodaemon</span></kbd></td>
+<td>Run <strong class="program">supervisord</strong> in the foreground.</td></tr>
+<tr><td class="option-group">
+<kbd><span class="option">-h</span>, <span class="option">--help</span></kbd></td>
+<td>Show <strong class="command">supervisord</strong> command help.</td></tr>
+<tr><td class="option-group" colspan="2">
+<kbd><span class="option">-u <var>USER</var></span>, <span class="option">--user=<var>USER</var></span></kbd></td>
+</tr>
+<tr><td>&nbsp;</td><td>UNIX username or numeric user id.  If <strong class="program">supervisord</strong> is
+started as the root user, setuid to this user as soon as possible
+during startup.</td></tr>
+<tr><td class="option-group" colspan="2">
+<kbd><span class="option">-m <var>OCTAL</var></span>, <span class="option">--umask=<var>OCTAL</var></span></kbd></td>
+</tr>
+<tr><td>&nbsp;</td><td>Octal number (e.g. 022) representing the <a class="reference internal" href="glossary.html#term-umask"><span class="xref std std-term">umask</span></a> that should
+be used by <strong class="program">supervisord</strong> after it starts.</td></tr>
+<tr><td class="option-group" colspan="2">
+<kbd><span class="option">-d <var>PATH</var></span>, <span class="option">--directory=<var>PATH</var></span></kbd></td>
+</tr>
+<tr><td>&nbsp;</td><td>When supervisord is run as a daemon, cd to this directory before
+daemonizing.</td></tr>
+<tr><td class="option-group" colspan="2">
+<kbd><span class="option">-l <var>FILE</var></span>, <span class="option">--logfile=<var>FILE</var></span></kbd></td>
+</tr>
+<tr><td>&nbsp;</td><td>Filename path to use as the supervisord activity log.</td></tr>
+<tr><td class="option-group" colspan="2">
+<kbd><span class="option">-y <var>BYTES</var></span>, <span class="option">--logfile_maxbytes=<var>BYTES</var></span></kbd></td>
+</tr>
+<tr><td>&nbsp;</td><td>Max size of the supervisord activity log file before a rotation
+occurs.  The value is suffix-multiplied, e.g &#8220;1&#8221; is one byte, &#8220;1MB&#8221;
+is 1 megabyte, &#8220;1GB&#8221; is 1 gigabyte.</td></tr>
+<tr><td class="option-group" colspan="2">
+<kbd><span class="option">-y <var>NUM</var></span>, <span class="option">--logfile_backups=<var>NUM</var></span></kbd></td>
+</tr>
+<tr><td>&nbsp;</td><td>Number of backup copies of the supervisord activity log to keep
+around.  Each logfile will be of size <code class="docutils literal"><span class="pre">logfile_maxbytes</span></code>.</td></tr>
+<tr><td class="option-group" colspan="2">
+<kbd><span class="option">-e <var>LEVEL</var></span>, <span class="option">--loglevel=<var>LEVEL</var></span></kbd></td>
+</tr>
+<tr><td>&nbsp;</td><td>The logging level at which supervisor should write to the activity
+log.  Valid levels are <code class="docutils literal"><span class="pre">trace</span></code>, <code class="docutils literal"><span class="pre">debug</span></code>, <code class="docutils literal"><span class="pre">info</span></code>, <code class="docutils literal"><span class="pre">warn</span></code>,
+<code class="docutils literal"><span class="pre">error</span></code>, and <code class="docutils literal"><span class="pre">critical</span></code>.</td></tr>
+<tr><td class="option-group" colspan="2">
+<kbd><span class="option">-j <var>FILE</var></span>, <span class="option">--pidfile=<var>FILE</var></span></kbd></td>
+</tr>
+<tr><td>&nbsp;</td><td>The filename to which supervisord should write its pid file.</td></tr>
+<tr><td class="option-group" colspan="2">
+<kbd><span class="option">-i <var>STRING</var></span>, <span class="option">--identifier=<var>STRING</var></span></kbd></td>
+</tr>
+<tr><td>&nbsp;</td><td>Arbitrary string identifier exposed by various client UIs for this
+instance of supervisor.</td></tr>
+<tr><td class="option-group" colspan="2">
+<kbd><span class="option">-q <var>PATH</var></span>, <span class="option">--childlogdir=<var>PATH</var></span></kbd></td>
+</tr>
+<tr><td>&nbsp;</td><td>A path to a directory (it must already exist) where supervisor will
+write its <code class="docutils literal"><span class="pre">AUTO</span></code> -mode child process logs.</td></tr>
+<tr><td class="option-group" colspan="2">
+<kbd><span class="option">-k</span>, <span class="option">--nocleanup</span></kbd></td>
+</tr>
+<tr><td>&nbsp;</td><td>Prevent <strong class="program">supervisord</strong> from performing cleanup (removal of
+old <code class="docutils literal"><span class="pre">AUTO</span></code> process log files) at startup.</td></tr>
+<tr><td class="option-group" colspan="2">
+<kbd><span class="option">-a <var>NUM</var></span>, <span class="option">--minfds=<var>NUM</var></span></kbd></td>
+</tr>
+<tr><td>&nbsp;</td><td>The minimum number of file descriptors that must be available to
+the supervisord process before it will start successfully.</td></tr>
+<tr><td class="option-group" colspan="2">
+<kbd><span class="option">-t</span>, <span class="option">--strip_ansi</span></kbd></td>
+</tr>
+<tr><td>&nbsp;</td><td>Strip ANSI escape sequences from all child log process.</td></tr>
+<tr><td class="option-group">
+<kbd><span class="option">-v</span>, <span class="option">--version</span></kbd></td>
+<td>Print the supervisord version number out to stdout and exit.</td></tr>
+<tr><td class="option-group" colspan="2">
+<kbd><span class="option">--profile_options=<var>LIST</var></span></kbd></td>
+</tr>
+<tr><td>&nbsp;</td><td>Comma-separated options list for profiling.  Causes
+<strong class="program">supervisord</strong> to run under a profiler, and output results
+based on the options, which is a comma-separated list of the
+following: <code class="docutils literal"><span class="pre">cumulative</span></code>, <code class="docutils literal"><span class="pre">calls</span></code>, <code class="docutils literal"><span class="pre">callers</span></code>.
+E.g. <code class="docutils literal"><span class="pre">cumulative,callers</span></code>.</td></tr>
+<tr><td class="option-group">
+<kbd><span class="option">--minprocs=<var>NUM</var></span></kbd></td>
+<td>The minimum number of OS process slots that must be available to
+the supervisord process before it will start successfully.</td></tr>
+</tbody>
+</table>
+</div>
+<div class="section" id="supervisorctl-command-line-options">
+<h3><strong class="command">supervisorctl</strong> Command-Line Options<a class="headerlink" href="#supervisorctl-command-line-options" title="Permalink to this headline">¶</a></h3>
+<table class="docutils option-list" frame="void" rules="none">
+<col class="option" />
+<col class="description" />
+<tbody valign="top">
+<tr><td class="option-group" colspan="2">
+<kbd><span class="option">-c</span>, <span class="option">--configuration</span></kbd></td>
+</tr>
+<tr><td>&nbsp;</td><td>Configuration file path (default /etc/supervisord.conf)</td></tr>
+<tr><td class="option-group">
+<kbd><span class="option">-h</span>, <span class="option">--help</span></kbd></td>
+<td>Print usage message and exit</td></tr>
+<tr><td class="option-group" colspan="2">
+<kbd><span class="option">-i</span>, <span class="option">--interactive</span></kbd></td>
+</tr>
+<tr><td>&nbsp;</td><td>Start an interactive shell after executing commands</td></tr>
+<tr><td class="option-group" colspan="2">
+<kbd><span class="option">-s</span>, <span class="option">--serverurl <var>URL</var></span></kbd></td>
+</tr>
+<tr><td>&nbsp;</td><td>URL on which supervisord server is listening (default &#8220;<a class="reference external" href="http://localhost:9001">http://localhost:9001</a>&#8221;).</td></tr>
+<tr><td class="option-group">
+<kbd><span class="option">-u</span>, <span class="option">--username</span></kbd></td>
+<td>Username to use for authentication with server</td></tr>
+<tr><td class="option-group">
+<kbd><span class="option">-p</span>, <span class="option">--password</span></kbd></td>
+<td>Password to use for authentication with server</td></tr>
+<tr><td class="option-group" colspan="2">
+<kbd><span class="option">-r</span>, <span class="option">--history-file</span></kbd></td>
+</tr>
+<tr><td>&nbsp;</td><td>Keep a readline history (if readline is available)</td></tr>
+</tbody>
+</table>
+<p><cite>action [arguments]</cite></p>
+<p>Actions are commands like &#8220;tail&#8221; or &#8220;stop&#8221;.  If -i is specified or no action is
+specified on the command line, a &#8220;shell&#8221; interpreting actions typed
+interactively is started.  Use the action &#8220;help&#8221; to find out about available
+actions.</p>
+</div>
+</div>
+<div class="section" id="running-supervisorctl">
+<h2>Running <strong class="program">supervisorctl</strong><a class="headerlink" href="#running-supervisorctl" title="Permalink to this headline">¶</a></h2>
+<p>To start <strong class="program">supervisorctl</strong>, run <code class="docutils literal"><span class="pre">$BINDIR/supervisorctl</span></code>.  A
+shell will be presented that will allow you to control the processes
+that are currently managed by <strong class="program">supervisord</strong>.  Type &#8220;help&#8221; at
+the prompt to get information about the supported commands.</p>
+<p>The <strong class="command">supervisorctl</strong> executable may be invoked with &#8220;one time&#8221;
+commands when invoked with arguments from a command line.  An example:
+<code class="docutils literal"><span class="pre">supervisorctl</span> <span class="pre">stop</span> <span class="pre">all</span></code>.  If arguments are present on the
+command-line, it will prevent the interactive shell from being
+invoked.  Instead, the command will be executed and
+<code class="docutils literal"><span class="pre">supervisorctl</span></code> will exit.</p>
+<p>If <strong class="command">supervisorctl</strong> is invoked in interactive mode against a
+<strong class="program">supervisord</strong> that requires authentication, you will be asked
+for authentication credentials.</p>
+</div>
+<div class="section" id="signals">
+<h2>Signals<a class="headerlink" href="#signals" title="Permalink to this headline">¶</a></h2>
+<p>The <strong class="program">supervisord</strong> program may be sent signals which cause it
+to perform certain actions while it&#8217;s running.</p>
+<p>You can send any of these signals to the single <strong class="program">supervisord</strong>
+process id.  This process id can be found in the file represented by
+the <code class="docutils literal"><span class="pre">pidfile</span></code> parameter in the <code class="docutils literal"><span class="pre">[supervisord]</span></code> section of the
+configuration file (by default it&#8217;s <code class="file docutils literal"><span class="pre">$CWD/supervisord.pid</span></code>).</p>
+<div class="section" id="signal-handlers">
+<h3>Signal Handlers<a class="headerlink" href="#signal-handlers" title="Permalink to this headline">¶</a></h3>
+<p><code class="docutils literal"><span class="pre">SIGTERM</span></code></p>
+<blockquote>
+<div><strong class="program">supervisord</strong> and all its subprocesses will shut down.
+This may take several seconds.</div></blockquote>
+<p><code class="docutils literal"><span class="pre">SIGINT</span></code></p>
+<blockquote>
+<div><strong class="program">supervisord</strong> and all its subprocesses will shut down.
+This may take several seconds.</div></blockquote>
+<p><code class="docutils literal"><span class="pre">SIGQUIT</span></code></p>
+<blockquote>
+<div><strong class="program">supervisord</strong> and all its subprocesses will shut down.
+This may take several seconds.</div></blockquote>
+<p><code class="docutils literal"><span class="pre">SIGHUP</span></code></p>
+<blockquote>
+<div><strong class="program">supervisord</strong> will stop all processes, reload the
+configuration from the first config file it finds, and start all
+processes.</div></blockquote>
+<p><code class="docutils literal"><span class="pre">SIGUSR2</span></code></p>
+<blockquote>
+<div><strong class="program">supervisord</strong> will close and reopen the main activity log
+and all child log files.</div></blockquote>
+</div>
+</div>
+<div class="section" id="runtime-security">
+<h2>Runtime Security<a class="headerlink" href="#runtime-security" title="Permalink to this headline">¶</a></h2>
+<p>The developers have done their best to assure that use of a
+<strong class="program">supervisord</strong> process running as root cannot lead to
+unintended privilege escalation.  But <strong>caveat emptor</strong>.  Supervisor
+is not as paranoid as something like DJ Bernstein&#8217;s
+<a class="reference internal" href="glossary.html#term-daemontools"><span class="xref std std-term">daemontools</span></a>, inasmuch as <strong class="program">supervisord</strong> allows for
+arbitrary path specifications in its configuration file to which data
+may be written.  Allowing arbitrary path selections can create
+vulnerabilities from symlink attacks.  Be careful when specifying
+paths in your configuration.  Ensure that the <strong class="program">supervisord</strong>
+configuration file cannot be read from or written to by unprivileged
+users and that all files installed by the supervisor package have
+&#8220;sane&#8221; file permission protection settings.  Additionally, ensure that
+your <code class="docutils literal"><span class="pre">PYTHONPATH</span></code> is sane and that all Python standard
+library files have adequate file permission protections.</p>
+</div>
+<div class="section" id="running-supervisord-automatically-on-startup">
+<h2>Running <strong class="program">supervisord</strong> automatically on startup<a class="headerlink" href="#running-supervisord-automatically-on-startup" title="Permalink to this headline">¶</a></h2>
+<p>If you are using a distribution-packaged version of Supervisor, it should
+already be integrated into the service management infrastructure of your
+distribution.</p>
+<p>There are user-contributed scripts for various operating systems at:
+<a class="reference external" href="https://github.com/Supervisor/initscripts">https://github.com/Supervisor/initscripts</a></p>
+<p>There are some answers at Serverfault in case you get stuck:
+<a class="reference external" href="http://serverfault.com/questions/96499/how-to-automatically-start-supervisord-on-linux-ubuntu">How to automatically start supervisord on Linux (Ubuntu)</a></p>
+</div>
+</div>
+
+
+          </div>
+        </div>
+      </div>
+      <div class="sphinxsidebar" role="navigation" aria-label="main navigation">
+        <div class="sphinxsidebarwrapper">
+            <p class="logo"><a href="index.html">
+              <img class="logo" src="_static/logo_hi.gif" alt="Logo"/>
+            </a></p>
+  <h3><a href="index.html">Table Of Contents</a></h3>
+  <ul>
+<li><a class="reference internal" href="#">Running Supervisor</a><ul>
+<li><a class="reference internal" href="#adding-a-program">Adding a Program</a></li>
+<li><a class="reference internal" href="#running-supervisord">Running <strong class="program">supervisord</strong></a><ul>
+<li><a class="reference internal" href="#supervisord-command-line-options"><strong class="command">supervisord</strong> Command-Line Options</a></li>
+<li><a class="reference internal" href="#supervisorctl-command-line-options"><strong class="command">supervisorctl</strong> Command-Line Options</a></li>
+</ul>
+</li>
+<li><a class="reference internal" href="#running-supervisorctl">Running <strong class="program">supervisorctl</strong></a></li>
+<li><a class="reference internal" href="#signals">Signals</a><ul>
+<li><a class="reference internal" href="#signal-handlers">Signal Handlers</a></li>
+</ul>
+</li>
+<li><a class="reference internal" href="#runtime-security">Runtime Security</a></li>
+<li><a class="reference internal" href="#running-supervisord-automatically-on-startup">Running <strong class="program">supervisord</strong> automatically on startup</a></li>
+</ul>
+</li>
+</ul>
+<div class="relations">
+<h3>Related Topics</h3>
+<ul>
+  <li><a href="index.html">Documentation overview</a><ul>
+      <li>Previous: <a href="installing.html" title="previous chapter">Installing</a></li>
+      <li>Next: <a href="configuration.html" title="next chapter">Configuration File</a></li>
+  </ul></li>
+</ul>
+</div>
+  <div role="note" aria-label="source link">
+    <h3>This Page</h3>
+    <ul class="this-page-menu">
+      <li><a href="_sources/running.txt"
+            rel="nofollow">Show Source</a></li>
+    </ul>
+   </div>
+<div id="searchbox" style="display: none" role="search">
+  <h3>Quick search</h3>
+    <form class="search" action="search.html" method="get">
+      <input type="text" name="q" />
+      <input type="submit" value="Go" />
+      <input type="hidden" name="check_keywords" value="yes" />
+      <input type="hidden" name="area" value="default" />
+    </form>
+    <p class="searchtip" style="font-size: 90%">
+    Enter search terms or a module, class or function name.
+    </p>
+</div>
+<script type="text/javascript">$('#searchbox').show(0);</script>
+        </div>
+      </div>
+      <div class="clearer"></div>
+    </div>
+    <div class="footer">
+      &copy;2004-2016, Agendaless Consulting and Contributors.
+      
+      |
+      Powered by <a href="http://sphinx-doc.org/">Sphinx 1.3.3</a>
+      &amp; <a href="https://github.com/bitprophet/alabaster">Alabaster 0.7.7</a>
+      
+      |
+      <a href="_sources/running.txt"
+          rel="nofollow">Page source</a>
+    </div>
+
+    
+
+    
+  </body>
+</html>

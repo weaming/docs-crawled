@@ -1,0 +1,6 @@
+<map id="Graphical Class Hierarchy" name="Graphical Class Hierarchy">
+<area shape="rect" id="node1" href="$a00407.html" title="std::_Enable_default\l_constructor\&lt; _Default,\l _Tag \&gt;" alt="" coords="20,5,168,57"/>
+<area shape="rect" id="node2" href="$a00494.html" title="A mixin helper to conditionally enable or disable the special members. " alt="" coords="231,68,467,133"/>
+<area shape="rect" id="node3" href="$a00408.html" title="std::_Enable_destructor\l\&lt; _Destructor, _Tag \&gt;" alt="" coords="19,81,169,120"/>
+<area shape="rect" id="node4" href="$a00493.html" title="A mixin helper to conditionally enable or disable the copy/move special members. " alt="" coords="5,144,183,209"/>
+</map>

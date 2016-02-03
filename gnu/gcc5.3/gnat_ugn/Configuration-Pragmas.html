@@ -1,0 +1,134 @@
+<html lang="en">
+<head>
+<title>Configuration Pragmas - GNAT User's Guide for Native Platforms</title>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+<meta name="description" content="GNAT User's Guide for Native Platforms">
+<meta name="generator" content="makeinfo 4.13">
+<link title="Top" rel="start" href="index.html#Top">
+<link rel="up" href="The-GNAT-Compilation-Model.html#The-GNAT-Compilation-Model" title="The GNAT Compilation Model">
+<link rel="prev" href="File-Naming-Topics-and-Utilities.html#File-Naming-Topics-and-Utilities" title="File Naming Topics and Utilities">
+<link rel="next" href="Generating-Object-Files.html#Generating-Object-Files" title="Generating Object Files">
+<link href="http://www.gnu.org/software/texinfo/" rel="generator-home" title="Texinfo Homepage">
+<!--
+
+     GNAT User's Guide for Native Platforms , March 24, 2015
+
+     AdaCore
+
+     Copyright (C) 2008-2015, Free Software Foundation
+-->
+<meta http-equiv="Content-Style-Type" content="text/css">
+<style type="text/css"><!--
+  pre.display { font-family:inherit }
+  pre.format  { font-family:inherit }
+  pre.smalldisplay { font-family:inherit; font-size:smaller }
+  pre.smallformat  { font-family:inherit; font-size:smaller }
+  pre.smallexample { font-size:smaller }
+  pre.smalllisp    { font-size:smaller }
+  span.sc    { font-variant:small-caps }
+  span.roman { font-family:serif; font-weight:normal; } 
+  span.sansserif { font-family:sans-serif; font-weight:normal; } 
+--></style>
+</head>
+<body>
+<div class="node">
+<a name="Configuration-Pragmas"></a>
+<p>
+Next:&nbsp;<a rel="next" accesskey="n" href="Generating-Object-Files.html#Generating-Object-Files">Generating Object Files</a>,
+Previous:&nbsp;<a rel="previous" accesskey="p" href="File-Naming-Topics-and-Utilities.html#File-Naming-Topics-and-Utilities">File Naming Topics and Utilities</a>,
+Up:&nbsp;<a rel="up" accesskey="u" href="The-GNAT-Compilation-Model.html#The-GNAT-Compilation-Model">The GNAT Compilation Model</a>
+<hr>
+</div>
+
+<p><a name="gnat_005fugn_002fthe_005fgnat_005fcompilation_005fmodel-id28"></a><a name="g_t79"></a><a name="gnat_005fugn_002fthe_005fgnat_005fcompilation_005fmodel-configuration_002dpragmas"></a><a name="g_t16"></a>
+
+<h3 class="section">3.4 Configuration Pragmas</h3>
+
+<p><a name="index-Configuration-pragmas-69"></a>
+<a name="index-Pragmas-70"></a><a name="index-configuration-71"></a>
+Configuration pragmas include those pragmas described as
+such in the Ada Reference Manual, as well as
+implementation-dependent pragmas that are configuration pragmas. 
+See the <cite>Implementation_Defined_Pragmas</cite> chapter in the
+<cite>GNAT_Reference_Manual</cite> for details on these
+additional GNAT-specific configuration pragmas. 
+Most notably, the pragma <cite>Source_File_Name</cite>, which allows
+specifying non-default names for source files, is a configuration
+pragma. The following is a complete list of configuration pragmas
+recognized by GNAT:
+
+<pre class="example">    Ada_83
+    Ada_95
+    Ada_05
+    Ada_2005
+    Ada_12
+    Ada_2012
+    Allow_Integer_Address
+    Annotate
+    Assertion_Policy
+    Assume_No_Invalid_Values
+    C_Pass_By_Copy
+    Check_Name
+    Check_Policy
+    Compile_Time_Error
+    Compile_Time_Warning
+    Compiler_Unit
+    Component_Alignment
+    Convention_Identifier
+    Debug_Policy
+    Detect_Blocking
+    Default_Storage_Pool
+    Discard_Names
+    Elaboration_Checks
+    Eliminate
+    Extend_System
+    Extensions_Allowed
+    External_Name_Casing
+    Fast_Math
+    Favor_Top_Level
+    Float_Representation
+    Implicit_Packing
+    Initialize_Scalars
+    Interrupt_State
+    License
+    Locking_Policy
+    Long_Float
+    No_Run_Time
+    No_Strict_Aliasing
+    Normalize_Scalars
+    Optimize_Alignment
+    Persistent_BSS
+    Polling
+    Priority_Specific_Dispatching
+    Profile
+    Profile_Warnings
+    Propagate_Exceptions
+    Queuing_Policy
+    Ravenscar
+    Restricted_Run_Time
+    Restrictions
+    Restrictions_Warnings
+    Reviewable
+    Short_Circuit_And_Or
+    Source_File_Name
+    Source_File_Name_Project
+    SPARK_Mode
+    Style_Checks
+    Suppress
+    Suppress_Exception_Locations
+    Task_Dispatching_Policy
+    Universal_Data
+    Unsuppress
+    Use_VADS_Size
+    Validity_Checks
+    Warnings
+    Wide_Character_Encoding
+</pre>
+<ul class="menu">
+<li><a accesskey="1" href="Handling-of-Configuration-Pragmas.html#Handling-of-Configuration-Pragmas">Handling of Configuration Pragmas</a>
+<li><a accesskey="2" href="The-Configuration-Pragmas-Files.html#The-Configuration-Pragmas-Files">The Configuration Pragmas Files</a>
+
+</ul>
+
+</body></html>
+

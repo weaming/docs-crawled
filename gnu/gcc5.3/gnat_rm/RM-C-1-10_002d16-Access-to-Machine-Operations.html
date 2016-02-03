@@ -1,0 +1,105 @@
+<html lang="en">
+<head>
+<title>RM C 1 10-16 Access to Machine Operations - GNAT Reference Manual</title>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+<meta name="description" content="GNAT Reference Manual">
+<meta name="generator" content="makeinfo 4.13">
+<link title="Top" rel="start" href="index.html#Top">
+<link rel="up" href="Implementation-Advice.html#Implementation-Advice" title="Implementation Advice">
+<link rel="prev" href="RM-C-1-3_002d5-Access-to-Machine-Operations.html#RM-C-1-3_002d5-Access-to-Machine-Operations" title="RM C 1 3-5 Access to Machine Operations">
+<link rel="next" href="RM-C-3-28-Interrupt-Support.html#RM-C-3-28-Interrupt-Support" title="RM C 3 28 Interrupt Support">
+<link href="http://www.gnu.org/software/texinfo/" rel="generator-home" title="Texinfo Homepage">
+<!--
+
+     GNAT Reference Manual , March 24, 2015
+
+     AdaCore
+
+     Copyright (C) 2008-2015, Free Software Foundation
+-->
+<meta http-equiv="Content-Style-Type" content="text/css">
+<style type="text/css"><!--
+  pre.display { font-family:inherit }
+  pre.format  { font-family:inherit }
+  pre.smalldisplay { font-family:inherit; font-size:smaller }
+  pre.smallformat  { font-family:inherit; font-size:smaller }
+  pre.smallexample { font-size:smaller }
+  pre.smalllisp    { font-size:smaller }
+  span.sc    { font-variant:small-caps }
+  span.roman { font-family:serif; font-weight:normal; } 
+  span.sansserif { font-family:sans-serif; font-weight:normal; } 
+--></style>
+</head>
+<body>
+<div class="node">
+<a name="RM-C-1-10-16-Access-to-Machine-Operations"></a>
+<a name="RM-C-1-10_002d16-Access-to-Machine-Operations"></a>
+<p>
+Next:&nbsp;<a rel="next" accesskey="n" href="RM-C-3-28-Interrupt-Support.html#RM-C-3-28-Interrupt-Support">RM C 3 28 Interrupt Support</a>,
+Previous:&nbsp;<a rel="previous" accesskey="p" href="RM-C-1-3_002d5-Access-to-Machine-Operations.html#RM-C-1-3_002d5-Access-to-Machine-Operations">RM C 1 3-5 Access to Machine Operations</a>,
+Up:&nbsp;<a rel="up" accesskey="u" href="Implementation-Advice.html#Implementation-Advice">Implementation Advice</a>
+<hr>
+</div>
+
+<p><a name="gnat_005frm_002fimplementation_005fadvice-rm_002dc_002d1_002d10_002d16_002daccess_002dto_002dmachine_002doperations"></a><a name="g_t1e8"></a>
+
+<h3 class="section">6.44 RM C.1(10-16): Access to Machine Operations</h3>
+
+<blockquote>
+
+<p>"The implementation should ensure that little or no overhead is
+associated with calling intrinsic and machine-code subprograms." 
+</blockquote>
+
+<p>Followed for both intrinsics and machine-code subprograms.
+
+<blockquote>
+
+<p>"It is recommended that intrinsic subprograms be provided for convenient
+access to any machine operations that provide special capabilities or
+efficiency and that are not otherwise available through the language
+constructs." 
+</blockquote>
+
+<p>Followed.  A full set of machine operation intrinsic subprograms is provided.
+
+<blockquote>
+
+<p>"Atomic read-modify-write operations&mdash;e.g., test and set, compare and
+swap, decrement and test, enqueue/dequeue." 
+</blockquote>
+
+<p>Followed on any target supporting such operations.
+
+<blockquote>
+
+<p>"Standard numeric functions&mdash;e.g.:, sin, log." 
+</blockquote>
+
+<p>Followed on any target supporting such operations.
+
+<blockquote>
+
+<p>"String manipulation operations&mdash;e.g.:, translate and test." 
+</blockquote>
+
+<p>Followed on any target supporting such operations.
+
+<blockquote>
+
+<p>"Vector operations&mdash;e.g.:, compare vector against thresholds." 
+</blockquote>
+
+<p>Followed on any target supporting such operations.
+
+<blockquote>
+
+<p>"Direct operations on I/O ports." 
+</blockquote>
+
+<p>Followed on any target supporting such operations.
+
+<p><a name="index-Interrupt-support-433"></a>
+
+</body></html>
+

@@ -1,0 +1,66 @@
+<html lang="en">
+<head>
+<title>Examples of gnatbind Usage - GNAT User's Guide for Native Platforms</title>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+<meta name="description" content="GNAT User's Guide for Native Platforms">
+<meta name="generator" content="makeinfo 4.13">
+<link title="Top" rel="start" href="index.html#Top">
+<link rel="up" href="Binding-with-gnatbind.html#Binding-with-gnatbind" title="Binding with gnatbind">
+<link rel="prev" href="Search-Paths-for-gnatbind.html#Search-Paths-for-gnatbind" title="Search Paths for gnatbind">
+<link href="http://www.gnu.org/software/texinfo/" rel="generator-home" title="Texinfo Homepage">
+<!--
+
+     GNAT User's Guide for Native Platforms , March 24, 2015
+
+     AdaCore
+
+     Copyright (C) 2008-2015, Free Software Foundation
+-->
+<meta http-equiv="Content-Style-Type" content="text/css">
+<style type="text/css"><!--
+  pre.display { font-family:inherit }
+  pre.format  { font-family:inherit }
+  pre.smalldisplay { font-family:inherit; font-size:smaller }
+  pre.smallformat  { font-family:inherit; font-size:smaller }
+  pre.smallexample { font-size:smaller }
+  pre.smalllisp    { font-size:smaller }
+  span.sc    { font-variant:small-caps }
+  span.roman { font-family:serif; font-weight:normal; } 
+  span.sansserif { font-family:sans-serif; font-weight:normal; } 
+--></style>
+</head>
+<body>
+<div class="node">
+<a name="Examples-of-gnatbind-Usage"></a>
+<p>
+Previous:&nbsp;<a rel="previous" accesskey="p" href="Search-Paths-for-gnatbind.html#Search-Paths-for-gnatbind">Search Paths for gnatbind</a>,
+Up:&nbsp;<a rel="up" accesskey="u" href="Binding-with-gnatbind.html#Binding-with-gnatbind">Binding with gnatbind</a>
+<hr>
+</div>
+
+<p><a name="gnat_005fugn_002fbuilding_005fexecutable_005fprograms_005fwith_005fgnat-examples_002dof_002dgnatbind_002dusage"></a><a name="g_t135"></a><a name="gnat_005fugn_002fbuilding_005fexecutable_005fprograms_005fwith_005fgnat-id43"></a><a name="g_t136"></a>
+
+<h4 class="subsection">4.4.5 Examples of <cite>gnatbind</cite> Usage</h4>
+
+<p>Here are some examples of <cite>gnatbind</cite> invovations:
+
+<blockquote>
+
+<pre class="example">    gnatbind hello
+</pre>
+<p>The main program <cite>Hello</cite> (source program in <code>hello.adb</code>) is
+bound using the standard switch settings. The generated main program is
+<code>b~hello.adb</code>. This is the normal, default use of the binder.
+
+<pre class="example">    gnatbind hello -o mainprog.adb
+</pre>
+<p>The main program <cite>Hello</cite> (source program in <code>hello.adb</code>) is
+bound using the standard switch settings. The generated main program is
+<code>mainprog.adb</code> with the associated spec in
+<code>mainprog.ads</code>. Note that you must specify the body here not the
+spec. Note that if this option is used, then linking must be done manually,
+since gnatlink will not be able to find the generated file. 
+</blockquote>
+
+</body></html>
+

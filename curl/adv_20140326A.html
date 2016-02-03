@@ -1,0 +1,107 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
+<HTML>
+<HEAD> <TITLE>cURL - libcurl wrong re-use of connections</TITLE>
+<meta content="text/html; charset=UTF-8" http-equiv="Content-Type">
+<link rel="stylesheet" type="text/css" href="http://curl.haxx.se/curl.css">
+<link rel="shortcut icon" href="http://curl.haxx.se/favicon.ico">
+<link rel="STYLESHEET" type="text/css" href="http://curl.haxx.se/manpage.css">
+</HEAD>
+<body bgcolor="#ffffff" text="#000000">
+<div class="main">
+<div class="menu">
+<a href="index.html" class="menuitem" title="Documentation main page">Docs Overview</a>
+</div>
+<div class="contents">
+<div class="where"><a href="http://curl.haxx.se/">cURL</a> / <a href="index.html">Docs</a> / <a href="security.html">Security</a> / <b>libcurl wrong re-use of connections</b></div>
+<h1> libcurl wrong re-use of connections </h1>
+<div class="relatedbox">
+<b>Related:</b>
+<br><a href="http://curl.haxx.se/changes.html">Changelog</a>
+<br><a href="faq.html">FAQ</a>
+<br><a href="http://curl.haxx.se/dev/security.html">Security dev process</a>
+<br><a href="vulnerabilities.html">Vulnerabilities Table</a>
+</div>
+<pre>
+                     libcurl wrong re-use of connections
+                     ===================================
+&nbsp;
+Project cURL Security Advisory, March 26th 2014
+<a href="security.html">http://curl.haxx.se/docs/security.html</a>
+&nbsp;
+1. VULNERABILITY
+&nbsp;
+  libcurl can in some circumstances re-use the wrong connection when asked to
+  do transfers using other protocols than HTTP and FTP.
+&nbsp;
+  libcurl features a pool of recent connections so that subsequent requests
+  can re-use an existing connection to avoid overhead.
+&nbsp;
+  When re-using a connection a range of criterion must first be met. Due to an
+  error in the code, a transfer that was initiated by an application could
+  wrongfully re-use an existing connection to the same server that was
+  authenticated using different credentials. The existing logic basically only
+  worked well enough for HTTP and FTP, while all other network protocols were
+  silently, but erroneously, assumed to work like HTTP. Basically, protocols
+  that use connection oriented authentication need a new connection when new
+  credentials are used.
+&nbsp;
+  Affected protocols include: SCP, SFTP, POP3(S), IMAP(S), SMTP(S) and
+  LDAP(S).
+&nbsp;
+  Applications can disable libcurl's re-use of connections and thus mitigate
+  this problem, by using one of the following libcurl options to alter how
+  connections are or aren't re-used: CURLOPT_FRESH_CONNECT,
+  CURLOPT_MAXCONNECTS and CURLMOPT_MAX_HOST_CONNECTIONS (if using curl_multi
+  API).
+&nbsp;
+  (This problem is very similar to a problem previously reported to NTLM HTTP
+  connections, named CVE-2014-0015)
+&nbsp;
+  The Common Vulnerabilities and Exposures (CVE) project has assigned the name
+  CVE-2014-0138 to this issue.
+&nbsp;
+2. AFFECTED VERSIONS
+&nbsp;
+  This flaw has existed ever since libcurl started to support these other
+  protocols, although the code has been restructured a few times over the
+  years so the mistake has altered shape.
+&nbsp;
+  Affected versions: from libcurl 7.10.6 to and including 7.35.0
+  Not affected versions: libcurl before 7.10.6 and &gt;= 7.36.0
+&nbsp;
+  libcurl is used by many applications, but not always advertised as such!
+&nbsp;
+3. THE SOLUTION
+&nbsp;
+  libcurl 7.36.0 makes sure that connections are re-used more strictly.
+&nbsp;
+  A patch for this problem is available at:
+&nbsp;
+    <a href="http://curl.haxx.se/libcurl-bad-reuse.patch">http://curl.haxx.se/libcurl-bad-reuse.patch</a>
+&nbsp;
+4. RECOMMENDATIONS
+&nbsp;
+  We suggest you take one of the following actions immediately, in order of
+  preference:
+&nbsp;
+  A - Upgrade to curl and libcurl 7.36.0
+&nbsp;
+  B - Apply the patch and rebuild libcurl
+&nbsp;
+5. TIME LINE
+&nbsp;
+  It was reported to the curl project on February 15th 2014. We contacted
+  distros@openwall on March 16 2014.
+&nbsp;
+  libcurl 7.36.0 was released on March 26th 2014, coordinated with the
+  publication of this advisory.
+&nbsp;
+6. CREDITS
+&nbsp;
+  Bug reported and patch written by Steve Holme.
+&nbsp;
+  Thanks a lot!
+</pre>
+</div>
+</div>
+</body> </html>

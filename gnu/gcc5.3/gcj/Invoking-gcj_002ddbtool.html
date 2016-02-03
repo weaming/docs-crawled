@@ -1,0 +1,118 @@
+<html lang="en">
+<head>
+<title>Invoking gcj-dbtool - Guide to GNU gcj</title>
+<meta http-equiv="Content-Type" content="text/html">
+<meta name="description" content="Guide to GNU gcj">
+<meta name="generator" content="makeinfo 4.13">
+<link title="Top" rel="start" href="index.html#Top">
+<link rel="prev" href="Invoking-gij.html#Invoking-gij" title="Invoking gij">
+<link rel="next" href="Invoking-jv_002dconvert.html#Invoking-jv_002dconvert" title="Invoking jv-convert">
+<link href="http://www.gnu.org/software/texinfo/" rel="generator-home" title="Texinfo Homepage">
+<!--
+Copyright (C) 2001-2015 Free Software Foundation, Inc.
+
+Permission is granted to copy, distribute and/or modify this document
+under the terms of the GNU Free Documentation License, Version 1.3 or
+any later version published by the Free Software Foundation; with no
+Invariant Sections, the Front-Cover Texts being (a) (see below), and
+with the Back-Cover Texts being (b) (see below).
+A copy of the license is included in the
+section entitled ``GNU Free Documentation License''.
+
+
+(a) The FSF's Front-Cover Text is:
+
+     A GNU Manual
+
+(b) The FSF's Back-Cover Text is:
+
+     You have freedom to copy and modify this GNU Manual, like GNU
+     software.  Copies published by the Free Software Foundation raise
+     funds for GNU development.
+-->
+<meta http-equiv="Content-Style-Type" content="text/css">
+<style type="text/css"><!--
+  pre.display { font-family:inherit }
+  pre.format  { font-family:inherit }
+  pre.smalldisplay { font-family:inherit; font-size:smaller }
+  pre.smallformat  { font-family:inherit; font-size:smaller }
+  pre.smallexample { font-size:smaller }
+  pre.smalllisp    { font-size:smaller }
+  span.sc    { font-variant:small-caps }
+  span.roman { font-family:serif; font-weight:normal; } 
+  span.sansserif { font-family:sans-serif; font-weight:normal; } 
+--></style>
+</head>
+<body>
+<div class="node">
+<a name="Invoking-gcj-dbtool"></a>
+<a name="Invoking-gcj_002ddbtool"></a>
+<p>
+Next:&nbsp;<a rel="next" accesskey="n" href="Invoking-jv_002dconvert.html#Invoking-jv_002dconvert">Invoking jv-convert</a>,
+Previous:&nbsp;<a rel="previous" accesskey="p" href="Invoking-gij.html#Invoking-gij">Invoking gij</a>,
+Up:&nbsp;<a rel="up" accesskey="u" href="index.html#Top">Top</a>
+<hr>
+</div>
+
+<h2 class="chapter">5 Invoking gcj-dbtool.</h2>
+
+<!-- man title gcj-dbtool Manipulate class file mapping databases for libgcj -->
+<!-- man begin DESCRIPTION gcj-dbtool -->
+<p><code>gcj-dbtool</code> is a tool for creating and manipulating class file
+mapping databases.  <code>libgcj</code> can use these databases to find a
+shared library corresponding to the bytecode representation of a
+class.  This functionality is useful for ahead-of-time compilation of
+a program that has no knowledge of <code>gcj</code>.
+
+   <p><code>gcj-dbtool</code> works best if all the jar files added to it are
+compiled using <code>-findirect-dispatch</code>.
+
+   <p>Note that <code>gcj-dbtool</code> is currently available as &ldquo;preview
+technology&rdquo;.  We believe it is a reasonable way to allow
+application-transparent ahead-of-time compilation, but this is an
+unexplored area.  We welcome your comments.
+
+<!-- man end -->
+<!-- man begin OPTIONS gcj-dbtool -->
+     <dl>
+<dt><code>-n </code><var>DBFILE</var><code> [</code><var>SIZE</var><code>]</code><dd>This creates a new database.  Currently, databases cannot be resized;
+you can choose a larger initial size if desired.  The default size is
+32,749.
+
+     <br><dt><code>-a </code><var>DBFILE</var> <var>JARFILE</var> <var>LIB</var><dt><code>-f </code><var>DBFILE</var> <var>JARFILE</var> <var>LIB</var><dd>This adds a jar file to the database.  For each class file in the jar,
+a cryptographic signature of the bytecode representation of the class
+is recorded in the database.  At runtime, a class is looked up by its
+signature and the compiled form of the class is looked for in the
+corresponding shared library.  The <samp><span class="option">-a</span></samp> option will verify
+that <var>LIB</var> exists before adding it to the database; <samp><span class="option">-f</span></samp>
+skips this check.
+
+     <br><dt><code>[</code><samp><span class="option">-</span></samp><code>][</code><samp><span class="option">-0</span></samp><code>] -m </code><var>DBFILE</var> <var>DBFILE</var><code>,[</code><var>DBFILE</var><code>]</code><dd>Merge a number of databases.  The output database overwrites any
+existing database.  To add databases into an existing database,
+include the destination in the list of sources.
+
+     <p>If <samp><span class="option">-</span></samp> or <samp><span class="option">-0</span></samp> are used, the list of files to read is
+taken from standard input instead of the command line.  For
+<samp><span class="option">-0</span></samp>, Input filenames are terminated by a null character
+instead of by whitespace.  Useful when arguments might contain white
+space.  The GNU find -print0 option produces input suitable for this
+mode.
+
+     <br><dt><code>-t </code><var>DBFILE</var><dd>Test a database.
+
+     <br><dt><code>-l </code><var>DBFILE</var><dd>List the contents of a database.
+
+     <br><dt><code>-p</code><dd>Print the name of the default database.  If there is no default
+database, this prints a blank line.  If <var>LIBDIR</var> is specified, use
+it instead of the default library directory component of the database
+name.
+
+     <br><dt><code>--help</code><dd>Print a help message, then exit.
+
+     <br><dt><code>--version</code><dt><code>-v</code><dd>Print version information, then exit.
+
+   </dl>
+
+<!-- man end -->
+   </body></html>
+

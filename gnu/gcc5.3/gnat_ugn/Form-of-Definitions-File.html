@@ -1,0 +1,66 @@
+<html lang="en">
+<head>
+<title>Form of Definitions File - GNAT User's Guide for Native Platforms</title>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+<meta name="description" content="GNAT User's Guide for Native Platforms">
+<meta name="generator" content="makeinfo 4.13">
+<link title="Top" rel="start" href="index.html#Top">
+<link rel="up" href="Preprocessing-with-gnatprep.html#Preprocessing-with-gnatprep" title="Preprocessing with gnatprep">
+<link rel="prev" href="Switches-for-gnatprep.html#Switches-for-gnatprep" title="Switches for gnatprep">
+<link rel="next" href="Form-of-Input-Text-for-gnatprep.html#Form-of-Input-Text-for-gnatprep" title="Form of Input Text for gnatprep">
+<link href="http://www.gnu.org/software/texinfo/" rel="generator-home" title="Texinfo Homepage">
+<!--
+
+     GNAT User's Guide for Native Platforms , March 24, 2015
+
+     AdaCore
+
+     Copyright (C) 2008-2015, Free Software Foundation
+-->
+<meta http-equiv="Content-Style-Type" content="text/css">
+<style type="text/css"><!--
+  pre.display { font-family:inherit }
+  pre.format  { font-family:inherit }
+  pre.smalldisplay { font-family:inherit; font-size:smaller }
+  pre.smallformat  { font-family:inherit; font-size:smaller }
+  pre.smallexample { font-size:smaller }
+  pre.smalllisp    { font-size:smaller }
+  span.sc    { font-variant:small-caps }
+  span.roman { font-family:serif; font-weight:normal; } 
+  span.sansserif { font-family:sans-serif; font-weight:normal; } 
+--></style>
+</head>
+<body>
+<div class="node">
+<a name="Form-of-Definitions-File"></a>
+<p>
+Next:&nbsp;<a rel="next" accesskey="n" href="Form-of-Input-Text-for-gnatprep.html#Form-of-Input-Text-for-gnatprep">Form of Input Text for gnatprep</a>,
+Previous:&nbsp;<a rel="previous" accesskey="p" href="Switches-for-gnatprep.html#Switches-for-gnatprep">Switches for gnatprep</a>,
+Up:&nbsp;<a rel="up" accesskey="u" href="Preprocessing-with-gnatprep.html#Preprocessing-with-gnatprep">Preprocessing with gnatprep</a>
+<hr>
+</div>
+
+<p><a name="gnat_005fugn_002fthe_005fgnat_005fcompilation_005fmodel-form_002dof_002ddefinitions_002dfile"></a><a name="b2"></a><a name="gnat_005fugn_002fthe_005fgnat_005fcompilation_005fmodel-id58"></a><a name="b3"></a>
+
+<h5 class="subsubsection">3.10.2.4 Form of Definitions File</h5>
+
+<p>The definitions file contains lines of the form:
+
+<pre class="example">    symbol := value
+</pre>
+<p>where <cite>symbol</cite> is a preprocessing symbol, and <cite>value</cite> is one of the following:
+
+     <ul>
+<li>Empty, corresponding to a null substitution,
+
+     <li>A string literal using normal Ada syntax, or
+
+     <li>Any sequence of characters from the set {letters, digits, period, underline}. 
+</ul>
+
+<p>Comment lines may also appear in the definitions file, starting with
+the usual <code>--</code>,
+and comments may be added to the definitions lines.
+
+</body></html>
+

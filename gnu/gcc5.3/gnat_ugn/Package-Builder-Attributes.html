@@ -1,0 +1,91 @@
+<html lang="en">
+<head>
+<title>Package Builder Attributes - GNAT User's Guide for Native Platforms</title>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+<meta name="description" content="GNAT User's Guide for Native Platforms">
+<meta name="generator" content="makeinfo 4.13">
+<link title="Top" rel="start" href="index.html#Top">
+<link rel="up" href="Attributes.html#Attributes" title="Attributes">
+<link rel="prev" href="Package-Binder-Attributes.html#Package-Binder-Attributes" title="Package Binder Attributes">
+<link rel="next" href="Package-Clean-Attributes.html#Package-Clean-Attributes" title="Package Clean Attributes">
+<link href="http://www.gnu.org/software/texinfo/" rel="generator-home" title="Texinfo Homepage">
+<!--
+
+     GNAT User's Guide for Native Platforms , March 24, 2015
+
+     AdaCore
+
+     Copyright (C) 2008-2015, Free Software Foundation
+-->
+<meta http-equiv="Content-Style-Type" content="text/css">
+<style type="text/css"><!--
+  pre.display { font-family:inherit }
+  pre.format  { font-family:inherit }
+  pre.smalldisplay { font-family:inherit; font-size:smaller }
+  pre.smallformat  { font-family:inherit; font-size:smaller }
+  pre.smallexample { font-size:smaller }
+  pre.smalllisp    { font-size:smaller }
+  span.sc    { font-variant:small-caps }
+  span.roman { font-family:serif; font-weight:normal; } 
+  span.sansserif { font-family:sans-serif; font-weight:normal; } 
+--></style>
+</head>
+<body>
+<div class="node">
+<a name="Package-Builder-Attributes"></a>
+<p>
+Next:&nbsp;<a rel="next" accesskey="n" href="Package-Clean-Attributes.html#Package-Clean-Attributes">Package Clean Attributes</a>,
+Previous:&nbsp;<a rel="previous" accesskey="p" href="Package-Binder-Attributes.html#Package-Binder-Attributes">Package Binder Attributes</a>,
+Up:&nbsp;<a rel="up" accesskey="u" href="Attributes.html#Attributes">Attributes</a>
+<hr>
+</div>
+
+<p><a name="gnat_005fugn_002fgnat_005fproject_005fmanager-package_002dbuilder_002dattributes"></a><a name="g_t1a8"></a><a name="gnat_005fugn_002fgnat_005fproject_005fmanager-id50"></a><a name="g_t1a9"></a>
+
+<h5 class="subsubsection">5.9.10.3 Package Builder Attributes</h5>
+
+     <ul>
+<li>`Default_Switches': list, indexed, case-insensitive index
+
+     <p>Index is a language name. Value is the list of builder switches to be used when
+building an executable of the language, if there is no applicable attribute
+Switches.
+
+     <li>`Switches': list, optional index, indexed, case-insensitive index,
+others allowed
+
+     <p>Index is either a language name or a source file name. Value is the list of
+builder switches to be used when building an executable. Index is either the
+source file name of the executable to be built or its language name.
+
+     <li>`Global_Compilation_Switches': list, optional index, indexed,
+case-insensitive index
+
+     <p>Index is either a language name or a source file name. Value is the list of
+compilation switches to be used when building an executable. Index is either
+the source file name of the executable to be built or its language name.
+
+     <li>`Executable': single, indexed, case-insensitive index
+
+     <p>Index is an executable source file name. Value is the simple file name of the
+executable to be built.
+
+     <li>`Executable_Suffix': single
+
+     <p>Value is the extension of the file names of executable. When not specified,
+the extension is the default extension of executables on the platform.
+
+     <li>`Global_Configuration_Pragmas': single
+
+     <p>Value is the file name of a configuration pragmas file that is specified to
+the Ada compiler when compiling any Ada source in the project tree.
+
+     <li>`Global_Config_File': single, indexed, case-insensitive index
+
+     <p>Index is a language name. Value is the file name of a configuration file that
+is specified to the compiler when compiling any source of the language in the
+project tree. 
+</ul>
+
+</body></html>
+

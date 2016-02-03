@@ -1,0 +1,88 @@
+<html lang="en">
+<head>
+<title>Consistency-Checking Modes - GNAT User's Guide for Native Platforms</title>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+<meta name="description" content="GNAT User's Guide for Native Platforms">
+<meta name="generator" content="makeinfo 4.13">
+<link title="Top" rel="start" href="index.html#Top">
+<link rel="up" href="Switches-for-gnatbind.html#Switches-for-gnatbind" title="Switches for gnatbind">
+<link rel="next" href="Binder-Error-Message-Control.html#Binder-Error-Message-Control" title="Binder Error Message Control">
+<link href="http://www.gnu.org/software/texinfo/" rel="generator-home" title="Texinfo Homepage">
+<!--
+
+     GNAT User's Guide for Native Platforms , March 24, 2015
+
+     AdaCore
+
+     Copyright (C) 2008-2015, Free Software Foundation
+-->
+<meta http-equiv="Content-Style-Type" content="text/css">
+<style type="text/css"><!--
+  pre.display { font-family:inherit }
+  pre.format  { font-family:inherit }
+  pre.smalldisplay { font-family:inherit; font-size:smaller }
+  pre.smallformat  { font-family:inherit; font-size:smaller }
+  pre.smallexample { font-size:smaller }
+  pre.smalllisp    { font-size:smaller }
+  span.sc    { font-variant:small-caps }
+  span.roman { font-family:serif; font-weight:normal; } 
+  span.sansserif { font-family:sans-serif; font-weight:normal; } 
+--></style>
+</head>
+<body>
+<div class="node">
+<a name="Consistency-Checking-Modes"></a>
+<a name="Consistency_002dChecking-Modes"></a>
+<p>
+Next:&nbsp;<a rel="next" accesskey="n" href="Binder-Error-Message-Control.html#Binder-Error-Message-Control">Binder Error Message Control</a>,
+Up:&nbsp;<a rel="up" accesskey="u" href="Switches-for-gnatbind.html#Switches-for-gnatbind">Switches for gnatbind</a>
+<hr>
+</div>
+
+<p><a name="gnat_005fugn_002fbuilding_005fexecutable_005fprograms_005fwith_005fgnat-consistency_002dchecking_002dmodes"></a><a name="g_t126"></a><a name="gnat_005fugn_002fbuilding_005fexecutable_005fprograms_005fwith_005fgnat-id34"></a><a name="g_t127"></a>
+
+<h5 class="subsubsection">4.4.2.1 Consistency-Checking Modes</h5>
+
+<p>As described earlier, by default <cite>gnatbind</cite> checks
+that object files are consistent with one another and are consistent
+with any source files it can locate. The following switches control binder
+access to sources.
+
+<blockquote>
+
+<p><a name="index-g_t_002ds-_0028gnatbind_0029-706"></a></blockquote>
+
+     <dl>
+<dt><code>-s</code><dd>
+Require source files to be present. In this mode, the binder must be
+able to locate all source files that are referenced, in order to check
+their consistency. In normal mode, if a source file cannot be located it
+is simply ignored. If you specify this switch, a missing source
+file is an error.
+
+     <p><a name="index-g_t_002dWx-_0028gnatbind_0029-707"></a>
+<br><dt><code>-Wx`e'</code><dd>
+Override default wide character encoding for standard Text_IO files. 
+Normally the default wide character encoding method used for standard
+[Wide_[Wide_]]Text_IO files is taken from the encoding specified for
+the main source input (see description of switch
+`-gnatWx' for the compiler). The
+use of this switch for the binder (which has the same set of
+possible arguments) overrides this default as specified.
+
+     <p><a name="index-g_t_002dx-_0028gnatbind_0029-708"></a>
+<br><dt><code>-x</code><dd>
+Exclude source files. In this mode, the binder only checks that ALI
+files are consistent with one another. Source files are not accessed. 
+The binder runs faster in this mode, and there is still a guarantee that
+the resulting program is self-consistent. 
+If a source file has been edited since it was last compiled, and you
+specify this switch, the binder will not detect that the object
+file is out of date with respect to the source file. Note that this is the
+mode that is automatically used by `gnatmake' because in this
+case the checking against sources has already been performed by
+`gnatmake' in the course of compilation (i.e., before binding). 
+</dl>
+
+</body></html>
+

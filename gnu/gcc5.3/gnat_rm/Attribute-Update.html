@@ -1,0 +1,113 @@
+<html lang="en">
+<head>
+<title>Attribute Update - GNAT Reference Manual</title>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+<meta name="description" content="GNAT Reference Manual">
+<meta name="generator" content="makeinfo 4.13">
+<link title="Top" rel="start" href="index.html#Top">
+<link rel="up" href="Implementation-Defined-Attributes.html#Implementation-Defined-Attributes" title="Implementation Defined Attributes">
+<link rel="prev" href="Attribute-Unrestricted_005fAccess.html#Attribute-Unrestricted_005fAccess" title="Attribute Unrestricted_Access">
+<link rel="next" href="Attribute-Valid_005fScalars.html#Attribute-Valid_005fScalars" title="Attribute Valid_Scalars">
+<link href="http://www.gnu.org/software/texinfo/" rel="generator-home" title="Texinfo Homepage">
+<!--
+
+     GNAT Reference Manual , March 24, 2015
+
+     AdaCore
+
+     Copyright (C) 2008-2015, Free Software Foundation
+-->
+<meta http-equiv="Content-Style-Type" content="text/css">
+<style type="text/css"><!--
+  pre.display { font-family:inherit }
+  pre.format  { font-family:inherit }
+  pre.smalldisplay { font-family:inherit; font-size:smaller }
+  pre.smallformat  { font-family:inherit; font-size:smaller }
+  pre.smallexample { font-size:smaller }
+  pre.smalllisp    { font-size:smaller }
+  span.sc    { font-variant:small-caps }
+  span.roman { font-family:serif; font-weight:normal; } 
+  span.sansserif { font-family:sans-serif; font-weight:normal; } 
+--></style>
+</head>
+<body>
+<div class="node">
+<a name="Attribute-Update"></a>
+<p>
+Next:&nbsp;<a rel="next" accesskey="n" href="Attribute-Valid_005fScalars.html#Attribute-Valid_005fScalars">Attribute Valid_Scalars</a>,
+Previous:&nbsp;<a rel="previous" accesskey="p" href="Attribute-Unrestricted_005fAccess.html#Attribute-Unrestricted_005fAccess">Attribute Unrestricted_Access</a>,
+Up:&nbsp;<a rel="up" accesskey="u" href="Implementation-Defined-Attributes.html#Implementation-Defined-Attributes">Implementation Defined Attributes</a>
+<hr>
+</div>
+
+<p><a name="gnat_005frm_002fimplementation_005fdefined_005fattributes-attribute_002dupdate"></a><a name="g_t15d"></a>
+
+<h3 class="section">4.69 Attribute Update</h3>
+
+<p><a name="index-Update-275"></a>
+The <cite>Update</cite> attribute creates a copy of an array or record value
+with one or more modified components. The syntax is:
+
+<pre class="example">    PREFIX'Update ( RECORD_COMPONENT_ASSOCIATION_LIST )
+    PREFIX'Update ( ARRAY_COMPONENT_ASSOCIATION {, ARRAY_COMPONENT_ASSOCIATION } )
+    PREFIX'Update ( MULTIDIMENSIONAL_ARRAY_COMPONENT_ASSOCIATION
+                    {, MULTIDIMENSIONAL_ARRAY_COMPONENT_ASSOCIATION } )
+    
+    MULTIDIMENSIONAL_ARRAY_COMPONENT_ASSOCIATION ::= INDEX_EXPRESSION_LIST_LIST =&gt; EXPRESSION
+    INDEX_EXPRESSION_LIST_LIST                   ::= INDEX_EXPRESSION_LIST {| INDEX_EXPRESSION_LIST }
+    INDEX_EXPRESSION_LIST                        ::= ( EXPRESSION {, EXPRESSION } )
+</pre>
+<p>where <cite>PREFIX</cite> is the name of an array or record object, the
+association list in parentheses does not contain an <cite>others</cite>
+choice and the box symbol <cite>&lt;&gt;</cite> may not appear in any
+expression. The effect is to yield a copy of the array or record value
+which is unchanged apart from the components mentioned in the
+association list, which are changed to the indicated value. The
+original value of the array or record value is not affected. For
+example:
+
+<pre class="example">    type Arr is Array (1 .. 5) of Integer;
+    ...
+    Avar1 : Arr := (1,2,3,4,5);
+    Avar2 : Arr := Avar1'Update (2 =&gt; 10, 3 .. 4 =&gt; 20);
+</pre>
+<p>yields a value for <cite>Avar2</cite> of 1,10,20,20,5 with <cite>Avar1</cite>
+begin unmodified. Similarly:
+
+<pre class="example">    type Rec is A, B, C : Integer;
+    ...
+    Rvar1 : Rec := (A =&gt; 1, B =&gt; 2, C =&gt; 3);
+    Rvar2 : Rec := Rvar1'Update (B =&gt; 20);
+</pre>
+<p>yields a value for <cite>Rvar2</cite> of (A =&gt; 1, B =&gt; 20, C =&gt; 3),
+with <cite>Rvar1</cite> being unmodifed. 
+Note that the value of the attribute reference is computed
+completely before it is used. This means that if you write:
+
+<pre class="example">    Avar1 := Avar1'Update (1 =&gt; 10, 2 =&gt; Function_Call);
+</pre>
+<p>then the value of <cite>Avar1</cite> is not modified if <cite>Function_Call</cite>
+raises an exception, unlike the effect of a series of direct assignments
+to elements of <cite>Avar1</cite>. In general this requires that
+two extra complete copies of the object are required, which should be
+kept in mind when considering efficiency.
+
+<p>The <cite>Update</cite> attribute cannot be applied to prefixes of a limited
+type, and cannot reference discriminants in the case of a record type. 
+The accessibility level of an Update attribute result object is defined
+as for an aggregate.
+
+<p>In the record case, no component can be mentioned more than once. In
+the array case, two overlapping ranges can appear in the association list,
+in which case the modifications are processed left to right.
+
+<p>Multi-dimensional arrays can be modified, as shown by this example:
+
+<pre class="example">    A : array (1 .. 10, 1 .. 10) of Integer;
+    ..
+    A := A'Update ((1, 2) =&gt; 20, (3, 4) =&gt; 30);
+</pre>
+<p>which changes element (1,2) to 20 and (3,4) to 30.
+
+</body></html>
+

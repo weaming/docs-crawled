@@ -1,0 +1,68 @@
+<html lang="en">
+<head>
+<title>Pragma Import_Object - GNAT Reference Manual</title>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+<meta name="description" content="GNAT Reference Manual">
+<meta name="generator" content="makeinfo 4.13">
+<link title="Top" rel="start" href="index.html#Top">
+<link rel="up" href="Implementation-Defined-Pragmas.html#Implementation-Defined-Pragmas" title="Implementation Defined Pragmas">
+<link rel="prev" href="Pragma-Import_005fFunction.html#Pragma-Import_005fFunction" title="Pragma Import_Function">
+<link rel="next" href="Pragma-Import_005fProcedure.html#Pragma-Import_005fProcedure" title="Pragma Import_Procedure">
+<link href="http://www.gnu.org/software/texinfo/" rel="generator-home" title="Texinfo Homepage">
+<!--
+
+     GNAT Reference Manual , March 24, 2015
+
+     AdaCore
+
+     Copyright (C) 2008-2015, Free Software Foundation
+-->
+<meta http-equiv="Content-Style-Type" content="text/css">
+<style type="text/css"><!--
+  pre.display { font-family:inherit }
+  pre.format  { font-family:inherit }
+  pre.smalldisplay { font-family:inherit; font-size:smaller }
+  pre.smallformat  { font-family:inherit; font-size:smaller }
+  pre.smallexample { font-size:smaller }
+  pre.smalllisp    { font-size:smaller }
+  span.sc    { font-variant:small-caps }
+  span.roman { font-family:serif; font-weight:normal; } 
+  span.sansserif { font-family:sans-serif; font-weight:normal; } 
+--></style>
+</head>
+<body>
+<div class="node">
+<a name="Pragma-Import_Object"></a>
+<a name="Pragma-Import_005fObject"></a>
+<p>
+Next:&nbsp;<a rel="next" accesskey="n" href="Pragma-Import_005fProcedure.html#Pragma-Import_005fProcedure">Pragma Import_Procedure</a>,
+Previous:&nbsp;<a rel="previous" accesskey="p" href="Pragma-Import_005fFunction.html#Pragma-Import_005fFunction">Pragma Import_Function</a>,
+Up:&nbsp;<a rel="up" accesskey="u" href="Implementation-Defined-Pragmas.html#Implementation-Defined-Pragmas">Implementation Defined Pragmas</a>
+<hr>
+</div>
+
+<p><a name="gnat_005frm_002fimplementation_005fdefined_005fpragmas-pragma_002dimport_002dobject"></a><a name="g_t65"></a>
+
+<h3 class="section">2.74 Pragma Import_Object</h3>
+
+<p>Syntax:
+
+<pre class="example">    pragma Import_Object
+         [Internal =&gt;] LOCAL_NAME
+      [, [External =&gt;] EXTERNAL_SYMBOL]
+      [, [Size     =&gt;] EXTERNAL_SYMBOL]);
+    
+    EXTERNAL_SYMBOL ::=
+      IDENTIFIER
+    | static_string_EXPRESSION
+</pre>
+<p>This pragma designates an object as imported, and apart from the
+extended rules for external symbols, is identical in effect to the use of
+the normal <cite>Import</cite> pragma applied to an object.  Unlike the
+subprogram case, you need not use a separate <cite>Import</cite> pragma,
+although you may do so (and probably should do so from a portability
+point of view).  <cite>size</cite> is syntax checked, but otherwise ignored by
+GNAT.
+
+</body></html>
+

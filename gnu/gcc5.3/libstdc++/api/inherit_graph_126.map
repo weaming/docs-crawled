@@ -1,0 +1,7 @@
+<map id="Graphical Class Hierarchy" name="Graphical Class Hierarchy">
+<area shape="rect" id="node1" href="$a00206.html" title="Primary template, base class for branch structure policies. " alt="" coords="5,101,156,153"/>
+<area shape="rect" id="node2" href="$a00321.html" title="Base class for trie policies. " alt="" coords="222,49,359,115"/>
+<area shape="rect" id="node5" href="$a00376.html" title="Functor updating ranks of entrees. " alt="" coords="204,139,377,204"/>
+<area shape="rect" id="node3" href="$a00379.html" title="Functor updating ranks of entrees. " alt="" coords="441,5,596,71"/>
+<area shape="rect" id="node4" href="$a00380.html" title="A node updator that allows tries to be searched for the range of values that match a certain prefix..." alt="" coords="425,95,612,160"/>
+</map>

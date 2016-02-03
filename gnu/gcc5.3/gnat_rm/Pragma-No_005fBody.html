@@ -1,0 +1,65 @@
+<html lang="en">
+<head>
+<title>Pragma No_Body - GNAT Reference Manual</title>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+<meta name="description" content="GNAT Reference Manual">
+<meta name="generator" content="makeinfo 4.13">
+<link title="Top" rel="start" href="index.html#Top">
+<link rel="up" href="Implementation-Defined-Pragmas.html#Implementation-Defined-Pragmas" title="Implementation Defined Pragmas">
+<link rel="prev" href="Pragma-Main_005fStorage.html#Pragma-Main_005fStorage" title="Pragma Main_Storage">
+<link rel="next" href="Pragma-No_005fElaboration_005fCode_005fAll.html#Pragma-No_005fElaboration_005fCode_005fAll" title="Pragma No_Elaboration_Code_All">
+<link href="http://www.gnu.org/software/texinfo/" rel="generator-home" title="Texinfo Homepage">
+<!--
+
+     GNAT Reference Manual , March 24, 2015
+
+     AdaCore
+
+     Copyright (C) 2008-2015, Free Software Foundation
+-->
+<meta http-equiv="Content-Style-Type" content="text/css">
+<style type="text/css"><!--
+  pre.display { font-family:inherit }
+  pre.format  { font-family:inherit }
+  pre.smalldisplay { font-family:inherit; font-size:smaller }
+  pre.smallformat  { font-family:inherit; font-size:smaller }
+  pre.smallexample { font-size:smaller }
+  pre.smalllisp    { font-size:smaller }
+  span.sc    { font-variant:small-caps }
+  span.roman { font-family:serif; font-weight:normal; } 
+  span.sansserif { font-family:sans-serif; font-weight:normal; } 
+--></style>
+</head>
+<body>
+<div class="node">
+<a name="Pragma-No_Body"></a>
+<a name="Pragma-No_005fBody"></a>
+<p>
+Next:&nbsp;<a rel="next" accesskey="n" href="Pragma-No_005fElaboration_005fCode_005fAll.html#Pragma-No_005fElaboration_005fCode_005fAll">Pragma No_Elaboration_Code_All</a>,
+Previous:&nbsp;<a rel="previous" accesskey="p" href="Pragma-Main_005fStorage.html#Pragma-Main_005fStorage">Pragma Main_Storage</a>,
+Up:&nbsp;<a rel="up" accesskey="u" href="Implementation-Defined-Pragmas.html#Implementation-Defined-Pragmas">Implementation Defined Pragmas</a>
+<hr>
+</div>
+
+<p><a name="gnat_005frm_002fimplementation_005fdefined_005fpragmas-pragma_002dno_002dbody"></a><a name="g_t84"></a>
+
+<h3 class="section">2.105 Pragma No_Body</h3>
+
+<p>Syntax:
+
+<pre class="example">    pragma No_Body;
+</pre>
+<p>There are a number of cases in which a package spec does not require a body,
+and in fact a body is not permitted. GNAT will not permit the spec to be
+compiled if there is a body around. The pragma No_Body allows you to provide
+a body file, even in a case where no body is allowed. The body file must
+contain only comments and a single No_Body pragma. This is recognized by
+the compiler as indicating that no body is logically present.
+
+<p>This is particularly useful during maintenance when a package is modified in
+such a way that a body needed before is no longer needed. The provision of a
+dummy body with a No_Body pragma ensures that there is no interference from
+earlier versions of the package body.
+
+</body></html>
+

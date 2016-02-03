@@ -1,0 +1,64 @@
+<html lang="en">
+<head>
+<title>CONSOLE and WINDOWS subsystems - GNAT User's Guide for Native Platforms</title>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+<meta name="description" content="GNAT User's Guide for Native Platforms">
+<meta name="generator" content="makeinfo 4.13">
+<link title="Top" rel="start" href="index.html#Top">
+<link rel="up" href="Microsoft-Windows-Topics.html#Microsoft-Windows-Topics" title="Microsoft Windows Topics">
+<link rel="prev" href="Using-a-network-installation-of-GNAT.html#Using-a-network-installation-of-GNAT" title="Using a network installation of GNAT">
+<link rel="next" href="Temporary-Files.html#Temporary-Files" title="Temporary Files">
+<link href="http://www.gnu.org/software/texinfo/" rel="generator-home" title="Texinfo Homepage">
+<!--
+
+     GNAT User's Guide for Native Platforms , March 24, 2015
+
+     AdaCore
+
+     Copyright (C) 2008-2015, Free Software Foundation
+-->
+<meta http-equiv="Content-Style-Type" content="text/css">
+<style type="text/css"><!--
+  pre.display { font-family:inherit }
+  pre.format  { font-family:inherit }
+  pre.smalldisplay { font-family:inherit; font-size:smaller }
+  pre.smallformat  { font-family:inherit; font-size:smaller }
+  pre.smallexample { font-size:smaller }
+  pre.smalllisp    { font-size:smaller }
+  span.sc    { font-variant:small-caps }
+  span.roman { font-family:serif; font-weight:normal; } 
+  span.sansserif { font-family:sans-serif; font-weight:normal; } 
+--></style>
+</head>
+<body>
+<div class="node">
+<a name="CONSOLE-and-WINDOWS-subsystems"></a>
+<p>
+Next:&nbsp;<a rel="next" accesskey="n" href="Temporary-Files.html#Temporary-Files">Temporary Files</a>,
+Previous:&nbsp;<a rel="previous" accesskey="p" href="Using-a-network-installation-of-GNAT.html#Using-a-network-installation-of-GNAT">Using a network installation of GNAT</a>,
+Up:&nbsp;<a rel="up" accesskey="u" href="Microsoft-Windows-Topics.html#Microsoft-Windows-Topics">Microsoft Windows Topics</a>
+<hr>
+</div>
+
+<p><a name="gnat_005fugn_002fplatform_005fspecific_005finformation-id12"></a><a name="g_t26c"></a><a name="gnat_005fugn_002fplatform_005fspecific_005finformation-console_002dand_002dwindows_002dsubsystems"></a><a name="g_t26d"></a>
+
+<h4 class="subsection">9.3.3 CONSOLE and WINDOWS subsystems</h4>
+
+<p><a name="index-CONSOLE-Subsystem-1076"></a>
+<a name="index-WINDOWS-Subsystem-1077"></a>
+<a name="index-g_t_002dmwindows-1078"></a>
+There are two main subsystems under Windows. The <cite>CONSOLE</cite> subsystem
+(which is the default subsystem) will always create a console when
+launching the application. This is not something desirable when the
+application has a Windows GUI. To get rid of this console the
+application must be using the <cite>WINDOWS</cite> subsystem. To do so
+the `-mwindows' linker option must be specified.
+
+<blockquote>
+
+<pre class="example">    $ gnatmake winprog -largs -mwindows
+</pre>
+</blockquote>
+
+</body></html>
+

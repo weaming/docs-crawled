@@ -1,0 +1,80 @@
+<html lang="en">
+<head>
+<title>GOMP_SPINCOUNT - GNU libgomp</title>
+<meta http-equiv="Content-Type" content="text/html">
+<meta name="description" content="GNU libgomp">
+<meta name="generator" content="makeinfo 4.13">
+<link title="Top" rel="start" href="index.html#Top">
+<link rel="up" href="Environment-Variables.html#Environment-Variables" title="Environment Variables">
+<link rel="prev" href="GOMP_005fSTACKSIZE.html#GOMP_005fSTACKSIZE" title="GOMP_STACKSIZE">
+<link href="http://www.gnu.org/software/texinfo/" rel="generator-home" title="Texinfo Homepage">
+<!--
+Copyright (C) 2006-2015 Free Software Foundation, Inc.
+
+Permission is granted to copy, distribute and/or modify this document
+under the terms of the GNU Free Documentation License, Version 1.3 or
+any later version published by the Free Software Foundation; with the
+Invariant Sections being ``Funding Free Software'', the Front-Cover
+texts being (a) (see below), and with the Back-Cover Texts being (b)
+(see below).  A copy of the license is included in the section entitled
+``GNU Free Documentation License''.
+
+(a) The FSF's Front-Cover Text is:
+
+     A GNU Manual
+
+(b) The FSF's Back-Cover Text is:
+
+     You have freedom to copy and modify this GNU Manual, like GNU
+     software.  Copies published by the Free Software Foundation raise
+     funds for GNU development.-->
+<meta http-equiv="Content-Style-Type" content="text/css">
+<style type="text/css"><!--
+  pre.display { font-family:inherit }
+  pre.format  { font-family:inherit }
+  pre.smalldisplay { font-family:inherit; font-size:smaller }
+  pre.smallformat  { font-family:inherit; font-size:smaller }
+  pre.smallexample { font-size:smaller }
+  pre.smalllisp    { font-size:smaller }
+  span.sc    { font-variant:small-caps }
+  span.roman { font-family:serif; font-weight:normal; } 
+  span.sansserif { font-family:sans-serif; font-weight:normal; } 
+--></style>
+</head>
+<body>
+<div class="node">
+<a name="GOMP_SPINCOUNT"></a>
+<a name="GOMP_005fSPINCOUNT"></a>
+<p>
+Previous:&nbsp;<a rel="previous" accesskey="p" href="GOMP_005fSTACKSIZE.html#GOMP_005fSTACKSIZE">GOMP_STACKSIZE</a>,
+Up:&nbsp;<a rel="up" accesskey="u" href="Environment-Variables.html#Environment-Variables">Environment Variables</a>
+<hr>
+</div>
+
+<h3 class="section">3.17 <samp><span class="env">GOMP_SPINCOUNT</span></samp> &ndash; Set the busy-wait spin count</h3>
+
+<p><a name="index-Environment-Variable-22"></a><a name="index-Implementation-specific-setting-23"></a>
+     <dl>
+<dt><em>Description</em>:<dd>Determines how long a threads waits actively with consuming CPU power
+before waiting passively without consuming CPU power.  The value may be
+either <code>INFINITE</code>, <code>INFINITY</code> to always wait actively or an
+integer which gives the number of spins of the busy-wait loop.  The
+integer may optionally be followed by the following suffixes acting
+as multiplication factors: <code>k</code> (kilo, thousand), <code>M</code> (mega,
+million), <code>G</code> (giga, billion), or <code>T</code> (tera, trillion). 
+If undefined, 0 is used when <samp><span class="env">OMP_WAIT_POLICY</span></samp> is <code>PASSIVE</code>,
+300,000 is used when <samp><span class="env">OMP_WAIT_POLICY</span></samp> is undefined and
+30 billion is used when <samp><span class="env">OMP_WAIT_POLICY</span></samp> is <code>ACTIVE</code>. 
+If there are more OpenMP threads than available CPUs, 1000 and 100
+spins are used for <samp><span class="env">OMP_WAIT_POLICY</span></samp> being <code>ACTIVE</code> or
+undefined, respectively; unless the <samp><span class="env">GOMP_SPINCOUNT</span></samp> is lower
+or <samp><span class="env">OMP_WAIT_POLICY</span></samp> is <code>PASSIVE</code>.
+
+     <br><dt><em>See also</em>:<dd><a href="OMP_005fWAIT_005fPOLICY.html#OMP_005fWAIT_005fPOLICY">OMP_WAIT_POLICY</a>
+</dl>
+
+<!--  -->
+<!-- The libgomp ABI -->
+<!--  -->
+   </body></html>
+

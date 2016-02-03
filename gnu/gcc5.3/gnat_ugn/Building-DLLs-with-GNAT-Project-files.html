@@ -1,0 +1,56 @@
+<html lang="en">
+<head>
+<title>Building DLLs with GNAT Project files - GNAT User's Guide for Native Platforms</title>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+<meta name="description" content="GNAT User's Guide for Native Platforms">
+<meta name="generator" content="makeinfo 4.13">
+<link title="Top" rel="start" href="index.html#Top">
+<link rel="up" href="Mixed_002dLanguage-Programming-on-Windows.html#Mixed_002dLanguage-Programming-on-Windows" title="Mixed-Language Programming on Windows">
+<link rel="prev" href="Using-DLLs-with-GNAT.html#Using-DLLs-with-GNAT" title="Using DLLs with GNAT">
+<link rel="next" href="Building-DLLs-with-GNAT.html#Building-DLLs-with-GNAT" title="Building DLLs with GNAT">
+<link href="http://www.gnu.org/software/texinfo/" rel="generator-home" title="Texinfo Homepage">
+<!--
+
+     GNAT User's Guide for Native Platforms , March 24, 2015
+
+     AdaCore
+
+     Copyright (C) 2008-2015, Free Software Foundation
+-->
+<meta http-equiv="Content-Style-Type" content="text/css">
+<style type="text/css"><!--
+  pre.display { font-family:inherit }
+  pre.format  { font-family:inherit }
+  pre.smalldisplay { font-family:inherit; font-size:smaller }
+  pre.smallformat  { font-family:inherit; font-size:smaller }
+  pre.smallexample { font-size:smaller }
+  pre.smalllisp    { font-size:smaller }
+  span.sc    { font-variant:small-caps }
+  span.roman { font-family:serif; font-weight:normal; } 
+  span.sansserif { font-family:sans-serif; font-weight:normal; } 
+--></style>
+</head>
+<body>
+<div class="node">
+<a name="Building-DLLs-with-GNAT-Project-files"></a>
+<p>
+Next:&nbsp;<a rel="next" accesskey="n" href="Building-DLLs-with-GNAT.html#Building-DLLs-with-GNAT">Building DLLs with GNAT</a>,
+Previous:&nbsp;<a rel="previous" accesskey="p" href="Using-DLLs-with-GNAT.html#Using-DLLs-with-GNAT">Using DLLs with GNAT</a>,
+Up:&nbsp;<a rel="up" accesskey="u" href="Mixed_002dLanguage-Programming-on-Windows.html#Mixed_002dLanguage-Programming-on-Windows">Mixed-Language Programming on Windows</a>
+<hr>
+</div>
+
+<p><a name="gnat_005fugn_002fplatform_005fspecific_005finformation-id24"></a><a name="g_t288"></a><a name="gnat_005fugn_002fplatform_005fspecific_005finformation-building_002ddlls_002dwith_002dgnat_002dproject_002dfiles"></a><a name="g_t273"></a>
+
+<h5 class="subsubsection">9.3.5.10 Building DLLs with GNAT Project files</h5>
+
+<p><a name="index-DLLs-1091"></a><a name="index-building-1092"></a>
+There is nothing specific to Windows in the build process. 
+<a href="8a.html#g_t8a">Library Projects</a>.
+
+<p>Due to a system limitation, it is not possible under Windows to create threads
+when inside the <cite>DllMain</cite> routine which is used for auto-initialization
+of shared libraries, so it is not possible to have library level tasks in SALs.
+
+</body></html>
+

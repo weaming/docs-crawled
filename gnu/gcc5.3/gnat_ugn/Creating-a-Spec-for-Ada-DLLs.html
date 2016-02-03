@@ -1,0 +1,98 @@
+<html lang="en">
+<head>
+<title>Creating a Spec for Ada DLLs - GNAT User's Guide for Native Platforms</title>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+<meta name="description" content="GNAT User's Guide for Native Platforms">
+<meta name="generator" content="makeinfo 4.13">
+<link title="Top" rel="start" href="index.html#Top">
+<link rel="up" href="Mixed_002dLanguage-Programming-on-Windows.html#Mixed_002dLanguage-Programming-on-Windows" title="Mixed-Language Programming on Windows">
+<link rel="prev" href="Ada-DLLs-and-Finalization.html#Ada-DLLs-and-Finalization" title="Ada DLLs and Finalization">
+<link rel="next" href="GNAT-and-Windows-Resources.html#GNAT-and-Windows-Resources" title="GNAT and Windows Resources">
+<link href="http://www.gnu.org/software/texinfo/" rel="generator-home" title="Texinfo Homepage">
+<!--
+
+     GNAT User's Guide for Native Platforms , March 24, 2015
+
+     AdaCore
+
+     Copyright (C) 2008-2015, Free Software Foundation
+-->
+<meta http-equiv="Content-Style-Type" content="text/css">
+<style type="text/css"><!--
+  pre.display { font-family:inherit }
+  pre.format  { font-family:inherit }
+  pre.smalldisplay { font-family:inherit; font-size:smaller }
+  pre.smallformat  { font-family:inherit; font-size:smaller }
+  pre.smallexample { font-size:smaller }
+  pre.smalllisp    { font-size:smaller }
+  span.sc    { font-variant:small-caps }
+  span.roman { font-family:serif; font-weight:normal; } 
+  span.sansserif { font-family:sans-serif; font-weight:normal; } 
+--></style>
+</head>
+<body>
+<div class="node">
+<a name="Creating-a-Spec-for-Ada-DLLs"></a>
+<p>
+Next:&nbsp;<a rel="next" accesskey="n" href="GNAT-and-Windows-Resources.html#GNAT-and-Windows-Resources">GNAT and Windows Resources</a>,
+Previous:&nbsp;<a rel="previous" accesskey="p" href="Ada-DLLs-and-Finalization.html#Ada-DLLs-and-Finalization">Ada DLLs and Finalization</a>,
+Up:&nbsp;<a rel="up" accesskey="u" href="Mixed_002dLanguage-Programming-on-Windows.html#Mixed_002dLanguage-Programming-on-Windows">Mixed-Language Programming on Windows</a>
+<hr>
+</div>
+
+<p><a name="gnat_005fugn_002fplatform_005fspecific_005finformation-id30"></a><a name="g_t295"></a><a name="gnat_005fugn_002fplatform_005fspecific_005finformation-creating_002da_002dspec_002dfor_002dada_002ddlls"></a><a name="g_t296"></a>
+
+<h5 class="subsubsection">9.3.5.17 Creating a Spec for Ada DLLs</h5>
+
+<p>To use the services exported by the Ada DLL from another programming
+language (e.g., C), you have to translate the specs of the exported Ada
+entities in that language. For instance in the case of <cite>API.dll</cite>,
+the corresponding C header file could look like:
+
+<blockquote>
+
+<pre class="example">    extern int *_imp__count;
+    #define count (*_imp__count)
+    int factorial (int);
+</pre>
+</blockquote>
+
+<p>It is important to understand that when building an Ada DLL to be used by
+other Ada applications, you need two different specs for the packages
+contained in the DLL: one for building the DLL and the other for using
+the DLL. This is because the <cite>DLL</cite> calling convention is needed to
+use a variable defined in a DLL, but when building the DLL, the variable
+must have either the <cite>Ada</cite> or <cite>C</cite> calling convention. As an
+example consider a DLL comprising the following package <cite>API</cite>:
+
+<blockquote>
+
+<pre class="example">    package API is
+       Count : Integer := 0;
+       ...
+       --  Remainder of the package omitted.
+    end API;
+</pre>
+</blockquote>
+
+<p>After producing a DLL containing package <cite>API</cite>, the spec that
+must be used to import <cite>API.Count</cite> from Ada code outside of the
+DLL is:
+
+<blockquote>
+
+<pre class="example">    package API is
+       Count : Integer;
+       pragma Import (DLL, Count);
+    end API;
+</pre>
+</blockquote>
+
+<ul class="menu">
+<li><a accesskey="1" href="Creating-the-Definition-File.html#Creating-the-Definition-File">Creating the Definition File</a>
+<li><a accesskey="2" href="Using-gnatdll.html#Using-gnatdll">Using gnatdll</a>
+
+</ul>
+
+</body></html>
+

@@ -1,0 +1,292 @@
+<html lang="en">
+<head>
+<title>SPARK_05 - GNAT Reference Manual</title>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+<meta name="description" content="GNAT Reference Manual">
+<meta name="generator" content="makeinfo 4.13">
+<link title="Top" rel="start" href="index.html#Top">
+<link rel="up" href="Program-Unit-Level-Restrictions.html#Program-Unit-Level-Restrictions" title="Program Unit Level Restrictions">
+<link rel="prev" href="No_005fWide_005fCharacters.html#No_005fWide_005fCharacters" title="No_Wide_Characters">
+<link href="http://www.gnu.org/software/texinfo/" rel="generator-home" title="Texinfo Homepage">
+<!--
+
+     GNAT Reference Manual , March 24, 2015
+
+     AdaCore
+
+     Copyright (C) 2008-2015, Free Software Foundation
+-->
+<meta http-equiv="Content-Style-Type" content="text/css">
+<style type="text/css"><!--
+  pre.display { font-family:inherit }
+  pre.format  { font-family:inherit }
+  pre.smalldisplay { font-family:inherit; font-size:smaller }
+  pre.smallformat  { font-family:inherit; font-size:smaller }
+  pre.smallexample { font-size:smaller }
+  pre.smalllisp    { font-size:smaller }
+  span.sc    { font-variant:small-caps }
+  span.roman { font-family:serif; font-weight:normal; } 
+  span.sansserif { font-family:sans-serif; font-weight:normal; } 
+--></style>
+</head>
+<body>
+<div class="node">
+<a name="SPARK_05"></a>
+<a name="SPARK_005f05"></a>
+<p>
+Previous:&nbsp;<a rel="previous" accesskey="p" href="No_005fWide_005fCharacters.html#No_005fWide_005fCharacters">No_Wide_Characters</a>,
+Up:&nbsp;<a rel="up" accesskey="u" href="Program-Unit-Level-Restrictions.html#Program-Unit-Level-Restrictions">Program Unit Level Restrictions</a>
+<hr>
+</div>
+
+<p><a name="gnat_005frm_002fstandard_005fand_005fimplementation_005fdefined_005frestrictions-spark_002d05"></a><a name="g_t1b9"></a>
+
+<h4 class="subsection">5.2.12 SPARK_05</h4>
+
+<p><a name="index-SPARK_005f05-371"></a>
+[GNAT] This restriction checks at compile time that some constructs
+forbidden in SPARK 2005 are not present. Error messages related to
+SPARK restriction have the form:
+
+<pre class="example">    violation of restriction "SPARK_05" at &lt;source-location&gt;
+     &lt;error message&gt;
+</pre>
+<p><a name="index-SPARK-372"></a>
+The restriction <cite>SPARK</cite> is recognized as a
+synonym for <cite>SPARK_05</cite>. This is retained for historical
+compatibility purposes (and an unconditional warning will be generated
+for its use, advising replacement by <cite>SPARK</cite>).
+
+<p>This is not a replacement for the semantic checks performed by the
+SPARK Examiner tool, as the compiler currently only deals with code,
+not SPARK 2005 annotations, and does not guarantee catching all
+cases of constructs forbidden by SPARK 2005.
+
+<p>Thus it may well be the case that code which passes the compiler with
+the SPARK restriction is rejected by the SPARK Examiner, e.g. due to
+the different visibility rules of the Examiner based on SPARK 2005
+<cite>inherit</cite> annotations.
+
+<p>This restriction can be useful in providing an initial filter for code
+developed using SPARK 2005, or in examining legacy code to see how far
+it is from meeting SPARK restrictions.
+
+<p>The list below summarizes the checks that are performed when this
+restriction is in force:
+
+     <ul>
+<li>No block statements
+
+     <li>No case statements with only an others clause
+
+     <li>Exit statements in loops must respect the SPARK 2005 language restrictions
+
+     <li>No goto statements
+
+     <li>Return can only appear as last statement in function
+
+     <li>Function must have return statement
+
+     <li>Loop parameter specification must include subtype mark
+
+     <li>Prefix of expanded name cannot be a loop statement
+
+     <li>Abstract subprogram not allowed
+
+     <li>User-defined operators not allowed
+
+     <li>Access type parameters not allowed
+
+     <li>Default expressions for parameters not allowed
+
+     <li>Default expressions for record fields not allowed
+
+     <li>No tasking constructs allowed
+
+     <li>Label needed at end of subprograms and packages
+
+     <li>No mixing of positional and named parameter association
+
+     <li>No access types as result type
+
+     <li>No unconstrained arrays as result types
+
+     <li>No null procedures
+
+     <li>Initial and later declarations must be in correct order (declaration can't come after body)
+
+     <li>No attributes on private types if full declaration not visible
+
+     <li>No package declaration within package specification
+
+     <li>No controlled types
+
+     <li>No discriminant types
+
+     <li>No overloading
+
+     <li>Selector name cannot be operator symbol (i.e. operator symbol cannot be prefixed)
+
+     <li>Access attribute not allowed
+
+     <li>Allocator not allowed
+
+     <li>Result of catenation must be String
+
+     <li>Operands of catenation must be string literal, static char or another catenation
+
+     <li>No conditional expressions
+
+     <li>No explicit dereference
+
+     <li>Quantified expression not allowed
+
+     <li>Slicing not allowed
+
+     <li>No exception renaming
+
+     <li>No generic renaming
+
+     <li>No object renaming
+
+     <li>No use clause
+
+     <li>Aggregates must be qualified
+
+     <li>Non-static choice in array aggregates not allowed
+
+     <li>The only view conversions which are allowed as in-out parameters are conversions of a tagged type to an ancestor type
+
+     <li>No mixing of positional and named association in aggregate, no multi choice
+
+     <li>AND, OR and XOR for arrays only allowed when operands have same static bounds
+
+     <li>Fixed point operands to * or / must be qualified or converted
+
+     <li>Comparison operators not allowed for Booleans or arrays (except strings)
+
+     <li>Equality not allowed for arrays with non-matching static bounds (except strings)
+
+     <li>Conversion / qualification not allowed for arrays with non-matching static bounds
+
+     <li>Subprogram declaration only allowed in package spec (unless followed by import)
+
+     <li>Access types not allowed
+
+     <li>Incomplete type declaration not allowed
+
+     <li>Object and subtype declarations must respect SPARK restrictions
+
+     <li>Digits or delta constraint not allowed
+
+     <li>Decimal fixed point type not allowed
+
+     <li>Aliasing of objects not allowed
+
+     <li>Modular type modulus must be power of 2
+
+     <li>Base not allowed on subtype mark
+
+     <li>Unary operators not allowed on modular types (except not)
+
+     <li>Untagged record cannot be null
+
+     <li>No class-wide operations
+
+     <li>Initialization expressions must respect SPARK restrictions
+
+     <li>Non-static ranges not allowed except in iteration schemes
+
+     <li>String subtypes must have lower bound of 1
+
+     <li>Subtype of Boolean cannot have constraint
+
+     <li>At most one tagged type or extension per package
+
+     <li>Interface is not allowed
+
+     <li>Character literal cannot be prefixed (selector name cannot be character literal)
+
+     <li>Record aggregate cannot contain 'others'
+
+     <li>Component association in record aggregate must contain a single choice
+
+     <li>Ancestor part cannot be a type mark
+
+     <li>Attributes 'Image, 'Width and 'Value not allowed
+
+     <li>Functions may not update globals
+
+     <li>Subprograms may not contain direct calls to themselves (prevents recursion within unit)
+
+     <li>Call to subprogram not allowed in same unit before body has been seen (prevents recursion within unit)
+</ul>
+
+<p>The following restrictions are enforced, but note that they are actually more
+strict that the latest SPARK 2005 language definition:
+
+     <ul>
+<li>No derived types other than tagged type extensions
+
+     <li>Subtype of unconstrained array must have constraint
+</ul>
+
+<p>This list summarises the main SPARK 2005 language rules that are not
+currently checked by the SPARK_05 restriction:
+
+     <ul>
+<li>SPARK annotations are treated as comments so are not checked at all
+
+     <li>Based real literals not allowed
+
+     <li>Objects cannot be initialized at declaration by calls to user-defined functions
+
+     <li>Objects cannot be initialized at declaration by assignments from variables
+
+     <li>Objects cannot be initialized at declaration by assignments from indexed/selected components
+
+     <li>Ranges shall not be null
+
+     <li>A fixed point delta expression must be a simple expression
+
+     <li>Restrictions on where renaming declarations may be placed
+
+     <li>Externals of mode 'out' cannot be referenced
+
+     <li>Externals of mode 'in' cannot be updated
+
+     <li>Loop with no iteration scheme or exits only allowed as last statement in main program or task
+
+     <li>Subprogram cannot have parent unit name
+
+     <li>SPARK 2005 inherited subprogram must be prefixed with overriding
+
+     <li>External variables (or functions that reference them) may not be passed as actual parameters
+
+     <li>Globals must be explicitly mentioned in contract
+
+     <li>Deferred constants cannot be completed by pragma Import
+
+     <li>Package initialization cannot read/write variables from other packages
+
+     <li>Prefix not allowed for entities that are directly visible
+
+     <li>Identifier declaration can't override inherited package name
+
+     <li>Cannot use Standard or other predefined packages as identifiers
+
+     <li>After renaming, cannot use the original name
+
+     <li>Subprograms can only be renamed to remove package prefix
+
+     <li>Pragma import must be immediately after entity it names
+
+     <li>No mutual recursion between multiple units (this can be checked with gnatcheck)
+</ul>
+
+<p>Note that if a unit is compiled in Ada 95 mode with the SPARK restriction,
+violations will be reported for constructs forbidden in SPARK 95,
+instead of SPARK 2005.
+
+</body></html>
+

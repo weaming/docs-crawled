@@ -1,0 +1,91 @@
+<html lang="en">
+<head>
+<title>Pragma Assume_No_Invalid_Values - GNAT Reference Manual</title>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+<meta name="description" content="GNAT Reference Manual">
+<meta name="generator" content="makeinfo 4.13">
+<link title="Top" rel="start" href="index.html#Top">
+<link rel="up" href="Implementation-Defined-Pragmas.html#Implementation-Defined-Pragmas" title="Implementation Defined Pragmas">
+<link rel="prev" href="Pragma-Assume.html#Pragma-Assume" title="Pragma Assume">
+<link rel="next" href="Pragma-Async_005fReaders.html#Pragma-Async_005fReaders" title="Pragma Async_Readers">
+<link href="http://www.gnu.org/software/texinfo/" rel="generator-home" title="Texinfo Homepage">
+<!--
+
+     GNAT Reference Manual , March 24, 2015
+
+     AdaCore
+
+     Copyright (C) 2008-2015, Free Software Foundation
+-->
+<meta http-equiv="Content-Style-Type" content="text/css">
+<style type="text/css"><!--
+  pre.display { font-family:inherit }
+  pre.format  { font-family:inherit }
+  pre.smalldisplay { font-family:inherit; font-size:smaller }
+  pre.smallformat  { font-family:inherit; font-size:smaller }
+  pre.smallexample { font-size:smaller }
+  pre.smalllisp    { font-size:smaller }
+  span.sc    { font-variant:small-caps }
+  span.roman { font-family:serif; font-weight:normal; } 
+  span.sansserif { font-family:sans-serif; font-weight:normal; } 
+--></style>
+</head>
+<body>
+<div class="node">
+<a name="Pragma-Assume_No_Invalid_Values"></a>
+<a name="Pragma-Assume_005fNo_005fInvalid_005fValues"></a>
+<p>
+Next:&nbsp;<a rel="next" accesskey="n" href="Pragma-Async_005fReaders.html#Pragma-Async_005fReaders">Pragma Async_Readers</a>,
+Previous:&nbsp;<a rel="previous" accesskey="p" href="Pragma-Assume.html#Pragma-Assume">Pragma Assume</a>,
+Up:&nbsp;<a rel="up" accesskey="u" href="Implementation-Defined-Pragmas.html#Implementation-Defined-Pragmas">Implementation Defined Pragmas</a>
+<hr>
+</div>
+
+<p><a name="gnat_005frm_002fimplementation_005fdefined_005fpragmas-pragma_002dassume_002dno_002dinvalid_002dvalues"></a><a name="g_t29"></a>
+
+<h3 class="section">2.15 Pragma Assume_No_Invalid_Values</h3>
+
+<p><a name="index-Invalid-representations-8"></a>
+<a name="index-Invalid-values-9"></a>
+Syntax:
+
+<pre class="example">    pragma Assume_No_Invalid_Values (On | Off);
+</pre>
+<p>This is a configuration pragma that controls the assumptions made by the
+compiler about the occurrence of invalid representations (invalid values)
+in the code.
+
+<p>The default behavior (corresponding to an Off argument for this pragma), is
+to assume that values may in general be invalid unless the compiler can
+prove they are valid. Consider the following example:
+
+<pre class="example">    V1 : Integer range 1 .. 10;
+    V2 : Integer range 11 .. 20;
+    ...
+    for J in V2 .. V1 loop
+       ...
+    end loop;
+</pre>
+<p>if V1 and V2 have valid values, then the loop is known at compile
+time not to execute since the lower bound must be greater than the
+upper bound. However in default mode, no such assumption is made,
+and the loop may execute. If <cite>Assume_No_Invalid_Values (On)</cite>
+is given, the compiler will assume that any occurrence of a variable
+other than in an explicit <cite>'Valid</cite> test always has a valid
+value, and the loop above will be optimized away.
+
+<p>The use of <cite>Assume_No_Invalid_Values (On)</cite> is appropriate if
+you know your code is free of uninitialized variables and other
+possible sources of invalid representations, and may result in
+more efficient code. A program that accesses an invalid representation
+with this pragma in effect is erroneous, so no guarantees can be made
+about its behavior.
+
+<p>It is peculiar though permissible to use this pragma in conjunction
+with validity checking (-gnatVa). In such cases, accessing invalid
+values will generally give an exception, though formally the program
+is erroneous so there are no guarantees that this will always be the
+case, and it is recommended that these two options not be used together.
+
+</body></html>
+

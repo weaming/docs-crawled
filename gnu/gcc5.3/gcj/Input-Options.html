@@ -1,0 +1,132 @@
+<html lang="en">
+<head>
+<title>Input Options - Guide to GNU gcj</title>
+<meta http-equiv="Content-Type" content="text/html">
+<meta name="description" content="Guide to GNU gcj">
+<meta name="generator" content="makeinfo 4.13">
+<link title="Top" rel="start" href="index.html#Top">
+<link rel="up" href="Invoking-gcj.html#Invoking-gcj" title="Invoking gcj">
+<link rel="prev" href="Input-and-output-files.html#Input-and-output-files" title="Input and output files">
+<link rel="next" href="Encodings.html#Encodings" title="Encodings">
+<link href="http://www.gnu.org/software/texinfo/" rel="generator-home" title="Texinfo Homepage">
+<!--
+Copyright (C) 2001-2015 Free Software Foundation, Inc.
+
+Permission is granted to copy, distribute and/or modify this document
+under the terms of the GNU Free Documentation License, Version 1.3 or
+any later version published by the Free Software Foundation; with no
+Invariant Sections, the Front-Cover Texts being (a) (see below), and
+with the Back-Cover Texts being (b) (see below).
+A copy of the license is included in the
+section entitled ``GNU Free Documentation License''.
+
+
+(a) The FSF's Front-Cover Text is:
+
+     A GNU Manual
+
+(b) The FSF's Back-Cover Text is:
+
+     You have freedom to copy and modify this GNU Manual, like GNU
+     software.  Copies published by the Free Software Foundation raise
+     funds for GNU development.
+-->
+<meta http-equiv="Content-Style-Type" content="text/css">
+<style type="text/css"><!--
+  pre.display { font-family:inherit }
+  pre.format  { font-family:inherit }
+  pre.smalldisplay { font-family:inherit; font-size:smaller }
+  pre.smallformat  { font-family:inherit; font-size:smaller }
+  pre.smallexample { font-size:smaller }
+  pre.smalllisp    { font-size:smaller }
+  span.sc    { font-variant:small-caps }
+  span.roman { font-family:serif; font-weight:normal; } 
+  span.sansserif { font-family:sans-serif; font-weight:normal; } 
+--></style>
+</head>
+<body>
+<div class="node">
+<a name="Input-Options"></a>
+<p>
+Next:&nbsp;<a rel="next" accesskey="n" href="Encodings.html#Encodings">Encodings</a>,
+Previous:&nbsp;<a rel="previous" accesskey="p" href="Input-and-output-files.html#Input-and-output-files">Input and output files</a>,
+Up:&nbsp;<a rel="up" accesskey="u" href="Invoking-gcj.html#Invoking-gcj">Invoking gcj</a>
+<hr>
+</div>
+
+<h3 class="section">1.2 Input Options</h3>
+
+<p><a name="index-class-path-2"></a>
+<samp><span class="command">gcj</span></samp> has options to control where it looks to find files it needs. 
+For instance, <samp><span class="command">gcj</span></samp> might need to load a class that is referenced
+by the file it has been asked to compile.  Like other compilers for the
+Java language, <samp><span class="command">gcj</span></samp> has a notion of a <dfn>class path</dfn>.  There are
+several options and environment variables which can be used to
+manipulate the class path.  When <samp><span class="command">gcj</span></samp> looks for a given class, it
+searches the class path looking for matching <samp><span class="file">.class</span></samp> or
+<samp><span class="file">.java</span></samp> file.  <samp><span class="command">gcj</span></samp> comes with a built-in class path which
+points at the installed <samp><span class="file">libgcj.jar</span></samp>, a file which contains all the
+standard classes.
+
+   <p>In the text below, a directory or path component can refer either to an
+actual directory on the filesystem, or to a <samp><span class="file">.zip</span></samp> or <samp><span class="file">.jar</span></samp>
+file, which <samp><span class="command">gcj</span></samp> will search as if it is a directory.
+
+     <dl>
+<dt><code>-I</code><var>dir</var><dd>All directories specified by <code>-I</code> are kept in order and prepended
+to the class path constructed from all the other options.  Unless
+compatibility with tools like <code>javac</code> is important, we recommend
+always using <code>-I</code> instead of the other options for manipulating the
+class path.
+
+     <br><dt><code>--classpath=</code><var>path</var><dd>This sets the class path to <var>path</var>, a colon-separated list of paths
+(on Windows-based systems, a semicolon-separate list of paths). 
+This does not override the builtin (&ldquo;boot&rdquo;) search path.
+
+     <br><dt><code>--CLASSPATH=</code><var>path</var><dd>Deprecated synonym for <code>--classpath</code>.
+
+     <br><dt><code>--bootclasspath=</code><var>path</var><dd>Where to find the standard builtin classes, such as <code>java.lang.String</code>.
+
+     <br><dt><code>--extdirs=</code><var>path</var><dd>For each directory in the <var>path</var>, place the contents of that
+directory at the end of the class path.
+
+     <br><dt><code>CLASSPATH</code><dd>This is an environment variable which holds a list of paths. 
+</dl>
+
+   <p>The final class path is constructed like so:
+
+     <ul>
+<li>First come all directories specified via <code>-I</code>.
+
+     <li>If <samp><span class="option">--classpath</span></samp> is specified, its value is appended. 
+Otherwise, if the <code>CLASSPATH</code> environment variable is specified,
+then its value is appended. 
+Otherwise, the current directory (<code>"."</code>) is appended.
+
+     <li>If <code>--bootclasspath</code> was specified, append its value. 
+Otherwise, append the built-in system directory, <samp><span class="file">libgcj.jar</span></samp>.
+
+     <li>Finally, if <code>--extdirs</code> was specified, append the contents of the
+specified directories at the end of the class path.  Otherwise, append
+the contents of the built-in extdirs at <code>$(prefix)/share/java/ext</code>. 
+</ul>
+
+   <p>The classfile built by <samp><span class="command">gcj</span></samp> for the class <code>java.lang.Object</code>
+(and placed in <code>libgcj.jar</code>) contains a special zero length
+attribute <code>gnu.gcj.gcj-compiled</code>. The compiler looks for this
+attribute when loading <code>java.lang.Object</code> and will report an error
+if it isn't found, unless it compiles to bytecode (the option
+<code>-fforce-classes-archive-check</code> can be used to override this
+behavior in this particular case.)
+
+     <dl>
+<dt><code>-fforce-classes-archive-check</code><dd>This forces the compiler to always check for the special zero length
+attribute <code>gnu.gcj.gcj-compiled</code> in <code>java.lang.Object</code> and
+issue an error if it isn't found.
+
+     <br><dt><code>-fsource=</code><var>VERSION</var><dd>This option is used to choose the source version accepted by
+<samp><span class="command">gcj</span></samp>.  The default is &lsquo;<samp><span class="samp">1.5</span></samp>&rsquo;. 
+</dl>
+
+   </body></html>
+

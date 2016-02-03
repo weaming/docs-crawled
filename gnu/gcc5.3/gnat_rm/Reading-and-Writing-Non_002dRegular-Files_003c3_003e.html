@@ -1,0 +1,53 @@
+<html lang="en">
+<head>
+<title>Reading and Writing Non-Regular Files&lt;3&gt; - GNAT Reference Manual</title>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+<meta name="description" content="GNAT Reference Manual">
+<meta name="generator" content="makeinfo 4.13">
+<link title="Top" rel="start" href="index.html#Top">
+<link rel="up" href="Wide_005fWide_005fText_005fIO.html#Wide_005fWide_005fText_005fIO" title="Wide_Wide_Text_IO">
+<link rel="prev" href="Stream-Pointer-Positioning_003c3_003e.html#Stream-Pointer-Positioning_003c3_003e" title="Stream Pointer Positioning&lt;3&gt;">
+<link href="http://www.gnu.org/software/texinfo/" rel="generator-home" title="Texinfo Homepage">
+<!--
+
+     GNAT Reference Manual , March 24, 2015
+
+     AdaCore
+
+     Copyright (C) 2008-2015, Free Software Foundation
+-->
+<meta http-equiv="Content-Style-Type" content="text/css">
+<style type="text/css"><!--
+  pre.display { font-family:inherit }
+  pre.format  { font-family:inherit }
+  pre.smalldisplay { font-family:inherit; font-size:smaller }
+  pre.smallformat  { font-family:inherit; font-size:smaller }
+  pre.smallexample { font-size:smaller }
+  pre.smalllisp    { font-size:smaller }
+  span.sc    { font-variant:small-caps }
+  span.roman { font-family:serif; font-weight:normal; } 
+  span.sansserif { font-family:sans-serif; font-weight:normal; } 
+--></style>
+</head>
+<body>
+<div class="node">
+<a name="Reading-and-Writing-Non-Regular-Files%3c3%3e"></a>
+<a name="Reading-and-Writing-Non_002dRegular-Files_003c3_003e"></a>
+<p>
+Previous:&nbsp;<a rel="previous" accesskey="p" href="Stream-Pointer-Positioning_003c3_003e.html#Stream-Pointer-Positioning_003c3_003e">Stream Pointer Positioning&lt;3&gt;</a>,
+Up:&nbsp;<a rel="up" accesskey="u" href="Wide_005fWide_005fText_005fIO.html#Wide_005fWide_005fText_005fIO">Wide_Wide_Text_IO</a>
+<hr>
+</div>
+
+<p><a name="gnat_005frm_002fthe_005fimplementation_005fof_005fstandard_005fi_005fo-id18"></a><a name="g_t264"></a><a name="gnat_005frm_002fthe_005fimplementation_005fof_005fstandard_005fi_005fo-reading_002dand_002dwriting_002dnon_002dregular_002dfiles_002d2"></a><a name="g_t265"></a>
+
+<h4 class="subsection">11.7.2 Reading and Writing Non-Regular Files</h4>
+
+<p>As in the case of Text_IO, when a non-regular file is read, it is
+assumed that the file contains no page marks (any form characters are
+treated as data characters), and <cite>End_Of_Page</cite> always returns
+<cite>False</cite>.  Similarly, the end of file indication is not sticky, so
+it is possible to read beyond an end of file.
+
+</body></html>
+

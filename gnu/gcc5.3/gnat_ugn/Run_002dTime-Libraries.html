@@ -1,0 +1,99 @@
+<html lang="en">
+<head>
+<title>Run-Time Libraries - GNAT User's Guide for Native Platforms</title>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+<meta name="description" content="GNAT User's Guide for Native Platforms">
+<meta name="generator" content="makeinfo 4.13">
+<link title="Top" rel="start" href="index.html#Top">
+<link rel="up" href="Platform_002dSpecific-Information.html#Platform_002dSpecific-Information" title="Platform-Specific Information">
+<link rel="next" href="Specifying-a-Run_002dTime-Library.html#Specifying-a-Run_002dTime-Library" title="Specifying a Run-Time Library">
+<link href="http://www.gnu.org/software/texinfo/" rel="generator-home" title="Texinfo Homepage">
+<!--
+
+     GNAT User's Guide for Native Platforms , March 24, 2015
+
+     AdaCore
+
+     Copyright (C) 2008-2015, Free Software Foundation
+-->
+<meta http-equiv="Content-Style-Type" content="text/css">
+<style type="text/css"><!--
+  pre.display { font-family:inherit }
+  pre.format  { font-family:inherit }
+  pre.smalldisplay { font-family:inherit; font-size:smaller }
+  pre.smallformat  { font-family:inherit; font-size:smaller }
+  pre.smallexample { font-size:smaller }
+  pre.smalllisp    { font-size:smaller }
+  span.sc    { font-variant:small-caps }
+  span.roman { font-family:serif; font-weight:normal; } 
+  span.sansserif { font-family:sans-serif; font-weight:normal; } 
+--></style>
+</head>
+<body>
+<div class="node">
+<a name="Run-Time-Libraries"></a>
+<a name="Run_002dTime-Libraries"></a>
+<p>
+Next:&nbsp;<a rel="next" accesskey="n" href="Specifying-a-Run_002dTime-Library.html#Specifying-a-Run_002dTime-Library">Specifying a Run-Time Library</a>,
+Up:&nbsp;<a rel="up" accesskey="u" href="Platform_002dSpecific-Information.html#Platform_002dSpecific-Information">Platform-Specific Information</a>
+<hr>
+</div>
+
+<p><a name="gnat_005fugn_002fplatform_005fspecific_005finformation-id2"></a><a name="g_t25a"></a><a name="gnat_005fugn_002fplatform_005fspecific_005finformation-run_002dtime_002dlibraries"></a><a name="g_t2d"></a>
+
+<h3 class="section">9.1 Run-Time Libraries</h3>
+
+<p><a name="index-Tasking-and-threads-libraries-1048"></a>
+<a name="index-Threads-libraries-and-tasking-1049"></a>
+<a name="index-Run_002dtime-libraries-_0028platform_002dspecific-information_0029-1050"></a>
+The GNAT run-time implementation may vary with respect to both the
+underlying threads library and the exception handling scheme. 
+For threads support, one or more of the following are supplied:
+
+     <ul>
+<li>`native threads library', a binding to the thread package from
+the underlying operating system
+
+     <li>`pthreads library' (Sparc Solaris only), a binding to the Solaris
+POSIX thread package
+</ul>
+
+<p>For exception handling, either or both of two models are supplied:
+
+<blockquote>
+
+<p><a name="index-Zero_002dCost-Exceptions-1051"></a>
+<a name="index-ZCX-_0028Zero_002dCost-Exceptions_0029-1052"></a></blockquote>
+
+     <ul>
+<li>`Zero-Cost Exceptions' ("ZCX"),
+which uses binder-generated tables that
+are interrogated at run time to locate a handler.
+
+     <p><a name="index-setjmp_002flongjmp-Exception-Model-1053"></a>
+<a name="index-SJLJ-_0028setjmp_002flongjmp-Exception-Model_0029-1054"></a>
+<li>`setjmp / longjmp' ('SJLJ'),
+which uses dynamically-set data to establish
+the set of handlers
+</ul>
+
+<p>Most programs should experience a substantial speed improvement by
+being compiled with a ZCX run-time. 
+This is especially true for
+tasking applications or applications with many exception handlers.}
+
+<p>This section summarizes which combinations of threads and exception support
+are supplied on various GNAT platforms. 
+It then shows how to select a particular library either
+permanently or temporarily,
+explains the properties of (and tradeoffs among) the various threads
+libraries, and provides some additional
+information about several specific platforms.
+
+<ul class="menu">
+<li><a accesskey="1" href="Summary-of-Run_002dTime-Configurations.html#Summary-of-Run_002dTime-Configurations">Summary of Run-Time Configurations</a>
+
+</ul>
+
+</body></html>
+

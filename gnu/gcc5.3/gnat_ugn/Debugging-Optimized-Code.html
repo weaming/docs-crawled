@@ -1,0 +1,152 @@
+<html lang="en">
+<head>
+<title>Debugging Optimized Code - GNAT User's Guide for Native Platforms</title>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+<meta name="description" content="GNAT User's Guide for Native Platforms">
+<meta name="generator" content="makeinfo 4.13">
+<link title="Top" rel="start" href="index.html#Top">
+<link rel="up" href="Performance-Considerations.html#Performance-Considerations" title="Performance Considerations">
+<link rel="prev" href="Optimization-Levels.html#Optimization-Levels" title="Optimization Levels">
+<link rel="next" href="Inlining-of-Subprograms.html#Inlining-of-Subprograms" title="Inlining of Subprograms">
+<link href="http://www.gnu.org/software/texinfo/" rel="generator-home" title="Texinfo Homepage">
+<!--
+
+     GNAT User's Guide for Native Platforms , March 24, 2015
+
+     AdaCore
+
+     Copyright (C) 2008-2015, Free Software Foundation
+-->
+<meta http-equiv="Content-Style-Type" content="text/css">
+<style type="text/css"><!--
+  pre.display { font-family:inherit }
+  pre.format  { font-family:inherit }
+  pre.smalldisplay { font-family:inherit; font-size:smaller }
+  pre.smallformat  { font-family:inherit; font-size:smaller }
+  pre.smallexample { font-size:smaller }
+  pre.smalllisp    { font-size:smaller }
+  span.sc    { font-variant:small-caps }
+  span.roman { font-family:serif; font-weight:normal; } 
+  span.sansserif { font-family:sans-serif; font-weight:normal; } 
+--></style>
+</head>
+<body>
+<div class="node">
+<a name="Debugging-Optimized-Code"></a>
+<p>
+Next:&nbsp;<a rel="next" accesskey="n" href="Inlining-of-Subprograms.html#Inlining-of-Subprograms">Inlining of Subprograms</a>,
+Previous:&nbsp;<a rel="previous" accesskey="p" href="Optimization-Levels.html#Optimization-Levels">Optimization Levels</a>,
+Up:&nbsp;<a rel="up" accesskey="u" href="Performance-Considerations.html#Performance-Considerations">Performance Considerations</a>
+<hr>
+</div>
+
+<p><a name="gnat_005fugn_002fgnat_005fand_005fprogram_005fexecution-id33"></a><a name="g_t22e"></a><a name="gnat_005fugn_002fgnat_005fand_005fprogram_005fexecution-debugging_002doptimized_002dcode"></a><a name="g_t22f"></a>
+
+<h5 class="subsubsection">8.3.1.4 Debugging Optimized Code</h5>
+
+<p><a name="index-Debugging-optimized-code-1001"></a>
+<a name="index-Optimization-and-debugging-1002"></a>
+Although it is possible to do a reasonable amount of debugging at
+nonzero optimization levels,
+the higher the level the more likely that
+source-level constructs will have been eliminated by optimization. 
+For example, if a loop is strength-reduced, the loop
+control variable may be completely eliminated and thus cannot be
+displayed in the debugger. 
+This can only happen at `-O2' or `-O3'. 
+Explicit temporary variables that you code might be eliminated at
+level `-O1' or higher.
+
+<p><a name="index-g_t_002dg-_0028gcc_0029-1003"></a>
+The use of the `-g' switch,
+which is needed for source-level debugging,
+affects the size of the program executable on disk,
+and indeed the debugging information can be quite large. 
+However, it has no effect on the generated code (and thus does not
+degrade performance)
+
+<p>Since the compiler generates debugging tables for a compilation unit before
+it performs optimizations, the optimizing transformations may invalidate some
+of the debugging data.  You therefore need to anticipate certain
+anomalous situations that may arise while debugging optimized code. 
+These are the most common cases:
+
+     <ul>
+<li>`The 'hopping Program Counter':'  Repeated <cite>step</cite> or <cite>next</cite>
+commands show
+the PC bouncing back and forth in the code.  This may result from any of
+the following optimizations:
+
+          <ul>
+<li>`Common subexpression elimination:' using a single instance of code for a
+quantity that the source computes several times.  As a result you
+may not be able to stop on what looks like a statement.
+
+          <li>`Invariant code motion:' moving an expression that does not change within a
+loop, to the beginning of the loop.
+
+          <li>`Instruction scheduling:' moving instructions so as to
+overlap loads and stores (typically) with other code, or in
+general to move computations of values closer to their uses. Often
+this causes you to pass an assignment statement without the assignment
+happening and then later bounce back to the statement when the
+value is actually needed.  Placing a breakpoint on a line of code
+and then stepping over it may, therefore, not always cause all the
+expected side-effects. 
+</ul>
+
+     <li>`The 'big leap':' More commonly known as `cross-jumping', in which
+two identical pieces of code are merged and the program counter suddenly
+jumps to a statement that is not supposed to be executed, simply because
+it (and the code following) translates to the same thing as the code
+that `was' supposed to be executed.  This effect is typically seen in
+sequences that end in a jump, such as a <cite>goto</cite>, a <cite>return</cite>, or
+a <cite>break</cite> in a C <cite>switch</cite> statement.
+
+     <li>`The 'roving variable':' The symptom is an unexpected value in a variable. 
+There are various reasons for this effect:
+
+          <ul>
+<li>In a subprogram prologue, a parameter may not yet have been moved to its
+'home'.
+
+          <li>A variable may be dead, and its register re-used.  This is
+probably the most common cause.
+
+          <li>As mentioned above, the assignment of a value to a variable may
+have been moved.
+
+          <li>A variable may be eliminated entirely by value propagation or
+other means.  In this case, GCC may incorrectly generate debugging
+information for the variable
+</ul>
+
+     <p>In general, when an unexpected value appears for a local variable or parameter
+you should first ascertain if that value was actually computed by
+your program, as opposed to being incorrectly reported by the debugger. 
+Record fields or
+array elements in an object designated by an access value
+are generally less of a problem, once you have ascertained that the access
+value is sensible. 
+Typically, this means checking variables in the preceding code and in the
+calling subprogram to verify that the value observed is explainable from other
+values (one must apply the procedure recursively to those
+other values); or re-running the code and stopping a little earlier
+(perhaps before the call) and stepping to better see how the variable obtained
+the value in question; or continuing to step `from' the point of the
+strange value to see if code motion had simply moved the variable's
+assignments later. 
+</ul>
+
+<p>In light of such anomalies, a recommended technique is to use `-O0'
+early in the software development cycle, when extensive debugging capabilities
+are most needed, and then move to `-O1' and later `-O2' as
+the debugger becomes less critical. 
+Whether to use the `-g' switch in the release version is
+a release management issue. 
+Note that if you use `-g' you can then use the `strip' program
+on the resulting executable,
+which removes both debugging information and global symbols.
+
+</body></html>
+

@@ -1,0 +1,159 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+  "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+
+
+<html xmlns="http://www.w3.org/1999/xhtml">
+  <head>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+    
+    <title>CGI &mdash; Flask 0.10 文档</title>
+    
+    <link rel="stylesheet" href="../_static/flasky.css" type="text/css" />
+    <link rel="stylesheet" href="../_static/pygments.css" type="text/css" />
+    
+    <script type="text/javascript">
+      var DOCUMENTATION_OPTIONS = {
+        URL_ROOT:    '../',
+        VERSION:     '0.10',
+        COLLAPSE_INDEX: false,
+        FILE_SUFFIX: '.html',
+        HAS_SOURCE:  true
+      };
+    </script>
+    <script type="text/javascript" src="../_static/jquery.js"></script>
+    <script type="text/javascript" src="../_static/underscore.js"></script>
+    <script type="text/javascript" src="../_static/doctools.js"></script>
+    <script type="text/javascript" src="../_static/translations.js"></script>
+    <link rel="top" title="Flask 0.10 文档" href="../index.html" />
+    <link rel="up" title="部署方式" href="index.html" />
+    <link rel="next" title="大型应用" href="../becomingbig.html" />
+    <link rel="prev" title="FastCGI" href="fastcgi.html" />
+   
+  
+  <link rel="apple-touch-icon" href="../_static/touch-icon.png" />
+  
+  <link media="only screen and (max-device-width: 480px)" href="../_static/small_flask.css" type= "text/css" rel="stylesheet" />
+
+  </head>
+  <body role="document">
+    <div class="related" role="navigation" aria-label="related navigation">
+      <h3>导航</h3>
+      <ul>
+        <li class="right" style="margin-right: 10px">
+          <a href="../genindex.html" title="总目录"
+             accesskey="I">索引</a></li>
+        <li class="right" >
+          <a href="../becomingbig.html" title="大型应用"
+             accesskey="N">下一页</a> |</li>
+        <li class="right" >
+          <a href="fastcgi.html" title="FastCGI"
+             accesskey="P">上一页</a> |</li>
+        <li class="nav-item nav-item-0"><a href="../index.html">Flask 0.10 文档</a> &raquo;</li>
+          <li class="nav-item nav-item-1"><a href="index.html" accesskey="U">部署方式</a> &raquo;</li> 
+      </ul>
+    </div>  
+
+    <div class="document">
+      <div class="documentwrapper">
+        <div class="bodywrapper">
+          <div class="body" role="main">
+            
+  <div class="section" id="cgi">
+<h1>CGI<a class="headerlink" href="#cgi" title="永久链接至标题">¶</a></h1>
+<p>如果其他的部署方式都不管用，那么就只能使用 CGI 了。 CGI 适应于所有主流服务器，
+但是其性能稍弱。</p>
+<p>这也是在 Google 的 <a class="reference external" href="http://code.google.com/appengine/">App Engine</a> 使用 Flask 应用的方法，其执行方式类似于
+CGI 环境。</p>
+<div class="admonition- admonition">
+<p class="first admonition-title">小心</p>
+<p>请务必把 <code class="docutils literal"><span class="pre">app.run()</span></code> 放在 <code class="docutils literal"><span class="pre">if</span> <span class="pre">__name__</span> <span class="pre">==</span> <span class="pre">'__main__':</span></code> 内部或者放在单独
+的文件中，这样可以保证它不会被调用。因为，每调用一次就会开启一个本地 WSGI
+服务器。当我们使用 CGI 或 App Engine 部署应用时，不需要使用本地服务器。</p>
+<p class="last">在使用 CGI 时，你还必须确保代码中不包含任何 <code class="docutils literal"><span class="pre">print</span></code> 语句，或者
+<code class="docutils literal"><span class="pre">sys.stdout</span></code> 被重载，不会写入 HTTP 响应中。</p>
+</div>
+<div class="section" id="id1">
+<h2>创建一个 <cite>.cgi</cite> 文件<a class="headerlink" href="#id1" title="永久链接至标题">¶</a></h2>
+<p>首先，你需要创建 CGI 应用文件。我们把它命名为 <cite>yourapplication.cgi</cite>:</p>
+<div class="highlight-python"><div class="highlight"><pre><span class="c">#!/usr/bin/python</span>
+<span class="kn">from</span> <span class="nn">wsgiref.handlers</span> <span class="kn">import</span> <span class="n">CGIHandler</span>
+<span class="kn">from</span> <span class="nn">yourapplication</span> <span class="kn">import</span> <span class="n">app</span>
+
+<span class="n">CGIHandler</span><span class="p">()</span><span class="o">.</span><span class="n">run</span><span class="p">(</span><span class="n">app</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+<div class="section" id="id2">
+<h2>服务器设置<a class="headerlink" href="#id2" title="永久链接至标题">¶</a></h2>
+<p>设置服务器通常有两种方法。一种是把 <cite>.cgi</cite> 复制为 <cite>cgi-bin</cite> （并且使用
+<cite>mod_rewrite</cite> 或其他类似东西来改写 URL ）；另一种是把服务器直接指向文件。</p>
+<p>例如，如果使用 Apache ，那么可以把如下内容放入配置中：</p>
+<div class="highlight-apache"><div class="highlight"><pre><span class="nb">ScriptAlias</span> <span class="sx">/app</span> <span class="sx">/path/to/the/application.cgi</span>
+</pre></div>
+</div>
+<p>在共享的网络服务器上，你可能无法变动 Apache 配置。在这种情况下，你可以使用你
+的公共目录中的 <cite>.htaccess</cite> 文件。但是 <cite>ScriptAlias</cite> 指令会失效：</p>
+<div class="highlight-apache"><div class="highlight"><pre><span class="nb">RewriteEngine</span> <span class="k">On</span>
+<span class="nb">RewriteCond</span> %{REQUEST_FILENAME} !-f # Don&#39;t interfere with static files
+<span class="nb">RewriteRule</span> ^(.*)$ <span class="sx">/path/to/the/application.cgi/</span>$1 [L]
+</pre></div>
+</div>
+<p>更多信息参见你所使用的服务器的文档。</p>
+</div>
+</div>
+
+
+          </div>
+        </div>
+      </div>
+      <div class="sphinxsidebar" role="navigation" aria-label="main navigation">
+        <div class="sphinxsidebarwrapper"><p class="logo"><a href="../index.html">
+  <img class="logo" src="../_static/flask.png" alt="Logo"/>
+</a></p>
+  <h3><a href="../index.html">內容目录</a></h3>
+  <ul>
+<li><a class="reference internal" href="#">CGI</a><ul>
+<li><a class="reference internal" href="#id1">创建一个 <cite>.cgi</cite> 文件</a></li>
+<li><a class="reference internal" href="#id2">服务器设置</a></li>
+</ul>
+</li>
+</ul>
+<h3>Related Topics</h3>
+<ul>
+  <li><a href="../index.html">Documentation overview</a><ul>
+  <li><a href="index.html">部署方式</a><ul>
+      <li>Previous: <a href="fastcgi.html" title="上一章">FastCGI</a></li>
+      <li>Next: <a href="../becomingbig.html" title="下一章">大型应用</a></li>
+  </ul></li>
+  </ul></li>
+</ul>
+  <div role="note" aria-label="source link">
+    <h3>本页</h3>
+    <ul class="this-page-menu">
+      <li><a href="../_sources/deploying/cgi.txt"
+            rel="nofollow">显示源代码</a></li>
+    </ul>
+   </div>
+<div id="searchbox" style="display: none" role="search">
+  <h3>快速搜索</h3>
+    <form class="search" action="../search.html" method="get">
+      <input type="text" name="q" />
+      <input type="submit" value="转向" />
+      <input type="hidden" name="check_keywords" value="yes" />
+      <input type="hidden" name="area" value="default" />
+    </form>
+    <p class="searchtip" style="font-size: 90%">
+    输入相关的术语，模块，类或者函数名称进行搜索
+    </p>
+</div>
+<script type="text/javascript">$('#searchbox').show(0);</script>
+        </div>
+      </div>
+      <div class="clearer"></div>
+    </div>
+    <div class="footer">
+      &copy; Copyright 2013, Armin Ronacher.
+      Created using <a href="http://sphinx.pocoo.org/">Sphinx</a>.
+    </div>
+  </body>
+</html>

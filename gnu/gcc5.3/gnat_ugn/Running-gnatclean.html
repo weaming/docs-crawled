@@ -1,0 +1,64 @@
+<html lang="en">
+<head>
+<title>Running gnatclean - GNAT User's Guide for Native Platforms</title>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+<meta name="description" content="GNAT User's Guide for Native Platforms">
+<meta name="generator" content="makeinfo 4.13">
+<link title="Top" rel="start" href="index.html#Top">
+<link rel="up" href="The-File-Cleanup-Utility-gnatclean.html#The-File-Cleanup-Utility-gnatclean" title="The File Cleanup Utility gnatclean">
+<link rel="next" href="Switches-for-gnatclean.html#Switches-for-gnatclean" title="Switches for gnatclean">
+<link href="http://www.gnu.org/software/texinfo/" rel="generator-home" title="Texinfo Homepage">
+<!--
+
+     GNAT User's Guide for Native Platforms , March 24, 2015
+
+     AdaCore
+
+     Copyright (C) 2008-2015, Free Software Foundation
+-->
+<meta http-equiv="Content-Style-Type" content="text/css">
+<style type="text/css"><!--
+  pre.display { font-family:inherit }
+  pre.format  { font-family:inherit }
+  pre.smalldisplay { font-family:inherit; font-size:smaller }
+  pre.smallformat  { font-family:inherit; font-size:smaller }
+  pre.smallexample { font-size:smaller }
+  pre.smalllisp    { font-size:smaller }
+  span.sc    { font-variant:small-caps }
+  span.roman { font-family:serif; font-weight:normal; } 
+  span.sansserif { font-family:sans-serif; font-weight:normal; } 
+--></style>
+</head>
+<body>
+<div class="node">
+<a name="Running-gnatclean"></a>
+<p>
+Next:&nbsp;<a rel="next" accesskey="n" href="Switches-for-gnatclean.html#Switches-for-gnatclean">Switches for gnatclean</a>,
+Up:&nbsp;<a rel="up" accesskey="u" href="The-File-Cleanup-Utility-gnatclean.html#The-File-Cleanup-Utility-gnatclean">The File Cleanup Utility gnatclean</a>
+<hr>
+</div>
+
+<p><a name="gnat_005fugn_002fgnat_005futility_005fprograms-running_002dgnatclean"></a><a name="g_t1cf"></a><a name="gnat_005fugn_002fgnat_005futility_005fprograms-id3"></a><a name="g_t1d0"></a>
+
+<h4 class="subsection">7.1.1 Running <cite>gnatclean</cite></h4>
+
+<p>The <cite>gnatclean</cite> command has the form:
+
+<blockquote>
+
+<pre class="example">    $ gnatclean switches `names`
+</pre>
+</blockquote>
+
+<p>where <cite>names</cite> is a list of source file names. Suffixes <code>.ads</code> and
+<code>adb</code> may be omitted. If a project file is specified using switch
+<code>-P</code>, then <cite>names</cite> may be completely omitted.
+
+<p>In normal mode, <cite>gnatclean</cite> delete the files produced by the compiler and,
+if switch <cite>-c</cite> is not specified, by the binder and
+the linker. In informative-only mode, specified by switch
+<cite>-n</cite>, the list of files that would have been deleted in
+normal mode is listed, but no file is actually deleted.
+
+</body></html>
+

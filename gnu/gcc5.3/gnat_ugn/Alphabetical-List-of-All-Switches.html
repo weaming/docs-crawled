@@ -1,0 +1,1276 @@
+<html lang="en">
+<head>
+<title>Alphabetical List of All Switches - GNAT User's Guide for Native Platforms</title>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+<meta name="description" content="GNAT User's Guide for Native Platforms">
+<meta name="generator" content="makeinfo 4.13">
+<link title="Top" rel="start" href="index.html#Top">
+<link rel="up" href="Compiler-Switches.html#Compiler-Switches" title="Compiler Switches">
+<link rel="next" href="Output-and-Error-Message-Control.html#Output-and-Error-Message-Control" title="Output and Error Message Control">
+<link href="http://www.gnu.org/software/texinfo/" rel="generator-home" title="Texinfo Homepage">
+<!--
+
+     GNAT User's Guide for Native Platforms , March 24, 2015
+
+     AdaCore
+
+     Copyright (C) 2008-2015, Free Software Foundation
+-->
+<meta http-equiv="Content-Style-Type" content="text/css">
+<style type="text/css"><!--
+  pre.display { font-family:inherit }
+  pre.format  { font-family:inherit }
+  pre.smalldisplay { font-family:inherit; font-size:smaller }
+  pre.smallformat  { font-family:inherit; font-size:smaller }
+  pre.smallexample { font-size:smaller }
+  pre.smalllisp    { font-size:smaller }
+  span.sc    { font-variant:small-caps }
+  span.roman { font-family:serif; font-weight:normal; } 
+  span.sansserif { font-family:sans-serif; font-weight:normal; } 
+--></style>
+</head>
+<body>
+<div class="node">
+<a name="Alphabetical-List-of-All-Switches"></a>
+<p>
+Next:&nbsp;<a rel="next" accesskey="n" href="Output-and-Error-Message-Control.html#Output-and-Error-Message-Control">Output and Error Message Control</a>,
+Up:&nbsp;<a rel="up" accesskey="u" href="Compiler-Switches.html#Compiler-Switches">Compiler Switches</a>
+<hr>
+</div>
+
+<p><a name="gnat_005fugn_002fbuilding_005fexecutable_005fprograms_005fwith_005fgnat-id13"></a><a name="f6"></a><a name="gnat_005fugn_002fbuilding_005fexecutable_005fprograms_005fwith_005fgnat-alphabetical_002dlist_002dof_002dall_002dswitches"></a><a name="f7"></a>
+
+<h4 class="subsection">4.3.1 Alphabetical List of All Switches</h4>
+
+<p><a name="index-g_t_002db-_0028gcc_0029-252"></a>
+
+     <dl>
+<dt><code>-b `target'</code><dd>
+Compile your program to run on <cite>target</cite>, which is the name of a
+system configuration. You must have a GNAT cross-compiler built if
+<cite>target</cite> is not the same as your host system. 
+</dl>
+
+<p><a name="index-g_t_002dB-_0028gcc_0029-253"></a>
+
+     <dl>
+<dt><code>-B`dir'</code><dd>
+Load compiler executables (for example, <cite>gnat1</cite>, the Ada compiler)
+from <cite>dir</cite> instead of the default location. Only use this switch
+when multiple versions of the GNAT compiler are available. 
+See the "Options for Directory Search" section in the
+<cite>Using the GNU Compiler Collection (GCC)</cite> manual for further details. 
+You would normally use the `-b' or `-V' switch instead. 
+</dl>
+
+<p><a name="index-g_t_002dc-_0028gcc_0029-254"></a>
+
+     <dl>
+<dt><code>-c</code><dd>
+Compile. Always use this switch when compiling Ada programs.
+
+     <p>Note: for some other languages when using `gcc', notably in
+the case of C and C++, it is possible to use
+use `gcc' without a `-c' switch to
+compile and link in one step. In the case of GNAT, you
+cannot use this approach, because the binder must be run
+and `gcc' cannot be used to run the GNAT binder. 
+</dl>
+
+<p><a name="index-g_t_002dfcallgraph_002dinfo-_0028gcc_0029-255"></a>
+
+     <dl>
+<dt><code>-fcallgraph-info[=su,da]</code><dd>
+Makes the compiler output callgraph information for the program, on a
+per-file basis. The information is generated in the VCG format.  It can
+be decorated with additional, per-node and/or per-edge information, if a
+list of comma-separated markers is additionally specified. When the
+<cite>su</cite> marker is specified, the callgraph is decorated with stack usage
+information; it is equivalent to `-fstack-usage'. When the <cite>da</cite>
+marker is specified, the callgraph is decorated with information about
+dynamically allocated objects. 
+</dl>
+
+<p><a name="index-g_t_002dfdump_002dscos-_0028gcc_0029-256"></a>
+
+     <dl>
+<dt><code>-fdump-scos</code><dd>
+Generates SCO (Source Coverage Obligation) information in the ALI file. 
+This information is used by advanced coverage tools. See unit <code>SCOs</code>
+in the compiler sources for details in files <code>scos.ads</code> and
+<code>scos.adb</code>. 
+</dl>
+
+<p><a name="index-g_t_002dfdump_002dxref-_0028gcc_0029-257"></a>
+
+     <dl>
+<dt><code>-fdump-xref</code><dd>
+Generates cross reference information in GLI files for C and C++ sources. 
+The GLI files have the same syntax as the ALI files for Ada, and can be used
+for source navigation in IDEs and on the command line using e.g. gnatxref
+and the `&ndash;ext=gli' switch. 
+</dl>
+
+<p><a name="index-g_t_002dflto-_0028gcc_0029-258"></a>
+
+     <dl>
+<dt><code>-flto[=`n']</code><dd>
+Enables Link Time Optimization. This switch must be used in conjunction
+with the traditional `-Ox' switches and instructs the compiler to
+defer most optimizations until the link stage. The advantage of this
+approach is that the compiler can do a whole-program analysis and choose
+the best interprocedural optimization strategy based on a complete view
+of the program, instead of a fragmentary view with the usual approach. 
+This can also speed up the compilation of big programs and reduce the
+size of the executable, compared with a traditional per-unit compilation
+with inlining across modules enabled by the `-gnatn' switch. 
+The drawback of this approach is that it may require more memory and that
+the debugging information generated by -g with it might be hardly usable. 
+The switch, as well as the accompanying `-Ox' switches, must be
+specified both for the compilation and the link phases. 
+If the <cite>n</cite> parameter is specified, the optimization and final code
+generation at link time are executed using <cite>n</cite> parallel jobs by
+means of an installed `make' program. 
+</dl>
+
+<p><a name="index-g_t_002dfno_002dinline-_0028gcc_0029-259"></a>
+
+     <dl>
+<dt><code>-fno-inline</code><dd>
+Suppresses all inlining, unless requested with pragma <cite>Inline_Always</cite>. The
+effect is enforced regardless of other optimization or inlining switches. 
+Note that inlining can also be suppressed on a finer-grained basis with
+pragma <cite>No_Inline</cite>. 
+</dl>
+
+<p><a name="index-g_t_002dfno_002dinline_002dfunctions-_0028gcc_0029-260"></a>
+
+     <dl>
+<dt><code>-fno-inline-functions</code><dd>
+Suppresses automatic inlining of subprograms, which is enabled
+if `-O3' is used. 
+</dl>
+
+<p><a name="index-g_t_002dfno_002dinline_002dsmall_002dfunctions-_0028gcc_0029-261"></a>
+
+     <dl>
+<dt><code>-fno-inline-small-functions</code><dd>
+Suppresses automatic inlining of small subprograms, which is enabled
+if `-O2' is used. 
+</dl>
+
+<p><a name="index-g_t_002dfno_002dinline_002dfunctions_002dcalled_002donce-_0028gcc_0029-262"></a>
+
+     <dl>
+<dt><code>-fno-inline-functions-called-once</code><dd>
+Suppresses inlining of subprograms local to the unit and called once
+from within it, which is enabled if `-O1' is used. 
+</dl>
+
+<p><a name="index-g_t_002dfno_002divopts-_0028gcc_0029-263"></a>
+
+     <dl>
+<dt><code>-fno-ivopts</code><dd>
+Suppresses high-level loop induction variable optimizations, which are
+enabled if `-O1' is used. These optimizations are generally
+profitable but, for some specific cases of loops with numerous uses
+of the iteration variable that follow a common pattern, they may end
+up destroying the regularity that could be exploited at a lower level
+and thus producing inferior code. 
+</dl>
+
+<p><a name="index-g_t_002dfno_002dstrict_002daliasing-_0028gcc_0029-264"></a>
+
+     <dl>
+<dt><code>-fno-strict-aliasing</code><dd>
+Causes the compiler to avoid assumptions regarding non-aliasing
+of objects of different types. See
+<a href="f8.html#f8">Optimization and Strict Aliasing</a> for details. 
+</dl>
+
+<p><a name="index-g_t_002dfstack_002dcheck-_0028gcc_0029-265"></a>
+
+     <dl>
+<dt><code>-fstack-check</code><dd>
+Activates stack checking. 
+See <a href="f9.html#f9">Stack Overflow Checking</a> for details. 
+</dl>
+
+<p><a name="index-g_t_002dfstack_002dusage-_0028gcc_0029-266"></a>
+
+     <dl>
+<dt><code>-fstack-usage</code><dd>
+Makes the compiler output stack usage information for the program, on a
+per-subprogram basis. See <a href="fa.html#fa">Static Stack Usage Analysis</a> for details. 
+</dl>
+
+<p><a name="index-g_t_002dg-_0028gcc_0029-267"></a>
+
+     <dl>
+<dt><code>-g</code><dd>
+Generate debugging information. This information is stored in the object
+file and copied from there to the final executable file by the linker,
+where it can be read by the debugger. You must use the
+`-g' switch if you plan on using the debugger. 
+</dl>
+
+<p><a name="index-g_t_002dgnat05-_0028gcc_0029-268"></a>
+
+     <dl>
+<dt><code>-gnat05</code><dd>
+Allow full Ada 2005 features. 
+</dl>
+
+<p><a name="index-g_t_002dgnat12-_0028gcc_0029-269"></a>
+
+     <dl>
+<dt><code>-gnat12</code><dd>
+Allow full Ada 2012 features. 
+</dl>
+
+<p><a name="index-g_t_002dgnat83-_0028gcc_0029-270"></a>
+<a name="index-g_t_002dgnat2005-_0028gcc_0029-271"></a>
+
+     <dl>
+<dt><code>-gnat2005</code><dd>
+Allow full Ada 2005 features (same as `-gnat05')
+</dl>
+
+<p><a name="index-g_t_002dgnat2012-_0028gcc_0029-272"></a>
+
+     <dl>
+<dt><code>-gnat2012</code><dd>
+Allow full Ada 2012 features (same as `-gnat12')
+
+     <br><dt><code>-gnat83</code><dd>
+Enforce Ada 83 restrictions. 
+</dl>
+
+<p><a name="index-g_t_002dgnat95-_0028gcc_0029-273"></a>
+
+     <dl>
+<dt><code>-gnat95</code><dd>
+Enforce Ada 95 restrictions.
+
+     <p>Note: for compatibility with some Ada 95 compilers which support only
+the <cite>overriding</cite> keyword of Ada 2005, the `-gnatd.D' switch can
+be used along with `-gnat95' to achieve a similar effect with GNAT.
+
+     <p>`-gnatd.D' instructs GNAT to consider <cite>overriding</cite> as a keyword
+and handle its associated semantic checks, even in Ada 95 mode. 
+</dl>
+
+<p><a name="index-g_t_002dgnata-_0028gcc_0029-274"></a>
+
+     <dl>
+<dt><code>-gnata</code><dd>
+Assertions enabled. <cite>Pragma Assert</cite> and <cite>pragma Debug</cite> to be
+activated. Note that these pragmas can also be controlled using the
+configuration pragmas <cite>Assertion_Policy</cite> and <cite>Debug_Policy</cite>. 
+It also activates pragmas <cite>Check</cite>, <cite>Precondition</cite>, and
+<cite>Postcondition</cite>. Note that these pragmas can also be controlled
+using the configuration pragma <cite>Check_Policy</cite>. In Ada 2012, it
+also activates all assertions defined in the RM as aspects: preconditions,
+postconditions, type invariants and (sub)type predicates. In all Ada modes,
+corresponding pragmas for type invariants and (sub)type predicates are
+also activated. The default is that all these assertions are disabled,
+and have no effect, other than being checked for syntactic validity, and
+in the case of subtype predicates, constructions such as membership tests
+still test predicates even if assertions are turned off. 
+</dl>
+
+<p><a name="index-g_t_002dgnatA-_0028gcc_0029-275"></a>
+
+     <dl>
+<dt><code>-gnatA</code><dd>
+Avoid processing <code>gnat.adc</code>. If a <code>gnat.adc</code> file is present,
+it will be ignored. 
+</dl>
+
+<p><a name="index-g_t_002dgnatb-_0028gcc_0029-276"></a>
+
+     <dl>
+<dt><code>-gnatb</code><dd>
+Generate brief messages to <code>stderr</code> even if verbose mode set. 
+</dl>
+
+<p><a name="index-g_t_002dgnatB-_0028gcc_0029-277"></a>
+
+     <dl>
+<dt><code>-gnatB</code><dd>
+Assume no invalid (bad) values except for 'Valid attribute use
+(<a href="fb.html#fb">Validity Checking</a>). 
+</dl>
+
+<p><a name="index-g_t_002dgnatc-_0028gcc_0029-278"></a>
+
+     <dl>
+<dt><code>-gnatc</code><dd>
+Check syntax and semantics only (no code generation attempted). When the
+compiler is invoked by `gnatmake', if the switch `-gnatc' is
+only given to the compiler (after `-cargs' or in package Compiler of
+the project file, `gnatmake' will fail because it will not find the
+object file after compilation. If `gnatmake' is called with
+`-gnatc' as a builder switch (before `-cargs' or in package
+Builder of the project file) then `gnatmake' will not fail because
+it will not look for the object files after compilation, and it will not try
+to build and link. This switch may not be given if a previous <cite>-gnatR</cite>
+switch has been given, since <cite>-gnatR</cite> requires that the code generator
+be called to complete determination of representation information. 
+</dl>
+
+<p><a name="index-g_t_002dgnatC-_0028gcc_0029-279"></a>
+
+     <dl>
+<dt><code>-gnatC</code><dd>
+Generate CodePeer intermediate format (no code generation attempted). 
+This switch will generate an intermediate representation suitable for
+use by CodePeer (<code>.scil</code> files). This switch is not compatible with
+code generation (it will, among other things, disable some switches such
+as -gnatn, and enable others such as -gnata). 
+</dl>
+
+<p><a name="index-g_t_002dgnatd-_0028gcc_0029-280"></a>
+
+     <dl>
+<dt><code>-gnatd</code><dd>
+Specify debug options for the compiler. The string of characters after
+the `-gnatd' specify the specific debug options. The possible
+characters are 0-9, a-z, A-Z, optionally preceded by a dot. See
+compiler source file <code>debug.adb</code> for details of the implemented
+debug options. Certain debug options are relevant to applications
+programmers, and these are documented at appropriate points in this
+users guide. 
+</dl>
+
+<p><a name="index-g_t_002dgnatD_005bnn_005d-_0028gcc_0029-281"></a>
+
+     <dl>
+<dt><code>-gnatD</code><dd>
+Create expanded source files for source level debugging. This switch
+also suppress generation of cross-reference information
+(see `-gnatx'). Note that this switch is not allowed if a previous
+-gnatR switch has been given, since these two switches are not compatible. 
+</dl>
+
+<p><a name="index-g_t_002dgnateA-_0028gcc_0029-282"></a>
+
+     <dl>
+<dt><code>-gnateA</code><dd>
+Check that the actual parameters of a subprogram call are not aliases of one
+another. To qualify as aliasing, the actuals must denote objects of a composite
+type, their memory locations must be identical or overlapping, and at least one
+of the corresponding formal parameters must be of mode OUT or IN OUT.
+
+     <pre class="example">         type Rec_Typ is record
+            Data : Integer := 0;
+         end record;
+         
+         function Self (Val : Rec_Typ) return Rec_Typ is
+         begin
+            return Val;
+         end Self;
+         
+         procedure Detect_Aliasing (Val_1 : in out Rec_Typ; Val_2 : Rec_Typ) is
+         begin
+            null;
+         end Detect_Aliasing;
+         
+         Obj : Rec_Typ;
+         
+         Detect_Aliasing (Obj, Obj);
+         Detect_Aliasing (Obj, Self (Obj));
+</pre>
+     <p>In the example above, the first call to <cite>Detect_Aliasing</cite> fails with a
+<cite>Program_Error</cite> at runtime because the actuals for <cite>Val_1</cite> and
+<cite>Val_2</cite> denote the same object. The second call executes without raising
+an exception because <cite>Self(Obj)</cite> produces an anonymous object which does
+not share the memory location of <cite>Obj</cite>. 
+</dl>
+
+<p><a name="index-g_t_002dgnatec-_0028gcc_0029-283"></a>
+
+     <dl>
+<dt><code>-gnatec=`path'</code><dd>
+Specify a configuration pragma file
+(the equal sign is optional)
+(<a href="7b.html#g_t7b">The Configuration Pragmas Files</a>). 
+</dl>
+
+<p><a name="index-g_t_002dgnateC-_0028gcc_0029-284"></a>
+
+     <dl>
+<dt><code>-gnateC</code><dd>
+Generate CodePeer messages in a compiler-like format. This switch is only
+effective if `-gnatcC' is also specified and requires an installation
+of CodePeer. 
+</dl>
+
+<p><a name="index-g_t_002dgnated-_0028gcc_0029-285"></a>
+
+     <dl>
+<dt><code>-gnated</code><dd>
+Disable atomic synchronization
+</dl>
+
+<p><a name="index-g_t_002dgnateD-_0028gcc_0029-286"></a>
+
+     <dl>
+<dt><code>-gnateDsymbol[=`value']</code><dd>
+Defines a symbol, associated with <cite>value</cite>, for preprocessing. 
+(<a href="1a.html#g_t1a">Integrated Preprocessing</a>). 
+</dl>
+
+<p><a name="index-g_t_002dgnateE-_0028gcc_0029-287"></a>
+
+     <dl>
+<dt><code>-gnateE</code><dd>
+Generate extra information in exception messages. In particular, display
+extra column information and the value and range associated with index and
+range check failures, and extra column information for access checks. 
+In cases where the compiler is able to determine at compile time that
+a check will fail, it gives a warning, and the extra information is not
+produced at run time. 
+</dl>
+
+<p><a name="index-g_t_002dgnatef-_0028gcc_0029-288"></a>
+
+     <dl>
+<dt><code>-gnatef</code><dd>
+Display full source path name in brief error messages. 
+</dl>
+
+<p><a name="index-g_t_002dgnateF-_0028gcc_0029-289"></a>
+
+     <dl>
+<dt><code>-gnateF</code><dd>
+Check for overflow on all floating-point operations, including those
+for unconstrained predefined types. See description of pragma
+<cite>Check_Float_Overflow</cite> in GNAT RM. 
+</dl>
+
+<p><a name="index-g_t_002dgnateG-_0028gcc_0029-290"></a>
+
+     <dl>
+<dt><code>-gnateG</code><dd>
+Save result of preprocessing in a text file. 
+</dl>
+
+<p><a name="index-g_t_002dgnatei-_0028gcc_0029-291"></a>
+
+     <dl>
+<dt><code>-gnatei`nnn'</code><dd>
+Set maximum number of instantiations during compilation of a single unit to
+<cite>nnn</cite>. This may be useful in increasing the default maximum of 8000 for
+the rare case when a single unit legitimately exceeds this limit. 
+</dl>
+
+<p><a name="index-g_t_002dgnateI-_0028gcc_0029-292"></a>
+
+     <dl>
+<dt><code>-gnateI`nnn'</code><dd>
+Indicates that the source is a multi-unit source and that the index of the
+unit to compile is <cite>nnn</cite>. <cite>nnn</cite> needs to be a positive number and need
+to be a valid index in the multi-unit source. 
+</dl>
+
+<p><a name="index-g_t_002dgnatel-_0028gcc_0029-293"></a>
+
+     <dl>
+<dt><code>-gnatel</code><dd>
+This switch can be used with the static elaboration model to issue info
+messages showing
+where implicit <cite>pragma Elaborate</cite> and <cite>pragma Elaborate_All</cite>
+are generated. This is useful in diagnosing elaboration circularities
+caused by these implicit pragmas when using the static elaboration
+model. See See the section in this guide on elaboration checking for
+further details. These messages are not generated by default, and are
+intended only for temporary use when debugging circularity problems. 
+</dl>
+
+<p><a name="index-g_t_002dgnatel-_0028gcc_0029-294"></a>
+
+     <dl>
+<dt><code>-gnateL</code><dd>
+This switch turns off the info messages about implicit elaboration pragmas. 
+</dl>
+
+<p><a name="index-g_t_002dgnatem-_0028gcc_0029-295"></a>
+
+     <dl>
+<dt><code>-gnatem=`path'</code><dd>
+Specify a mapping file
+(the equal sign is optional)
+(<a href="fc.html#fc">Units to Sources Mapping Files</a>). 
+</dl>
+
+<p><a name="index-g_t_002dgnatep-_0028gcc_0029-296"></a>
+
+     <dl>
+<dt><code>-gnatep=`file'</code><dd>
+Specify a preprocessing data file
+(the equal sign is optional)
+(<a href="1a.html#g_t1a">Integrated Preprocessing</a>). 
+</dl>
+
+<p><a name="index-g_t_002dgnateP-_0028gcc_0029-297"></a>
+
+     <dl>
+<dt><code>-gnateP</code><dd>
+Turn categorization dependency errors into warnings. 
+Ada requires that units that WITH one another have compatible categories, for
+example a Pure unit cannot WITH a Preelaborate unit. If this switch is used,
+these errors become warnings (which can be ignored, or suppressed in the usual
+manner). This can be useful in some specialized circumstances such as the
+temporary use of special test software. 
+</dl>
+
+<p><a name="index-g_t_002dgnateS-_0028gcc_0029-298"></a>
+
+     <dl>
+<dt><code>-gnateS</code><dd>
+Synonym of `-fdump-scos', kept for backwards compatibility. 
+</dl>
+
+<p><a name="index-g_t_002dgnatet_003dfile-_0028gcc_0029-299"></a>
+
+     <dl>
+<dt><code>-gnatet=`path'</code><dd>
+Generate target dependent information. The format of the output file is
+described in the section about switch `-gnateT'. 
+</dl>
+
+<p><a name="index-g_t_002dgnateT-_0028gcc_0029-300"></a>
+
+     <dl>
+<dt><code>-gnateT=`path'</code><dd>
+Read target dependent information, such as endianness or sizes and alignments
+of base type. If this switch is passed, the default target dependent
+information of the compiler is replaced by the one read from the input file. 
+This is used by tools other than the compiler, e.g. to do
+semantic analysis of programs that will run on some other target than
+the machine on which the tool is run.
+
+     <p>The following target dependent values should be defined,
+where <cite>Nat</cite> denotes a natural integer value, <cite>Pos</cite> denotes a
+positive integer value, and fields marked with a question mark are
+boolean fields, where a value of 0 is False, and a value of 1 is True:
+
+     <pre class="example">         Bits_BE                    : Nat; -- Bits stored big-endian?
+         Bits_Per_Unit              : Pos; -- Bits in a storage unit
+         Bits_Per_Word              : Pos; -- Bits in a word
+         Bytes_BE                   : Nat; -- Bytes stored big-endian?
+         Char_Size                  : Pos; -- Standard.Character'Size
+         Double_Float_Alignment     : Nat; -- Alignment of double float
+         Double_Scalar_Alignment    : Nat; -- Alignment of double length scalar
+         Double_Size                : Pos; -- Standard.Long_Float'Size
+         Float_Size                 : Pos; -- Standard.Float'Size
+         Float_Words_BE             : Nat; -- Float words stored big-endian?
+         Int_Size                   : Pos; -- Standard.Integer'Size
+         Long_Double_Size           : Pos; -- Standard.Long_Long_Float'Size
+         Long_Long_Size             : Pos; -- Standard.Long_Long_Integer'Size
+         Long_Size                  : Pos; -- Standard.Long_Integer'Size
+         Maximum_Alignment          : Pos; -- Maximum permitted alignment
+         Max_Unaligned_Field        : Pos; -- Maximum size for unaligned bit field
+         Pointer_Size               : Pos; -- System.Address'Size
+         Short_Enums                : Nat; -- Short foreign convention enums?
+         Short_Size                 : Pos; -- Standard.Short_Integer'Size
+         Strict_Alignment           : Nat; -- Strict alignment?
+         System_Allocator_Alignment : Nat; -- Alignment for malloc calls
+         Wchar_T_Size               : Pos; -- Interfaces.C.wchar_t'Size
+         Words_BE                   : Nat; -- Words stored big-endian?
+</pre>
+     <p>The format of the input file is as follows. First come the values of
+the variables defined above, with one line per value:
+
+     <pre class="example">         name  value
+</pre>
+     <p>where <cite>name</cite> is the name of the parameter, spelled out in full,
+and cased as in the above list, and <cite>value</cite> is an unsigned decimal
+integer. Two or more blanks separates the name from the value.
+
+     <p>All the variables must be present, in alphabetical order (i.e. the
+same order as the list above).
+
+     <p>Then there is a blank line to separate the two parts of the file. Then
+come the lines showing the floating-point types to be registered, with
+one line per registered mode:
+
+     <pre class="example">         name  digs float_rep size alignment
+</pre>
+     <p>where <cite>name</cite> is the string name of the type (which can have
+single spaces embedded in the name (e.g. long double), <cite>digs</cite> is
+the number of digits for the floating-point type, <cite>float_rep</cite> is
+the float representation (I/V/A for IEEE-754-Binary, Vax_Native,
+AAMP), <cite>size</cite> is the size in bits, <cite>alignment</cite> is the
+alignment in bits. The name is followed by at least two blanks, fields
+are separated by at least one blank, and a LF character immediately
+follows the alignment field.
+
+     <p>Here is an example of a target parameterization file:
+
+     <pre class="example">         Bits_BE                       0
+         Bits_Per_Unit                 8
+         Bits_Per_Word                64
+         Bytes_BE                      0
+         Char_Size                     8
+         Double_Float_Alignment        0
+         Double_Scalar_Alignment       0
+         Double_Size                  64
+         Float_Size                   32
+         Float_Words_BE                0
+         Int_Size                     64
+         Long_Double_Size            128
+         Long_Long_Size               64
+         Long_Size                    64
+         Maximum_Alignment            16
+         Max_Unaligned_Field          64
+         Pointer_Size                 64
+         Short_Size                   16
+         Strict_Alignment              0
+         System_Allocator_Alignment   16
+         Wchar_T_Size                 32
+         Words_BE                      0
+         
+         float         15  I  64  64
+         double        15  I  64  64
+         long double   18  I  80 128
+         TF            33  I 128 128
+</pre>
+     </dl>
+
+<p><a name="index-g_t_002dgnateu-_0028gcc_0029-301"></a>
+
+     <dl>
+<dt><code>-gnateu</code><dd>
+Ignore unrecognized validity, warning, and style switches that
+appear after this switch is given. This may be useful when
+compiling sources developed on a later version of the compiler
+with an earlier version. Of course the earlier version must
+support this switch. 
+</dl>
+
+<p><a name="index-g_t_002dgnateV-_0028gcc_0029-302"></a>
+
+     <dl>
+<dt><code>-gnateV</code><dd>
+Check that all actual parameters of a subprogram call are valid according to
+the rules of validity checking (<a href="fb.html#fb">Validity Checking</a>). 
+</dl>
+
+<p><a name="index-g_t_002dgnateY-_0028gcc_0029-303"></a>
+
+     <dl>
+<dt><code>-gnateY</code><dd>
+Ignore all STYLE_CHECKS pragmas. Full legality checks
+are still carried out, but the pragmas have no effect
+on what style checks are active. This allows all style
+checking options to be controlled from the command line. 
+</dl>
+
+<p><a name="index-g_t_002dgnatE-_0028gcc_0029-304"></a>
+
+     <dl>
+<dt><code>-gnatE</code><dd>
+Full dynamic elaboration checks. 
+</dl>
+
+<p><a name="index-g_t_002dgnatf-_0028gcc_0029-305"></a>
+
+     <dl>
+<dt><code>-gnatf</code><dd>
+Full errors. Multiple errors per line, all undefined references, do not
+attempt to suppress cascaded errors. 
+</dl>
+
+<p><a name="index-g_t_002dgnatF-_0028gcc_0029-306"></a>
+
+     <dl>
+<dt><code>-gnatF</code><dd>
+Externals names are folded to all uppercase. 
+</dl>
+
+<p><a name="index-g_t_002dgnatg-_0028gcc_0029-307"></a>
+
+     <dl>
+<dt><code>-gnatg</code><dd>
+Internal GNAT implementation mode. This should not be used for
+applications programs, it is intended only for use by the compiler
+and its run-time library. For documentation, see the GNAT sources. 
+Note that `-gnatg' implies
+`-gnatw.ge' and
+`-gnatyg'
+so that all standard warnings and all standard style options are turned on. 
+All warnings and style messages are treated as errors. 
+</dl>
+
+<p><a name="index-g_t_002dgnatG_005bnn_005d-_0028gcc_0029-308"></a>
+
+     <dl>
+<dt><code>-gnatG=nn</code><dd>
+List generated expanded code in source form. 
+</dl>
+
+<p><a name="index-g_t_002dgnath-_0028gcc_0029-309"></a>
+
+     <dl>
+<dt><code>-gnath</code><dd>
+Output usage information. The output is written to <code>stdout</code>. 
+</dl>
+
+<p><a name="index-g_t_002dgnati-_0028gcc_0029-310"></a>
+
+     <dl>
+<dt><code>-gnati`c'</code><dd>
+Identifier character set (<cite>c</cite> = 1/2/3/4/8/9/p/f/n/w). 
+For details of the possible selections for <cite>c</cite>,
+see <a href="4a.html#g_t4a">Character Set Control</a>. 
+</dl>
+
+<p><a name="index-g_t_002dgnatI-_0028gcc_0029-311"></a>
+
+     <dl>
+<dt><code>-gnatI</code><dd>
+Ignore representation clauses. When this switch is used,
+representation clauses are treated as comments. This is useful
+when initially porting code where you want to ignore rep clause
+problems, and also for compiling foreign code (particularly
+for use with ASIS). The representation clauses that are ignored
+are: enumeration_representation_clause, record_representation_clause,
+and attribute_definition_clause for the following attributes:
+Address, Alignment, Bit_Order, Component_Size, Machine_Radix,
+Object_Size, Size, Small, Stream_Size, and Value_Size. 
+Note that this option should be used only for compiling &ndash; the
+code is likely to malfunction at run time.
+
+     <p>Note that when <cite>-gnatct</cite> is used to generate trees for input
+into <cite>ASIS</cite> tools, these representation clauses are removed
+from the tree and ignored. This means that the tool will not see them. 
+</dl>
+
+<p><a name="index-g_t_002dgnatjnn-_0028gcc_0029-312"></a>
+
+     <dl>
+<dt><code>-gnatj`nn'</code><dd>
+Reformat error messages to fit on <cite>nn</cite> character lines
+</dl>
+
+<p><a name="index-g_t_002dgnatk-_0028gcc_0029-313"></a>
+
+     <dl>
+<dt><code>-gnatk=`n'</code><dd>
+Limit file names to <cite>n</cite> (1-999) characters (<cite>k</cite> = krunch). 
+</dl>
+
+<p><a name="index-g_t_002dgnatl-_0028gcc_0029-314"></a>
+
+     <dl>
+<dt><code>-gnatl</code><dd>
+Output full source listing with embedded error messages. 
+</dl>
+
+<p><a name="index-g_t_002dgnatL-_0028gcc_0029-315"></a>
+
+     <dl>
+<dt><code>-gnatL</code><dd>
+Used in conjunction with -gnatG or -gnatD to intersperse original
+source lines (as comment lines with line numbers) in the expanded
+source output. 
+</dl>
+
+<p><a name="index-g_t_002dgnatm-_0028gcc_0029-316"></a>
+
+     <dl>
+<dt><code>-gnatm=`n'</code><dd>
+Limit number of detected error or warning messages to <cite>n</cite>
+where <cite>n</cite> is in the range 1..999999. The default setting if
+no switch is given is 9999. If the number of warnings reaches this
+limit, then a message is output and further warnings are suppressed,
+but the compilation is continued. If the number of error messages
+reaches this limit, then a message is output and the compilation
+is abandoned. The equal sign here is optional. A value of zero
+means that no limit applies. 
+</dl>
+
+<p><a name="index-g_t_002dgnatn-_0028gcc_0029-317"></a>
+
+     <dl>
+<dt><code>-gnatn[12]</code><dd>
+Activate inlining for subprograms for which pragma <cite>Inline</cite> is
+specified. This inlining is performed by the GCC back-end. An optional
+digit sets the inlining level: 1 for moderate inlining across modules
+or 2 for full inlining across modules. If no inlining level is specified,
+the compiler will pick it based on the optimization level. 
+</dl>
+
+<p><a name="index-g_t_002dgnatN-_0028gcc_0029-318"></a>
+
+     <dl>
+<dt><code>-gnatN</code><dd>
+Activate front end inlining for subprograms for which
+pragma <cite>Inline</cite> is specified. This inlining is performed
+by the front end and will be visible in the
+`-gnatG' output.
+
+     <p>When using a gcc-based back end (in practice this means using any version
+of GNAT other than the JGNAT, .NET or GNAAMP versions), then the use of
+`-gnatN' is deprecated, and the use of `-gnatn' is preferred. 
+Historically front end inlining was more extensive than the gcc back end
+inlining, but that is no longer the case. 
+</dl>
+
+<p><a name="index-g_t_002dgnato0-_0028gcc_0029-319"></a>
+
+     <dl>
+<dt><code>-gnato0</code><dd>
+Suppresses overflow checking. This causes the behavior of the compiler to
+match the default for older versions where overflow checking was suppressed
+by default. This is equivalent to having
+<cite>pragma Suppress (Overflow_Mode)</cite> in a configuration pragma file. 
+</dl>
+
+<p><a name="index-g_t_002dgnato_003f_003f-_0028gcc_0029-320"></a>
+
+     <dl>
+<dt><code>-gnato??</code><dd>
+Set default mode for handling generation of code to avoid intermediate
+arithmetic overflow. Here <cite>??</cite> is two digits, a
+single digit, or nothing. Each digit is one of the digits <cite>1</cite>
+through <cite>3</cite>:
+
+     <p><table summary=""><tr align="left"><td valign="top">
+Digit
+
+     <p></td><td valign="top">
+
+     <p>Interpretation
+
+     <p><br></td></tr><tr align="left"><td valign="top">
+`1'
+
+     <p></td><td valign="top">
+
+     <p>All intermediate overflows checked against base type (<cite>STRICT</cite>)
+
+     <p><br></td></tr><tr align="left"><td valign="top">
+`2'
+
+     <p></td><td valign="top">
+
+     <p>Minimize intermediate overflows (<cite>MINIMIZED</cite>)
+
+     <p><br></td></tr><tr align="left"><td valign="top">
+`3'
+
+     <p></td><td valign="top">
+
+     <p>Eliminate intermediate overflows (<cite>ELIMINATED</cite>)
+
+     <br></td></tr></table>
+
+     <p>If only one digit appears then it applies to all
+cases; if two digits are given, then the first applies outside
+assertions, and the second within assertions.
+
+     <p>If no digits follow the `-gnato', then it is equivalent to
+`-gnato11',
+causing all intermediate overflows to be handled in strict mode.
+
+     <p>This switch also causes arithmetic overflow checking to be performed
+(as though <cite>pragma Unsuppress (Overflow_Mode)</cite> had been specified.
+
+     <p>The default if no option `-gnato' is given is that overflow handling
+is in <cite>STRICT</cite> mode (computations done using the base type), and that
+overflow checking is enabled.
+
+     <p>Note that division by zero is a separate check that is not
+controlled by this switch (division by zero checking is on by default).
+
+     <p>See also <a href="fd.html#fd">Specifying the Desired Mode</a>. 
+</dl>
+
+<p><a name="index-g_t_002dgnatp-_0028gcc_0029-321"></a>
+
+     <dl>
+<dt><code>-gnatp</code><dd>
+Suppress all checks. See <a href="fe.html#fe">Run-Time Checks</a> for details. This switch
+has no effect if cancelled by a subsequent `-gnat-p' switch. 
+</dl>
+
+<p><a name="index-g_t_002dgnat_002dp-_0028gcc_0029-322"></a>
+
+     <dl>
+<dt><code>-gnat-p</code><dd>
+Cancel effect of previous `-gnatp' switch. 
+</dl>
+
+<p><a name="index-g_t_002dgnatP-_0028gcc_0029-323"></a>
+
+     <dl>
+<dt><code>-gnatP</code><dd>
+Enable polling. This is required on some systems (notably Windows NT) to
+obtain asynchronous abort and asynchronous transfer of control capability. 
+See <cite>Pragma_Polling</cite> in the <cite>GNAT_Reference_Manual</cite> for full
+details. 
+</dl>
+
+<p><a name="index-g_t_002dgnatq-_0028gcc_0029-324"></a>
+
+     <dl>
+<dt><code>-gnatq</code><dd>
+Don't quit. Try semantics, even if parse errors. 
+</dl>
+
+<p><a name="index-g_t_002dgnatQ-_0028gcc_0029-325"></a>
+
+     <dl>
+<dt><code>-gnatQ</code><dd>
+Don't quit. Generate <code>ALI</code> and tree files even if illegalities. 
+Note that code generation is still suppressed in the presence of any
+errors, so even with `-gnatQ' no object file is generated. 
+</dl>
+
+<p><a name="index-g_t_002dgnatr-_0028gcc_0029-326"></a>
+
+     <dl>
+<dt><code>-gnatr</code><dd>
+Treat pragma Restrictions as Restriction_Warnings. 
+</dl>
+
+<p><a name="index-g_t_002dgnatR-_0028gcc_0029-327"></a>
+
+     <dl>
+<dt><code>-gnatR[0/1/2/3[s]]</code><dd>
+Output representation information for declared types and objects. 
+Note that this switch is not allowed if a previous <cite>-gnatD</cite> switch has
+been given, since these two switches are not compatible.
+
+     <br><dt><code>-gnatRm[s]</code><dd>
+Output convention and parameter passing mechanisms for all subprograms. 
+</dl>
+
+<p><a name="index-g_t_002dgnats-_0028gcc_0029-328"></a>
+
+     <dl>
+<dt><code>-gnats</code><dd>
+Syntax check only. 
+</dl>
+
+<p><a name="index-g_t_002dgnatS-_0028gcc_0029-329"></a>
+
+     <dl>
+<dt><code>-gnatS</code><dd>
+Print package Standard. 
+</dl>
+
+<p><a name="index-g_t_002dgnatt-_0028gcc_0029-330"></a>
+
+     <dl>
+<dt><code>-gnatt</code><dd>
+Generate tree output file. 
+</dl>
+
+<p><a name="index-g_t_002dgnatT-_0028gcc_0029-331"></a>
+
+     <dl>
+<dt><code>-gnatT`nnn'</code><dd>
+All compiler tables start at <cite>nnn</cite> times usual starting size. 
+</dl>
+
+<p><a name="index-g_t_002dgnatu-_0028gcc_0029-332"></a>
+
+     <dl>
+<dt><code>-gnatu</code><dd>
+List units for this compilation. 
+</dl>
+
+<p><a name="index-g_t_002dgnatU-_0028gcc_0029-333"></a>
+
+     <dl>
+<dt><code>-gnatU</code><dd>
+Tag all error messages with the unique string 'error:'
+</dl>
+
+<p><a name="index-g_t_002dgnatv-_0028gcc_0029-334"></a>
+
+     <dl>
+<dt><code>-gnatv</code><dd>
+Verbose mode. Full error output with source lines to <code>stdout</code>. 
+</dl>
+
+<p><a name="index-g_t_002dgnatV-_0028gcc_0029-335"></a>
+
+     <dl>
+<dt><code>-gnatV</code><dd>
+Control level of validity checking (<a href="fb.html#fb">Validity Checking</a>). 
+</dl>
+
+<p><a name="index-g_t_002dgnatw-_0028gcc_0029-336"></a>
+
+     <dl>
+<dt><code>-gnatw`xxx'</code><dd>
+Warning mode where
+<cite>xxx</cite> is a string of option letters that denotes
+the exact warnings that
+are enabled or disabled (<a href="ff.html#ff">Warning Message Control</a>). 
+</dl>
+
+<p><a name="index-g_t_002dgnatW-_0028gcc_0029-337"></a>
+
+     <dl>
+<dt><code>-gnatW`e'</code><dd>
+Wide character encoding method
+(<cite>e</cite>=n/h/u/s/e/8). 
+</dl>
+
+<p><a name="index-g_t_002dgnatx-_0028gcc_0029-338"></a>
+
+     <dl>
+<dt><code>-gnatx</code><dd>
+Suppress generation of cross-reference information. 
+</dl>
+
+<p><a name="index-g_t_002dgnatX-_0028gcc_0029-339"></a>
+
+     <dl>
+<dt><code>-gnatX</code><dd>
+Enable GNAT implementation extensions and latest Ada version. 
+</dl>
+
+<p><a name="index-g_t_002dgnaty-_0028gcc_0029-340"></a>
+
+     <dl>
+<dt><code>-gnaty</code><dd>
+Enable built-in style checks (<a href="100.html#g_t100">Style Checking</a>). 
+</dl>
+
+<p><a name="index-g_t_002dgnatz-_0028gcc_0029-341"></a>
+
+     <dl>
+<dt><code>-gnatz`m'</code><dd>
+Distribution stub generation and compilation
+(<cite>m</cite>=r/c for receiver/caller stubs). 
+</dl>
+
+<p><a name="index-g_t_002dI-_0028gcc_0029-342"></a>
+
+     <dl>
+<dt><code>-I`dir'</code><dd>
+<a name="index-RTL-343"></a>
+Direct GNAT to search the <cite>dir</cite> directory for source files needed by
+the current compilation
+(see <a href="8e.html#g_t8e">Search Paths and the Run-Time Library (RTL)</a>). 
+</dl>
+
+<p><a name="index-g_t_002dI_002d-_0028gcc_0029-344"></a>
+
+     <dl>
+<dt><code>-I-</code><dd>
+<a name="index-RTL-345"></a>
+Except for the source file named in the command line, do not look for source
+files in the directory containing the source file named in the command line
+(see <a href="8e.html#g_t8e">Search Paths and the Run-Time Library (RTL)</a>). 
+</dl>
+
+<p><a name="index-g_t_002do-_0028gcc_0029-346"></a>
+
+     <dl>
+<dt><code>-o `file'</code><dd>
+This switch is used in `gcc' to redirect the generated object file
+and its associated ALI file. Beware of this switch with GNAT, because it may
+cause the object file and ALI file to have different names which in turn
+may confuse the binder and the linker. 
+</dl>
+
+<p><a name="index-g_t_002dnostdinc-_0028gcc_0029-347"></a>
+
+     <dl>
+<dt><code>-nostdinc</code><dd>
+Inhibit the search of the default location for the GNAT Run Time
+Library (RTL) source files. 
+</dl>
+
+<p><a name="index-g_t_002dnostdlib-_0028gcc_0029-348"></a>
+
+     <dl>
+<dt><code>-nostdlib</code><dd>
+Inhibit the search of the default location for the GNAT Run Time
+Library (RTL) ALI files. 
+</dl>
+
+<p><a name="index-g_t_002dO-_0028gcc_0029-349"></a>
+
+     <dl>
+<dt><code>-O[`n']</code><dd>
+<cite>n</cite> controls the optimization level:
+
+     <p><table summary=""><tr align="left"><td valign="top">
+`n'
+
+     <p></td><td valign="top">
+
+     <p>Effect
+
+     <p><br></td></tr><tr align="left"><td valign="top">
+`0'
+
+     <p></td><td valign="top">
+
+     <p>No optimization, the default setting if no `-O' appears
+
+     <p><br></td></tr><tr align="left"><td valign="top">
+`1'
+
+     <p></td><td valign="top">
+
+     <p>Normal optimization, the default if you specify `-O' without an
+operand. A good compromise between code quality and compilation
+time.
+
+     <p><br></td></tr><tr align="left"><td valign="top">
+`2'
+
+     <p></td><td valign="top">
+
+     <p>Extensive optimization, may improve execution time, possibly at
+the cost of substantially increased compilation time.
+
+     <p><br></td></tr><tr align="left"><td valign="top">
+`3'
+
+     <p></td><td valign="top">
+
+     <p>Same as `-O2', and also includes inline expansion for small
+subprograms in the same unit.
+
+     <p><br></td></tr><tr align="left"><td valign="top">
+`s'
+
+     <p></td><td valign="top">
+
+     <p>Optimize space usage
+
+     <br></td></tr></table>
+
+     <p>See also <a href="101.html#g_t101">Optimization Levels</a>. 
+</dl>
+
+<p><a name="index-g_t_002dpass_002dexit_002dcodes-_0028gcc_0029-350"></a>
+
+     <dl>
+<dt><code>-pass-exit-codes</code><dd>
+Catch exit codes from the compiler and use the most meaningful as
+exit status. 
+</dl>
+
+<p><a name="index-g_t_002d_002dRTS-_0028gcc_0029-351"></a>
+
+     <dl>
+<dt><code>--RTS=`rts-path'</code><dd>
+Specifies the default location of the runtime library. Same meaning as the
+equivalent `gnatmake' flag (<a href="df.html#df">Switches for gnatmake</a>). 
+</dl>
+
+<p><a name="index-g_t_002dS-_0028gcc_0029-352"></a>
+
+     <dl>
+<dt><code>-S</code><dd>
+Used in place of `-c' to
+cause the assembler source file to be
+generated, using <code>.s</code> as the extension,
+instead of the object file. 
+This may be useful if you need to examine the generated assembly code. 
+</dl>
+
+<p><a name="index-g_t_002dfverbose_002dasm-_0028gcc_0029-353"></a>
+
+     <dl>
+<dt><code>-fverbose-asm</code><dd>
+Used in conjunction with `-S'
+to cause the generated assembly code file to be annotated with variable
+names, making it significantly easier to follow. 
+</dl>
+
+<p><a name="index-g_t_002dv-_0028gcc_0029-354"></a>
+
+     <dl>
+<dt><code>-v</code><dd>
+Show commands generated by the `gcc' driver. Normally used only for
+debugging purposes or if you need to be sure what version of the
+compiler you are executing. 
+</dl>
+
+<p><a name="index-g_t_002dV-_0028gcc_0029-355"></a>
+
+     <dl>
+<dt><code>-V `ver'</code><dd>
+Execute <cite>ver</cite> version of the compiler. This is the `gcc'
+version, not the GNAT version. 
+</dl>
+
+<p><a name="index-g_t_002dw-_0028gcc_0029-356"></a>
+
+     <dl>
+<dt><code>-w</code><dd>
+Turn off warnings generated by the back end of the compiler. Use of
+this switch also causes the default for front end warnings to be set
+to suppress (as though `-gnatws' had appeared at the start of
+the options). 
+</dl>
+
+<p><a name="index-Combining-GNAT-switches-357"></a>
+You may combine a sequence of GNAT switches into a single switch. For
+example, the combined switch
+
+<blockquote>
+
+<pre class="example">    -gnatofi3
+</pre>
+</blockquote>
+
+<p>is equivalent to specifying the following sequence of switches:
+
+<blockquote>
+
+<pre class="example">    -gnato -gnatf -gnati3
+</pre>
+</blockquote>
+
+<p>The following restrictions apply to the combination of switches
+in this manner:
+
+     <ul>
+<li>The switch `-gnatc' if combined with other switches must come
+first in the string.
+
+     <li>The switch `-gnats' if combined with other switches must come
+first in the string.
+
+     <li>The switches
+`-gnatzc' and `-gnatzr' may not be combined with any other
+switches, and only one of them may appear in the command line.
+
+     <li>The switch `-gnat-p' may not be combined with any other switch.
+
+     <li>Once a 'y' appears in the string (that is a use of the `-gnaty'
+switch), then all further characters in the switch are interpreted
+as style modifiers (see description of `-gnaty').
+
+     <li>Once a 'd' appears in the string (that is a use of the `-gnatd'
+switch), then all further characters in the switch are interpreted
+as debug flags (see description of `-gnatd').
+
+     <li>Once a 'w' appears in the string (that is a use of the `-gnatw'
+switch), then all further characters in the switch are interpreted
+as warning mode modifiers (see description of `-gnatw').
+
+     <li>Once a 'V' appears in the string (that is a use of the `-gnatV'
+switch), then all further characters in the switch are interpreted
+as validity checking options (<a href="fb.html#fb">Validity Checking</a>).
+
+     <li>Option 'em', 'ec', 'ep', 'l=' and 'R' must be the last options in
+a combined list of options. 
+</ul>
+
+</body></html>
+

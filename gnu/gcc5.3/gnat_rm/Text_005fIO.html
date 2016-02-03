@@ -1,0 +1,115 @@
+<html lang="en">
+<head>
+<title>Text_IO - GNAT Reference Manual</title>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+<meta name="description" content="GNAT Reference Manual">
+<meta name="generator" content="makeinfo 4.13">
+<link title="Top" rel="start" href="index.html#Top">
+<link rel="up" href="The-Implementation-of-Standard-I_002fO.html#The-Implementation-of-Standard-I_002fO" title="The Implementation of Standard I/O">
+<link rel="prev" href="Sequential_005fIO.html#Sequential_005fIO" title="Sequential_IO">
+<link rel="next" href="Wide_005fText_005fIO.html#Wide_005fText_005fIO" title="Wide_Text_IO">
+<link href="http://www.gnu.org/software/texinfo/" rel="generator-home" title="Texinfo Homepage">
+<!--
+
+     GNAT Reference Manual , March 24, 2015
+
+     AdaCore
+
+     Copyright (C) 2008-2015, Free Software Foundation
+-->
+<meta http-equiv="Content-Style-Type" content="text/css">
+<style type="text/css"><!--
+  pre.display { font-family:inherit }
+  pre.format  { font-family:inherit }
+  pre.smalldisplay { font-family:inherit; font-size:smaller }
+  pre.smallformat  { font-family:inherit; font-size:smaller }
+  pre.smallexample { font-size:smaller }
+  pre.smalllisp    { font-size:smaller }
+  span.sc    { font-variant:small-caps }
+  span.roman { font-family:serif; font-weight:normal; } 
+  span.sansserif { font-family:sans-serif; font-weight:normal; } 
+--></style>
+</head>
+<body>
+<div class="node">
+<a name="Text_IO"></a>
+<a name="Text_005fIO"></a>
+<p>
+Next:&nbsp;<a rel="next" accesskey="n" href="Wide_005fText_005fIO.html#Wide_005fText_005fIO">Wide_Text_IO</a>,
+Previous:&nbsp;<a rel="previous" accesskey="p" href="Sequential_005fIO.html#Sequential_005fIO">Sequential_IO</a>,
+Up:&nbsp;<a rel="up" accesskey="u" href="The-Implementation-of-Standard-I_002fO.html#The-Implementation-of-Standard-I_002fO">The Implementation of Standard I/O</a>
+<hr>
+</div>
+
+<p><a name="gnat_005frm_002fthe_005fimplementation_005fof_005fstandard_005fi_005fo-id6"></a><a name="g_t24c"></a><a name="gnat_005frm_002fthe_005fimplementation_005fof_005fstandard_005fi_005fo-text_002dio"></a><a name="g_t24d"></a>
+
+<h3 class="section">11.5 Text_IO</h3>
+
+<p>Text_IO files consist of a stream of characters containing the following
+special control characters:
+
+<pre class="example">    LF (line feed, 16#0A#) Line Mark
+    FF (form feed, 16#0C#) Page Mark
+</pre>
+<p>A canonical Text_IO file is defined as one in which the following
+conditions are met:
+
+     <ul>
+<li>The character <cite>LF</cite> is used only as a line mark, i.e., to mark the end
+of the line.
+
+     <li>The character <cite>FF</cite> is used only as a page mark, i.e., to mark the
+end of a page and consequently can appear only immediately following a
+<cite>LF</cite> (line mark) character.
+
+     <li>The file ends with either <cite>LF</cite> (line mark) or <cite>LF</cite>-<cite>FF</cite>
+(line mark, page mark).  In the former case, the page mark is implicitly
+assumed to be present. 
+</ul>
+
+<p>A file written using Text_IO will be in canonical form provided that no
+explicit <cite>LF</cite> or <cite>FF</cite> characters are written using <cite>Put</cite>
+or <cite>Put_Line</cite>.  There will be no <cite>FF</cite> character at the end of
+the file unless an explicit <cite>New_Page</cite> operation was performed
+before closing the file.
+
+<p>A canonical Text_IO file that is a regular file (i.e., not a device or a
+pipe) can be read using any of the routines in Text_IO.  The
+semantics in this case will be exactly as defined in the Ada Reference
+Manual, and all the routines in Text_IO are fully implemented.
+
+<p>A text file that does not meet the requirements for a canonical Text_IO
+file has one of the following:
+
+     <ul>
+<li>The file contains <cite>FF</cite> characters not immediately following a
+<cite>LF</cite> character.
+
+     <li>The file contains <cite>LF</cite> or <cite>FF</cite> characters written by
+<cite>Put</cite> or <cite>Put_Line</cite>, which are not logically considered to be
+line marks or page marks.
+
+     <li>The file ends in a character other than <cite>LF</cite> or <cite>FF</cite>,
+i.e., there is no explicit line mark or page mark at the end of the file. 
+</ul>
+
+<p>Text_IO can be used to read such non-standard text files but subprograms
+to do with line or page numbers do not have defined meanings.  In
+particular, a <cite>FF</cite> character that does not follow a <cite>LF</cite>
+character may or may not be treated as a page mark from the point of
+view of page and line numbering.  Every <cite>LF</cite> character is considered
+to end a line, and there is an implied <cite>LF</cite> character at the end of
+the file.
+
+<ul class="menu">
+<li><a accesskey="1" href="Stream-Pointer-Positioning.html#Stream-Pointer-Positioning">Stream Pointer Positioning</a>
+<li><a accesskey="2" href="Reading-and-Writing-Non_002dRegular-Files.html#Reading-and-Writing-Non_002dRegular-Files">Reading and Writing Non-Regular Files</a>
+<li><a accesskey="3" href="Get_005fImmediate.html#Get_005fImmediate">Get_Immediate</a>
+<li><a accesskey="4" href="Treating-Text_005fIO-Files-as-Streams.html#Treating-Text_005fIO-Files-as-Streams">Treating Text_IO Files as Streams</a>
+<li><a accesskey="5" href="Text_005fIO-Extensions.html#Text_005fIO-Extensions">Text_IO Extensions</a>
+<li><a accesskey="6" href="Text_005fIO-Facilities-for-Unbounded-Strings.html#Text_005fIO-Facilities-for-Unbounded-Strings">Text_IO Facilities for Unbounded Strings</a>
+
+</ul>
+
+</body></html>
+

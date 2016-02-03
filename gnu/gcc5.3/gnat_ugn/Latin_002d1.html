@@ -1,0 +1,63 @@
+<html lang="en">
+<head>
+<title>Latin-1 - GNAT User's Guide for Native Platforms</title>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+<meta name="description" content="GNAT User's Guide for Native Platforms">
+<meta name="generator" content="makeinfo 4.13">
+<link title="Top" rel="start" href="index.html#Top">
+<link rel="up" href="Foreign-Language-Representation.html#Foreign-Language-Representation" title="Foreign Language Representation">
+<link rel="next" href="Other-8_002dBit-Codes.html#Other-8_002dBit-Codes" title="Other 8-Bit Codes">
+<link href="http://www.gnu.org/software/texinfo/" rel="generator-home" title="Texinfo Homepage">
+<!--
+
+     GNAT User's Guide for Native Platforms , March 24, 2015
+
+     AdaCore
+
+     Copyright (C) 2008-2015, Free Software Foundation
+-->
+<meta http-equiv="Content-Style-Type" content="text/css">
+<style type="text/css"><!--
+  pre.display { font-family:inherit }
+  pre.format  { font-family:inherit }
+  pre.smalldisplay { font-family:inherit; font-size:smaller }
+  pre.smallformat  { font-family:inherit; font-size:smaller }
+  pre.smallexample { font-size:smaller }
+  pre.smalllisp    { font-size:smaller }
+  span.sc    { font-variant:small-caps }
+  span.roman { font-family:serif; font-weight:normal; } 
+  span.sansserif { font-family:sans-serif; font-weight:normal; } 
+--></style>
+</head>
+<body>
+<div class="node">
+<a name="Latin-1"></a>
+<a name="Latin_002d1"></a>
+<p>
+Next:&nbsp;<a rel="next" accesskey="n" href="Other-8_002dBit-Codes.html#Other-8_002dBit-Codes">Other 8-Bit Codes</a>,
+Up:&nbsp;<a rel="up" accesskey="u" href="Foreign-Language-Representation.html#Foreign-Language-Representation">Foreign Language Representation</a>
+<hr>
+</div>
+
+<p><a name="gnat_005fugn_002fthe_005fgnat_005fcompilation_005fmodel-id4"></a><a name="g_t4b"></a><a name="gnat_005fugn_002fthe_005fgnat_005fcompilation_005fmodel-latin_002d1"></a><a name="g_t4c"></a>
+
+<h4 class="subsection">3.2.1 Latin-1</h4>
+
+<p><a name="index-Latin_002d1-19"></a>
+The basic character set is Latin-1. This character set is defined by ISO
+standard 8859, part 1. The lower half (character codes <cite>16#00#</cite>
+... <cite>16#7F#)</cite> is identical to standard ASCII coding, but the upper
+half is used to represent additional characters. These include extended letters
+used by European languages, such as French accents, the vowels with umlauts
+used in German, and the extra letter A-ring used in Swedish.
+
+<p><a name="index-Ada_002eCharacters_002eLatin_005f1-20"></a>
+For a complete list of Latin-1 codes and their encodings, see the source
+file of library unit <cite>Ada.Characters.Latin_1</cite> in file
+<code>a-chlat1.ads</code>. 
+You may use any of these extended characters freely in character or
+string literals. In addition, the extended characters that represent
+letters can be used in identifiers.
+
+</body></html>
+

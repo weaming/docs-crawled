@@ -1,0 +1,132 @@
+<html lang="en">
+<head>
+<title>Installation - GNAT User's Guide for Native Platforms</title>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+<meta name="description" content="GNAT User's Guide for Native Platforms">
+<meta name="generator" content="makeinfo 4.13">
+<link title="Top" rel="start" href="index.html#Top">
+<link rel="up" href="Building-With-Projects.html#Building-With-Projects" title="Building With Projects">
+<link rel="prev" href="Naming-Schemes.html#Naming-Schemes" title="Naming Schemes">
+<link rel="next" href="Distributed-support.html#Distributed-support" title="Distributed support">
+<link href="http://www.gnu.org/software/texinfo/" rel="generator-home" title="Texinfo Homepage">
+<!--
+
+     GNAT User's Guide for Native Platforms , March 24, 2015
+
+     AdaCore
+
+     Copyright (C) 2008-2015, Free Software Foundation
+-->
+<meta http-equiv="Content-Style-Type" content="text/css">
+<style type="text/css"><!--
+  pre.display { font-family:inherit }
+  pre.format  { font-family:inherit }
+  pre.smalldisplay { font-family:inherit; font-size:smaller }
+  pre.smallformat  { font-family:inherit; font-size:smaller }
+  pre.smallexample { font-size:smaller }
+  pre.smalllisp    { font-size:smaller }
+  span.sc    { font-variant:small-caps }
+  span.roman { font-family:serif; font-weight:normal; } 
+  span.sansserif { font-family:sans-serif; font-weight:normal; } 
+--></style>
+</head>
+<body>
+<div class="node">
+<a name="Installation"></a>
+<p>
+Next:&nbsp;<a rel="next" accesskey="n" href="Distributed-support.html#Distributed-support">Distributed support</a>,
+Previous:&nbsp;<a rel="previous" accesskey="p" href="Naming-Schemes.html#Naming-Schemes">Naming Schemes</a>,
+Up:&nbsp;<a rel="up" accesskey="u" href="Building-With-Projects.html#Building-With-Projects">Building With Projects</a>
+<hr>
+</div>
+
+<p><a name="gnat_005fugn_002fgnat_005fproject_005fmanager-id12"></a><a name="g_t167"></a><a name="gnat_005fugn_002fgnat_005fproject_005fmanager-installation"></a><a name="g_t168"></a>
+
+<h4 class="subsection">5.2.10 Installation</h4>
+
+<p>After building an application or a library it is often required to
+install it into the development environment. For instance this step is
+required if the library is to be used by another application. 
+The `gprinstall' tool provides an easy way to install
+libraries, executable or object code generated during the build. The
+`Install' package can be used to change the default locations.
+
+<p>The following attributes can be defined in package <cite>Install</cite>:
+
+<p><a name="index-Active-_0028GNAT-Project-Manager_0029-814"></a>
+
+     <dl>
+<dt>`Active'<dd>
+Whether the project is to be installed, values are <cite>true</cite>
+(default) or <cite>false</cite>. 
+</dl>
+
+<p><a name="index-Artifacts-_0028GNAT-Project-Manager_0029-815"></a>
+`Artifacts'
+
+<blockquote>
+
+<p>An array attribute to declare a set of files not part of the sources
+to be installed. The array discriminant is the directory where the
+file is to be installed. If a relative directory then Prefix (see
+below) is prepended. 
+</blockquote>
+
+<p><a name="index-Prefix-_0028GNAT-Project-Manager_0029-816"></a>
+`Prefix':
+
+<blockquote>
+
+<p>Root directory for the installation. 
+</blockquote>
+
+<p>`Exec_Subdir'
+
+<blockquote>
+
+<p>Subdirectory of `Prefix' where executables are to be
+installed. Default is `bin'. 
+</blockquote>
+
+<p>`Lib_Subdir'
+
+<blockquote>
+
+<p>Subdirectory of `Prefix' where directory with the library or object
+files is to be installed. Default is `lib'. 
+</blockquote>
+
+<p>`Sources_Subdir'
+
+<blockquote>
+
+<p>Subdirectory of `Prefix' where directory with sources is to be
+installed. Default is `include'. 
+</blockquote>
+
+<p>`Project_Subdir'
+
+<blockquote>
+
+<p>Subdirectory of `Prefix' where the generated project file is to be
+installed. Default is `share/gpr'. 
+</blockquote>
+
+<p>`Mode'
+
+<blockquote>
+
+<p>The installation mode, it is either `dev' (default) or `usage'. 
+See `gprbuild' user's guide for details. 
+</blockquote>
+
+<p>`Install_Name'
+
+<blockquote>
+
+<p>Specify the name to use for recording the installation. The default is
+the project name without the extension. 
+</blockquote>
+
+</body></html>
+

@@ -1,0 +1,67 @@
+<html lang="en">
+<head>
+<title>More deterministic semantics - GNAT Reference Manual</title>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+<meta name="description" content="GNAT Reference Manual">
+<meta name="generator" content="makeinfo 4.13">
+<link title="Top" rel="start" href="index.html#Top">
+<link rel="up" href="Compatibility-with-Ada-83.html#Compatibility-with-Ada-83" title="Compatibility with Ada 83">
+<link rel="prev" href="Legal-Ada-83-programs-that-are-illegal-in-Ada-95.html#Legal-Ada-83-programs-that-are-illegal-in-Ada-95" title="Legal Ada 83 programs that are illegal in Ada 95">
+<link rel="next" href="Changed-semantics.html#Changed-semantics" title="Changed semantics">
+<link href="http://www.gnu.org/software/texinfo/" rel="generator-home" title="Texinfo Homepage">
+<!--
+
+     GNAT Reference Manual , March 24, 2015
+
+     AdaCore
+
+     Copyright (C) 2008-2015, Free Software Foundation
+-->
+<meta http-equiv="Content-Style-Type" content="text/css">
+<style type="text/css"><!--
+  pre.display { font-family:inherit }
+  pre.format  { font-family:inherit }
+  pre.smalldisplay { font-family:inherit; font-size:smaller }
+  pre.smallformat  { font-family:inherit; font-size:smaller }
+  pre.smallexample { font-size:smaller }
+  pre.smalllisp    { font-size:smaller }
+  span.sc    { font-variant:small-caps }
+  span.roman { font-family:serif; font-weight:normal; } 
+  span.sansserif { font-family:sans-serif; font-weight:normal; } 
+--></style>
+</head>
+<body>
+<div class="node">
+<a name="More-deterministic-semantics"></a>
+<p>
+Next:&nbsp;<a rel="next" accesskey="n" href="Changed-semantics.html#Changed-semantics">Changed semantics</a>,
+Previous:&nbsp;<a rel="previous" accesskey="p" href="Legal-Ada-83-programs-that-are-illegal-in-Ada-95.html#Legal-Ada-83-programs-that-are-illegal-in-Ada-95">Legal Ada 83 programs that are illegal in Ada 95</a>,
+Up:&nbsp;<a rel="up" accesskey="u" href="Compatibility-with-Ada-83.html#Compatibility-with-Ada-83">Compatibility with Ada 83</a>
+<hr>
+</div>
+
+<p><a name="gnat_005frm_002fcompatibility_005fand_005fporting_005fguide-more_002ddeterministic_002dsemantics"></a><a name="g_t3dd"></a><a name="gnat_005frm_002fcompatibility_005fand_005fporting_005fguide-id5"></a><a name="g_t3de"></a>
+
+<h4 class="subsection">18.2.2 More deterministic semantics</h4>
+
+     <ul>
+<li>`Conversions'
+
+     <p>Conversions from real types to integer types round away from 0.  In Ada 83
+the conversion Integer(2.5) could deliver either 2 or 3 as its value.  This
+implementation freedom was intended to support unbiased rounding in
+statistical applications, but in practice it interfered with portability. 
+In Ada 95 the conversion semantics are unambiguous, and rounding away from 0
+is required.  Numeric code may be affected by this change in semantics. 
+Note, though, that this issue is no worse than already existed in Ada 83
+when porting code from one vendor to another.
+
+     <li>`Tasking'
+
+     <p>The Real-Time Annex introduces a set of policies that define the behavior of
+features that were implementation dependent in Ada 83, such as the order in
+which open select branches are executed. 
+</ul>
+
+</body></html>
+

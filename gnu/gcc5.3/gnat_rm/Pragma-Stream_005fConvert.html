@@ -1,0 +1,115 @@
+<html lang="en">
+<head>
+<title>Pragma Stream_Convert - GNAT Reference Manual</title>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+<meta name="description" content="GNAT Reference Manual">
+<meta name="generator" content="makeinfo 4.13">
+<link title="Top" rel="start" href="index.html#Top">
+<link rel="up" href="Implementation-Defined-Pragmas.html#Implementation-Defined-Pragmas" title="Implementation Defined Pragmas">
+<link rel="prev" href="Pragma-Static_005fElaboration_005fDesired.html#Pragma-Static_005fElaboration_005fDesired" title="Pragma Static_Elaboration_Desired">
+<link rel="next" href="Pragma-Style_005fChecks.html#Pragma-Style_005fChecks" title="Pragma Style_Checks">
+<link href="http://www.gnu.org/software/texinfo/" rel="generator-home" title="Texinfo Homepage">
+<!--
+
+     GNAT Reference Manual , March 24, 2015
+
+     AdaCore
+
+     Copyright (C) 2008-2015, Free Software Foundation
+-->
+<meta http-equiv="Content-Style-Type" content="text/css">
+<style type="text/css"><!--
+  pre.display { font-family:inherit }
+  pre.format  { font-family:inherit }
+  pre.smalldisplay { font-family:inherit; font-size:smaller }
+  pre.smallformat  { font-family:inherit; font-size:smaller }
+  pre.smallexample { font-size:smaller }
+  pre.smalllisp    { font-size:smaller }
+  span.sc    { font-variant:small-caps }
+  span.roman { font-family:serif; font-weight:normal; } 
+  span.sansserif { font-family:sans-serif; font-weight:normal; } 
+--></style>
+</head>
+<body>
+<div class="node">
+<a name="Pragma-Stream_Convert"></a>
+<a name="Pragma-Stream_005fConvert"></a>
+<p>
+Next:&nbsp;<a rel="next" accesskey="n" href="Pragma-Style_005fChecks.html#Pragma-Style_005fChecks">Pragma Style_Checks</a>,
+Previous:&nbsp;<a rel="previous" accesskey="p" href="Pragma-Static_005fElaboration_005fDesired.html#Pragma-Static_005fElaboration_005fDesired">Pragma Static_Elaboration_Desired</a>,
+Up:&nbsp;<a rel="up" accesskey="u" href="Implementation-Defined-Pragmas.html#Implementation-Defined-Pragmas">Implementation Defined Pragmas</a>
+<hr>
+</div>
+
+<p><a name="gnat_005frm_002fimplementation_005fdefined_005fpragmas-pragma_002dstream_002dconvert"></a><a name="bf"></a>
+
+<h3 class="section">2.160 Pragma Stream_Convert</h3>
+
+<p>Syntax:
+
+<pre class="example">    pragma Stream_Convert (
+      [Entity =&gt;] type_LOCAL_NAME,
+      [Read   =&gt;] function_NAME,
+      [Write  =&gt;] function_NAME);
+</pre>
+<p>This pragma provides an efficient way of providing user-defined stream
+attributes.  Not only is it simpler to use than specifying the attributes
+directly, but more importantly, it allows the specification to be made in such
+a way that the predefined unit Ada.Streams is not loaded unless it is actually
+needed (i.e. unless the stream attributes are actually used); the use of
+the Stream_Convert pragma adds no overhead at all, unless the stream
+attributes are actually used on the designated type.
+
+<p>The first argument specifies the type for which stream functions are
+provided.  The second parameter provides a function used to read values
+of this type.  It must name a function whose argument type may be any
+subtype, and whose returned type must be the type given as the first
+argument to the pragma.
+
+<p>The meaning of the <cite>Read</cite> parameter is that if a stream attribute directly
+or indirectly specifies reading of the type given as the first parameter,
+then a value of the type given as the argument to the Read function is
+read from the stream, and then the Read function is used to convert this
+to the required target type.
+
+<p>Similarly the <cite>Write</cite> parameter specifies how to treat write attributes
+that directly or indirectly apply to the type given as the first parameter. 
+It must have an input parameter of the type specified by the first parameter,
+and the return type must be the same as the input type of the Read function. 
+The effect is to first call the Write function to convert to the given stream
+type, and then write the result type to the stream.
+
+<p>The Read and Write functions must not be overloaded subprograms.  If necessary
+renamings can be supplied to meet this requirement. 
+The usage of this attribute is best illustrated by a simple example, taken
+from the GNAT implementation of package Ada.Strings.Unbounded:
+
+<pre class="example">    function To_Unbounded (S : String) return Unbounded_String
+      renames To_Unbounded_String;
+    
+    pragma Stream_Convert
+      (Unbounded_String, To_Unbounded, To_String);
+</pre>
+<p>The specifications of the referenced functions, as given in the Ada
+Reference Manual are:
+
+<pre class="example">    function To_Unbounded_String (Source : String)
+      return Unbounded_String;
+    
+    function To_String (Source : Unbounded_String)
+      return String;
+</pre>
+<p>The effect is that if the value of an unbounded string is written to a stream,
+then the representation of the item in the stream is in the same format that
+would be used for <cite>Standard.String'Output</cite>, and this same representation
+is expected when a value of this type is read from the stream. Note that the
+value written always includes the bounds, even for Unbounded_String'Write,
+since Unbounded_String is not an array type.
+
+<p>Note that the <cite>Stream_Convert</cite> pragma is not effective in the case of
+a derived type of a non-limited tagged type. If such a type is specified then
+the pragma is silently ignored, and the default implementation of the stream
+attributes is used instead.
+
+</body></html>
+

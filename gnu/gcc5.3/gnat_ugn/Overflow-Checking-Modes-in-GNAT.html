@@ -1,0 +1,151 @@
+<html lang="en">
+<head>
+<title>Overflow Checking Modes in GNAT - GNAT User's Guide for Native Platforms</title>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+<meta name="description" content="GNAT User's Guide for Native Platforms">
+<meta name="generator" content="makeinfo 4.13">
+<link title="Top" rel="start" href="index.html#Top">
+<link rel="up" href="Overflow-Check-Handling-in-GNAT.html#Overflow-Check-Handling-in-GNAT" title="Overflow Check Handling in GNAT">
+<link rel="prev" href="Background.html#Background" title="Background">
+<link rel="next" href="Specifying-the-Desired-Mode.html#Specifying-the-Desired-Mode" title="Specifying the Desired Mode">
+<link href="http://www.gnu.org/software/texinfo/" rel="generator-home" title="Texinfo Homepage">
+<!--
+
+     GNAT User's Guide for Native Platforms , March 24, 2015
+
+     AdaCore
+
+     Copyright (C) 2008-2015, Free Software Foundation
+-->
+<meta http-equiv="Content-Style-Type" content="text/css">
+<style type="text/css"><!--
+  pre.display { font-family:inherit }
+  pre.format  { font-family:inherit }
+  pre.smalldisplay { font-family:inherit; font-size:smaller }
+  pre.smallformat  { font-family:inherit; font-size:smaller }
+  pre.smallexample { font-size:smaller }
+  pre.smalllisp    { font-size:smaller }
+  span.sc    { font-variant:small-caps }
+  span.roman { font-family:serif; font-weight:normal; } 
+  span.sansserif { font-family:sans-serif; font-weight:normal; } 
+--></style>
+</head>
+<body>
+<div class="node">
+<a name="Overflow-Checking-Modes-in-GNAT"></a>
+<p>
+Next:&nbsp;<a rel="next" accesskey="n" href="Specifying-the-Desired-Mode.html#Specifying-the-Desired-Mode">Specifying the Desired Mode</a>,
+Previous:&nbsp;<a rel="previous" accesskey="p" href="Background.html#Background">Background</a>,
+Up:&nbsp;<a rel="up" accesskey="u" href="Overflow-Check-Handling-in-GNAT.html#Overflow-Check-Handling-in-GNAT">Overflow Check Handling in GNAT</a>
+<hr>
+</div>
+
+<p><a name="gnat_005fugn_002fgnat_005fand_005fprogram_005fexecution-id56"></a><a name="g_t24a"></a><a name="gnat_005fugn_002fgnat_005fand_005fprogram_005fexecution-overflow_002dchecking_002dmodes_002din_002dgnat"></a><a name="g_t24b"></a>
+
+<h4 class="subsection">8.4.2 Overflow Checking Modes in GNAT</h4>
+
+<p>To deal with the portability issue, and with the problem of
+mathematical versus run-time interpretation of the expressions in
+assertions, GNAT provides comprehensive control over the handling
+of intermediate overflow. GNAT can operate in three modes, and
+furthemore, permits separate selection of operating modes for
+the expressions within assertions (here the term 'assertions'
+is used in the technical sense, which includes preconditions and so forth)
+and for expressions appearing outside assertions.
+
+<p>The three modes are:
+
+     <ul>
+<li>`Use base type for intermediate operations' (<cite>STRICT</cite>)
+
+     <p>In this mode, all intermediate results for predefined arithmetic
+operators are computed using the base type, and the result must
+be in range of the base type. If this is not the
+case then either an exception is raised (if overflow checks are
+enabled) or the execution is erroneous (if overflow checks are suppressed). 
+This is the normal default mode.
+
+     <li>`Most intermediate overflows avoided' (<cite>MINIMIZED</cite>)
+
+     <p>In this mode, the compiler attempts to avoid intermediate overflows by
+using a larger integer type, typically <cite>Long_Long_Integer</cite>,
+as the type in which arithmetic is
+performed for predefined arithmetic operators. This may be slightly more
+expensive at
+run time (compared to suppressing intermediate overflow checks), though
+the cost is negligible on modern 64-bit machines. For the examples given
+earlier, no intermediate overflows would have resulted in exceptions,
+since the intermediate results are all in the range of
+<cite>Long_Long_Integer</cite> (typically 64-bits on nearly all implementations
+of GNAT). In addition, if checks are enabled, this reduces the number of
+checks that must be made, so this choice may actually result in an
+improvement in space and time behavior.
+
+     <p>However, there are cases where <cite>Long_Long_Integer</cite> is not large
+enough, consider the following example:
+
+     <blockquote>
+
+     <pre class="example">         procedure R (A, B, C, D : Integer) with
+           Pre =&gt; (A**2 * B**2) / (C**2 * D**2) &lt;= 10;
+</pre>
+     </blockquote>
+
+     <p>where <cite>A</cite> = <cite>B</cite> = <cite>C</cite> = <cite>D</cite> = <cite>Integer'Last</cite>. 
+Now the intermediate results are
+out of the range of <cite>Long_Long_Integer</cite> even though the final result
+is in range and the precondition is True (from a mathematical point
+of view). In such a case, operating in this mode, an overflow occurs
+for the intermediate computation (which is why this mode
+says `most' intermediate overflows are avoided). In this case,
+an exception is raised if overflow checks are enabled, and the
+execution is erroneous if overflow checks are suppressed.
+
+     <li>`All intermediate overflows avoided' (<cite>ELIMINATED</cite>)
+
+     <p>In this mode, the compiler  avoids all intermediate overflows
+by using arbitrary precision arithmetic as required. In this
+mode, the above example with <cite>A**2 * B**2</cite> would
+not cause intermediate overflow, because the intermediate result
+would be evaluated using sufficient precision, and the result
+of evaluating the precondition would be True.
+
+     <p>This mode has the advantage of avoiding any intermediate
+overflows, but at the expense of significant run-time overhead,
+including the use of a library (included automatically in this
+mode) for multiple-precision arithmetic.
+
+     <p>This mode provides cleaner semantics for assertions, since now
+the run-time behavior emulates true arithmetic behavior for the
+predefined arithmetic operators, meaning that there is never a
+conflict between the mathematical view of the assertion, and its
+run-time behavior.
+
+     <p>Note that in this mode, the behavior is unaffected by whether or
+not overflow checks are suppressed, since overflow does not occur. 
+It is possible for gigantic intermediate expressions to raise
+<cite>Storage_Error</cite> as a result of attempting to compute the
+results of such expressions (e.g. <cite>Integer'Last ** Integer'Last</cite>)
+but overflow is impossible. 
+</ul>
+
+<p>Note that these modes apply only to the evaluation of predefined
+arithmetic, membership, and comparison operators for signed integer
+aritmetic.
+
+<p>For fixed-point arithmetic, checks can be suppressed. But if checks
+are enabled
+then fixed-point values are always checked for overflow against the
+base type for intermediate expressions (that is such checks always
+operate in the equivalent of <cite>STRICT</cite> mode).
+
+<p>For floating-point, on nearly all architectures, <cite>Machine_Overflows</cite>
+is False, and IEEE infinities are generated, so overflow exceptions
+are never raised. If you want to avoid infinities, and check that
+final results of expressions are in range, then you can declare a
+constrained floating-point type, and range checks will be carried
+out in the normal manner (with infinite values always failing all
+range checks).
+
+</body></html>
+

@@ -1,0 +1,121 @@
+<html lang="en">
+<head>
+<title>Atomic Variables and Optimization - GNAT User's Guide for Native Platforms</title>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+<meta name="description" content="GNAT User's Guide for Native Platforms">
+<meta name="generator" content="makeinfo 4.13">
+<link title="Top" rel="start" href="index.html#Top">
+<link rel="up" href="Performance-Considerations.html#Performance-Considerations" title="Performance Considerations">
+<link rel="prev" href="Aliased-Variables-and-Optimization.html#Aliased-Variables-and-Optimization" title="Aliased Variables and Optimization">
+<link rel="next" href="Passive-Task-Optimization.html#Passive-Task-Optimization" title="Passive Task Optimization">
+<link href="http://www.gnu.org/software/texinfo/" rel="generator-home" title="Texinfo Homepage">
+<!--
+
+     GNAT User's Guide for Native Platforms , March 24, 2015
+
+     AdaCore
+
+     Copyright (C) 2008-2015, Free Software Foundation
+-->
+<meta http-equiv="Content-Style-Type" content="text/css">
+<style type="text/css"><!--
+  pre.display { font-family:inherit }
+  pre.format  { font-family:inherit }
+  pre.smalldisplay { font-family:inherit; font-size:smaller }
+  pre.smallformat  { font-family:inherit; font-size:smaller }
+  pre.smallexample { font-size:smaller }
+  pre.smalllisp    { font-size:smaller }
+  span.sc    { font-variant:small-caps }
+  span.roman { font-family:serif; font-weight:normal; } 
+  span.sansserif { font-family:sans-serif; font-weight:normal; } 
+--></style>
+</head>
+<body>
+<div class="node">
+<a name="Atomic-Variables-and-Optimization"></a>
+<p>
+Next:&nbsp;<a rel="next" accesskey="n" href="Passive-Task-Optimization.html#Passive-Task-Optimization">Passive Task Optimization</a>,
+Previous:&nbsp;<a rel="previous" accesskey="p" href="Aliased-Variables-and-Optimization.html#Aliased-Variables-and-Optimization">Aliased Variables and Optimization</a>,
+Up:&nbsp;<a rel="up" accesskey="u" href="Performance-Considerations.html#Performance-Considerations">Performance Considerations</a>
+<hr>
+</div>
+
+<p><a name="gnat_005fugn_002fgnat_005fand_005fprogram_005fexecution-atomic_002dvariables_002dand_002doptimization"></a><a name="g_t23a"></a><a name="gnat_005fugn_002fgnat_005fand_005fprogram_005fexecution-id40"></a><a name="g_t23b"></a>
+
+<h5 class="subsubsection">8.3.1.11 Atomic Variables and Optimization</h5>
+
+<p><a name="index-Atomic-1017"></a>
+There are two considerations with regard to performance when
+atomic variables are used.
+
+<p>First, the RM only guarantees that access to atomic variables
+be atomic, it has nothing to say about how this is achieved,
+though there is a strong implication that this should not be
+achieved by explicit locking code. Indeed GNAT will never
+generate any locking code for atomic variable access (it will
+simply reject any attempt to make a variable or type atomic
+if the atomic access cannot be achieved without such locking code).
+
+<p>That being said, it is important to understand that you cannot
+assume that the entire variable will always be accessed. Consider
+this example:
+
+<blockquote>
+
+<pre class="example">    type R is record
+       A,B,C,D : Character;
+    end record;
+    for R'Size use 32;
+    for R'Alignment use 4;
+    
+    RV : R;
+    pragma Atomic (RV);
+    X : Character;
+    ...
+    X := RV.B;
+</pre>
+</blockquote>
+
+<p>You cannot assume that the reference to <cite>RV.B</cite>
+will read the entire 32-bit
+variable with a single load instruction. It is perfectly legitimate if
+the hardware allows it to do a byte read of just the B field. This read
+is still atomic, which is all the RM requires. GNAT can and does take
+advantage of this, depending on the architecture and optimization level. 
+Any assumption to the contrary is non-portable and risky. Even if you
+examine the assembly language and see a full 32-bit load, this might
+change in a future version of the compiler.
+
+<p>If your application requires that all accesses to <cite>RV</cite> in this
+example be full 32-bit loads, you need to make a copy for the access
+as in:
+
+<blockquote>
+
+<pre class="example">    declare
+       RV_Copy : constant R := RV;
+    begin
+       X := RV_Copy.B;
+    end;
+</pre>
+</blockquote>
+
+<p>Now the reference to RV must read the whole variable. 
+Actually one can imagine some compiler which figures
+out that the whole copy is not required (because only
+the B field is actually accessed), but GNAT
+certainly won't do that, and we don't know of any
+compiler that would not handle this right, and the
+above code will in practice work portably across
+all architectures (that permit the Atomic declaration).
+
+<p>The second issue with atomic variables has to do with
+the possible requirement of generating synchronization
+code. For more details on this, consult the sections on
+the pragmas Enable/Disable_Atomic_Synchronization in the
+GNAT Reference Manual. If performance is critical, and
+such synchronization code is not required, it may be
+useful to disable it.
+
+</body></html>
+

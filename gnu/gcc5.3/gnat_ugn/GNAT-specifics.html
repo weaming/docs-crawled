@@ -1,0 +1,65 @@
+<html lang="en">
+<head>
+<title>GNAT specifics - GNAT User's Guide for Native Platforms</title>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+<meta name="description" content="GNAT User's Guide for Native Platforms">
+<meta name="generator" content="makeinfo 4.13">
+<link title="Top" rel="start" href="index.html#Top">
+<link rel="up" href="Code-Coverage-of-Ada-Programs-with-gcov.html#Code-Coverage-of-Ada-Programs-with-gcov" title="Code Coverage of Ada Programs with gcov">
+<link rel="prev" href="Quick-startup-guide.html#Quick-startup-guide" title="Quick startup guide">
+<link href="http://www.gnu.org/software/texinfo/" rel="generator-home" title="Texinfo Homepage">
+<!--
+
+     GNAT User's Guide for Native Platforms , March 24, 2015
+
+     AdaCore
+
+     Copyright (C) 2008-2015, Free Software Foundation
+-->
+<meta http-equiv="Content-Style-Type" content="text/css">
+<style type="text/css"><!--
+  pre.display { font-family:inherit }
+  pre.format  { font-family:inherit }
+  pre.smalldisplay { font-family:inherit; font-size:smaller }
+  pre.smallformat  { font-family:inherit; font-size:smaller }
+  pre.smallexample { font-size:smaller }
+  pre.smalllisp    { font-size:smaller }
+  span.sc    { font-variant:small-caps }
+  span.roman { font-family:serif; font-weight:normal; } 
+  span.sansserif { font-family:sans-serif; font-weight:normal; } 
+--></style>
+</head>
+<body>
+<div class="node">
+<a name="GNAT-specifics"></a>
+<p>
+Previous:&nbsp;<a rel="previous" accesskey="p" href="Quick-startup-guide.html#Quick-startup-guide">Quick startup guide</a>,
+Up:&nbsp;<a rel="up" accesskey="u" href="Code-Coverage-of-Ada-Programs-with-gcov.html#Code-Coverage-of-Ada-Programs-with-gcov">Code Coverage of Ada Programs with gcov</a>
+<hr>
+</div>
+
+<p><a name="gnat_005fugn_002fgnat_005fand_005fprogram_005fexecution-gnat_002dspecifics"></a><a name="g_t21b"></a><a name="gnat_005fugn_002fgnat_005fand_005fprogram_005fexecution-id22"></a><a name="g_t21c"></a>
+
+<h5 class="subsubsection">8.2.1.2 GNAT specifics</h5>
+
+<p>Because of Ada semantics, portions of the source code may be shared among
+several object files. This is the case for example when generics are
+involved, when inlining is active  or when declarations generate  initialisation
+calls. In order to take
+into account this shared code, you need to call <cite>gcov</cite> on all
+source files of the tested program at once.
+
+<p>The list of source files might exceed the system's maximum command line
+length. In order to bypass this limitation, a new mechanism has been
+implemented in <cite>gcov</cite>: you can now list all your project's files into a
+text file, and provide this file to gcov as a parameter,  preceded by a <code>@</code>
+(e.g. <code>gcov @mysrclist.txt</code>).
+
+<p>Note that on AIX compiling a static library with <cite>-fprofile-arcs</cite> is
+not supported as there can be unresolved symbols during the final link.
+
+<p><a name="index-gprof-979"></a>
+<a name="index-Profiling-980"></a>
+
+</body></html>
+

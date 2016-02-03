@@ -1,0 +1,68 @@
+<html lang="en">
+<head>
+<title>Examples of gnatmake Usage - GNAT User's Guide for Native Platforms</title>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+<meta name="description" content="GNAT User's Guide for Native Platforms">
+<meta name="generator" content="makeinfo 4.13">
+<link title="Top" rel="start" href="index.html#Top">
+<link rel="up" href="Building-with-gnatmake.html#Building-with-gnatmake" title="Building with gnatmake">
+<link rel="prev" href="How-gnatmake-Works.html#How-gnatmake-Works" title="How gnatmake Works">
+<link href="http://www.gnu.org/software/texinfo/" rel="generator-home" title="Texinfo Homepage">
+<!--
+
+     GNAT User's Guide for Native Platforms , March 24, 2015
+
+     AdaCore
+
+     Copyright (C) 2008-2015, Free Software Foundation
+-->
+<meta http-equiv="Content-Style-Type" content="text/css">
+<style type="text/css"><!--
+  pre.display { font-family:inherit }
+  pre.format  { font-family:inherit }
+  pre.smalldisplay { font-family:inherit; font-size:smaller }
+  pre.smallformat  { font-family:inherit; font-size:smaller }
+  pre.smallexample { font-size:smaller }
+  pre.smalllisp    { font-size:smaller }
+  span.sc    { font-variant:small-caps }
+  span.roman { font-family:serif; font-weight:normal; } 
+  span.sansserif { font-family:sans-serif; font-weight:normal; } 
+--></style>
+</head>
+<body>
+<div class="node">
+<a name="Examples-of-gnatmake-Usage"></a>
+<p>
+Previous:&nbsp;<a rel="previous" accesskey="p" href="How-gnatmake-Works.html#How-gnatmake-Works">How gnatmake Works</a>,
+Up:&nbsp;<a rel="up" accesskey="u" href="Building-with-gnatmake.html#Building-with-gnatmake">Building with gnatmake</a>
+<hr>
+</div>
+
+<p><a name="gnat_005fugn_002fbuilding_005fexecutable_005fprograms_005fwith_005fgnat-examples_002dof_002dgnatmake_002dusage"></a><a name="ea"></a><a name="gnat_005fugn_002fbuilding_005fexecutable_005fprograms_005fwith_005fgnat-id7"></a><a name="eb"></a>
+
+<h4 class="subsection">4.1.6 Examples of `gnatmake' Usage</h4>
+
+     <dl>
+<dt>`gnatmake hello.adb'<dd>
+Compile all files necessary to bind and link the main program
+<code>hello.adb</code> (containing unit <cite>Hello</cite>) and bind and link the
+resulting object files to generate an executable file <code>hello</code>.
+
+     <br><dt>`gnatmake main1 main2 main3'<dd>
+Compile all files necessary to bind and link the main programs
+<code>main1.adb</code> (containing unit <cite>Main1</cite>), <code>main2.adb</code>
+(containing unit <cite>Main2</cite>) and <code>main3.adb</code>
+(containing unit <cite>Main3</cite>) and bind and link the resulting object files
+to generate three executable files <code>main1</code>,
+<code>main2</code>  and <code>main3</code>.
+
+     <br><dt>`gnatmake -q Main_Unit -cargs -O2 -bargs -l'<dd>
+Compile all files necessary to bind and link the main program unit
+<cite>Main_Unit</cite> (from file <code>main_unit.adb</code>). All compilations will
+be done with optimization level 2 and the order of elaboration will be
+listed by the binder. `gnatmake' will operate in quiet mode, not
+displaying commands it is executing. 
+</dl>
+
+</body></html>
+

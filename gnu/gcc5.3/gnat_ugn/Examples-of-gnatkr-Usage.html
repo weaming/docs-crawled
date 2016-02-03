@@ -1,0 +1,53 @@
+<html lang="en">
+<head>
+<title>Examples of gnatkr Usage - GNAT User's Guide for Native Platforms</title>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+<meta name="description" content="GNAT User's Guide for Native Platforms">
+<meta name="generator" content="makeinfo 4.13">
+<link title="Top" rel="start" href="index.html#Top">
+<link rel="up" href="File-Name-Krunching-with-gnatkr.html#File-Name-Krunching-with-gnatkr" title="File Name Krunching with gnatkr">
+<link rel="prev" href="Krunching-Method.html#Krunching-Method" title="Krunching Method">
+<link href="http://www.gnu.org/software/texinfo/" rel="generator-home" title="Texinfo Homepage">
+<!--
+
+     GNAT User's Guide for Native Platforms , March 24, 2015
+
+     AdaCore
+
+     Copyright (C) 2008-2015, Free Software Foundation
+-->
+<meta http-equiv="Content-Style-Type" content="text/css">
+<style type="text/css"><!--
+  pre.display { font-family:inherit }
+  pre.format  { font-family:inherit }
+  pre.smalldisplay { font-family:inherit; font-size:smaller }
+  pre.smallformat  { font-family:inherit; font-size:smaller }
+  pre.smallexample { font-size:smaller }
+  pre.smalllisp    { font-size:smaller }
+  span.sc    { font-variant:small-caps }
+  span.roman { font-family:serif; font-weight:normal; } 
+  span.sansserif { font-family:sans-serif; font-weight:normal; } 
+--></style>
+</head>
+<body>
+<div class="node">
+<a name="Examples-of-gnatkr-Usage"></a>
+<p>
+Previous:&nbsp;<a rel="previous" accesskey="p" href="Krunching-Method.html#Krunching-Method">Krunching Method</a>,
+Up:&nbsp;<a rel="up" accesskey="u" href="File-Name-Krunching-with-gnatkr.html#File-Name-Krunching-with-gnatkr">File Name Krunching with gnatkr</a>
+<hr>
+</div>
+
+<p><a name="gnat_005fugn_002fthe_005fgnat_005fcompilation_005fmodel-id21"></a><a name="g_t6c"></a><a name="gnat_005fugn_002fthe_005fgnat_005fcompilation_005fmodel-examples_002dof_002dgnatkr_002dusage"></a><a name="g_t6d"></a>
+
+<h5 class="subsubsection">3.3.5.4 Examples of <cite>gnatkr</cite> Usage</h5>
+
+<pre class="example">    $ gnatkr very_long_unit_name.ads      --&gt; velounna.ads
+    $ gnatkr grandparent-parent-child.ads --&gt; grparchi.ads
+    $ gnatkr Grandparent.Parent.Child.ads --&gt; grparchi.ads
+    $ gnatkr grandparent-parent-child     --&gt; grparchi
+    $ gnatkr very_long_unit_name.ads/count=6 --&gt; vlunna.ads
+    $ gnatkr very_long_unit_name.ads/count=0 --&gt; very_long_unit_name.ads
+</pre>
+</body></html>
+

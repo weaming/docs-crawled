@@ -1,0 +1,99 @@
+<html lang="en">
+<head>
+<title>Aliased Variables and Optimization - GNAT User's Guide for Native Platforms</title>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+<meta name="description" content="GNAT User's Guide for Native Platforms">
+<meta name="generator" content="makeinfo 4.13">
+<link title="Top" rel="start" href="index.html#Top">
+<link rel="up" href="Performance-Considerations.html#Performance-Considerations" title="Performance Considerations">
+<link rel="prev" href="Optimization-and-Strict-Aliasing.html#Optimization-and-Strict-Aliasing" title="Optimization and Strict Aliasing">
+<link rel="next" href="Atomic-Variables-and-Optimization.html#Atomic-Variables-and-Optimization" title="Atomic Variables and Optimization">
+<link href="http://www.gnu.org/software/texinfo/" rel="generator-home" title="Texinfo Homepage">
+<!--
+
+     GNAT User's Guide for Native Platforms , March 24, 2015
+
+     AdaCore
+
+     Copyright (C) 2008-2015, Free Software Foundation
+-->
+<meta http-equiv="Content-Style-Type" content="text/css">
+<style type="text/css"><!--
+  pre.display { font-family:inherit }
+  pre.format  { font-family:inherit }
+  pre.smalldisplay { font-family:inherit; font-size:smaller }
+  pre.smallformat  { font-family:inherit; font-size:smaller }
+  pre.smallexample { font-size:smaller }
+  pre.smalllisp    { font-size:smaller }
+  span.sc    { font-variant:small-caps }
+  span.roman { font-family:serif; font-weight:normal; } 
+  span.sansserif { font-family:sans-serif; font-weight:normal; } 
+--></style>
+</head>
+<body>
+<div class="node">
+<a name="Aliased-Variables-and-Optimization"></a>
+<p>
+Next:&nbsp;<a rel="next" accesskey="n" href="Atomic-Variables-and-Optimization.html#Atomic-Variables-and-Optimization">Atomic Variables and Optimization</a>,
+Previous:&nbsp;<a rel="previous" accesskey="p" href="Optimization-and-Strict-Aliasing.html#Optimization-and-Strict-Aliasing">Optimization and Strict Aliasing</a>,
+Up:&nbsp;<a rel="up" accesskey="u" href="Performance-Considerations.html#Performance-Considerations">Performance Considerations</a>
+<hr>
+</div>
+
+<p><a name="gnat_005fugn_002fgnat_005fand_005fprogram_005fexecution-aliased_002dvariables_002dand_002doptimization"></a><a name="g_t238"></a><a name="gnat_005fugn_002fgnat_005fand_005fprogram_005fexecution-id39"></a><a name="g_t239"></a>
+
+<h5 class="subsubsection">8.3.1.10 Aliased Variables and Optimization</h5>
+
+<p><a name="index-Aliasing-1016"></a>
+There are scenarios in which programs may
+use low level techniques to modify variables
+that otherwise might be considered to be unassigned. For example,
+a variable can be passed to a procedure by reference, which takes
+the address of the parameter and uses the address to modify the
+variable's value, even though it is passed as an IN parameter. 
+Consider the following example:
+
+<blockquote>
+
+<pre class="example">    procedure P is
+       Max_Length : constant Natural := 16;
+       type Char_Ptr is access all Character;
+    
+       procedure Get_String(Buffer: Char_Ptr; Size : Integer);
+       pragma Import (C, Get_String, "get_string");
+    
+       Name : aliased String (1 .. Max_Length) := (others =&gt; ' ');
+       Temp : Char_Ptr;
+    
+       function Addr (S : String) return Char_Ptr is
+          function To_Char_Ptr is
+            new Ada.Unchecked_Conversion (System.Address, Char_Ptr);
+       begin
+          return To_Char_Ptr (S (S'First)'Address);
+       end;
+    
+    begin
+       Temp := Addr (Name);
+       Get_String (Temp, Max_Length);
+    end;
+</pre>
+</blockquote>
+
+<p>where Get_String is a C function that uses the address in Temp to
+modify the variable <cite>Name</cite>. This code is dubious, and arguably
+erroneous, and the compiler would be entitled to assume that
+<cite>Name</cite> is never modified, and generate code accordingly.
+
+<p>However, in practice, this would cause some existing code that
+seems to work with no optimization to start failing at high
+levels of optimzization.
+
+<p>What the compiler does for such cases is to assume that marking
+a variable as aliased indicates that some "funny business" may
+be going on. The optimizer recognizes the aliased keyword and
+inhibits optimizations that assume the value cannot be assigned. 
+This means that the above example will in fact "work" reliably,
+that is, it will produce the expected results.
+
+</body></html>
+

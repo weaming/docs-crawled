@@ -1,0 +1,207 @@
+<html lang="en">
+<head>
+<title>Controlling Elaboration in GNAT - Internal Calls - GNAT User's Guide for Native Platforms</title>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+<meta name="description" content="GNAT User's Guide for Native Platforms">
+<meta name="generator" content="makeinfo 4.13">
+<link title="Top" rel="start" href="index.html#Top">
+<link rel="up" href="Elaboration-Order-Handling-in-GNAT.html#Elaboration-Order-Handling-in-GNAT" title="Elaboration Order Handling in GNAT">
+<link rel="prev" href="Controlling-the-Elaboration-Order.html#Controlling-the-Elaboration-Order" title="Controlling the Elaboration Order">
+<link rel="next" href="Controlling-Elaboration-in-GNAT-_002d-External-Calls.html#Controlling-Elaboration-in-GNAT-_002d-External-Calls" title="Controlling Elaboration in GNAT - External Calls">
+<link href="http://www.gnu.org/software/texinfo/" rel="generator-home" title="Texinfo Homepage">
+<!--
+
+     GNAT User's Guide for Native Platforms , March 24, 2015
+
+     AdaCore
+
+     Copyright (C) 2008-2015, Free Software Foundation
+-->
+<meta http-equiv="Content-Style-Type" content="text/css">
+<style type="text/css"><!--
+  pre.display { font-family:inherit }
+  pre.format  { font-family:inherit }
+  pre.smalldisplay { font-family:inherit; font-size:smaller }
+  pre.smallformat  { font-family:inherit; font-size:smaller }
+  pre.smallexample { font-size:smaller }
+  pre.smalllisp    { font-size:smaller }
+  span.sc    { font-variant:small-caps }
+  span.roman { font-family:serif; font-weight:normal; } 
+  span.sansserif { font-family:sans-serif; font-weight:normal; } 
+--></style>
+</head>
+<body>
+<div class="node">
+<a name="Controlling-Elaboration-in-GNAT---Internal-Calls"></a>
+<a name="Controlling-Elaboration-in-GNAT-_002d-Internal-Calls"></a>
+<p>
+Next:&nbsp;<a rel="next" accesskey="n" href="Controlling-Elaboration-in-GNAT-_002d-External-Calls.html#Controlling-Elaboration-in-GNAT-_002d-External-Calls">Controlling Elaboration in GNAT - External Calls</a>,
+Previous:&nbsp;<a rel="previous" accesskey="p" href="Controlling-the-Elaboration-Order.html#Controlling-the-Elaboration-Order">Controlling the Elaboration Order</a>,
+Up:&nbsp;<a rel="up" accesskey="u" href="Elaboration-Order-Handling-in-GNAT.html#Elaboration-Order-Handling-in-GNAT">Elaboration Order Handling in GNAT</a>
+<hr>
+</div>
+
+<p><a name="gnat_005fugn_002felaboration_005forder_005fhandling_005fin_005fgnat-id5"></a><a name="g_t2b6"></a><a name="gnat_005fugn_002felaboration_005forder_005fhandling_005fin_005fgnat-controlling_002delaboration_002din_002dgnat_002dinternal_002dcalls"></a><a name="g_t2b7"></a>
+
+<h3 class="section">11.4 Controlling Elaboration in GNAT - Internal Calls</h3>
+
+<p>In the case of internal calls, i.e., calls within a single package, the
+programmer has full control over the order of elaboration, and it is up
+to the programmer to elaborate declarations in an appropriate order. For
+example writing:
+
+<pre class="example">    function One return Float;
+    
+    Q : Float := One;
+    
+    function One return Float is
+    begin
+         return 1.0;
+    end One;
+</pre>
+<p>will obviously raise <cite>Program_Error</cite> at run time, because function
+One will be called before its body is elaborated. In this case GNAT will
+generate a warning that the call will raise <cite>Program_Error</cite>:
+
+<pre class="example">     1. procedure y is
+     2.    function One return Float;
+     3.
+     4.    Q : Float := One;
+                        |
+        &gt;&gt;&gt; warning: cannot call "One" before body is elaborated
+        &gt;&gt;&gt; warning: Program_Error will be raised at run time
+    
+     5.
+     6.    function One return Float is
+     7.    begin
+     8.         return 1.0;
+     9.    end One;
+    10.
+    11. begin
+    12.    null;
+    13. end;
+</pre>
+<p>Note that in this particular case, it is likely that the call is safe, because
+the function <cite>One</cite> does not access any global variables. 
+Nevertheless in Ada, we do not want the validity of the check to depend on
+the contents of the body (think about the separate compilation case), so this
+is still wrong, as we discussed in the previous sections.
+
+<p>The error is easily corrected by rearranging the declarations so that the
+body of <cite>One</cite> appears before the declaration containing the call
+(note that in Ada 95 as well as later versions of the Ada standard,
+declarations can appear in any order, so there is no restriction that
+would prevent this reordering, and if we write:
+
+<pre class="example">    function One return Float;
+    
+    function One return Float is
+    begin
+         return 1.0;
+    end One;
+    
+    Q : Float := One;
+</pre>
+<p>then all is well, no warning is generated, and no
+<cite>Program_Error</cite> exception
+will be raised. 
+Things are more complicated when a chain of subprograms is executed:
+
+<pre class="example">    function A return Integer;
+    function B return Integer;
+    function C return Integer;
+    
+    function B return Integer is begin return A; end;
+    function C return Integer is begin return B; end;
+    
+    X : Integer := C;
+    
+    function A return Integer is begin return 1; end;
+</pre>
+<p>Now the call to <cite>C</cite>
+at elaboration time in the declaration of <cite>X</cite> is correct, because
+the body of <cite>C</cite> is already elaborated,
+and the call to <cite>B</cite> within the body of
+<cite>C</cite> is correct, but the call
+to <cite>A</cite> within the body of <cite>B</cite> is incorrect, because the body
+of <cite>A</cite> has not been elaborated, so <cite>Program_Error</cite>
+will be raised on the call to <cite>A</cite>. 
+In this case GNAT will generate a
+warning that <cite>Program_Error</cite> may be
+raised at the point of the call. Let's look at the warning:
+
+<pre class="example">     1. procedure x is
+     2.    function A return Integer;
+     3.    function B return Integer;
+     4.    function C return Integer;
+     5.
+     6.    function B return Integer is begin return A; end;
+                                                        |
+        &gt;&gt;&gt; warning: call to "A" before body is elaborated may
+                     raise Program_Error
+        &gt;&gt;&gt; warning: "B" called at line 7
+        &gt;&gt;&gt; warning: "C" called at line 9
+    
+     7.    function C return Integer is begin return B; end;
+     8.
+     9.    X : Integer := C;
+    10.
+    11.    function A return Integer is begin return 1; end;
+    12.
+    13. begin
+    14.    null;
+    15. end;
+</pre>
+<p>Note that the message here says 'may raise', instead of the direct case,
+where the message says 'will be raised'. That's because whether
+<cite>A</cite> is
+actually called depends in general on run-time flow of control. 
+For example, if the body of <cite>B</cite> said
+
+<pre class="example">    function B return Integer is
+    begin
+       if some-condition-depending-on-input-data then
+          return A;
+       else
+          return 1;
+       end if;
+    end B;
+</pre>
+<p>then we could not know until run time whether the incorrect call to A would
+actually occur, so <cite>Program_Error</cite> might
+or might not be raised. It is possible for a compiler to
+do a better job of analyzing bodies, to
+determine whether or not <cite>Program_Error</cite>
+might be raised, but it certainly
+couldn't do a perfect job (that would require solving the halting problem
+and is provably impossible), and because this is a warning anyway, it does
+not seem worth the effort to do the analysis. Cases in which it
+would be relevant are rare.
+
+<p>In practice, warnings of either of the forms given
+above will usually correspond to
+real errors, and should be examined carefully and eliminated. 
+In the rare case where a warning is bogus, it can be suppressed by any of
+the following methods:
+
+     <ul>
+<li>Compile with the `-gnatws' switch set
+
+     <li>Suppress <cite>Elaboration_Check</cite> for the called subprogram
+
+     <li>Use pragma <cite>Warnings_Off</cite> to turn warnings off for the call
+</ul>
+
+<p>For the internal elaboration check case,
+GNAT by default generates the
+necessary run-time checks to ensure
+that <cite>Program_Error</cite> is raised if any
+call fails an elaboration check. Of course this can only happen if a
+warning has been issued as described above. The use of pragma
+<cite>Suppress (Elaboration_Check)</cite> may (but is not guaranteed to) suppress
+some of these checks, meaning that it may be possible (but is not
+guaranteed) for a program to be able to call a subprogram whose body
+is not yet elaborated, without raising a <cite>Program_Error</cite> exception.
+
+</body></html>
+

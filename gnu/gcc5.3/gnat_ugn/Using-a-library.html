@@ -1,0 +1,117 @@
+<html lang="en">
+<head>
+<title>Using a library - GNAT User's Guide for Native Platforms</title>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+<meta name="description" content="GNAT User's Guide for Native Platforms">
+<meta name="generator" content="makeinfo 4.13">
+<link title="Top" rel="start" href="index.html#Top">
+<link rel="up" href="General-Ada-Libraries.html#General-Ada-Libraries" title="General Ada Libraries">
+<link rel="prev" href="Installing-a-library.html#Installing-a-library" title="Installing a library">
+<link href="http://www.gnu.org/software/texinfo/" rel="generator-home" title="Texinfo Homepage">
+<!--
+
+     GNAT User's Guide for Native Platforms , March 24, 2015
+
+     AdaCore
+
+     Copyright (C) 2008-2015, Free Software Foundation
+-->
+<meta http-equiv="Content-Style-Type" content="text/css">
+<style type="text/css"><!--
+  pre.display { font-family:inherit }
+  pre.format  { font-family:inherit }
+  pre.smalldisplay { font-family:inherit; font-size:smaller }
+  pre.smallformat  { font-family:inherit; font-size:smaller }
+  pre.smallexample { font-size:smaller }
+  pre.smalllisp    { font-size:smaller }
+  span.sc    { font-variant:small-caps }
+  span.roman { font-family:serif; font-weight:normal; } 
+  span.sansserif { font-family:sans-serif; font-weight:normal; } 
+--></style>
+</head>
+<body>
+<div class="node">
+<a name="Using-a-library"></a>
+<p>
+Previous:&nbsp;<a rel="previous" accesskey="p" href="Installing-a-library.html#Installing-a-library">Installing a library</a>,
+Up:&nbsp;<a rel="up" accesskey="u" href="General-Ada-Libraries.html#General-Ada-Libraries">General Ada Libraries</a>
+<hr>
+</div>
+
+<p><a name="gnat_005fugn_002fthe_005fgnat_005fcompilation_005fmodel-using_002da_002dlibrary"></a><a name="g_t8f"></a><a name="gnat_005fugn_002fthe_005fgnat_005fcompilation_005fmodel-id40"></a><a name="g_t90"></a>
+
+<h5 class="subsubsection">3.9.2.3 Using a library</h5>
+
+<p>Once again, the project facility greatly simplifies the use of
+libraries. In this context, using a library is just a matter of adding a
+`with' clause in the user project. For instance, to make use of the
+library <cite>My_Lib</cite> shown in examples in earlier sections, you can
+write:
+
+<pre class="example">    with "my_lib";
+    project My_Proj is
+      ...
+    end My_Proj;
+</pre>
+<p>Even if you have a third-party, non-Ada library, you can still use GNAT's
+Project Manager facility to provide a wrapper for it. For example, the
+following project, when `with'ed by your main project, will link with the
+third-party library <code>liba.a</code>:
+
+<pre class="example">    project Liba is
+       for Externally_Built use "true";
+       for Source_Files use ();
+       for Library_Dir use "lib";
+       for Library_Name use "a";
+       for Library_Kind use "static";
+    end Liba;
+</pre>
+<p>This is an alternative to the use of <cite>pragma Linker_Options</cite>. It is
+especially interesting in the context of systems with several interdependent
+static libraries where finding a proper linker order is not easy and best be
+left to the tools having visibility over project dependence information.
+
+<p>In order to use an Ada library manually, you need to make sure that this
+library is on both your source and object path
+(see <a href="8e.html#g_t8e">Search Paths and the Run-Time Library (RTL)</a>
+and <a href="91.html#g_t91">Search Paths for gnatbind</a>). Furthermore, when the objects are grouped
+in an archive or a shared library, you need to specify the desired
+library at link time.
+
+<p>For example, you can use the library <code>mylib</code> installed in
+<code>/dir/my_lib_src</code> and <code>/dir/my_lib_obj</code> with the following commands:
+
+<pre class="example">    $ gnatmake -aI/dir/my_lib_src -aO/dir/my_lib_obj my_appl \\
+      -largs -lmy_lib
+</pre>
+<p>This can be expressed more simply:
+
+<pre class="example">    $ gnatmake my_appl
+</pre>
+<p>when the following conditions are met:
+
+     <ul>
+<li><code>/dir/my_lib_src</code> has been added by the user to the environment
+variable
+<a name="index-ADA_005fINCLUDE_005fPATH-83"></a><a name="index-environment-variable_003b-ADA_005fINCLUDE_005fPATH-84"></a><code>ADA_INCLUDE_PATH</code>, or by the administrator to the file
+<code>ada_source_path</code>
+
+     <li><code>/dir/my_lib_obj</code> has been added by the user to the environment
+variable
+<a name="index-ADA_005fOBJECTS_005fPATH-85"></a><a name="index-environment-variable_003b-ADA_005fOBJECTS_005fPATH-86"></a><code>ADA_OBJECTS_PATH</code>, or by the administrator to the file
+<code>ada_object_path</code>
+
+     <li>a pragma <cite>Linker_Options</cite> has been added to one of the sources. 
+For example:
+
+     <pre class="example">         pragma Linker_Options ("-lmy_lib");
+</pre>
+     </ul>
+
+<p>Note that you may also load a library dynamically at
+run time given its filename, as illustrated in the GNAT <code>plugins</code> example
+in the directory <code>share/examples/gnat/plugins</code> within the GNAT
+install area.
+
+</body></html>
+

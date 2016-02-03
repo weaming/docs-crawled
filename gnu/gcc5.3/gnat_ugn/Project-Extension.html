@@ -1,0 +1,169 @@
+<html lang="en">
+<head>
+<title>Project Extension - GNAT User's Guide for Native Platforms</title>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+<meta name="description" content="GNAT User's Guide for Native Platforms">
+<meta name="generator" content="makeinfo 4.13">
+<link title="Top" rel="start" href="index.html#Top">
+<link rel="up" href="GNAT-Project-Manager.html#GNAT-Project-Manager" title="GNAT Project Manager">
+<link rel="prev" href="Library-Projects.html#Library-Projects" title="Library Projects">
+<link rel="next" href="Aggregate-Projects.html#Aggregate-Projects" title="Aggregate Projects">
+<link href="http://www.gnu.org/software/texinfo/" rel="generator-home" title="Texinfo Homepage">
+<!--
+
+     GNAT User's Guide for Native Platforms , March 24, 2015
+
+     AdaCore
+
+     Copyright (C) 2008-2015, Free Software Foundation
+-->
+<meta http-equiv="Content-Style-Type" content="text/css">
+<style type="text/css"><!--
+  pre.display { font-family:inherit }
+  pre.format  { font-family:inherit }
+  pre.smalldisplay { font-family:inherit; font-size:smaller }
+  pre.smallformat  { font-family:inherit; font-size:smaller }
+  pre.smallexample { font-size:smaller }
+  pre.smalllisp    { font-size:smaller }
+  span.sc    { font-variant:small-caps }
+  span.roman { font-family:serif; font-weight:normal; } 
+  span.sansserif { font-family:sans-serif; font-weight:normal; } 
+--></style>
+</head>
+<body>
+<div class="node">
+<a name="Project-Extension"></a>
+<p>
+Next:&nbsp;<a rel="next" accesskey="n" href="Aggregate-Projects.html#Aggregate-Projects">Aggregate Projects</a>,
+Previous:&nbsp;<a rel="previous" accesskey="p" href="Library-Projects.html#Library-Projects">Library Projects</a>,
+Up:&nbsp;<a rel="up" accesskey="u" href="GNAT-Project-Manager.html#GNAT-Project-Manager">GNAT Project Manager</a>
+<hr>
+</div>
+
+<p><a name="gnat_005fugn_002fgnat_005fproject_005fmanager-id25"></a><a name="g_t17e"></a><a name="gnat_005fugn_002fgnat_005fproject_005fmanager-project_002dextension"></a><a name="g_t14f"></a>
+
+<h3 class="section">5.6 Project Extension</h3>
+
+<p>During development of a large system, it is sometimes necessary to use
+modified versions of some of the source files, without changing the original
+sources. This can be achieved through the `project extension' facility.
+
+<p>Suppose for instance that our example <cite>Build</cite> project is built every night
+for the whole team, in some shared directory. A developer usually needs to work
+on a small part of the system, and might not want to have a copy of all the
+sources and all the object files (mostly because that would require too much
+disk space, time to recompile everything). He prefers to be able to override
+some of the source files in his directory, while taking advantage of all the
+object files generated at night.
+
+<p>Another example can be taken from large software systems, where it is common to have
+multiple implementations of a common interface; in Ada terms, multiple
+versions of a package body for the same spec.  For example, one implementation
+might be safe for use in tasking programs, while another might be used only
+in sequential applications.  This can be modeled in GNAT using the concept
+of `project extension'.  If one project (the 'child') `extends'
+another project (the 'parent') then by default all source files of the
+parent project are inherited by the child, but the child project can
+override any of the parent's source files with new versions, and can also
+add new files or remove unnecessary ones. 
+This facility is the project analog of a type extension in
+object-oriented programming.  Project hierarchies are permitted (an extending
+project may itself be extended), and a project that
+extends a project can also import other projects.
+
+<p>A third example is that of using project extensions to provide different
+versions of the same system. For instance, assume that a <cite>Common</cite>
+project is used by two development branches. One of the branches has now
+been frozen, and no further change can be done to it or to <cite>Common</cite>. 
+However, the other development branch still needs evolution of <cite>Common</cite>. 
+Project extensions provide a flexible solution to create a new version
+of a subsystem while sharing and reusing as much as possible from the original
+one.
+
+<p>A project extension implicitly inherits all the sources and objects from the
+project it extends. It is possible to create a new version of some of the
+sources in one of the additional source directories of the extending
+project. Those new versions hide the original versions. Adding new sources or
+removing existing ones is also possible. Here is an example on how to extend
+the project <cite>Build</cite> from previous examples:
+
+<pre class="example">    project Work extends "../bld/build.gpr" is
+    end Work;
+</pre>
+<p>The project after `extends' is the one being extended. As usual, it can be
+specified using an absolute path, or a path relative to any of the directories
+in the project path (see <a href="16c.html#g_t16c">Project Dependencies</a>). This project does not
+specify source or object directories, so the default values for these
+attributes will be used that is to say the current directory (where project
+<cite>Work</cite> is placed). We can compile that project with
+
+<pre class="example">    gprbuild -Pwork
+</pre>
+<p>If no sources have been placed in the current directory, this command
+won't do anything, since this project does not change the
+sources it inherited from <cite>Build</cite>, therefore all the object files
+in <cite>Build</cite> and its dependencies are still valid and are reused
+automatically.
+
+<p>Suppose we now want to supply an alternate version of <code>pack.adb</code> but use
+the existing versions of <code>pack.ads</code> and <code>proc.adb</code>.  We can create
+the new file in Work's current directory (likely by copying the one from the
+<cite>Build</cite> project and making changes to it. If new packages are needed at
+the same time, we simply create new files in the source directory of the
+extending project.
+
+<p>When we recompile, `gprbuild' will now automatically recompile
+this file (thus creating <code>pack.o</code> in the current directory) and
+any file that depends on it (thus creating <code>proc.o</code>). Finally, the
+executable is also linked locally.
+
+<p>Note that we could have obtained the desired behavior using project import
+rather than project inheritance. A <cite>base</cite> project would contain the
+sources for <code>pack.ads</code> and <code>proc.adb</code>, and <cite>Work</cite> would
+import <cite>base</cite> and add <code>pack.adb</code>. In this scenario,  <cite>base</cite>
+cannot contain the original version of <code>pack.adb</code> otherwise there would be
+2 versions of the same unit in the closure of the project and this is not
+allowed. Generally speaking, it is not recommended to put the spec and the
+body of a unit in different projects since this affects their autonomy and
+reusability.
+
+<p>In a project file that extends another project, it is possible to
+indicate that an inherited source is `not part' of the sources of the
+extending project. This is necessary sometimes when a package spec has
+been overridden and no longer requires a body: in this case, it is
+necessary to indicate that the inherited body is not part of the sources
+of the project, otherwise there will be a compilation error
+when compiling the spec.
+
+<p><a name="index-Excluded_005fSource_005fFiles-_0028GNAT-Project-Manager_0029-849"></a>
+<a name="index-Excluded_005fSource_005fList_005fFile-_0028GNAT-Project-Manager_0029-850"></a>
+For that purpose, the attribute `Excluded_Source_Files' is used. 
+Its value is a list of file names. 
+It is also possible to use attribute <cite>Excluded_Source_List_File</cite>. 
+Its value is the path of a text file containing one file name per
+line.
+
+<pre class="example">    project Work extends "../bld/build.gpr" is
+       for Source_Files use ("pack.ads");
+       --  New spec of Pkg does not need a completion
+       for Excluded_Source_Files use ("pack.adb");
+    end Work;
+</pre>
+<p>All packages that are not declared in the extending project are inherited from
+the project being extended, with their attributes, with the exception of
+<cite>Linker'Linker_Options</cite> which is never inherited. In particular, an
+extending project retains all the switches specified in the project being
+extended.
+
+<p>At the project level, if they are not declared in the extending project, some
+attributes are inherited from the project being extended. They are:
+<cite>Languages</cite>, <cite>Main</cite> (for a root non library project) and
+<cite>Library_Name</cite> (for a project extending a library project).
+
+<ul class="menu">
+<li><a accesskey="1" href="Project-Hierarchy-Extension.html#Project-Hierarchy-Extension">Project Hierarchy Extension</a>
+
+</ul>
+
+</body></html>
+

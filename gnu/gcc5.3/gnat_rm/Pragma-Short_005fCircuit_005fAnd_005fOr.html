@@ -1,0 +1,61 @@
+<html lang="en">
+<head>
+<title>Pragma Short_Circuit_And_Or - GNAT Reference Manual</title>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+<meta name="description" content="GNAT Reference Manual">
+<meta name="generator" content="makeinfo 4.13">
+<link title="Top" rel="start" href="index.html#Top">
+<link rel="up" href="Implementation-Defined-Pragmas.html#Implementation-Defined-Pragmas" title="Implementation Defined Pragmas">
+<link rel="prev" href="Pragma-Shared.html#Pragma-Shared" title="Pragma Shared">
+<link rel="next" href="Pragma-Short_005fDescriptors.html#Pragma-Short_005fDescriptors" title="Pragma Short_Descriptors">
+<link href="http://www.gnu.org/software/texinfo/" rel="generator-home" title="Texinfo Homepage">
+<!--
+
+     GNAT Reference Manual , March 24, 2015
+
+     AdaCore
+
+     Copyright (C) 2008-2015, Free Software Foundation
+-->
+<meta http-equiv="Content-Style-Type" content="text/css">
+<style type="text/css"><!--
+  pre.display { font-family:inherit }
+  pre.format  { font-family:inherit }
+  pre.smalldisplay { font-family:inherit; font-size:smaller }
+  pre.smallformat  { font-family:inherit; font-size:smaller }
+  pre.smallexample { font-size:smaller }
+  pre.smalllisp    { font-size:smaller }
+  span.sc    { font-variant:small-caps }
+  span.roman { font-family:serif; font-weight:normal; } 
+  span.sansserif { font-family:sans-serif; font-weight:normal; } 
+--></style>
+</head>
+<body>
+<div class="node">
+<a name="Pragma-Short_Circuit_And_Or"></a>
+<a name="Pragma-Short_005fCircuit_005fAnd_005fOr"></a>
+<p>
+Next:&nbsp;<a rel="next" accesskey="n" href="Pragma-Short_005fDescriptors.html#Pragma-Short_005fDescriptors">Pragma Short_Descriptors</a>,
+Previous:&nbsp;<a rel="previous" accesskey="p" href="Pragma-Shared.html#Pragma-Shared">Pragma Shared</a>,
+Up:&nbsp;<a rel="up" accesskey="u" href="Implementation-Defined-Pragmas.html#Implementation-Defined-Pragmas">Implementation Defined Pragmas</a>
+<hr>
+</div>
+
+<p><a name="gnat_005frm_002fimplementation_005fdefined_005fpragmas-pragma_002dshort_002dcircuit_002dand_002dor"></a><a name="b4"></a>
+
+<h3 class="section">2.152 Pragma Short_Circuit_And_Or</h3>
+
+<p>Syntax:
+
+<pre class="example">    pragma Short_Circuit_And_Or;
+</pre>
+<p>This configuration pragma causes any occurrence of the AND operator applied to
+operands of type Standard.Boolean to be short-circuited (i.e. the AND operator
+is treated as if it were AND THEN). Or is similarly treated as OR ELSE. This
+may be useful in the context of certification protocols requiring the use of
+short-circuited logical operators. If this configuration pragma occurs locally
+within the file being compiled, it applies only to the file being compiled. 
+There is no requirement that all units in a partition use this option.
+
+</body></html>
+

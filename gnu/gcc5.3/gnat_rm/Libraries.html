@@ -1,0 +1,67 @@
+<html lang="en">
+<head>
+<title>Libraries - GNAT Reference Manual</title>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+<meta name="description" content="GNAT Reference Manual">
+<meta name="generator" content="makeinfo 4.13">
+<link title="Top" rel="start" href="index.html#Top">
+<link rel="up" href="Implementation_002ddependent-characteristics.html#Implementation_002ddependent-characteristics" title="Implementation-dependent characteristics">
+<link rel="prev" href="Implementation_002ddefined-attributes.html#Implementation_002ddefined-attributes" title="Implementation-defined attributes">
+<link rel="next" href="Elaboration-order.html#Elaboration-order" title="Elaboration order">
+<link href="http://www.gnu.org/software/texinfo/" rel="generator-home" title="Texinfo Homepage">
+<!--
+
+     GNAT Reference Manual , March 24, 2015
+
+     AdaCore
+
+     Copyright (C) 2008-2015, Free Software Foundation
+-->
+<meta http-equiv="Content-Style-Type" content="text/css">
+<style type="text/css"><!--
+  pre.display { font-family:inherit }
+  pre.format  { font-family:inherit }
+  pre.smalldisplay { font-family:inherit; font-size:smaller }
+  pre.smallformat  { font-family:inherit; font-size:smaller }
+  pre.smallexample { font-size:smaller }
+  pre.smalllisp    { font-size:smaller }
+  span.sc    { font-variant:small-caps }
+  span.roman { font-family:serif; font-weight:normal; } 
+  span.sansserif { font-family:sans-serif; font-weight:normal; } 
+--></style>
+</head>
+<body>
+<div class="node">
+<a name="Libraries"></a>
+<p>
+Next:&nbsp;<a rel="next" accesskey="n" href="Elaboration-order.html#Elaboration-order">Elaboration order</a>,
+Previous:&nbsp;<a rel="previous" accesskey="p" href="Implementation_002ddefined-attributes.html#Implementation_002ddefined-attributes">Implementation-defined attributes</a>,
+Up:&nbsp;<a rel="up" accesskey="u" href="Implementation_002ddependent-characteristics.html#Implementation_002ddependent-characteristics">Implementation-dependent characteristics</a>
+<hr>
+</div>
+
+<p><a name="gnat_005frm_002fcompatibility_005fand_005fporting_005fguide-libraries"></a><a name="g_t3eb"></a><a name="gnat_005frm_002fcompatibility_005fand_005fporting_005fguide-id12"></a><a name="g_t3ec"></a>
+
+<h4 class="subsection">18.4.3 Libraries</h4>
+
+<p>Vendors may supply libraries to supplement the standard Ada API.  If Ada 83
+code uses vendor-specific libraries then there are several ways to manage
+this in Ada 95 and later versions of the standard:
+
+     <ul>
+<li>If the source code for the libraries (specs and bodies) are
+available, then the libraries can be migrated in the same way as the
+application.
+
+     <li>If the source code for the specs but not the bodies are
+available, then you can reimplement the bodies.
+
+     <li>Some features introduced by Ada 95 obviate the need for library support.  For
+example most Ada 83 vendors supplied a package for unsigned integers.  The
+Ada 95 modular type feature is the preferred way to handle this need, so
+instead of migrating or reimplementing the unsigned integer package it may
+be preferable to retrofit the application using modular types. 
+</ul>
+
+</body></html>
+

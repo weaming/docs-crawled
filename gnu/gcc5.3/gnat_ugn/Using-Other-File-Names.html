@@ -1,0 +1,96 @@
+<html lang="en">
+<head>
+<title>Using Other File Names - GNAT User's Guide for Native Platforms</title>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+<meta name="description" content="GNAT User's Guide for Native Platforms">
+<meta name="generator" content="makeinfo 4.13">
+<link title="Top" rel="start" href="index.html#Top">
+<link rel="up" href="File-Naming-Topics-and-Utilities.html#File-Naming-Topics-and-Utilities" title="File Naming Topics and Utilities">
+<link rel="prev" href="File-Naming-Rules.html#File-Naming-Rules" title="File Naming Rules">
+<link rel="next" href="Alternative-File-Naming-Schemes.html#Alternative-File-Naming-Schemes" title="Alternative File Naming Schemes">
+<link href="http://www.gnu.org/software/texinfo/" rel="generator-home" title="Texinfo Homepage">
+<!--
+
+     GNAT User's Guide for Native Platforms , March 24, 2015
+
+     AdaCore
+
+     Copyright (C) 2008-2015, Free Software Foundation
+-->
+<meta http-equiv="Content-Style-Type" content="text/css">
+<style type="text/css"><!--
+  pre.display { font-family:inherit }
+  pre.format  { font-family:inherit }
+  pre.smalldisplay { font-family:inherit; font-size:smaller }
+  pre.smallformat  { font-family:inherit; font-size:smaller }
+  pre.smallexample { font-size:smaller }
+  pre.smalllisp    { font-size:smaller }
+  span.sc    { font-variant:small-caps }
+  span.roman { font-family:serif; font-weight:normal; } 
+  span.sansserif { font-family:sans-serif; font-weight:normal; } 
+--></style>
+</head>
+<body>
+<div class="node">
+<a name="Using-Other-File-Names"></a>
+<p>
+Next:&nbsp;<a rel="next" accesskey="n" href="Alternative-File-Naming-Schemes.html#Alternative-File-Naming-Schemes">Alternative File Naming Schemes</a>,
+Previous:&nbsp;<a rel="previous" accesskey="p" href="File-Naming-Rules.html#File-Naming-Rules">File Naming Rules</a>,
+Up:&nbsp;<a rel="up" accesskey="u" href="File-Naming-Topics-and-Utilities.html#File-Naming-Topics-and-Utilities">File Naming Topics and Utilities</a>
+<hr>
+</div>
+
+<p><a name="gnat_005fugn_002fthe_005fgnat_005fcompilation_005fmodel-id10"></a><a name="g_t57"></a><a name="gnat_005fugn_002fthe_005fgnat_005fcompilation_005fmodel-using_002dother_002dfile_002dnames"></a><a name="g_t37"></a>
+
+<h4 class="subsection">3.3.2 Using Other File Names</h4>
+
+<p><a name="index-File-names-36"></a>
+In the previous section, we have described the default rules used by
+GNAT to determine the file name in which a given unit resides. It is
+often convenient to follow these default rules, and if you follow them,
+the compiler knows without being explicitly told where to find all
+the files it needs.
+
+<p><a name="index-Source_005fFile_005fName-pragma-37"></a>
+However, in some cases, particularly when a program is imported from
+another Ada compiler environment, it may be more convenient for the
+programmer to specify which file names contain which units. GNAT allows
+arbitrary file names to be used by means of the Source_File_Name pragma. 
+The form of this pragma is as shown in the following examples:
+
+<pre class="example">    pragma Source_File_Name (My_Utilities.Stacks,
+      Spec_File_Name =&gt; "myutilst_a.ada");
+    pragma Source_File_name (My_Utilities.Stacks,
+      Body_File_Name =&gt; "myutilst.ada");
+</pre>
+<p>As shown in this example, the first argument for the pragma is the unit
+name (in this example a child unit). The second argument has the form
+of a named association. The identifier
+indicates whether the file name is for a spec or a body;
+the file name itself is given by a string literal.
+
+<p>The source file name pragma is a configuration pragma, which means that
+normally it will be placed in the <code>gnat.adc</code>
+file used to hold configuration
+pragmas that apply to a complete compilation environment. 
+For more details on how the <code>gnat.adc</code> file is created and used
+see <a href="58.html#g_t58">Handling of Configuration Pragmas</a>.
+
+<p><a name="index-gnat_002eadc-38"></a>
+GNAT allows completely arbitrary file names to be specified using the
+source file name pragma. However, if the file name specified has an
+extension other than <code>.ads</code> or <code>.adb</code> it is necessary to use
+a special syntax when compiling the file. The name in this case must be
+preceded by the special sequence `-x' followed by a space and the name
+of the language, here <cite>ada</cite>, as in:
+
+<pre class="example">    $ gcc -c -x ada peculiar_file_name.sim
+</pre>
+<p><cite>gnatmake</cite> handles non-standard file names in the usual manner (the
+non-standard file name for the main program is simply used as the
+argument to gnatmake). Note that if the extension is also non-standard,
+then it must be included in the <cite>gnatmake</cite> command, it may not
+be omitted.
+
+</body></html>
+

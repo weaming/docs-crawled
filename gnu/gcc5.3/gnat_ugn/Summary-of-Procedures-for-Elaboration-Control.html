@@ -1,0 +1,66 @@
+<html lang="en">
+<head>
+<title>Summary of Procedures for Elaboration Control - GNAT User's Guide for Native Platforms</title>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+<meta name="description" content="GNAT User's Guide for Native Platforms">
+<meta name="generator" content="makeinfo 4.13">
+<link title="Top" rel="start" href="index.html#Top">
+<link rel="up" href="Elaboration-Order-Handling-in-GNAT.html#Elaboration-Order-Handling-in-GNAT" title="Elaboration Order Handling in GNAT">
+<link rel="prev" href="Elaboration-for-Indirect-Calls.html#Elaboration-for-Indirect-Calls" title="Elaboration for Indirect Calls">
+<link rel="next" href="Other-Elaboration-Order-Considerations.html#Other-Elaboration-Order-Considerations" title="Other Elaboration Order Considerations">
+<link href="http://www.gnu.org/software/texinfo/" rel="generator-home" title="Texinfo Homepage">
+<!--
+
+     GNAT User's Guide for Native Platforms , March 24, 2015
+
+     AdaCore
+
+     Copyright (C) 2008-2015, Free Software Foundation
+-->
+<meta http-equiv="Content-Style-Type" content="text/css">
+<style type="text/css"><!--
+  pre.display { font-family:inherit }
+  pre.format  { font-family:inherit }
+  pre.smalldisplay { font-family:inherit; font-size:smaller }
+  pre.smallformat  { font-family:inherit; font-size:smaller }
+  pre.smallexample { font-size:smaller }
+  pre.smalllisp    { font-size:smaller }
+  span.sc    { font-variant:small-caps }
+  span.roman { font-family:serif; font-weight:normal; } 
+  span.sansserif { font-family:sans-serif; font-weight:normal; } 
+--></style>
+</head>
+<body>
+<div class="node">
+<a name="Summary-of-Procedures-for-Elaboration-Control"></a>
+<p>
+Next:&nbsp;<a rel="next" accesskey="n" href="Other-Elaboration-Order-Considerations.html#Other-Elaboration-Order-Considerations">Other Elaboration Order Considerations</a>,
+Previous:&nbsp;<a rel="previous" accesskey="p" href="Elaboration-for-Indirect-Calls.html#Elaboration-for-Indirect-Calls">Elaboration for Indirect Calls</a>,
+Up:&nbsp;<a rel="up" accesskey="u" href="Elaboration-Order-Handling-in-GNAT.html#Elaboration-Order-Handling-in-GNAT">Elaboration Order Handling in GNAT</a>
+<hr>
+</div>
+
+<p><a name="gnat_005fugn_002felaboration_005forder_005fhandling_005fin_005fgnat-id13"></a><a name="g_t2c6"></a><a name="gnat_005fugn_002felaboration_005forder_005fhandling_005fin_005fgnat-summary_002dof_002dprocedures_002dfor_002delaboration_002dcontrol"></a><a name="g_t2c7"></a>
+
+<h3 class="section">11.12 Summary of Procedures for Elaboration Control</h3>
+
+<p><a name="index-Elaboration-control-1156"></a>
+First, compile your program with the default options, using none of
+the special elaboration control switches. If the binder successfully
+binds your program, then you can be confident that, apart from issues
+raised by the use of access-to-subprogram types and dynamic dispatching,
+the program is free of elaboration errors. If it is important that the
+program be portable to other compilers than GNAT, then use the
+`-gnatel'
+switch to generate messages about missing <cite>Elaborate</cite> or
+<cite>Elaborate_All</cite> pragmas, and supply the missing pragmas.
+
+<p>If the program fails to bind using the default static elaboration
+handling, then you can fix the program to eliminate the binder
+message, or recompile the entire program with the
+`-gnatE' switch to generate dynamic elaboration checks,
+and, if you are sure there really are no elaboration problems,
+use a global pragma <cite>Suppress (Elaboration_Check)</cite>.
+
+</body></html>
+

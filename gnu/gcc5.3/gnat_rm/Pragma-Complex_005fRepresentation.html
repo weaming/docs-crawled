@@ -1,0 +1,64 @@
+<html lang="en">
+<head>
+<title>Pragma Complex_Representation - GNAT Reference Manual</title>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+<meta name="description" content="GNAT Reference Manual">
+<meta name="generator" content="makeinfo 4.13">
+<link title="Top" rel="start" href="index.html#Top">
+<link rel="up" href="Implementation-Defined-Pragmas.html#Implementation-Defined-Pragmas" title="Implementation Defined Pragmas">
+<link rel="prev" href="Pragma-Complete_005fRepresentation.html#Pragma-Complete_005fRepresentation" title="Pragma Complete_Representation">
+<link rel="next" href="Pragma-Component_005fAlignment.html#Pragma-Component_005fAlignment" title="Pragma Component_Alignment">
+<link href="http://www.gnu.org/software/texinfo/" rel="generator-home" title="Texinfo Homepage">
+<!--
+
+     GNAT Reference Manual , March 24, 2015
+
+     AdaCore
+
+     Copyright (C) 2008-2015, Free Software Foundation
+-->
+<meta http-equiv="Content-Style-Type" content="text/css">
+<style type="text/css"><!--
+  pre.display { font-family:inherit }
+  pre.format  { font-family:inherit }
+  pre.smalldisplay { font-family:inherit; font-size:smaller }
+  pre.smallformat  { font-family:inherit; font-size:smaller }
+  pre.smallexample { font-size:smaller }
+  pre.smalllisp    { font-size:smaller }
+  span.sc    { font-variant:small-caps }
+  span.roman { font-family:serif; font-weight:normal; } 
+  span.sansserif { font-family:sans-serif; font-weight:normal; } 
+--></style>
+</head>
+<body>
+<div class="node">
+<a name="Pragma-Complex_Representation"></a>
+<a name="Pragma-Complex_005fRepresentation"></a>
+<p>
+Next:&nbsp;<a rel="next" accesskey="n" href="Pragma-Component_005fAlignment.html#Pragma-Component_005fAlignment">Pragma Component_Alignment</a>,
+Previous:&nbsp;<a rel="previous" accesskey="p" href="Pragma-Complete_005fRepresentation.html#Pragma-Complete_005fRepresentation">Pragma Complete_Representation</a>,
+Up:&nbsp;<a rel="up" accesskey="u" href="Implementation-Defined-Pragmas.html#Implementation-Defined-Pragmas">Implementation Defined Pragmas</a>
+<hr>
+</div>
+
+<p><a name="gnat_005frm_002fimplementation_005fdefined_005fpragmas-pragma_002dcomplex_002drepresentation"></a><a name="g_t3a"></a>
+
+<h3 class="section">2.32 Pragma Complex_Representation</h3>
+
+<p>Syntax:
+
+<pre class="example">    pragma Complex_Representation
+            ([Entity =&gt;] LOCAL_NAME);
+</pre>
+<p>The <cite>Entity</cite> argument must be the name of a record type which has
+two fields of the same floating-point type.  The effect of this pragma is
+to force gcc to use the special internal complex representation form for
+this record, which may be more efficient.  Note that this may result in
+the code for this type not conforming to standard ABI (application
+binary interface) requirements for the handling of record types.  For
+example, in some environments, there is a requirement for passing
+records by pointer, and the use of this pragma may result in passing
+this type in floating-point registers.
+
+</body></html>
+

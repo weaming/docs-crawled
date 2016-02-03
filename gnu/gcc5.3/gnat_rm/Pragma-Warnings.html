@@ -1,0 +1,191 @@
+<html lang="en">
+<head>
+<title>Pragma Warnings - GNAT Reference Manual</title>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+<meta name="description" content="GNAT Reference Manual">
+<meta name="generator" content="makeinfo 4.13">
+<link title="Top" rel="start" href="index.html#Top">
+<link rel="up" href="Implementation-Defined-Pragmas.html#Implementation-Defined-Pragmas" title="Implementation Defined Pragmas">
+<link rel="prev" href="Pragma-Warning_005fAs_005fError.html#Pragma-Warning_005fAs_005fError" title="Pragma Warning_As_Error">
+<link rel="next" href="Pragma-Weak_005fExternal.html#Pragma-Weak_005fExternal" title="Pragma Weak_External">
+<link href="http://www.gnu.org/software/texinfo/" rel="generator-home" title="Texinfo Homepage">
+<!--
+
+     GNAT Reference Manual , March 24, 2015
+
+     AdaCore
+
+     Copyright (C) 2008-2015, Free Software Foundation
+-->
+<meta http-equiv="Content-Style-Type" content="text/css">
+<style type="text/css"><!--
+  pre.display { font-family:inherit }
+  pre.format  { font-family:inherit }
+  pre.smalldisplay { font-family:inherit; font-size:smaller }
+  pre.smallformat  { font-family:inherit; font-size:smaller }
+  pre.smallexample { font-size:smaller }
+  pre.smalllisp    { font-size:smaller }
+  span.sc    { font-variant:small-caps }
+  span.roman { font-family:serif; font-weight:normal; } 
+  span.sansserif { font-family:sans-serif; font-weight:normal; } 
+--></style>
+</head>
+<body>
+<div class="node">
+<a name="Pragma-Warnings"></a>
+<p>
+Next:&nbsp;<a rel="next" accesskey="n" href="Pragma-Weak_005fExternal.html#Pragma-Weak_005fExternal">Pragma Weak_External</a>,
+Previous:&nbsp;<a rel="previous" accesskey="p" href="Pragma-Warning_005fAs_005fError.html#Pragma-Warning_005fAs_005fError">Pragma Warning_As_Error</a>,
+Up:&nbsp;<a rel="up" accesskey="u" href="Implementation-Defined-Pragmas.html#Implementation-Defined-Pragmas">Implementation Defined Pragmas</a>
+<hr>
+</div>
+
+<p><a name="gnat_005frm_002fimplementation_005fdefined_005fpragmas-id5"></a><a name="de"></a><a name="gnat_005frm_002fimplementation_005fdefined_005fpragmas-pragma_002dwarnings"></a><a name="dd"></a>
+
+<h3 class="section">2.190 Pragma Warnings</h3>
+
+<p>Syntax:
+
+<pre class="example">    pragma Warnings ([TOOL_NAME,] DETAILS [, REASON]);
+    
+    DETAILS ::= On | Off
+    DETAILS ::= On | Off, local_NAME
+    DETAILS ::= static_string_EXPRESSION
+    DETAILS ::= On | Off, static_string_EXPRESSION
+    
+    TOOL_NAME ::= GNAT | GNATProve
+    
+    REASON ::= Reason =&gt; STRING_LITERAL {&amp; STRING_LITERAL}
+</pre>
+<p>Note: in Ada 83 mode, a string literal may be used in place of a static string
+expression (which does not exist in Ada 83).
+
+<p>Note if the second argument of <cite>DETAILS</cite> is a <cite>local_NAME</cite> then the
+second form is always understood. If the intention is to use
+the fourth form, then you can write <cite>NAME &amp; ""</cite> to force the
+intepretation as a <cite>static_string_EXPRESSION</cite>.
+
+<p>Note: if the first argument is a valid <cite>TOOL_NAME</cite>, it will be interpreted
+that way. The use of the <cite>TOOL_NAME</cite> argument is relevant only to users
+of SPARK and GNATprove, see last part of this section for details.
+
+<p>Normally warnings are enabled, with the output being controlled by
+the command line switch.  Warnings (<cite>Off</cite>) turns off generation of
+warnings until a Warnings (<cite>On</cite>) is encountered or the end of the
+current unit.  If generation of warnings is turned off using this
+pragma, then some or all of the warning messages are suppressed,
+regardless of the setting of the command line switches.
+
+<p>The <cite>Reason</cite> parameter may optionally appear as the last argument
+in any of the forms of this pragma. It is intended purely for the
+purposes of documenting the reason for the <cite>Warnings</cite> pragma. 
+The compiler will check that the argument is a static string but
+otherwise ignore this argument. Other tools may provide specialized
+processing for this string.
+
+<p>The form with a single argument (or two arguments if Reason present),
+where the first argument is <cite>ON</cite> or <cite>OFF</cite>
+may be used as a configuration pragma.
+
+<p>If the <cite>LOCAL_NAME</cite> parameter is present, warnings are suppressed for
+the specified entity.  This suppression is effective from the point where
+it occurs till the end of the extended scope of the variable (similar to
+the scope of <cite>Suppress</cite>). This form cannot be used as a configuration
+pragma.
+
+<p>In the case where the first argument is other than <cite>ON</cite> or
+<cite>OFF</cite>,
+the third form with a single static_string_EXPRESSION argument (and possible
+reason) provides more precise
+control over which warnings are active. The string is a list of letters
+specifying which warnings are to be activated and which deactivated. The
+code for these letters is the same as the string used in the command
+line switch controlling warnings. For a brief summary, use the gnatmake
+command with no arguments, which will generate usage information containing
+the list of warnings switches supported. For
+full details see the section on <cite>Warning Message Control</cite> in the
+<cite>GNAT User's Guide</cite>. 
+This form can also be used as a configuration pragma.
+
+<p>The warnings controlled by the `-gnatw' switch are generated by the
+front end of the compiler. The GCC back end can provide additional warnings
+and they are controlled by the `-W' switch. Such warnings can be
+identified by the appearance of a string of the form <cite>[-Wxxx]</cite> in the
+message which designates the `-Wxxx' switch that controls the message. 
+The form with a single static_string_EXPRESSION argument also works for these
+warnings, but the string must be a single full `-Wxxx' switch in this
+case. The above reference lists a few examples of these additional warnings.
+
+<p>The specified warnings will be in effect until the end of the program
+or another pragma Warnings is encountered. The effect of the pragma is
+cumulative. Initially the set of warnings is the standard default set
+as possibly modified by compiler switches. Then each pragma Warning
+modifies this set of warnings as specified. This form of the pragma may
+also be used as a configuration pragma.
+
+<p>The fourth form, with an <cite>On|Off</cite> parameter and a string, is used to
+control individual messages, based on their text. The string argument
+is a pattern that is used to match against the text of individual
+warning messages (not including the initial "warning: " tag).
+
+<p>The pattern may contain asterisks, which match zero or more characters in
+the message. For example, you can use
+<cite>pragma Warnings (Off, "bits of*unused")</cite> to suppress the warning
+message <cite>warning: 960 bits of "a" unused</cite>. No other regular
+expression notations are permitted. All characters other than asterisk in
+these three specific cases are treated as literal characters in the match. 
+The match is case insensitive, for example XYZ matches xyz.
+
+<p>Note that the pattern matches if it occurs anywhere within the warning
+message string (it is not necessary to put an asterisk at the start and
+the end of the message, since this is implied).
+
+<p>The above use of patterns to match the message applies only to warning
+messages generated by the front end. This form of the pragma with a string
+argument can also be used to control warnings provided by the back end and
+mentioned above. By using a single full `-Wxxx' switch in the pragma,
+such warnings can be turned on and off.
+
+<p>There are two ways to use the pragma in this form. The OFF form can be used
+as a configuration pragma. The effect is to suppress all warnings (if any)
+that match the pattern string throughout the compilation (or match the
+-W switch in the back end case).
+
+<p>The second usage is to suppress a warning locally, and in this case, two
+pragmas must appear in sequence:
+
+<pre class="example">    pragma Warnings (Off, Pattern);
+    ... code where given warning is to be suppressed
+    pragma Warnings (On, Pattern);
+</pre>
+<p>In this usage, the pattern string must match in the Off and On
+pragmas, and (if `-gnatw.w' is given) at least one matching
+warning must be suppressed.
+
+<p>Note: to write a string that will match any warning, use the string
+<cite>"***"</cite>. It will not work to use a single asterisk or two
+asterisks since this looks like an operator name. This form with three
+asterisks is similar in effect to specifying <cite>pragma Warnings (Off)</cite> except (if `-gnatw.w' is given) that a matching
+<cite>pragma Warnings (On, "***")</cite> will be required. This can be
+helpful in avoiding forgetting to turn warnings back on.
+
+<p>Note: the debug flag -gnatd.i (<cite>/NOWARNINGS_PRAGMAS</cite> in VMS) can be
+used to cause the compiler to entirely ignore all WARNINGS pragmas. This can
+be useful in checking whether obsolete pragmas in existing programs are hiding
+real problems.
+
+<p>Note: pragma Warnings does not affect the processing of style messages. See
+separate entry for pragma Style_Checks for control of style messages.
+
+<p>Users of the formal verification tool GNATprove for the SPARK subset of Ada may
+use the version of the pragma with a <cite>TOOL_NAME</cite> parameter.
+
+<p>If present, <cite>TOOL_NAME</cite> is the name of a tool, currently either <cite>GNAT</cite> for the
+compiler or <cite>GNATprove</cite> for the formal verification tool. A given tool only
+takes into account pragma Warnings that do not specify a tool name, or that
+specify the matching tool name. This makes it possible to disable warnings
+selectively for each tool, and as a consequence to detect useless pragma
+Warnings with switch <cite>-gnatw.w</cite>.
+
+</body></html>
+

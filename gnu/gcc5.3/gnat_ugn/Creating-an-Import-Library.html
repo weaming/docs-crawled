@@ -1,0 +1,178 @@
+<html lang="en">
+<head>
+<title>Creating an Import Library - GNAT User's Guide for Native Platforms</title>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+<meta name="description" content="GNAT User's Guide for Native Platforms">
+<meta name="generator" content="makeinfo 4.13">
+<link title="Top" rel="start" href="index.html#Top">
+<link rel="up" href="Using-DLLs-with-GNAT.html#Using-DLLs-with-GNAT" title="Using DLLs with GNAT">
+<link rel="prev" href="Creating-an-Ada-Spec-for-the-DLL-Services.html#Creating-an-Ada-Spec-for-the-DLL-Services" title="Creating an Ada Spec for the DLL Services">
+<link href="http://www.gnu.org/software/texinfo/" rel="generator-home" title="Texinfo Homepage">
+<!--
+
+     GNAT User's Guide for Native Platforms , March 24, 2015
+
+     AdaCore
+
+     Copyright (C) 2008-2015, Free Software Foundation
+-->
+<meta http-equiv="Content-Style-Type" content="text/css">
+<style type="text/css"><!--
+  pre.display { font-family:inherit }
+  pre.format  { font-family:inherit }
+  pre.smalldisplay { font-family:inherit; font-size:smaller }
+  pre.smallformat  { font-family:inherit; font-size:smaller }
+  pre.smallexample { font-size:smaller }
+  pre.smalllisp    { font-size:smaller }
+  span.sc    { font-variant:small-caps }
+  span.roman { font-family:serif; font-weight:normal; } 
+  span.sansserif { font-family:sans-serif; font-weight:normal; } 
+--></style>
+</head>
+<body>
+<div class="node">
+<a name="Creating-an-Import-Library"></a>
+<p>
+Previous:&nbsp;<a rel="previous" accesskey="p" href="Creating-an-Ada-Spec-for-the-DLL-Services.html#Creating-an-Ada-Spec-for-the-DLL-Services">Creating an Ada Spec for the DLL Services</a>,
+Up:&nbsp;<a rel="up" accesskey="u" href="Using-DLLs-with-GNAT.html#Using-DLLs-with-GNAT">Using DLLs with GNAT</a>
+<hr>
+</div>
+
+<p><a name="gnat_005fugn_002fplatform_005fspecific_005finformation-id23"></a><a name="g_t284"></a><a name="gnat_005fugn_002fplatform_005fspecific_005finformation-creating_002dan_002dimport_002dlibrary"></a><a name="g_t285"></a>
+
+<h5 class="subsubsection">9.3.5.9 Creating an Import Library</h5>
+
+<p><a name="index-Import-library-1089"></a>
+If a Microsoft-style import library <code>API.lib</code> or a GNAT-style
+import library <code>libAPI.dll.a</code> or <code>libAPI.a</code> is available
+with <code>API.dll</code> you can skip this section. You can also skip this
+section if <code>API.dll</code> or <code>libAPI.dll</code> is built with GNU tools
+as in this case it is possible to link directly against the
+DLL. Otherwise read on.
+
+<p><a name="index-Definition-file-1090"></a><a name="gnat_005fugn_002fplatform_005fspecific_005finformation-the_002ddefinition_002dfile"></a><a name="g_t280"></a>
+
+<h5 class="subsubheading">The Definition File</h5>
+
+<p>As previously mentioned, and unlike Unix systems, the list of symbols
+that are exported from a DLL must be provided explicitly in Windows. 
+The main goal of a definition file is precisely that: list the symbols
+exported by a DLL. A definition file (usually a file with a <cite>.def</cite>
+suffix) has the following structure:
+
+<blockquote>
+
+<pre class="example">    [LIBRARY `name`]
+    [DESCRIPTION `string`]
+    EXPORTS
+       `symbol1`
+       `symbol2`
+       ...
+</pre>
+</blockquote>
+
+     <dl>
+<dt>`LIBRARY `name`'<dd>
+This section, which is optional, gives the name of the DLL.
+
+     <br><dt>`DESCRIPTION `string`'<dd>
+This section, which is optional, gives a description string that will be
+embedded in the import library.
+
+     <br><dt>`EXPORTS'<dd>
+This section gives the list of exported symbols (procedures, functions or
+variables). For instance in the case of <code>API.dll</code> the <cite>EXPORTS</cite>
+section of <code>API.def</code> looks like:
+
+     <pre class="example">         EXPORTS
+            some_var
+            get
+</pre>
+     </dl>
+
+<p>Note that you must specify the correct suffix (<code>@`nn'</code>)
+(see <a href="274.html#g_t274">Windows Calling Conventions</a>) for a Stdcall
+calling convention function in the exported symbols list.
+
+<p>There can actually be other sections in a definition file, but these
+sections are not relevant to the discussion at hand.
+
+<h5 class="subsubheading">GNAT-Style Import Library</h5>
+
+<p><a name="gnat_005fugn_002fplatform_005fspecific_005finformation-gnat_002dstyle_002dimport_002dlibrary"></a><a name="g_t286"></a>To create a static import library from <code>API.dll</code> with the GNAT tools
+you should proceed as follows:
+
+     <ul>
+<li>Create the definition file <code>API.def</code>
+(see <a href="280.html#g_t280">The Definition File</a>). 
+For that use the <cite>dll2def</cite> tool as follows:
+
+     <pre class="example">         $ dll2def API.dll &gt; API.def
+</pre>
+     <p><cite>dll2def</cite> is a very simple tool: it takes as input a DLL and prints
+to standard output the list of entry points in the DLL. Note that if
+some routines in the DLL have the <cite>Stdcall</cite> convention
+(<a href="274.html#g_t274">Windows Calling Conventions</a>) with stripped <code>@`nn'</code>
+suffix then you'll have to edit <code>api.def</code> to add it, and specify
+`-k' to `gnatdll' when creating the import library.
+
+     <p>Here are some hints to find the right <code>@`nn'</code> suffix.
+
+          <ul>
+<li>If you have the Microsoft import library (.lib), it is possible to get
+the right symbols by using Microsoft <cite>dumpbin</cite> tool (see the
+corresponding Microsoft documentation for further details).
+
+          <pre class="example">              $ dumpbin /exports api.lib
+</pre>
+          <li>If you have a message about a missing symbol at link time the compiler
+tells you what symbol is expected. You just have to go back to the
+definition file and add the right suffix. 
+</ul>
+
+     <li>Build the import library <cite>libAPI.dll.a</cite>, using <cite>gnatdll</cite>
+(see <a href="287.html#g_t287">Using gnatdll</a>) as follows:
+
+     <pre class="example">         $ gnatdll -e API.def -d API.dll
+</pre>
+     <p><cite>gnatdll</cite> takes as input a definition file <code>API.def</code> and the
+name of the DLL containing the services listed in the definition file
+<code>API.dll</code>. The name of the static import library generated is
+computed from the name of the definition file as follows: if the
+definition file name is <cite>xyz`</cite>.def`, the import library name will
+be <cite>lib``<!-- /@w -->xyz`</cite>.a`. Note that in the previous example option
+`-e' could have been removed because the name of the definition
+file (before the '<cite>.def</cite>' suffix) is the same as the name of the
+DLL (<a href="287.html#g_t287">Using gnatdll</a> for more information about <cite>gnatdll</cite>). 
+</ul>
+
+<h5 class="subsubheading">Microsoft-Style Import Library</h5>
+
+<p>With GNAT you can either use a GNAT-style or Microsoft-style import
+library. A Microsoft import library is needed only if you plan to make an
+Ada DLL available to applications developed with Microsoft
+tools (<a href="270.html#g_t270">Mixed-Language Programming on Windows</a>).
+
+<p>To create a Microsoft-style import library for <code>API.dll</code> you
+should proceed as follows:
+
+     <ul>
+<li>Create the definition file <code>API.def</code> from the DLL. For this use either
+the <cite>dll2def</cite> tool as described above or the Microsoft <cite>dumpbin</cite>
+tool (see the corresponding Microsoft documentation for further details).
+
+     <li>Build the actual import library using Microsoft's <cite>lib</cite> utility:
+
+     <pre class="example">         $ lib -machine:IX86 -def:API.def -out:API.lib
+</pre>
+     <p>If you use the above command the definition file <code>API.def</code> must
+contain a line giving the name of the DLL:
+
+     <pre class="example">         LIBRARY      "API"
+</pre>
+     <p>See the Microsoft documentation for further details about the usage of
+<cite>lib</cite>. 
+</ul>
+
+</body></html>
+

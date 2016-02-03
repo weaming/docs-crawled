@@ -1,0 +1,114 @@
+<html lang="en">
+<head>
+<title>Pragma Linker_Section - GNAT Reference Manual</title>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+<meta name="description" content="GNAT Reference Manual">
+<meta name="generator" content="makeinfo 4.13">
+<link title="Top" rel="start" href="index.html#Top">
+<link rel="up" href="Implementation-Defined-Pragmas.html#Implementation-Defined-Pragmas" title="Implementation Defined Pragmas">
+<link rel="prev" href="Pragma-Linker_005fDestructor.html#Pragma-Linker_005fDestructor" title="Pragma Linker_Destructor">
+<link rel="next" href="Pragma-Lock_005fFree.html#Pragma-Lock_005fFree" title="Pragma Lock_Free">
+<link href="http://www.gnu.org/software/texinfo/" rel="generator-home" title="Texinfo Homepage">
+<!--
+
+     GNAT Reference Manual , March 24, 2015
+
+     AdaCore
+
+     Copyright (C) 2008-2015, Free Software Foundation
+-->
+<meta http-equiv="Content-Style-Type" content="text/css">
+<style type="text/css"><!--
+  pre.display { font-family:inherit }
+  pre.format  { font-family:inherit }
+  pre.smalldisplay { font-family:inherit; font-size:smaller }
+  pre.smallformat  { font-family:inherit; font-size:smaller }
+  pre.smallexample { font-size:smaller }
+  pre.smalllisp    { font-size:smaller }
+  span.sc    { font-variant:small-caps }
+  span.roman { font-family:serif; font-weight:normal; } 
+  span.sansserif { font-family:sans-serif; font-weight:normal; } 
+--></style>
+</head>
+<body>
+<div class="node">
+<a name="Pragma-Linker_Section"></a>
+<a name="Pragma-Linker_005fSection"></a>
+<p>
+Next:&nbsp;<a rel="next" accesskey="n" href="Pragma-Lock_005fFree.html#Pragma-Lock_005fFree">Pragma Lock_Free</a>,
+Previous:&nbsp;<a rel="previous" accesskey="p" href="Pragma-Linker_005fDestructor.html#Pragma-Linker_005fDestructor">Pragma Linker_Destructor</a>,
+Up:&nbsp;<a rel="up" accesskey="u" href="Implementation-Defined-Pragmas.html#Implementation-Defined-Pragmas">Implementation Defined Pragmas</a>
+<hr>
+</div>
+
+<p><a name="gnat_005frm_002fimplementation_005fdefined_005fpragmas-pragma_002dlinker_002dsection"></a><a name="g_t7c"></a>
+
+<h3 class="section">2.97 Pragma Linker_Section</h3>
+
+<p>Syntax:
+
+<pre class="example">    pragma Linker_Section (
+      [Entity  =&gt;] LOCAL_NAME,
+      [Section =&gt;] static_string_EXPRESSION);
+</pre>
+<p><cite>LOCAL_NAME</cite> must refer to an object, type, or subprogram that is
+declared at the library level. This pragma specifies the name of the
+linker section for the given entity. It is equivalent to
+<cite>__attribute__((section))</cite> in GNU C and causes <cite>LOCAL_NAME</cite> to
+be placed in the <cite>static_string_EXPRESSION</cite> section of the
+executable (assuming the linker doesn't rename the section). 
+GNAT also provides an implementation defined aspect of the same name.
+
+<p>In the case of specifying this aspect for a type, the effect is to
+specify the corresponding for all library level objects of the type which
+do not have an explicit linker section set. Note that this only applies to
+whole objects, not to components of composite objects.
+
+<p>In the case of a subprogram, the linker section applies to all previously
+declared matching overloaded subprograms in the current declarative part
+which do not already have a linker section assigned. The linker section
+aspect is useful in this case for specifying different linker sections
+for different elements of such an overloaded set.
+
+<p>Note that an empty string specifies that no linker section is specified. 
+This is not quite the same as omitting the pragma or aspect, since it
+can be used to specify that one element of an overloaded set of subprograms
+has the default linker section, or that one object of a type for which a
+linker section is specified should has the default linker section.
+
+<p>The compiler normally places library-level entities in standard sections
+depending on the class: procedures and functions generally go in the
+<cite>.text</cite> section, initialized variables in the <cite>.data</cite> section
+and uninitialized variables in the <cite>.bss</cite> section.
+
+<p>Other, special sections may exist on given target machines to map special
+hardware, for example I/O ports or flash memory. This pragma is a means to
+defer the final layout of the executable to the linker, thus fully working
+at the symbolic level with the compiler.
+
+<p>Some file formats do not support arbitrary sections so not all target
+machines support this pragma. The use of this pragma may cause a program
+execution to be erroneous if it is used to place an entity into an
+inappropriate section (e.g., a modified variable into the <cite>.text</cite>
+section). See also <cite>pragma Persistent_BSS</cite>.
+
+<pre class="example">    --  Example of the use of pragma Linker_Section
+    
+    package IO_Card is
+      Port_A : Integer;
+      pragma Volatile (Port_A);
+      pragma Linker_Section (Port_A, ".bss.port_a");
+    
+      Port_B : Integer;
+      pragma Volatile (Port_B);
+      pragma Linker_Section (Port_B, ".bss.port_b");
+    
+      type Port_Type is new Integer with Linker_Section =&gt; ".bss";
+      PA : Port_Type with Linker_Section =&gt; ".bss.PA";
+      PB : Port_Type; --  ends up in linker section ".bss"
+    
+      procedure Q with Linker_Section =&gt; "Qsection";
+    end IO_Card;
+</pre>
+</body></html>
+

@@ -1,0 +1,240 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
+<HTML>
+<HEAD> <TITLE>cURL - List of Features</TITLE>
+<meta content="text/html; charset=UTF-8" http-equiv="Content-Type">
+<link rel="stylesheet" type="text/css" href="http://curl.haxx.se/curl.css">
+<link rel="shortcut icon" href="http://curl.haxx.se/favicon.ico">
+</HEAD>
+<body bgcolor="#ffffff" text="#000000">
+<div class="main">
+<div class="menu">
+<a href="index.html" class="menuitem" title="Documentation main page">Docs Overview</a>
+<a href="bugs.html" class="menuitem" title="How to report a problem">Bug Report</a>
+<a href="http://curl.haxx.se/donation.html" class="menuitem" title="Donate to the cURL project">Donate</a>
+<a href="libs.html" class="menuitem" title="Libraries to use">Dependencies</a>
+<a href="features.html" class="itemselect">Features</a>
+<a href="history.html" class="menuitem" title="A project history overview">History</a>
+<a href="install.html" class="menuitem" title="Installing curl from source">Install</a>
+<a href="knownbugs.html" class="menuitem" title="Already known problems ">Known Bugs</a>
+<a href="todo.html" class="menuitem" title="Things we might do in the future">TODO</a>
+<a href="http://curl.haxx.se/about.html" class="menuitem" title="Infrastructure details">Web Site Info</a>
+</div>
+<div class="contents">
+<div class="where"><a href="http://curl.haxx.se/">cURL</a> / <a href="index.html">Docs</a> / <a href="projdocs.html">Project Documentation</a> / <b>Features</b></div>
+<h1> Features -- what can curl do </h1>
+<div class="relatedbox">
+<b>Related:</b>
+<br><a href="comparison-table.html">feature comparison table</a>
+</div>
+<pre>
+                                  _   _ ____  _
+                              ___| | | |  _ \| |
+                             / __| | | | |_) | |
+                            | (__| |_| |  _ &lt;| |___
+                             \___|\___/|_| \_\_____|
+&nbsp;
+FEATURES
+&nbsp;
+curl tool
+ - config file support
+ - multiple URLs in a single command line
+ - range "globbing" support: [0-13], {one,two,three}
+ - multiple file upload on a single command line
+ - custom maximum transfer rate
+ - redirectable stderr
+ - metalink support (*13)
+&nbsp;
+libcurl
+ - full URL syntax with no length limit
+ - custom maximum download time
+ - custom least download speed acceptable
+ - custom output result after completion
+ - guesses protocol from host name unless specified
+ - uses .netrc
+ - progress bar with time statistics while downloading
+ - "standard" proxy environment variables support
+ - compiles on win32 (reported builds on 40+ operating systems)
+ - selectable network interface for outgoing traffic
+ - IPv6 support on unix and Windows
+ - persistent connections
+ - socks 4 + 5 support, with or without local name resolving
+ - supports user name and password in proxy environment variables
+ - operations through proxy "tunnel" (using CONNECT)
+ - support for large files (&gt;2GB and &gt;4GB) during upload and download
+ - replaceable memory functions (malloc, free, realloc, etc)
+ - asynchronous name resolving (*6)
+ - both a push and a pull style interface
+ - international domain names (*11)
+&nbsp;
+HTTP
+ - HTTP/1.1 compliant (optionally uses 1.0)
+ - GET
+ - PUT
+ - HEAD
+ - POST
+ - Pipelining
+ - multipart formpost (RFC1867-style)
+ - authentication: Basic, Digest, NTLM (*9) and Negotiate (SPNEGO) (*3)
+   to server and proxy
+ - resume (both GET and PUT)
+ - follow redirects
+ - maximum amount of redirects to follow
+ - custom HTTP request
+ - cookie get/send fully parsed
+ - reads/writes the netscape cookie file format
+ - custom headers (replace/remove internally generated headers)
+ - custom user-agent string
+ - custom referrer string
+ - range
+ - proxy authentication
+ - time conditions
+ - via http-proxy
+ - retrieve file modification date
+ - Content-Encoding support for deflate and gzip
+ - "Transfer-Encoding: chunked" support in uploads
+ - data compression (*12)
+ - HTTP/2 (*5)
+&nbsp;
+HTTPS (*1)
+ - (all the HTTP features)
+ - using client certificates
+ - verify server certificate
+ - via http-proxy
+ - select desired encryption
+ - force usage of a specific SSL version (SSLv2 (*7), SSLv3 (*10) or TLSv1)
+&nbsp;
+FTP
+ - download
+ - authentication
+ - Kerberos 5 (*14)
+ - active/passive using PORT, EPRT, PASV or EPSV
+ - single file size information (compare to HTTP HEAD)
+ - 'type=' URL support
+ - dir listing
+ - dir listing names-only
+ - upload
+ - upload append
+ - upload via http-proxy as HTTP PUT
+ - download resume
+ - upload resume
+ - custom ftp commands (before and/or after the transfer)
+ - simple "range" support
+ - via http-proxy
+ - all operations can be tunneled through a http-proxy
+ - customizable to retrieve file modification date
+ - no dir depth limit
+&nbsp;
+FTPS (*1)
+ - implicit ftps:// support that use SSL on both connections
+ - explicit "AUTH TLS" and "AUTH SSL" usage to "upgrade" plain ftp://
+   connection to use SSL for both or one of the connections
+&nbsp;
+SCP (*8)
+ - both password and public key auth
+&nbsp;
+SFTP (*8)
+ - both password and public key auth
+ - with custom commands sent before/after the transfer
+&nbsp;
+TFTP
+ - download
+ - upload
+&nbsp;
+TELNET
+ - connection negotiation
+ - custom telnet options
+ - stdin/stdout I/O
+&nbsp;
+LDAP (*2)
+ - full LDAP URL support
+&nbsp;
+DICT
+ - extended DICT URL support
+&nbsp;
+FILE
+ - URL support
+ - upload
+ - resume
+&nbsp;
+SMB
+ - SMBv1 over TCP and SSL
+ - download
+ - upload
+ - authentication with NTLMv1
+&nbsp;
+SMTP
+ - authentication: Plain, Login, CRAM-MD5, Digest-MD5, NTLM (*9), Kerberos 5
+   (*4) and External.
+ - send e-mails
+ - mail from support
+ - mail size support
+ - mail auth support for trusted server-to-server relaying
+ - multiple recipients
+ - via http-proxy
+&nbsp;
+SMTPS (*1)
+ - implicit smtps:// support
+ - explicit "STARTTLS" usage to "upgrade" plain smtp:// connections to use SSL
+ - via http-proxy
+&nbsp;
+POP3
+ - authentication: Clear Text, APOP and SASL
+ - SASL based authentication: Plain, Login, CRAM-MD5, Digest-MD5, NTLM (*9),
+   Kerberos 5 (*4) and External.
+ - list e-mails
+ - retrieve e-mails
+ - enhanced command support for: CAPA, DELE, TOP, STAT, UIDL and NOOP via
+   custom requests
+ - via http-proxy
+&nbsp;
+POP3S (*1)
+ - implicit pop3s:// support
+ - explicit "STLS" usage to "upgrade" plain pop3:// connections to use SSL
+ - via http-proxy
+&nbsp;
+IMAP
+ - authentication: Clear Text and SASL
+ - SASL based authentication: Plain, Login, CRAM-MD5, Digest-MD5, NTLM (*9),
+   Kerberos 5 (*4) and External.
+ - list the folders of a mailbox
+ - select a mailbox with support for verifying the UIDVALIDITY
+ - fetch e-mails with support for specifying the UID and SECTION
+ - upload e-mails via the append command
+ - enhanced command support for: EXAMINE, CREATE, DELETE, RENAME, STATUS,
+   STORE, COPY and UID via custom requests
+ - via http-proxy
+&nbsp;
+IMAPS (*1)
+ - implicit imaps:// support
+ - explicit "STARTTLS" usage to "upgrade" plain imap:// connections to use SSL
+ - via http-proxy
+&nbsp;
+FOOTNOTES
+=========
+&nbsp;
+  *1 = requires OpenSSL, GnuTLS, NSS, yassl, axTLS, PolarSSL, WinSSL (native
+       Windows), Secure Transport (native iOS/OS X) or GSKit (native IBM i)
+  *2 = requires OpenLDAP
+  *3 = requires a GSS-API implementation (such as Heimdal or MIT Kerberos) or
+       SSPI (native Windows)
+  *4 = requires a GSS-API implementation, however, only Windows SSPI is
+       currently supported
+  *5 = requires nghttp2 and possibly a recent TLS library
+  *6 = requires c-ares
+  *7 = requires OpenSSL, NSS, GSKit, WinSSL or Secure Transport; GnuTLS, for
+       example, only supports SSLv3 and TLSv1
+  *8 = requires libssh2
+  *9 = requires OpenSSL, GnuTLS, NSS, yassl, Secure Transport or SSPI (native
+       Windows)
+  *10 = requires any of the SSL libraries in (*1) above other than axTLS, which
+        does not support SSLv3
+  *11 = requires libidn or Windows
+  *12 = requires libz
+  *13 = requires libmetalink, and either an Apple or Microsoft operating
+        system, or OpenSSL, or GnuTLS, or NSS
+  *14 = requires a GSS-API implementation (such as Heimdal or MIT Kerberos)
+</pre>
+</div>
+</div>
+</BODY>
+</HTML>

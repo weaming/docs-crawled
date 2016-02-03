@@ -1,0 +1,58 @@
+<html lang="en">
+<head>
+<title>Target-specific aspects - GNAT Reference Manual</title>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+<meta name="description" content="GNAT Reference Manual">
+<meta name="generator" content="makeinfo 4.13">
+<link title="Top" rel="start" href="index.html#Top">
+<link rel="up" href="Implementation_002ddependent-characteristics.html#Implementation_002ddependent-characteristics" title="Implementation-dependent characteristics">
+<link rel="prev" href="Elaboration-order.html#Elaboration-order" title="Elaboration order">
+<link href="http://www.gnu.org/software/texinfo/" rel="generator-home" title="Texinfo Homepage">
+<!--
+
+     GNAT Reference Manual , March 24, 2015
+
+     AdaCore
+
+     Copyright (C) 2008-2015, Free Software Foundation
+-->
+<meta http-equiv="Content-Style-Type" content="text/css">
+<style type="text/css"><!--
+  pre.display { font-family:inherit }
+  pre.format  { font-family:inherit }
+  pre.smalldisplay { font-family:inherit; font-size:smaller }
+  pre.smallformat  { font-family:inherit; font-size:smaller }
+  pre.smallexample { font-size:smaller }
+  pre.smalllisp    { font-size:smaller }
+  span.sc    { font-variant:small-caps }
+  span.roman { font-family:serif; font-weight:normal; } 
+  span.sansserif { font-family:sans-serif; font-weight:normal; } 
+--></style>
+</head>
+<body>
+<div class="node">
+<a name="Target-specific-aspects"></a>
+<a name="Target_002dspecific-aspects"></a>
+<p>
+Previous:&nbsp;<a rel="previous" accesskey="p" href="Elaboration-order.html#Elaboration-order">Elaboration order</a>,
+Up:&nbsp;<a rel="up" accesskey="u" href="Implementation_002ddependent-characteristics.html#Implementation_002ddependent-characteristics">Implementation-dependent characteristics</a>
+<hr>
+</div>
+
+<p><a name="gnat_005frm_002fcompatibility_005fand_005fporting_005fguide-target_002dspecific_002daspects"></a><a name="g_t3ef"></a><a name="gnat_005frm_002fcompatibility_005fand_005fporting_005fguide-id14"></a><a name="g_t3f0"></a>
+
+<h4 class="subsection">18.4.5 Target-specific aspects</h4>
+
+<p>Low-level applications need to deal with machine addresses, data
+representations, interfacing with assembler code, and similar issues.  If
+such an Ada 83 application is being ported to different target hardware (for
+example where the byte endianness has changed) then you will need to
+carefully examine the program logic; the porting effort will heavily depend
+on the robustness of the original design.  Moreover, Ada 95 (and thus
+Ada 2005 and Ada 2012) are sometimes
+incompatible with typical Ada 83 compiler practices regarding implicit
+packing, the meaning of the Size attribute, and the size of access values. 
+GNAT's approach to these issues is described in <a href="3f1.html#g_t3f1">Representation Clauses</a>.
+
+</body></html>
+

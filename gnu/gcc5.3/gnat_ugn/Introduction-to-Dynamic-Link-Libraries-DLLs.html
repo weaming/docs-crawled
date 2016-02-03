@@ -1,0 +1,117 @@
+<html lang="en">
+<head>
+<title>Introduction to Dynamic Link Libraries DLLs - GNAT User's Guide for Native Platforms</title>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+<meta name="description" content="GNAT User's Guide for Native Platforms">
+<meta name="generator" content="makeinfo 4.13">
+<link title="Top" rel="start" href="index.html#Top">
+<link rel="up" href="Mixed_002dLanguage-Programming-on-Windows.html#Mixed_002dLanguage-Programming-on-Windows" title="Mixed-Language Programming on Windows">
+<link rel="prev" href="Windows-Calling-Conventions.html#Windows-Calling-Conventions" title="Windows Calling Conventions">
+<link rel="next" href="Using-DLLs-with-GNAT.html#Using-DLLs-with-GNAT" title="Using DLLs with GNAT">
+<link href="http://www.gnu.org/software/texinfo/" rel="generator-home" title="Texinfo Homepage">
+<!--
+
+     GNAT User's Guide for Native Platforms , March 24, 2015
+
+     AdaCore
+
+     Copyright (C) 2008-2015, Free Software Foundation
+-->
+<meta http-equiv="Content-Style-Type" content="text/css">
+<style type="text/css"><!--
+  pre.display { font-family:inherit }
+  pre.format  { font-family:inherit }
+  pre.smalldisplay { font-family:inherit; font-size:smaller }
+  pre.smallformat  { font-family:inherit; font-size:smaller }
+  pre.smallexample { font-size:smaller }
+  pre.smalllisp    { font-size:smaller }
+  span.sc    { font-variant:small-caps }
+  span.roman { font-family:serif; font-weight:normal; } 
+  span.sansserif { font-family:sans-serif; font-weight:normal; } 
+--></style>
+</head>
+<body>
+<div class="node">
+<a name="Introduction-to-Dynamic-Link-Libraries-DLLs"></a>
+<p>
+Next:&nbsp;<a rel="next" accesskey="n" href="Using-DLLs-with-GNAT.html#Using-DLLs-with-GNAT">Using DLLs with GNAT</a>,
+Previous:&nbsp;<a rel="previous" accesskey="p" href="Windows-Calling-Conventions.html#Windows-Calling-Conventions">Windows Calling Conventions</a>,
+Up:&nbsp;<a rel="up" accesskey="u" href="Mixed_002dLanguage-Programming-on-Windows.html#Mixed_002dLanguage-Programming-on-Windows">Mixed-Language Programming on Windows</a>
+<hr>
+</div>
+
+<p><a name="gnat_005fugn_002fplatform_005fspecific_005finformation-id20"></a><a name="g_t27e"></a><a name="gnat_005fugn_002fplatform_005fspecific_005finformation-introduction_002dto_002ddynamic_002dlink_002dlibraries_002ddlls"></a><a name="g_t27f"></a>
+
+<h5 class="subsubsection">9.3.5.6 Introduction to Dynamic Link Libraries (DLLs)</h5>
+
+<p><a name="index-DLL-1088"></a>
+A Dynamically Linked Library (DLL) is a library that can be shared by
+several applications running under Windows. A DLL can contain any number of
+routines and variables.
+
+<p>One advantage of DLLs is that you can change and enhance them without
+forcing all the applications that depend on them to be relinked or
+recompiled. However, you should be aware than all calls to DLL routines are
+slower since, as you will understand below, such calls are indirect.
+
+<p>To illustrate the remainder of this section, suppose that an application
+wants to use the services of a DLL <code>API.dll</code>. To use the services
+provided by <code>API.dll</code> you must statically link against the DLL or
+an import library which contains a jump table with an entry for each
+routine and variable exported by the DLL. In the Microsoft world this
+import library is called <code>API.lib</code>. When using GNAT this import
+library is called either <code>libAPI.dll.a</code>, <code>libapi.dll.a</code>,
+<code>libAPI.a</code> or <code>libapi.a</code> (names are case insensitive).
+
+<p>After you have linked your application with the DLL or the import library
+and you run your application, here is what happens:
+
+     <ul>
+<li>Your application is loaded into memory.
+
+     <li>The DLL <code>API.dll</code> is mapped into the address space of your
+application. This means that:
+
+          <ul>
+<li>The DLL will use the stack of the calling thread.
+
+          <li>The DLL will use the virtual address space of the calling process.
+
+          <li>The DLL will allocate memory from the virtual address space of the calling
+process.
+
+          <li>Handles (pointers) can be safely exchanged between routines in the DLL
+routines and routines in the application using the DLL. 
+</ul>
+
+     <li>The entries in the jump table (from the import library <code>libAPI.dll.a</code>
+or <code>API.lib</code> or automatically created when linking against a DLL)
+which is part of your application are initialized with the addresses
+of the routines and variables in <code>API.dll</code>.
+
+     <li>If present in <code>API.dll</code>, routines <cite>DllMain</cite> or
+<cite>DllMainCRTStartup</cite> are invoked. These routines typically contain
+the initialization code needed for the well-being of the routines and
+variables exported by the DLL. 
+</ul>
+
+<p>There is an additional point which is worth mentioning. In the Windows
+world there are two kind of DLLs: relocatable and non-relocatable
+DLLs. Non-relocatable DLLs can only be loaded at a very specific address
+in the target application address space. If the addresses of two
+non-relocatable DLLs overlap and these happen to be used by the same
+application, a conflict will occur and the application will run
+incorrectly. Hence, when possible, it is always preferable to use and
+build relocatable DLLs. Both relocatable and non-relocatable DLLs are
+supported by GNAT. Note that the `-s' linker option (see GNU Linker
+User's Guide) removes the debugging symbols from the DLL but the DLL can
+still be relocated.
+
+<p>As a side note, an interesting difference between Microsoft DLLs and
+Unix shared libraries, is the fact that on most Unix systems all public
+routines are exported by default in a Unix shared library, while under
+Windows it is possible (but not required) to list exported routines in
+a definition file (see <a href="280.html#g_t280">The Definition File</a>).
+
+</body></html>
+

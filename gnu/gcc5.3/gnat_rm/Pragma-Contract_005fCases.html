@@ -1,0 +1,114 @@
+<html lang="en">
+<head>
+<title>Pragma Contract_Cases - GNAT Reference Manual</title>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+<meta name="description" content="GNAT Reference Manual">
+<meta name="generator" content="makeinfo 4.13">
+<link title="Top" rel="start" href="index.html#Top">
+<link rel="up" href="Implementation-Defined-Pragmas.html#Implementation-Defined-Pragmas" title="Implementation Defined Pragmas">
+<link rel="prev" href="Pragma-Component_005fAlignment.html#Pragma-Component_005fAlignment" title="Pragma Component_Alignment">
+<link rel="next" href="Pragma-Convention_005fIdentifier.html#Pragma-Convention_005fIdentifier" title="Pragma Convention_Identifier">
+<link href="http://www.gnu.org/software/texinfo/" rel="generator-home" title="Texinfo Homepage">
+<!--
+
+     GNAT Reference Manual , March 24, 2015
+
+     AdaCore
+
+     Copyright (C) 2008-2015, Free Software Foundation
+-->
+<meta http-equiv="Content-Style-Type" content="text/css">
+<style type="text/css"><!--
+  pre.display { font-family:inherit }
+  pre.format  { font-family:inherit }
+  pre.smalldisplay { font-family:inherit; font-size:smaller }
+  pre.smallformat  { font-family:inherit; font-size:smaller }
+  pre.smallexample { font-size:smaller }
+  pre.smalllisp    { font-size:smaller }
+  span.sc    { font-variant:small-caps }
+  span.roman { font-family:serif; font-weight:normal; } 
+  span.sansserif { font-family:sans-serif; font-weight:normal; } 
+--></style>
+</head>
+<body>
+<div class="node">
+<a name="Pragma-Contract_Cases"></a>
+<a name="Pragma-Contract_005fCases"></a>
+<p>
+Next:&nbsp;<a rel="next" accesskey="n" href="Pragma-Convention_005fIdentifier.html#Pragma-Convention_005fIdentifier">Pragma Convention_Identifier</a>,
+Previous:&nbsp;<a rel="previous" accesskey="p" href="Pragma-Component_005fAlignment.html#Pragma-Component_005fAlignment">Pragma Component_Alignment</a>,
+Up:&nbsp;<a rel="up" accesskey="u" href="Implementation-Defined-Pragmas.html#Implementation-Defined-Pragmas">Implementation Defined Pragmas</a>
+<hr>
+</div>
+
+<p><a name="gnat_005frm_002fimplementation_005fdefined_005fpragmas-pragma_002dcontract_002dcases"></a><a name="g_t3c"></a>
+
+<h3 class="section">2.34 Pragma Contract_Cases</h3>
+
+<p><a name="index-Contract-cases-28"></a>
+Syntax:
+
+<pre class="example">    pragma Contract_Cases (
+       Condition =&gt; Consequence
+     {,Condition =&gt; Consequence});
+</pre>
+<p>The <cite>Contract_Cases</cite> pragma allows defining fine-grain specifications
+that can complement or replace the contract given by a precondition and a
+postcondition. Additionally, the <cite>Contract_Cases</cite> pragma can be used
+by testing and formal verification tools. The compiler checks its validity and,
+depending on the assertion policy at the point of declaration of the pragma,
+it may insert a check in the executable. For code generation, the contract
+cases
+
+<pre class="example">    pragma Contract_Cases (
+      Cond1 =&gt; Pred1,
+      Cond2 =&gt; Pred2);
+</pre>
+<p>are equivalent to
+
+<pre class="example">    C1 : constant Boolean := Cond1;  --  evaluated at subprogram entry
+    C2 : constant Boolean := Cond2;  --  evaluated at subprogram entry
+    pragma Precondition ((C1 and not C2) or (C2 and not C1));
+    pragma Postcondition (if C1 then Pred1);
+    pragma Postcondition (if C2 then Pred2);
+</pre>
+<p>The precondition ensures that one and only one of the conditions is
+satisfied on entry to the subprogram. 
+The postcondition ensures that for the condition that was True on entry,
+the corrresponding consequence is True on exit. Other consequence expressions
+are not evaluated.
+
+<p>A precondition <cite>P</cite> and postcondition <cite>Q</cite> can also be
+expressed as contract cases:
+
+<pre class="example">    pragma Contract_Cases (P =&gt; Q);
+</pre>
+<p>The placement and visibility rules for <cite>Contract_Cases</cite> pragmas are
+identical to those described for preconditions and postconditions.
+
+<p>The compiler checks that boolean expressions given in conditions and
+consequences are valid, where the rules for conditions are the same as
+the rule for an expression in <cite>Precondition</cite> and the rules for
+consequences are the same as the rule for an expression in
+<cite>Postcondition</cite>. In particular, attributes <cite>'Old</cite> and
+<cite>'Result</cite> can only be used within consequence expressions. 
+The condition for the last contract case may be <cite>others</cite>, to denote
+any case not captured by the previous cases. The
+following is an example of use within a package spec:
+
+<pre class="example">    package Math_Functions is
+       ...
+       function Sqrt (Arg : Float) return Float;
+       pragma Contract_Cases ((Arg in 0 .. 99) =&gt; Sqrt'Result &lt; 10,
+                              Arg &gt;= 100       =&gt; Sqrt'Result &gt;= 10,
+                              others           =&gt; Sqrt'Result = 0);
+       ...
+    end Math_Functions;
+</pre>
+<p>The meaning of contract cases is that only one case should apply at each
+call, as determined by the corresponding condition evaluating to True,
+and that the consequence for this case should hold when the subprogram
+returns.
+
+</body></html>
+

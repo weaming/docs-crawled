@@ -1,0 +1,153 @@
+<html lang="en">
+<head>
+<title>Building a library - GNAT User's Guide for Native Platforms</title>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+<meta name="description" content="GNAT User's Guide for Native Platforms">
+<meta name="generator" content="makeinfo 4.13">
+<link title="Top" rel="start" href="index.html#Top">
+<link rel="up" href="General-Ada-Libraries.html#General-Ada-Libraries" title="General Ada Libraries">
+<link rel="next" href="Installing-a-library.html#Installing-a-library" title="Installing a library">
+<link href="http://www.gnu.org/software/texinfo/" rel="generator-home" title="Texinfo Homepage">
+<!--
+
+     GNAT User's Guide for Native Platforms , March 24, 2015
+
+     AdaCore
+
+     Copyright (C) 2008-2015, Free Software Foundation
+-->
+<meta http-equiv="Content-Style-Type" content="text/css">
+<style type="text/css"><!--
+  pre.display { font-family:inherit }
+  pre.format  { font-family:inherit }
+  pre.smalldisplay { font-family:inherit; font-size:smaller }
+  pre.smallformat  { font-family:inherit; font-size:smaller }
+  pre.smallexample { font-size:smaller }
+  pre.smalllisp    { font-size:smaller }
+  span.sc    { font-variant:small-caps }
+  span.roman { font-family:serif; font-weight:normal; } 
+  span.sansserif { font-family:sans-serif; font-weight:normal; } 
+--></style>
+</head>
+<body>
+<div class="node">
+<a name="Building-a-library"></a>
+<p>
+Next:&nbsp;<a rel="next" accesskey="n" href="Installing-a-library.html#Installing-a-library">Installing a library</a>,
+Up:&nbsp;<a rel="up" accesskey="u" href="General-Ada-Libraries.html#General-Ada-Libraries">General Ada Libraries</a>
+<hr>
+</div>
+
+<p><a name="gnat_005fugn_002fthe_005fgnat_005fcompilation_005fmodel-building_002da_002dlibrary"></a><a name="g_t88"></a><a name="gnat_005fugn_002fthe_005fgnat_005fcompilation_005fmodel-id38"></a><a name="g_t89"></a>
+
+<h5 class="subsubsection">3.9.2.1 Building a library</h5>
+
+<p>The easiest way to build a library is to use the Project Manager,
+which supports a special type of project called a `Library Project'
+(see <a href="8a.html#g_t8a">Library Projects</a>).
+
+<p>A project is considered a library project, when two project-level attributes
+are defined in it: <cite>Library_Name</cite> and <cite>Library_Dir</cite>. In order to
+control different aspects of library configuration, additional optional
+project-level attributes can be specified:
+
+     <ul>
+<li>
+          <dl>
+<dt>`Library_Kind'<dd>
+This attribute controls whether the library is to be static or dynamic
+</dl>
+
+     <li>
+          <dl>
+<dt>`Library_Version'<dd>
+This attribute specifies the library version; this value is used
+during dynamic linking of shared libraries to determine if the currently
+installed versions of the binaries are compatible. 
+</dl>
+
+     <li>`Library_Options'
+
+     <li>
+          <dl>
+<dt>`Library_GCC'<dd>
+These attributes specify additional low-level options to be used during
+library generation, and redefine the actual application used to generate
+library. 
+</dl>
+     </ul>
+
+<p>The GNAT Project Manager takes full care of the library maintenance task,
+including recompilation of the source files for which objects do not exist
+or are not up to date, assembly of the library archive, and installation of
+the library (i.e., copying associated source, object and <code>ALI</code> files
+to the specified location).
+
+<p>Here is a simple library project file:
+
+<pre class="example">    project My_Lib is
+      for Source_Dirs use ("src1", "src2");
+      for Object_Dir use "obj";
+      for Library_Name use "mylib";
+      for Library_Dir use "lib";
+      for Library_Kind use "dynamic";
+    end My_lib;
+</pre>
+<p>and the compilation command to build and install the library:
+
+<pre class="example">    $ gnatmake -Pmy_lib
+</pre>
+<p>It is not entirely trivial to perform manually all the steps required to
+produce a library. We recommend that you use the GNAT Project Manager
+for this task. In special cases where this is not desired, the necessary
+steps are discussed below.
+
+<p>There are various possibilities for compiling the units that make up the
+library: for example with a Makefile (<a href="21.html#g_t21">Using the GNU make Utility</a>) or
+with a conventional script. For simple libraries, it is also possible to create
+a dummy main program which depends upon all the packages that comprise the
+interface of the library. This dummy main program can then be given to
+`gnatmake', which will ensure that all necessary objects are built.
+
+<p>After this task is accomplished, you should follow the standard procedure
+of the underlying operating system to produce the static or shared library.
+
+<p>Here is an example of such a dummy program:
+
+<pre class="example">    with My_Lib.Service1;
+    with My_Lib.Service2;
+    with My_Lib.Service3;
+    procedure My_Lib_Dummy is
+    begin
+       null;
+    end;
+</pre>
+<p>Here are the generic commands that will build an archive or a shared library.
+
+<pre class="example">    # compiling the library
+    $ gnatmake -c my_lib_dummy.adb
+    
+    # we don't need the dummy object itself
+    $ rm my_lib_dummy.o my_lib_dummy.ali
+    
+    # create an archive with the remaining objects
+    $ ar rc libmy_lib.a *.o
+    # some systems may require "ranlib" to be run as well
+    
+    # or create a shared library
+    $ gcc -shared -o libmy_lib.so *.o
+    # some systems may require the code to have been compiled with -fPIC
+    
+    # remove the object files that are now in the library
+    $ rm *.o
+    
+    # Make the ALI files read-only so that gnatmake will not try to
+    # regenerate the objects that are in the library
+    $ chmod -w *.ali
+</pre>
+<p>Please note that the library must have a name of the form <code>lib`xxx'.a</code>
+or <code>lib`xxx'.so</code> (or <code>lib`xxx'.dll</code> on Windows) in order to
+be accessed by the directive <code>-l`xxx'</code> at link time.
+
+</body></html>
+

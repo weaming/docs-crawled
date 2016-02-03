@@ -1,0 +1,125 @@
+<html lang="en">
+<head>
+<title>Source Dependencies - GNAT User's Guide for Native Platforms</title>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+<meta name="description" content="GNAT User's Guide for Native Platforms">
+<meta name="generator" content="makeinfo 4.13">
+<link title="Top" rel="start" href="index.html#Top">
+<link rel="up" href="The-GNAT-Compilation-Model.html#The-GNAT-Compilation-Model" title="The GNAT Compilation Model">
+<link rel="prev" href="Generating-Object-Files.html#Generating-Object-Files" title="Generating Object Files">
+<link rel="next" href="The-Ada-Library-Information-Files.html#The-Ada-Library-Information-Files" title="The Ada Library Information Files">
+<link href="http://www.gnu.org/software/texinfo/" rel="generator-home" title="Texinfo Homepage">
+<!--
+
+     GNAT User's Guide for Native Platforms , March 24, 2015
+
+     AdaCore
+
+     Copyright (C) 2008-2015, Free Software Foundation
+-->
+<meta http-equiv="Content-Style-Type" content="text/css">
+<style type="text/css"><!--
+  pre.display { font-family:inherit }
+  pre.format  { font-family:inherit }
+  pre.smalldisplay { font-family:inherit; font-size:smaller }
+  pre.smallformat  { font-family:inherit; font-size:smaller }
+  pre.smallexample { font-size:smaller }
+  pre.smalllisp    { font-size:smaller }
+  span.sc    { font-variant:small-caps }
+  span.roman { font-family:serif; font-weight:normal; } 
+  span.sansserif { font-family:sans-serif; font-weight:normal; } 
+--></style>
+</head>
+<body>
+<div class="node">
+<a name="Source-Dependencies"></a>
+<p>
+Next:&nbsp;<a rel="next" accesskey="n" href="The-Ada-Library-Information-Files.html#The-Ada-Library-Information-Files">The Ada Library Information Files</a>,
+Previous:&nbsp;<a rel="previous" accesskey="p" href="Generating-Object-Files.html#Generating-Object-Files">Generating Object Files</a>,
+Up:&nbsp;<a rel="up" accesskey="u" href="The-GNAT-Compilation-Model.html#The-GNAT-Compilation-Model">The GNAT Compilation Model</a>
+<hr>
+</div>
+
+<p><a name="gnat_005fugn_002fthe_005fgnat_005fcompilation_005fmodel-id32"></a><a name="g_t7f"></a><a name="gnat_005fugn_002fthe_005fgnat_005fcompilation_005fmodel-source_002ddependencies"></a><a name="g_t43"></a>
+
+<h3 class="section">3.6 Source Dependencies</h3>
+
+<p>A given object file clearly depends on the source file which is compiled
+to produce it. Here we are using "depends" in the sense of a typical
+<cite>make</cite> utility; in other words, an object file depends on a source
+file if changes to the source file require the object file to be
+recompiled. 
+In addition to this basic dependency, a given object may depend on
+additional source files as follows:
+
+     <ul>
+<li>If a file being compiled `with's a unit <cite>X</cite>, the object file
+depends on the file containing the spec of unit <cite>X</cite>. This includes
+files that are `with'ed implicitly either because they are parents
+of `with'ed child units or they are run-time units required by the
+language constructs used in a particular unit.
+
+     <li>If a file being compiled instantiates a library level generic unit, the
+object file depends on both the spec and body files for this generic
+unit.
+
+     <li>If a file being compiled instantiates a generic unit defined within a
+package, the object file depends on the body file for the package as
+well as the spec file. 
+</ul>
+
+<p><a name="index-Inline-75"></a>
+<a name="index-g_t_002dgnatn-switch-76"></a>
+
+     <ul>
+<li>If a file being compiled contains a call to a subprogram for which
+pragma <cite>Inline</cite> applies and inlining is activated with the
+`-gnatn' switch, the object file depends on the file containing the
+body of this subprogram as well as on the file containing the spec. Note
+that for inlining to actually occur as a result of the use of this switch,
+it is necessary to compile in optimizing mode.
+
+     <p><a name="index-g_t_002dgnatN-switch-77"></a>
+The use of `-gnatN' activates  inlining optimization
+that is performed by the front end of the compiler. This inlining does
+not require that the code generation be optimized. Like `-gnatn',
+the use of this switch generates additional dependencies.
+
+     <p>When using a gcc-based back end (in practice this means using any version
+of GNAT other than for the JVM, .NET or GNAAMP platforms), then the use of
+`-gnatN' is deprecated, and the use of `-gnatn' is preferred. 
+Historically front end inlining was more extensive than the gcc back end
+inlining, but that is no longer the case.
+
+     <li>If an object file <code>O</code> depends on the proper body of a subunit through
+inlining or instantiation, it depends on the parent unit of the subunit. 
+This means that any modification of the parent unit or one of its subunits
+affects the compilation of <code>O</code>.
+
+     <li>The object file for a parent unit depends on all its subunit body files.
+
+     <li>The previous two rules meant that for purposes of computing dependencies and
+recompilation, a body and all its subunits are treated as an indivisible whole.
+
+     <p>These rules are applied transitively: if unit <cite>A</cite> `with's
+unit <cite>B</cite>, whose elaboration calls an inlined procedure in package
+<cite>C</cite>, the object file for unit <cite>A</cite> will depend on the body of
+<cite>C</cite>, in file <code>c.adb</code>.
+
+     <p>The set of dependent files described by these rules includes all the
+files on which the unit is semantically dependent, as dictated by the
+Ada language standard. However, it is a superset of what the
+standard describes, because it includes generic, inline, and subunit
+dependencies.
+
+     <p>An object file must be recreated by recompiling the corresponding source
+file if any of the source files on which it depends are modified. For
+example, if the <cite>make</cite> utility is used to control compilation,
+the rule for an Ada object file must mention all the source files on
+which the object file depends, according to the above definition. 
+The determination of the necessary
+recompilations is done automatically when one uses `gnatmake'. 
+</ul>
+
+</body></html>
+

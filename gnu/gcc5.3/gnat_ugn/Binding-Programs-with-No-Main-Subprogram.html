@@ -1,0 +1,68 @@
+<html lang="en">
+<head>
+<title>Binding Programs with No Main Subprogram - GNAT User's Guide for Native Platforms</title>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+<meta name="description" content="GNAT User's Guide for Native Platforms">
+<meta name="generator" content="makeinfo 4.13">
+<link title="Top" rel="start" href="index.html#Top">
+<link rel="up" href="Switches-for-gnatbind.html#Switches-for-gnatbind" title="Switches for gnatbind">
+<link rel="prev" href="Binding-with-Non_002dAda-Main-Programs.html#Binding-with-Non_002dAda-Main-Programs" title="Binding with Non-Ada Main Programs">
+<link href="http://www.gnu.org/software/texinfo/" rel="generator-home" title="Texinfo Homepage">
+<!--
+
+     GNAT User's Guide for Native Platforms , March 24, 2015
+
+     AdaCore
+
+     Copyright (C) 2008-2015, Free Software Foundation
+-->
+<meta http-equiv="Content-Style-Type" content="text/css">
+<style type="text/css"><!--
+  pre.display { font-family:inherit }
+  pre.format  { font-family:inherit }
+  pre.smalldisplay { font-family:inherit; font-size:smaller }
+  pre.smallformat  { font-family:inherit; font-size:smaller }
+  pre.smallexample { font-size:smaller }
+  pre.smalllisp    { font-size:smaller }
+  span.sc    { font-variant:small-caps }
+  span.roman { font-family:serif; font-weight:normal; } 
+  span.sansserif { font-family:sans-serif; font-weight:normal; } 
+--></style>
+</head>
+<body>
+<div class="node">
+<a name="Binding-Programs-with-No-Main-Subprogram"></a>
+<p>
+Previous:&nbsp;<a rel="previous" accesskey="p" href="Binding-with-Non_002dAda-Main-Programs.html#Binding-with-Non_002dAda-Main-Programs">Binding with Non-Ada Main Programs</a>,
+Up:&nbsp;<a rel="up" accesskey="u" href="Switches-for-gnatbind.html#Switches-for-gnatbind">Switches for gnatbind</a>
+<hr>
+</div>
+
+<p><a name="gnat_005fugn_002fbuilding_005fexecutable_005fprograms_005fwith_005fgnat-binding_002dprograms_002dwith_002dno_002dmain_002dsubprogram"></a><a name="g_t130"></a><a name="gnat_005fugn_002fbuilding_005fexecutable_005fprograms_005fwith_005fgnat-id40"></a><a name="g_t131"></a>
+
+<h5 class="subsubsection">4.4.2.7 Binding Programs with No Main Subprogram</h5>
+
+<p>It is possible to have an Ada program which does not have a main
+subprogram. This program will call the elaboration routines of all the
+packages, then the finalization routines.
+
+<p>The following switch is used to bind programs organized in this manner:
+
+<blockquote>
+
+<p><a name="index-g_t_002dz-_0028gnatbind_0029-738"></a></blockquote>
+
+     <dl>
+<dt><code>-z</code><dd>
+Normally the binder checks that the unit name given on the command line
+corresponds to a suitable main subprogram. When this switch is used,
+a list of ALI files can be given, and the execution of the program
+consists of elaboration of these units in an appropriate order. Note
+that the default wide character encoding method for standard Text_IO
+files is always set to Brackets if this switch is set (you can use
+the binder switch
+`-Wx' to override this default). 
+</dl>
+
+</body></html>
+

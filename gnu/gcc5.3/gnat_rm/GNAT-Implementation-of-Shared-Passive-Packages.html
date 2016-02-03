@@ -1,0 +1,130 @@
+<html lang="en">
+<head>
+<title>GNAT Implementation of Shared Passive Packages - GNAT Reference Manual</title>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+<meta name="description" content="GNAT Reference Manual">
+<meta name="generator" content="makeinfo 4.13">
+<link title="Top" rel="start" href="index.html#Top">
+<link rel="up" href="Implementation-of-Specific-Ada-Features.html#Implementation-of-Specific-Ada-Features" title="Implementation of Specific Ada Features">
+<link rel="prev" href="GNAT-Implementation-of-Tasking.html#GNAT-Implementation-of-Tasking" title="GNAT Implementation of Tasking">
+<link rel="next" href="Code-Generation-for-Array-Aggregates.html#Code-Generation-for-Array-Aggregates" title="Code Generation for Array Aggregates">
+<link href="http://www.gnu.org/software/texinfo/" rel="generator-home" title="Texinfo Homepage">
+<!--
+
+     GNAT Reference Manual , March 24, 2015
+
+     AdaCore
+
+     Copyright (C) 2008-2015, Free Software Foundation
+-->
+<meta http-equiv="Content-Style-Type" content="text/css">
+<style type="text/css"><!--
+  pre.display { font-family:inherit }
+  pre.format  { font-family:inherit }
+  pre.smalldisplay { font-family:inherit; font-size:smaller }
+  pre.smallformat  { font-family:inherit; font-size:smaller }
+  pre.smallexample { font-size:smaller }
+  pre.smalllisp    { font-size:smaller }
+  span.sc    { font-variant:small-caps }
+  span.roman { font-family:serif; font-weight:normal; } 
+  span.sansserif { font-family:sans-serif; font-weight:normal; } 
+--></style>
+</head>
+<body>
+<div class="node">
+<a name="GNAT-Implementation-of-Shared-Passive-Packages"></a>
+<p>
+Next:&nbsp;<a rel="next" accesskey="n" href="Code-Generation-for-Array-Aggregates.html#Code-Generation-for-Array-Aggregates">Code Generation for Array Aggregates</a>,
+Previous:&nbsp;<a rel="previous" accesskey="p" href="GNAT-Implementation-of-Tasking.html#GNAT-Implementation-of-Tasking">GNAT Implementation of Tasking</a>,
+Up:&nbsp;<a rel="up" accesskey="u" href="Implementation-of-Specific-Ada-Features.html#Implementation-of-Specific-Ada-Features">Implementation of Specific Ada Features</a>
+<hr>
+</div>
+
+<p><a name="gnat_005frm_002fimplementation_005fof_005fspecific_005fada_005ffeatures-id6"></a><a name="g_t3b5"></a><a name="gnat_005frm_002fimplementation_005fof_005fspecific_005fada_005ffeatures-gnat_002dimplementation_002dof_002dshared_002dpassive_002dpackages"></a><a name="g_t3b6"></a>
+
+<h3 class="section">15.3 GNAT Implementation of Shared Passive Packages</h3>
+
+<p><a name="index-Shared-passive-packages-930"></a>
+GNAT fully implements the pragma <cite>Shared_Passive</cite> for
+.. index:: pragma <cite>Shared_Passive</cite>
+
+<p>the purpose of designating shared passive packages. 
+This allows the use of passive partitions in the
+context described in the Ada Reference Manual; i.e., for communication
+between separate partitions of a distributed application using the
+features in Annex E. 
+.. index:: Annex E
+
+<p><a name="index-Distribution-Systems-Annex-931"></a>
+However, the implementation approach used by GNAT provides for more
+extensive usage as follows:
+
+     <dl>
+<dt>`Communication between separate programs'<dd>
+This allows separate programs to access the data in passive
+partitions, using protected objects for synchronization where
+needed. The only requirement is that the two programs have a
+common shared file system. It is even possible for programs
+running on different machines with different architectures
+(e.g., different endianness) to communicate via the data in
+a passive partition.
+
+     <br><dt>`Persistence between program runs'<dd>
+The data in a passive package can persist from one run of a
+program to another, so that a later program sees the final
+values stored by a previous run of the same program. 
+</dl>
+
+<p>The implementation approach used is to store the data in files. A
+separate stream file is created for each object in the package, and
+an access to an object causes the corresponding file to be read or
+written.
+
+<p><a name="index-SHARED_005fMEMORY_005fDIRECTORY-environment-variable-932"></a>
+The environment variable <cite>SHARED_MEMORY_DIRECTORY</cite> should be
+set to the directory to be used for these files. 
+The files in this directory
+have names that correspond to their fully qualified names. For
+example, if we have the package
+
+<pre class="example">    package X is
+      pragma Shared_Passive (X);
+      Y : Integer;
+      Z : Float;
+    end X;
+</pre>
+<p>and the environment variable is set to <cite>/stemp/</cite>, then the files created
+will have the names:
+
+<pre class="example">    /stemp/x.y
+    /stemp/x.z
+</pre>
+<p>These files are created when a value is initially written to the object, and
+the files are retained until manually deleted. This provides the persistence
+semantics. If no file exists, it means that no partition has assigned a value
+to the variable; in this case the initial value declared in the package
+will be used. This model ensures that there are no issues in synchronizing
+the elaboration process, since elaboration of passive packages elaborates the
+initial values, but does not create the files.
+
+<p>The files are written using normal <cite>Stream_IO</cite> access. 
+If you want to be able
+to communicate between programs or partitions running on different
+architectures, then you should use the XDR versions of the stream attribute
+routines, since these are architecture independent.
+
+<p>If active synchronization is required for access to the variables in the
+shared passive package, then as described in the Ada Reference Manual, the
+package may contain protected objects used for this purpose. In this case
+a lock file (whose name is <code>___lock</code> (three underscores)
+is created in the shared memory directory.
+
+<p><a name="index-g_t_005f_005f_005flock-file-_0028for-shared-passive-packages_0029-933"></a>
+This is used to provide the required locking
+semantics for proper protected object synchronization.
+
+<p>GNAT supports shared passive packages on all platforms
+except for OpenVMS.
+
+</body></html>
+

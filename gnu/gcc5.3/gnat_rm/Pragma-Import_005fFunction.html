@@ -1,0 +1,107 @@
+<html lang="en">
+<head>
+<title>Pragma Import_Function - GNAT Reference Manual</title>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+<meta name="description" content="GNAT Reference Manual">
+<meta name="generator" content="makeinfo 4.13">
+<link title="Top" rel="start" href="index.html#Top">
+<link rel="up" href="Implementation-Defined-Pragmas.html#Implementation-Defined-Pragmas" title="Implementation Defined Pragmas">
+<link rel="prev" href="Pragma-Implicit_005fPacking.html#Pragma-Implicit_005fPacking" title="Pragma Implicit_Packing">
+<link rel="next" href="Pragma-Import_005fObject.html#Pragma-Import_005fObject" title="Pragma Import_Object">
+<link href="http://www.gnu.org/software/texinfo/" rel="generator-home" title="Texinfo Homepage">
+<!--
+
+     GNAT Reference Manual , March 24, 2015
+
+     AdaCore
+
+     Copyright (C) 2008-2015, Free Software Foundation
+-->
+<meta http-equiv="Content-Style-Type" content="text/css">
+<style type="text/css"><!--
+  pre.display { font-family:inherit }
+  pre.format  { font-family:inherit }
+  pre.smalldisplay { font-family:inherit; font-size:smaller }
+  pre.smallformat  { font-family:inherit; font-size:smaller }
+  pre.smallexample { font-size:smaller }
+  pre.smalllisp    { font-size:smaller }
+  span.sc    { font-variant:small-caps }
+  span.roman { font-family:serif; font-weight:normal; } 
+  span.sansserif { font-family:sans-serif; font-weight:normal; } 
+--></style>
+</head>
+<body>
+<div class="node">
+<a name="Pragma-Import_Function"></a>
+<a name="Pragma-Import_005fFunction"></a>
+<p>
+Next:&nbsp;<a rel="next" accesskey="n" href="Pragma-Import_005fObject.html#Pragma-Import_005fObject">Pragma Import_Object</a>,
+Previous:&nbsp;<a rel="previous" accesskey="p" href="Pragma-Implicit_005fPacking.html#Pragma-Implicit_005fPacking">Pragma Implicit_Packing</a>,
+Up:&nbsp;<a rel="up" accesskey="u" href="Implementation-Defined-Pragmas.html#Implementation-Defined-Pragmas">Implementation Defined Pragmas</a>
+<hr>
+</div>
+
+<p><a name="gnat_005frm_002fimplementation_005fdefined_005fpragmas-pragma_002dimport_002dfunction"></a><a name="g_t64"></a>
+
+<h3 class="section">2.73 Pragma Import_Function</h3>
+
+<p>Syntax:
+
+<pre class="example">    pragma Import_Function (
+         [Internal                 =&gt;] LOCAL_NAME,
+      [, [External                 =&gt;] EXTERNAL_SYMBOL]
+      [, [Parameter_Types          =&gt;] PARAMETER_TYPES]
+      [, [Result_Type              =&gt;] SUBTYPE_MARK]
+      [, [Mechanism                =&gt;] MECHANISM]
+      [, [Result_Mechanism         =&gt;] MECHANISM_NAME]);
+    
+    EXTERNAL_SYMBOL ::=
+      IDENTIFIER
+    | static_string_EXPRESSION
+    
+    PARAMETER_TYPES ::=
+      null
+    | TYPE_DESIGNATOR {, TYPE_DESIGNATOR}
+    
+    TYPE_DESIGNATOR ::=
+      subtype_NAME
+    | subtype_Name ' Access
+    
+    MECHANISM ::=
+      MECHANISM_NAME
+    | (MECHANISM_ASSOCIATION {, MECHANISM_ASSOCIATION})
+    
+    MECHANISM_ASSOCIATION ::=
+      [formal_parameter_NAME =&gt;] MECHANISM_NAME
+    
+    MECHANISM_NAME ::=
+      Value
+    | Reference
+</pre>
+<p>This pragma is used in conjunction with a pragma <cite>Import</cite> to
+specify additional information for an imported function.  The pragma
+<cite>Import</cite> (or equivalent pragma <cite>Interface</cite>) must precede the
+<cite>Import_Function</cite> pragma and both must appear in the same
+declarative part as the function specification.
+
+<p>The <cite>Internal</cite> argument must uniquely designate
+the function to which the
+pragma applies.  If more than one function name exists of this name in
+the declarative part you must use the <cite>Parameter_Types</cite> and
+<cite>Result_Type</cite> parameters to achieve the required unique
+designation.  Subtype marks in these parameters must exactly match the
+subtypes in the corresponding function specification, using positional
+notation to match parameters with subtype marks. 
+The form with an <cite>'Access</cite> attribute can be used to match an
+anonymous access parameter.
+
+<p>You may optionally use the <cite>Mechanism</cite> and <cite>Result_Mechanism</cite>
+parameters to specify passing mechanisms for the
+parameters and result.  If you specify a single mechanism name, it
+applies to all parameters.  Otherwise you may specify a mechanism on a
+parameter by parameter basis using either positional or named
+notation.  If the mechanism is not specified, the default mechanism
+is used.
+
+</body></html>
+

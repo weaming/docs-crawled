@@ -1,0 +1,64 @@
+<html lang="en">
+<head>
+<title>Compilation for profiling - GNAT User's Guide for Native Platforms</title>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+<meta name="description" content="GNAT User's Guide for Native Platforms">
+<meta name="generator" content="makeinfo 4.13">
+<link title="Top" rel="start" href="index.html#Top">
+<link rel="up" href="Profiling-an-Ada-Program-with-gprof.html#Profiling-an-Ada-Program-with-gprof" title="Profiling an Ada Program with gprof">
+<link rel="next" href="Program-execution.html#Program-execution" title="Program execution">
+<link href="http://www.gnu.org/software/texinfo/" rel="generator-home" title="Texinfo Homepage">
+<!--
+
+     GNAT User's Guide for Native Platforms , March 24, 2015
+
+     AdaCore
+
+     Copyright (C) 2008-2015, Free Software Foundation
+-->
+<meta http-equiv="Content-Style-Type" content="text/css">
+<style type="text/css"><!--
+  pre.display { font-family:inherit }
+  pre.format  { font-family:inherit }
+  pre.smalldisplay { font-family:inherit; font-size:smaller }
+  pre.smallformat  { font-family:inherit; font-size:smaller }
+  pre.smallexample { font-size:smaller }
+  pre.smalllisp    { font-size:smaller }
+  span.sc    { font-variant:small-caps }
+  span.roman { font-family:serif; font-weight:normal; } 
+  span.sansserif { font-family:sans-serif; font-weight:normal; } 
+--></style>
+</head>
+<body>
+<div class="node">
+<a name="Compilation-for-profiling"></a>
+<p>
+Next:&nbsp;<a rel="next" accesskey="n" href="Program-execution.html#Program-execution">Program execution</a>,
+Up:&nbsp;<a rel="up" accesskey="u" href="Profiling-an-Ada-Program-with-gprof.html#Profiling-an-Ada-Program-with-gprof">Profiling an Ada Program with gprof</a>
+<hr>
+</div>
+
+<p><a name="gnat_005fugn_002fgnat_005fand_005fprogram_005fexecution-id24"></a><a name="g_t21f"></a><a name="gnat_005fugn_002fgnat_005fand_005fprogram_005fexecution-compilation_002dfor_002dprofiling"></a><a name="g_t220"></a>
+
+<h5 class="subsubsection">8.2.2.1 Compilation for profiling</h5>
+
+<p><a name="index-g_t_002dpg-_0028gcc_0029-981"></a><a name="index-for-profiling-982"></a>
+<a name="index-g_t_002dpg-_0028gnatlink_0029-983"></a><a name="index-for-profiling-984"></a>
+In order to profile a program the first step is to tell the compiler
+to generate the necessary profiling information. The compiler switch to be used
+is <code>-pg</code>, which must be added to other compilation switches. This
+switch needs to be specified both during compilation and link stages, and can
+be specified once when using gnatmake:
+
+<blockquote>
+
+<pre class="example">    $ gnatmake -f -pg -P my_project
+</pre>
+</blockquote>
+
+<p>Note that only the objects that were compiled with the <code>-pg</code> switch will
+be profiled; if you need to profile your whole project, use the <code>-f</code>
+gnatmake switch to force full recompilation.
+
+</body></html>
+

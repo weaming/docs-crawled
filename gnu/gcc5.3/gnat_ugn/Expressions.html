@@ -1,0 +1,112 @@
+<html lang="en">
+<head>
+<title>Expressions - GNAT User's Guide for Native Platforms</title>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+<meta name="description" content="GNAT User's Guide for Native Platforms">
+<meta name="generator" content="makeinfo 4.13">
+<link title="Top" rel="start" href="index.html#Top">
+<link rel="up" href="Project-File-Reference.html#Project-File-Reference" title="Project File Reference">
+<link rel="prev" href="Packages.html#Packages" title="Packages">
+<link rel="next" href="External-Values.html#External-Values" title="External Values">
+<link href="http://www.gnu.org/software/texinfo/" rel="generator-home" title="Texinfo Homepage">
+<!--
+
+     GNAT User's Guide for Native Platforms , March 24, 2015
+
+     AdaCore
+
+     Copyright (C) 2008-2015, Free Software Foundation
+-->
+<meta http-equiv="Content-Style-Type" content="text/css">
+<style type="text/css"><!--
+  pre.display { font-family:inherit }
+  pre.format  { font-family:inherit }
+  pre.smalldisplay { font-family:inherit; font-size:smaller }
+  pre.smallformat  { font-family:inherit; font-size:smaller }
+  pre.smallexample { font-size:smaller }
+  pre.smalllisp    { font-size:smaller }
+  span.sc    { font-variant:small-caps }
+  span.roman { font-family:serif; font-weight:normal; } 
+  span.sansserif { font-family:sans-serif; font-weight:normal; } 
+--></style>
+</head>
+<body>
+<div class="node">
+<a name="Expressions"></a>
+<p>
+Next:&nbsp;<a rel="next" accesskey="n" href="External-Values.html#External-Values">External Values</a>,
+Previous:&nbsp;<a rel="previous" accesskey="p" href="Packages.html#Packages">Packages</a>,
+Up:&nbsp;<a rel="up" accesskey="u" href="Project-File-Reference.html#Project-File-Reference">Project File Reference</a>
+<hr>
+</div>
+
+<p><a name="gnat_005fugn_002fgnat_005fproject_005fmanager-expressions"></a><a name="g_t19b"></a><a name="gnat_005fugn_002fgnat_005fproject_005fmanager-id42"></a><a name="g_t19c"></a>
+
+<h4 class="subsection">5.9.5 Expressions</h4>
+
+<p>An expression is any value that can be assigned to an attribute or a
+variable. It is either a literal value, or a construct requiring runtime
+computation by the project manager. In a project file, the computed value of
+an expression is either a string or a list of strings.
+
+<p>A string value is one of:
+
+     <ul>
+<li>A literal string, for instance <cite>"comm/my_proj.gpr"</cite>
+
+     <li>The name of a variable that evaluates to a string (see <a href="155.html#g_t155">Variables</a>)
+
+     <li>The name of an attribute that evaluates to a string (see <a href="152.html#g_t152">Attributes</a>)
+
+     <li>An external reference (see <a href="154.html#g_t154">External Values</a>)
+
+     <li>A concatenation of the above, as in <cite>"prefix_" &amp; Var</cite>. 
+</ul>
+
+<p>A list of strings is one of the following:
+
+     <ul>
+<li>A parenthesized comma-separated list of zero or more string expressions, for
+instance <cite>(File_Name, "gnat.adc", File_Name &amp; ".orig")</cite> or <cite>()</cite>.
+
+     <li>The name of a variable that evaluates to a list of strings
+
+     <li>The name of an attribute that evaluates to a list of strings
+
+     <li>A concatenation of a list of strings and a string (as defined above), for
+instance <cite>("A", "B") &amp; "C"</cite>
+
+     <li>A concatenation of two lists of strings
+</ul>
+
+<p>The following is the grammar for expressions
+
+<pre class="example">    string_literal ::= "{string_element}"  --  Same as Ada
+    string_expression ::= string_literal
+        | *variable_*name
+        | external_value
+        | attribute_reference
+        | ( string_expression { &amp; string_expression } )
+    string_list  ::= ( string_expression { , string_expression } )
+       | *string_variable*_name
+       | *string_*attribute_reference
+    term ::= string_expression | string_list
+    expression ::= term { &amp; term }     --  Concatenation
+</pre>
+<p>Concatenation involves strings and list of strings. As soon as a list of
+strings is involved, the result of the concatenation is a list of strings. The
+following Ada declarations show the existing operators:
+
+<pre class="example">    function "&amp;" (X : String;      Y : String)      return String;
+    function "&amp;" (X : String_List; Y : String)      return String_List;
+    function "&amp;" (X : String_List; Y : String_List) return String_List;
+</pre>
+<p>Here are some specific examples:
+
+<pre class="example">    List := () &amp; File_Name; --  One string in this list
+    List2 := List &amp; (File_Name &amp; ".orig"); -- Two strings
+    Big_List := List &amp; Lists2;  --  Three strings
+    Illegal := "gnat.adc" &amp; List2;  --  Illegal, must start with list
+</pre>
+</body></html>
+

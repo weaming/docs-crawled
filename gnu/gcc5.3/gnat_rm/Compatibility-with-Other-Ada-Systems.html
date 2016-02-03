@@ -1,0 +1,81 @@
+<html lang="en">
+<head>
+<title>Compatibility with Other Ada Systems - GNAT Reference Manual</title>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+<meta name="description" content="GNAT Reference Manual">
+<meta name="generator" content="makeinfo 4.13">
+<link title="Top" rel="start" href="index.html#Top">
+<link rel="up" href="Compatibility-and-Porting-Guide.html#Compatibility-and-Porting-Guide" title="Compatibility and Porting Guide">
+<link rel="prev" href="Implementation_002ddependent-characteristics.html#Implementation_002ddependent-characteristics" title="Implementation-dependent characteristics">
+<link rel="next" href="Representation-Clauses.html#Representation-Clauses" title="Representation Clauses">
+<link href="http://www.gnu.org/software/texinfo/" rel="generator-home" title="Texinfo Homepage">
+<!--
+
+     GNAT Reference Manual , March 24, 2015
+
+     AdaCore
+
+     Copyright (C) 2008-2015, Free Software Foundation
+-->
+<meta http-equiv="Content-Style-Type" content="text/css">
+<style type="text/css"><!--
+  pre.display { font-family:inherit }
+  pre.format  { font-family:inherit }
+  pre.smalldisplay { font-family:inherit; font-size:smaller }
+  pre.smallformat  { font-family:inherit; font-size:smaller }
+  pre.smallexample { font-size:smaller }
+  pre.smalllisp    { font-size:smaller }
+  span.sc    { font-variant:small-caps }
+  span.roman { font-family:serif; font-weight:normal; } 
+  span.sansserif { font-family:sans-serif; font-weight:normal; } 
+--></style>
+</head>
+<body>
+<div class="node">
+<a name="Compatibility-with-Other-Ada-Systems"></a>
+<p>
+Next:&nbsp;<a rel="next" accesskey="n" href="Representation-Clauses.html#Representation-Clauses">Representation Clauses</a>,
+Previous:&nbsp;<a rel="previous" accesskey="p" href="Implementation_002ddependent-characteristics.html#Implementation_002ddependent-characteristics">Implementation-dependent characteristics</a>,
+Up:&nbsp;<a rel="up" accesskey="u" href="Compatibility-and-Porting-Guide.html#Compatibility-and-Porting-Guide">Compatibility and Porting Guide</a>
+<hr>
+</div>
+
+<p><a name="gnat_005frm_002fcompatibility_005fand_005fporting_005fguide-id15"></a><a name="g_t3f2"></a><a name="gnat_005frm_002fcompatibility_005fand_005fporting_005fguide-compatibility_002dwith_002dother_002dada_002dsystems"></a><a name="g_t3f3"></a>
+
+<h3 class="section">18.5 Compatibility with Other Ada Systems</h3>
+
+<p>If programs avoid the use of implementation dependent and
+implementation defined features, as documented in the
+<cite>Ada Reference Manual</cite>, there should be a high degree of portability between
+GNAT and other Ada systems.  The following are specific items which
+have proved troublesome in moving Ada 95 programs from GNAT to other Ada 95
+compilers, but do not affect porting code to GNAT. 
+(As of January 2007, GNAT is the only compiler available for Ada 2005;
+the following issues may or may not arise for Ada 2005 programs
+when other compilers appear.)
+
+     <ul>
+<li>`Ada 83 Pragmas and Attributes'
+
+     <p>Ada 95 compilers are allowed, but not required, to implement the missing
+Ada 83 pragmas and attributes that are no longer defined in Ada 95. 
+GNAT implements all such pragmas and attributes, eliminating this as
+a compatibility concern, but some other Ada 95 compilers reject these
+pragmas and attributes.
+
+     <li>`Specialized Needs Annexes'
+
+     <p>GNAT implements the full set of special needs annexes.  At the
+current time, it is the only Ada 95 compiler to do so.  This means that
+programs making use of these features may not be portable to other Ada
+95 compilation systems.
+
+     <li>`Representation Clauses'
+
+     <p>Some other Ada 95 compilers implement only the minimal set of
+representation clauses required by the Ada 95 reference manual.  GNAT goes
+far beyond this minimal set, as described in the next section. 
+</ul>
+
+</body></html>
+

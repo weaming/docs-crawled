@@ -1,0 +1,96 @@
+<html lang="en">
+<head>
+<title>Aspect Iterable - GNAT Reference Manual</title>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+<meta name="description" content="GNAT Reference Manual">
+<meta name="generator" content="makeinfo 4.13">
+<link title="Top" rel="start" href="index.html#Top">
+<link rel="up" href="Implementation-Defined-Aspects.html#Implementation-Defined-Aspects" title="Implementation Defined Aspects">
+<link rel="prev" href="Aspect-Invariant_0027Class.html#Aspect-Invariant_0027Class" title="Aspect Invariant'Class">
+<link rel="next" href="Aspect-Linker_005fSection.html#Aspect-Linker_005fSection" title="Aspect Linker_Section">
+<link href="http://www.gnu.org/software/texinfo/" rel="generator-home" title="Texinfo Homepage">
+<!--
+
+     GNAT Reference Manual , March 24, 2015
+
+     AdaCore
+
+     Copyright (C) 2008-2015, Free Software Foundation
+-->
+<meta http-equiv="Content-Style-Type" content="text/css">
+<style type="text/css"><!--
+  pre.display { font-family:inherit }
+  pre.format  { font-family:inherit }
+  pre.smalldisplay { font-family:inherit; font-size:smaller }
+  pre.smallformat  { font-family:inherit; font-size:smaller }
+  pre.smallexample { font-size:smaller }
+  pre.smalllisp    { font-size:smaller }
+  span.sc    { font-variant:small-caps }
+  span.roman { font-family:serif; font-weight:normal; } 
+  span.sansserif { font-family:sans-serif; font-weight:normal; } 
+--></style>
+</head>
+<body>
+<div class="node">
+<a name="Aspect-Iterable"></a>
+<p>
+Next:&nbsp;<a rel="next" accesskey="n" href="Aspect-Linker_005fSection.html#Aspect-Linker_005fSection">Aspect Linker_Section</a>,
+Previous:&nbsp;<a rel="previous" accesskey="p" href="Aspect-Invariant_0027Class.html#Aspect-Invariant_0027Class">Aspect Invariant'Class</a>,
+Up:&nbsp;<a rel="up" accesskey="u" href="Implementation-Defined-Aspects.html#Implementation-Defined-Aspects">Implementation Defined Aspects</a>
+<hr>
+</div>
+
+<p><a name="gnat_005frm_002fimplementation_005fdefined_005faspects-aspect_002diterable"></a><a name="f5"></a>
+
+<h3 class="section">3.18 Aspect Iterable</h3>
+
+<p><a name="index-Iterable-126"></a>
+This aspect provides a light-weight mechanism for loops and quantified
+expressions over container types, without the overhead imposed by the tampering
+checks of standard Ada 2012 iterators. The value of the aspect is an aggregate
+with four named components: <cite>First</cite>, <cite>Next</cite>, <cite>Has_Element</cite>, and <cite>Element</cite> (the
+last one being optional). When only 3 components are specified, only the
+<cite>for .. in</cite> form of iteration over cursors is available. When all 4 components
+are specified, both this form and the <cite>for .. of</cite> form of iteration over
+elements are available. The following is a typical example of use:
+
+<pre class="example">    type List is private with
+        Iterable =&gt; (First        =&gt; First_Cursor,
+                     Next         =&gt; Advance,
+                     Has_Element  =&gt; Cursor_Has_Element,
+                    [Element      =&gt; Get_Element]);
+</pre>
+     <ul>
+<li>The value denoted by <cite>First</cite> must denote a primitive operation of the
+container type that returns a <cite>Cursor</cite>, which must a be a type declared in
+the container package or visible from it. For example:
+</ul>
+
+<pre class="example">    function First_Cursor (Cont : Container) return Cursor;
+</pre>
+     <ul>
+<li>The value of <cite>Next</cite> is a primitive operation of the container type that takes
+both a container and a cursor and yields a cursor. For example:
+</ul>
+
+<pre class="example">    function Advance (Cont : Container; Position : Cursor) return Cursor;
+</pre>
+     <ul>
+<li>The value of <cite>Has_Element</cite> is a primitive operation of the container type
+that takes both a container and a cursor and yields a boolean. For example:
+</ul>
+
+<pre class="example">    function Cursor_Has_Element (Cont : Container; Position : Cursor) return Boolean;
+</pre>
+     <ul>
+<li>The value of <cite>Element</cite> is a primitive operation of the container type that
+takes both a container and a cursor and yields an <cite>Element_Type</cite>, which must
+be a type declared in the container package or visible from it. For example:
+</ul>
+
+<pre class="example">    function Get_Element (Cont : Container; Position : Cursor) return Element_Type;
+</pre>
+<p>This aspect is used in the GNAT-defined formal container packages.
+
+</body></html>
+

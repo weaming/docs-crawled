@@ -1,0 +1,157 @@
+<html lang="en">
+<head>
+<title>Symbolic Traceback - GNAT User's Guide for Native Platforms</title>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+<meta name="description" content="GNAT User's Guide for Native Platforms">
+<meta name="generator" content="makeinfo 4.13">
+<link title="Top" rel="start" href="index.html#Top">
+<link rel="up" href="Stack-Traceback.html#Stack-Traceback" title="Stack Traceback">
+<link rel="prev" href="Non_002dSymbolic-Traceback.html#Non_002dSymbolic-Traceback" title="Non-Symbolic Traceback">
+<link href="http://www.gnu.org/software/texinfo/" rel="generator-home" title="Texinfo Homepage">
+<!--
+
+     GNAT User's Guide for Native Platforms , March 24, 2015
+
+     AdaCore
+
+     Copyright (C) 2008-2015, Free Software Foundation
+-->
+<meta http-equiv="Content-Style-Type" content="text/css">
+<style type="text/css"><!--
+  pre.display { font-family:inherit }
+  pre.format  { font-family:inherit }
+  pre.smalldisplay { font-family:inherit; font-size:smaller }
+  pre.smallformat  { font-family:inherit; font-size:smaller }
+  pre.smallexample { font-size:smaller }
+  pre.smalllisp    { font-size:smaller }
+  span.sc    { font-variant:small-caps }
+  span.roman { font-family:serif; font-weight:normal; } 
+  span.sansserif { font-family:sans-serif; font-weight:normal; } 
+--></style>
+</head>
+<body>
+<div class="node">
+<a name="Symbolic-Traceback"></a>
+<p>
+Previous:&nbsp;<a rel="previous" accesskey="p" href="Non_002dSymbolic-Traceback.html#Non_002dSymbolic-Traceback">Non-Symbolic Traceback</a>,
+Up:&nbsp;<a rel="up" accesskey="u" href="Stack-Traceback.html#Stack-Traceback">Stack Traceback</a>
+<hr>
+</div>
+
+<p><a name="gnat_005fugn_002fgnat_005fand_005fprogram_005fexecution-id18"></a><a name="g_t215"></a><a name="gnat_005fugn_002fgnat_005fand_005fprogram_005fexecution-symbolic_002dtraceback"></a><a name="g_t216"></a>
+
+<h5 class="subsubsection">8.1.14.2 Symbolic Traceback</h5>
+
+<p>A symbolic traceback is a stack traceback in which procedure names are
+associated with each code location.
+
+<p>Note that this feature is not supported on all platforms. See
+<code>GNAT.Traceback.Symbolic</code> spec in <code>g-trasym.ads</code> for a complete
+list of currently supported platforms.
+
+<p>Note that the symbolic traceback requires that the program be compiled
+with debug information. If it is not compiled with debug information
+only the non-symbolic information will be valid.
+
+<h5 class="subsubheading">Tracebacks From Exception Occurrences</h5>
+
+<p>Here is an example:
+
+<blockquote>
+
+<pre class="example">    with Ada.Text_IO;
+    with GNAT.Traceback.Symbolic;
+    
+    procedure STB is
+    
+       procedure P1 is
+       begin
+          raise Constraint_Error;
+       end P1;
+    
+       procedure P2 is
+       begin
+          P1;
+       end P2;
+    
+       procedure P3 is
+       begin
+          P2;
+       end P3;
+    
+    begin
+       P3;
+    exception
+       when E : others =&gt;
+          Ada.Text_IO.Put_Line (GNAT.Traceback.Symbolic.Symbolic_Traceback (E));
+    end STB;
+</pre>
+<pre class="example">    $ gnatmake -g .\stb -bargs -E
+    $ stb
+    
+    0040149F in stb.p1 at stb.adb:8
+    004014B7 in stb.p2 at stb.adb:13
+    004014CF in stb.p3 at stb.adb:18
+    004015DD in ada.stb at stb.adb:22
+    00401461 in main at b~stb.adb:168
+    004011C4 in __mingw_CRTStartup at crt1.c:200
+    004011F1 in mainCRTStartup at crt1.c:222
+    77E892A4 in ?? at ??:0
+</pre>
+</blockquote>
+
+<p>In the above example the <code>.\</code> syntax in the `gnatmake' command
+is currently required by `addr2line' for files that are in
+the current working directory. 
+Moreover, the exact sequence of linker options may vary from platform
+to platform. 
+The above `-largs' section is for Windows platforms. By contrast,
+under Unix there is no need for the `-largs' section. 
+Differences across platforms are due to details of linker implementation.
+
+<h5 class="subsubheading">Tracebacks From Anywhere in a Program</h5>
+
+<p>It is possible to get a symbolic stack traceback
+from anywhere in a program, just as for non-symbolic tracebacks. 
+The first step is to obtain a non-symbolic
+traceback, and then call <cite>Symbolic_Traceback</cite> to compute the symbolic
+information. Here is an example:
+
+<blockquote>
+
+<pre class="example">    with Ada.Text_IO;
+    with GNAT.Traceback;
+    with GNAT.Traceback.Symbolic;
+    
+    procedure STB is
+    
+       use Ada;
+       use GNAT.Traceback;
+       use GNAT.Traceback.Symbolic;
+    
+       procedure P1 is
+          TB  : Tracebacks_Array (1 .. 10);
+          --  We are asking for a maximum of 10 stack frames.
+          Len : Natural;
+          --  Len will receive the actual number of stack frames returned.
+       begin
+          Call_Chain (TB, Len);
+          Text_IO.Put_Line (Symbolic_Traceback (TB (1 .. Len)));
+       end P1;
+    
+       procedure P2 is
+       begin
+          P1;
+       end P2;
+    
+    begin
+       P2;
+    end STB;
+</pre>
+</blockquote>
+
+<p><a name="index-Code-Coverage-973"></a>
+<a name="index-Profiling-974"></a>
+
+</body></html>
+

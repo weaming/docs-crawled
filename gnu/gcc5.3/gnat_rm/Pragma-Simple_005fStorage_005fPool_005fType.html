@@ -1,0 +1,103 @@
+<html lang="en">
+<head>
+<title>Pragma Simple_Storage_Pool_Type - GNAT Reference Manual</title>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+<meta name="description" content="GNAT Reference Manual">
+<meta name="generator" content="makeinfo 4.13">
+<link title="Top" rel="start" href="index.html#Top">
+<link rel="up" href="Implementation-Defined-Pragmas.html#Implementation-Defined-Pragmas" title="Implementation Defined Pragmas">
+<link rel="prev" href="Pragma-Short_005fDescriptors.html#Pragma-Short_005fDescriptors" title="Pragma Short_Descriptors">
+<link rel="next" href="Pragma-Source_005fFile_005fName.html#Pragma-Source_005fFile_005fName" title="Pragma Source_File_Name">
+<link href="http://www.gnu.org/software/texinfo/" rel="generator-home" title="Texinfo Homepage">
+<!--
+
+     GNAT Reference Manual , March 24, 2015
+
+     AdaCore
+
+     Copyright (C) 2008-2015, Free Software Foundation
+-->
+<meta http-equiv="Content-Style-Type" content="text/css">
+<style type="text/css"><!--
+  pre.display { font-family:inherit }
+  pre.format  { font-family:inherit }
+  pre.smalldisplay { font-family:inherit; font-size:smaller }
+  pre.smallformat  { font-family:inherit; font-size:smaller }
+  pre.smallexample { font-size:smaller }
+  pre.smalllisp    { font-size:smaller }
+  span.sc    { font-variant:small-caps }
+  span.roman { font-family:serif; font-weight:normal; } 
+  span.sansserif { font-family:sans-serif; font-weight:normal; } 
+--></style>
+</head>
+<body>
+<div class="node">
+<a name="Pragma-Simple_Storage_Pool_Type"></a>
+<a name="Pragma-Simple_005fStorage_005fPool_005fType"></a>
+<p>
+Next:&nbsp;<a rel="next" accesskey="n" href="Pragma-Source_005fFile_005fName.html#Pragma-Source_005fFile_005fName">Pragma Source_File_Name</a>,
+Previous:&nbsp;<a rel="previous" accesskey="p" href="Pragma-Short_005fDescriptors.html#Pragma-Short_005fDescriptors">Pragma Short_Descriptors</a>,
+Up:&nbsp;<a rel="up" accesskey="u" href="Implementation-Defined-Pragmas.html#Implementation-Defined-Pragmas">Implementation Defined Pragmas</a>
+<hr>
+</div>
+
+<p><a name="gnat_005frm_002fimplementation_005fdefined_005fpragmas-pragma_002dsimple_002dstorage_002dpool_002dtype"></a><a name="b6"></a>
+
+<h3 class="section">2.154 Pragma Simple_Storage_Pool_Type</h3>
+
+<p><a name="index-Storage-pool-86"></a><a name="index-simple-87"></a>
+<a name="index-Simple-storage-pool-88"></a>
+Syntax:
+
+<pre class="example">    pragma Simple_Storage_Pool_Type (type_LOCAL_NAME);
+</pre>
+<p>A type can be established as a 'simple storage pool type' by applying
+the representation pragma <cite>Simple_Storage_Pool_Type</cite> to the type. 
+A type named in the pragma must be a library-level immutably limited record
+type or limited tagged type declared immediately within a package declaration. 
+The type can also be a limited private type whose full type is allowed as
+a simple storage pool type.
+
+<p>For a simple storage pool type <cite>SSP</cite>, nonabstract primitive subprograms
+<cite>Allocate</cite>, <cite>Deallocate</cite>, and <cite>Storage_Size</cite> can be declared that
+are subtype conformant with the following subprogram declarations:
+
+<pre class="example">    procedure Allocate
+      (Pool                     : in out SSP;
+       Storage_Address          : out System.Address;
+       Size_In_Storage_Elements : System.Storage_Elements.Storage_Count;
+       Alignment                : System.Storage_Elements.Storage_Count);
+    
+    procedure Deallocate
+      (Pool : in out SSP;
+       Storage_Address          : System.Address;
+       Size_In_Storage_Elements : System.Storage_Elements.Storage_Count;
+       Alignment                : System.Storage_Elements.Storage_Count);
+    
+    function Storage_Size (Pool : SSP)
+      return System.Storage_Elements.Storage_Count;
+</pre>
+<p>Procedure <cite>Allocate</cite> must be declared, whereas <cite>Deallocate</cite> and
+<cite>Storage_Size</cite> are optional. If <cite>Deallocate</cite> is not declared, then
+applying an unchecked deallocation has no effect other than to set its actual
+parameter to null. If <cite>Storage_Size</cite> is not declared, then the
+<cite>Storage_Size</cite> attribute applied to an access type associated with
+a pool object of type SSP returns zero. Additional operations can be declared
+for a simple storage pool type (such as for supporting a mark/release
+storage-management discipline).
+
+<p>An object of a simple storage pool type can be associated with an access
+type by specifying the attribute
+<a href="b7.html#b7">Simple_Storage_Pool</a>. For example:
+
+<pre class="example">    My_Pool : My_Simple_Storage_Pool_Type;
+    
+    type Acc is access My_Data_Type;
+    
+    for Acc'Simple_Storage_Pool use My_Pool;
+</pre>
+<p>See attribute <a href="b7.html#b7">Simple_Storage_Pool</a>
+for further details.
+
+</body></html>
+

@@ -1,0 +1,58 @@
+<html lang="en">
+<head>
+<title>Interpretation of profiling results - GNAT User's Guide for Native Platforms</title>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+<meta name="description" content="GNAT User's Guide for Native Platforms">
+<meta name="generator" content="makeinfo 4.13">
+<link title="Top" rel="start" href="index.html#Top">
+<link rel="up" href="Profiling-an-Ada-Program-with-gprof.html#Profiling-an-Ada-Program-with-gprof" title="Profiling an Ada Program with gprof">
+<link rel="prev" href="Running-gprof.html#Running-gprof" title="Running gprof">
+<link href="http://www.gnu.org/software/texinfo/" rel="generator-home" title="Texinfo Homepage">
+<!--
+
+     GNAT User's Guide for Native Platforms , March 24, 2015
+
+     AdaCore
+
+     Copyright (C) 2008-2015, Free Software Foundation
+-->
+<meta http-equiv="Content-Style-Type" content="text/css">
+<style type="text/css"><!--
+  pre.display { font-family:inherit }
+  pre.format  { font-family:inherit }
+  pre.smalldisplay { font-family:inherit; font-size:smaller }
+  pre.smallformat  { font-family:inherit; font-size:smaller }
+  pre.smallexample { font-size:smaller }
+  pre.smalllisp    { font-size:smaller }
+  span.sc    { font-variant:small-caps }
+  span.roman { font-family:serif; font-weight:normal; } 
+  span.sansserif { font-family:sans-serif; font-weight:normal; } 
+--></style>
+</head>
+<body>
+<div class="node">
+<a name="Interpretation-of-profiling-results"></a>
+<p>
+Previous:&nbsp;<a rel="previous" accesskey="p" href="Running-gprof.html#Running-gprof">Running gprof</a>,
+Up:&nbsp;<a rel="up" accesskey="u" href="Profiling-an-Ada-Program-with-gprof.html#Profiling-an-Ada-Program-with-gprof">Profiling an Ada Program with gprof</a>
+<hr>
+</div>
+
+<p><a name="gnat_005fugn_002fgnat_005fand_005fprogram_005fexecution-id27"></a><a name="g_t225"></a><a name="gnat_005fugn_002fgnat_005fand_005fprogram_005fexecution-interpretation_002dof_002dprofiling_002dresults"></a><a name="g_t226"></a>
+
+<h5 class="subsubsection">8.2.2.4 Interpretation of profiling results</h5>
+
+<p>The results of the profiling analysis are represented by two arrays: the
+'flat profile' and the 'call graph'. Full documentation of those outputs
+can be found in the GNU Profiler User's Guide.
+
+<p>The flat profile shows the time spent in each function of the program, and how
+many time it has been called. This allows you to locate easily the most
+time-consuming functions.
+
+<p>The call graph shows, for each subprogram, the subprograms that call it,
+and the subprograms that it calls. It also provides an estimate of the time
+spent in each of those callers/called subprograms.
+
+</body></html>
+

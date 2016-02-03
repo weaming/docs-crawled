@@ -1,0 +1,90 @@
+<html lang="en">
+<head>
+<title>Pragma Extend_System - GNAT Reference Manual</title>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+<meta name="description" content="GNAT Reference Manual">
+<meta name="generator" content="makeinfo 4.13">
+<link title="Top" rel="start" href="index.html#Top">
+<link rel="up" href="Implementation-Defined-Pragmas.html#Implementation-Defined-Pragmas" title="Implementation Defined Pragmas">
+<link rel="prev" href="Pragma-Export_005fValued_005fProcedure.html#Pragma-Export_005fValued_005fProcedure" title="Pragma Export_Valued_Procedure">
+<link rel="next" href="Pragma-Extensions_005fAllowed.html#Pragma-Extensions_005fAllowed" title="Pragma Extensions_Allowed">
+<link href="http://www.gnu.org/software/texinfo/" rel="generator-home" title="Texinfo Homepage">
+<!--
+
+     GNAT Reference Manual , March 24, 2015
+
+     AdaCore
+
+     Copyright (C) 2008-2015, Free Software Foundation
+-->
+<meta http-equiv="Content-Style-Type" content="text/css">
+<style type="text/css"><!--
+  pre.display { font-family:inherit }
+  pre.format  { font-family:inherit }
+  pre.smalldisplay { font-family:inherit; font-size:smaller }
+  pre.smallformat  { font-family:inherit; font-size:smaller }
+  pre.smallexample { font-size:smaller }
+  pre.smalllisp    { font-size:smaller }
+  span.sc    { font-variant:small-caps }
+  span.roman { font-family:serif; font-weight:normal; } 
+  span.sansserif { font-family:sans-serif; font-weight:normal; } 
+--></style>
+</head>
+<body>
+<div class="node">
+<a name="Pragma-Extend_System"></a>
+<a name="Pragma-Extend_005fSystem"></a>
+<p>
+Next:&nbsp;<a rel="next" accesskey="n" href="Pragma-Extensions_005fAllowed.html#Pragma-Extensions_005fAllowed">Pragma Extensions_Allowed</a>,
+Previous:&nbsp;<a rel="previous" accesskey="p" href="Pragma-Export_005fValued_005fProcedure.html#Pragma-Export_005fValued_005fProcedure">Pragma Export_Valued_Procedure</a>,
+Up:&nbsp;<a rel="up" accesskey="u" href="Implementation-Defined-Pragmas.html#Implementation-Defined-Pragmas">Implementation Defined Pragmas</a>
+<hr>
+</div>
+
+<p><a name="gnat_005frm_002fimplementation_005fdefined_005fpragmas-pragma_002dextend_002dsystem"></a><a name="g_t56"></a>
+
+<h3 class="section">2.59 Pragma Extend_System</h3>
+
+<p><a name="index-System-46"></a><a name="index-extending-47"></a>
+<a name="index-DEC-Ada-83-48"></a>
+Syntax:
+
+<pre class="example">    pragma Extend_System ([Name =&gt;] IDENTIFIER);
+</pre>
+<p>This pragma is used to provide backwards compatibility with other
+implementations that extend the facilities of package <cite>System</cite>.  In
+GNAT, <cite>System</cite> contains only the definitions that are present in
+the Ada RM.  However, other implementations, notably the DEC Ada 83
+implementation, provide many extensions to package <cite>System</cite>.
+
+<p>For each such implementation accommodated by this pragma, GNAT provides a
+package <cite>Aux_`xxx`</cite>, e.g., <cite>Aux_DEC</cite> for the DEC Ada 83
+implementation, which provides the required additional definitions.  You
+can use this package in two ways.  You can <cite>with</cite> it in the normal
+way and access entities either by selection or using a <cite>use</cite>
+clause.  In this case no special processing is required.
+
+<p>However, if existing code contains references such as
+<cite>System.`xxx`</cite> where <cite>xxx</cite> is an entity in the extended
+definitions provided in package <cite>System</cite>, you may use this pragma
+to extend visibility in <cite>System</cite> in a non-standard way that
+provides greater compatibility with the existing code.  Pragma
+<cite>Extend_System</cite> is a configuration pragma whose single argument is
+the name of the package containing the extended definition
+(e.g., <cite>Aux_DEC</cite> for the DEC Ada case).  A unit compiled under
+control of this pragma will be processed using special visibility
+processing that looks in package <cite>System.Aux_`xxx`</cite> where
+<cite>Aux_`xxx`</cite> is the pragma argument for any entity referenced in
+package <cite>System</cite>, but not found in package <cite>System</cite>.
+
+<p>You can use this pragma either to access a predefined <cite>System</cite>
+extension supplied with the compiler, for example <cite>Aux_DEC</cite> or
+you can construct your own extension unit following the above
+definition.  Note that such a package is a child of <cite>System</cite>
+and thus is considered part of the implementation. 
+To compile it you will have to use the `-gnatg' switch
+for compiling System units, as explained in the
+GNAT User's Guide.
+
+</body></html>
+

@@ -1,0 +1,106 @@
+<html lang="en">
+<head>
+<title>Examples of gnatfind Usage - GNAT User's Guide for Native Platforms</title>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+<meta name="description" content="GNAT User's Guide for Native Platforms">
+<meta name="generator" content="makeinfo 4.13">
+<link title="Top" rel="start" href="index.html#Top">
+<link rel="up" href="The-Cross_002dReferencing-Tools-gnatxref-and-gnatfind.html#The-Cross_002dReferencing-Tools-gnatxref-and-gnatfind" title="The Cross-Referencing Tools gnatxref and gnatfind">
+<link rel="prev" href="Examples-of-gnatxref-Usage.html#Examples-of-gnatxref-Usage" title="Examples of gnatxref Usage">
+<link href="http://www.gnu.org/software/texinfo/" rel="generator-home" title="Texinfo Homepage">
+<!--
+
+     GNAT User's Guide for Native Platforms , March 24, 2015
+
+     AdaCore
+
+     Copyright (C) 2008-2015, Free Software Foundation
+-->
+<meta http-equiv="Content-Style-Type" content="text/css">
+<style type="text/css"><!--
+  pre.display { font-family:inherit }
+  pre.format  { font-family:inherit }
+  pre.smalldisplay { font-family:inherit; font-size:smaller }
+  pre.smallformat  { font-family:inherit; font-size:smaller }
+  pre.smallexample { font-size:smaller }
+  pre.smalllisp    { font-size:smaller }
+  span.sc    { font-variant:small-caps }
+  span.roman { font-family:serif; font-weight:normal; } 
+  span.sansserif { font-family:sans-serif; font-weight:normal; } 
+--></style>
+</head>
+<body>
+<div class="node">
+<a name="Examples-of-gnatfind-Usage"></a>
+<p>
+Previous:&nbsp;<a rel="previous" accesskey="p" href="Examples-of-gnatxref-Usage.html#Examples-of-gnatxref-Usage">Examples of gnatxref Usage</a>,
+Up:&nbsp;<a rel="up" accesskey="u" href="The-Cross_002dReferencing-Tools-gnatxref-and-gnatfind.html#The-Cross_002dReferencing-Tools-gnatxref-and-gnatfind">The Cross-Referencing Tools gnatxref and gnatfind</a>
+<hr>
+</div>
+
+<p><a name="gnat_005fugn_002fgnat_005futility_005fprograms-id15"></a><a name="g_t1e8"></a><a name="gnat_005fugn_002fgnat_005futility_005fprograms-examples_002dof_002dgnatfind_002dusage"></a><a name="g_t1e1"></a>
+
+<h4 class="subsection">7.3.6 Examples of <cite>gnatfind</cite> Usage</h4>
+
+     <ul>
+<li><code>gnatfind -f xyz:main.adb</code>
+Find declarations for all entities xyz referenced at least once in
+main.adb. The references are search in every library file in the search
+path.
+
+     <p>The directories will be printed as well (as the <code>-f</code>
+switch is set)
+
+     <p>The output will look like:
+
+     <blockquote>
+
+     <pre class="example">         directory/main.ads:106:14: xyz &lt;= declaration
+         directory/main.adb:24:10: xyz &lt;= body
+         directory/foo.ads:45:23: xyz &lt;= declaration
+</pre>
+     </blockquote>
+
+     <p>I.e., one of the entities xyz found in main.adb is declared at
+line 12 of main.ads (and its body is in main.adb), and another one is
+declared at line 45 of foo.ads
+
+     <li><code>gnatfind -fs xyz:main.adb</code>
+This is the same command as the previous one, but <cite>gnatfind</cite> will
+display the content of the Ada source file lines.
+
+     <p>The output will look like:
+
+     <pre class="example">         directory/main.ads:106:14: xyz &lt;= declaration
+            procedure xyz;
+         directory/main.adb:24:10: xyz &lt;= body
+            procedure xyz is
+         directory/foo.ads:45:23: xyz &lt;= declaration
+            xyz : Integer;
+</pre>
+     <p>This can make it easier to find exactly the location your are looking
+for.
+
+     <li><code>gnatfind -r "*x*":main.ads:123 foo.adb</code>
+Find references to all entities containing an x that are
+referenced on line 123 of main.ads. 
+The references will be searched only in main.ads and foo.adb.
+
+     <li><code>gnatfind main.ads:123</code>
+Find declarations and bodies for all entities that are referenced on
+line 123 of main.ads.
+
+     <p>This is the same as <code>gnatfind "*":main.adb:123`</code>
+
+     <li><code>gnatfind mydir/main.adb:123:45</code>
+Find the declaration for the entity referenced at column 45 in
+line 123 of file main.adb in directory mydir. Note that it
+is usual to omit the identifier name when the column is given,
+since the column position identifies a unique reference.
+
+     <p>The column has to be the beginning of the identifier, and should not
+point to any character in the middle of the identifier. 
+</ul>
+
+</body></html>
+

@@ -1,0 +1,126 @@
+<html lang="en">
+<head>
+<title>Binding with Non-Ada Main Programs - GNAT User's Guide for Native Platforms</title>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+<meta name="description" content="GNAT User's Guide for Native Platforms">
+<meta name="generator" content="makeinfo 4.13">
+<link title="Top" rel="start" href="index.html#Top">
+<link rel="up" href="Switches-for-gnatbind.html#Switches-for-gnatbind" title="Switches for gnatbind">
+<link rel="prev" href="Dynamic-Allocation-Control.html#Dynamic-Allocation-Control" title="Dynamic Allocation Control">
+<link rel="next" href="Binding-Programs-with-No-Main-Subprogram.html#Binding-Programs-with-No-Main-Subprogram" title="Binding Programs with No Main Subprogram">
+<link href="http://www.gnu.org/software/texinfo/" rel="generator-home" title="Texinfo Homepage">
+<!--
+
+     GNAT User's Guide for Native Platforms , March 24, 2015
+
+     AdaCore
+
+     Copyright (C) 2008-2015, Free Software Foundation
+-->
+<meta http-equiv="Content-Style-Type" content="text/css">
+<style type="text/css"><!--
+  pre.display { font-family:inherit }
+  pre.format  { font-family:inherit }
+  pre.smalldisplay { font-family:inherit; font-size:smaller }
+  pre.smallformat  { font-family:inherit; font-size:smaller }
+  pre.smallexample { font-size:smaller }
+  pre.smalllisp    { font-size:smaller }
+  span.sc    { font-variant:small-caps }
+  span.roman { font-family:serif; font-weight:normal; } 
+  span.sansserif { font-family:sans-serif; font-weight:normal; } 
+--></style>
+</head>
+<body>
+<div class="node">
+<a name="Binding-with-Non-Ada-Main-Programs"></a>
+<a name="Binding-with-Non_002dAda-Main-Programs"></a>
+<p>
+Next:&nbsp;<a rel="next" accesskey="n" href="Binding-Programs-with-No-Main-Subprogram.html#Binding-Programs-with-No-Main-Subprogram">Binding Programs with No Main Subprogram</a>,
+Previous:&nbsp;<a rel="previous" accesskey="p" href="Dynamic-Allocation-Control.html#Dynamic-Allocation-Control">Dynamic Allocation Control</a>,
+Up:&nbsp;<a rel="up" accesskey="u" href="Switches-for-gnatbind.html#Switches-for-gnatbind">Switches for gnatbind</a>
+<hr>
+</div>
+
+<p><a name="gnat_005fugn_002fbuilding_005fexecutable_005fprograms_005fwith_005fgnat-binding_002dwith_002dnon_002dada_002dmain_002dprograms"></a><a name="ba"></a><a name="gnat_005fugn_002fbuilding_005fexecutable_005fprograms_005fwith_005fgnat-id39"></a><a name="g_t12f"></a>
+
+<h5 class="subsubsection">4.4.2.6 Binding with Non-Ada Main Programs</h5>
+
+<p>The description so far has assumed that the main
+program is in Ada, and that the task of the binder is to generate a
+corresponding function <cite>main</cite> that invokes this Ada main
+program. GNAT also supports the building of executable programs where
+the main program is not in Ada, but some of the called routines are
+written in Ada and compiled using GNAT (<a href="46.html#g_t46">Mixed Language Programming</a>). 
+The following switch is used in this situation:
+
+<blockquote>
+
+<p><a name="index-g_t_002dn-_0028gnatbind_0029-731"></a></blockquote>
+
+     <dl>
+<dt><code>-n</code><dd>
+No main program. The main program is not in Ada. 
+</dl>
+
+<p>In this case, most of the functions of the binder are still required,
+but instead of generating a main program, the binder generates a file
+containing the following callable routines:
+
+<blockquote>
+
+<p><a name="index-adainit-732"></a>
+
+     <dl>
+<dt>`adainit'<dd>
+You must call this routine to initialize the Ada part of the program by
+calling the necessary elaboration routines. A call to <cite>adainit</cite> is
+required before the first call to an Ada subprogram.
+
+     <p>Note that it is assumed that the basic execution environment must be setup
+to be appropriate for Ada execution at the point where the first Ada
+subprogram is called. In particular, if the Ada code will do any
+floating-point operations, then the FPU must be setup in an appropriate
+manner. For the case of the x86, for example, full precision mode is
+required. The procedure GNAT.Float_Control.Reset may be used to ensure
+that the FPU is in the right state. 
+</dl>
+
+<p><a name="index-adafinal-733"></a>
+
+     <dl>
+<dt>`adafinal'<dd>
+You must call this routine to perform any library-level finalization
+required by the Ada subprograms. A call to <cite>adafinal</cite> is required
+after the last call to an Ada subprogram, and before the program
+terminates. 
+</dl>
+</blockquote>
+
+<p><a name="index-g_t_002dn-_0028gnatbind_0029-734"></a>
+<a name="index-Binder-735"></a><a name="index-multiple-input-files-736"></a>
+If the `-n' switch
+is given, more than one ALI file may appear on
+the command line for <cite>gnatbind</cite>. The normal `closure'
+calculation is performed for each of the specified units. Calculating
+the closure means finding out the set of units involved by tracing
+`with' references. The reason it is necessary to be able to
+specify more than one ALI file is that a given program may invoke two or
+more quite separate groups of Ada units.
+
+<p>The binder takes the name of its output file from the last specified ALI
+file, unless overridden by the use of the `-o file'.
+
+<p><a name="index-g_t_002do-_0028gnatbind_0029-737"></a>
+The output is an Ada unit in source form that can be compiled with GNAT. 
+This compilation occurs automatically as part of the `gnatlink'
+processing.
+
+<p>Currently the GNAT run time requires a FPU using 80 bits mode
+precision. Under targets where this is not the default it is required to
+call GNAT.Float_Control.Reset before using floating point numbers (this
+include float computation, float input and output) in the Ada code. A
+side effect is that this could be the wrong mode for the foreign code
+where floating point computation could be broken after this call.
+
+</body></html>
+

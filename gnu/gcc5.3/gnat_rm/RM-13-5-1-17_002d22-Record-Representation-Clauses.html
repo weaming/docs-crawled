@@ -1,0 +1,104 @@
+<html lang="en">
+<head>
+<title>RM 13 5 1 17-22 Record Representation Clauses - GNAT Reference Manual</title>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+<meta name="description" content="GNAT Reference Manual">
+<meta name="generator" content="makeinfo 4.13">
+<link title="Top" rel="start" href="index.html#Top">
+<link rel="up" href="Implementation-Advice.html#Implementation-Advice" title="Implementation Advice">
+<link rel="prev" href="RM-13-4-9_002d10-Enumeration-Representation-Clauses.html#RM-13-4-9_002d10-Enumeration-Representation-Clauses" title="RM 13 4 9-10 Enumeration Representation Clauses">
+<link rel="next" href="RM-13-5-2-5-Storage-Place-Attributes.html#RM-13-5-2-5-Storage-Place-Attributes" title="RM 13 5 2 5 Storage Place Attributes">
+<link href="http://www.gnu.org/software/texinfo/" rel="generator-home" title="Texinfo Homepage">
+<!--
+
+     GNAT Reference Manual , March 24, 2015
+
+     AdaCore
+
+     Copyright (C) 2008-2015, Free Software Foundation
+-->
+<meta http-equiv="Content-Style-Type" content="text/css">
+<style type="text/css"><!--
+  pre.display { font-family:inherit }
+  pre.format  { font-family:inherit }
+  pre.smalldisplay { font-family:inherit; font-size:smaller }
+  pre.smallformat  { font-family:inherit; font-size:smaller }
+  pre.smallexample { font-size:smaller }
+  pre.smalllisp    { font-size:smaller }
+  span.sc    { font-variant:small-caps }
+  span.roman { font-family:serif; font-weight:normal; } 
+  span.sansserif { font-family:sans-serif; font-weight:normal; } 
+--></style>
+</head>
+<body>
+<div class="node">
+<a name="RM-13-5-1-17-22-Record-Representation-Clauses"></a>
+<a name="RM-13-5-1-17_002d22-Record-Representation-Clauses"></a>
+<p>
+Next:&nbsp;<a rel="next" accesskey="n" href="RM-13-5-2-5-Storage-Place-Attributes.html#RM-13-5-2-5-Storage-Place-Attributes">RM 13 5 2 5 Storage Place Attributes</a>,
+Previous:&nbsp;<a rel="previous" accesskey="p" href="RM-13-4-9_002d10-Enumeration-Representation-Clauses.html#RM-13-4-9_002d10-Enumeration-Representation-Clauses">RM 13 4 9-10 Enumeration Representation Clauses</a>,
+Up:&nbsp;<a rel="up" accesskey="u" href="Implementation-Advice.html#Implementation-Advice">Implementation Advice</a>
+<hr>
+</div>
+
+<p><a name="gnat_005frm_002fimplementation_005fadvice-rm_002d13_002d5_002d1_002d17_002d22_002drecord_002drepresentation_002dclauses"></a><a name="g_t1d4"></a>
+
+<h3 class="section">6.24 RM 13.5.1(17-22): Record Representation Clauses</h3>
+
+<blockquote>
+
+<p>"The recommended level of support for
+<cite>record_representation_clauses</cite> is:
+
+<p>An implementation should support storage places that can be extracted
+with a load, mask, shift sequence of machine code, and set with a load,
+shift, mask, store sequence, given the available machine instructions
+and run-time model." 
+</blockquote>
+
+<p>Followed.
+
+<blockquote>
+
+<p>"A storage place should be supported if its size is equal to the
+<cite>Size</cite> of the component subtype, and it starts and ends on a
+boundary that obeys the <cite>Alignment</cite> of the component subtype." 
+</blockquote>
+
+<p>Followed.
+
+<blockquote>
+
+<p>"If the default bit ordering applies to the declaration of a given type,
+then for a component whose subtype's <cite>Size</cite> is less than the word
+size, any storage place that does not cross an aligned word boundary
+should be supported." 
+</blockquote>
+
+<p>Followed.
+
+<blockquote>
+
+<p>"An implementation may reserve a storage place for the tag field of a
+tagged type, and disallow other components from overlapping that place." 
+</blockquote>
+
+<p>Followed.  The storage place for the tag field is the beginning of the tagged
+record, and its size is Address'Size.  GNAT will reject an explicit component
+clause for the tag field.
+
+<blockquote>
+
+<p>"An implementation need not support a <cite>component_clause</cite> for a
+component of an extension part if the storage place is not after the
+storage places of all components of the parent type, whether or not
+those storage places had been specified." 
+</blockquote>
+
+<p>Followed.  The above advice on record representation clauses is followed,
+and all mentioned features are implemented.
+
+<p><a name="index-Storage-place-attributes-402"></a>
+
+</body></html>
+

@@ -1,0 +1,91 @@
+<html lang="en">
+<head>
+<title>Performance Considerations - GNAT User's Guide for Native Platforms</title>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+<meta name="description" content="GNAT User's Guide for Native Platforms">
+<meta name="generator" content="makeinfo 4.13">
+<link title="Top" rel="start" href="index.html#Top">
+<link rel="up" href="Improving-Performance.html#Improving-Performance" title="Improving Performance">
+<link rel="next" href="Text_005fIO-Suggestions.html#Text_005fIO-Suggestions" title="Text_IO Suggestions">
+<link href="http://www.gnu.org/software/texinfo/" rel="generator-home" title="Texinfo Homepage">
+<!--
+
+     GNAT User's Guide for Native Platforms , March 24, 2015
+
+     AdaCore
+
+     Copyright (C) 2008-2015, Free Software Foundation
+-->
+<meta http-equiv="Content-Style-Type" content="text/css">
+<style type="text/css"><!--
+  pre.display { font-family:inherit }
+  pre.format  { font-family:inherit }
+  pre.smalldisplay { font-family:inherit; font-size:smaller }
+  pre.smallformat  { font-family:inherit; font-size:smaller }
+  pre.smallexample { font-size:smaller }
+  pre.smalllisp    { font-size:smaller }
+  span.sc    { font-variant:small-caps }
+  span.roman { font-family:serif; font-weight:normal; } 
+  span.sansserif { font-family:sans-serif; font-weight:normal; } 
+--></style>
+</head>
+<body>
+<div class="node">
+<a name="Performance-Considerations"></a>
+<p>
+Next:&nbsp;<a rel="next" accesskey="n" href="Text_005fIO-Suggestions.html#Text_005fIO-Suggestions">Text_IO Suggestions</a>,
+Up:&nbsp;<a rel="up" accesskey="u" href="Improving-Performance.html#Improving-Performance">Improving Performance</a>
+<hr>
+</div>
+
+<p><a name="gnat_005fugn_002fgnat_005fand_005fprogram_005fexecution-id29"></a><a name="g_t227"></a><a name="gnat_005fugn_002fgnat_005fand_005fprogram_005fexecution-performance_002dconsiderations"></a><a name="g_t228"></a>
+
+<h4 class="subsection">8.3.1 Performance Considerations</h4>
+
+<p>The GNAT system provides a number of options that allow a trade-off
+between
+
+     <ul>
+<li>performance of the generated code
+
+     <li>speed of compilation
+
+     <li>minimization of dependences and recompilation
+
+     <li>the degree of run-time checking. 
+</ul>
+
+<p>The defaults (if no options are selected) aim at improving the speed
+of compilation and minimizing dependences, at the expense of performance
+of the generated code:
+
+     <ul>
+<li>no optimization
+
+     <li>no inlining of subprogram calls
+
+     <li>all run-time checks enabled except overflow and elaboration checks
+</ul>
+
+<p>These options are suitable for most program development purposes. This
+section describes how you can modify these choices, and also provides
+some guidelines on debugging optimized code.
+
+<ul class="menu">
+<li><a accesskey="1" href="Controlling-Run_002dTime-Checks.html#Controlling-Run_002dTime-Checks">Controlling Run-Time Checks</a>
+<li><a accesskey="2" href="Use-of-Restrictions.html#Use-of-Restrictions">Use of Restrictions</a>
+<li><a accesskey="3" href="Optimization-Levels.html#Optimization-Levels">Optimization Levels</a>
+<li><a accesskey="4" href="Debugging-Optimized-Code.html#Debugging-Optimized-Code">Debugging Optimized Code</a>
+<li><a accesskey="5" href="Inlining-of-Subprograms.html#Inlining-of-Subprograms">Inlining of Subprograms</a>
+<li><a accesskey="6" href="Floating_005fPoint_005fOperations.html#Floating_005fPoint_005fOperations">Floating_Point_Operations</a>
+<li><a accesskey="7" href="Vectorization-of-loops.html#Vectorization-of-loops">Vectorization of loops</a>
+<li><a accesskey="8" href="Other-Optimization-Switches.html#Other-Optimization-Switches">Other Optimization Switches</a>
+<li><a accesskey="9" href="Optimization-and-Strict-Aliasing.html#Optimization-and-Strict-Aliasing">Optimization and Strict Aliasing</a>
+<li><a href="Aliased-Variables-and-Optimization.html#Aliased-Variables-and-Optimization">Aliased Variables and Optimization</a>
+<li><a href="Atomic-Variables-and-Optimization.html#Atomic-Variables-and-Optimization">Atomic Variables and Optimization</a>
+<li><a href="Passive-Task-Optimization.html#Passive-Task-Optimization">Passive Task Optimization</a>
+
+</ul>
+
+</body></html>
+

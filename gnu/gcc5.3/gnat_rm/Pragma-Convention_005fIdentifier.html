@@ -1,0 +1,74 @@
+<html lang="en">
+<head>
+<title>Pragma Convention_Identifier - GNAT Reference Manual</title>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+<meta name="description" content="GNAT Reference Manual">
+<meta name="generator" content="makeinfo 4.13">
+<link title="Top" rel="start" href="index.html#Top">
+<link rel="up" href="Implementation-Defined-Pragmas.html#Implementation-Defined-Pragmas" title="Implementation Defined Pragmas">
+<link rel="prev" href="Pragma-Contract_005fCases.html#Pragma-Contract_005fCases" title="Pragma Contract_Cases">
+<link rel="next" href="Pragma-CPP_005fClass.html#Pragma-CPP_005fClass" title="Pragma CPP_Class">
+<link href="http://www.gnu.org/software/texinfo/" rel="generator-home" title="Texinfo Homepage">
+<!--
+
+     GNAT Reference Manual , March 24, 2015
+
+     AdaCore
+
+     Copyright (C) 2008-2015, Free Software Foundation
+-->
+<meta http-equiv="Content-Style-Type" content="text/css">
+<style type="text/css"><!--
+  pre.display { font-family:inherit }
+  pre.format  { font-family:inherit }
+  pre.smalldisplay { font-family:inherit; font-size:smaller }
+  pre.smallformat  { font-family:inherit; font-size:smaller }
+  pre.smallexample { font-size:smaller }
+  pre.smalllisp    { font-size:smaller }
+  span.sc    { font-variant:small-caps }
+  span.roman { font-family:serif; font-weight:normal; } 
+  span.sansserif { font-family:sans-serif; font-weight:normal; } 
+--></style>
+</head>
+<body>
+<div class="node">
+<a name="Pragma-Convention_Identifier"></a>
+<a name="Pragma-Convention_005fIdentifier"></a>
+<p>
+Next:&nbsp;<a rel="next" accesskey="n" href="Pragma-CPP_005fClass.html#Pragma-CPP_005fClass">Pragma CPP_Class</a>,
+Previous:&nbsp;<a rel="previous" accesskey="p" href="Pragma-Contract_005fCases.html#Pragma-Contract_005fCases">Pragma Contract_Cases</a>,
+Up:&nbsp;<a rel="up" accesskey="u" href="Implementation-Defined-Pragmas.html#Implementation-Defined-Pragmas">Implementation Defined Pragmas</a>
+<hr>
+</div>
+
+<p><a name="gnat_005frm_002fimplementation_005fdefined_005fpragmas-pragma_002dconvention_002didentifier"></a><a name="g_t3d"></a>
+
+<h3 class="section">2.35 Pragma Convention_Identifier</h3>
+
+<p><a name="index-Conventions-29"></a><a name="index-synonyms-30"></a>
+Syntax:
+
+<pre class="example">    pragma Convention_Identifier (
+             [Name =&gt;]       IDENTIFIER,
+             [Convention =&gt;] convention_IDENTIFIER);
+</pre>
+<p>This pragma provides a mechanism for supplying synonyms for existing
+convention identifiers. The <cite>Name</cite> identifier can subsequently
+be used as a synonym for the given convention in other pragmas (including
+for example pragma <cite>Import</cite> or another <cite>Convention_Identifier</cite>
+pragma). As an example of the use of this, suppose you had legacy code
+which used Fortran77 as the identifier for Fortran. Then the pragma:
+
+<pre class="example">    pragma Convention_Identifier (Fortran77, Fortran);
+</pre>
+<p>would allow the use of the convention identifier <cite>Fortran77</cite> in
+subsequent code, avoiding the need to modify the sources. As another
+example, you could use this to parameterize convention requirements
+according to systems. Suppose you needed to use <cite>Stdcall</cite> on
+windows systems, and <cite>C</cite> on some other system, then you could
+define a convention identifier <cite>Library</cite> and use a single
+<cite>Convention_Identifier</cite> pragma to specify which convention
+would be used system-wide.
+
+</body></html>
+

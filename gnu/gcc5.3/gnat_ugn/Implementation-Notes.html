@@ -1,0 +1,89 @@
+<html lang="en">
+<head>
+<title>Implementation Notes - GNAT User's Guide for Native Platforms</title>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+<meta name="description" content="GNAT User's Guide for Native Platforms">
+<meta name="generator" content="makeinfo 4.13">
+<link title="Top" rel="start" href="index.html#Top">
+<link rel="up" href="Overflow-Check-Handling-in-GNAT.html#Overflow-Check-Handling-in-GNAT" title="Overflow Check Handling in GNAT">
+<link rel="prev" href="Default-Settings.html#Default-Settings" title="Default Settings">
+<link href="http://www.gnu.org/software/texinfo/" rel="generator-home" title="Texinfo Homepage">
+<!--
+
+     GNAT User's Guide for Native Platforms , March 24, 2015
+
+     AdaCore
+
+     Copyright (C) 2008-2015, Free Software Foundation
+-->
+<meta http-equiv="Content-Style-Type" content="text/css">
+<style type="text/css"><!--
+  pre.display { font-family:inherit }
+  pre.format  { font-family:inherit }
+  pre.smalldisplay { font-family:inherit; font-size:smaller }
+  pre.smallformat  { font-family:inherit; font-size:smaller }
+  pre.smallexample { font-size:smaller }
+  pre.smalllisp    { font-size:smaller }
+  span.sc    { font-variant:small-caps }
+  span.roman { font-family:serif; font-weight:normal; } 
+  span.sansserif { font-family:sans-serif; font-weight:normal; } 
+--></style>
+</head>
+<body>
+<div class="node">
+<a name="Implementation-Notes"></a>
+<p>
+Previous:&nbsp;<a rel="previous" accesskey="p" href="Default-Settings.html#Default-Settings">Default Settings</a>,
+Up:&nbsp;<a rel="up" accesskey="u" href="Overflow-Check-Handling-in-GNAT.html#Overflow-Check-Handling-in-GNAT">Overflow Check Handling in GNAT</a>
+<hr>
+</div>
+
+<p><a name="gnat_005fugn_002fgnat_005fand_005fprogram_005fexecution-implementation_002dnotes"></a><a name="g_t24f"></a><a name="gnat_005fugn_002fgnat_005fand_005fprogram_005fexecution-id59"></a><a name="g_t250"></a>
+
+<h4 class="subsection">8.4.5 Implementation Notes</h4>
+
+<p>In practice on typical 64-bit machines, the <cite>MINIMIZED</cite> mode is
+reasonably efficient, and can be generally used. It also helps
+to ensure compatibility with code imported from some other
+compiler to GNAT.
+
+<p>Setting all intermediate overflows checking (<cite>CHECKED</cite> mode)
+makes sense if you want to
+make sure that your code is compatible with any other possible
+Ada implementation. This may be useful in ensuring portability
+for code that is to be exported to some other compiler than GNAT.
+
+<p>The Ada standard allows the reassociation of expressions at
+the same precedence level if no parentheses are present. For
+example, <cite>A+B+C</cite> parses as though it were <cite>(A+B)+C</cite>, but
+the compiler can reintepret this as <cite>A+(B+C)</cite>, possibly
+introducing or eliminating an overflow exception. The GNAT
+compiler never takes advantage of this freedom, and the
+expression <cite>A+B+C</cite> will be evaluated as <cite>(A+B)+C</cite>. 
+If you need the other order, you can write the parentheses
+explicitly <cite>A+(B+C)</cite> and GNAT will respect this order.
+
+<p>The use of <cite>ELIMINATED</cite> mode will cause the compiler to
+automatically include an appropriate arbitrary precision
+integer arithmetic package. The compiler will make calls
+to this package, though only in cases where it cannot be
+sure that <cite>Long_Long_Integer</cite> is sufficient to guard against
+intermediate overflows. This package does not use dynamic
+alllocation, but it does use the secondary stack, so an
+appropriate secondary stack package must be present (this
+is always true for standard full Ada, but may require
+specific steps for restricted run times such as ZFP).
+
+<p>Although <cite>ELIMINATED</cite> mode causes expressions to use arbitrary
+precision arithmetic, avoiding overflow, the final result
+must be in an appropriate range. This is true even if the
+final result is of type <cite>[Long_[Long_]]Integer'Base</cite>, which
+still has the same bounds as its associated constrained
+type at run-time.
+
+<p>Currently, the <cite>ELIMINATED</cite> mode is only available on target
+platforms for which <cite>Long_Long_Integer</cite> is 64-bits (nearly all GNAT
+platforms).
+
+</body></html>
+

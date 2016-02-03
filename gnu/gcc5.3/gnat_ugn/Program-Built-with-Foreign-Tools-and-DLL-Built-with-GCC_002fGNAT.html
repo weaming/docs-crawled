@@ -1,0 +1,153 @@
+<html lang="en">
+<head>
+<title>Program Built with Foreign Tools and DLL Built with GCC/GNAT - GNAT User's Guide for Native Platforms</title>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+<meta name="description" content="GNAT User's Guide for Native Platforms">
+<meta name="generator" content="makeinfo 4.13">
+<link title="Top" rel="start" href="index.html#Top">
+<link rel="up" href="Debugging-a-DLL.html#Debugging-a-DLL" title="Debugging a DLL">
+<link rel="prev" href="Program-and-DLL-Both-Built-with-GCC_002fGNAT.html#Program-and-DLL-Both-Built-with-GCC_002fGNAT" title="Program and DLL Both Built with GCC/GNAT">
+<link href="http://www.gnu.org/software/texinfo/" rel="generator-home" title="Texinfo Homepage">
+<!--
+
+     GNAT User's Guide for Native Platforms , March 24, 2015
+
+     AdaCore
+
+     Copyright (C) 2008-2015, Free Software Foundation
+-->
+<meta http-equiv="Content-Style-Type" content="text/css">
+<style type="text/css"><!--
+  pre.display { font-family:inherit }
+  pre.format  { font-family:inherit }
+  pre.smalldisplay { font-family:inherit; font-size:smaller }
+  pre.smallformat  { font-family:inherit; font-size:smaller }
+  pre.smallexample { font-size:smaller }
+  pre.smalllisp    { font-size:smaller }
+  span.sc    { font-variant:small-caps }
+  span.roman { font-family:serif; font-weight:normal; } 
+  span.sansserif { font-family:sans-serif; font-weight:normal; } 
+--></style>
+</head>
+<body>
+<div class="node">
+<a name="Program-Built-with-Foreign-Tools-and-DLL-Built-with-GCC%2fGNAT"></a>
+<a name="Program-Built-with-Foreign-Tools-and-DLL-Built-with-GCC_002fGNAT"></a>
+<p>
+Previous:&nbsp;<a rel="previous" accesskey="p" href="Program-and-DLL-Both-Built-with-GCC_002fGNAT.html#Program-and-DLL-Both-Built-with-GCC_002fGNAT">Program and DLL Both Built with GCC/GNAT</a>,
+Up:&nbsp;<a rel="up" accesskey="u" href="Debugging-a-DLL.html#Debugging-a-DLL">Debugging a DLL</a>
+<hr>
+</div>
+
+<p><a name="gnat_005fugn_002fplatform_005fspecific_005finformation-program_002dbuilt_002dwith_002dforeign_002dtools_002dand_002ddll_002dbuilt_002dwith_002dgcc_002dgnat"></a><a name="g_t2a6"></a><a name="gnat_005fugn_002fplatform_005fspecific_005finformation-id39"></a><a name="g_t2a7"></a>
+
+<h5 class="subsubsection">9.3.5.26 Program Built with Foreign Tools and DLL Built with GCC/GNAT</h5>
+
+<p>In this case things are slightly more complex because it is not possible to
+start the main program and then break at the beginning to load the DLL and the
+associated DLL debugging information. It is not possible to break at the
+beginning of the program because there is no <cite>GDB</cite> debugging information,
+and therefore there is no direct way of getting initial control. This
+section addresses this issue by describing some methods that can be used
+to break somewhere in the DLL to debug it.
+
+<p>First suppose that the main procedure is named <cite>main</cite> (this is for
+example some C code built with Microsoft Visual C) and that there is a
+DLL named <cite>test.dll</cite> containing an Ada entry point named
+<cite>ada_dll</cite>.
+
+<p>The DLL (see <a href="27f.html#g_t27f">Introduction to Dynamic Link Libraries (DLLs)</a>) must have
+been built with debugging information (see GNAT <cite>-g</cite> option).
+
+<h5 class="subsubheading">Debugging the DLL Directly</h5>
+
+     <ul>
+<li>Find out the executable starting address
+
+     <pre class="example">         $ objdump --file-header main.exe
+</pre>
+     <p>The starting address is reported on the last line. For example:
+
+     <pre class="example">         main.exe:     file format pei-i386
+         architecture: i386, flags 0x0000010a:
+         EXEC_P, HAS_DEBUG, D_PAGED
+         start address 0x00401010
+</pre>
+     <li>Launch the debugger on the executable.
+
+     <pre class="example">         $ gdb main.exe
+</pre>
+     <li>Set a breakpoint at the starting address, and launch the program.
+
+     <pre class="example">         $ (gdb) break *0x00401010
+         $ (gdb) run
+</pre>
+     <p>The program will stop at the given address.
+
+     <li>Set a breakpoint on a DLL subroutine.
+
+     <pre class="example">         (gdb) break ada_dll.adb:45
+</pre>
+     <p>Or if you want to break using a symbol on the DLL, you need first to
+select the Ada language (language used by the DLL).
+
+     <pre class="example">         (gdb) set language ada
+         (gdb) break ada_dll
+</pre>
+     <li>Continue the program.
+
+     <pre class="example">         (gdb) cont
+</pre>
+     <p>This will run the program until it reaches the breakpoint that has been
+set. From that point you can use the standard way to debug a program
+as described in (<a href="26.html#g_t26">Running and Debugging Ada Programs</a>). 
+</ul>
+
+<p>It is also possible to debug the DLL by attaching to a running process.
+
+<h5 class="subsubheading">Attaching to a Running Process</h5>
+
+<p><a name="index-DLL-debugging-1135"></a><a name="index-attach-to-process-1136"></a>
+With <cite>GDB</cite> it is always possible to debug a running process by
+attaching to it. It is possible to debug a DLL this way. The limitation
+of this approach is that the DLL must run long enough to perform the
+attach operation. It may be useful for instance to insert a time wasting
+loop in the code of the DLL to meet this criterion.
+
+     <ul>
+<li>Launch the main program <code>main.exe</code>.
+
+     <pre class="example">         $ main
+</pre>
+     <li>Use the Windows `Task Manager' to find the process ID. Let's say
+that the process PID for <code>main.exe</code> is 208.
+
+     <li>Launch gdb.
+
+     <pre class="example">         $ gdb
+</pre>
+     <li>Attach to the running process to be debugged.
+
+     <pre class="example">         (gdb) attach 208
+</pre>
+     <li>Load the process debugging information.
+
+     <pre class="example">         (gdb) symbol-file main.exe
+</pre>
+     <li>Break somewhere in the DLL.
+
+     <pre class="example">         (gdb) break ada_dll
+</pre>
+     <li>Continue process execution.
+
+     <pre class="example">         (gdb) cont
+</pre>
+     </ul>
+
+<p>This last step will resume the process execution, and stop at
+the breakpoint we have set. From there you can use the standard
+approach to debug a program as described in
+<a href="26.html#g_t26">Running and Debugging Ada Programs</a>.
+
+</body></html>
+

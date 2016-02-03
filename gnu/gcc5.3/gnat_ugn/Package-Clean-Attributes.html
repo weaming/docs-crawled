@@ -1,0 +1,76 @@
+<html lang="en">
+<head>
+<title>Package Clean Attributes - GNAT User's Guide for Native Platforms</title>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+<meta name="description" content="GNAT User's Guide for Native Platforms">
+<meta name="generator" content="makeinfo 4.13">
+<link title="Top" rel="start" href="index.html#Top">
+<link rel="up" href="Attributes.html#Attributes" title="Attributes">
+<link rel="prev" href="Package-Builder-Attributes.html#Package-Builder-Attributes" title="Package Builder Attributes">
+<link rel="next" href="Package-Compiler-Attributes.html#Package-Compiler-Attributes" title="Package Compiler Attributes">
+<link href="http://www.gnu.org/software/texinfo/" rel="generator-home" title="Texinfo Homepage">
+<!--
+
+     GNAT User's Guide for Native Platforms , March 24, 2015
+
+     AdaCore
+
+     Copyright (C) 2008-2015, Free Software Foundation
+-->
+<meta http-equiv="Content-Style-Type" content="text/css">
+<style type="text/css"><!--
+  pre.display { font-family:inherit }
+  pre.format  { font-family:inherit }
+  pre.smalldisplay { font-family:inherit; font-size:smaller }
+  pre.smallformat  { font-family:inherit; font-size:smaller }
+  pre.smallexample { font-size:smaller }
+  pre.smalllisp    { font-size:smaller }
+  span.sc    { font-variant:small-caps }
+  span.roman { font-family:serif; font-weight:normal; } 
+  span.sansserif { font-family:sans-serif; font-weight:normal; } 
+--></style>
+</head>
+<body>
+<div class="node">
+<a name="Package-Clean-Attributes"></a>
+<p>
+Next:&nbsp;<a rel="next" accesskey="n" href="Package-Compiler-Attributes.html#Package-Compiler-Attributes">Package Compiler Attributes</a>,
+Previous:&nbsp;<a rel="previous" accesskey="p" href="Package-Builder-Attributes.html#Package-Builder-Attributes">Package Builder Attributes</a>,
+Up:&nbsp;<a rel="up" accesskey="u" href="Attributes.html#Attributes">Attributes</a>
+<hr>
+</div>
+
+<p><a name="gnat_005fugn_002fgnat_005fproject_005fmanager-package_002dclean_002dattributes"></a><a name="g_t1aa"></a><a name="gnat_005fugn_002fgnat_005fproject_005fmanager-id52"></a><a name="g_t1ab"></a>
+
+<h5 class="subsubsection">5.9.10.4 Package Clean Attributes</h5>
+
+     <ul>
+<li>`Switches': list
+
+     <p>Value is a list of switches to be used by the cleaning application.
+
+     <li>`Source_Artifact_Extensions': list, indexed, case-insensitive index
+
+     <p>Index is a language names. Value is the list of extensions for file names
+derived from object file names that need to be cleaned in the object
+directory of the project.
+
+     <li>`Object_Artifact_Extensions': list, indexed, case-insensitive index
+
+     <p>Index is a language names. Value is the list of extensions for file names
+derived from source file names that need to be cleaned in the object
+directory of the project.
+
+     <li>`Artifacts_In_Object_Dir': single
+
+     <p>Value is a list of file names expressed as regular expressions that are to be
+deleted by gprclean in the object directory of the project.
+
+     <li>`Artifacts_In_Exec_Dir': single
+
+     <p>Value is list of file names expressed as regular expressions that are to be
+deleted by gprclean in the exec directory of the main project. 
+</ul>
+
+</body></html>
+

@@ -1,0 +1,63 @@
+<html lang="en">
+<head>
+<title>Library Project Files - GNAT User's Guide for Native Platforms</title>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+<meta name="description" content="GNAT User's Guide for Native Platforms">
+<meta name="generator" content="makeinfo 4.13">
+<link title="Top" rel="start" href="index.html#Top">
+<link rel="up" href="gnatmake-and-Project-Files.html#gnatmake-and-Project-Files" title="gnatmake and Project Files">
+<link rel="prev" href="Project-Files-and-Main-Subprograms.html#Project-Files-and-Main-Subprograms" title="Project Files and Main Subprograms">
+<link href="http://www.gnu.org/software/texinfo/" rel="generator-home" title="Texinfo Homepage">
+<!--
+
+     GNAT User's Guide for Native Platforms , March 24, 2015
+
+     AdaCore
+
+     Copyright (C) 2008-2015, Free Software Foundation
+-->
+<meta http-equiv="Content-Style-Type" content="text/css">
+<style type="text/css"><!--
+  pre.display { font-family:inherit }
+  pre.format  { font-family:inherit }
+  pre.smalldisplay { font-family:inherit; font-size:smaller }
+  pre.smallformat  { font-family:inherit; font-size:smaller }
+  pre.smallexample { font-size:smaller }
+  pre.smalllisp    { font-size:smaller }
+  span.sc    { font-variant:small-caps }
+  span.roman { font-family:serif; font-weight:normal; } 
+  span.sansserif { font-family:sans-serif; font-weight:normal; } 
+--></style>
+</head>
+<body>
+<div class="node">
+<a name="Library-Project-Files"></a>
+<p>
+Previous:&nbsp;<a rel="previous" accesskey="p" href="Project-Files-and-Main-Subprograms.html#Project-Files-and-Main-Subprograms">Project Files and Main Subprograms</a>,
+Up:&nbsp;<a rel="up" accesskey="u" href="gnatmake-and-Project-Files.html#gnatmake-and-Project-Files">gnatmake and Project Files</a>
+<hr>
+</div>
+
+<p><a name="gnat_005fugn_002ftools_005fsupporting_005fproject_005ffiles-id7"></a><a name="g_t1c9"></a><a name="gnat_005fugn_002ftools_005fsupporting_005fproject_005ffiles-library_002dproject_002dfiles"></a><a name="g_t1ca"></a>
+
+<h4 class="subsection">6.1.5 Library Project Files</h4>
+
+<p>When `gnatmake' is invoked with a main project file that is a library
+project file, it is not allowed to specify one or more mains on the command
+line.
+
+<p>When a library project file is specified, switches <cite>-b</cite> and
+<cite>-l</cite> have special meanings.
+
+     <ul>
+<li><cite>-b</cite> is only allowed for stand-alone libraries. It indicates
+to `gnatmake' that `gnatbind' should be invoked for the
+library.
+
+     <li><cite>-l</cite> may be used for all library projects. It indicates
+to `gnatmake' that the binder generated file should be compiled
+(in the case of a stand-alone library) and that the library should be built. 
+</ul>
+
+</body></html>
+

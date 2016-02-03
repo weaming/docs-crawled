@@ -1,0 +1,69 @@
+<html lang="en">
+<head>
+<title>Running GDB - GNAT User's Guide for Native Platforms</title>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+<meta name="description" content="GNAT User's Guide for Native Platforms">
+<meta name="generator" content="makeinfo 4.13">
+<link title="Top" rel="start" href="index.html#Top">
+<link rel="up" href="Running-and-Debugging-Ada-Programs.html#Running-and-Debugging-Ada-Programs" title="Running and Debugging Ada Programs">
+<link rel="prev" href="The-GNAT-Debugger-GDB.html#The-GNAT-Debugger-GDB" title="The GNAT Debugger GDB">
+<link rel="next" href="Introduction-to-GDB-Commands.html#Introduction-to-GDB-Commands" title="Introduction to GDB Commands">
+<link href="http://www.gnu.org/software/texinfo/" rel="generator-home" title="Texinfo Homepage">
+<!--
+
+     GNAT User's Guide for Native Platforms , March 24, 2015
+
+     AdaCore
+
+     Copyright (C) 2008-2015, Free Software Foundation
+-->
+<meta http-equiv="Content-Style-Type" content="text/css">
+<style type="text/css"><!--
+  pre.display { font-family:inherit }
+  pre.format  { font-family:inherit }
+  pre.smalldisplay { font-family:inherit; font-size:smaller }
+  pre.smallformat  { font-family:inherit; font-size:smaller }
+  pre.smallexample { font-size:smaller }
+  pre.smalllisp    { font-size:smaller }
+  span.sc    { font-variant:small-caps }
+  span.roman { font-family:serif; font-weight:normal; } 
+  span.sansserif { font-family:sans-serif; font-weight:normal; } 
+--></style>
+</head>
+<body>
+<div class="node">
+<a name="Running-GDB"></a>
+<p>
+Next:&nbsp;<a rel="next" accesskey="n" href="Introduction-to-GDB-Commands.html#Introduction-to-GDB-Commands">Introduction to GDB Commands</a>,
+Previous:&nbsp;<a rel="previous" accesskey="p" href="The-GNAT-Debugger-GDB.html#The-GNAT-Debugger-GDB">The GNAT Debugger GDB</a>,
+Up:&nbsp;<a rel="up" accesskey="u" href="Running-and-Debugging-Ada-Programs.html#Running-and-Debugging-Ada-Programs">Running and Debugging Ada Programs</a>
+<hr>
+</div>
+
+<p><a name="gnat_005fugn_002fgnat_005fand_005fprogram_005fexecution-id4"></a><a name="g_t1f9"></a><a name="gnat_005fugn_002fgnat_005fand_005fprogram_005fexecution-running_002dgdb"></a><a name="g_t1fa"></a>
+
+<h4 class="subsection">8.1.2 Running GDB</h4>
+
+<p>This section describes how to initiate the debugger.
+
+<p>The debugger can be launched from a <cite>GPS</cite> menu or
+directly from the command line. The description below covers the latter use. 
+All the commands shown can be used in the <cite>GPS</cite> debug console window,
+but there are usually more GUI-based ways to achieve the same effect.
+
+<p>The command to run <cite>GDB</cite> is
+
+<blockquote>
+
+<pre class="example">    $ gdb program
+</pre>
+</blockquote>
+
+<p>where <cite>program</cite> is the name of the executable file. This
+activates the debugger and results in a prompt for debugger commands. 
+The simplest command is simply <cite>run</cite>, which causes the program to run
+exactly as if the debugger were not present. The following section
+describes some of the additional commands that can be given to <cite>GDB</cite>.
+
+</body></html>
+

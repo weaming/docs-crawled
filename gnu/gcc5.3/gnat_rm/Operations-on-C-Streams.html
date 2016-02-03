@@ -1,0 +1,201 @@
+<html lang="en">
+<head>
+<title>Operations on C Streams - GNAT Reference Manual</title>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+<meta name="description" content="GNAT Reference Manual">
+<meta name="generator" content="makeinfo 4.13">
+<link title="Top" rel="start" href="index.html#Top">
+<link rel="up" href="The-Implementation-of-Standard-I_002fO.html#The-Implementation-of-Standard-I_002fO" title="The Implementation of Standard I/O">
+<link rel="prev" href="Open-Modes.html#Open-Modes" title="Open Modes">
+<link rel="next" href="Interfacing-to-C-Streams.html#Interfacing-to-C-Streams" title="Interfacing to C Streams">
+<link href="http://www.gnu.org/software/texinfo/" rel="generator-home" title="Texinfo Homepage">
+<!--
+
+     GNAT Reference Manual , March 24, 2015
+
+     AdaCore
+
+     Copyright (C) 2008-2015, Free Software Foundation
+-->
+<meta http-equiv="Content-Style-Type" content="text/css">
+<style type="text/css"><!--
+  pre.display { font-family:inherit }
+  pre.format  { font-family:inherit }
+  pre.smalldisplay { font-family:inherit; font-size:smaller }
+  pre.smallformat  { font-family:inherit; font-size:smaller }
+  pre.smallexample { font-size:smaller }
+  pre.smalllisp    { font-size:smaller }
+  span.sc    { font-variant:small-caps }
+  span.roman { font-family:serif; font-weight:normal; } 
+  span.sansserif { font-family:sans-serif; font-weight:normal; } 
+--></style>
+</head>
+<body>
+<div class="node">
+<a name="Operations-on-C-Streams"></a>
+<p>
+Next:&nbsp;<a rel="next" accesskey="n" href="Interfacing-to-C-Streams.html#Interfacing-to-C-Streams">Interfacing to C Streams</a>,
+Previous:&nbsp;<a rel="previous" accesskey="p" href="Open-Modes.html#Open-Modes">Open Modes</a>,
+Up:&nbsp;<a rel="up" accesskey="u" href="The-Implementation-of-Standard-I_002fO.html#The-Implementation-of-Standard-I_002fO">The Implementation of Standard I/O</a>
+<hr>
+</div>
+
+<p><a name="gnat_005frm_002fthe_005fimplementation_005fof_005fstandard_005fi_005fo-operations_002don_002dc_002dstreams"></a><a name="g_t272"></a><a name="gnat_005frm_002fthe_005fimplementation_005fof_005fstandard_005fi_005fo-id25"></a><a name="g_t273"></a>
+
+<h3 class="section">11.14 Operations on C Streams</h3>
+
+<p>The package <cite>Interfaces.C_Streams</cite> provides an Ada program with direct
+access to the C library functions for operations on C streams:
+
+<pre class="example">    package Interfaces.C_Streams is
+      -- Note: the reason we do not use the types that are in
+      -- Interfaces.C is that we want to avoid dragging in the
+      -- code in this unit if possible.
+      subtype chars is System.Address;
+      -- Pointer to null-terminated array of characters
+      subtype FILEs is System.Address;
+      -- Corresponds to the C type FILE*
+      subtype voids is System.Address;
+      -- Corresponds to the C type void*
+      subtype int is Integer;
+      subtype long is Long_Integer;
+      -- Note: the above types are subtypes deliberately, and it
+      -- is part of this spec that the above correspondences are
+      -- guaranteed.  This means that it is legitimate to, for
+      -- example, use Integer instead of int.  We provide these
+      -- synonyms for clarity, but in some cases it may be
+      -- convenient to use the underlying types (for example to
+      -- avoid an unnecessary dependency of a spec on the spec
+      -- of this unit).
+      type size_t is mod 2 ** Standard'Address_Size;
+      NULL_Stream : constant FILEs;
+      -- Value returned (NULL in C) to indicate an
+      -- fdopen/fopen/tmpfile error
+      ----------------------------------
+      -- Constants Defined in stdio.h --
+      ----------------------------------
+      EOF : constant int;
+      -- Used by a number of routines to indicate error or
+      -- end of file
+      IOFBF : constant int;
+      IOLBF : constant int;
+      IONBF : constant int;
+      -- Used to indicate buffering mode for setvbuf call
+      SEEK_CUR : constant int;
+      SEEK_END : constant int;
+      SEEK_SET : constant int;
+      -- Used to indicate origin for fseek call
+      function stdin return FILEs;
+      function stdout return FILEs;
+      function stderr return FILEs;
+      -- Streams associated with standard files
+      --------------------------
+      -- Standard C functions --
+      --------------------------
+      -- The functions selected below are ones that are
+      -- available in UNIX (but not necessarily in ANSI C).
+      -- These are very thin interfaces
+      -- which copy exactly the C headers.  For more
+      -- documentation on these functions, see the Microsoft C
+      -- "Run-Time Library Reference" (Microsoft Press, 1990,
+      -- ISBN 1-55615-225-6), which includes useful information
+      -- on system compatibility.
+      procedure clearerr (stream : FILEs);
+      function fclose (stream : FILEs) return int;
+      function fdopen (handle : int; mode : chars) return FILEs;
+      function feof (stream : FILEs) return int;
+      function ferror (stream : FILEs) return int;
+      function fflush (stream : FILEs) return int;
+      function fgetc (stream : FILEs) return int;
+      function fgets (strng : chars; n : int; stream : FILEs)
+          return chars;
+      function fileno (stream : FILEs) return int;
+      function fopen (filename : chars; Mode : chars)
+          return FILEs;
+      -- Note: to maintain target independence, use
+      -- text_translation_required, a boolean variable defined in
+      -- a-sysdep.c to deal with the target dependent text
+      -- translation requirement.  If this variable is set,
+      -- then  b/t should be appended to the standard mode
+      -- argument to set the text translation mode off or on
+      -- as required.
+      function fputc (C : int; stream : FILEs) return int;
+      function fputs (Strng : chars; Stream : FILEs) return int;
+      function fread
+         (buffer : voids;
+          size : size_t;
+          count : size_t;
+          stream : FILEs)
+          return size_t;
+      function freopen
+         (filename : chars;
+          mode : chars;
+          stream : FILEs)
+          return FILEs;
+      function fseek
+         (stream : FILEs;
+          offset : long;
+          origin : int)
+          return int;
+      function ftell (stream : FILEs) return long;
+      function fwrite
+         (buffer : voids;
+          size : size_t;
+          count : size_t;
+          stream : FILEs)
+          return size_t;
+      function isatty (handle : int) return int;
+      procedure mktemp (template : chars);
+      -- The return value (which is just a pointer to template)
+      -- is discarded
+      procedure rewind (stream : FILEs);
+      function rmtmp return int;
+      function setvbuf
+         (stream : FILEs;
+          buffer : chars;
+          mode : int;
+          size : size_t)
+          return int;
+    
+      function tmpfile return FILEs;
+      function ungetc (c : int; stream : FILEs) return int;
+      function unlink (filename : chars) return int;
+      ---------------------
+      -- Extra functions --
+      ---------------------
+      -- These functions supply slightly thicker bindings than
+      -- those above.  They are derived from functions in the
+      -- C Run-Time Library, but may do a bit more work than
+      -- just directly calling one of the Library functions.
+      function is_regular_file (handle : int) return int;
+      -- Tests if given handle is for a regular file (result 1)
+      -- or for a non-regular file (pipe or device, result 0).
+      ---------------------------------
+      -- Control of Text/Binary Mode --
+      ---------------------------------
+      -- If text_translation_required is true, then the following
+      -- functions may be used to dynamically switch a file from
+      -- binary to text mode or vice versa.  These functions have
+      -- no effect if text_translation_required is false (i.e., in
+      -- normal UNIX mode).  Use fileno to get a stream handle.
+      procedure set_binary_mode (handle : int);
+      procedure set_text_mode (handle : int);
+      ----------------------------
+      -- Full Path Name support --
+      ----------------------------
+      procedure full_name (nam : chars; buffer : chars);
+      -- Given a NUL terminated string representing a file
+      -- name, returns in buffer a NUL terminated string
+      -- representing the full path name for the file name.
+      -- On systems where it is relevant the   drive is also
+      -- part of the full path name.  It is the responsibility
+      -- of the caller to pass an actual parameter for buffer
+      -- that is big enough for any full path name.  Use
+      -- max_path_len given below as the size of buffer.
+      max_path_len : integer;
+      -- Maximum length of an allowable full path name on the
+      -- system, including a terminating NUL character.
+    end Interfaces.C_Streams;
+</pre>
+</body></html>
+

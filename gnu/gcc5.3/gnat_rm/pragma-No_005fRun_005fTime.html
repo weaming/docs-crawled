@@ -1,0 +1,55 @@
+<html lang="en">
+<head>
+<title>pragma No_Run_Time - GNAT Reference Manual</title>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+<meta name="description" content="GNAT Reference Manual">
+<meta name="generator" content="makeinfo 4.13">
+<link title="Top" rel="start" href="index.html#Top">
+<link rel="up" href="Obsolescent-Features.html#Obsolescent-Features" title="Obsolescent Features">
+<link rel="next" href="pragma-Ravenscar.html#pragma-Ravenscar" title="pragma Ravenscar">
+<link href="http://www.gnu.org/software/texinfo/" rel="generator-home" title="Texinfo Homepage">
+<!--
+
+     GNAT Reference Manual , March 24, 2015
+
+     AdaCore
+
+     Copyright (C) 2008-2015, Free Software Foundation
+-->
+<meta http-equiv="Content-Style-Type" content="text/css">
+<style type="text/css"><!--
+  pre.display { font-family:inherit }
+  pre.format  { font-family:inherit }
+  pre.smalldisplay { font-family:inherit; font-size:smaller }
+  pre.smallformat  { font-family:inherit; font-size:smaller }
+  pre.smallexample { font-size:smaller }
+  pre.smalllisp    { font-size:smaller }
+  span.sc    { font-variant:small-caps }
+  span.roman { font-family:serif; font-weight:normal; } 
+  span.sansserif { font-family:sans-serif; font-weight:normal; } 
+--></style>
+</head>
+<body>
+<div class="node">
+<a name="pragma-No_Run_Time"></a>
+<a name="pragma-No_005fRun_005fTime"></a>
+<p>
+Next:&nbsp;<a rel="next" accesskey="n" href="pragma-Ravenscar.html#pragma-Ravenscar">pragma Ravenscar</a>,
+Up:&nbsp;<a rel="up" accesskey="u" href="Obsolescent-Features.html#Obsolescent-Features">Obsolescent Features</a>
+<hr>
+</div>
+
+<p><a name="gnat_005frm_002fobsolescent_005ffeatures-id2"></a><a name="g_t3cb"></a><a name="gnat_005frm_002fobsolescent_005ffeatures-pragma_002dno_002drun_002dtime"></a><a name="g_t3cc"></a>
+
+<h3 class="section">17.1 pragma No_Run_Time</h3>
+
+<p>The pragma <cite>No_Run_Time</cite> is used to achieve an affect similar
+to the use of the "Zero Foot Print" configurable run time, but without
+requiring a specially configured run time. The result of using this
+pragma, which must be used for all units in a partition, is to restrict
+the use of any language features requiring run-time support code. The
+preferred usage is to use an appropriately configured run-time that
+includes just those features that are to be made accessible.
+
+</body></html>
+

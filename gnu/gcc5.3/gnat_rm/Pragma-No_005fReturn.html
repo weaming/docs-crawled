@@ -1,0 +1,69 @@
+<html lang="en">
+<head>
+<title>Pragma No_Return - GNAT Reference Manual</title>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+<meta name="description" content="GNAT Reference Manual">
+<meta name="generator" content="makeinfo 4.13">
+<link title="Top" rel="start" href="index.html#Top">
+<link rel="up" href="Implementation-Defined-Pragmas.html#Implementation-Defined-Pragmas" title="Implementation Defined Pragmas">
+<link rel="prev" href="Pragma-No_005fInline.html#Pragma-No_005fInline" title="Pragma No_Inline">
+<link rel="next" href="Pragma-No_005fRun_005fTime.html#Pragma-No_005fRun_005fTime" title="Pragma No_Run_Time">
+<link href="http://www.gnu.org/software/texinfo/" rel="generator-home" title="Texinfo Homepage">
+<!--
+
+     GNAT Reference Manual , March 24, 2015
+
+     AdaCore
+
+     Copyright (C) 2008-2015, Free Software Foundation
+-->
+<meta http-equiv="Content-Style-Type" content="text/css">
+<style type="text/css"><!--
+  pre.display { font-family:inherit }
+  pre.format  { font-family:inherit }
+  pre.smalldisplay { font-family:inherit; font-size:smaller }
+  pre.smallformat  { font-family:inherit; font-size:smaller }
+  pre.smallexample { font-size:smaller }
+  pre.smalllisp    { font-size:smaller }
+  span.sc    { font-variant:small-caps }
+  span.roman { font-family:serif; font-weight:normal; } 
+  span.sansserif { font-family:sans-serif; font-weight:normal; } 
+--></style>
+</head>
+<body>
+<div class="node">
+<a name="Pragma-No_Return"></a>
+<a name="Pragma-No_005fReturn"></a>
+<p>
+Next:&nbsp;<a rel="next" accesskey="n" href="Pragma-No_005fRun_005fTime.html#Pragma-No_005fRun_005fTime">Pragma No_Run_Time</a>,
+Previous:&nbsp;<a rel="previous" accesskey="p" href="Pragma-No_005fInline.html#Pragma-No_005fInline">Pragma No_Inline</a>,
+Up:&nbsp;<a rel="up" accesskey="u" href="Implementation-Defined-Pragmas.html#Implementation-Defined-Pragmas">Implementation Defined Pragmas</a>
+<hr>
+</div>
+
+<p><a name="gnat_005frm_002fimplementation_005fdefined_005fpragmas-pragma_002dno_002dreturn"></a><a name="g_t87"></a>
+
+<h3 class="section">2.108 Pragma No_Return</h3>
+
+<p>Syntax:
+
+<pre class="example">    pragma No_Return (procedure_LOCAL_NAME {, procedure_LOCAL_NAME});
+</pre>
+<p>Each <cite>procedure_LOCAL_NAME</cite> argument must refer to one or more procedure
+declarations in the current declarative part.  A procedure to which this
+pragma is applied may not contain any explicit <cite>return</cite> statements. 
+In addition, if the procedure contains any implicit returns from falling
+off the end of a statement sequence, then execution of that implicit
+return will cause Program_Error to be raised.
+
+<p>One use of this pragma is to identify procedures whose only purpose is to raise
+an exception. Another use of this pragma is to suppress incorrect warnings
+about missing returns in functions, where the last statement of a function
+statement sequence is a call to such a procedure.
+
+<p>Note that in Ada 2005 mode, this pragma is part of the language. It is
+available in all earlier versions of Ada as an implementation-defined
+pragma.
+
+</body></html>
+

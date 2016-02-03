@@ -1,0 +1,69 @@
+<html lang="en">
+<head>
+<title>Pragma Type_Invariant_Class - GNAT Reference Manual</title>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+<meta name="description" content="GNAT Reference Manual">
+<meta name="generator" content="makeinfo 4.13">
+<link title="Top" rel="start" href="index.html#Top">
+<link rel="up" href="Implementation-Defined-Pragmas.html#Implementation-Defined-Pragmas" title="Implementation Defined Pragmas">
+<link rel="prev" href="Pragma-Type_005fInvariant.html#Pragma-Type_005fInvariant" title="Pragma Type_Invariant">
+<link rel="next" href="Pragma-Unchecked_005fUnion.html#Pragma-Unchecked_005fUnion" title="Pragma Unchecked_Union">
+<link href="http://www.gnu.org/software/texinfo/" rel="generator-home" title="Texinfo Homepage">
+<!--
+
+     GNAT Reference Manual , March 24, 2015
+
+     AdaCore
+
+     Copyright (C) 2008-2015, Free Software Foundation
+-->
+<meta http-equiv="Content-Style-Type" content="text/css">
+<style type="text/css"><!--
+  pre.display { font-family:inherit }
+  pre.format  { font-family:inherit }
+  pre.smalldisplay { font-family:inherit; font-size:smaller }
+  pre.smallformat  { font-family:inherit; font-size:smaller }
+  pre.smallexample { font-size:smaller }
+  pre.smalllisp    { font-size:smaller }
+  span.sc    { font-variant:small-caps }
+  span.roman { font-family:serif; font-weight:normal; } 
+  span.sansserif { font-family:sans-serif; font-weight:normal; } 
+--></style>
+</head>
+<body>
+<div class="node">
+<a name="Pragma-Type_Invariant_Class"></a>
+<a name="Pragma-Type_005fInvariant_005fClass"></a>
+<p>
+Next:&nbsp;<a rel="next" accesskey="n" href="Pragma-Unchecked_005fUnion.html#Pragma-Unchecked_005fUnion">Pragma Unchecked_Union</a>,
+Previous:&nbsp;<a rel="previous" accesskey="p" href="Pragma-Type_005fInvariant.html#Pragma-Type_005fInvariant">Pragma Type_Invariant</a>,
+Up:&nbsp;<a rel="up" accesskey="u" href="Implementation-Defined-Pragmas.html#Implementation-Defined-Pragmas">Implementation Defined Pragmas</a>
+<hr>
+</div>
+
+<p><a name="gnat_005frm_002fimplementation_005fdefined_005fpragmas-pragma_002dtype_002dinvariant_002dclass"></a><a name="ce"></a>
+
+<h3 class="section">2.175 Pragma Type_Invariant_Class</h3>
+
+<p>Syntax:
+
+<pre class="example">    pragma Type_Invariant_Class
+      ([Entity =&gt;] type_LOCAL_NAME,
+       [Check  =&gt;] EXPRESSION);
+</pre>
+<p>The <cite>Type_Invariant_Class</cite> pragma is intended to be an exact
+replacement for the language-defined <cite>Type_Invariant'Class</cite>
+aspect, and shares its restrictions and semantics.
+
+<p>Note: This pragma is called <cite>Type_Invariant_Class</cite> rather than
+<cite>Type_Invariant'Class</cite> because the latter would not be strictly
+conforming to the allowed syntax for pragmas. The motivation
+for providing pragmas equivalent to the aspects is to allow a program
+to be written using the pragmas, and then compiled if necessary
+using an Ada compiler that does not recognize the pragmas or
+aspects, but is prepared to ignore the pragmas. The assertion
+policy that controls this pragma is <cite>Type_Invariant'Class</cite>,
+not <cite>Type_Invariant_Class</cite>.
+
+</body></html>
+

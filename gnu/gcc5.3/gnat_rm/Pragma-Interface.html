@@ -1,0 +1,68 @@
+<html lang="en">
+<head>
+<title>Pragma Interface - GNAT Reference Manual</title>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+<meta name="description" content="GNAT Reference Manual">
+<meta name="generator" content="makeinfo 4.13">
+<link title="Top" rel="start" href="index.html#Top">
+<link rel="up" href="Implementation-Defined-Pragmas.html#Implementation-Defined-Pragmas" title="Implementation Defined Pragmas">
+<link rel="prev" href="Pragma-Inline_005fGeneric.html#Pragma-Inline_005fGeneric" title="Pragma Inline_Generic">
+<link rel="next" href="Pragma-Interface_005fName.html#Pragma-Interface_005fName" title="Pragma Interface_Name">
+<link href="http://www.gnu.org/software/texinfo/" rel="generator-home" title="Texinfo Homepage">
+<!--
+
+     GNAT Reference Manual , March 24, 2015
+
+     AdaCore
+
+     Copyright (C) 2008-2015, Free Software Foundation
+-->
+<meta http-equiv="Content-Style-Type" content="text/css">
+<style type="text/css"><!--
+  pre.display { font-family:inherit }
+  pre.format  { font-family:inherit }
+  pre.smalldisplay { font-family:inherit; font-size:smaller }
+  pre.smallformat  { font-family:inherit; font-size:smaller }
+  pre.smallexample { font-size:smaller }
+  pre.smalllisp    { font-size:smaller }
+  span.sc    { font-variant:small-caps }
+  span.roman { font-family:serif; font-weight:normal; } 
+  span.sansserif { font-family:sans-serif; font-weight:normal; } 
+--></style>
+</head>
+<body>
+<div class="node">
+<a name="Pragma-Interface"></a>
+<p>
+Next:&nbsp;<a rel="next" accesskey="n" href="Pragma-Interface_005fName.html#Pragma-Interface_005fName">Pragma Interface_Name</a>,
+Previous:&nbsp;<a rel="previous" accesskey="p" href="Pragma-Inline_005fGeneric.html#Pragma-Inline_005fGeneric">Pragma Inline_Generic</a>,
+Up:&nbsp;<a rel="up" accesskey="u" href="Implementation-Defined-Pragmas.html#Implementation-Defined-Pragmas">Implementation Defined Pragmas</a>
+<hr>
+</div>
+
+<p><a name="gnat_005frm_002fimplementation_005fdefined_005fpragmas-pragma_002dinterface"></a><a name="g_t6f"></a>
+
+<h3 class="section">2.84 Pragma Interface</h3>
+
+<p>Syntax:
+
+<pre class="example">    pragma Interface (
+         [Convention    =&gt;] convention_identifier,
+         [Entity        =&gt;] local_NAME
+      [, [External_Name =&gt;] static_string_expression]
+      [, [Link_Name     =&gt;] static_string_expression]);
+</pre>
+<p>This pragma is identical in syntax and semantics to
+the standard Ada pragma <cite>Import</cite>.  It is provided for compatibility
+with Ada 83.  The definition is upwards compatible both with pragma
+<cite>Interface</cite> as defined in the Ada 83 Reference Manual, and also
+with some extended implementations of this pragma in certain Ada 83
+implementations.  The only difference between pragma <cite>Interface</cite>
+and pragma <cite>Import</cite> is that there is special circuitry to allow
+both pragmas to appear for the same subprogram entity (normally it
+is illegal to have multiple <cite>Import</cite> pragmas. This is useful in
+maintaining Ada 83/Ada 95 compatibility and is compatible with other
+Ada 83 compilers.
+
+</body></html>
+

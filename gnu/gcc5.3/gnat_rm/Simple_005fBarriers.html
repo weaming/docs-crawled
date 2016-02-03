@@ -1,0 +1,61 @@
+<html lang="en">
+<head>
+<title>Simple_Barriers - GNAT Reference Manual</title>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+<meta name="description" content="GNAT Reference Manual">
+<meta name="generator" content="makeinfo 4.13">
+<link title="Top" rel="start" href="index.html#Top">
+<link rel="up" href="Partition_002dWide-Restrictions.html#Partition_002dWide-Restrictions" title="Partition-Wide Restrictions">
+<link rel="prev" href="No_005fUse_005fOf_005fEntity.html#No_005fUse_005fOf_005fEntity" title="No_Use_Of_Entity">
+<link rel="next" href="Static_005fPriorities.html#Static_005fPriorities" title="Static_Priorities">
+<link href="http://www.gnu.org/software/texinfo/" rel="generator-home" title="Texinfo Homepage">
+<!--
+
+     GNAT Reference Manual , March 24, 2015
+
+     AdaCore
+
+     Copyright (C) 2008-2015, Free Software Foundation
+-->
+<meta http-equiv="Content-Style-Type" content="text/css">
+<style type="text/css"><!--
+  pre.display { font-family:inherit }
+  pre.format  { font-family:inherit }
+  pre.smalldisplay { font-family:inherit; font-size:smaller }
+  pre.smallformat  { font-family:inherit; font-size:smaller }
+  pre.smallexample { font-size:smaller }
+  pre.smalllisp    { font-size:smaller }
+  span.sc    { font-variant:small-caps }
+  span.roman { font-family:serif; font-weight:normal; } 
+  span.sansserif { font-family:sans-serif; font-weight:normal; } 
+--></style>
+</head>
+<body>
+<div class="node">
+<a name="Simple_Barriers"></a>
+<a name="Simple_005fBarriers"></a>
+<p>
+Next:&nbsp;<a rel="next" accesskey="n" href="Static_005fPriorities.html#Static_005fPriorities">Static_Priorities</a>,
+Previous:&nbsp;<a rel="previous" accesskey="p" href="No_005fUse_005fOf_005fEntity.html#No_005fUse_005fOf_005fEntity">No_Use_Of_Entity</a>,
+Up:&nbsp;<a rel="up" accesskey="u" href="Partition_002dWide-Restrictions.html#Partition_002dWide-Restrictions">Partition-Wide Restrictions</a>
+<hr>
+</div>
+
+<p><a name="gnat_005frm_002fstandard_005fand_005fimplementation_005fdefined_005frestrictions-simple_002dbarriers"></a><a name="g_t1a9"></a>
+
+<h4 class="subsection">5.1.67 Simple_Barriers</h4>
+
+<p><a name="index-Simple_005fBarriers-356"></a>
+[RM D.7] This restriction ensures at compile time that barriers in entry
+declarations for protected types are restricted to either static boolean
+expressions or references to simple boolean variables defined in the private
+part of the protected type.  No other form of entry barriers is permitted.
+
+<p><a name="index-Boolean_005fEntry_005fBarriers-357"></a>
+The restriction <cite>Boolean_Entry_Barriers</cite> is recognized as a
+synonym for <cite>Simple_Barriers</cite>. This is retained for historical
+compatibility purposes (and a warning will be generated for its use if
+warnings on obsolescent features are activated).
+
+</body></html>
+

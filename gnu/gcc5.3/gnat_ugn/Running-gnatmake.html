@@ -1,0 +1,74 @@
+<html lang="en">
+<head>
+<title>Running gnatmake - GNAT User's Guide for Native Platforms</title>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+<meta name="description" content="GNAT User's Guide for Native Platforms">
+<meta name="generator" content="makeinfo 4.13">
+<link title="Top" rel="start" href="index.html#Top">
+<link rel="up" href="Building-with-gnatmake.html#Building-with-gnatmake" title="Building with gnatmake">
+<link rel="next" href="Switches-for-gnatmake.html#Switches-for-gnatmake" title="Switches for gnatmake">
+<link href="http://www.gnu.org/software/texinfo/" rel="generator-home" title="Texinfo Homepage">
+<!--
+
+     GNAT User's Guide for Native Platforms , March 24, 2015
+
+     AdaCore
+
+     Copyright (C) 2008-2015, Free Software Foundation
+-->
+<meta http-equiv="Content-Style-Type" content="text/css">
+<style type="text/css"><!--
+  pre.display { font-family:inherit }
+  pre.format  { font-family:inherit }
+  pre.smalldisplay { font-family:inherit; font-size:smaller }
+  pre.smallformat  { font-family:inherit; font-size:smaller }
+  pre.smallexample { font-size:smaller }
+  pre.smalllisp    { font-size:smaller }
+  span.sc    { font-variant:small-caps }
+  span.roman { font-family:serif; font-weight:normal; } 
+  span.sansserif { font-family:sans-serif; font-weight:normal; } 
+--></style>
+</head>
+<body>
+<div class="node">
+<a name="Running-gnatmake"></a>
+<p>
+Next:&nbsp;<a rel="next" accesskey="n" href="Switches-for-gnatmake.html#Switches-for-gnatmake">Switches for gnatmake</a>,
+Up:&nbsp;<a rel="up" accesskey="u" href="Building-with-gnatmake.html#Building-with-gnatmake">Building with gnatmake</a>
+<hr>
+</div>
+
+<p><a name="gnat_005fugn_002fbuilding_005fexecutable_005fprograms_005fwith_005fgnat-running_002dgnatmake"></a><a name="dd"></a><a name="gnat_005fugn_002fbuilding_005fexecutable_005fprograms_005fwith_005fgnat-id2"></a><a name="de"></a>
+
+<h4 class="subsection">4.1.1 Running `gnatmake'</h4>
+
+<p>The usual form of the `gnatmake' command is
+
+<pre class="example">    $ gnatmake [&lt;switches&gt;] &lt;file_name&gt; [&lt;file_names&gt;] [&lt;mode_switches&gt;]
+</pre>
+<p>The only required argument is one <cite>file_name</cite>, which specifies
+a compilation unit that is a main program. Several <cite>file_names</cite> can be
+specified: this will result in several executables being built. 
+If <cite>switches</cite> are present, they can be placed before the first
+<cite>file_name</cite>, between <cite>file_names</cite> or after the last <cite>file_name</cite>. 
+If <cite>mode_switches</cite> are present, they must always be placed after
+the last <cite>file_name</cite> and all <cite>switches</cite>.
+
+<p>If you are using standard file extensions (<code>.adb</code> and
+<code>.ads</code>), then the
+extension may be omitted from the <cite>file_name</cite> arguments. However, if
+you are using non-standard extensions, then it is required that the
+extension be given. A relative or absolute directory path can be
+specified in a <cite>file_name</cite>, in which case, the input source file will
+be searched for in the specified directory only. Otherwise, the input
+source file will first be searched in the directory where
+`gnatmake' was invoked and if it is not found, it will be search on
+the source path of the compiler as described in
+<a href="8e.html#g_t8e">Search Paths and the Run-Time Library (RTL)</a>.
+
+<p>All `gnatmake' output (except when you specify `-M') is sent to
+<code>stderr</code>. The output produced by the
+`-M' switch is sent to <code>stdout</code>.
+
+</body></html>
+

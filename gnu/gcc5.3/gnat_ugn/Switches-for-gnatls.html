@@ -1,0 +1,173 @@
+<html lang="en">
+<head>
+<title>Switches for gnatls - GNAT User's Guide for Native Platforms</title>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+<meta name="description" content="GNAT User's Guide for Native Platforms">
+<meta name="generator" content="makeinfo 4.13">
+<link title="Top" rel="start" href="index.html#Top">
+<link rel="up" href="The-GNAT-Library-Browser-gnatls.html#The-GNAT-Library-Browser-gnatls" title="The GNAT Library Browser gnatls">
+<link rel="prev" href="Running-gnatls.html#Running-gnatls" title="Running gnatls">
+<link rel="next" href="Example-of-gnatls-Usage.html#Example-of-gnatls-Usage" title="Example of gnatls Usage">
+<link href="http://www.gnu.org/software/texinfo/" rel="generator-home" title="Texinfo Homepage">
+<!--
+
+     GNAT User's Guide for Native Platforms , March 24, 2015
+
+     AdaCore
+
+     Copyright (C) 2008-2015, Free Software Foundation
+-->
+<meta http-equiv="Content-Style-Type" content="text/css">
+<style type="text/css"><!--
+  pre.display { font-family:inherit }
+  pre.format  { font-family:inherit }
+  pre.smalldisplay { font-family:inherit; font-size:smaller }
+  pre.smallformat  { font-family:inherit; font-size:smaller }
+  pre.smallexample { font-size:smaller }
+  pre.smalllisp    { font-size:smaller }
+  span.sc    { font-variant:small-caps }
+  span.roman { font-family:serif; font-weight:normal; } 
+  span.sansserif { font-family:sans-serif; font-weight:normal; } 
+--></style>
+</head>
+<body>
+<div class="node">
+<a name="Switches-for-gnatls"></a>
+<p>
+Next:&nbsp;<a rel="next" accesskey="n" href="Example-of-gnatls-Usage.html#Example-of-gnatls-Usage">Example of gnatls Usage</a>,
+Previous:&nbsp;<a rel="previous" accesskey="p" href="Running-gnatls.html#Running-gnatls">Running gnatls</a>,
+Up:&nbsp;<a rel="up" accesskey="u" href="The-GNAT-Library-Browser-gnatls.html#The-GNAT-Library-Browser-gnatls">The GNAT Library Browser gnatls</a>
+<hr>
+</div>
+
+<p><a name="gnat_005fugn_002fgnat_005futility_005fprograms-id7"></a><a name="g_t1d6"></a><a name="gnat_005fugn_002fgnat_005futility_005fprograms-switches_002dfor_002dgnatls"></a><a name="g_t1d7"></a>
+
+<h4 class="subsection">7.2.2 Switches for <cite>gnatls</cite></h4>
+
+<p><cite>gnatls</cite> recognizes the following switches:
+
+<p><a name="index-g_t_002d_002dversion-_0028gnatls_0029-886"></a>
+
+     <dl>
+<dt><code>--version</code><dd>
+Display Copyright and version, then exit disregarding all other options. 
+</dl>
+
+<p><a name="index-g_t_002d_002dhelp-_0028gnatls_0029-887"></a>
+
+     <dl>
+<dt><code>*--help</code><dd>
+If `&ndash;version' was not used, display usage, then exit disregarding
+all other options. 
+</dl>
+
+<p><a name="index-g_t_002da-_0028gnatls_0029-888"></a>
+
+     <dl>
+<dt><code>-a</code><dd>
+Consider all units, including those of the predefined Ada library. 
+Especially useful with `-d'. 
+</dl>
+
+<p><a name="index-g_t_002dd-_0028gnatls_0029-889"></a>
+
+     <dl>
+<dt><code>-d</code><dd>
+List sources from which specified units depend on. 
+</dl>
+
+<p><a name="index-g_t_002dh-_0028gnatls_0029-890"></a>
+
+     <dl>
+<dt><code>-h</code><dd>
+Output the list of options. 
+</dl>
+
+<p><a name="index-g_t_002do-_0028gnatls_0029-891"></a>
+
+     <dl>
+<dt><code>-o</code><dd>
+Only output information about object files. 
+</dl>
+
+<p><a name="index-g_t_002ds-_0028gnatls_0029-892"></a>
+
+     <dl>
+<dt><code>-s</code><dd>
+Only output information about source files. 
+</dl>
+
+<p><a name="index-g_t_002du-_0028gnatls_0029-893"></a>
+
+     <dl>
+<dt><code>-u</code><dd>
+Only output information about compilation units. 
+</dl>
+
+<p><a name="index-g_t_002dfiles-_0028gnatls_0029-894"></a>
+
+     <dl>
+<dt><code>-files=`file'</code><dd>
+Take as arguments the files listed in text file <cite>file</cite>. 
+Text file <cite>file</cite> may contain empty lines that are ignored. 
+Each nonempty line should contain the name of an existing file. 
+Several such switches may be specified simultaneously. 
+</dl>
+
+<p><a name="index-g_t_002daO-_0028gnatls_0029-895"></a>
+<a name="index-g_t_002daI-_0028gnatls_0029-896"></a>
+<a name="index-g_t_002dI-_0028gnatls_0029-897"></a>
+<a name="index-g_t_002dI_002d-_0028gnatls_0029-898"></a>
+
+     <dl>
+<dt><code>-aO`dir'</code>, <code>-aI`dir'</code>, <code>-I`dir'</code>, <code>-I-</code>, <code>-nostdinc</code><dd>
+Source path manipulation. Same meaning as the equivalent `gnatmake'
+flags (<a href="df.html#df">Switches for gnatmake</a>). 
+</dl>
+
+<p><a name="index-g_t_002daP-_0028gnatls_0029-899"></a>
+
+     <dl>
+<dt><code>-aP`dir'</code><dd>
+Add <cite>dir</cite> at the beginning of the project search dir. 
+</dl>
+
+<p><a name="index-g_t_002d_002dRTS-_0028gnatls_0029-900"></a>
+
+     <dl>
+<dt><code>--RTS=`rts-path'`</code><dd>
+Specifies the default location of the runtime library. Same meaning as the
+equivalent `gnatmake' flag (<a href="df.html#df">Switches for gnatmake</a>). 
+</dl>
+
+<p><a name="index-g_t_002dv-_0028gnatls_0029-901"></a>
+
+     <dl>
+<dt><code>-v</code><dd>
+Verbose mode. Output the complete source, object and project paths. Do not use
+the default column layout but instead use long format giving as much as
+information possible on each requested units, including special
+characteristics such as:
+
+          <ul>
+<li>`Preelaborable': The unit is preelaborable in the Ada sense.
+
+          <li>`No_Elab_Code':  No elaboration code has been produced by the compiler for this unit.
+
+          <li>`Pure': The unit is pure in the Ada sense.
+
+          <li>`Elaborate_Body': The unit contains a pragma Elaborate_Body.
+
+          <li>`Remote_Types': The unit contains a pragma Remote_Types.
+
+          <li>`Shared_Passive': The unit contains a pragma Shared_Passive.
+
+          <li>`Predefined': This unit is part of the predefined environment and cannot be modified
+by the user.
+
+          <li>`Remote_Call_Interface': The unit contains a pragma Remote_Call_Interface. 
+</ul>
+     </dl>
+
+</body></html>
+

@@ -1,0 +1,95 @@
+<html lang="en">
+<head>
+<title>Installing a library - GNAT User's Guide for Native Platforms</title>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+<meta name="description" content="GNAT User's Guide for Native Platforms">
+<meta name="generator" content="makeinfo 4.13">
+<link title="Top" rel="start" href="index.html#Top">
+<link rel="up" href="General-Ada-Libraries.html#General-Ada-Libraries" title="General Ada Libraries">
+<link rel="prev" href="Building-a-library.html#Building-a-library" title="Building a library">
+<link rel="next" href="Using-a-library.html#Using-a-library" title="Using a library">
+<link href="http://www.gnu.org/software/texinfo/" rel="generator-home" title="Texinfo Homepage">
+<!--
+
+     GNAT User's Guide for Native Platforms , March 24, 2015
+
+     AdaCore
+
+     Copyright (C) 2008-2015, Free Software Foundation
+-->
+<meta http-equiv="Content-Style-Type" content="text/css">
+<style type="text/css"><!--
+  pre.display { font-family:inherit }
+  pre.format  { font-family:inherit }
+  pre.smalldisplay { font-family:inherit; font-size:smaller }
+  pre.smallformat  { font-family:inherit; font-size:smaller }
+  pre.smallexample { font-size:smaller }
+  pre.smalllisp    { font-size:smaller }
+  span.sc    { font-variant:small-caps }
+  span.roman { font-family:serif; font-weight:normal; } 
+  span.sansserif { font-family:sans-serif; font-weight:normal; } 
+--></style>
+</head>
+<body>
+<div class="node">
+<a name="Installing-a-library"></a>
+<p>
+Next:&nbsp;<a rel="next" accesskey="n" href="Using-a-library.html#Using-a-library">Using a library</a>,
+Previous:&nbsp;<a rel="previous" accesskey="p" href="Building-a-library.html#Building-a-library">Building a library</a>,
+Up:&nbsp;<a rel="up" accesskey="u" href="General-Ada-Libraries.html#General-Ada-Libraries">General Ada Libraries</a>
+<hr>
+</div>
+
+<p><a name="gnat_005fugn_002fthe_005fgnat_005fcompilation_005fmodel-installing_002da_002dlibrary"></a><a name="g_t8b"></a><a name="gnat_005fugn_002fthe_005fgnat_005fcompilation_005fmodel-id39"></a><a name="g_t8c"></a>
+
+<h5 class="subsubsection">3.9.2.2 Installing a library</h5>
+
+<p><a name="index-ADA_005fPROJECT_005fPATH-81"></a>
+<a name="index-GPR_005fPROJECT_005fPATH-82"></a>
+If you use project files, library installation is part of the library build
+process (<a href="8d.html#g_t8d">Installing a library with project files</a>).
+
+<p>When project files are not an option, it is also possible, but not recommended,
+to install the library so that the sources needed to use the library are on the
+Ada source path and the ALI files &amp; libraries be on the Ada Object path (see
+<a href="8e.html#g_t8e">Search Paths and the Run-Time Library (RTL)</a>. Alternatively, the system
+administrator can place general-purpose libraries in the default compiler
+paths, by specifying the libraries' location in the configuration files
+<code>ada_source_path</code> and <code>ada_object_path</code>. These configuration files
+must be located in the GNAT installation tree at the same place as the gcc spec
+file. The location of the gcc spec file can be determined as follows:
+
+<pre class="example">    $ gcc -v
+</pre>
+<p>The configuration files mentioned above have a simple format: each line
+must contain one unique directory name. 
+Those names are added to the corresponding path
+in their order of appearance in the file. The names can be either absolute
+or relative; in the latter case, they are relative to where theses files
+are located.
+
+<p>The files <code>ada_source_path</code> and <code>ada_object_path</code> might not be
+present in a
+GNAT installation, in which case, GNAT will look for its run-time library in
+the directories <code>adainclude</code> (for the sources) and <code>adalib</code> (for the
+objects and <code>ALI</code> files). When the files exist, the compiler does not
+look in <code>adainclude</code> and <code>adalib</code>, and thus the
+<code>ada_source_path</code> file
+must contain the location for the GNAT run-time sources (which can simply
+be <code>adainclude</code>). In the same way, the <code>ada_object_path</code> file must
+contain the location for the GNAT run-time objects (which can simply
+be <code>adalib</code>).
+
+<p>You can also specify a new default path to the run-time library at compilation
+time with the switch `&ndash;RTS=rts-path'. You can thus choose / change
+the run-time library you want your program to be compiled with. This switch is
+recognized by `gcc', `gnatmake', `gnatbind',
+`gnatls', `gnatfind' and `gnatxref'.
+
+<p>It is possible to install a library before or after the standard GNAT
+library, by reordering the lines in the configuration files. In general, a
+library must be installed before the GNAT library if it redefines
+any part of it.
+
+</body></html>
+

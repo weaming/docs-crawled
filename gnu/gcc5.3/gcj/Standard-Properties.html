@@ -1,0 +1,167 @@
+<html lang="en">
+<head>
+<title>Standard Properties - Guide to GNU gcj</title>
+<meta http-equiv="Content-Type" content="text/html">
+<meta name="description" content="Guide to GNU gcj">
+<meta name="generator" content="makeinfo 4.13">
+<link title="Top" rel="start" href="index.html#Top">
+<link rel="up" href="System-properties.html#System-properties" title="System properties">
+<link rel="next" href="GNU-Classpath-Properties.html#GNU-Classpath-Properties" title="GNU Classpath Properties">
+<link href="http://www.gnu.org/software/texinfo/" rel="generator-home" title="Texinfo Homepage">
+<!--
+Copyright (C) 2001-2015 Free Software Foundation, Inc.
+
+Permission is granted to copy, distribute and/or modify this document
+under the terms of the GNU Free Documentation License, Version 1.3 or
+any later version published by the Free Software Foundation; with no
+Invariant Sections, the Front-Cover Texts being (a) (see below), and
+with the Back-Cover Texts being (b) (see below).
+A copy of the license is included in the
+section entitled ``GNU Free Documentation License''.
+
+
+(a) The FSF's Front-Cover Text is:
+
+     A GNU Manual
+
+(b) The FSF's Back-Cover Text is:
+
+     You have freedom to copy and modify this GNU Manual, like GNU
+     software.  Copies published by the Free Software Foundation raise
+     funds for GNU development.
+-->
+<meta http-equiv="Content-Style-Type" content="text/css">
+<style type="text/css"><!--
+  pre.display { font-family:inherit }
+  pre.format  { font-family:inherit }
+  pre.smalldisplay { font-family:inherit; font-size:smaller }
+  pre.smallformat  { font-family:inherit; font-size:smaller }
+  pre.smallexample { font-size:smaller }
+  pre.smalllisp    { font-size:smaller }
+  span.sc    { font-variant:small-caps }
+  span.roman { font-family:serif; font-weight:normal; } 
+  span.sansserif { font-family:sans-serif; font-weight:normal; } 
+--></style>
+</head>
+<body>
+<div class="node">
+<a name="Standard-Properties"></a>
+<p>
+Next:&nbsp;<a rel="next" accesskey="n" href="GNU-Classpath-Properties.html#GNU-Classpath-Properties">GNU Classpath Properties</a>,
+Up:&nbsp;<a rel="up" accesskey="u" href="System-properties.html#System-properties">System properties</a>
+<hr>
+</div>
+
+<h3 class="section">12.1 Standard Properties</h3>
+
+<p>The following properties are normally found in all implementations of the core
+libraries for the Java language.
+
+     <dl>
+<dt><code>java.version</code><dd>The <code>libgcj</code> version number.
+
+     <br><dt><code>java.vendor</code><dd>Set to &lsquo;<samp><span class="samp">The Free Software Foundation, Inc.</span></samp>&rsquo;
+
+     <br><dt><code>java.vendor.url</code><dd>Set to <a href="http://gcc.gnu.org/java/">http://gcc.gnu.org/java/</a>.
+
+     <br><dt><code>java.home</code><dd>The directory where <code>gcj</code> was installed.  Taken from the <code>--prefix</code>
+option given to <samp><span class="command">configure</span></samp>.
+
+     <br><dt><code>java.class.version</code><dd>The class format version number supported by the libgcj byte code interpreter. 
+(Currently &lsquo;<samp><span class="samp">46.0</span></samp>&rsquo;)
+
+     <br><dt><code>java.vm.specification.version</code><dd>The Virtual Machine Specification version implemented by <code>libgcj</code>. 
+(Currently &lsquo;<samp><span class="samp">1.0</span></samp>&rsquo;)
+
+     <br><dt><code>java.vm.specification.vendor</code><dd>The name of the Virtual Machine specification designer.
+
+     <br><dt><code>java.vm.specification.name</code><dd>The name of the Virtual Machine specification
+(Set to &lsquo;<samp><span class="samp">Java Virtual Machine Specification</span></samp>&rsquo;).
+
+     <br><dt><code>java.vm.version</code><dd>The <samp><span class="command">gcj</span></samp> version number.
+
+     <br><dt><code>java.vm.vendor</code><dd>Set to &lsquo;<samp><span class="samp">The Free Software Foundation, Inc.</span></samp>&rsquo;
+
+     <br><dt><code>java.vm.name</code><dd>Set to &lsquo;<samp><span class="samp">GNU libgcj</span></samp>&rsquo;.
+
+     <br><dt><code>java.specification.version</code><dd>The Runtime Environment specification version implemented by <code>libgcj</code>. 
+(Currently set to &lsquo;<samp><span class="samp">1.3</span></samp>&rsquo;)
+
+     <br><dt><code>java.specification.vendor</code><dd>The Runtime Environment specification designer.
+
+     <br><dt><code>java.specification.name</code><dd>The name of the Runtime Environment specification
+(Set to &lsquo;<samp><span class="samp">Java Platform API Specification</span></samp>&rsquo;).
+
+     <br><dt><code>java.class.path</code><dd>The paths (jar files, zip files and directories) used for finding class files.
+
+     <br><dt><code>java.library.path</code><dd>Directory path used for finding native libraries.
+
+     <br><dt><code>java.io.tmpdir</code><dd>The directory used to put temporary files in.
+
+     <br><dt><code>java.compiler</code><dd>Name of the Just In Time compiler to use by the byte code interpreter. 
+Currently not used in <code>libgcj</code>.
+
+     <br><dt><code>java.ext.dirs</code><dd>Directories containing jar files with extra libraries.  Will be used when
+resolving classes.
+
+     <br><dt><code>java.protocol.handler.pkgs</code><dd>A &lsquo;<samp><span class="samp">|</span></samp>&rsquo; separated list of package names that is used to find classes that
+implement handlers for <code>java.net.URL</code>.
+
+     <br><dt><code>java.rmi.server.codebase</code><dd>A list of URLs that is used by the <code>java.rmi.server.RMIClassLoader</code>
+to load classes from.
+
+     <br><dt><code>jdbc.drivers</code><dd>A list of class names that will be loaded by the <code>java.sql.DriverManager</code>
+when it starts up.
+
+     <br><dt><code>file.separator</code><dd>The separator used in when directories are included in a filename
+(normally &lsquo;<samp><span class="samp">/</span></samp>&rsquo; or &lsquo;<samp><span class="samp">\</span></samp>&rsquo; ).
+
+     <br><dt><code>file.encoding</code><dd>The default character encoding used when converting platform native files to
+Unicode (usually set to &lsquo;<samp><span class="samp">8859_1</span></samp>&rsquo;).
+
+     <br><dt><code>path.separator</code><dd>The standard separator used when a string contains multiple paths
+(normally &lsquo;<samp><span class="samp">:</span></samp>&rsquo; or &lsquo;<samp><span class="samp">;</span></samp>&rsquo;), the string is usually not a valid character
+to use in normal directory names.)
+
+     <br><dt><code>line.separator</code><dd>The default line separator used on the platform (normally &lsquo;<samp><span class="samp">\n</span></samp>&rsquo;, &lsquo;<samp><span class="samp">\r</span></samp>&rsquo;
+or a combination of those two characters).
+
+     <br><dt><code>policy.provider</code><dd>The class name used for the default policy provider returned by
+<code>java.security.Policy.getPolicy</code>.
+
+     <br><dt><code>user.name</code><dd>The name of the user running the program.  Can be the full name, the login name
+or empty if unknown.
+
+     <br><dt><code>user.home</code><dd>The default directory to put user specific files in.
+
+     <br><dt><code>user.dir</code><dd>The current working directory from which the program was started.
+
+     <br><dt><code>user.language</code><dd>The default language as used by the <code>java.util.Locale</code> class.
+
+     <br><dt><code>user.region</code><dd>The default region as used by the <code>java.util.Local</code> class.
+
+     <br><dt><code>user.variant</code><dd>The default variant of the language and region local used.
+
+     <br><dt><code>user.timezone</code><dd>The default timezone as used by the <code>java.util.TimeZone</code> class.
+
+     <br><dt><code>os.name</code><dd>The operating system/kernel name that the program runs on.
+
+     <br><dt><code>os.arch</code><dd>The hardware that we are running on.
+
+     <br><dt><code>os.version</code><dd>The version number of the operating system/kernel.
+
+     <br><dt><code>awt.appletWarning</code><dd>The string to display when an untrusted applet is displayed. 
+Returned by <code>java.awt.Window.getWarningString()</code> when the window is
+&ldquo;insecure&rdquo;.
+
+     <br><dt><code>awt.toolkit</code><dd>The class name used for initializing the default <code>java.awt.Toolkit</code>. 
+Defaults to <code>gnu.awt.gtk.GtkToolkit</code>.
+
+     <br><dt><code>http.proxyHost</code><dd>Name of proxy host for http connections.
+
+     <br><dt><code>http.proxyPort</code><dd>Port number to use when a proxy host is in use.
+
+   </dl>
+
+   </body></html>
+

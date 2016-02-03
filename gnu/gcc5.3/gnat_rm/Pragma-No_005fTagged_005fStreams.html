@@ -1,0 +1,77 @@
+<html lang="en">
+<head>
+<title>Pragma No_Tagged_Streams - GNAT Reference Manual</title>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+<meta name="description" content="GNAT Reference Manual">
+<meta name="generator" content="makeinfo 4.13">
+<link title="Top" rel="start" href="index.html#Top">
+<link rel="up" href="Implementation-Defined-Pragmas.html#Implementation-Defined-Pragmas" title="Implementation Defined Pragmas">
+<link rel="prev" href="Pragma-No_005fStrict_005fAliasing.html#Pragma-No_005fStrict_005fAliasing" title="Pragma No_Strict_Aliasing">
+<link rel="next" href="Pragma-Normalize_005fScalars.html#Pragma-Normalize_005fScalars" title="Pragma Normalize_Scalars">
+<link href="http://www.gnu.org/software/texinfo/" rel="generator-home" title="Texinfo Homepage">
+<!--
+
+     GNAT Reference Manual , March 24, 2015
+
+     AdaCore
+
+     Copyright (C) 2008-2015, Free Software Foundation
+-->
+<meta http-equiv="Content-Style-Type" content="text/css">
+<style type="text/css"><!--
+  pre.display { font-family:inherit }
+  pre.format  { font-family:inherit }
+  pre.smalldisplay { font-family:inherit; font-size:smaller }
+  pre.smallformat  { font-family:inherit; font-size:smaller }
+  pre.smallexample { font-size:smaller }
+  pre.smalllisp    { font-size:smaller }
+  span.sc    { font-variant:small-caps }
+  span.roman { font-family:serif; font-weight:normal; } 
+  span.sansserif { font-family:sans-serif; font-weight:normal; } 
+--></style>
+</head>
+<body>
+<div class="node">
+<a name="Pragma-No_Tagged_Streams"></a>
+<a name="Pragma-No_005fTagged_005fStreams"></a>
+<p>
+Next:&nbsp;<a rel="next" accesskey="n" href="Pragma-Normalize_005fScalars.html#Pragma-Normalize_005fScalars">Pragma Normalize_Scalars</a>,
+Previous:&nbsp;<a rel="previous" accesskey="p" href="Pragma-No_005fStrict_005fAliasing.html#Pragma-No_005fStrict_005fAliasing">Pragma No_Strict_Aliasing</a>,
+Up:&nbsp;<a rel="up" accesskey="u" href="Implementation-Defined-Pragmas.html#Implementation-Defined-Pragmas">Implementation Defined Pragmas</a>
+<hr>
+</div>
+
+<p><a name="gnat_005frm_002fimplementation_005fdefined_005fpragmas-pragma_002dno_002dtagged_002dstreams"></a><a name="g_t8a"></a>
+
+<h3 class="section">2.111 Pragma No_Tagged_Streams</h3>
+
+<p>Syntax:
+
+<pre class="example">    pragma No_Tagged_Streams;
+    pragma No_Tagged_Streams [([Entity =&gt;] tagged_type_LOCAL_NAME)];
+</pre>
+<p>Normally when a tagged type is introduced using a full type declaration,
+part of the processing includes generating stream access routines to be
+used by stream attributes referencing the type (or one of its subtypes
+or derived types). This can involve the generation of significant amounts
+of code which is wasted space if stream routines are not needed for the
+type in question.
+
+<p>The <cite>No_Tagged_Streams</cite> pragma causes the generation of these stream
+routines to be skipped, and any attempt to use stream operations on
+types subject to this pragma will be statically rejected as illegal.
+
+<p>There are two forms of the pragma. The form with no arguments must appear
+in a declarative sequence or in the declarations of a package spec. This
+pragma affects all subsequent root tagged types declared in the declaration
+sequence, and specifies that no stream routines be generated. The form with
+an argument (for which there is also a corresponding aspect) specifies a
+single root tagged type for which stream routines are not to be generated.
+
+<p>Once the pragma has been given for a particular root tagged type, all subtypes
+and derived types of this type inherit the pragma automatically, so the effect
+applies to a complete hierarchy (this is necessary to deal with the class-wide
+dispatching versions of the stream routines).
+
+</body></html>
+

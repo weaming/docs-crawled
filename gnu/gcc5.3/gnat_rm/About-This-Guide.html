@@ -1,0 +1,82 @@
+<html lang="en">
+<head>
+<title>About This Guide - GNAT Reference Manual</title>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+<meta name="description" content="GNAT Reference Manual">
+<meta name="generator" content="makeinfo 4.13">
+<link title="Top" rel="start" href="index.html#Top">
+<link rel="prev" href="index.html#Top" title="Top">
+<link rel="next" href="Implementation-Defined-Pragmas.html#Implementation-Defined-Pragmas" title="Implementation Defined Pragmas">
+<link href="http://www.gnu.org/software/texinfo/" rel="generator-home" title="Texinfo Homepage">
+<!--
+
+     GNAT Reference Manual , March 24, 2015
+
+     AdaCore
+
+     Copyright (C) 2008-2015, Free Software Foundation
+-->
+<meta http-equiv="Content-Style-Type" content="text/css">
+<style type="text/css"><!--
+  pre.display { font-family:inherit }
+  pre.format  { font-family:inherit }
+  pre.smalldisplay { font-family:inherit; font-size:smaller }
+  pre.smallformat  { font-family:inherit; font-size:smaller }
+  pre.smallexample { font-size:smaller }
+  pre.smalllisp    { font-size:smaller }
+  span.sc    { font-variant:small-caps }
+  span.roman { font-family:serif; font-weight:normal; } 
+  span.sansserif { font-family:sans-serif; font-weight:normal; } 
+--></style>
+</head>
+<body>
+<div class="node">
+<a name="About-This-Guide"></a>
+<p>
+Next:&nbsp;<a rel="next" accesskey="n" href="Implementation-Defined-Pragmas.html#Implementation-Defined-Pragmas">Implementation Defined Pragmas</a>,
+Previous:&nbsp;<a rel="previous" accesskey="p" href="index.html#Top">Top</a>,
+Up:&nbsp;<a rel="up" accesskey="u" href="index.html#Top">Top</a>
+<hr>
+</div>
+
+<p><a name="gnat_005frm_002fabout_005fthis_005fguide-about_002dthis_002dguide"></a><a name="g_t2"></a><a name="gnat_005frm_002fabout_005fthis_005fguide-doc"></a><a name="g_t3"></a><a name="gnat_005frm_002fabout_005fthis_005fguide-gnat_002dreference_002dmanual"></a><a name="g_t4"></a><a name="gnat_005frm_002fabout_005fthis_005fguide-id1"></a><a name="g_t5"></a>
+
+<h2 class="chapter">1 About This Guide</h2>
+
+<p>This manual contains useful information in writing programs using the
+GNAT compiler.  It includes information on implementation dependent
+characteristics of GNAT, including all the information required by
+Annex M of the Ada language standard.
+
+<p>GNAT implements Ada 95, Ada 2005 and Ada 2012, and it may also be
+invoked in Ada 83 compatibility mode. 
+By default, GNAT assumes Ada 2012,
+but you can override with a compiler switch
+to explicitly specify the language version. 
+(Please refer to the `GNAT User's Guide' for details on these switches.) 
+Throughout this manual, references to 'Ada' without a year suffix
+apply to all the Ada versions of the language.
+
+<p>Ada is designed to be highly portable. 
+In general, a program will have the same effect even when compiled by
+different compilers on different platforms. 
+However, since Ada is designed to be used in a
+wide variety of applications, it also contains a number of system
+dependent features to be used in interfacing to the external world. 
+.. index:: Implementation-dependent features
+
+<p><a name="index-Portability-1"></a>
+Note: Any program that makes use of implementation-dependent features
+may be non-portable.  You should follow good programming practice and
+isolate and clearly document any sections of your program that make use
+of these features in a non-portable manner.
+
+<ul class="menu">
+<li><a accesskey="1" href="What-This-Reference-Manual-Contains.html#What-This-Reference-Manual-Contains">What This Reference Manual Contains</a>
+<li><a accesskey="2" href="Conventions.html#Conventions">Conventions</a>
+<li><a accesskey="3" href="Related-Information.html#Related-Information">Related Information</a>
+
+</ul>
+
+</body></html>
+

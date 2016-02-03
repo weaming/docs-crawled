@@ -1,0 +1,63 @@
+<html lang="en">
+<head>
+<title>Examples - GNAT User's Guide for Native Platforms</title>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+<meta name="description" content="GNAT User's Guide for Native Platforms">
+<meta name="generator" content="makeinfo 4.13">
+<link title="Top" rel="start" href="index.html#Top">
+<link rel="up" href="Compiling-with-gcc.html#Compiling-with-gcc" title="Compiling with gcc">
+<link rel="prev" href="Order-of-Compilation-Issues.html#Order-of-Compilation-Issues" title="Order of Compilation Issues">
+<link href="http://www.gnu.org/software/texinfo/" rel="generator-home" title="Texinfo Homepage">
+<!--
+
+     GNAT User's Guide for Native Platforms , March 24, 2015
+
+     AdaCore
+
+     Copyright (C) 2008-2015, Free Software Foundation
+-->
+<meta http-equiv="Content-Style-Type" content="text/css">
+<style type="text/css"><!--
+  pre.display { font-family:inherit }
+  pre.format  { font-family:inherit }
+  pre.smalldisplay { font-family:inherit; font-size:smaller }
+  pre.smallformat  { font-family:inherit; font-size:smaller }
+  pre.smallexample { font-size:smaller }
+  pre.smalllisp    { font-size:smaller }
+  span.sc    { font-variant:small-caps }
+  span.roman { font-family:serif; font-weight:normal; } 
+  span.sansserif { font-family:sans-serif; font-weight:normal; } 
+--></style>
+</head>
+<body>
+<div class="node">
+<a name="Examples"></a>
+<p>
+Previous:&nbsp;<a rel="previous" accesskey="p" href="Order-of-Compilation-Issues.html#Order-of-Compilation-Issues">Order of Compilation Issues</a>,
+Up:&nbsp;<a rel="up" accesskey="u" href="Compiling-with-gcc.html#Compiling-with-gcc">Compiling with gcc</a>
+<hr>
+</div>
+
+<p><a name="gnat_005fugn_002fbuilding_005fexecutable_005fprograms_005fwith_005fgnat-id12"></a><a name="f3"></a><a name="gnat_005fugn_002fbuilding_005fexecutable_005fprograms_005fwith_005fgnat-examples"></a><a name="f4"></a>
+
+<h4 class="subsection">4.2.4 Examples</h4>
+
+<p>The following are some typical Ada compilation command line examples:
+
+<pre class="example">    $ gcc -c xyz.adb
+</pre>
+<p>Compile body in file <code>xyz.adb</code> with all default options.
+
+<pre class="example">    $ gcc -c -O2 -gnata xyz-def.adb
+</pre>
+<p>Compile the child unit package in file <code>xyz-def.adb</code> with extensive
+optimizations, and pragma <cite>Assert</cite>/<cite>Debug</cite> statements
+enabled.
+
+<pre class="example">    $ gcc -c -gnatc abc-def.adb
+</pre>
+<p>Compile the subunit in file <code>abc-def.adb</code> in semantic-checking-only
+mode.
+
+</body></html>
+

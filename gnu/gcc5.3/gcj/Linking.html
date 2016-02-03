@@ -1,0 +1,118 @@
+<html lang="en">
+<head>
+<title>Linking - Guide to GNU gcj</title>
+<meta http-equiv="Content-Type" content="text/html">
+<meta name="description" content="Guide to GNU gcj">
+<meta name="generator" content="makeinfo 4.13">
+<link title="Top" rel="start" href="index.html#Top">
+<link rel="up" href="Invoking-gcj.html#Invoking-gcj" title="Invoking gcj">
+<link rel="prev" href="Warnings.html#Warnings" title="Warnings">
+<link rel="next" href="Code-Generation.html#Code-Generation" title="Code Generation">
+<link href="http://www.gnu.org/software/texinfo/" rel="generator-home" title="Texinfo Homepage">
+<!--
+Copyright (C) 2001-2015 Free Software Foundation, Inc.
+
+Permission is granted to copy, distribute and/or modify this document
+under the terms of the GNU Free Documentation License, Version 1.3 or
+any later version published by the Free Software Foundation; with no
+Invariant Sections, the Front-Cover Texts being (a) (see below), and
+with the Back-Cover Texts being (b) (see below).
+A copy of the license is included in the
+section entitled ``GNU Free Documentation License''.
+
+
+(a) The FSF's Front-Cover Text is:
+
+     A GNU Manual
+
+(b) The FSF's Back-Cover Text is:
+
+     You have freedom to copy and modify this GNU Manual, like GNU
+     software.  Copies published by the Free Software Foundation raise
+     funds for GNU development.
+-->
+<meta http-equiv="Content-Style-Type" content="text/css">
+<style type="text/css"><!--
+  pre.display { font-family:inherit }
+  pre.format  { font-family:inherit }
+  pre.smalldisplay { font-family:inherit; font-size:smaller }
+  pre.smallformat  { font-family:inherit; font-size:smaller }
+  pre.smallexample { font-size:smaller }
+  pre.smalllisp    { font-size:smaller }
+  span.sc    { font-variant:small-caps }
+  span.roman { font-family:serif; font-weight:normal; } 
+  span.sansserif { font-family:sans-serif; font-weight:normal; } 
+--></style>
+</head>
+<body>
+<div class="node">
+<a name="Linking"></a>
+<p>
+Next:&nbsp;<a rel="next" accesskey="n" href="Code-Generation.html#Code-Generation">Code Generation</a>,
+Previous:&nbsp;<a rel="previous" accesskey="p" href="Warnings.html#Warnings">Warnings</a>,
+Up:&nbsp;<a rel="up" accesskey="u" href="Invoking-gcj.html#Invoking-gcj">Invoking gcj</a>
+<hr>
+</div>
+
+<h3 class="section">1.5 Linking</h3>
+
+<p>To turn a Java application into an executable program,
+you need to link it with the needed libraries, just as for C or C++. 
+The linker by default looks for a global function named <code>main</code>. 
+Since Java does not have global functions, and a
+collection of Java classes may have more than one class with a
+<code>main</code> method, you need to let the linker know which of those
+<code>main</code> methods it should invoke when starting the application. 
+You can do that in any of these ways:
+
+     <ul>
+<li>Specify the class containing the desired <code>main</code> method
+when you link the application, using the <code>--main</code> flag,
+described below. 
+<li>Link the Java package(s) into a shared library (dll) rather than an
+executable.  Then invoke the application using the <code>gij</code> program,
+making sure that <code>gij</code> can find the libraries it needs. 
+<li>Link the Java packages(s) with the flag <code>-lgij</code>, which links
+in the <code>main</code> routine from the <code>gij</code> command. 
+This allows you to select the class whose <code>main</code> method you
+want to run when you run the application.  You can also use
+other <code>gij</code> flags, such as <code>-D</code> flags to set properties. 
+Using the <code>-lgij</code> library (rather than the <code>gij</code> program
+of the previous mechanism) has some advantages: it is compatible with
+static linking, and does not require configuring or installing libraries. 
+</ul>
+
+   <p>These <code>gij</code> options relate to linking an executable:
+
+     <dl>
+<dt><code>--main=</code><var>CLASSNAME</var><dd>This option is used when linking to specify the name of the class whose
+<code>main</code> method should be invoked when the resulting executable is
+run.
+
+     <br><dt><code>-D</code><var>name</var><code>[=</code><var>value</var><code>]</code><dd>This option can only be used with <code>--main</code>.  It defines a system
+property named <var>name</var> with value <var>value</var>.  If <var>value</var> is not
+specified then it defaults to the empty string.  These system properties
+are initialized at the program's startup and can be retrieved at runtime
+using the <code>java.lang.System.getProperty</code> method.
+
+     <br><dt><code>-lgij</code><dd>Create an application whose command-line processing is that
+of the <code>gij</code> command.
+
+     <p>This option is an alternative to using <code>--main</code>; you cannot use both.
+
+     <br><dt><code>-static-libgcj</code><dd>This option causes linking to be done against a static version of the
+libgcj runtime library.  This option is only available if
+corresponding linker support exists.
+
+     <p><strong>Caution:</strong> Static linking of libgcj may cause essential parts
+of libgcj to be omitted.  Some parts of libgcj use reflection to load
+classes at runtime.  Since the linker does not see these references at
+link time, it can omit the referred to classes.  The result is usually
+(but not always) a <code>ClassNotFoundException</code> being thrown at
+runtime. Caution must be used when using this option.  For more
+details see:
+<a href="http://gcc.gnu.org/wiki/Statically%20linking%20libgcj">http://gcc.gnu.org/wiki/Statically%20linking%20libgcj</a><!-- /@w -->
+</dl>
+
+   </body></html>
+

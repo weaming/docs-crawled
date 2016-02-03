@@ -1,0 +1,73 @@
+<html lang="en">
+<head>
+<title>Stream Pointer Positioning - GNAT Reference Manual</title>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+<meta name="description" content="GNAT Reference Manual">
+<meta name="generator" content="makeinfo 4.13">
+<link title="Top" rel="start" href="index.html#Top">
+<link rel="up" href="Text_005fIO.html#Text_005fIO" title="Text_IO">
+<link rel="next" href="Reading-and-Writing-Non_002dRegular-Files.html#Reading-and-Writing-Non_002dRegular-Files" title="Reading and Writing Non-Regular Files">
+<link href="http://www.gnu.org/software/texinfo/" rel="generator-home" title="Texinfo Homepage">
+<!--
+
+     GNAT Reference Manual , March 24, 2015
+
+     AdaCore
+
+     Copyright (C) 2008-2015, Free Software Foundation
+-->
+<meta http-equiv="Content-Style-Type" content="text/css">
+<style type="text/css"><!--
+  pre.display { font-family:inherit }
+  pre.format  { font-family:inherit }
+  pre.smalldisplay { font-family:inherit; font-size:smaller }
+  pre.smallformat  { font-family:inherit; font-size:smaller }
+  pre.smallexample { font-size:smaller }
+  pre.smalllisp    { font-size:smaller }
+  span.sc    { font-variant:small-caps }
+  span.roman { font-family:serif; font-weight:normal; } 
+  span.sansserif { font-family:sans-serif; font-weight:normal; } 
+--></style>
+</head>
+<body>
+<div class="node">
+<a name="Stream-Pointer-Positioning"></a>
+<p>
+Next:&nbsp;<a rel="next" accesskey="n" href="Reading-and-Writing-Non_002dRegular-Files.html#Reading-and-Writing-Non_002dRegular-Files">Reading and Writing Non-Regular Files</a>,
+Up:&nbsp;<a rel="up" accesskey="u" href="Text_005fIO.html#Text_005fIO">Text_IO</a>
+<hr>
+</div>
+
+<p><a name="gnat_005frm_002fthe_005fimplementation_005fof_005fstandard_005fi_005fo-id7"></a><a name="g_t24e"></a><a name="gnat_005frm_002fthe_005fimplementation_005fof_005fstandard_005fi_005fo-stream_002dpointer_002dpositioning"></a><a name="g_t24f"></a>
+
+<h4 class="subsection">11.5.1 Stream Pointer Positioning</h4>
+
+<p><cite>Ada.Text_IO</cite> has a definition of current position for a file that
+is being read.  No internal buffering occurs in Text_IO, and usually the
+physical position in the stream used to implement the file corresponds
+to this logical position defined by Text_IO.  There are two exceptions:
+
+     <ul>
+<li>After a call to <cite>End_Of_Page</cite> that returns <cite>True</cite>, the stream
+is positioned past the <cite>LF</cite> (line mark) that precedes the page
+mark.  Text_IO maintains an internal flag so that subsequent read
+operations properly handle the logical position which is unchanged by
+the <cite>End_Of_Page</cite> call.
+
+     <li>After a call to <cite>End_Of_File</cite> that returns <cite>True</cite>, if the
+Text_IO file was positioned before the line mark at the end of file
+before the call, then the logical position is unchanged, but the stream
+is physically positioned right at the end of file (past the line mark,
+and past a possible page mark following the line mark.  Again Text_IO
+maintains internal flags so that subsequent read operations properly
+handle the logical position. 
+</ul>
+
+<p>These discrepancies have no effect on the observable behavior of
+Text_IO, but if a single Ada stream is shared between a C program and
+Ada program, or shared (using <code>shared=yes</code> in the form string)
+between two Ada files, then the difference may be observable in some
+situations.
+
+</body></html>
+

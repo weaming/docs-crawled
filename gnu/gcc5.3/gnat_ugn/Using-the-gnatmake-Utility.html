@@ -1,0 +1,91 @@
+<html lang="en">
+<head>
+<title>Using the gnatmake Utility - GNAT User's Guide for Native Platforms</title>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+<meta name="description" content="GNAT User's Guide for Native Platforms">
+<meta name="generator" content="makeinfo 4.13">
+<link title="Top" rel="start" href="index.html#Top">
+<link rel="up" href="Getting-Started-with-GNAT.html#Getting-Started-with-GNAT" title="Getting Started with GNAT">
+<link rel="prev" href="Running-a-Program-with-Multiple-Units.html#Running-a-Program-with-Multiple-Units" title="Running a Program with Multiple Units">
+<link href="http://www.gnu.org/software/texinfo/" rel="generator-home" title="Texinfo Homepage">
+<!--
+
+     GNAT User's Guide for Native Platforms , March 24, 2015
+
+     AdaCore
+
+     Copyright (C) 2008-2015, Free Software Foundation
+-->
+<meta http-equiv="Content-Style-Type" content="text/css">
+<style type="text/css"><!--
+  pre.display { font-family:inherit }
+  pre.format  { font-family:inherit }
+  pre.smalldisplay { font-family:inherit; font-size:smaller }
+  pre.smallformat  { font-family:inherit; font-size:smaller }
+  pre.smallexample { font-size:smaller }
+  pre.smalllisp    { font-size:smaller }
+  span.sc    { font-variant:small-caps }
+  span.roman { font-family:serif; font-weight:normal; } 
+  span.sansserif { font-family:sans-serif; font-weight:normal; } 
+--></style>
+</head>
+<body>
+<div class="node">
+<a name="Using-the-gnatmake-Utility"></a>
+<p>
+Previous:&nbsp;<a rel="previous" accesskey="p" href="Running-a-Program-with-Multiple-Units.html#Running-a-Program-with-Multiple-Units">Running a Program with Multiple Units</a>,
+Up:&nbsp;<a rel="up" accesskey="u" href="Getting-Started-with-GNAT.html#Getting-Started-with-GNAT">Getting Started with GNAT</a>
+<hr>
+</div>
+
+<p><a name="gnat_005fugn_002fgetting_005fstarted_005fwith_005fgnat-using_002dthe_002dgnatmake_002dutility"></a><a name="g_t3b"></a><a name="gnat_005fugn_002fgetting_005fstarted_005fwith_005fgnat-id5"></a><a name="g_t3c"></a>
+
+<h3 class="section">2.4 Using the `gnatmake' Utility</h3>
+
+<p>If you work on a program by compiling single components at a time using
+`gcc', you typically keep track of the units you modify. In order to
+build a consistent system, you compile not only these units, but also any
+units that depend on the units you have modified. 
+For example, in the preceding case,
+if you edit <code>gmain.adb</code>, you only need to recompile that file. But if
+you edit <code>greetings.ads</code>, you must recompile both
+<code>greetings.adb</code> and <code>gmain.adb</code>, because both files contain
+units that depend on <code>greetings.ads</code>.
+
+<p>`gnatbind' will warn you if you forget one of these compilation
+steps, so that it is impossible to generate an inconsistent program as a
+result of forgetting to do a compilation. Nevertheless it is tedious and
+error-prone to keep track of dependencies among units. 
+One approach to handle the dependency-bookkeeping is to use a
+makefile. However, makefiles present maintenance problems of their own:
+if the dependencies change as you change the program, you must make
+sure that the makefile is kept up-to-date manually, which is also an
+error-prone process.
+
+<p>The `gnatmake' utility takes care of these details automatically. 
+Invoke it using either one of the following forms:
+
+<pre class="example">    $ gnatmake gmain.adb
+    $ gnatmake gmain
+</pre>
+<p>The argument is the name of the file containing the main program;
+you may omit the extension. `gnatmake'
+examines the environment, automatically recompiles any files that need
+recompiling, and binds and links the resulting set of object files,
+generating the executable file, <code>gmain</code>. 
+In a large program, it
+can be extremely helpful to use `gnatmake', because working out by hand
+what needs to be recompiled can be difficult.
+
+<p>Note that `gnatmake' takes into account all the Ada rules that
+establish dependencies among units. These include dependencies that result
+from inlining subprogram bodies, and from
+generic instantiation. Unlike some other
+Ada make tools, `gnatmake' does not rely on the dependencies that were
+found by the compiler on a previous compilation, which may possibly
+be wrong when sources change. `gnatmake' determines the exact set of
+dependencies from scratch each time it is run.
+
+<!--  Example: A |withing| unit has a |with| clause, it |withs| a |withed| unit -->
+</body></html>
+

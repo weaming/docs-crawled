@@ -1,0 +1,62 @@
+<html lang="en">
+<head>
+<title>Performance improvements in builder - GNAT User's Guide for Native Platforms</title>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+<meta name="description" content="GNAT User's Guide for Native Platforms">
+<meta name="generator" content="makeinfo 4.13">
+<link title="Top" rel="start" href="index.html#Top">
+<link rel="up" href="Aggregate-Projects.html#Aggregate-Projects" title="Aggregate Projects">
+<link rel="prev" href="Define-a-build-environment.html#Define-a-build-environment" title="Define a build environment">
+<link rel="next" href="Syntax-of-aggregate-projects.html#Syntax-of-aggregate-projects" title="Syntax of aggregate projects">
+<link href="http://www.gnu.org/software/texinfo/" rel="generator-home" title="Texinfo Homepage">
+<!--
+
+     GNAT User's Guide for Native Platforms , March 24, 2015
+
+     AdaCore
+
+     Copyright (C) 2008-2015, Free Software Foundation
+-->
+<meta http-equiv="Content-Style-Type" content="text/css">
+<style type="text/css"><!--
+  pre.display { font-family:inherit }
+  pre.format  { font-family:inherit }
+  pre.smalldisplay { font-family:inherit; font-size:smaller }
+  pre.smallformat  { font-family:inherit; font-size:smaller }
+  pre.smallexample { font-size:smaller }
+  pre.smalllisp    { font-size:smaller }
+  span.sc    { font-variant:small-caps }
+  span.roman { font-family:serif; font-weight:normal; } 
+  span.sansserif { font-family:sans-serif; font-weight:normal; } 
+--></style>
+</head>
+<body>
+<div class="node">
+<a name="Performance-improvements-in-builder"></a>
+<p>
+Next:&nbsp;<a rel="next" accesskey="n" href="Syntax-of-aggregate-projects.html#Syntax-of-aggregate-projects">Syntax of aggregate projects</a>,
+Previous:&nbsp;<a rel="previous" accesskey="p" href="Define-a-build-environment.html#Define-a-build-environment">Define a build environment</a>,
+Up:&nbsp;<a rel="up" accesskey="u" href="Aggregate-Projects.html#Aggregate-Projects">Aggregate Projects</a>
+<hr>
+</div>
+
+<p><a name="gnat_005fugn_002fgnat_005fproject_005fmanager-performance_002dimprovements_002din_002dbuilder"></a><a name="g_t188"></a><a name="gnat_005fugn_002fgnat_005fproject_005fmanager-id31"></a><a name="g_t189"></a>
+
+<h4 class="subsection">5.7.4 Performance improvements in builder</h4>
+
+<p>The loading of aggregate projects is optimized in `gprbuild',
+so that all files are searched for only once on the disk
+(thus reducing the number of system calls and contributing to faster
+compilation times, especially on systems with sources on remote
+servers). As part of the loading, `gprbuild'
+computes how and where a source file should be compiled, and even if it is
+found several times in the aggregated projects it will be compiled only
+once.
+
+<p>Since there is no ambiguity as to which switches should be used, files
+can be compiled in parallel (through the usual -j switch) and this can
+be done while maximizing the use of CPUs (compared to launching
+multiple `gprbuild' and `gnatmake' commands in parallel).
+
+</body></html>
+

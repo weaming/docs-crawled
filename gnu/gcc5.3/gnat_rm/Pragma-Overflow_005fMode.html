@@ -1,0 +1,81 @@
+<html lang="en">
+<head>
+<title>Pragma Overflow_Mode - GNAT Reference Manual</title>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+<meta name="description" content="GNAT Reference Manual">
+<meta name="generator" content="makeinfo 4.13">
+<link title="Top" rel="start" href="index.html#Top">
+<link rel="up" href="Implementation-Defined-Pragmas.html#Implementation-Defined-Pragmas" title="Implementation Defined Pragmas">
+<link rel="prev" href="Pragma-Ordered.html#Pragma-Ordered" title="Pragma Ordered">
+<link rel="next" href="Pragma-Overriding_005fRenamings.html#Pragma-Overriding_005fRenamings" title="Pragma Overriding_Renamings">
+<link href="http://www.gnu.org/software/texinfo/" rel="generator-home" title="Texinfo Homepage">
+<!--
+
+     GNAT Reference Manual , March 24, 2015
+
+     AdaCore
+
+     Copyright (C) 2008-2015, Free Software Foundation
+-->
+<meta http-equiv="Content-Style-Type" content="text/css">
+<style type="text/css"><!--
+  pre.display { font-family:inherit }
+  pre.format  { font-family:inherit }
+  pre.smalldisplay { font-family:inherit; font-size:smaller }
+  pre.smallformat  { font-family:inherit; font-size:smaller }
+  pre.smallexample { font-size:smaller }
+  pre.smalllisp    { font-size:smaller }
+  span.sc    { font-variant:small-caps }
+  span.roman { font-family:serif; font-weight:normal; } 
+  span.sansserif { font-family:sans-serif; font-weight:normal; } 
+--></style>
+</head>
+<body>
+<div class="node">
+<a name="Pragma-Overflow_Mode"></a>
+<a name="Pragma-Overflow_005fMode"></a>
+<p>
+Next:&nbsp;<a rel="next" accesskey="n" href="Pragma-Overriding_005fRenamings.html#Pragma-Overriding_005fRenamings">Pragma Overriding_Renamings</a>,
+Previous:&nbsp;<a rel="previous" accesskey="p" href="Pragma-Ordered.html#Pragma-Ordered">Pragma Ordered</a>,
+Up:&nbsp;<a rel="up" accesskey="u" href="Implementation-Defined-Pragmas.html#Implementation-Defined-Pragmas">Implementation Defined Pragmas</a>
+<hr>
+</div>
+
+<p><a name="gnat_005frm_002fimplementation_005fdefined_005fpragmas-pragma_002doverflow_002dmode"></a><a name="g_t90"></a>
+
+<h3 class="section">2.116 Pragma Overflow_Mode</h3>
+
+<p>Syntax:
+
+<pre class="example">    pragma Overflow_Mode
+     (  [General    =&gt;] MODE
+      [,[Assertions =&gt;] MODE]);
+    
+    MODE ::= STRICT | MINIMIZED | ELIMINATED
+</pre>
+<p>This pragma sets the current overflow mode to the given setting. For details
+of the meaning of these modes, please refer to the
+'Overflow Check Handling in GNAT' appendix in the
+GNAT User's Guide. If only the <cite>General</cite> parameter is present,
+the given mode applies to all expressions. If both parameters are present,
+the <cite>General</cite> mode applies to expressions outside assertions, and
+the <cite>Eliminated</cite> mode applies to expressions within assertions.
+
+<p>The case of the <cite>MODE</cite> parameter is ignored,
+so <cite>MINIMIZED</cite>, <cite>Minimized</cite> and
+<cite>minimized</cite> all have the same effect.
+
+<p>The <cite>Overflow_Mode</cite> pragma has the same scoping and placement
+rules as pragma <cite>Suppress</cite>, so it can occur either as a
+configuration pragma, specifying a default for the whole
+program, or in a declarative scope, where it applies to the
+remaining declarations and statements in that scope.
+
+<p>The pragma <cite>Suppress (Overflow_Check)</cite> suppresses
+overflow checking, but does not affect the overflow mode.
+
+<p>The pragma <cite>Unsuppress (Overflow_Check)</cite> unsuppresses (enables)
+overflow checking, but does not affect the overflow mode.
+
+</body></html>
+

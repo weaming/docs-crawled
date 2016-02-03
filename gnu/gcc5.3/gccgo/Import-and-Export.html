@@ -1,0 +1,92 @@
+<html lang="en">
+<head>
+<title>Import and Export - The GNU Go Compiler</title>
+<meta http-equiv="Content-Type" content="text/html">
+<meta name="description" content="The GNU Go Compiler">
+<meta name="generator" content="makeinfo 4.13">
+<link title="Top" rel="start" href="index.html#Top">
+<link rel="prev" href="Invoking-gccgo.html#Invoking-gccgo" title="Invoking gccgo">
+<link rel="next" href="C-Interoperability.html#C-Interoperability" title="C Interoperability">
+<link href="http://www.gnu.org/software/texinfo/" rel="generator-home" title="Texinfo Homepage">
+<!--
+Copyright (C) 2010-2015 Free Software Foundation, Inc.
+
+Permission is granted to copy, distribute and/or modify this document
+under the terms of the GNU Free Documentation License, Version 1.3 or
+any later version published by the Free Software Foundation; with no
+Invariant Sections, the Front-Cover Texts being (a) (see below), and
+with the Back-Cover Texts being (b) (see below).
+A copy of the license is included in the
+section entitled ``GNU Free Documentation License''.
+
+
+(a) The FSF's Front-Cover Text is:
+
+     A GNU Manual
+
+(b) The FSF's Back-Cover Text is:
+
+     You have freedom to copy and modify this GNU Manual, like GNU
+     software.  Copies published by the Free Software Foundation raise
+     funds for GNU development.
+-->
+<meta http-equiv="Content-Style-Type" content="text/css">
+<style type="text/css"><!--
+  pre.display { font-family:inherit }
+  pre.format  { font-family:inherit }
+  pre.smalldisplay { font-family:inherit; font-size:smaller }
+  pre.smallformat  { font-family:inherit; font-size:smaller }
+  pre.smallexample { font-size:smaller }
+  pre.smalllisp    { font-size:smaller }
+  span.sc    { font-variant:small-caps }
+  span.roman { font-family:serif; font-weight:normal; } 
+  span.sansserif { font-family:sans-serif; font-weight:normal; } 
+--></style>
+</head>
+<body>
+<div class="node">
+<a name="Import-and-Export"></a>
+<p>
+Next:&nbsp;<a rel="next" accesskey="n" href="C-Interoperability.html#C-Interoperability">C Interoperability</a>,
+Previous:&nbsp;<a rel="previous" accesskey="p" href="Invoking-gccgo.html#Invoking-gccgo">Invoking gccgo</a>,
+Up:&nbsp;<a rel="up" accesskey="u" href="index.html#Top">Top</a>
+<hr>
+</div>
+
+<h2 class="chapter">2 Import and Export</h2>
+
+<p>When <samp><span class="command">gccgo</span></samp> compiles a package which exports anything, the
+export information will be stored directly in the object file.  When a
+package is imported, <samp><span class="command">gccgo</span></samp> must be able to find the file.
+
+   <p><a name="index-g_t_0040file_007b_002egox_007d-14"></a>When Go code imports the package <samp><var>gopackage</var></samp>, <samp><span class="command">gccgo</span></samp>
+will look for the import data using the following filenames, using the
+first one that it finds.
+
+     <dl>
+<dt><samp><var>gopackage</var><span class="file">.gox</span></samp><br><dt><samp><span class="file">lib</span><var>gopackage</var><span class="file">.so</span></samp><br><dt><samp><span class="file">lib</span><var>gopackage</var><span class="file">.a</span></samp><br><dt><samp><var>gopackage</var><span class="file">.o</span></samp><dd></dl>
+
+   <p>The compiler will search for these files in the directories named by
+any <samp><span class="option">-I</span></samp> options, in order in which the directories appear on
+the command line.  The compiler will then search several standard
+system directories.  Finally the compiler will search the current
+directory (to search the current directory earlier, use &lsquo;<samp><span class="samp">-I.</span></samp>&rsquo;).
+
+   <p>The compiler will extract the export information directly from the
+compiled object file.  The file <samp><var>gopackage</var><span class="file">.gox</span></samp> will
+typically contain nothing but export data.  This can be generated from
+<samp><var>gopackage</var><span class="file">.o</span></samp> via
+
+<pre class="smallexample">     objcopy -j .go_export <var>gopackage</var>.o <var>gopackage</var>.gox
+</pre>
+   <p>For example, it may be desirable to extract the export information
+from several different packages into their independent
+<samp><var>gopackage</var><span class="file">.gox</span></samp> files, and then to combine the different
+package object files together into a single shared library or archive.
+
+   <p>At link time you must explicitly tell <samp><span class="command">gccgo</span></samp> which files to
+link together into the executable, as is usual with <samp><span class="command">gcc</span></samp>. 
+This is different from the behaviour of other Go compilers.
+
+   </body></html>
+

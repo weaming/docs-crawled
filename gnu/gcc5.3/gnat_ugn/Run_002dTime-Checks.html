@@ -1,0 +1,225 @@
+<html lang="en">
+<head>
+<title>Run-Time Checks - GNAT User's Guide for Native Platforms</title>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+<meta name="description" content="GNAT User's Guide for Native Platforms">
+<meta name="generator" content="makeinfo 4.13">
+<link title="Top" rel="start" href="index.html#Top">
+<link rel="up" href="Compiler-Switches.html#Compiler-Switches" title="Compiler Switches">
+<link rel="prev" href="Style-Checking.html#Style-Checking" title="Style Checking">
+<link rel="next" href="Using-gcc-for-Syntax-Checking.html#Using-gcc-for-Syntax-Checking" title="Using gcc for Syntax Checking">
+<link href="http://www.gnu.org/software/texinfo/" rel="generator-home" title="Texinfo Homepage">
+<!--
+
+     GNAT User's Guide for Native Platforms , March 24, 2015
+
+     AdaCore
+
+     Copyright (C) 2008-2015, Free Software Foundation
+-->
+<meta http-equiv="Content-Style-Type" content="text/css">
+<style type="text/css"><!--
+  pre.display { font-family:inherit }
+  pre.format  { font-family:inherit }
+  pre.smalldisplay { font-family:inherit; font-size:smaller }
+  pre.smallformat  { font-family:inherit; font-size:smaller }
+  pre.smallexample { font-size:smaller }
+  pre.smalllisp    { font-size:smaller }
+  span.sc    { font-variant:small-caps }
+  span.roman { font-family:serif; font-weight:normal; } 
+  span.sansserif { font-family:sans-serif; font-weight:normal; } 
+--></style>
+</head>
+<body>
+<div class="node">
+<a name="Run-Time-Checks"></a>
+<a name="Run_002dTime-Checks"></a>
+<p>
+Next:&nbsp;<a rel="next" accesskey="n" href="Using-gcc-for-Syntax-Checking.html#Using-gcc-for-Syntax-Checking">Using gcc for Syntax Checking</a>,
+Previous:&nbsp;<a rel="previous" accesskey="p" href="Style-Checking.html#Style-Checking">Style Checking</a>,
+Up:&nbsp;<a rel="up" accesskey="u" href="Compiler-Switches.html#Compiler-Switches">Compiler Switches</a>
+<hr>
+</div>
+
+<p><a name="gnat_005fugn_002fbuilding_005fexecutable_005fprograms_005fwith_005fgnat-run_002dtime_002dchecks"></a><a name="fe"></a><a name="gnat_005fugn_002fbuilding_005fexecutable_005fprograms_005fwith_005fgnat-id19"></a><a name="g_t109"></a>
+
+<h4 class="subsection">4.3.7 Run-Time Checks</h4>
+
+<p><a name="index-Division-by-zero-577"></a>
+<a name="index-Access-before-elaboration-578"></a>
+<a name="index-Checks-579"></a><a name="index-division-by-zero-580"></a>
+<a name="index-Checks-581"></a><a name="index-access-before-elaboration-582"></a>
+<a name="index-Checks-583"></a><a name="index-stack-overflow-checking-584"></a>
+By default, the following checks are suppressed: integer overflow
+checks, stack overflow checks, and checks for access before
+elaboration on subprogram calls. All other checks, including range
+checks and array bounds checks, are turned on by default. The
+following `gcc' switches refine this default behavior.
+
+<p><a name="index-g_t_002dgnatp-_0028gcc_0029-585"></a>
+
+     <dl>
+<dt><code>-gnatp</code><dd>
+<a name="index-Suppressing-checks-586"></a>
+<a name="index-Checks-587"></a><a name="index-suppressing-588"></a>
+This switch causes the unit to be compiled
+as though <cite>pragma Suppress (All_checks)</cite>
+had been present in the source. Validity checks are also eliminated (in
+other words `-gnatp' also implies `-gnatVn'. 
+Use this switch to improve the performance
+of the code at the expense of safety in the presence of invalid data or
+program bugs.
+
+     <p>Note that when checks are suppressed, the compiler is allowed, but not
+required, to omit the checking code. If the run-time cost of the
+checking code is zero or near-zero, the compiler will generate it even
+if checks are suppressed. In particular, if the compiler can prove
+that a certain check will necessarily fail, it will generate code to
+do an unconditional 'raise', even if checks are suppressed. The
+compiler warns in this case. Another case in which checks may not be
+eliminated is when they are embedded in certain run time routines such
+as math library routines.
+
+     <p>Of course, run-time checks are omitted whenever the compiler can prove
+that they will not fail, whether or not checks are suppressed.
+
+     <p>Note that if you suppress a check that would have failed, program
+execution is erroneous, which means the behavior is totally
+unpredictable. The program might crash, or print wrong answers, or
+do anything else. It might even do exactly what you wanted it to do
+(and then it might start failing mysteriously next week or next
+year). The compiler will generate code based on the assumption that
+the condition being checked is true, which can result in erroneous
+execution if that assumption is wrong.
+
+     <p>The checks subject to suppression include all the checks defined by
+the Ada standard, the additional implementation defined checks
+<cite>Alignment_Check</cite>,
+<cite>Duplicated_Tag_Check</cite>, <cite>Predicate_Check</cite>, and
+<cite>Validity_Check</cite>, as well as any checks introduced using
+<cite>pragma Check_Name</cite>. Note that <cite>Atomic_Synchronization</cite>
+is not automatically suppressed by use of this option.
+
+     <p>If the code depends on certain checks being active, you can use
+pragma <cite>Unsuppress</cite> either as a configuration pragma or as
+a local pragma to make sure that a specified check is performed
+even if `gnatp' is specified.
+
+     <p>The `-gnatp' switch has no effect if a subsequent
+`-gnat-p' switch appears. 
+</dl>
+
+<p><a name="index-g_t_002dgnat_002dp-_0028gcc_0029-589"></a>
+<a name="index-Suppressing-checks-590"></a>
+<a name="index-Checks-591"></a><a name="index-suppressing-592"></a>
+<a name="index-Suppress-593"></a>
+
+     <dl>
+<dt><code>-gnat-p</code><dd>
+This switch cancels the effect of a previous `gnatp' switch. 
+</dl>
+
+<p><a name="index-g_t_002dgnato_003f_003f-_0028gcc_0029-594"></a>
+<a name="index-Overflow-checks-595"></a>
+<a name="index-Overflow-mode-596"></a>
+<a name="index-Check-597"></a><a name="index-overflow-598"></a>
+
+     <dl>
+<dt><code>-gnato??</code><dd>
+This switch controls the mode used for computing intermediate
+arithmetic integer operations, and also enables overflow checking. 
+For a full description of overflow mode and checking control, see
+the 'Overflow Check Handling in GNAT' appendix in this
+User's Guide.
+
+     <p>Overflow checks are always enabled by this switch. The argument
+controls the mode, using the codes
+
+          <dl>
+<dt>`1 = STRICT'<dd>
+In STRICT mode, intermediate operations are always done using the
+base type, and overflow checking ensures that the result is within
+the base type range.
+
+          <br><dt>`2 = MINIMIZED'<dd>
+In MINIMIZED mode, overflows in intermediate operations are avoided
+where possible by using a larger integer type for the computation
+(typically <cite>Long_Long_Integer</cite>). Overflow checking ensures that
+the result fits in this larger integer type.
+
+          <br><dt>`3 = ELIMINATED'<dd>
+In ELIMINATED mode, overflows in intermediate operations are avoided
+by using multi-precision arithmetic. In this case, overflow checking
+has no effect on intermediate operations (since overflow is impossible). 
+</dl>
+
+     <p>If two digits are present after `-gnato' then the first digit
+sets the mode for expressions outside assertions, and the second digit
+sets the mode for expressions within assertions. Here assertions is used
+in the technical sense (which includes for example precondition and
+postcondition expressions).
+
+     <p>If one digit is present, the corresponding mode is applicable to both
+expressions within and outside assertion expressions.
+
+     <p>If no digits are present, the default is to enable overflow checks
+and set STRICT mode for both kinds of expressions. This is compatible
+with the use of `-gnato' in previous versions of GNAT.
+
+     <p><a name="index-Machine_005fOverflows-599"></a>
+Note that the `-gnato??' switch does not affect the code generated
+for any floating-point operations; it applies only to integer semantics. 
+For floating-point, GNAT has the <cite>Machine_Overflows</cite>
+attribute set to <cite>False</cite> and the normal mode of operation is to
+generate IEEE NaN and infinite values on overflow or invalid operations
+(such as dividing 0.0 by 0.0).
+
+     <p>The reason that we distinguish overflow checking from other kinds of
+range constraint checking is that a failure of an overflow check, unlike
+for example the failure of a range check, can result in an incorrect
+value, but cannot cause random memory destruction (like an out of range
+subscript), or a wild jump (from an out of range case value). Overflow
+checking is also quite expensive in time and space, since in general it
+requires the use of double length arithmetic.
+
+     <p>Note again that the default is `-gnato00',
+so overflow checking is not performed in default mode. This means that out of
+the box, with the default settings, GNAT does not do all the checks
+expected from the language description in the Ada Reference Manual. 
+If you want all constraint checks to be performed, as described in this Manual,
+then you must explicitly use the `-gnato??' 
+switch either on the `gnatmake' or `gcc' command. 
+</dl>
+
+<p><a name="index-g_t_002dgnatE-_0028gcc_0029-600"></a>
+<a name="index-Elaboration-checks-601"></a>
+<a name="index-Check-602"></a><a name="index-elaboration-603"></a>
+
+     <dl>
+<dt><code>-gnatE</code><dd>
+Enables dynamic checks for access-before-elaboration
+on subprogram calls and generic instantiations. 
+Note that `-gnatE' is not necessary for safety, because in the
+default mode, GNAT ensures statically that the checks would not fail. 
+For full details of the effect and use of this switch,
+<a href="1e.html#g_t1e">Compiling with gcc</a>. 
+</dl>
+
+<p><a name="index-g_t_002dfstack_002dcheck-_0028gcc_0029-604"></a>
+<a name="index-Stack-Overflow-Checking-605"></a>
+<a name="index-Checks-606"></a><a name="index-stack-overflow-checking-607"></a>
+
+     <dl>
+<dt><code>-fstack-check</code><dd>
+Activates stack overflow checking. For full details of the effect and use of
+this switch see <a href="f9.html#f9">Stack Overflow Checking</a>. 
+</dl>
+
+<p><a name="index-Unsuppress-608"></a>
+The setting of these switches only controls the default setting of the
+checks. You may modify them using either <cite>Suppress</cite> (to remove
+checks) or <cite>Unsuppress</cite> (to add back suppressed checks) pragmas in
+the program source.
+
+</body></html>
+

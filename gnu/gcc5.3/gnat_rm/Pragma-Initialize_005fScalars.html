@@ -1,0 +1,104 @@
+<html lang="en">
+<head>
+<title>Pragma Initialize_Scalars - GNAT Reference Manual</title>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+<meta name="description" content="GNAT Reference Manual">
+<meta name="generator" content="makeinfo 4.13">
+<link title="Top" rel="start" href="index.html#Top">
+<link rel="up" href="Implementation-Defined-Pragmas.html#Implementation-Defined-Pragmas" title="Implementation Defined Pragmas">
+<link rel="prev" href="Pragma-Initial_005fCondition.html#Pragma-Initial_005fCondition" title="Pragma Initial_Condition">
+<link rel="next" href="Pragma-Initializes.html#Pragma-Initializes" title="Pragma Initializes">
+<link href="http://www.gnu.org/software/texinfo/" rel="generator-home" title="Texinfo Homepage">
+<!--
+
+     GNAT Reference Manual , March 24, 2015
+
+     AdaCore
+
+     Copyright (C) 2008-2015, Free Software Foundation
+-->
+<meta http-equiv="Content-Style-Type" content="text/css">
+<style type="text/css"><!--
+  pre.display { font-family:inherit }
+  pre.format  { font-family:inherit }
+  pre.smalldisplay { font-family:inherit; font-size:smaller }
+  pre.smallformat  { font-family:inherit; font-size:smaller }
+  pre.smallexample { font-size:smaller }
+  pre.smalllisp    { font-size:smaller }
+  span.sc    { font-variant:small-caps }
+  span.roman { font-family:serif; font-weight:normal; } 
+  span.sansserif { font-family:sans-serif; font-weight:normal; } 
+--></style>
+</head>
+<body>
+<div class="node">
+<a name="Pragma-Initialize_Scalars"></a>
+<a name="Pragma-Initialize_005fScalars"></a>
+<p>
+Next:&nbsp;<a rel="next" accesskey="n" href="Pragma-Initializes.html#Pragma-Initializes">Pragma Initializes</a>,
+Previous:&nbsp;<a rel="previous" accesskey="p" href="Pragma-Initial_005fCondition.html#Pragma-Initial_005fCondition">Pragma Initial_Condition</a>,
+Up:&nbsp;<a rel="up" accesskey="u" href="Implementation-Defined-Pragmas.html#Implementation-Defined-Pragmas">Implementation Defined Pragmas</a>
+<hr>
+</div>
+
+<p><a name="gnat_005frm_002fimplementation_005fdefined_005fpragmas-pragma_002dinitialize_002dscalars"></a><a name="g_t6b"></a>
+
+<h3 class="section">2.80 Pragma Initialize_Scalars</h3>
+
+<p><a name="index-debugging-with-Initialize_005fScalars-57"></a>
+Syntax:
+
+<pre class="example">    pragma Initialize_Scalars;
+</pre>
+<p>This pragma is similar to <cite>Normalize_Scalars</cite> conceptually but has
+two important differences.  First, there is no requirement for the pragma
+to be used uniformly in all units of a partition, in particular, it is fine
+to use this just for some or all of the application units of a partition,
+without needing to recompile the run-time library.
+
+<p>In the case where some units are compiled with the pragma, and some without,
+then a declaration of a variable where the type is defined in package
+Standard or is locally declared will always be subject to initialization,
+as will any declaration of a scalar variable.  For composite variables,
+whether the variable is initialized may also depend on whether the package
+in which the type of the variable is declared is compiled with the pragma.
+
+<p>The other important difference is that you can control the value used
+for initializing scalar objects.  At bind time, you can select several
+options for initialization. You can
+initialize with invalid values (similar to Normalize_Scalars, though for
+Initialize_Scalars it is not always possible to determine the invalid
+values in complex cases like signed component fields with non-standard
+sizes). You can also initialize with high or
+low values, or with a specified bit pattern.  See the GNAT
+User's Guide for binder options for specifying these cases.
+
+<p>This means that you can compile a program, and then without having to
+recompile the program, you can run it with different values being used
+for initializing otherwise uninitialized values, to test if your program
+behavior depends on the choice.  Of course the behavior should not change,
+and if it does, then most likely you have an incorrect reference to an
+uninitialized value.
+
+<p>It is even possible to change the value at execution time eliminating even
+the need to rebind with a different switch using an environment variable. 
+See the GNAT User's Guide for details.
+
+<p>Note that pragma <cite>Initialize_Scalars</cite> is particularly useful in
+conjunction with the enhanced validity checking that is now provided
+in GNAT, which checks for invalid values under more conditions. 
+Using this feature (see description of the `-gnatV' flag in the
+GNAT User's Guide) in conjunction with
+pragma <cite>Initialize_Scalars</cite>
+provides a powerful new tool to assist in the detection of problems
+caused by uninitialized variables.
+
+<p>Note: the use of <cite>Initialize_Scalars</cite> has a fairly extensive
+effect on the generated code. This may cause your code to be
+substantially larger. It may also cause an increase in the amount
+of stack required, so it is probably a good idea to turn on stack
+checking (see description of stack checking in the GNAT
+User's Guide) when using this pragma.
+
+</body></html>
+

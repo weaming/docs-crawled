@@ -1,0 +1,279 @@
+<html lang="en">
+<head>
+<title>Switches and Project Files - GNAT User's Guide for Native Platforms</title>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+<meta name="description" content="GNAT User's Guide for Native Platforms">
+<meta name="generator" content="makeinfo 4.13">
+<link title="Top" rel="start" href="index.html#Top">
+<link rel="up" href="gnatmake-and-Project-Files.html#gnatmake-and-Project-Files" title="gnatmake and Project Files">
+<link rel="prev" href="Switches-Related-to-Project-Files.html#Switches-Related-to-Project-Files" title="Switches Related to Project Files">
+<link rel="next" href="Specifying-Configuration-Pragmas.html#Specifying-Configuration-Pragmas" title="Specifying Configuration Pragmas">
+<link href="http://www.gnu.org/software/texinfo/" rel="generator-home" title="Texinfo Homepage">
+<!--
+
+     GNAT User's Guide for Native Platforms , March 24, 2015
+
+     AdaCore
+
+     Copyright (C) 2008-2015, Free Software Foundation
+-->
+<meta http-equiv="Content-Style-Type" content="text/css">
+<style type="text/css"><!--
+  pre.display { font-family:inherit }
+  pre.format  { font-family:inherit }
+  pre.smalldisplay { font-family:inherit; font-size:smaller }
+  pre.smallformat  { font-family:inherit; font-size:smaller }
+  pre.smallexample { font-size:smaller }
+  pre.smalllisp    { font-size:smaller }
+  span.sc    { font-variant:small-caps }
+  span.roman { font-family:serif; font-weight:normal; } 
+  span.sansserif { font-family:sans-serif; font-weight:normal; } 
+--></style>
+</head>
+<body>
+<div class="node">
+<a name="Switches-and-Project-Files"></a>
+<p>
+Next:&nbsp;<a rel="next" accesskey="n" href="Specifying-Configuration-Pragmas.html#Specifying-Configuration-Pragmas">Specifying Configuration Pragmas</a>,
+Previous:&nbsp;<a rel="previous" accesskey="p" href="Switches-Related-to-Project-Files.html#Switches-Related-to-Project-Files">Switches Related to Project Files</a>,
+Up:&nbsp;<a rel="up" accesskey="u" href="gnatmake-and-Project-Files.html#gnatmake-and-Project-Files">gnatmake and Project Files</a>
+<hr>
+</div>
+
+<p><a name="gnat_005fugn_002ftools_005fsupporting_005fproject_005ffiles-id4"></a><a name="g_t1c5"></a><a name="gnat_005fugn_002ftools_005fsupporting_005fproject_005ffiles-switches_002dand_002dproject_002dfiles"></a><a name="g_t1c6"></a>
+
+<h4 class="subsection">6.1.2 Switches and Project Files</h4>
+
+<p>For each of the packages <cite>Builder</cite>, <cite>Compiler</cite>, <cite>Binder</cite>, and
+<cite>Linker</cite>, you can specify a <cite>Default_Switches</cite>
+attribute, a <cite>Switches</cite> attribute, or both;
+as their names imply, these switch-related
+attributes affect the switches that are used for each of these GNAT
+components when
+`gnatmake' is invoked.  As will be explained below, these
+component-specific switches precede
+the switches provided on the `gnatmake' command line.
+
+<p>The <cite>Default_Switches</cite> attribute is an attribute
+indexed by language name (case insensitive) whose value is a string list. 
+For example:
+
+<blockquote>
+
+<pre class="example">    package Compiler is
+      for Default_Switches ("Ada")
+          use ("-gnaty",
+               "-v");
+    end Compiler;
+</pre>
+</blockquote>
+
+<p>The <cite>Switches</cite> attribute is indexed on a file name (which may or may
+not be case sensitive, depending
+on the operating system) whose value is a string list.  For example:
+
+<blockquote>
+
+<pre class="example">    package Builder is
+       for Switches ("main1.adb")
+           use ("-O2");
+       for Switches ("main2.adb")
+           use ("-g");
+    end Builder;
+</pre>
+</blockquote>
+
+<p>For the <cite>Builder</cite> package, the file names must designate source files
+for main subprograms.  For the <cite>Binder</cite> and <cite>Linker</cite> packages, the
+file names must designate <code>ALI</code> or source files for main subprograms. 
+In each case just the file name without an explicit extension is acceptable.
+
+<p>For each tool used in a program build (`gnatmake', the compiler, the
+binder, and the linker), the corresponding package @dfn{contributes} a set of
+switches for each file on which the tool is invoked, based on the
+switch-related attributes defined in the package. 
+In particular, the switches
+that each of these packages contributes for a given file <cite>f</cite> comprise:
+
+     <ul>
+<li>the value of attribute <cite>Switches (`f</cite>)`,
+if it is specified in the package for the given file,
+
+     <li>otherwise, the value of <cite>Default_Switches ("Ada")</cite>,
+if it is specified in the package. 
+</ul>
+
+<p>If neither of these attributes is defined in the package, then the package does
+not contribute any switches for the given file.
+
+<p>When `gnatmake' is invoked on a file, the switches comprise
+two sets, in the following order: those contributed for the file
+by the <cite>Builder</cite> package;
+and the switches passed on the command line.
+
+<p>When `gnatmake' invokes a tool (compiler, binder, linker) on a file,
+the switches passed to the tool comprise three sets,
+in the following order:
+
+     <ul>
+<li>the applicable switches contributed for the file
+by the <cite>Builder</cite> package in the project file supplied on the command line;
+
+     <li>those contributed for the file by the package (in the relevant project file &ndash;
+see below) corresponding to the tool; and
+
+     <li>the applicable switches passed on the command line. 
+</ul>
+
+<p>The term `applicable switches' reflects the fact that
+`gnatmake' switches may or may not be passed to individual
+tools, depending on the individual switch.
+
+<p>`gnatmake' may invoke the compiler on source files from different
+projects. The Project Manager will use the appropriate project file to
+determine the <cite>Compiler</cite> package for each source file being compiled. 
+Likewise for the <cite>Binder</cite> and <cite>Linker</cite> packages.
+
+<p>As an example, consider the following package in a project file:
+
+<blockquote>
+
+<pre class="example">    project Proj1 is
+       package Compiler is
+          for Default_Switches ("Ada")
+              use ("-g");
+          for Switches ("a.adb")
+              use ("-O1");
+          for Switches ("b.adb")
+              use ("-O2",
+                   "-gnaty");
+       end Compiler;
+    end Proj1;
+</pre>
+</blockquote>
+
+<p>If `gnatmake' is invoked with this project file, and it needs to
+compile, say, the files <code>a.adb</code>, <code>b.adb</code>, and <code>c.adb</code>, then
+<code>a.adb</code> will be compiled with the switch `-O1',
+<code>b.adb</code> with switches `-O2' and `-gnaty',
+and <code>c.adb</code> with `-g'.
+
+<p>The following example illustrates the ordering of the switches
+contributed by different packages:
+
+<blockquote>
+
+<pre class="example">    project Proj2 is
+       package Builder is
+          for Switches ("main.adb")
+              use ("-g",
+                   "-O1",
+                   "-f");
+       end Builder;
+    
+       package Compiler is
+          for Switches ("main.adb")
+              use ("-O2");
+       end Compiler;
+    end Proj2;
+</pre>
+</blockquote>
+
+<p>If you issue the command:
+
+<blockquote>
+
+<pre class="example">    $ gnatmake -Pproj2 -O0 main
+</pre>
+</blockquote>
+
+<p>then the compiler will be invoked on <code>main.adb</code> with the following
+sequence of switches
+
+<blockquote>
+
+<pre class="example">    -g -O1 -O2 -O0
+</pre>
+</blockquote>
+
+<p>with the last `-O'
+switch having precedence over the earlier ones;
+several other switches
+(such as `-c') are added implicitly.
+
+<p>The switches `-g'
+and `-O1' are contributed by package
+<cite>Builder</cite>,  `-O2' is contributed
+by the package <cite>Compiler</cite>
+and `-O0' comes from the command line.
+
+<p>The `-g' switch will also be passed in the invocation of
+`Gnatlink.'
+
+<p>A final example illustrates switch contributions from packages in different
+project files:
+
+<blockquote>
+
+<pre class="example">    project Proj3 is
+       for Source_Files use ("pack.ads", "pack.adb");
+       package Compiler is
+          for Default_Switches ("Ada")
+              use ("-gnata");
+       end Compiler;
+    end Proj3;
+    
+    with "Proj3";
+    project Proj4 is
+       for Source_Files use ("foo_main.adb", "bar_main.adb");
+       package Builder is
+          for Switches ("foo_main.adb")
+              use ("-s",
+                   "-g");
+       end Builder;
+    end Proj4;
+</pre>
+<pre class="example">    -- Ada source file:
+    with Pack;
+    procedure Foo_Main is
+       ...
+    end Foo_Main;
+</pre>
+</blockquote>
+
+<p>If the command is
+
+<blockquote>
+
+<pre class="example">    $ gnatmake -PProj4 foo_main.adb -cargs -gnato
+</pre>
+</blockquote>
+
+<p>then the switches passed to the compiler for <code>foo_main.adb</code> are
+`-g' (contributed by the package <cite>Proj4.Builder</cite>) and
+`-gnato' (passed on the command line). 
+When the imported package <cite>Pack</cite> is compiled, the switches used
+are `-g' from <cite>Proj4.Builder</cite>,
+`-gnata' (contributed from package <cite>Proj3.Compiler</cite>,
+and `-gnato' from the command line.
+
+<p>When using `gnatmake' with project files, some switches or
+arguments may be expressed as relative paths. As the working directory where
+compilation occurs may change, these relative paths are converted to absolute
+paths. For the switches found in a project file, the relative paths
+are relative to the project file directory, for the switches on the command
+line, they are relative to the directory where `gnatmake' is invoked. 
+The switches for which this occurs are:
+-I,
+-A,
+-L,
+-aO,
+-aL,
+-aI, as well as all arguments that are not switches (arguments to
+switch
+-o, object files specified in package <cite>Linker</cite> or after
+-largs on the command line). The exception to this rule is the switch
+&ndash;RTS= for which a relative path argument is never converted.
+
+</body></html>
+

@@ -1,0 +1,110 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
+<HTML>
+<HEAD> <TITLE>cURL - libcurl cookie leak with IP address as domain</TITLE>
+<meta content="text/html; charset=UTF-8" http-equiv="Content-Type">
+<link rel="stylesheet" type="text/css" href="http://curl.haxx.se/curl.css">
+<link rel="shortcut icon" href="http://curl.haxx.se/favicon.ico">
+<link rel="STYLESHEET" type="text/css" href="http://curl.haxx.se/manpage.css">
+</HEAD>
+<body bgcolor="#ffffff" text="#000000">
+<div class="main">
+<div class="menu">
+<a href="index.html" class="menuitem" title="Documentation main page">Docs Overview</a>
+</div>
+<div class="contents">
+<div class="where"><a href="http://curl.haxx.se/">cURL</a> / <a href="index.html">Docs</a> / <a href="security.html">Security</a> / <b>libcurl cookie leak with IP address as domain</b></div>
+<h1> libcurl cookie leak with IP address as domain </h1>
+<div class="relatedbox">
+<b>Related:</b>
+<br><a href="http://curl.haxx.se/changes.html">Changelog</a>
+<br><a href="faq.html">FAQ</a>
+<br><a href="http://curl.haxx.se/dev/security.html">Security dev process</a>
+<br><a href="vulnerabilities.html">Vulnerabilities Table</a>
+</div>
+<pre>
+                libcurl cookie leak with IP address as domain
+                =============================================
+&nbsp;
+Project cURL Security Advisory, September 10th 2014
+<a href="security.html">http://curl.haxx.se/docs/security.html</a>
+&nbsp;
+1. VULNERABILITY
+&nbsp;
+  By not detecting and rejecting domain names for partial literal IP addresses
+  properly when parsing received HTTP cookies, libcurl can be fooled to both
+  sending cookies to wrong sites and into allowing arbitrary sites to set
+  cookies for others.
+&nbsp;
+  For this problem to trigger, the client application must use the numerical
+  IP address in the URL to access the site and the site must send back cookies
+  to the site using domain= and a partial IP address.
+&nbsp;
+  Since libcurl wrongly approaches the IP address like it was a normal domain
+  name, a site at IP address 192.168.0.1 can set cookies for anything ending
+  with .168.0.1 thus fooling libcurl to send them also to for example
+  127.168.0.1.
+&nbsp;
+  The flaw requires dots to be present in the IP address, which restricts the
+  flaw to IPv4 literal addresses or IPv6 addresses using the somewhat unusual
+  "dotted-quad" style: "::ffff:192.0.2.128"
+&nbsp;
+  This is not believed to be done by typical sites as this is not supported by
+  clients that adhere to the rules of the RFC 6265, and many sites are written
+  to explicitly use their own specific named domain when sending cookies.
+&nbsp;
+2. INFO
+&nbsp;
+  Cookie parsing and use is opt-in by applications and is not enabled by
+  default.
+&nbsp;
+  The Common Vulnerabilities and Exposures (CVE) project has assigned the name
+  CVE-2014-3613 to this issue.
+&nbsp;
+3. AFFECTED VERSIONS
+&nbsp;
+  The IP address flaw has existed ever since libcurl started to support
+  cookies.
+&nbsp;
+  Affected versions: from libcurl 7.1 to and including 7.37.1
+  Not affected versions: libcurl &gt;= 7.38.0
+&nbsp;
+  libcurl is used by many applications, but not always advertised as such!
+&nbsp;
+4. THE SOLUTION
+&nbsp;
+  libcurl 7.38.0 makes sure that when connected to a site specified with a
+  literal IP address, only exact matches are considered for cookies.
+&nbsp;
+  A patch for this problem is available at:
+&nbsp;
+    <a href="http://curl.haxx.se/CVE-2014-3613.patch">http://curl.haxx.se/CVE-2014-3613.patch</a>
+&nbsp;
+5. RECOMMENDATIONS
+&nbsp;
+  We suggest you take one of the following actions immediately, in order of
+  preference:
+&nbsp;
+  A - Upgrade to curl and libcurl 7.38.0
+&nbsp;
+  B - Apply the patch and rebuild libcurl
+&nbsp;
+  C - Avoid using cookies in your application if you ever use URLs involving
+      literal IP addresses.
+&nbsp;
+6. TIME LINE
+&nbsp;
+  It was reported to the curl project on August 15th 2014. We contacted
+  distros@openwall on September 1st.
+&nbsp;
+  libcurl 7.38.0 was released on September 10th 2014, coordinated with the
+  publication of this advisory.
+&nbsp;
+7. CREDITS
+&nbsp;
+  Reported by Tim Ruehsen. Patch written by Tim Ruehsen.
+&nbsp;
+  Thanks a lot!
+</pre>
+</div>
+</div>
+</body> </html>

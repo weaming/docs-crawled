@@ -1,0 +1,6 @@
+<map id="Graphical Class Hierarchy" name="Graphical Class Hierarchy">
+<area shape="rect" id="node1" href="$a00179.html" title="Base class for exceptions. " alt="" coords="5,61,153,100"/>
+<area shape="rect" id="node2" href="$a00340.html" title="An entry cannot be inserted into a container object for logical reasons (not, e.g., if memory is unabvailable, in which case the allocator_type&#39;s exception will be thrown). " alt="" coords="213,5,340,44"/>
+<area shape="rect" id="node3" href="$a00341.html" title="A join cannot be performed logical reasons (i.e., the ranges of the two container objects being joine..." alt="" coords="201,68,352,93"/>
+<area shape="rect" id="node4" href="$a00359.html" title="A container cannot be resized. " alt="" coords="211,117,342,156"/>
+</map>

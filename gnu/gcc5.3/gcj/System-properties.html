@@ -1,0 +1,74 @@
+<html lang="en">
+<head>
+<title>System properties - Guide to GNU gcj</title>
+<meta http-equiv="Content-Type" content="text/html">
+<meta name="description" content="Guide to GNU gcj">
+<meta name="generator" content="makeinfo 4.13">
+<link title="Top" rel="start" href="index.html#Top">
+<link rel="prev" href="About-CNI.html#About-CNI" title="About CNI">
+<link rel="next" href="Resources.html#Resources" title="Resources">
+<link href="http://www.gnu.org/software/texinfo/" rel="generator-home" title="Texinfo Homepage">
+<!--
+Copyright (C) 2001-2015 Free Software Foundation, Inc.
+
+Permission is granted to copy, distribute and/or modify this document
+under the terms of the GNU Free Documentation License, Version 1.3 or
+any later version published by the Free Software Foundation; with no
+Invariant Sections, the Front-Cover Texts being (a) (see below), and
+with the Back-Cover Texts being (b) (see below).
+A copy of the license is included in the
+section entitled ``GNU Free Documentation License''.
+
+
+(a) The FSF's Front-Cover Text is:
+
+     A GNU Manual
+
+(b) The FSF's Back-Cover Text is:
+
+     You have freedom to copy and modify this GNU Manual, like GNU
+     software.  Copies published by the Free Software Foundation raise
+     funds for GNU development.
+-->
+<meta http-equiv="Content-Style-Type" content="text/css">
+<style type="text/css"><!--
+  pre.display { font-family:inherit }
+  pre.format  { font-family:inherit }
+  pre.smalldisplay { font-family:inherit; font-size:smaller }
+  pre.smallformat  { font-family:inherit; font-size:smaller }
+  pre.smallexample { font-size:smaller }
+  pre.smalllisp    { font-size:smaller }
+  span.sc    { font-variant:small-caps }
+  span.roman { font-family:serif; font-weight:normal; } 
+  span.sansserif { font-family:sans-serif; font-weight:normal; } 
+--></style>
+</head>
+<body>
+<div class="node">
+<a name="System-properties"></a>
+<p>
+Next:&nbsp;<a rel="next" accesskey="n" href="Resources.html#Resources">Resources</a>,
+Previous:&nbsp;<a rel="previous" accesskey="p" href="About-CNI.html#About-CNI">About CNI</a>,
+Up:&nbsp;<a rel="up" accesskey="u" href="index.html#Top">Top</a>
+<hr>
+</div>
+
+<h2 class="chapter">12 System properties</h2>
+
+<p>The runtime behavior of the <code>libgcj</code> library can be modified by setting
+certain system properties.  These properties can be compiled into the program
+using the <code>-D</code><var>name</var><code>[=</code><var>value</var><code>]</code> option to <samp><span class="command">gcj</span></samp> or by
+setting them explicitly in the program by calling the
+<code>java.lang.System.setProperty()</code> method.  Some system properties are only
+used for informational purposes (like giving a version number or a user name). 
+A program can inspect the current value of a property by calling the
+<code>java.lang.System.getProperty()</code> method.
+
+<ul class="menu">
+<li><a accesskey="1" href="Standard-Properties.html#Standard-Properties">Standard Properties</a>:          Standard properties supported by <code>libgcj</code>
+<li><a accesskey="2" href="GNU-Classpath-Properties.html#GNU-Classpath-Properties">GNU Classpath Properties</a>:     Properties found in Classpath based libraries
+<li><a accesskey="3" href="libgcj-Runtime-Properties.html#libgcj-Runtime-Properties">libgcj Runtime Properties</a>:    Properties specific to <code>libgcj</code>
+</ul>
+
+   </body></html>
+

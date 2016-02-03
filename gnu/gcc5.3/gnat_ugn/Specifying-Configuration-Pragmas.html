@@ -1,0 +1,68 @@
+<html lang="en">
+<head>
+<title>Specifying Configuration Pragmas - GNAT User's Guide for Native Platforms</title>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+<meta name="description" content="GNAT User's Guide for Native Platforms">
+<meta name="generator" content="makeinfo 4.13">
+<link title="Top" rel="start" href="index.html#Top">
+<link rel="up" href="gnatmake-and-Project-Files.html#gnatmake-and-Project-Files" title="gnatmake and Project Files">
+<link rel="prev" href="Switches-and-Project-Files.html#Switches-and-Project-Files" title="Switches and Project Files">
+<link rel="next" href="Project-Files-and-Main-Subprograms.html#Project-Files-and-Main-Subprograms" title="Project Files and Main Subprograms">
+<link href="http://www.gnu.org/software/texinfo/" rel="generator-home" title="Texinfo Homepage">
+<!--
+
+     GNAT User's Guide for Native Platforms , March 24, 2015
+
+     AdaCore
+
+     Copyright (C) 2008-2015, Free Software Foundation
+-->
+<meta http-equiv="Content-Style-Type" content="text/css">
+<style type="text/css"><!--
+  pre.display { font-family:inherit }
+  pre.format  { font-family:inherit }
+  pre.smalldisplay { font-family:inherit; font-size:smaller }
+  pre.smallformat  { font-family:inherit; font-size:smaller }
+  pre.smallexample { font-size:smaller }
+  pre.smalllisp    { font-size:smaller }
+  span.sc    { font-variant:small-caps }
+  span.roman { font-family:serif; font-weight:normal; } 
+  span.sansserif { font-family:sans-serif; font-weight:normal; } 
+--></style>
+</head>
+<body>
+<div class="node">
+<a name="Specifying-Configuration-Pragmas"></a>
+<p>
+Next:&nbsp;<a rel="next" accesskey="n" href="Project-Files-and-Main-Subprograms.html#Project-Files-and-Main-Subprograms">Project Files and Main Subprograms</a>,
+Previous:&nbsp;<a rel="previous" accesskey="p" href="Switches-and-Project-Files.html#Switches-and-Project-Files">Switches and Project Files</a>,
+Up:&nbsp;<a rel="up" accesskey="u" href="gnatmake-and-Project-Files.html#gnatmake-and-Project-Files">gnatmake and Project Files</a>
+<hr>
+</div>
+
+<p><a name="gnat_005fugn_002ftools_005fsupporting_005fproject_005ffiles-id5"></a><a name="g_t1c7"></a><a name="gnat_005fugn_002ftools_005fsupporting_005fproject_005ffiles-specifying_002dconfiguration_002dpragmas"></a><a name="g_t7d"></a>
+
+<h4 class="subsection">6.1.3 Specifying Configuration Pragmas</h4>
+
+<p>When using `gnatmake' with project files, if there exists a file
+<code>gnat.adc</code> that contains configuration pragmas, this file will be
+ignored.
+
+<p>Configuration pragmas can be defined by means of the following attributes in
+project files: <cite>Global_Configuration_Pragmas</cite> in package <cite>Builder</cite>
+and <cite>Local_Configuration_Pragmas</cite> in package <cite>Compiler</cite>.
+
+<p>Both these attributes are single string attributes. Their values is the path
+name of a file containing configuration pragmas. If a path name is relative,
+then it is relative to the project directory of the project file where the
+attribute is defined.
+
+<p>When compiling a source, the configuration pragmas used are, in order,
+those listed in the file designated by attribute
+<cite>Global_Configuration_Pragmas</cite> in package <cite>Builder</cite> of the main
+project file, if it is specified, and those listed in the file designated by
+attribute <cite>Local_Configuration_Pragmas</cite> in package <cite>Compiler</cite> of
+the project file of the source, if it exists.
+
+</body></html>
+

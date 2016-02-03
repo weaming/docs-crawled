@@ -1,0 +1,286 @@
+<html lang="en">
+<head>
+<title>Effect of Bit_Order on Byte Ordering - GNAT Reference Manual</title>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+<meta name="description" content="GNAT Reference Manual">
+<meta name="generator" content="makeinfo 4.13">
+<link title="Top" rel="start" href="index.html#Top">
+<link rel="up" href="Representation-Clauses-and-Pragmas.html#Representation-Clauses-and-Pragmas" title="Representation Clauses and Pragmas">
+<link rel="prev" href="Bit_005fOrder-Clauses.html#Bit_005fOrder-Clauses" title="Bit_Order Clauses">
+<link rel="next" href="Pragma-Pack-for-Arrays.html#Pragma-Pack-for-Arrays" title="Pragma Pack for Arrays">
+<link href="http://www.gnu.org/software/texinfo/" rel="generator-home" title="Texinfo Homepage">
+<!--
+
+     GNAT Reference Manual , March 24, 2015
+
+     AdaCore
+
+     Copyright (C) 2008-2015, Free Software Foundation
+-->
+<meta http-equiv="Content-Style-Type" content="text/css">
+<style type="text/css"><!--
+  pre.display { font-family:inherit }
+  pre.format  { font-family:inherit }
+  pre.smalldisplay { font-family:inherit; font-size:smaller }
+  pre.smallformat  { font-family:inherit; font-size:smaller }
+  pre.smallexample { font-size:smaller }
+  pre.smalllisp    { font-size:smaller }
+  span.sc    { font-variant:small-caps }
+  span.roman { font-family:serif; font-weight:normal; } 
+  span.sansserif { font-family:sans-serif; font-weight:normal; } 
+--></style>
+</head>
+<body>
+<div class="node">
+<a name="Effect-of-Bit_Order-on-Byte-Ordering"></a>
+<a name="Effect-of-Bit_005fOrder-on-Byte-Ordering"></a>
+<p>
+Next:&nbsp;<a rel="next" accesskey="n" href="Pragma-Pack-for-Arrays.html#Pragma-Pack-for-Arrays">Pragma Pack for Arrays</a>,
+Previous:&nbsp;<a rel="previous" accesskey="p" href="Bit_005fOrder-Clauses.html#Bit_005fOrder-Clauses">Bit_Order Clauses</a>,
+Up:&nbsp;<a rel="up" accesskey="u" href="Representation-Clauses-and-Pragmas.html#Representation-Clauses-and-Pragmas">Representation Clauses and Pragmas</a>
+<hr>
+</div>
+
+<p><a name="gnat_005frm_002frepresentation_005fclauses_005fand_005fpragmas-id10"></a><a name="g_t22a"></a><a name="gnat_005frm_002frepresentation_005fclauses_005fand_005fpragmas-effect_002dof_002dbit_002dorder_002don_002dbyte_002dordering"></a><a name="g_t22b"></a>
+
+<h3 class="section">9.9 Effect of Bit_Order on Byte Ordering</h3>
+
+<p><a name="index-byte-ordering-502"></a>
+<a name="index-ordering-503"></a><a name="index-of-bytes-504"></a>
+In this section we will review the effect of the <cite>Bit_Order</cite> attribute
+definition clause on byte ordering.  Briefly, it has no effect at all, but
+a detailed example will be helpful.  Before giving this
+example, let us review the precise
+definition of the effect of defining <cite>Bit_Order</cite>.  The effect of a
+non-standard bit order is described in section 15.5.3 of the Ada
+Reference Manual:
+
+<blockquote>
+
+<p>"2   A bit ordering is a method of interpreting the meaning of
+the storage place attributes." 
+</blockquote>
+
+<p>To understand the precise definition of storage place attributes in
+this context, we visit section 13.5.1 of the manual:
+
+<blockquote>
+
+<p>"13   A record_representation_clause (without the mod_clause)
+specifies the layout.  The storage place attributes (see 13.5.2)
+are taken from the values of the position, first_bit, and last_bit
+expressions after normalizing those values so that first_bit is
+less than Storage_Unit." 
+</blockquote>
+
+<p>The critical point here is that storage places are taken from
+the values after normalization, not before.  So the <cite>Bit_Order</cite>
+interpretation applies to normalized values.  The interpretation
+is described in the later part of the 15.5.3 paragraph:
+
+<blockquote>
+
+<p>"2   A bit ordering is a method of interpreting the meaning of
+the storage place attributes.  High_Order_First (known in the
+vernacular as 'big endian') means that the first bit of a
+storage element (bit 0) is the most significant bit (interpreting
+the sequence of bits that represent a component as an unsigned
+integer value).  Low_Order_First (known in the vernacular as
+'little endian') means the opposite: the first bit is the
+least significant." 
+</blockquote>
+
+<p>Note that the numbering is with respect to the bits of a storage
+unit.  In other words, the specification affects only the numbering
+of bits within a single storage unit.
+
+<p>We can make the effect clearer by giving an example.
+
+<p>Suppose that we have an external device which presents two bytes, the first
+byte presented, which is the first (low addressed byte) of the two byte
+record is called Master, and the second byte is called Slave.
+
+<p>The left most (most significant bit is called Control for each byte, and
+the remaining 7 bits are called V1, V2, ... V7, where V7 is the rightmost
+(least significant) bit.
+
+<p>On a big-endian machine, we can write the following representation clause
+
+<pre class="example">    type Data is record
+       Master_Control : Bit;
+       Master_V1      : Bit;
+       Master_V2      : Bit;
+       Master_V3      : Bit;
+       Master_V4      : Bit;
+       Master_V5      : Bit;
+       Master_V6      : Bit;
+       Master_V7      : Bit;
+       Slave_Control  : Bit;
+       Slave_V1       : Bit;
+       Slave_V2       : Bit;
+       Slave_V3       : Bit;
+       Slave_V4       : Bit;
+       Slave_V5       : Bit;
+       Slave_V6       : Bit;
+       Slave_V7       : Bit;
+    end record;
+    
+    for Data use record
+       Master_Control at 0 range 0 .. 0;
+       Master_V1      at 0 range 1 .. 1;
+       Master_V2      at 0 range 2 .. 2;
+       Master_V3      at 0 range 3 .. 3;
+       Master_V4      at 0 range 4 .. 4;
+       Master_V5      at 0 range 5 .. 5;
+       Master_V6      at 0 range 6 .. 6;
+       Master_V7      at 0 range 7 .. 7;
+       Slave_Control  at 1 range 0 .. 0;
+       Slave_V1       at 1 range 1 .. 1;
+       Slave_V2       at 1 range 2 .. 2;
+       Slave_V3       at 1 range 3 .. 3;
+       Slave_V4       at 1 range 4 .. 4;
+       Slave_V5       at 1 range 5 .. 5;
+       Slave_V6       at 1 range 6 .. 6;
+       Slave_V7       at 1 range 7 .. 7;
+    end record;
+</pre>
+<p>Now if we move this to a little endian machine, then the bit ordering within
+the byte is backwards, so we have to rewrite the record rep clause as:
+
+<pre class="example">    for Data use record
+       Master_Control at 0 range 7 .. 7;
+       Master_V1      at 0 range 6 .. 6;
+       Master_V2      at 0 range 5 .. 5;
+       Master_V3      at 0 range 4 .. 4;
+       Master_V4      at 0 range 3 .. 3;
+       Master_V5      at 0 range 2 .. 2;
+       Master_V6      at 0 range 1 .. 1;
+       Master_V7      at 0 range 0 .. 0;
+       Slave_Control  at 1 range 7 .. 7;
+       Slave_V1       at 1 range 6 .. 6;
+       Slave_V2       at 1 range 5 .. 5;
+       Slave_V3       at 1 range 4 .. 4;
+       Slave_V4       at 1 range 3 .. 3;
+       Slave_V5       at 1 range 2 .. 2;
+       Slave_V6       at 1 range 1 .. 1;
+       Slave_V7       at 1 range 0 .. 0;
+    end record;
+</pre>
+<p>It is a nuisance to have to rewrite the clause, especially if
+the code has to be maintained on both machines.  However,
+this is a case that we can handle with the
+<cite>Bit_Order</cite> attribute if it is implemented. 
+Note that the implementation is not required on byte addressed
+machines, but it is indeed implemented in GNAT. 
+This means that we can simply use the
+first record clause, together with the declaration
+
+<pre class="example">    for Data'Bit_Order use High_Order_First;
+</pre>
+<p>and the effect is what is desired, namely the layout is exactly the same,
+independent of whether the code is compiled on a big-endian or little-endian
+machine.
+
+<p>The important point to understand is that byte ordering is not affected. 
+A <cite>Bit_Order</cite> attribute definition never affects which byte a field
+ends up in, only where it ends up in that byte. 
+To make this clear, let us rewrite the record rep clause of the previous
+example as:
+
+<pre class="example">    for Data'Bit_Order use High_Order_First;
+    for Data use record
+       Master_Control at 0 range  0 .. 0;
+       Master_V1      at 0 range  1 .. 1;
+       Master_V2      at 0 range  2 .. 2;
+       Master_V3      at 0 range  3 .. 3;
+       Master_V4      at 0 range  4 .. 4;
+       Master_V5      at 0 range  5 .. 5;
+       Master_V6      at 0 range  6 .. 6;
+       Master_V7      at 0 range  7 .. 7;
+       Slave_Control  at 0 range  8 .. 8;
+       Slave_V1       at 0 range  9 .. 9;
+       Slave_V2       at 0 range 10 .. 10;
+       Slave_V3       at 0 range 11 .. 11;
+       Slave_V4       at 0 range 12 .. 12;
+       Slave_V5       at 0 range 13 .. 13;
+       Slave_V6       at 0 range 14 .. 14;
+       Slave_V7       at 0 range 15 .. 15;
+    end record;
+</pre>
+<p>This is exactly equivalent to saying (a repeat of the first example):
+
+<pre class="example">    for Data'Bit_Order use High_Order_First;
+    for Data use record
+       Master_Control at 0 range 0 .. 0;
+       Master_V1      at 0 range 1 .. 1;
+       Master_V2      at 0 range 2 .. 2;
+       Master_V3      at 0 range 3 .. 3;
+       Master_V4      at 0 range 4 .. 4;
+       Master_V5      at 0 range 5 .. 5;
+       Master_V6      at 0 range 6 .. 6;
+       Master_V7      at 0 range 7 .. 7;
+       Slave_Control  at 1 range 0 .. 0;
+       Slave_V1       at 1 range 1 .. 1;
+       Slave_V2       at 1 range 2 .. 2;
+       Slave_V3       at 1 range 3 .. 3;
+       Slave_V4       at 1 range 4 .. 4;
+       Slave_V5       at 1 range 5 .. 5;
+       Slave_V6       at 1 range 6 .. 6;
+       Slave_V7       at 1 range 7 .. 7;
+    end record;
+</pre>
+<p>Why are they equivalent? Well take a specific field, the <cite>Slave_V2</cite>
+field.  The storage place attributes are obtained by normalizing the
+values given so that the <cite>First_Bit</cite> value is less than 8.  After
+normalizing the values (0,10,10) we get (1,2,2) which is exactly what
+we specified in the other case.
+
+<p>Now one might expect that the <cite>Bit_Order</cite> attribute might affect
+bit numbering within the entire record component (two bytes in this
+case, thus affecting which byte fields end up in), but that is not
+the way this feature is defined, it only affects numbering of bits,
+not which byte they end up in.
+
+<p>Consequently it never makes sense to specify a starting bit number
+greater than 7 (for a byte addressable field) if an attribute
+definition for <cite>Bit_Order</cite> has been given, and indeed it
+may be actively confusing to specify such a value, so the compiler
+generates a warning for such usage.
+
+<p>If you do need to control byte ordering then appropriate conditional
+values must be used.  If in our example, the slave byte came first on
+some machines we might write:
+
+<pre class="example">    Master_Byte_First constant Boolean := ...;
+    
+    Master_Byte : constant Natural :=
+                    1 - Boolean'Pos (Master_Byte_First);
+    Slave_Byte  : constant Natural :=
+                    Boolean'Pos (Master_Byte_First);
+    
+    for Data'Bit_Order use High_Order_First;
+    for Data use record
+       Master_Control at Master_Byte range 0 .. 0;
+       Master_V1      at Master_Byte range 1 .. 1;
+       Master_V2      at Master_Byte range 2 .. 2;
+       Master_V3      at Master_Byte range 3 .. 3;
+       Master_V4      at Master_Byte range 4 .. 4;
+       Master_V5      at Master_Byte range 5 .. 5;
+       Master_V6      at Master_Byte range 6 .. 6;
+       Master_V7      at Master_Byte range 7 .. 7;
+       Slave_Control  at Slave_Byte  range 0 .. 0;
+       Slave_V1       at Slave_Byte  range 1 .. 1;
+       Slave_V2       at Slave_Byte  range 2 .. 2;
+       Slave_V3       at Slave_Byte  range 3 .. 3;
+       Slave_V4       at Slave_Byte  range 4 .. 4;
+       Slave_V5       at Slave_Byte  range 5 .. 5;
+       Slave_V6       at Slave_Byte  range 6 .. 6;
+       Slave_V7       at Slave_Byte  range 7 .. 7;
+    end record;
+</pre>
+<p>Now to switch between machines, all that is necessary is
+to set the boolean constant <cite>Master_Byte_First</cite> in
+an appropriate manner.
+
+</body></html>
+

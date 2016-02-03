@@ -1,0 +1,56 @@
+<html lang="en">
+<head>
+<title>No_Entry_Queue - GNAT Reference Manual</title>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+<meta name="description" content="GNAT Reference Manual">
+<meta name="generator" content="makeinfo 4.13">
+<link title="Top" rel="start" href="index.html#Top">
+<link rel="up" href="Program-Unit-Level-Restrictions.html#Program-Unit-Level-Restrictions" title="Program Unit Level Restrictions">
+<link rel="prev" href="No_005fElaboration_005fCode.html#No_005fElaboration_005fCode" title="No_Elaboration_Code">
+<link rel="next" href="No_005fImplementation_005fAspect_005fSpecifications.html#No_005fImplementation_005fAspect_005fSpecifications" title="No_Implementation_Aspect_Specifications">
+<link href="http://www.gnu.org/software/texinfo/" rel="generator-home" title="Texinfo Homepage">
+<!--
+
+     GNAT Reference Manual , March 24, 2015
+
+     AdaCore
+
+     Copyright (C) 2008-2015, Free Software Foundation
+-->
+<meta http-equiv="Content-Style-Type" content="text/css">
+<style type="text/css"><!--
+  pre.display { font-family:inherit }
+  pre.format  { font-family:inherit }
+  pre.smalldisplay { font-family:inherit; font-size:smaller }
+  pre.smallformat  { font-family:inherit; font-size:smaller }
+  pre.smallexample { font-size:smaller }
+  pre.smalllisp    { font-size:smaller }
+  span.sc    { font-variant:small-caps }
+  span.roman { font-family:serif; font-weight:normal; } 
+  span.sansserif { font-family:sans-serif; font-weight:normal; } 
+--></style>
+</head>
+<body>
+<div class="node">
+<a name="No_Entry_Queue"></a>
+<a name="No_005fEntry_005fQueue"></a>
+<p>
+Next:&nbsp;<a rel="next" accesskey="n" href="No_005fImplementation_005fAspect_005fSpecifications.html#No_005fImplementation_005fAspect_005fSpecifications">No_Implementation_Aspect_Specifications</a>,
+Previous:&nbsp;<a rel="previous" accesskey="p" href="No_005fElaboration_005fCode.html#No_005fElaboration_005fCode">No_Elaboration_Code</a>,
+Up:&nbsp;<a rel="up" accesskey="u" href="Program-Unit-Level-Restrictions.html#Program-Unit-Level-Restrictions">Program Unit Level Restrictions</a>
+<hr>
+</div>
+
+<p><a name="gnat_005frm_002fstandard_005fand_005fimplementation_005fdefined_005frestrictions-no_002dentry_002dqueue"></a><a name="g_t1af"></a>
+
+<h4 class="subsection">5.2.2 No_Entry_Queue</h4>
+
+<p><a name="index-No_005fEntry_005fQueue-361"></a>
+[GNAT] This restriction is a declaration that any protected entry compiled in
+the scope of the restriction has at most one task waiting on the entry
+at any one time, and so no queue is required.  This restriction is not
+checked at compile time.  A program execution is erroneous if an attempt
+is made to queue a second task on such an entry.
+
+</body></html>
+

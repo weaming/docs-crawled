@@ -1,0 +1,380 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+  "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+
+
+<html xmlns="http://www.w3.org/1999/xhtml">
+  <head>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+    
+    <title>Subprocesses &mdash; Supervisor 4.0.0.dev0 documentation</title>
+    
+    <link rel="stylesheet" href="_static/repoze.css" type="text/css" />
+    <link rel="stylesheet" href="_static/pygments.css" type="text/css" />
+    
+    <script type="text/javascript">
+      var DOCUMENTATION_OPTIONS = {
+        URL_ROOT:    './',
+        VERSION:     '4.0.0.dev0',
+        COLLAPSE_INDEX: false,
+        FILE_SUFFIX: '.html',
+        HAS_SOURCE:  true
+      };
+    </script>
+    <script type="text/javascript" src="_static/jquery.js"></script>
+    <script type="text/javascript" src="_static/underscore.js"></script>
+    <script type="text/javascript" src="_static/doctools.js"></script>
+    <link rel="top" title="Supervisor 4.0.0.dev0 documentation" href="index.html" />
+    <link rel="next" title="Logging" href="logging.html" />
+    <link rel="prev" title="Configuration File" href="configuration.html" />
+   
+  
+  <meta name="viewport" content="width=device-width, initial-scale=0.9, maximum-scale=0.9" />
+
+  </head>
+  <body role="document">  
+
+    <div class="document">
+      <div class="documentwrapper">
+        <div class="bodywrapper">
+          <div class="body" role="main">
+            
+  <div class="section" id="subprocesses">
+<h1>Subprocesses<a class="headerlink" href="#subprocesses" title="Permalink to this headline">¶</a></h1>
+<p><strong class="program">supervisord</strong>&#8216;s primary purpose is to create and manage
+processes based on data in its configuration file.  It does this by
+creating subprocesses.  Each subprocess spawned by supervisor is
+managed for the entirety of its lifetime by supervisord
+(<strong class="program">supervisord</strong> is the parent process of each process it
+creates).  When a child dies, supervisor is notified of its death via
+the <code class="docutils literal"><span class="pre">SIGCHLD</span></code> signal, and it performs the appropriate operation.</p>
+<div class="section" id="nondaemonizing-of-subprocesses">
+<span id="id1"></span><h2>Nondaemonizing of Subprocesses<a class="headerlink" href="#nondaemonizing-of-subprocesses" title="Permalink to this headline">¶</a></h2>
+<p>Programs meant to be run under supervisor should not daemonize
+themselves.  Instead, they should run in the foreground.  They should
+not detach from the terminal from which they are started.</p>
+<p>The easiest way to tell if a program will run in the foreground is to
+run the command that invokes the program from a shell prompt.  If it
+gives you control of the terminal back, but continues running, it&#8217;s
+daemonizing itself and that will almost certainly be the wrong way to
+run it under supervisor.  You want to run a command that essentially
+requires you to press <code class="kbd docutils literal"><span class="pre">Ctrl-C</span></code> to get control of the terminal
+back.  If it gives you a shell prompt back after running it without
+needing to press <code class="kbd docutils literal"><span class="pre">Ctrl-C</span></code>, it&#8217;s not useful under supervisor.  All
+programs have options to be run in the foreground but there&#8217;s no
+&#8220;standard way&#8221; to do it; you&#8217;ll need to read the documentation for
+each program.</p>
+<p>Below are configuration file examples that are known to start
+common programs in &#8220;foreground&#8221; mode under Supervisor.</p>
+<div class="section" id="examples-of-program-configurations">
+<h3>Examples of Program Configurations<a class="headerlink" href="#examples-of-program-configurations" title="Permalink to this headline">¶</a></h3>
+<p>Here are some &#8220;real world&#8221; program configuration examples:</p>
+<div class="section" id="apache-2-2-6">
+<h4>Apache 2.2.6<a class="headerlink" href="#apache-2-2-6" title="Permalink to this headline">¶</a></h4>
+<div class="highlight-ini"><div class="highlight"><pre><span class="k">[program:apache2]</span>
+<span class="na">command</span><span class="o">=</span><span class="s">/path/to/httpd -c &quot;ErrorLog /dev/stdout&quot; -DFOREGROUND</span>
+<span class="na">redirect_stderr</span><span class="o">=</span><span class="s">true</span>
+</pre></div>
+</div>
+</div>
+<div class="section" id="two-zope-2-x-instances-and-one-zeo-server">
+<h4>Two Zope 2.X instances and one ZEO server<a class="headerlink" href="#two-zope-2-x-instances-and-one-zeo-server" title="Permalink to this headline">¶</a></h4>
+<div class="highlight-ini"><div class="highlight"><pre><span class="k">[program:zeo]</span>
+<span class="na">command</span><span class="o">=</span><span class="s">/path/to/runzeo</span>
+<span class="na">priority</span><span class="o">=</span><span class="s">1</span>
+
+<span class="k">[program:zope1]</span>
+<span class="na">command</span><span class="o">=</span><span class="s">/path/to/instance/home/bin/runzope</span>
+<span class="na">priority</span><span class="o">=</span><span class="s">2</span>
+<span class="na">redirect_stderr</span><span class="o">=</span><span class="s">true</span>
+
+<span class="k">[program:zope2]</span>
+<span class="na">command</span><span class="o">=</span><span class="s">/path/to/another/instance/home/bin/runzope</span>
+<span class="na">priority</span><span class="o">=</span><span class="s">2</span>
+<span class="na">redirect_stderr</span><span class="o">=</span><span class="s">true</span>
+</pre></div>
+</div>
+</div>
+<div class="section" id="postgres-8-x">
+<h4>Postgres 8.X<a class="headerlink" href="#postgres-8-x" title="Permalink to this headline">¶</a></h4>
+<div class="highlight-ini"><div class="highlight"><pre><span class="k">[program:postgres]</span>
+<span class="na">command</span><span class="o">=</span><span class="s">/path/to/postmaster</span>
+<span class="c1">; we use the &quot;fast&quot; shutdown signal SIGINT</span>
+<span class="na">stopsignal</span><span class="o">=</span><span class="s">INT</span>
+<span class="na">redirect_stderr</span><span class="o">=</span><span class="s">true</span>
+</pre></div>
+</div>
+</div>
+<div class="section" id="openldap-slapd">
+<h4>OpenLDAP <strong class="program">slapd</strong><a class="headerlink" href="#openldap-slapd" title="Permalink to this headline">¶</a></h4>
+<div class="highlight-ini"><div class="highlight"><pre><span class="k">[program:slapd]</span>
+<span class="na">command</span><span class="o">=</span><span class="s">/path/to/slapd -f /path/to/slapd.conf -h ldap://0.0.0.0:8888</span>
+<span class="na">redirect_stderr</span><span class="o">=</span><span class="s">true</span>
+</pre></div>
+</div>
+</div>
+</div>
+<div class="section" id="other-examples">
+<h3>Other Examples<a class="headerlink" href="#other-examples" title="Permalink to this headline">¶</a></h3>
+<p>Other examples of shell scripts that could be used to start services
+under <strong class="program">supervisord</strong> can be found at
+<a class="reference external" href="http://thedjbway.b0llix.net/services.html">http://thedjbway.b0llix.net/services.html</a>.  These examples are
+actually for <strong class="program">daemontools</strong> but the premise is the same for
+supervisor.</p>
+<p>Another collection of recipes for starting various programs in the
+foreground is available from <a class="reference external" href="http://smarden.org/runit/runscripts.html">http://smarden.org/runit/runscripts.html</a>.</p>
+</div>
+</div>
+<div class="section" id="pidproxy-program">
+<h2><strong class="program">pidproxy</strong> Program<a class="headerlink" href="#pidproxy-program" title="Permalink to this headline">¶</a></h2>
+<p>Some processes (like <strong class="program">mysqld</strong>) ignore signals sent to the
+actual process which is spawned by <strong class="program">supervisord</strong>.  Instead, a
+&#8220;special&#8221; thread/process is created by these kinds of programs which
+is responsible for handling signals.  This is problematic because
+<strong class="program">supervisord</strong> can only kill a process which it creates
+itself.  If a process created by <strong class="program">supervisord</strong> creates its
+own child processes, <strong class="program">supervisord</strong> cannot kill them.</p>
+<p>Fortunately, these types of programs typically write a &#8220;pidfile&#8221; which
+contains the &#8220;special&#8221; process&#8217; PID, and is meant to be read and used
+in order to kill the process.  As a workaround for this case, a
+special <strong class="program">pidproxy</strong> program can handle startup of these kinds
+of processes.  The <strong class="program">pidproxy</strong> program is a small shim that
+starts a process, and upon the receipt of a signal, sends the signal
+to the pid provided in a pidfile.  A sample configuration program
+entry for a pidproxy-enabled program is provided below.</p>
+<div class="highlight-ini"><div class="highlight"><pre><span class="k">[program:mysql]</span>
+<span class="na">command</span><span class="o">=</span><span class="s">/path/to/pidproxy /path/to/pidfile /path/to/mysqld_safe</span>
+</pre></div>
+</div>
+<p>The <strong class="program">pidproxy</strong> program is put into your configuration&#8217;s
+<code class="docutils literal"><span class="pre">$BINDIR</span></code> when supervisor is installed (it is a &#8220;console script&#8221;).</p>
+</div>
+<div class="section" id="subprocess-environment">
+<span id="id2"></span><h2>Subprocess Environment<a class="headerlink" href="#subprocess-environment" title="Permalink to this headline">¶</a></h2>
+<p>Subprocesses will inherit the environment of the shell used to start
+the <strong class="program">supervisord</strong> program.  Several environment variables
+will be set by <strong class="program">supervisord</strong> itself in the child&#8217;s
+environment also, including <span class="target" id="index-0"></span><code class="xref std std-envvar docutils literal"><span class="pre">SUPERVISOR_ENABLED</span></code> (a flag
+indicating the process is under supervisor control),
+<span class="target" id="index-1"></span><code class="xref std std-envvar docutils literal"><span class="pre">SUPERVISOR_PROCESS_NAME</span></code> (the config-file-specified process
+name for this process) and <span class="target" id="index-2"></span><code class="xref std std-envvar docutils literal"><span class="pre">SUPERVISOR_GROUP_NAME</span></code> (the
+config-file-specified process group name for the child process).</p>
+<p>These environment variables may be overridden within the
+<code class="docutils literal"><span class="pre">[supervisord]</span></code> section config option named <code class="docutils literal"><span class="pre">environment</span></code> (applies
+to all subprocesses) or within the per- <code class="docutils literal"><span class="pre">[program:x]</span></code> section
+<code class="docutils literal"><span class="pre">environment</span></code> config option (applies only to the subprocess
+specified within the <code class="docutils literal"><span class="pre">[program:x]</span></code> section).  These &#8220;environment&#8221;
+settings are additive.  In other words, each subprocess&#8217; environment
+will consist of:</p>
+<blockquote>
+<div><p>The environment variables set within the shell used to start
+supervisord...</p>
+<p>... added-to/overridden-by ...</p>
+<dl class="docutils">
+<dt>... the environment variables set within the &#8220;environment&#8221; global</dt>
+<dd><blockquote class="first">
+<div>config option ...</div></blockquote>
+<p>... added-to/overridden-by ...</p>
+<dl class="docutils">
+<dt>... supervisor-specific environment variables</dt>
+<dd>(<span class="target" id="index-3"></span><code class="xref std std-envvar docutils literal"><span class="pre">SUPERVISOR_ENABLED</span></code>,
+<span class="target" id="index-4"></span><code class="xref std std-envvar docutils literal"><span class="pre">SUPERVISOR_PROCESS_NAME</span></code>,
+<span class="target" id="index-5"></span><code class="xref std std-envvar docutils literal"><span class="pre">SUPERVISOR_GROUP_NAME</span></code>) ..</dd>
+</dl>
+<p>... added-to/overridden-by ...</p>
+<dl class="last docutils">
+<dt>... the environment variables set within the per-process</dt>
+<dd>&#8220;environment&#8221; config option.</dd>
+</dl>
+</dd>
+</dl>
+</div></blockquote>
+<p>No shell is executed by <strong class="program">supervisord</strong> when it runs a
+subprocess, so environment variables such as <span class="target" id="index-6"></span><code class="xref std std-envvar docutils literal"><span class="pre">USER</span></code>,
+<span class="target" id="index-7"></span><code class="xref std std-envvar docutils literal"><span class="pre">PATH</span></code>, <span class="target" id="index-8"></span><code class="xref std std-envvar docutils literal"><span class="pre">HOME</span></code>, <span class="target" id="index-9"></span><code class="xref std std-envvar docutils literal"><span class="pre">SHELL</span></code>, <span class="target" id="index-10"></span><code class="xref std std-envvar docutils literal"><span class="pre">LOGNAME</span></code>,
+etc. are not changed from their defaults or otherwise reassigned.
+This is particularly important to note when you are running a program
+from a <strong class="program">supervisord</strong> run as root with a <code class="docutils literal"><span class="pre">user=</span></code> stanza in
+the configuration.  Unlike <strong class="program">cron</strong>, <strong class="program">supervisord</strong>
+does not attempt to divine and override &#8220;fundamental&#8221; environment
+variables like <span class="target" id="index-11"></span><code class="xref std std-envvar docutils literal"><span class="pre">USER</span></code>, <span class="target" id="index-12"></span><code class="xref std std-envvar docutils literal"><span class="pre">PATH</span></code>, <span class="target" id="index-13"></span><code class="xref std std-envvar docutils literal"><span class="pre">HOME</span></code>, and
+<span class="target" id="index-14"></span><code class="xref std std-envvar docutils literal"><span class="pre">LOGNAME</span></code> when it performs a setuid to the user defined within
+the <code class="docutils literal"><span class="pre">user=</span></code> program config option.  If you need to set environment
+variables for a particular program that might otherwise be set by a
+shell invocation for a particular user, you must do it explicitly
+within the <code class="docutils literal"><span class="pre">environment=</span></code> program config option.  An
+example of setting these environment variables is as below.</p>
+<div class="highlight-ini"><div class="highlight"><pre><span class="k">[program:apache2]</span>
+<span class="na">command</span><span class="o">=</span><span class="s">/home/chrism/bin/httpd -c &quot;ErrorLog /dev/stdout&quot; -DFOREGROUND</span>
+<span class="na">user</span><span class="o">=</span><span class="s">chrism</span>
+<span class="na">environment</span><span class="o">=</span><span class="s">HOME=&quot;/home/chrism&quot;,USER=&quot;chrism&quot;</span>
+</pre></div>
+</div>
+</div>
+<div class="section" id="process-states">
+<span id="id3"></span><h2>Process States<a class="headerlink" href="#process-states" title="Permalink to this headline">¶</a></h2>
+<p>A process controlled by supervisord will be in one of the below states
+at any given time.  You may see these state names in various user
+interface elements in clients.</p>
+<p><code class="docutils literal"><span class="pre">STOPPED</span></code> (0)</p>
+<blockquote>
+<div>The process has been stopped due to a stop request or
+has never been started.</div></blockquote>
+<p><code class="docutils literal"><span class="pre">STARTING</span></code> (10)</p>
+<blockquote>
+<div>The process is starting due to a start request.</div></blockquote>
+<p><code class="docutils literal"><span class="pre">RUNNING</span></code> (20)</p>
+<blockquote>
+<div>The process is running.</div></blockquote>
+<p><code class="docutils literal"><span class="pre">BACKOFF</span></code> (30)</p>
+<blockquote>
+<div>The process entered the <code class="docutils literal"><span class="pre">STARTING</span></code> state but subsequently exited
+too quickly to move to the <code class="docutils literal"><span class="pre">RUNNING</span></code> state.</div></blockquote>
+<p><code class="docutils literal"><span class="pre">STOPPING</span></code> (40)</p>
+<blockquote>
+<div>The process is stopping due to a stop request.</div></blockquote>
+<p><code class="docutils literal"><span class="pre">EXITED</span></code> (100)</p>
+<blockquote>
+<div>The process exited from the <code class="docutils literal"><span class="pre">RUNNING</span></code> state (expectedly or
+unexpectedly).</div></blockquote>
+<p><code class="docutils literal"><span class="pre">FATAL</span></code> (200)</p>
+<blockquote>
+<div>The process could not be started successfully.</div></blockquote>
+<p><code class="docutils literal"><span class="pre">UNKNOWN</span></code> (1000)</p>
+<blockquote>
+<div>The process is in an unknown state (<strong class="program">supervisord</strong>
+programming error).</div></blockquote>
+<p>Each process run under supervisor progresses through these states as
+per the following directed graph.</p>
+<div class="figure" id="id4">
+<img alt="Subprocess State Transition Graph" src="_images/subprocess-transitions.png" />
+<p class="caption"><span class="caption-text">Subprocess State Transition Graph</span></p>
+</div>
+<p>A process is in the <code class="docutils literal"><span class="pre">STOPPED</span></code> state if it has been stopped
+adminstratively or if it has never been started.</p>
+<p>When an autorestarting process is in the <code class="docutils literal"><span class="pre">BACKOFF</span></code> state, it will be
+automatically restarted by <strong class="program">supervisord</strong>.  It will switch
+between <code class="docutils literal"><span class="pre">STARTING</span></code> and <code class="docutils literal"><span class="pre">BACKOFF</span></code> states until it becomes evident
+that it cannot be started because the number of <code class="docutils literal"><span class="pre">startretries</span></code> has
+exceeded the maximum, at which point it will transition to the
+<code class="docutils literal"><span class="pre">FATAL</span></code> state.  Each start retry will take progressively
+more time.</p>
+<p>When a process is in the <code class="docutils literal"><span class="pre">EXITED</span></code> state, it will
+automatically restart:</p>
+<ul class="simple">
+<li>never if its <code class="docutils literal"><span class="pre">autorestart</span></code> parameter is set to <code class="docutils literal"><span class="pre">false</span></code>.</li>
+<li>unconditionally if its <code class="docutils literal"><span class="pre">autorestart</span></code> parameter is set to <code class="docutils literal"><span class="pre">true</span></code>.</li>
+<li>conditionally if its <code class="docutils literal"><span class="pre">autorestart</span></code> parameter is set to
+<code class="docutils literal"><span class="pre">unexpected</span></code>.  If it exited with an exit code that doesn&#8217;t match
+one of the exit codes defined in the <code class="docutils literal"><span class="pre">exitcodes</span></code> configuration
+parameter for the process, it will be restarted.</li>
+</ul>
+<p>A process automatically transitions from <code class="docutils literal"><span class="pre">EXITED</span></code> to <code class="docutils literal"><span class="pre">RUNNING</span></code> as
+a result of being configured to autorestart conditionally or
+unconditionally.  The number of transitions between <code class="docutils literal"><span class="pre">RUNNING</span></code> and
+<code class="docutils literal"><span class="pre">EXITED</span></code> is not limited in any way: it is possible to create a
+configuration that endlessly restarts an exited process.  This is a
+feature, not a bug.</p>
+<p>An autorestarted process will never be automatically restarted if it
+ends up in the <code class="docutils literal"><span class="pre">FATAL</span></code> state (it must be manually restarted from
+this state).</p>
+<p>A process transitions into the <code class="docutils literal"><span class="pre">STOPPING</span></code> state via an
+administrative stop request, and will then end up in the
+<code class="docutils literal"><span class="pre">STOPPED</span></code> state.</p>
+<p>A process that cannot be stopped successfully will stay in the
+<code class="docutils literal"><span class="pre">STOPPING</span></code> state forever.  This situation should never be reached
+during normal operations as it implies that the process did not
+respond to a final <code class="docutils literal"><span class="pre">SIGKILL</span></code> signal sent to it by supervisor, which
+is &#8220;impossible&#8221; under UNIX.</p>
+<p>State transitions which always require user action to invoke are
+these:</p>
+<p><code class="docutils literal"><span class="pre">FATAL</span></code>   -&gt; <code class="docutils literal"><span class="pre">STARTING</span></code></p>
+<p><code class="docutils literal"><span class="pre">RUNNING</span></code> -&gt; <code class="docutils literal"><span class="pre">STOPPING</span></code></p>
+<p>State transitions which typically, but not always, require user
+action to invoke are these, with exceptions noted:</p>
+<p><code class="docutils literal"><span class="pre">STOPPED</span></code> -&gt; <code class="docutils literal"><span class="pre">STARTING</span></code> (except at supervisord startup if process
+is configured to autostart)</p>
+<p><code class="docutils literal"><span class="pre">EXITED</span></code> -&gt; <code class="docutils literal"><span class="pre">STARTING</span></code> (except if process is configured to
+autorestart)</p>
+<p>All other state transitions are managed by supervisord automatically.</p>
+</div>
+</div>
+
+
+          </div>
+        </div>
+      </div>
+      <div class="sphinxsidebar" role="navigation" aria-label="main navigation">
+        <div class="sphinxsidebarwrapper">
+            <p class="logo"><a href="index.html">
+              <img class="logo" src="_static/logo_hi.gif" alt="Logo"/>
+            </a></p>
+  <h3><a href="index.html">Table Of Contents</a></h3>
+  <ul>
+<li><a class="reference internal" href="#">Subprocesses</a><ul>
+<li><a class="reference internal" href="#nondaemonizing-of-subprocesses">Nondaemonizing of Subprocesses</a><ul>
+<li><a class="reference internal" href="#examples-of-program-configurations">Examples of Program Configurations</a><ul>
+<li><a class="reference internal" href="#apache-2-2-6">Apache 2.2.6</a></li>
+<li><a class="reference internal" href="#two-zope-2-x-instances-and-one-zeo-server">Two Zope 2.X instances and one ZEO server</a></li>
+<li><a class="reference internal" href="#postgres-8-x">Postgres 8.X</a></li>
+<li><a class="reference internal" href="#openldap-slapd">OpenLDAP <strong class="program">slapd</strong></a></li>
+</ul>
+</li>
+<li><a class="reference internal" href="#other-examples">Other Examples</a></li>
+</ul>
+</li>
+<li><a class="reference internal" href="#pidproxy-program"><strong class="program">pidproxy</strong> Program</a></li>
+<li><a class="reference internal" href="#subprocess-environment">Subprocess Environment</a></li>
+<li><a class="reference internal" href="#process-states">Process States</a></li>
+</ul>
+</li>
+</ul>
+<div class="relations">
+<h3>Related Topics</h3>
+<ul>
+  <li><a href="index.html">Documentation overview</a><ul>
+      <li>Previous: <a href="configuration.html" title="previous chapter">Configuration File</a></li>
+      <li>Next: <a href="logging.html" title="next chapter">Logging</a></li>
+  </ul></li>
+</ul>
+</div>
+  <div role="note" aria-label="source link">
+    <h3>This Page</h3>
+    <ul class="this-page-menu">
+      <li><a href="_sources/subprocess.txt"
+            rel="nofollow">Show Source</a></li>
+    </ul>
+   </div>
+<div id="searchbox" style="display: none" role="search">
+  <h3>Quick search</h3>
+    <form class="search" action="search.html" method="get">
+      <input type="text" name="q" />
+      <input type="submit" value="Go" />
+      <input type="hidden" name="check_keywords" value="yes" />
+      <input type="hidden" name="area" value="default" />
+    </form>
+    <p class="searchtip" style="font-size: 90%">
+    Enter search terms or a module, class or function name.
+    </p>
+</div>
+<script type="text/javascript">$('#searchbox').show(0);</script>
+        </div>
+      </div>
+      <div class="clearer"></div>
+    </div>
+    <div class="footer">
+      &copy;2004-2016, Agendaless Consulting and Contributors.
+      
+      |
+      Powered by <a href="http://sphinx-doc.org/">Sphinx 1.3.3</a>
+      &amp; <a href="https://github.com/bitprophet/alabaster">Alabaster 0.7.7</a>
+      
+      |
+      <a href="_sources/subprocess.txt"
+          rel="nofollow">Page source</a>
+    </div>
+
+    
+
+    
+  </body>
+</html>

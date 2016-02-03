@@ -1,0 +1,174 @@
+<html lang="en">
+<head>
+<title>Project Dependencies - GNAT User's Guide for Native Platforms</title>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+<meta name="description" content="GNAT User's Guide for Native Platforms">
+<meta name="generator" content="makeinfo 4.13">
+<link title="Top" rel="start" href="index.html#Top">
+<link rel="up" href="Organizing-Projects-into-Subsystems.html#Organizing-Projects-into-Subsystems" title="Organizing Projects into Subsystems">
+<link rel="next" href="Cyclic-Project-Dependencies.html#Cyclic-Project-Dependencies" title="Cyclic Project Dependencies">
+<link href="http://www.gnu.org/software/texinfo/" rel="generator-home" title="Texinfo Homepage">
+<!--
+
+     GNAT User's Guide for Native Platforms , March 24, 2015
+
+     AdaCore
+
+     Copyright (C) 2008-2015, Free Software Foundation
+-->
+<meta http-equiv="Content-Style-Type" content="text/css">
+<style type="text/css"><!--
+  pre.display { font-family:inherit }
+  pre.format  { font-family:inherit }
+  pre.smalldisplay { font-family:inherit; font-size:smaller }
+  pre.smallformat  { font-family:inherit; font-size:smaller }
+  pre.smallexample { font-size:smaller }
+  pre.smalllisp    { font-size:smaller }
+  span.sc    { font-variant:small-caps }
+  span.roman { font-family:serif; font-weight:normal; } 
+  span.sansserif { font-family:sans-serif; font-weight:normal; } 
+--></style>
+</head>
+<body>
+<div class="node">
+<a name="Project-Dependencies"></a>
+<p>
+Next:&nbsp;<a rel="next" accesskey="n" href="Cyclic-Project-Dependencies.html#Cyclic-Project-Dependencies">Cyclic Project Dependencies</a>,
+Up:&nbsp;<a rel="up" accesskey="u" href="Organizing-Projects-into-Subsystems.html#Organizing-Projects-into-Subsystems">Organizing Projects into Subsystems</a>
+<hr>
+</div>
+
+<p><a name="gnat_005fugn_002fgnat_005fproject_005fmanager-project_002ddependencies"></a><a name="g_t16c"></a><a name="gnat_005fugn_002fgnat_005fproject_005fmanager-id15"></a><a name="g_t16d"></a>
+
+<h4 class="subsection">5.3.1 Project Dependencies</h4>
+
+<p>GtkAda comes with its own project file (appropriately called
+<code>gtkada.gpr</code>), and we will assume we have already built a project
+called <code>logging.gpr</code> for the logging module. With the information provided
+so far in <code>build.gpr</code>, building the application would fail with an error
+indicating that the gtkada and logging units that are relied upon by the sources
+of this project cannot be found.
+
+<p>This is solved by adding the following `with' clauses at the beginning of our
+project:
+
+<pre class="example">    with "gtkada.gpr";
+    with "a/b/logging.gpr";
+    project Build is
+      ...  --  as before
+    end Build;
+</pre>
+<p><a name="index-Externally_005fBuilt-_0028GNAT-Project-Manager_0029-818"></a>
+When such a project is compiled, `gprbuild' will automatically check
+the other projects and recompile their sources when needed. It will also
+recompile the sources from <cite>Build</cite> when needed, and finally create the
+executable. In some cases, the implementation units needed to recompile a
+project are not available, or come from some third party and you do not want to
+recompile it yourself. In this case, set the attribute `Externally_Built' to
+"true", indicating to the builder that this project can be assumed to be
+up-to-date, and should not be considered for recompilation. In Ada, if the
+sources of this externally built project were compiled with another version of
+the compiler or with incompatible options, the binder will issue an error.
+
+<p>The project's `with' clause has several effects. It provides source
+visibility between projects during the compilation process. It also guarantees
+that the necessary object files from <cite>Logging</cite> and <cite>GtkAda</cite> are
+available when linking <cite>Build</cite>.
+
+<p>As can be seen in this example, the syntax for importing projects is similar
+to the syntax for importing compilation units in Ada. However, project files
+use literal strings instead of names, and the `with' clause identifies
+project files rather than packages.
+
+<p>Each literal string after `with' is the path
+(absolute or relative) to a project file. The <cite>.gpr</cite> extension is
+optional, although we recommend adding it. If no extension is specified,
+and no project file with the <code>.gpr</code> extension is found, then
+the file is searched for exactly as written in the `with' clause,
+that is with no extension.
+
+<p>As mentioned above, the path after a `with' has to be a literal
+string, and you cannot use concatenation, or lookup the value of external
+variables to change the directories from which a project is loaded. 
+A solution if you need something like this is to use aggregate projects
+(see <a href="16e.html#g_t16e">Aggregate Projects</a>).
+
+<p><a name="index-project-path-_0028GNAT-Project-Manager_0029-819"></a>
+When a relative path or a base name is used, the
+project files are searched relative to each of the directories in the
+`project path'. This path includes all the directories found with the
+following algorithm, in this order; the first matching file is used:
+
+     <ul>
+<li>First, the file is searched relative to the directory that contains the
+current project file.
+
+     <p><a name="index-GPR_005fPROJECT_005fPATH_005fFILE-_0028GNAT-Project-Manager_0029-820"></a>
+<a name="index-GPR_005fPROJECT_005fPATH-_0028GNAT-Project-Manager_0029-821"></a>
+<a name="index-ADA_005fPROJECT_005fPATH-_0028GNAT-Project-Manager_0029-822"></a>
+<li>Then it is searched relative to all the directories specified in the
+environment variables `GPR_PROJECT_PATH_FILE',
+`GPR_PROJECT_PATH' and `ADA_PROJECT_PATH' (in that order) if they exist. 
+The value of `GPR_PROJECT_PATH_FILE', when defined, is the path name of
+a text file that contains project directory path names, one per line. 
+`GPR_PROJECT_PATH' and `ADA_PROJECT_PATH', when defined, contain
+project directory path names separated by directory separators. 
+`ADA_PROJECT_PATH' is used for compatibility, it is recommended to
+use `GPR_PROJECT_PATH_FILE' or `GPR_PROJECT_PATH'.
+
+     <li>Finally, it is searched relative to the default project directories. 
+Such directories depend on the tool used. The locations searched in the
+specified order are:
+
+          <ul>
+<li><code>&lt;prefix&gt;/&lt;target&gt;/lib/gnat</code>
+(for `gnatmake' in all cases, and for `gprbuild' if option
+`&ndash;target' is specified)
+
+          <li><code>&lt;prefix&gt;/&lt;target&gt;/share/gpr</code>
+(for `gnatmake' in all cases, and for `gprbuild' if option
+`&ndash;target' is specified)
+
+          <li><code>&lt;prefix&gt;/share/gpr/</code>
+(for `gnatmake' and `gprbuild')
+
+          <li><code>&lt;prefix&gt;/lib/gnat/</code>
+(for `gnatmake' and `gprbuild')
+</ul>
+
+     <p>In our example, <code>gtkada.gpr</code> is found in the predefined directory if
+it was installed at the same root as GNAT. 
+</ul>
+
+<p>Some tools also support extending the project path from the command line,
+generally through the `-aP'. You can see the value of the project
+path by using the `gnatls -v' command.
+
+<p>Any symbolic link will be fully resolved in the directory of the
+importing project file before the imported project file is examined.
+
+<p>Any source file in the imported project can be used by the sources of the
+importing project, transitively. 
+Thus if <cite>A</cite> imports <cite>B</cite>, which imports <cite>C</cite>, the sources of
+<cite>A</cite> may depend on the sources of <cite>C</cite>, even if <cite>A</cite> does not
+import <cite>C</cite> explicitly. However, this is not recommended, because if
+and when <cite>B</cite> ceases to import <cite>C</cite>, some sources in <cite>A</cite> will
+no longer compile. `gprbuild' has a switch `&ndash;no-indirect-imports'
+that will report such indirect dependencies.
+
+<p><table class="cartouche" summary="cartouche" border="1"><tr><td>
+<blockquote>
+<b>Note:</b> One very important aspect of a project hierarchy is that
+`a given source can only belong to one project' (otherwise the project manager
+would not know which settings apply to it and when to recompile it). It means
+that different project files do not usually share source directories or
+when they do, they need to specify precisely which project owns which sources
+using attribute <cite>Source_Files</cite> or equivalent. By contrast, 2 projects
+can each own a source with the same base file name as long as they live in
+different directories. The latter is not true for Ada Sources because of the
+correlation between source files and Ada units. 
+</blockquote>
+</td></tr></table>
+
+</body></html>
+

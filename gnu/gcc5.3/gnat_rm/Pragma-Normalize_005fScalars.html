@@ -1,0 +1,114 @@
+<html lang="en">
+<head>
+<title>Pragma Normalize_Scalars - GNAT Reference Manual</title>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+<meta name="description" content="GNAT Reference Manual">
+<meta name="generator" content="makeinfo 4.13">
+<link title="Top" rel="start" href="index.html#Top">
+<link rel="up" href="Implementation-Defined-Pragmas.html#Implementation-Defined-Pragmas" title="Implementation Defined Pragmas">
+<link rel="prev" href="Pragma-No_005fTagged_005fStreams.html#Pragma-No_005fTagged_005fStreams" title="Pragma No_Tagged_Streams">
+<link rel="next" href="Pragma-Obsolescent.html#Pragma-Obsolescent" title="Pragma Obsolescent">
+<link href="http://www.gnu.org/software/texinfo/" rel="generator-home" title="Texinfo Homepage">
+<!--
+
+     GNAT Reference Manual , March 24, 2015
+
+     AdaCore
+
+     Copyright (C) 2008-2015, Free Software Foundation
+-->
+<meta http-equiv="Content-Style-Type" content="text/css">
+<style type="text/css"><!--
+  pre.display { font-family:inherit }
+  pre.format  { font-family:inherit }
+  pre.smalldisplay { font-family:inherit; font-size:smaller }
+  pre.smallformat  { font-family:inherit; font-size:smaller }
+  pre.smallexample { font-size:smaller }
+  pre.smalllisp    { font-size:smaller }
+  span.sc    { font-variant:small-caps }
+  span.roman { font-family:serif; font-weight:normal; } 
+  span.sansserif { font-family:sans-serif; font-weight:normal; } 
+--></style>
+</head>
+<body>
+<div class="node">
+<a name="Pragma-Normalize_Scalars"></a>
+<a name="Pragma-Normalize_005fScalars"></a>
+<p>
+Next:&nbsp;<a rel="next" accesskey="n" href="Pragma-Obsolescent.html#Pragma-Obsolescent">Pragma Obsolescent</a>,
+Previous:&nbsp;<a rel="previous" accesskey="p" href="Pragma-No_005fTagged_005fStreams.html#Pragma-No_005fTagged_005fStreams">Pragma No_Tagged_Streams</a>,
+Up:&nbsp;<a rel="up" accesskey="u" href="Implementation-Defined-Pragmas.html#Implementation-Defined-Pragmas">Implementation Defined Pragmas</a>
+<hr>
+</div>
+
+<p><a name="gnat_005frm_002fimplementation_005fdefined_005fpragmas-pragma_002dnormalize_002dscalars"></a><a name="g_t8b"></a>
+
+<h3 class="section">2.112 Pragma Normalize_Scalars</h3>
+
+<p>Syntax:
+
+<pre class="example">    pragma Normalize_Scalars;
+</pre>
+<p>This is a language defined pragma which is fully implemented in GNAT.  The
+effect is to cause all scalar objects that are not otherwise initialized
+to be initialized.  The initial values are implementation dependent and
+are as follows:
+
+     <dl>
+<dt>`Standard.Character'<dd>
+Objects whose root type is Standard.Character are initialized to
+Character'Last unless the subtype range excludes NUL (in which case
+NUL is used). This choice will always generate an invalid value if
+one exists.
+
+     <br><dt>`Standard.Wide_Character'<dd>
+Objects whose root type is Standard.Wide_Character are initialized to
+Wide_Character'Last unless the subtype range excludes NUL (in which case
+NUL is used). This choice will always generate an invalid value if
+one exists.
+
+     <br><dt>`Standard.Wide_Wide_Character'<dd>
+Objects whose root type is Standard.Wide_Wide_Character are initialized to
+the invalid value 16#FFFF_FFFF# unless the subtype range excludes NUL (in
+which case NUL is used). This choice will always generate an invalid value if
+one exists.
+
+     <br><dt>`Integer types'<dd>
+Objects of an integer type are treated differently depending on whether
+negative values are present in the subtype. If no negative values are
+present, then all one bits is used as the initial value except in the
+special case where zero is excluded from the subtype, in which case
+all zero bits are used. This choice will always generate an invalid
+value if one exists.
+
+     <p>For subtypes with negative values present, the largest negative number
+is used, except in the unusual case where this largest negative number
+is in the subtype, and the largest positive number is not, in which case
+the largest positive value is used. This choice will always generate
+an invalid value if one exists.
+
+     <br><dt>`Floating-Point Types'<dd>
+Objects of all floating-point types are initialized to all 1-bits. For
+standard IEEE format, this corresponds to a NaN (not a number) which is
+indeed an invalid value.
+
+     <br><dt>`Fixed-Point Types'<dd>
+Objects of all fixed-point types are treated as described above for integers,
+with the rules applying to the underlying integer value used to represent
+the fixed-point value.
+
+     <br><dt>`Modular types'<dd>
+Objects of a modular type are initialized to all one bits, except in
+the special case where zero is excluded from the subtype, in which
+case all zero bits are used. This choice will always generate an
+invalid value if one exists.
+
+     <br><dt>`Enumeration types'<dd>
+Objects of an enumeration type are initialized to all one-bits, i.e., to
+the value <cite>2 ** typ'Size - 1</cite> unless the subtype excludes the literal
+whose Pos value is zero, in which case a code of zero is used. This choice
+will always generate an invalid value if one exists. 
+</dl>
+
+</body></html>
+

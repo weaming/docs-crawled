@@ -1,0 +1,99 @@
+<html lang="en">
+<head>
+<title>Remote Debugging with gdbserver - GNAT User's Guide for Native Platforms</title>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+<meta name="description" content="GNAT User's Guide for Native Platforms">
+<meta name="generator" content="makeinfo 4.13">
+<link title="Top" rel="start" href="index.html#Top">
+<link rel="up" href="Running-and-Debugging-Ada-Programs.html#Running-and-Debugging-Ada-Programs" title="Running and Debugging Ada Programs">
+<link rel="prev" href="Debugging-Generic-Units.html#Debugging-Generic-Units" title="Debugging Generic Units">
+<link rel="next" href="GNAT-Abnormal-Termination-or-Failure-to-Terminate.html#GNAT-Abnormal-Termination-or-Failure-to-Terminate" title="GNAT Abnormal Termination or Failure to Terminate">
+<link href="http://www.gnu.org/software/texinfo/" rel="generator-home" title="Texinfo Homepage">
+<!--
+
+     GNAT User's Guide for Native Platforms , March 24, 2015
+
+     AdaCore
+
+     Copyright (C) 2008-2015, Free Software Foundation
+-->
+<meta http-equiv="Content-Style-Type" content="text/css">
+<style type="text/css"><!--
+  pre.display { font-family:inherit }
+  pre.format  { font-family:inherit }
+  pre.smalldisplay { font-family:inherit; font-size:smaller }
+  pre.smallformat  { font-family:inherit; font-size:smaller }
+  pre.smallexample { font-size:smaller }
+  pre.smalllisp    { font-size:smaller }
+  span.sc    { font-variant:small-caps }
+  span.roman { font-family:serif; font-weight:normal; } 
+  span.sansserif { font-family:sans-serif; font-weight:normal; } 
+--></style>
+</head>
+<body>
+<div class="node">
+<a name="Remote-Debugging-with-gdbserver"></a>
+<p>
+Next:&nbsp;<a rel="next" accesskey="n" href="GNAT-Abnormal-Termination-or-Failure-to-Terminate.html#GNAT-Abnormal-Termination-or-Failure-to-Terminate">GNAT Abnormal Termination or Failure to Terminate</a>,
+Previous:&nbsp;<a rel="previous" accesskey="p" href="Debugging-Generic-Units.html#Debugging-Generic-Units">Debugging Generic Units</a>,
+Up:&nbsp;<a rel="up" accesskey="u" href="Running-and-Debugging-Ada-Programs.html#Running-and-Debugging-Ada-Programs">Running and Debugging Ada Programs</a>
+<hr>
+</div>
+
+<p><a name="gnat_005fugn_002fgnat_005fand_005fprogram_005fexecution-remote_002ddebugging_002dwith_002dgdbserver"></a><a name="g_t209"></a><a name="gnat_005fugn_002fgnat_005fand_005fprogram_005fexecution-id12"></a><a name="g_t20a"></a>
+
+<h4 class="subsection">8.1.10 Remote Debugging with gdbserver</h4>
+
+<p>On platforms where gdbserver is supported, it is possible to use this tool
+to debug your application remotely.  This can be useful in situations
+where the program needs to be run on a target host that is different
+from the host used for development, particularly when the target has
+a limited amount of resources (either CPU and/or memory).
+
+<p>To do so, start your program using gdbserver on the target machine. 
+gdbserver then automatically suspends the execution of your program
+at its entry point, waiting for a debugger to connect to it.  The
+following commands starts an application and tells gdbserver to
+wait for a connection with the debugger on localhost port 4444.
+
+<blockquote>
+
+<pre class="example">    $ gdbserver localhost:4444 program
+    Process program created; pid = 5685
+    Listening on port 4444
+</pre>
+</blockquote>
+
+<p>Once gdbserver has started listening, we can tell the debugger to establish
+a connection with this gdbserver, and then start the same debugging session
+as if the program was being debugged on the same host, directly under
+the control of GDB.
+
+<blockquote>
+
+<pre class="example">    $ gdb program
+    (gdb) target remote targethost:4444
+    Remote debugging using targethost:4444
+    0x00007f29936d0af0 in ?? () from /lib64/ld-linux-x86-64.so.
+    (gdb) b foo.adb:3
+    Breakpoint 1 at 0x401f0c: file foo.adb, line 3.
+    (gdb) continue
+    Continuing.
+    
+    Breakpoint 1, foo () at foo.adb:4
+    4       end foo;
+</pre>
+</blockquote>
+
+<p>It is also possible to use gdbserver to attach to an already running
+program, in which case the execution of that program is simply suspended
+until the connection between the debugger and gdbserver is established.
+
+<p>For more information on how to use gdbserver, see the `Using the gdbserver Program'
+section in <cite>Debugging with GDB</cite>. 
+GNAT provides support for gdbserver on x86-linux, x86-windows and x86_64-linux.
+
+<p><a name="index-Abnormal-Termination-or-Failure-to-Terminate-960"></a>
+
+</body></html>
+

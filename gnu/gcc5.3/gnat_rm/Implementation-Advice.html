@@ -1,0 +1,139 @@
+<html lang="en">
+<head>
+<title>Implementation Advice - GNAT Reference Manual</title>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+<meta name="description" content="GNAT Reference Manual">
+<meta name="generator" content="makeinfo 4.13">
+<link title="Top" rel="start" href="index.html#Top">
+<link rel="prev" href="Standard-and-Implementation-Defined-Restrictions.html#Standard-and-Implementation-Defined-Restrictions" title="Standard and Implementation Defined Restrictions">
+<link rel="next" href="Implementation-Defined-Characteristics.html#Implementation-Defined-Characteristics" title="Implementation Defined Characteristics">
+<link href="http://www.gnu.org/software/texinfo/" rel="generator-home" title="Texinfo Homepage">
+<!--
+
+     GNAT Reference Manual , March 24, 2015
+
+     AdaCore
+
+     Copyright (C) 2008-2015, Free Software Foundation
+-->
+<meta http-equiv="Content-Style-Type" content="text/css">
+<style type="text/css"><!--
+  pre.display { font-family:inherit }
+  pre.format  { font-family:inherit }
+  pre.smalldisplay { font-family:inherit; font-size:smaller }
+  pre.smallformat  { font-family:inherit; font-size:smaller }
+  pre.smallexample { font-size:smaller }
+  pre.smalllisp    { font-size:smaller }
+  span.sc    { font-variant:small-caps }
+  span.roman { font-family:serif; font-weight:normal; } 
+  span.sansserif { font-family:sans-serif; font-weight:normal; } 
+--></style>
+</head>
+<body>
+<div class="node">
+<a name="Implementation-Advice"></a>
+<p>
+Next:&nbsp;<a rel="next" accesskey="n" href="Implementation-Defined-Characteristics.html#Implementation-Defined-Characteristics">Implementation Defined Characteristics</a>,
+Previous:&nbsp;<a rel="previous" accesskey="p" href="Standard-and-Implementation-Defined-Restrictions.html#Standard-and-Implementation-Defined-Restrictions">Standard and Implementation Defined Restrictions</a>,
+Up:&nbsp;<a rel="up" accesskey="u" href="index.html#Top">Top</a>
+<hr>
+</div>
+
+<p><a name="gnat_005frm_002fimplementation_005fadvice-doc"></a><a name="g_t1ba"></a><a name="gnat_005frm_002fimplementation_005fadvice-implementation_002dadvice"></a><a name="a"></a><a name="gnat_005frm_002fimplementation_005fadvice-id1"></a><a name="g_t1bb"></a>
+
+<h2 class="chapter">6 Implementation Advice</h2>
+
+<p>The main text of the Ada Reference Manual describes the required
+behavior of all Ada compilers, and the GNAT compiler conforms to
+these requirements.
+
+<p>In addition, there are sections throughout the Ada Reference Manual headed
+by the phrase 'Implementation advice'.  These sections are not normative,
+i.e., they do not specify requirements that all compilers must
+follow.  Rather they provide advice on generally desirable behavior. 
+They are not requirements, because they describe behavior that cannot
+be provided on all systems, or may be undesirable on some systems.
+
+<p>As far as practical, GNAT follows the implementation advice in
+the Ada Reference Manual.  Each such RM section corresponds to a section
+in this chapter whose title specifies the
+RM section number and paragraph number and the subject of
+the advice.  The contents of each section consists of the RM text within
+quotation marks,
+followed by the GNAT interpretation of the advice.  Most often, this simply says
+'followed', which means that GNAT follows the advice.  However, in a
+number of cases, GNAT deliberately deviates from this advice, in which
+case the text describes what GNAT does and why.
+
+<p><a name="index-Error-detection-373"></a>
+
+<ul class="menu">
+<li><a accesskey="1" href="RM-1-1-3-20-Error-Detection.html#RM-1-1-3-20-Error-Detection">RM 1.1.3(20); Error Detection</a>
+<li><a accesskey="2" href="RM-1-1-3-31-Child-Units.html#RM-1-1-3-31-Child-Units">RM 1.1.3(31); Child Units</a>
+<li><a accesskey="3" href="RM-1-1-5-12-Bounded-Errors.html#RM-1-1-5-12-Bounded-Errors">RM 1.1.5(12); Bounded Errors</a>
+<li><a accesskey="4" href="RM-2-8-16-Pragmas.html#RM-2-8-16-Pragmas">RM 2.8(16); Pragmas</a>
+<li><a accesskey="5" href="RM-2-8-17_002d19-Pragmas.html#RM-2-8-17_002d19-Pragmas">RM 2.8(17-19); Pragmas</a>
+<li><a accesskey="6" href="RM-3-5-2-5-Alternative-Character-Sets.html#RM-3-5-2-5-Alternative-Character-Sets">RM 3.5.2(5); Alternative Character Sets</a>
+<li><a accesskey="7" href="RM-3-5-4-28-Integer-Types.html#RM-3-5-4-28-Integer-Types">RM 3.5.4(28); Integer Types</a>
+<li><a accesskey="8" href="RM-3-5-4-29-Integer-Types.html#RM-3-5-4-29-Integer-Types">RM 3.5.4(29); Integer Types</a>
+<li><a accesskey="9" href="RM-3-5-5-8-Enumeration-Values.html#RM-3-5-5-8-Enumeration-Values">RM 3.5.5(8); Enumeration Values</a>
+<li><a href="RM-3-5-7-17-Float-Types.html#RM-3-5-7-17-Float-Types">RM 3.5.7(17); Float Types</a>
+<li><a href="RM-3-6-2-11-Multidimensional-Arrays.html#RM-3-6-2-11-Multidimensional-Arrays">RM 3.6.2(11); Multidimensional Arrays</a>
+<li><a href="RM-9-6-30_002d31-Duration_0027Small.html#RM-9-6-30_002d31-Duration_0027Small">RM 9.6(30-31); Duration'Small</a>
+<li><a href="RM-10-2-1-12-Consistent-Representation.html#RM-10-2-1-12-Consistent-Representation">RM 10.2.1(12); Consistent Representation</a>
+<li><a href="RM-11-4-1-19-Exception-Information.html#RM-11-4-1-19-Exception-Information">RM 11.4.1(19); Exception Information</a>
+<li><a href="RM-11-5-28-Suppression-of-Checks.html#RM-11-5-28-Suppression-of-Checks">RM 11.5(28); Suppression of Checks</a>
+<li><a href="RM-13-1-21_002d24-Representation-Clauses.html#RM-13-1-21_002d24-Representation-Clauses">RM 13.1 (21-24); Representation Clauses</a>
+<li><a href="RM-13-2-6_002d8-Packed-Types.html#RM-13-2-6_002d8-Packed-Types">RM 13.2(6-8); Packed Types</a>
+<li><a href="RM-13-3-14_002d19-Address-Clauses.html#RM-13-3-14_002d19-Address-Clauses">RM 13.3(14-19); Address Clauses</a>
+<li><a href="RM-13-3-29_002d35-Alignment-Clauses.html#RM-13-3-29_002d35-Alignment-Clauses">RM 13.3(29-35); Alignment Clauses</a>
+<li><a href="RM-13-3-42_002d43-Size-Clauses.html#RM-13-3-42_002d43-Size-Clauses">RM 13.3(42-43); Size Clauses</a>
+<li><a href="RM-13-3-50_002d56-Size-Clauses.html#RM-13-3-50_002d56-Size-Clauses">RM 13.3(50-56); Size Clauses</a>
+<li><a href="RM-13-3-71_002d73-Component-Size-Clauses.html#RM-13-3-71_002d73-Component-Size-Clauses">RM 13.3(71-73); Component Size Clauses</a>
+<li><a href="RM-13-4-9_002d10-Enumeration-Representation-Clauses.html#RM-13-4-9_002d10-Enumeration-Representation-Clauses">RM 13.4(9-10); Enumeration Representation Clauses</a>
+<li><a href="RM-13-5-1-17_002d22-Record-Representation-Clauses.html#RM-13-5-1-17_002d22-Record-Representation-Clauses">RM 13.5.1(17-22); Record Representation Clauses</a>
+<li><a href="RM-13-5-2-5-Storage-Place-Attributes.html#RM-13-5-2-5-Storage-Place-Attributes">RM 13.5.2(5); Storage Place Attributes</a>
+<li><a href="RM-13-5-3-7_002d8-Bit-Ordering.html#RM-13-5-3-7_002d8-Bit-Ordering">RM 13.5.3(7-8); Bit Ordering</a>
+<li><a href="RM-13-7-37-Address-as-Private.html#RM-13-7-37-Address-as-Private">RM 13.7(37); Address as Private</a>
+<li><a href="RM-13-7-1-16-Address-Operations.html#RM-13-7-1-16-Address-Operations">RM 13.7.1(16); Address Operations</a>
+<li><a href="RM-13-9-14_002d17-Unchecked-Conversion.html#RM-13-9-14_002d17-Unchecked-Conversion">RM 13.9(14-17); Unchecked Conversion</a>
+<li><a href="RM-13-11-23_002d25-Implicit-Heap-Usage.html#RM-13-11-23_002d25-Implicit-Heap-Usage">RM 13.11(23-25); Implicit Heap Usage</a>
+<li><a href="RM-13-11-2-17-Unchecked-Deallocation.html#RM-13-11-2-17-Unchecked-Deallocation">RM 13.11.2(17); Unchecked Deallocation</a>
+<li><a href="RM-13-13-2-17-Stream-Oriented-Attributes.html#RM-13-13-2-17-Stream-Oriented-Attributes">RM 13.13.2(17); Stream Oriented Attributes</a>
+<li><a href="RM-A-1-52-Names-of-Predefined-Numeric-Types.html#RM-A-1-52-Names-of-Predefined-Numeric-Types">RM A.1(52); Names of Predefined Numeric Types</a>
+<li><a href="RM-A-3-2-49-Ada-Characters-Handling.html#RM-A-3-2-49-Ada-Characters-Handling">RM A.3.2(49); Ada.Characters.Handling</a>
+<li><a href="RM-A-4-4-106-Bounded_002dLength-String-Handling.html#RM-A-4-4-106-Bounded_002dLength-String-Handling">RM A.4.4(106); Bounded-Length String Handling</a>
+<li><a href="RM-A-5-2-46_002d47-Random-Number-Generation.html#RM-A-5-2-46_002d47-Random-Number-Generation">RM A.5.2(46-47); Random Number Generation</a>
+<li><a href="RM-A-10-7-23-Get_005fImmediate.html#RM-A-10-7-23-Get_005fImmediate">RM A.10.7(23); Get_Immediate</a>
+<li><a href="RM-B-1-39_002d41-Pragma-Export.html#RM-B-1-39_002d41-Pragma-Export">RM B.1(39-41); Pragma Export</a>
+<li><a href="RM-B-2-12_002d13-Package-Interfaces.html#RM-B-2-12_002d13-Package-Interfaces">RM B.2(12-13); Package Interfaces</a>
+<li><a href="RM-B-3-63_002d71-Interfacing-with-C.html#RM-B-3-63_002d71-Interfacing-with-C">RM B.3(63-71); Interfacing with C</a>
+<li><a href="RM-B-4-95_002d98-Interfacing-with-COBOL.html#RM-B-4-95_002d98-Interfacing-with-COBOL">RM B.4(95-98); Interfacing with COBOL</a>
+<li><a href="RM-B-5-22_002d26-Interfacing-with-Fortran.html#RM-B-5-22_002d26-Interfacing-with-Fortran">RM B.5(22-26); Interfacing with Fortran</a>
+<li><a href="RM-C-1-3_002d5-Access-to-Machine-Operations.html#RM-C-1-3_002d5-Access-to-Machine-Operations">RM C.1(3-5); Access to Machine Operations</a>
+<li><a href="RM-C-1-10_002d16-Access-to-Machine-Operations.html#RM-C-1-10_002d16-Access-to-Machine-Operations">RM C.1(10-16); Access to Machine Operations</a>
+<li><a href="RM-C-3-28-Interrupt-Support.html#RM-C-3-28-Interrupt-Support">RM C.3(28); Interrupt Support</a>
+<li><a href="RM-C-3-1-20_002d21-Protected-Procedure-Handlers.html#RM-C-3-1-20_002d21-Protected-Procedure-Handlers">RM C.3.1(20-21); Protected Procedure Handlers</a>
+<li><a href="RM-C-3-2-25-Package-Interrupts.html#RM-C-3-2-25-Package-Interrupts">RM C.3.2(25); Package Interrupts</a>
+<li><a href="RM-C-4-14-Pre_002delaboration-Requirements.html#RM-C-4-14-Pre_002delaboration-Requirements">RM C.4(14); Pre-elaboration Requirements</a>
+<li><a href="RM-C-5-8-Pragma-Discard_005fNames.html#RM-C-5-8-Pragma-Discard_005fNames">RM C.5(8); Pragma Discard_Names</a>
+<li><a href="RM-C-7-2-30-The-Package-Task_005fAttributes.html#RM-C-7-2-30-The-Package-Task_005fAttributes">RM C.7.2(30); The Package Task_Attributes</a>
+<li><a href="RM-D-3-17-Locking-Policies.html#RM-D-3-17-Locking-Policies">RM D.3(17); Locking Policies</a>
+<li><a href="RM-D-4-16-Entry-Queuing-Policies.html#RM-D-4-16-Entry-Queuing-Policies">RM D.4(16); Entry Queuing Policies</a>
+<li><a href="RM-D-6-9_002d10-Preemptive-Abort.html#RM-D-6-9_002d10-Preemptive-Abort">RM D.6(9-10); Preemptive Abort</a>
+<li><a href="RM-D-7-21-Tasking-Restrictions.html#RM-D-7-21-Tasking-Restrictions">RM D.7(21); Tasking Restrictions</a>
+<li><a href="RM-D-8-47_002d49-Monotonic-Time.html#RM-D-8-47_002d49-Monotonic-Time">RM D.8(47-49); Monotonic Time</a>
+<li><a href="RM-E-5-28_002d29-Partition-Communication-Subsystem.html#RM-E-5-28_002d29-Partition-Communication-Subsystem">RM E.5(28-29); Partition Communication Subsystem</a>
+<li><a href="RM-F-7-COBOL-Support.html#RM-F-7-COBOL-Support">RM F(7); COBOL Support</a>
+<li><a href="RM-F-1-2-Decimal-Radix-Support.html#RM-F-1-2-Decimal-Radix-Support">RM F.1(2); Decimal Radix Support</a>
+<li><a href="RM-G-Numerics.html#RM-G-Numerics">RM G; Numerics</a>
+<li><a href="RM-G-1-1-56_002d58-Complex-Types.html#RM-G-1-1-56_002d58-Complex-Types">RM G.1.1(56-58); Complex Types</a>
+<li><a href="RM-G-1-2-49-Complex-Elementary-Functions.html#RM-G-1-2-49-Complex-Elementary-Functions">RM G.1.2(49); Complex Elementary Functions</a>
+<li><a href="RM-G-2-4-19-Accuracy-Requirements.html#RM-G-2-4-19-Accuracy-Requirements">RM G.2.4(19); Accuracy Requirements</a>
+<li><a href="RM-G-2-6-15-Complex-Arithmetic-Accuracy.html#RM-G-2-6-15-Complex-Arithmetic-Accuracy">RM G.2.6(15); Complex Arithmetic Accuracy</a>
+<li><a href="RM-H-6-15_002f2-Pragma-Partition_005fElaboration_005fPolicy.html#RM-H-6-15_002f2-Pragma-Partition_005fElaboration_005fPolicy">RM H.6(15/2); Pragma Partition_Elaboration_Policy</a>
+
+</ul>
+
+</body></html>
+

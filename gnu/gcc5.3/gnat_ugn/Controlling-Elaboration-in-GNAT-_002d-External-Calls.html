@@ -1,0 +1,146 @@
+<html lang="en">
+<head>
+<title>Controlling Elaboration in GNAT - External Calls - GNAT User's Guide for Native Platforms</title>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+<meta name="description" content="GNAT User's Guide for Native Platforms">
+<meta name="generator" content="makeinfo 4.13">
+<link title="Top" rel="start" href="index.html#Top">
+<link rel="up" href="Elaboration-Order-Handling-in-GNAT.html#Elaboration-Order-Handling-in-GNAT" title="Elaboration Order Handling in GNAT">
+<link rel="prev" href="Controlling-Elaboration-in-GNAT-_002d-Internal-Calls.html#Controlling-Elaboration-in-GNAT-_002d-Internal-Calls" title="Controlling Elaboration in GNAT - Internal Calls">
+<link rel="next" href="Default-Behavior-in-GNAT-_002d-Ensuring-Safety.html#Default-Behavior-in-GNAT-_002d-Ensuring-Safety" title="Default Behavior in GNAT - Ensuring Safety">
+<link href="http://www.gnu.org/software/texinfo/" rel="generator-home" title="Texinfo Homepage">
+<!--
+
+     GNAT User's Guide for Native Platforms , March 24, 2015
+
+     AdaCore
+
+     Copyright (C) 2008-2015, Free Software Foundation
+-->
+<meta http-equiv="Content-Style-Type" content="text/css">
+<style type="text/css"><!--
+  pre.display { font-family:inherit }
+  pre.format  { font-family:inherit }
+  pre.smalldisplay { font-family:inherit; font-size:smaller }
+  pre.smallformat  { font-family:inherit; font-size:smaller }
+  pre.smallexample { font-size:smaller }
+  pre.smalllisp    { font-size:smaller }
+  span.sc    { font-variant:small-caps }
+  span.roman { font-family:serif; font-weight:normal; } 
+  span.sansserif { font-family:sans-serif; font-weight:normal; } 
+--></style>
+</head>
+<body>
+<div class="node">
+<a name="Controlling-Elaboration-in-GNAT---External-Calls"></a>
+<a name="Controlling-Elaboration-in-GNAT-_002d-External-Calls"></a>
+<p>
+Next:&nbsp;<a rel="next" accesskey="n" href="Default-Behavior-in-GNAT-_002d-Ensuring-Safety.html#Default-Behavior-in-GNAT-_002d-Ensuring-Safety">Default Behavior in GNAT - Ensuring Safety</a>,
+Previous:&nbsp;<a rel="previous" accesskey="p" href="Controlling-Elaboration-in-GNAT-_002d-Internal-Calls.html#Controlling-Elaboration-in-GNAT-_002d-Internal-Calls">Controlling Elaboration in GNAT - Internal Calls</a>,
+Up:&nbsp;<a rel="up" accesskey="u" href="Elaboration-Order-Handling-in-GNAT.html#Elaboration-Order-Handling-in-GNAT">Elaboration Order Handling in GNAT</a>
+<hr>
+</div>
+
+<p><a name="gnat_005fugn_002felaboration_005forder_005fhandling_005fin_005fgnat-id6"></a><a name="g_t2b8"></a><a name="gnat_005fugn_002felaboration_005forder_005fhandling_005fin_005fgnat-controlling_002delaboration_002din_002dgnat_002dexternal_002dcalls"></a><a name="g_t2b9"></a>
+
+<h3 class="section">11.5 Controlling Elaboration in GNAT - External Calls</h3>
+
+<p>The previous section discussed the case in which the execution of a
+particular thread of elaboration code occurred entirely within a
+single unit. This is the easy case to handle, because a programmer
+has direct and total control over the order of elaboration, and
+furthermore, checks need only be generated in cases which are rare
+and which the compiler can easily detect. 
+The situation is more complex when separate compilation is taken into account. 
+Consider the following:
+
+<pre class="example">    package Math is
+       function Sqrt (Arg : Float) return Float;
+    end Math;
+    
+    package body Math is
+       function Sqrt (Arg : Float) return Float is
+       begin
+             ...
+       end Sqrt;
+    end Math;
+    
+    with Math;
+    package Stuff is
+       X : Float := Math.Sqrt (0.5);
+    end Stuff;
+    
+    with Stuff;
+    procedure Main is
+    begin
+       ...
+    end Main;
+</pre>
+<p>where <cite>Main</cite> is the main program. When this program is executed, the
+elaboration code must first be executed, and one of the jobs of the
+binder is to determine the order in which the units of a program are
+to be elaborated. In this case we have four units: the spec and body
+of <cite>Math</cite>,
+the spec of <cite>Stuff</cite> and the body of <cite>Main</cite>). 
+In what order should the four separate sections of elaboration code
+be executed?
+
+<p>There are some restrictions in the order of elaboration that the binder
+can choose. In particular, if unit U has a `with'
+for a package <cite>X</cite>, then you
+are assured that the spec of <cite>X</cite>
+is elaborated before U , but you are
+not assured that the body of <cite>X</cite>
+is elaborated before U. 
+This means that in the above case, the binder is allowed to choose the
+order:
+
+<pre class="example">    spec of Math
+    spec of Stuff
+    body of Math
+    body of Main
+</pre>
+<p>but that's not good, because now the call to <cite>Math.Sqrt</cite>
+that happens during
+the elaboration of the <cite>Stuff</cite>
+spec happens before the body of <cite>Math.Sqrt</cite> is
+elaborated, and hence causes <cite>Program_Error</cite> exception to be raised. 
+At first glance, one might say that the binder is misbehaving, because
+obviously you want to elaborate the body of something you `with' first, but
+that is not a general rule that can be followed in all cases. Consider
+
+<pre class="example">    package X is ...
+    
+    package Y is ...
+    
+    with X;
+    package body Y is ...
+    
+    with Y;
+    package body X is ...
+</pre>
+<p>This is a common arrangement, and, apart from the order of elaboration
+problems that might arise in connection with elaboration code, this works fine. 
+A rule that says that you must first elaborate the body of anything you
+`with' cannot work in this case:
+the body of <cite>X</cite> `with's <cite>Y</cite>,
+which means you would have to
+elaborate the body of <cite>Y</cite> first, but that `with's <cite>X</cite>,
+which means
+you have to elaborate the body of <cite>X</cite> first, but ... and we have a
+loop that cannot be broken.
+
+<p>It is true that the binder can in many cases guess an order of elaboration
+that is unlikely to cause a <cite>Program_Error</cite>
+exception to be raised, and it tries to do so (in the
+above example of <cite>Math/Stuff/Spec</cite>, the GNAT binder will
+by default
+elaborate the body of <cite>Math</cite> right after its spec, so all will be well).
+
+<p>However, a program that blindly relies on the binder to be helpful can
+get into trouble, as we discussed in the previous sections, so GNAT
+provides a number of facilities for assisting the programmer in
+developing programs that are robust with respect to elaboration order.
+
+</body></html>
+

@@ -1,0 +1,121 @@
+<html lang="en">
+<head>
+<title>Pragma Ordered - GNAT Reference Manual</title>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+<meta name="description" content="GNAT Reference Manual">
+<meta name="generator" content="makeinfo 4.13">
+<link title="Top" rel="start" href="index.html#Top">
+<link rel="up" href="Implementation-Defined-Pragmas.html#Implementation-Defined-Pragmas" title="Implementation Defined Pragmas">
+<link rel="prev" href="Pragma-Optimize_005fAlignment.html#Pragma-Optimize_005fAlignment" title="Pragma Optimize_Alignment">
+<link rel="next" href="Pragma-Overflow_005fMode.html#Pragma-Overflow_005fMode" title="Pragma Overflow_Mode">
+<link href="http://www.gnu.org/software/texinfo/" rel="generator-home" title="Texinfo Homepage">
+<!--
+
+     GNAT Reference Manual , March 24, 2015
+
+     AdaCore
+
+     Copyright (C) 2008-2015, Free Software Foundation
+-->
+<meta http-equiv="Content-Style-Type" content="text/css">
+<style type="text/css"><!--
+  pre.display { font-family:inherit }
+  pre.format  { font-family:inherit }
+  pre.smalldisplay { font-family:inherit; font-size:smaller }
+  pre.smallformat  { font-family:inherit; font-size:smaller }
+  pre.smallexample { font-size:smaller }
+  pre.smalllisp    { font-size:smaller }
+  span.sc    { font-variant:small-caps }
+  span.roman { font-family:serif; font-weight:normal; } 
+  span.sansserif { font-family:sans-serif; font-weight:normal; } 
+--></style>
+</head>
+<body>
+<div class="node">
+<a name="Pragma-Ordered"></a>
+<p>
+Next:&nbsp;<a rel="next" accesskey="n" href="Pragma-Overflow_005fMode.html#Pragma-Overflow_005fMode">Pragma Overflow_Mode</a>,
+Previous:&nbsp;<a rel="previous" accesskey="p" href="Pragma-Optimize_005fAlignment.html#Pragma-Optimize_005fAlignment">Pragma Optimize_Alignment</a>,
+Up:&nbsp;<a rel="up" accesskey="u" href="Implementation-Defined-Pragmas.html#Implementation-Defined-Pragmas">Implementation Defined Pragmas</a>
+<hr>
+</div>
+
+<p><a name="gnat_005frm_002fimplementation_005fdefined_005fpragmas-pragma_002dordered"></a><a name="g_t8f"></a>
+
+<h3 class="section">2.115 Pragma Ordered</h3>
+
+<p>Syntax:
+
+<pre class="example">    pragma Ordered (enumeration_first_subtype_LOCAL_NAME);
+</pre>
+<p>Most enumeration types are from a conceptual point of view unordered. 
+For example, consider:
+
+<pre class="example">    type Color is (Red, Blue, Green, Yellow);
+</pre>
+<p>By Ada semantics <cite>Blue &gt; Red</cite> and <cite>Green &gt; Blue</cite>,
+but really these relations make no sense; the enumeration type merely
+specifies a set of possible colors, and the order is unimportant.
+
+<p>For unordered enumeration types, it is generally a good idea if
+clients avoid comparisons (other than equality or inequality) and
+explicit ranges. (A `client' is a unit where the type is referenced,
+other than the unit where the type is declared, its body, and its subunits.) 
+For example, if code buried in some client says:
+
+<pre class="example">    if Current_Color &lt; Yellow then ...
+    if Current_Color in Blue .. Green then ...
+</pre>
+<p>then the client code is relying on the order, which is undesirable. 
+It makes the code hard to read and creates maintenance difficulties if
+entries have to be added to the enumeration type. Instead,
+the code in the client should list the possibilities, or an
+appropriate subtype should be declared in the unit that declares
+the original enumeration type. E.g., the following subtype could
+be declared along with the type <cite>Color</cite>:
+
+<pre class="example">    subtype RBG is Color range Red .. Green;
+</pre>
+<p>and then the client could write:
+
+<pre class="example">    if Current_Color in RBG then ...
+    if Current_Color = Blue or Current_Color = Green then ...
+</pre>
+<p>However, some enumeration types are legitimately ordered from a conceptual
+point of view. For example, if you declare:
+
+<pre class="example">    type Day is (Mon, Tue, Wed, Thu, Fri, Sat, Sun);
+</pre>
+<p>then the ordering imposed by the language is reasonable, and
+clients can depend on it, writing for example:
+
+<pre class="example">    if D in Mon .. Fri then ...
+    if D &lt; Wed then ...
+</pre>
+<p>The pragma `Ordered' is provided to mark enumeration types that
+are conceptually ordered, alerting the reader that clients may depend
+on the ordering. GNAT provides a pragma to mark enumerations as ordered
+rather than one to mark them as unordered, since in our experience,
+the great majority of enumeration types are conceptually unordered.
+
+<p>The types <cite>Boolean</cite>, <cite>Character</cite>, <cite>Wide_Character</cite>,
+and <cite>Wide_Wide_Character</cite>
+are considered to be ordered types, so each is declared with a
+pragma <cite>Ordered</cite> in package <cite>Standard</cite>.
+
+<p>Normally pragma <cite>Ordered</cite> serves only as documentation and a guide for
+coding standards, but GNAT provides a warning switch `-gnatw.u' that
+requests warnings for inappropriate uses (comparisons and explicit
+subranges) for unordered types. If this switch is used, then any
+enumeration type not marked with pragma <cite>Ordered</cite> will be considered
+as unordered, and will generate warnings for inappropriate uses.
+
+<p>Note that generic types are not considered ordered or unordered (since the
+template can be instantiated for both cases), so we never generate warnings
+for the case of generic enumerated types.
+
+<p>For additional information please refer to the description of the
+`-gnatw.u' switch in the GNAT User's Guide.
+
+</body></html>
+

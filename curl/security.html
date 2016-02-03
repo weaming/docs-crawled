@@ -1,0 +1,351 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
+<HTML>
+<HEAD> <TITLE>cURL - Security</TITLE>
+<meta content="text/html; charset=UTF-8" http-equiv="Content-Type">
+<link rel="stylesheet" type="text/css" href="http://curl.haxx.se/curl.css">
+<link rel="shortcut icon" href="http://curl.haxx.se/favicon.ico">
+<link rel="STYLESHEET" type="text/css" href="http://curl.haxx.se/manpage.css">
+</HEAD>
+<body bgcolor="#ffffff" text="#000000">
+<div class="main">
+<div class="menu">
+<a href="index.html" class="menuitem" title="Documentation main page">Docs Overview</a>
+<a href="http://curl.haxx.se/changes.html" class="menuitem" title="Changes done in curl">Changelog</a>
+<a href="releases.html" class="menuitem" title="All releases with details">Release Table</a>
+<a href="security.html" class="itemselect">Security</a>
+<a href="versions.html" class="menuitem" title="How curl versioning works">Version Nums</a>
+<a href="vulnerabilities.html" class="menuitem" title="Security problems in releases">Vulnerabilities</a>
+</div>
+<div class="contents">
+<div class="where"><a href="http://curl.haxx.se/">cURL</a> / <a href="index.html">Docs</a> / <a href="reldocs.html">Release Docs</a> / <b>Security</b></div>
+<h1> curl Security </h1>
+<div class="relatedbox">
+<b>Related:</b>
+<br><a href="http://curl.haxx.se/changes.html">Changelog</a>
+<br><a href="faq.html">FAQ</a>
+<br><a href="http://curl.haxx.se/dev/security.html">Security dev process</a>
+<br><a href="vulnerabilities.html">Vulnerabilities Table</a>
+</div>
+<p>
+ We take security seriously and develop curl and libcurl to be secure and
+ safe.
+<p>
+ If you find or simply suspect a security problem in curl or libcurl, mail us
+ at <a href="mailto:curl-security at haxx.se">curl-security at haxx.se</a>
+ (closed list of receivers, mails are not disclosed) and tell.
+<p>
+ We appreciate getting notified in advance before you go public with security
+ advisories for the sake of our users.
+<p>
+ See also the <a href="vulnerabilities.html">Vulnerabilities Table</a> to see
+ what versions that are vulnerable to what flaws.
+<h2> All known prior vulnerabilities </h2>
+<table>
+<tr class="tabletop">
+<th>#</th>
+<th>Vulnerability</th>
+<th>Date</th>
+<th>First</th>
+<th>Last</th>
+<th>CVE</th>
+</tr>
+<tr>
+<td>37</td>
+<td><a href="adv_20150617B.html">SMB send off unrelated memory contents</a></td>
+<td>June 17, 2015</td>
+<td><a href="vuln-7.40.0.html">7.40.0</a></td>
+<td><a href="vuln-7.42.1.html">7.42.1</a></td>
+<td><a href="https://cve.mitre.org/cgi-bin/cvename.cgi?name=CVE-2015-3237">CVE-2015-3237</a></td>
+</tr>
+<tr>
+<td>36</td>
+<td><a href="adv_20150617A.html">lingering HTTP credentials in connection re-use</a></td>
+<td>June 17, 2015</td>
+<td><a href="vuln-7.40.0.html">7.40.0</a></td>
+<td><a href="vuln-7.42.1.html">7.42.1</a></td>
+<td><a href="https://cve.mitre.org/cgi-bin/cvename.cgi?name=CVE-2015-3236">CVE-2015-3236</a></td>
+</tr>
+<tr>
+<td>35</td>
+<td><a href="adv_20150429.html">sensitive HTTP server headers also sent to proxies</a></td>
+<td>April 29, 2015</td>
+<td><a href="vuln-7.1.html">7.1</a></td>
+<td><a href="vuln-7.42.0.html">7.42.0</a></td>
+<td><a href="https://cve.mitre.org/cgi-bin/cvename.cgi?name=CVE-2015-3153">CVE-2015-3153</a></td>
+</tr>
+<tr>
+<td>34</td>
+<td><a href="adv_20150422D.html">host name out of boundary memory access</a></td>
+<td>April 22, 2015</td>
+<td><a href="vuln-7.37.0.html">7.37.0</a></td>
+<td><a href="vuln-7.41.0.html">7.41.0</a></td>
+<td><a href="https://cve.mitre.org/cgi-bin/cvename.cgi?name=CVE-2015-3144">CVE-2015-3144</a></td>
+</tr>
+<tr>
+<td>33</td>
+<td><a href="adv_20150422C.html">cookie parser out of boundary memory access</a></td>
+<td>April 22, 2015</td>
+<td><a href="vuln-7.31.0.html">7.31.0</a></td>
+<td><a href="vuln-7.41.0.html">7.41.0</a></td>
+<td><a href="https://cve.mitre.org/cgi-bin/cvename.cgi?name=CVE-2015-3145">CVE-2015-3145</a></td>
+</tr>
+<tr>
+<td>32</td>
+<td><a href="adv_20150422B.html">Negotiate not treated as connection-oriented</a></td>
+<td>April 22, 2015</td>
+<td><a href="vuln-7.10.6.html">7.10.6</a></td>
+<td><a href="vuln-7.41.0.html">7.41.0</a></td>
+<td><a href="https://cve.mitre.org/cgi-bin/cvename.cgi?name=CVE-2015-3148">CVE-2015-3148</a></td>
+</tr>
+<tr>
+<td>31</td>
+<td><a href="adv_20150422A.html">Re-using authenticated connection when unauthenticated</a></td>
+<td>April 22, 2015</td>
+<td><a href="vuln-7.10.6.html">7.10.6</a></td>
+<td><a href="vuln-7.41.0.html">7.41.0</a></td>
+<td><a href="https://cve.mitre.org/cgi-bin/cvename.cgi?name=CVE-2015-3143">CVE-2015-3143</a></td>
+</tr>
+<tr>
+<td>30</td>
+<td><a href="adv_20150108A.html">darwinssl certificate check bypass</a></td>
+<td>January 08, 2015</td>
+<td><a href="vuln-7.31.0.html">7.31.0</a></td>
+<td><a href="vuln-7.39.0.html">7.39.0</a></td>
+<td><a href="https://cve.mitre.org/cgi-bin/cvename.cgi?name=CVE-2014-8151">CVE-2014-8151</a></td>
+</tr>
+<tr>
+<td>29</td>
+<td><a href="adv_20150108B.html">URL request injection</a></td>
+<td>January 08, 2015</td>
+<td><a href="vuln-6.0.html">6.0</a></td>
+<td><a href="vuln-7.39.0.html">7.39.0</a></td>
+<td><a href="https://cve.mitre.org/cgi-bin/cvename.cgi?name=CVE-2014-8150">CVE-2014-8150</a></td>
+</tr>
+<tr>
+<td>28</td>
+<td><a href="adv_20141105.html">duphandle read out of bounds</a></td>
+<td>November 05, 2014</td>
+<td><a href="vuln-7.17.1.html">7.17.1</a></td>
+<td><a href="vuln-7.38.0.html">7.38.0</a></td>
+<td><a href="https://cve.mitre.org/cgi-bin/cvename.cgi?name=CVE-2014-3707">CVE-2014-3707</a></td>
+</tr>
+<tr>
+<td>27</td>
+<td><a href="adv_20140910B.html">cookie leak for TLDs</a></td>
+<td>September 10, 2014</td>
+<td><a href="vuln-7.31.0.html">7.31.0</a></td>
+<td><a href="vuln-7.37.1.html">7.37.1</a></td>
+<td><a href="https://cve.mitre.org/cgi-bin/cvename.cgi?name=CVE-2014-3620">CVE-2014-3620</a></td>
+</tr>
+<tr>
+<td>26</td>
+<td><a href="adv_20140910A.html">cookie leak with IP address as domain</a></td>
+<td>September 10, 2014</td>
+<td><a href="vuln-7.1.html">7.1</a></td>
+<td><a href="vuln-7.37.1.html">7.37.1</a></td>
+<td><a href="https://cve.mitre.org/cgi-bin/cvename.cgi?name=CVE-2014-3613">CVE-2014-3613</a></td>
+</tr>
+<tr>
+<td>25</td>
+<td><a href="adv_20140326D.html">not verifying certs for TLS to IP address / Winssl</a></td>
+<td>March 26, 2014</td>
+<td><a href="vuln-7.26.0.html">7.26.0</a></td>
+<td><a href="vuln-7.35.0.html">7.35.0</a></td>
+<td><a href="https://cve.mitre.org/cgi-bin/cvename.cgi?name=CVE-2014-2522">CVE-2014-2522</a></td>
+</tr>
+<tr>
+<td>24</td>
+<td><a href="adv_20140326C.html">not verifying certs for TLS to IP address / Darwinssl</a></td>
+<td>March 26, 2014</td>
+<td><a href="vuln-7.26.0.html">7.26.0</a></td>
+<td><a href="vuln-7.35.0.html">7.35.0</a></td>
+<td><a href="https://cve.mitre.org/cgi-bin/cvename.cgi?name=CVE-2014-1263">CVE-2014-1263</a></td>
+</tr>
+<tr>
+<td>23</td>
+<td><a href="adv_20140326B.html">IP address wildcard certificate validation</a></td>
+<td>March 26, 2014</td>
+<td><a href="vuln-7.1.html">7.1</a></td>
+<td><a href="vuln-7.35.0.html">7.35.0</a></td>
+<td><a href="https://cve.mitre.org/cgi-bin/cvename.cgi?name=CVE-2014-0139">CVE-2014-0139</a></td>
+</tr>
+<tr>
+<td>22</td>
+<td><a href="adv_20140326A.html">wrong re-use of connections</a></td>
+<td>March 26, 2014</td>
+<td><a href="vuln-7.10.7.html">7.10.7</a></td>
+<td><a href="vuln-7.35.0.html">7.35.0</a></td>
+<td><a href="https://cve.mitre.org/cgi-bin/cvename.cgi?name=CVE-2014-0138">CVE-2014-0138</a></td>
+</tr>
+<tr>
+<td>21</td>
+<td><a href="adv_20140129.html">re-use of wrong HTTP NTLM connection</a></td>
+<td>January 29, 2014</td>
+<td><a href="vuln-7.10.6.html">7.10.6</a></td>
+<td><a href="vuln-7.34.0.html">7.34.0</a></td>
+<td><a href="https://cve.mitre.org/cgi-bin/cvename.cgi?name=CVE-2014-0015">CVE-2014-0015</a></td>
+</tr>
+<tr>
+<td>20</td>
+<td><a href="adv_20131217.html">cert name check ignore GnuTLS</a></td>
+<td>December 17, 2013</td>
+<td><a href="vuln-7.21.4.html">7.21.4</a></td>
+<td><a href="vuln-7.33.0.html">7.33.0</a></td>
+<td><a href="https://cve.mitre.org/cgi-bin/cvename.cgi?name=CVE-2013-6422">CVE-2013-6422</a></td>
+</tr>
+<tr>
+<td>19</td>
+<td><a href="adv_20131115.html">cert name check ignore OpenSSL</a></td>
+<td>November 15, 2013</td>
+<td><a href="vuln-7.18.0.html">7.18.0</a></td>
+<td><a href="vuln-7.32.0.html">7.32.0</a></td>
+<td><a href="https://cve.mitre.org/cgi-bin/cvename.cgi?name=CVE-2013-4545">CVE-2013-4545</a></td>
+</tr>
+<tr>
+<td>18</td>
+<td><a href="adv_20130622.html">URL decode buffer boundary flaw</a></td>
+<td>June 22, 2013</td>
+<td><a href="vuln-7.7.html">7.7</a></td>
+<td><a href="vuln-7.30.0.html">7.30.0</a></td>
+<td><a href="https://cve.mitre.org/cgi-bin/cvename.cgi?name=CVE-2013-2174">CVE-2013-2174</a></td>
+</tr>
+<tr>
+<td>17</td>
+<td><a href="adv_20130412.html">cookie domain tailmatch</a></td>
+<td>April 12, 2013</td>
+<td><a href="vuln-6.0.html">6.0</a></td>
+<td><a href="vuln-7.29.0.html">7.29.0</a></td>
+<td><a href="https://cve.mitre.org/cgi-bin/cvename.cgi?name=CVE-2013-1944">CVE-2013-1944</a></td>
+</tr>
+<tr>
+<td>16</td>
+<td><a href="adv_20130206.html">SASL buffer overflow vulnerability</a></td>
+<td>February 06, 2013</td>
+<td><a href="vuln-7.26.0.html">7.26.0</a></td>
+<td><a href="vuln-7.28.1.html">7.28.1</a></td>
+<td><a href="https://cve.mitre.org/cgi-bin/cvename.cgi?name=CVE-2013-0249">CVE-2013-0249</a></td>
+</tr>
+<tr>
+<td>15</td>
+<td><a href="adv_20120124B.html">SSL CBC IV vulnerability</a></td>
+<td>January 24, 2012</td>
+<td><a href="vuln-7.10.6.html">7.10.6</a></td>
+<td><a href="vuln-7.23.1.html">7.23.1</a></td>
+<td><a href="https://cve.mitre.org/cgi-bin/cvename.cgi?name=CVE-2011-3389">CVE-2011-3389</a></td>
+</tr>
+<tr>
+<td>14</td>
+<td><a href="adv_20120124.html">URL sanitization vulnerability</a></td>
+<td>January 24, 2012</td>
+<td><a href="vuln-7.20.0.html">7.20.0</a></td>
+<td><a href="vuln-7.23.1.html">7.23.1</a></td>
+<td><a href="https://cve.mitre.org/cgi-bin/cvename.cgi?name=CVE-2012-0036">CVE-2012-0036</a></td>
+</tr>
+<tr>
+<td>13</td>
+<td><a href="adv_20110623.html">inappropriate GSSAPI delegation</a></td>
+<td>June 23, 2011</td>
+<td><a href="vuln-7.10.6.html">7.10.6</a></td>
+<td><a href="vuln-7.21.6.html">7.21.6</a></td>
+<td><a href="https://cve.mitre.org/cgi-bin/cvename.cgi?name=CVE-2011-2192">CVE-2011-2192</a></td>
+</tr>
+<tr>
+<td>12</td>
+<td><a href="adv_20101013.html">local file overwrite</a></td>
+<td>October 13, 2010</td>
+<td><a href="vuln-7.20.0.html">7.20.0</a></td>
+<td><a href="vuln-7.21.1.html">7.21.1</a></td>
+<td><a href="https://cve.mitre.org/cgi-bin/cvename.cgi?name=CVE-2010-3842">CVE-2010-3842</a></td>
+</tr>
+<tr>
+<td>11</td>
+<td><a href="adv_20100209.html">data callback excessive length</a></td>
+<td>February 09, 2010</td>
+<td><a href="vuln-7.10.5.html">7.10.5</a></td>
+<td><a href="vuln-7.19.7.html">7.19.7</a></td>
+<td><a href="https://cve.mitre.org/cgi-bin/cvename.cgi?name=CVE-2010-0734">CVE-2010-0734</a></td>
+</tr>
+<tr>
+<td>10</td>
+<td><a href="adv_20090812.html">embedded zero in cert name</a></td>
+<td>August 12, 2009</td>
+<td><a href="http://curl.haxx.se/docs/vuln-7.4&#32;&#32;&#32;.html">7.4   </a></td>
+<td><a href="vuln-7.19.5.html">7.19.5</a></td>
+<td><a href="https://cve.mitre.org/cgi-bin/cvename.cgi?name=CVE-2009-2417">CVE-2009-2417</a></td>
+</tr>
+<tr>
+<td>9</td>
+<td><a href="adv_20090303.html">Arbitrary File Access</a></td>
+<td>March 03, 2009</td>
+<td><a href="http://curl.haxx.se/docs/vuln-6.0&#32;&#32;&#32;.html">6.0   </a></td>
+<td><a href="vuln-7.19.3.html">7.19.3</a></td>
+<td><a href="https://cve.mitre.org/cgi-bin/cvename.cgi?name=CVE-2009-0037">CVE-2009-0037</a></td>
+</tr>
+<tr>
+<td>8</td>
+<td><a href="adv_20070710.html">GnuTLS insufficient cert verification</a></td>
+<td>July 10, 2007</td>
+<td><a href="vuln-7.14.0.html">7.14.0</a></td>
+<td><a href="vuln-7.16.3.html">7.16.3</a></td>
+<td><a href="https://cve.mitre.org/cgi-bin/cvename.cgi?name=CVE-2007-3564">CVE-2007-3564</a></td>
+</tr>
+<tr>
+<td>7</td>
+<td><a href="adv_20060320.html">TFTP Packet Buffer Overflow</a></td>
+<td>March 20, 2006</td>
+<td><a href="vuln-7.15.0.html">7.15.0</a></td>
+<td><a href="vuln-7.15.2.html">7.15.2</a></td>
+<td><a href="https://cve.mitre.org/cgi-bin/cvename.cgi?name=CVE-2006-1061">CVE-2006-1061</a></td>
+</tr>
+<tr>
+<td>6</td>
+<td><a href="adv_20051207.html">URL Buffer Overflow</a></td>
+<td>December 07, 2005</td>
+<td><a href="vuln-7.11.2.html">7.11.2</a></td>
+<td><a href="vuln-7.15.0.html">7.15.0</a></td>
+<td><a href="https://cve.mitre.org/cgi-bin/cvename.cgi?name=CVE-2005-4077">CVE-2005-4077</a></td>
+</tr>
+<tr>
+<td>5</td>
+<td><a href="adv_20051013.html">NTLM Buffer Overflow</a></td>
+<td>October 13, 2005</td>
+<td><a href="vuln-7.10.6.html">7.10.6</a></td>
+<td><a href="vuln-7.14.1.html">7.14.1</a></td>
+<td><a href="https://cve.mitre.org/cgi-bin/cvename.cgi?name=CVE-2005-3185">CVE-2005-3185</a></td>
+</tr>
+<tr>
+<td>4</td>
+<td><a href="adv_20050221A.html">Kerberos Authentication Buffer Overflow</a></td>
+<td>February 21, 2005</td>
+<td><a href="http://curl.haxx.se/docs/vuln-7.3&#32;&#32;&#32;.html">7.3   </a></td>
+<td><a href="vuln-7.13.0.html">7.13.0</a></td>
+<td><a href="https://cve.mitre.org/cgi-bin/cvename.cgi?name=CVE-2005-0490">CVE-2005-0490</a></td>
+</tr>
+<tr>
+<td>3</td>
+<td><a href="adv_20050221B.html">NTLM Authentication Buffer Overflow</a></td>
+<td>February 21, 2005</td>
+<td><a href="vuln-7.10.6.html">7.10.6</a></td>
+<td><a href="vuln-7.13.0.html">7.13.0</a></td>
+<td><a href="https://cve.mitre.org/cgi-bin/cvename.cgi?name=CVE-2005-0490">CVE-2005-0490</a></td>
+</tr>
+<tr>
+<td>2</td>
+<td><a href="adv_20030803.html">Proxy Authentication Header Information Leakage</a></td>
+<td>August 03, 2003</td>
+<td><a href="http://curl.haxx.se/docs/vuln-7.1&#32;&#32;&#32;.html">7.1   </a></td>
+<td><a href="vuln-7.10.6.html">7.10.6</a></td>
+<td>[missing]</td>
+</tr>
+<tr>
+<td>1</td>
+<td><a href="adv_20001013.html">FTP Server Response Buffer Overflow</a></td>
+<td>October 13, 2000</td>
+<td><a href="http://curl.haxx.se/docs/vuln-6.0&#32;&#32;&#32;.html">6.0   </a></td>
+<td><a href="http://curl.haxx.se/docs/vuln-7.4&#32;&#32;&#32;.html">7.4   </a></td>
+<td>[missing]</td>
+</tr>
+</table>
+</div>
+</div>
+</body> </html>

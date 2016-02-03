@@ -1,0 +1,63 @@
+<html lang="en">
+<head>
+<title>Pragma Export_Value - GNAT Reference Manual</title>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+<meta name="description" content="GNAT Reference Manual">
+<meta name="generator" content="makeinfo 4.13">
+<link title="Top" rel="start" href="index.html#Top">
+<link rel="up" href="Implementation-Defined-Pragmas.html#Implementation-Defined-Pragmas" title="Implementation Defined Pragmas">
+<link rel="prev" href="Pragma-Export_005fProcedure.html#Pragma-Export_005fProcedure" title="Pragma Export_Procedure">
+<link rel="next" href="Pragma-Export_005fValued_005fProcedure.html#Pragma-Export_005fValued_005fProcedure" title="Pragma Export_Valued_Procedure">
+<link href="http://www.gnu.org/software/texinfo/" rel="generator-home" title="Texinfo Homepage">
+<!--
+
+     GNAT Reference Manual , March 24, 2015
+
+     AdaCore
+
+     Copyright (C) 2008-2015, Free Software Foundation
+-->
+<meta http-equiv="Content-Style-Type" content="text/css">
+<style type="text/css"><!--
+  pre.display { font-family:inherit }
+  pre.format  { font-family:inherit }
+  pre.smalldisplay { font-family:inherit; font-size:smaller }
+  pre.smallformat  { font-family:inherit; font-size:smaller }
+  pre.smallexample { font-size:smaller }
+  pre.smalllisp    { font-size:smaller }
+  span.sc    { font-variant:small-caps }
+  span.roman { font-family:serif; font-weight:normal; } 
+  span.sansserif { font-family:sans-serif; font-weight:normal; } 
+--></style>
+</head>
+<body>
+<div class="node">
+<a name="Pragma-Export_Value"></a>
+<a name="Pragma-Export_005fValue"></a>
+<p>
+Next:&nbsp;<a rel="next" accesskey="n" href="Pragma-Export_005fValued_005fProcedure.html#Pragma-Export_005fValued_005fProcedure">Pragma Export_Valued_Procedure</a>,
+Previous:&nbsp;<a rel="previous" accesskey="p" href="Pragma-Export_005fProcedure.html#Pragma-Export_005fProcedure">Pragma Export_Procedure</a>,
+Up:&nbsp;<a rel="up" accesskey="u" href="Implementation-Defined-Pragmas.html#Implementation-Defined-Pragmas">Implementation Defined Pragmas</a>
+<hr>
+</div>
+
+<p><a name="gnat_005frm_002fimplementation_005fdefined_005fpragmas-pragma_002dexport_002dvalue"></a><a name="g_t54"></a>
+
+<h3 class="section">2.57 Pragma Export_Value</h3>
+
+<p>Syntax:
+
+<pre class="example">    pragma Export_Value (
+      [Value     =&gt;] static_integer_EXPRESSION,
+      [Link_Name =&gt;] static_string_EXPRESSION);
+</pre>
+<p>This pragma serves to export a static integer value for external use. 
+The first argument specifies the value to be exported. The Link_Name
+argument specifies the symbolic name to be associated with the integer
+value. This pragma is useful for defining a named static value in Ada
+that can be referenced in assembly language units to be linked with
+the application. This pragma is currently supported only for the
+AAMP target and is ignored for other targets.
+
+</body></html>
+

@@ -1,0 +1,119 @@
+<html lang="en">
+<head>
+<title>Example of gnatls Usage - GNAT User's Guide for Native Platforms</title>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+<meta name="description" content="GNAT User's Guide for Native Platforms">
+<meta name="generator" content="makeinfo 4.13">
+<link title="Top" rel="start" href="index.html#Top">
+<link rel="up" href="The-GNAT-Library-Browser-gnatls.html#The-GNAT-Library-Browser-gnatls" title="The GNAT Library Browser gnatls">
+<link rel="prev" href="Switches-for-gnatls.html#Switches-for-gnatls" title="Switches for gnatls">
+<link href="http://www.gnu.org/software/texinfo/" rel="generator-home" title="Texinfo Homepage">
+<!--
+
+     GNAT User's Guide for Native Platforms , March 24, 2015
+
+     AdaCore
+
+     Copyright (C) 2008-2015, Free Software Foundation
+-->
+<meta http-equiv="Content-Style-Type" content="text/css">
+<style type="text/css"><!--
+  pre.display { font-family:inherit }
+  pre.format  { font-family:inherit }
+  pre.smalldisplay { font-family:inherit; font-size:smaller }
+  pre.smallformat  { font-family:inherit; font-size:smaller }
+  pre.smallexample { font-size:smaller }
+  pre.smalllisp    { font-size:smaller }
+  span.sc    { font-variant:small-caps }
+  span.roman { font-family:serif; font-weight:normal; } 
+  span.sansserif { font-family:sans-serif; font-weight:normal; } 
+--></style>
+</head>
+<body>
+<div class="node">
+<a name="Example-of-gnatls-Usage"></a>
+<p>
+Previous:&nbsp;<a rel="previous" accesskey="p" href="Switches-for-gnatls.html#Switches-for-gnatls">Switches for gnatls</a>,
+Up:&nbsp;<a rel="up" accesskey="u" href="The-GNAT-Library-Browser-gnatls.html#The-GNAT-Library-Browser-gnatls">The GNAT Library Browser gnatls</a>
+<hr>
+</div>
+
+<p><a name="gnat_005fugn_002fgnat_005futility_005fprograms-id8"></a><a name="g_t1d8"></a><a name="gnat_005fugn_002fgnat_005futility_005fprograms-example_002dof_002dgnatls_002dusage"></a><a name="g_t1d9"></a>
+
+<h4 class="subsection">7.2.3 Example of <cite>gnatls</cite> Usage</h4>
+
+<p>Example of using the verbose switch. Note how the source and
+object paths are affected by the -I switch.
+
+<blockquote>
+
+<pre class="example">    $ gnatls -v -I.. demo1.o
+    
+    GNATLS 5.03w (20041123-34)
+    Copyright 1997-2004 Free Software Foundation, Inc.
+    
+    Source Search Path:
+       &lt;Current_Directory&gt;
+       ../
+       /home/comar/local/adainclude/
+    
+    Object Search Path:
+       &lt;Current_Directory&gt;
+       ../
+       /home/comar/local/lib/gcc-lib/x86-linux/3.4.3/adalib/
+    
+    Project Search Path:
+       &lt;Current_Directory&gt;
+       /home/comar/local/lib/gnat/
+    
+    ./demo1.o
+       Unit =&gt;
+         Name   =&gt; demo1
+         Kind   =&gt; subprogram body
+         Flags  =&gt; No_Elab_Code
+         Source =&gt; demo1.adb    modified
+</pre>
+</blockquote>
+
+<p>The following is an example of use of the dependency list. 
+Note the use of the -s switch
+which gives a straight list of source files. This can be useful for
+building specialized scripts.
+
+<blockquote>
+
+<pre class="example">    $ gnatls -d demo2.o
+    ./demo2.o   demo2        OK demo2.adb
+                             OK gen_list.ads
+                             OK gen_list.adb
+                             OK instr.ads
+                             OK instr-child.ads
+    
+    $ gnatls -d -s -a demo1.o
+    demo1.adb
+    /home/comar/local/adainclude/ada.ads
+    /home/comar/local/adainclude/a-finali.ads
+    /home/comar/local/adainclude/a-filico.ads
+    /home/comar/local/adainclude/a-stream.ads
+    /home/comar/local/adainclude/a-tags.ads
+    gen_list.ads
+    gen_list.adb
+    /home/comar/local/adainclude/gnat.ads
+    /home/comar/local/adainclude/g-io.ads
+    instr.ads
+    /home/comar/local/adainclude/system.ads
+    /home/comar/local/adainclude/s-exctab.ads
+    /home/comar/local/adainclude/s-finimp.ads
+    /home/comar/local/adainclude/s-finroo.ads
+    /home/comar/local/adainclude/s-secsta.ads
+    /home/comar/local/adainclude/s-stalib.ads
+    /home/comar/local/adainclude/s-stoele.ads
+    /home/comar/local/adainclude/s-stratt.ads
+    /home/comar/local/adainclude/s-tasoli.ads
+    /home/comar/local/adainclude/s-unstyp.ads
+    /home/comar/local/adainclude/unchconv.ads
+</pre>
+</blockquote>
+
+</body></html>
+

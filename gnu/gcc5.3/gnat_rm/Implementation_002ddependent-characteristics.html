@@ -1,0 +1,67 @@
+<html lang="en">
+<head>
+<title>Implementation-dependent characteristics - GNAT Reference Manual</title>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+<meta name="description" content="GNAT Reference Manual">
+<meta name="generator" content="makeinfo 4.13">
+<link title="Top" rel="start" href="index.html#Top">
+<link rel="up" href="Compatibility-and-Porting-Guide.html#Compatibility-and-Porting-Guide" title="Compatibility and Porting Guide">
+<link rel="prev" href="Compatibility-between-Ada-95-and-Ada-2005.html#Compatibility-between-Ada-95-and-Ada-2005" title="Compatibility between Ada 95 and Ada 2005">
+<link rel="next" href="Compatibility-with-Other-Ada-Systems.html#Compatibility-with-Other-Ada-Systems" title="Compatibility with Other Ada Systems">
+<link href="http://www.gnu.org/software/texinfo/" rel="generator-home" title="Texinfo Homepage">
+<!--
+
+     GNAT Reference Manual , March 24, 2015
+
+     AdaCore
+
+     Copyright (C) 2008-2015, Free Software Foundation
+-->
+<meta http-equiv="Content-Style-Type" content="text/css">
+<style type="text/css"><!--
+  pre.display { font-family:inherit }
+  pre.format  { font-family:inherit }
+  pre.smalldisplay { font-family:inherit; font-size:smaller }
+  pre.smallformat  { font-family:inherit; font-size:smaller }
+  pre.smallexample { font-size:smaller }
+  pre.smalllisp    { font-size:smaller }
+  span.sc    { font-variant:small-caps }
+  span.roman { font-family:serif; font-weight:normal; } 
+  span.sansserif { font-family:sans-serif; font-weight:normal; } 
+--></style>
+</head>
+<body>
+<div class="node">
+<a name="Implementation-dependent-characteristics"></a>
+<a name="Implementation_002ddependent-characteristics"></a>
+<p>
+Next:&nbsp;<a rel="next" accesskey="n" href="Compatibility-with-Other-Ada-Systems.html#Compatibility-with-Other-Ada-Systems">Compatibility with Other Ada Systems</a>,
+Previous:&nbsp;<a rel="previous" accesskey="p" href="Compatibility-between-Ada-95-and-Ada-2005.html#Compatibility-between-Ada-95-and-Ada-2005">Compatibility between Ada 95 and Ada 2005</a>,
+Up:&nbsp;<a rel="up" accesskey="u" href="Compatibility-and-Porting-Guide.html#Compatibility-and-Porting-Guide">Compatibility and Porting Guide</a>
+<hr>
+</div>
+
+<p><a name="gnat_005frm_002fcompatibility_005fand_005fporting_005fguide-implementation_002ddependent_002dcharacteristics"></a><a name="g_t3e5"></a><a name="gnat_005frm_002fcompatibility_005fand_005fporting_005fguide-id9"></a><a name="g_t3e6"></a>
+
+<h3 class="section">18.4 Implementation-dependent characteristics</h3>
+
+<p>Although the Ada language defines the semantics of each construct as
+precisely as practical, in some situations (for example for reasons of
+efficiency, or where the effect is heavily dependent on the host or target
+platform) the implementation is allowed some freedom.  In porting Ada 83
+code to GNAT, you need to be aware of whether / how the existing code
+exercised such implementation dependencies.  Such characteristics fall into
+several categories, and GNAT offers specific support in assisting the
+transition from certain Ada 83 compilers.
+
+<ul class="menu">
+<li><a accesskey="1" href="Implementation_002ddefined-pragmas.html#Implementation_002ddefined-pragmas">Implementation-defined pragmas</a>
+<li><a accesskey="2" href="Implementation_002ddefined-attributes.html#Implementation_002ddefined-attributes">Implementation-defined attributes</a>
+<li><a accesskey="3" href="Libraries.html#Libraries">Libraries</a>
+<li><a accesskey="4" href="Elaboration-order.html#Elaboration-order">Elaboration order</a>
+<li><a accesskey="5" href="Target_002dspecific-aspects.html#Target_002dspecific-aspects">Target-specific aspects</a>
+
+</ul>
+
+</body></html>
+

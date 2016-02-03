@@ -1,0 +1,62 @@
+<html lang="en">
+<head>
+<title>Pragma Ignore_Pragma - GNAT Reference Manual</title>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+<meta name="description" content="GNAT Reference Manual">
+<meta name="generator" content="makeinfo 4.13">
+<link title="Top" rel="start" href="index.html#Top">
+<link rel="up" href="Implementation-Defined-Pragmas.html#Implementation-Defined-Pragmas" title="Implementation Defined Pragmas">
+<link rel="prev" href="Pragma-Ident.html#Pragma-Ident" title="Pragma Ident">
+<link rel="next" href="Pragma-Implementation_005fDefined.html#Pragma-Implementation_005fDefined" title="Pragma Implementation_Defined">
+<link href="http://www.gnu.org/software/texinfo/" rel="generator-home" title="Texinfo Homepage">
+<!--
+
+     GNAT Reference Manual , March 24, 2015
+
+     AdaCore
+
+     Copyright (C) 2008-2015, Free Software Foundation
+-->
+<meta http-equiv="Content-Style-Type" content="text/css">
+<style type="text/css"><!--
+  pre.display { font-family:inherit }
+  pre.format  { font-family:inherit }
+  pre.smalldisplay { font-family:inherit; font-size:smaller }
+  pre.smallformat  { font-family:inherit; font-size:smaller }
+  pre.smallexample { font-size:smaller }
+  pre.smalllisp    { font-size:smaller }
+  span.sc    { font-variant:small-caps }
+  span.roman { font-family:serif; font-weight:normal; } 
+  span.sansserif { font-family:sans-serif; font-weight:normal; } 
+--></style>
+</head>
+<body>
+<div class="node">
+<a name="Pragma-Ignore_Pragma"></a>
+<a name="Pragma-Ignore_005fPragma"></a>
+<p>
+Next:&nbsp;<a rel="next" accesskey="n" href="Pragma-Implementation_005fDefined.html#Pragma-Implementation_005fDefined">Pragma Implementation_Defined</a>,
+Previous:&nbsp;<a rel="previous" accesskey="p" href="Pragma-Ident.html#Pragma-Ident">Pragma Ident</a>,
+Up:&nbsp;<a rel="up" accesskey="u" href="Implementation-Defined-Pragmas.html#Implementation-Defined-Pragmas">Implementation Defined Pragmas</a>
+<hr>
+</div>
+
+<p><a name="gnat_005frm_002fimplementation_005fdefined_005fpragmas-pragma_002dignore_002dpragma"></a><a name="g_t60"></a>
+
+<h3 class="section">2.69 Pragma Ignore_Pragma</h3>
+
+<p>Syntax:
+
+<pre class="example">    pragma Ignore_Pragma (pragma_IDENTIFIER);
+</pre>
+<p>This is a configuration pragma
+that takes a single argument that is a simple identifier. Any subsequent
+use of a pragma whose pragma identifier matches this argument will be
+silently ignored. This may be useful when legacy code or code intended
+for compilation with some other compiler contains pragmas that match the
+name, but not the exact implementation, of a <cite>GNAT</cite> pragma. The use of this
+pragma allows such pragmas to be ignored, which may be useful in <cite>CodePeer</cite>
+mode, or during porting of legacy code.
+
+</body></html>
+

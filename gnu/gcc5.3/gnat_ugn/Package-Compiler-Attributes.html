@@ -1,0 +1,269 @@
+<html lang="en">
+<head>
+<title>Package Compiler Attributes - GNAT User's Guide for Native Platforms</title>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+<meta name="description" content="GNAT User's Guide for Native Platforms">
+<meta name="generator" content="makeinfo 4.13">
+<link title="Top" rel="start" href="index.html#Top">
+<link rel="up" href="Attributes.html#Attributes" title="Attributes">
+<link rel="prev" href="Package-Clean-Attributes.html#Package-Clean-Attributes" title="Package Clean Attributes">
+<link rel="next" href="Package-Cross_005fReference-Attributes.html#Package-Cross_005fReference-Attributes" title="Package Cross_Reference Attributes">
+<link href="http://www.gnu.org/software/texinfo/" rel="generator-home" title="Texinfo Homepage">
+<!--
+
+     GNAT User's Guide for Native Platforms , March 24, 2015
+
+     AdaCore
+
+     Copyright (C) 2008-2015, Free Software Foundation
+-->
+<meta http-equiv="Content-Style-Type" content="text/css">
+<style type="text/css"><!--
+  pre.display { font-family:inherit }
+  pre.format  { font-family:inherit }
+  pre.smalldisplay { font-family:inherit; font-size:smaller }
+  pre.smallformat  { font-family:inherit; font-size:smaller }
+  pre.smallexample { font-size:smaller }
+  pre.smalllisp    { font-size:smaller }
+  span.sc    { font-variant:small-caps }
+  span.roman { font-family:serif; font-weight:normal; } 
+  span.sansserif { font-family:sans-serif; font-weight:normal; } 
+--></style>
+</head>
+<body>
+<div class="node">
+<a name="Package-Compiler-Attributes"></a>
+<p>
+Next:&nbsp;<a rel="next" accesskey="n" href="Package-Cross_005fReference-Attributes.html#Package-Cross_005fReference-Attributes">Package Cross_Reference Attributes</a>,
+Previous:&nbsp;<a rel="previous" accesskey="p" href="Package-Clean-Attributes.html#Package-Clean-Attributes">Package Clean Attributes</a>,
+Up:&nbsp;<a rel="up" accesskey="u" href="Attributes.html#Attributes">Attributes</a>
+<hr>
+</div>
+
+<p><a name="gnat_005fugn_002fgnat_005fproject_005fmanager-id53"></a><a name="g_t1ac"></a><a name="gnat_005fugn_002fgnat_005fproject_005fmanager-package_002dcompiler_002dattributes"></a><a name="g_t1ad"></a>
+
+<h5 class="subsubsection">5.9.10.5 Package Compiler Attributes</h5>
+
+     <ul>
+<li>`General'
+
+          <ul>
+<li>`Default_Switches': list, indexed, case-insensitive index
+
+          <p>Index is a language name. Value is a list of switches to be used when invoking
+the compiler for the language for a source of the project, if there is no
+applicable attribute Switches.
+
+          <li>`Switches': list, optional index, indexed, case-insensitive index,
+others allowed
+
+          <p>Index is a source file name or a language name. Value is the list of switches
+to be used when invoking the compiler for the source or for its language.
+
+          <li>`Local_Configuration_Pragmas': single
+
+          <p>Value is the file name of a configuration pragmas file that is specified to
+the Ada compiler when compiling any Ada source in the project.
+
+          <li>`Local_Config_File': single, indexed, case-insensitive index
+
+          <p>Index is a language name. Value is the file name of a configuration file that
+is specified to the compiler when compiling any source of the language in the
+project. 
+</ul>
+
+     <li>`Configuration - Compiling'
+
+          <ul>
+<li>`Driver': single, indexed, case-insensitive index
+
+          <p>Index is a language name. Value is the name of the executable for the compiler
+of the language.
+
+          <li>`Language_Kind': single, indexed, case-insensitive index
+
+          <p>Index is a language name. Indicates the kind of the language, either file based
+or unit based. Only authorized case-insensitive values are "unit_based" and
+"file_based" (the default).
+
+          <li>`Dependency_Kind': single, indexed, case-insensitive index
+
+          <p>Index is a language name. Indicates how the dependencies are handled for the
+language. Only authorized case-insensitive values are "makefile", "ali_file",
+"ali_closure" or "none" (the default).
+
+          <li>`Required_Switches': list, indexed, case-insensitive index
+
+          <p>Equivalent to attribute Leading_Required_Switches.
+
+          <li>`Leading_Required_Switches': list, indexed, case-insensitive index
+
+          <p>Index is a language name. Value is the list of the minimum switches to be used
+at the beginning of the command line when invoking the compiler for the
+language.
+
+          <li>`Trailing_Required_Switches': list, indexed, case-insensitive index
+
+          <p>Index is a language name. Value is the list of the minimum switches to be used
+at the end of the command line when invoking the compiler for the language.
+
+          <li>`PIC_Option': list, indexed, case-insensitive index
+
+          <p>Index is a language name. Value is the list of switches to be used when
+compiling a source of the language when the project is a shared library
+project.
+
+          <li>`Path_Syntax': single, indexed, case-insensitive index
+
+          <p>Index is a language name. Value is the kind of path syntax to be used when
+invoking the compiler for the language. Only authorized case-insensitive
+values are "canonical" and "host" (the default).
+
+          <li>`Source_File_Switches': single, indexed, case-insensitive index
+
+          <p>Index is a language name. Value is a list of switches to be used just before
+the path name of the source to compile when invoking the compiler for a source
+of the language.
+
+          <li>`Object_File_Suffix': single, indexed, case-insensitive index
+
+          <p>Index is a language name. Value is the extension of the object files created
+by the compiler of the language. When not specified, the extension is the
+default one for the platform.
+
+          <li>`Object_File_Switches': list, indexed, case-insensitive index
+
+          <p>Index is a language name. Value is the list of switches to be used by the
+compiler of the language to specify the path name of the object file. When not
+specified, the switch used is "-o".
+
+          <li>`Multi_Unit_Switches': list, indexed, case-insensitive index
+
+          <p>Index is a language name. Value is the list of switches to be used to compile
+a unit in a multi unit source of the language. The index of the unit in the
+source is concatenated with the last switches in the list.
+
+          <li>`Multi_Unit_Object_Separator': single, indexed, case-insensitive index
+
+          <p>Index is a language name. Value is the string to be used in the object file
+name before the index of the unit, when compiling a unit in a multi unit source
+of the language. 
+</ul>
+
+     <li>`Configuration - Mapping Files'
+
+          <ul>
+<li>`Mapping_File_Switches': list, indexed, case-insensitive index
+
+          <p>Index is a language name. Value is the list of switches to be used to specify
+a mapping file when invoking the compiler for a source of the language.
+
+          <li>`Mapping_Spec_Suffix': single, indexed, case-insensitive index
+
+          <p>Index is a language name. Value is the suffix to be used in a mapping file
+to indicate that the source is a spec.
+
+          <li>`Mapping_Body_Suffix': single, indexed, case-insensitive index
+
+          <p>Index is a language name. Value is the suffix to be used in a mapping file
+to indicate that the source is a body. 
+</ul>
+
+     <li>`Configuration - Config Files'
+
+          <ul>
+<li>`Config_File_Switches': list: single, indexed, case-insensitive index
+
+          <p>Index is a language name. Value is the list of switches to specify to the
+compiler of the language a configuration file.
+
+          <li>`Config_Body_File_Name': single, indexed, case-insensitive index
+
+          <p>Index is a language name. Value is the template to be used to indicate a
+configuration specific to a body of the language in a configuration
+file.
+
+          <li>`Config_Body_File_Name_Index': single, indexed, case-insensitive index
+
+          <p>Index is a language name. Value is the template to be used to indicate a
+configuration specific to the body a unit in a multi unit source of the
+language in a configuration file.
+
+          <li>`Config_Body_File_Name_Pattern': single, indexed,
+case-insensitive index
+
+          <p>Index is a language name. Value is the template to be used to indicate a
+configuration for all bodies of the languages in a configuration file.
+
+          <li>`Config_Spec_File_Name': single, indexed, case-insensitive index
+
+          <p>Index is a language name. Value is the template to be used to indicate a
+configuration specific to a spec of the language in a configuration
+file.
+
+          <li>`Config_Spec_File_Name_Index': single, indexed, case-insensitive index
+
+          <p>Index is a language name. Value is the template to be used to indicate a
+configuration specific to the spec a unit in a multi unit source of the
+language in a configuration file.
+
+          <li>`Config_Spec_File_Name_Pattern': single, indexed,
+case-insensitive index
+
+          <p>Index is a language name. Value is the template to be used to indicate a
+configuration for all specs of the languages in a configuration file.
+
+          <li>`Config_File_Unique': single, indexed, case-insensitive index
+
+          <p>Index is a language name. Indicates if there should be only one configuration
+file specified to the compiler of the language. Only authorized
+case-insensitive values are "true" and "false" (the default). 
+</ul>
+
+     <li>`Configuration - Dependencies'
+
+          <ul>
+<li>`Dependency_Switches': list, indexed, case-insensitive index
+
+          <p>Index is a language name. Value is the list of switches to be used to specify
+to the compiler the dependency file when the dependency kind of the language is
+file based, and when Dependency_Driver is not specified for the language.
+
+          <li>`Dependency_Driver': list, indexed, case-insensitive index
+
+          <p>Index is a language name. Value is the name of the executable to be used to
+create the dependency file for a source of the language, followed by the
+required switches. 
+</ul>
+
+     <li>`Configuration - Search Paths'
+
+          <ul>
+<li>`Include_Switches': list, indexed, case-insensitive index
+
+          <p>Index is a language name. Value is the list of switches to specify to the
+compiler of the language to indicate a directory to look for sources.
+
+          <li>`Include_Path': single, indexed, case-insensitive index
+
+          <p>Index is a language name. Value is the name of an environment variable that
+contains the path of all the directories that the compiler of the language
+may search for sources.
+
+          <li>`Include_Path_File': single, indexed, case-insensitive index
+
+          <p>Index is a language name. Value is the name of an environment variable the
+value of which is the path name of a text file that contains the directories
+that the compiler of the language may search for sources.
+
+          <li>`Object_Path_Switches': list, indexed, case-insensitive index
+
+          <p>Index is a language name. Value is the list of switches to specify to the
+compiler of the language the name of a text file that contains the list of
+object directories. When this attribute is not declared, the text file is
+not created. 
+</ul>
+     </ul>
+
+</body></html>
+

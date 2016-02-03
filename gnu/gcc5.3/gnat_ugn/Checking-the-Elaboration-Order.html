@@ -1,0 +1,134 @@
+<html lang="en">
+<head>
+<title>Checking the Elaboration Order - GNAT User's Guide for Native Platforms</title>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+<meta name="description" content="GNAT User's Guide for Native Platforms">
+<meta name="generator" content="makeinfo 4.13">
+<link title="Top" rel="start" href="index.html#Top">
+<link rel="up" href="Elaboration-Order-Handling-in-GNAT.html#Elaboration-Order-Handling-in-GNAT" title="Elaboration Order Handling in GNAT">
+<link rel="prev" href="Elaboration-Code.html#Elaboration-Code" title="Elaboration Code">
+<link rel="next" href="Controlling-the-Elaboration-Order.html#Controlling-the-Elaboration-Order" title="Controlling the Elaboration Order">
+<link href="http://www.gnu.org/software/texinfo/" rel="generator-home" title="Texinfo Homepage">
+<!--
+
+     GNAT User's Guide for Native Platforms , March 24, 2015
+
+     AdaCore
+
+     Copyright (C) 2008-2015, Free Software Foundation
+-->
+<meta http-equiv="Content-Style-Type" content="text/css">
+<style type="text/css"><!--
+  pre.display { font-family:inherit }
+  pre.format  { font-family:inherit }
+  pre.smalldisplay { font-family:inherit; font-size:smaller }
+  pre.smallformat  { font-family:inherit; font-size:smaller }
+  pre.smallexample { font-size:smaller }
+  pre.smalllisp    { font-size:smaller }
+  span.sc    { font-variant:small-caps }
+  span.roman { font-family:serif; font-weight:normal; } 
+  span.sansserif { font-family:sans-serif; font-weight:normal; } 
+--></style>
+</head>
+<body>
+<div class="node">
+<a name="Checking-the-Elaboration-Order"></a>
+<p>
+Next:&nbsp;<a rel="next" accesskey="n" href="Controlling-the-Elaboration-Order.html#Controlling-the-Elaboration-Order">Controlling the Elaboration Order</a>,
+Previous:&nbsp;<a rel="previous" accesskey="p" href="Elaboration-Code.html#Elaboration-Code">Elaboration Code</a>,
+Up:&nbsp;<a rel="up" accesskey="u" href="Elaboration-Order-Handling-in-GNAT.html#Elaboration-Order-Handling-in-GNAT">Elaboration Order Handling in GNAT</a>
+<hr>
+</div>
+
+<p><a name="gnat_005fugn_002felaboration_005forder_005fhandling_005fin_005fgnat-checking_002dthe_002delaboration_002dorder"></a><a name="g_t2b2"></a><a name="gnat_005fugn_002felaboration_005forder_005fhandling_005fin_005fgnat-id3"></a><a name="g_t2b3"></a>
+
+<h3 class="section">11.2 Checking the Elaboration Order</h3>
+
+<p>In some languages that involve the same kind of elaboration problems,
+e.g., Java and C++, the programmer needs to take these
+ordering problems into account, and it is common to
+write a program in which an incorrect elaboration order  gives
+surprising results, because it references variables before they
+are initialized. 
+Ada is designed to be a safe language, and a programmer-beware approach is
+clearly not sufficient. Consequently, the language provides three lines
+of defense:
+
+     <ul>
+<li>`Standard rules'
+
+     <p>Some standard rules restrict the possible choice of elaboration
+order. In particular, if you `with' a unit, then its spec is always
+elaborated before the unit doing the `with'. Similarly, a parent
+spec is always elaborated before the child spec, and finally
+a spec is always elaborated before its corresponding body. 
+</ul>
+
+<p><a name="index-Elaboration-checks-1141"></a>
+<a name="index-Checks-1142"></a><a name="index-elaboration-1143"></a>
+
+     <ul>
+<li>`Dynamic elaboration checks'
+
+     <p>Dynamic checks are made at run time, so that if some entity is accessed
+before it is elaborated (typically  by means of a subprogram call)
+then the exception (<cite>Program_Error</cite>) is raised.
+
+     <li>`Elaboration control'
+
+     <p>Facilities are provided for the programmer to specify the desired order
+of elaboration. 
+</ul>
+
+<p>Let's look at these facilities in more detail. First, the rules for
+dynamic checking. One possible rule would be simply to say that the
+exception is raised if you access a variable which has not yet been
+elaborated. The trouble with this approach is that it could require
+expensive checks on every variable reference. Instead Ada has two
+rules which are a little more restrictive, but easier to check, and
+easier to state:
+
+     <ul>
+<li>`Restrictions on calls'
+
+     <p>A subprogram can only be called at elaboration time if its body
+has been elaborated. The rules for elaboration given above guarantee
+that the spec of the subprogram has been elaborated before the
+call, but not the body. If this rule is violated, then the
+exception <cite>Program_Error</cite> is raised.
+
+     <li>`Restrictions on instantiations'
+
+     <p>A generic unit can only be instantiated if the body of the generic
+unit has been elaborated. Again, the rules for elaboration given above
+guarantee that the spec of the generic unit has been elaborated
+before the instantiation, but not the body. If this rule is
+violated, then the exception <cite>Program_Error</cite> is raised. 
+</ul>
+
+<p>The idea is that if the body has been elaborated, then any variables
+it references must have been elaborated; by checking for the body being
+elaborated we guarantee that none of its references causes any
+trouble. As we noted above, this is a little too restrictive, because a
+subprogram that has no non-local references in its body may in fact be safe
+to call. However, it really would be unsafe to rely on this, because
+it would mean that the caller was aware of details of the implementation
+in the body. This goes against the basic tenets of Ada.
+
+<p>A plausible implementation can be described as follows. 
+A Boolean variable is associated with each subprogram
+and each generic unit. This variable is initialized to False, and is set to
+True at the point body is elaborated. Every call or instantiation checks the
+variable, and raises <cite>Program_Error</cite> if the variable is False.
+
+<p>Note that one might think that it would be good enough to have one Boolean
+variable for each package, but that would not deal with cases of trying
+to call a body in the same package as the call
+that has not been elaborated yet. 
+Of course a compiler may be able to do enough analysis to optimize away
+some of the Boolean variables as unnecessary, and <cite>GNAT</cite> indeed
+does such optimizations, but still the easiest conceptual model is to
+think of there being one variable per subprogram.
+
+</body></html>
+

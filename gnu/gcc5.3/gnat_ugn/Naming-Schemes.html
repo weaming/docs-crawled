@@ -1,0 +1,238 @@
+<html lang="en">
+<head>
+<title>Naming Schemes - GNAT User's Guide for Native Platforms</title>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+<meta name="description" content="GNAT User's Guide for Native Platforms">
+<meta name="generator" content="makeinfo 4.13">
+<link title="Top" rel="start" href="index.html#Top">
+<link rel="up" href="Building-With-Projects.html#Building-With-Projects" title="Building With Projects">
+<link rel="prev" href="Avoid-Duplication-With-Variables.html#Avoid-Duplication-With-Variables" title="Avoid Duplication With Variables">
+<link rel="next" href="Installation.html#Installation" title="Installation">
+<link href="http://www.gnu.org/software/texinfo/" rel="generator-home" title="Texinfo Homepage">
+<!--
+
+     GNAT User's Guide for Native Platforms , March 24, 2015
+
+     AdaCore
+
+     Copyright (C) 2008-2015, Free Software Foundation
+-->
+<meta http-equiv="Content-Style-Type" content="text/css">
+<style type="text/css"><!--
+  pre.display { font-family:inherit }
+  pre.format  { font-family:inherit }
+  pre.smalldisplay { font-family:inherit; font-size:smaller }
+  pre.smallformat  { font-family:inherit; font-size:smaller }
+  pre.smallexample { font-size:smaller }
+  pre.smalllisp    { font-size:smaller }
+  span.sc    { font-variant:small-caps }
+  span.roman { font-family:serif; font-weight:normal; } 
+  span.sansserif { font-family:sans-serif; font-weight:normal; } 
+--></style>
+</head>
+<body>
+<div class="node">
+<a name="Naming-Schemes"></a>
+<p>
+Next:&nbsp;<a rel="next" accesskey="n" href="Installation.html#Installation">Installation</a>,
+Previous:&nbsp;<a rel="previous" accesskey="p" href="Avoid-Duplication-With-Variables.html#Avoid-Duplication-With-Variables">Avoid Duplication With Variables</a>,
+Up:&nbsp;<a rel="up" accesskey="u" href="Building-With-Projects.html#Building-With-Projects">Building With Projects</a>
+<hr>
+</div>
+
+<p><a name="gnat_005fugn_002fgnat_005fproject_005fmanager-id11"></a><a name="g_t166"></a><a name="gnat_005fugn_002fgnat_005fproject_005fmanager-naming_002dschemes"></a><a name="g_t14b"></a>
+
+<h4 class="subsection">5.2.9 Naming Schemes</h4>
+
+<p>Sometimes an Ada software system is ported from one compilation environment to
+another (say GNAT), and the file are not named using the default GNAT
+conventions. Instead of changing all the file names, which for a variety of
+reasons might not be possible, you can define the relevant file naming scheme
+in the `Naming' package of your project file.
+
+<p>The naming scheme has two distinct goals for the project manager: it
+allows finding of source files when searching in the source
+directories, and given a source file name it makes it possible to guess
+the associated language, and thus the compiler to use.
+
+<p>Note that the use by the Ada compiler of pragmas Source_File_Name is not
+supported when using project files. You must use the features described in this
+paragraph. You can however specify other configuration pragmas.
+
+<p>The following attributes can be defined in package <cite>Naming</cite>:
+
+<p><a name="index-Casing-_0028GNAT-Project-Manager_0029-801"></a>
+`Casing':
+
+<blockquote>
+
+<p>Its value must be one of <cite>"lowercase"</cite> (the default if
+unspecified), <cite>"uppercase"</cite> or <cite>"mixedcase"</cite>. It describes the
+casing of file names with regards to the Ada unit name. Given an Ada unit
+My_Unit, the file name will respectively be <code>my_unit.adb</code> (lowercase),
+<code>MY_UNIT.ADB</code> (uppercase) or <code>My_Unit.adb</code> (mixedcase). 
+On Windows, file names are case insensitive, so this attribute is
+irrelevant. 
+</blockquote>
+
+<p><a name="index-Dot_005fReplacement-_0028GNAT-Project-Manager_0029-802"></a>
+`Dot_Replacement':
+
+<blockquote>
+
+<p>This attribute specifies the string that should replace the "." in unit
+names. Its default value is <cite>"-"</cite> so that a unit
+<cite>Parent.Child</cite> is expected to be found in the file
+<code>parent-child.adb</code>. The replacement string must satisfy the following
+requirements to avoid ambiguities in the naming scheme:
+
+     <ul>
+<li>It must not be empty
+
+     <li>It cannot start or end with an alphanumeric character
+
+     <li>It cannot be a single underscore
+
+     <li>It cannot start with an underscore followed by an alphanumeric
+
+     <li>It cannot contain a dot <cite>'.'</cite> except if the entire string is <cite>"."</cite>
+</ul>
+</blockquote>
+
+<p><a name="index-Spec_005fSuffix-_0028GNAT-Project-Manager_0029-803"></a>
+<a name="index-Specification_005fSuffix-_0028GNAT-Project-Manager_0029-804"></a>
+`Spec_Suffix' and `Specification_Suffix':
+
+<blockquote>
+
+<p>For Ada, these attributes give the suffix used in file names that contain
+specifications. For other languages, they give the extension for files
+that contain declaration (header files in C for instance). The attribute
+is indexed on the language. 
+The two attributes are equivalent, but the latter is obsolescent.
+
+<p>If the value of the attribute is the empty string, it indicates to the
+Project Manager that the only specifications/header files for the language
+are those specified with attributes <cite>Spec</cite> or
+<cite>Specification_Exceptions</cite>.
+
+<p>If <cite>Spec_Suffix ("Ada")</cite> is not specified, then the default is
+<cite>".ads"</cite>.
+
+<p>A non empty value must satisfy the following requirements:
+
+     <ul>
+<li>It must include at least one dot
+
+     <li>If <cite>Dot_Replacement</cite> is a single dot, then it cannot include
+more than one dot. 
+</ul>
+</blockquote>
+
+<p><a name="index-Body_005fSuffix-_0028GNAT-Project-Manager_0029-805"></a>
+<a name="index-Implementation_005fSuffix-_0028GNAT-Project-Manager_0029-806"></a>
+`Body_Suffix' and `Implementation_Suffix':
+
+<blockquote>
+
+<p>These attributes give the extension used for file names that contain
+code (bodies in Ada). They are indexed on the language. The second
+version is obsolescent and fully replaced by the first attribute.
+
+<p>For each language of a project, one of these two attributes need to be
+specified, either in the project itself or in the configuration project file.
+
+<p>If the value of the attribute is the empty string, it indicates to the
+Project Manager that the only source files for the language
+are those specified with attributes <cite>Body</cite> or
+<cite>Implementation_Exceptions</cite>.
+
+<p>These attributes must satisfy the same requirements as <cite>Spec_Suffix</cite>. 
+In addition, they must be different from any of the values in
+<cite>Spec_Suffix</cite>. 
+If <cite>Body_Suffix ("Ada")</cite> is not specified, then the default is
+<cite>".adb"</cite>.
+
+<p>If <cite>Body_Suffix ("Ada")</cite> and <cite>Spec_Suffix ("Ada")</cite> end with the
+same string, then a file name that ends with the longest of these two
+suffixes will be a body if the longest suffix is <cite>Body_Suffix ("Ada")</cite>
+or a spec if the longest suffix is <cite>Spec_Suffix ("Ada")</cite>.
+
+<p>If the suffix does not start with a '.', a file with a name exactly equal to
+the suffix will also be part of the project (for instance if you define the
+suffix as <cite>Makefile.in</cite>, a file called <code>Makefile.in</code> will be part
+of the project. This capability is usually not interesting when building. 
+However, it might become useful when a project is also used to
+find the list of source files in an editor, like the GNAT Programming System
+(GPS). 
+</blockquote>
+
+<p><a name="index-Separate_005fSuffix-_0028GNAT-Project-Manager_0029-807"></a>
+`Separate_Suffix':
+
+<blockquote>
+
+<p>This attribute is specific to Ada. It denotes the suffix used in file names
+that contain separate bodies. If it is not specified, then it defaults to
+same value as <cite>Body_Suffix ("Ada")</cite>.
+
+<p>The value of this attribute cannot be the empty string.
+
+<p>Otherwise, the same rules apply as for the
+<cite>Body_Suffix</cite> attribute. The only accepted index is "Ada". 
+</blockquote>
+
+<p>`Spec' or `Specification':
+
+<blockquote>
+
+<p><a name="index-Spec-_0028GNAT-Project-Manager_0029-808"></a>
+<a name="index-Specification-_0028GNAT-Project-Manager_0029-809"></a>
+This attribute <cite>Spec</cite> can be used to define the source file name for a
+given Ada compilation unit's spec. The index is the literal name of the Ada
+unit (case insensitive). The value is the literal base name of the file that
+contains this unit's spec (case sensitive or insensitive depending on the
+operating system). This attribute allows the definition of exceptions to the
+general naming scheme, in case some files do not follow the usual
+convention.
+
+<p>When a source file contains several units, the relative position of the unit
+can be indicated. The first unit in the file is at position 1
+
+<pre class="example">    for Spec ("MyPack.MyChild") use "mypack.mychild.spec";
+    for Spec ("top") use "foo.a" at 1;
+    for Spec ("foo") use "foo.a" at 2;
+</pre>
+</blockquote>
+
+<p><a name="index-Body-_0028GNAT-Project-Manager_0029-810"></a>
+<a name="index-Implementation-_0028GNAT-Project-Manager_0029-811"></a>
+`Body' or `Implementation':
+
+<blockquote>
+
+<p>These attribute play the same role as `Spec' for Ada bodies. 
+</blockquote>
+
+<p><a name="index-Specification_005fExceptions-_0028GNAT-Project-Manager_0029-812"></a>
+<a name="index-Implementation_005fExceptions-_0028GNAT-Project-Manager_0029-813"></a>
+`Specification_Exceptions' and `Implementation_Exceptions':
+
+<blockquote>
+
+<p>These attributes define exceptions to the naming scheme for languages
+other than Ada. They are indexed on the language name, and contain
+a list of file names respectively for headers and source code. 
+</blockquote>
+
+<p>For example, the following package models the Apex file naming rules:
+
+<pre class="example">    package Naming is
+      for Casing               use "lowercase";
+      for Dot_Replacement      use ".";
+      for Spec_Suffix ("Ada")  use ".1.ada";
+      for Body_Suffix ("Ada")  use ".2.ada";
+    end Naming;
+</pre>
+</body></html>
+

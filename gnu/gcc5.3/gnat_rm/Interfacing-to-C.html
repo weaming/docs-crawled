@@ -1,0 +1,155 @@
+<html lang="en">
+<head>
+<title>Interfacing to C - GNAT Reference Manual</title>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+<meta name="description" content="GNAT Reference Manual">
+<meta name="generator" content="makeinfo 4.13">
+<link title="Top" rel="start" href="index.html#Top">
+<link rel="up" href="Interfacing-to-Other-Languages.html#Interfacing-to-Other-Languages" title="Interfacing to Other Languages">
+<link rel="next" href="Interfacing-to-C_002b_002b.html#Interfacing-to-C_002b_002b" title="Interfacing to C++">
+<link href="http://www.gnu.org/software/texinfo/" rel="generator-home" title="Texinfo Homepage">
+<!--
+
+     GNAT Reference Manual , March 24, 2015
+
+     AdaCore
+
+     Copyright (C) 2008-2015, Free Software Foundation
+-->
+<meta http-equiv="Content-Style-Type" content="text/css">
+<style type="text/css"><!--
+  pre.display { font-family:inherit }
+  pre.format  { font-family:inherit }
+  pre.smalldisplay { font-family:inherit; font-size:smaller }
+  pre.smallformat  { font-family:inherit; font-size:smaller }
+  pre.smallexample { font-size:smaller }
+  pre.smalllisp    { font-size:smaller }
+  span.sc    { font-variant:small-caps }
+  span.roman { font-family:serif; font-weight:normal; } 
+  span.sansserif { font-family:sans-serif; font-weight:normal; } 
+--></style>
+</head>
+<body>
+<div class="node">
+<a name="Interfacing-to-C"></a>
+<p>
+Next:&nbsp;<a rel="next" accesskey="n" href="Interfacing-to-C_002b_002b.html#Interfacing-to-C_002b_002b">Interfacing to C++</a>,
+Up:&nbsp;<a rel="up" accesskey="u" href="Interfacing-to-Other-Languages.html#Interfacing-to-Other-Languages">Interfacing to Other Languages</a>
+<hr>
+</div>
+
+<p><a name="gnat_005frm_002finterfacing_005fto_005fother_005flanguages-interfacing_002dto_002dc"></a><a name="g_t3a1"></a><a name="gnat_005frm_002finterfacing_005fto_005fother_005flanguages-id2"></a><a name="g_t3a2"></a>
+
+<h3 class="section">13.1 Interfacing to C</h3>
+
+<p>Interfacing to C with GNAT can use one of two approaches:
+
+     <ul>
+<li>The types in the package <cite>Interfaces.C</cite> may be used.
+
+     <li>Standard Ada types may be used directly.  This may be less portable to
+other compilers, but will work on all GNAT compilers, which guarantee
+correspondence between the C and Ada types. 
+</ul>
+
+<p>Pragma <cite>Convention C</cite> may be applied to Ada types, but mostly has no
+effect, since this is the default.  The following table shows the
+correspondence between Ada scalar types and the corresponding C types.
+
+<p><table summary=""><tr align="left"><th valign="top">
+Ada Type
+
+<p></th><th valign="top">
+
+<p>C Type
+
+<p><br></th></tr><tr align="left"><td valign="top">
+<code>Integer</code>
+
+<p></td><td valign="top">
+
+<p><code>int</code>
+
+<p><br></td></tr><tr align="left"><td valign="top">
+<code>Short_Integer</code>
+
+<p></td><td valign="top">
+
+<p><code>short</code>
+
+<p><br></td></tr><tr align="left"><td valign="top">
+<code>Short_Short_Integer</code>
+
+<p></td><td valign="top">
+
+<p><code>signed char</code>
+
+<p><br></td></tr><tr align="left"><td valign="top">
+<code>Long_Integer</code>
+
+<p></td><td valign="top">
+
+<p><code>long</code>
+
+<p><br></td></tr><tr align="left"><td valign="top">
+<code>Long_Long_Integer</code>
+
+<p></td><td valign="top">
+
+<p><code>long long</code>
+
+<p><br></td></tr><tr align="left"><td valign="top">
+<code>Short_Float</code>
+
+<p></td><td valign="top">
+
+<p><code>float</code>
+
+<p><br></td></tr><tr align="left"><td valign="top">
+<code>Float</code>
+
+<p></td><td valign="top">
+
+<p><code>float</code>
+
+<p><br></td></tr><tr align="left"><td valign="top">
+<code>Long_Float</code>
+
+<p></td><td valign="top">
+
+<p><code>double</code>
+
+<p><br></td></tr><tr align="left"><td valign="top">
+<code>Long_Long_Float</code>
+
+<p></td><td valign="top">
+
+<p>This is the longest floating-point type supported by the hardware.
+
+<br></td></tr></table>
+
+<p>Additionally, there are the following general correspondences between Ada
+and C types:
+
+     <ul>
+<li>Ada enumeration types map to C enumeration types directly if pragma
+<cite>Convention C</cite> is specified, which causes them to have int
+length.  Without pragma <cite>Convention C</cite>, Ada enumeration types map to
+8, 16, or 32 bits (i.e., C types <cite>signed char</cite>, <cite>short</cite>,
+<cite>int</cite>, respectively) depending on the number of values passed. 
+This is the only case in which pragma <cite>Convention C</cite> affects the
+representation of an Ada type.
+
+     <li>Ada access types map to C pointers, except for the case of pointers to
+unconstrained types in Ada, which have no direct C equivalent.
+
+     <li>Ada arrays map directly to C arrays.
+
+     <li>Ada records map directly to C structures.
+
+     <li>Packed Ada records map to C structures where all members are bit fields
+of the length corresponding to the <code>type'Size</code> value in Ada. 
+</ul>
+
+</body></html>
+

@@ -1,0 +1,120 @@
+<html lang="en">
+<head>
+<title>Pragma Interrupt_State - GNAT Reference Manual</title>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+<meta name="description" content="GNAT Reference Manual">
+<meta name="generator" content="makeinfo 4.13">
+<link title="Top" rel="start" href="index.html#Top">
+<link rel="up" href="Implementation-Defined-Pragmas.html#Implementation-Defined-Pragmas" title="Implementation Defined Pragmas">
+<link rel="prev" href="Pragma-Interrupt_005fHandler.html#Pragma-Interrupt_005fHandler" title="Pragma Interrupt_Handler">
+<link rel="next" href="Pragma-Invariant.html#Pragma-Invariant" title="Pragma Invariant">
+<link href="http://www.gnu.org/software/texinfo/" rel="generator-home" title="Texinfo Homepage">
+<!--
+
+     GNAT Reference Manual , March 24, 2015
+
+     AdaCore
+
+     Copyright (C) 2008-2015, Free Software Foundation
+-->
+<meta http-equiv="Content-Style-Type" content="text/css">
+<style type="text/css"><!--
+  pre.display { font-family:inherit }
+  pre.format  { font-family:inherit }
+  pre.smalldisplay { font-family:inherit; font-size:smaller }
+  pre.smallformat  { font-family:inherit; font-size:smaller }
+  pre.smallexample { font-size:smaller }
+  pre.smalllisp    { font-size:smaller }
+  span.sc    { font-variant:small-caps }
+  span.roman { font-family:serif; font-weight:normal; } 
+  span.sansserif { font-family:sans-serif; font-weight:normal; } 
+--></style>
+</head>
+<body>
+<div class="node">
+<a name="Pragma-Interrupt_State"></a>
+<a name="Pragma-Interrupt_005fState"></a>
+<p>
+Next:&nbsp;<a rel="next" accesskey="n" href="Pragma-Invariant.html#Pragma-Invariant">Pragma Invariant</a>,
+Previous:&nbsp;<a rel="previous" accesskey="p" href="Pragma-Interrupt_005fHandler.html#Pragma-Interrupt_005fHandler">Pragma Interrupt_Handler</a>,
+Up:&nbsp;<a rel="up" accesskey="u" href="Implementation-Defined-Pragmas.html#Implementation-Defined-Pragmas">Implementation Defined Pragmas</a>
+<hr>
+</div>
+
+<p><a name="gnat_005frm_002fimplementation_005fdefined_005fpragmas-pragma_002dinterrupt_002dstate"></a><a name="g_t72"></a>
+
+<h3 class="section">2.87 Pragma Interrupt_State</h3>
+
+<p>Syntax:
+
+<pre class="example">    pragma Interrupt_State
+     ([Name  =&gt;] value,
+      [State =&gt;] SYSTEM | RUNTIME | USER);
+</pre>
+<p>Normally certain interrupts are reserved to the implementation.  Any attempt
+to attach an interrupt causes Program_Error to be raised, as described in
+RM C.3.2(22).  A typical example is the <cite>SIGINT</cite> interrupt used in
+many systems for an <code>Ctrl-C</code> interrupt.  Normally this interrupt is
+reserved to the implementation, so that <code>Ctrl-C</code> can be used to
+interrupt execution.  Additionally, signals such as <cite>SIGSEGV</cite>,
+<cite>SIGABRT</cite>, <cite>SIGFPE</cite> and <cite>SIGILL</cite> are often mapped to specific
+Ada exceptions, or used to implement run-time functions such as the
+<cite>abort</cite> statement and stack overflow checking.
+
+<p>Pragma <cite>Interrupt_State</cite> provides a general mechanism for overriding
+such uses of interrupts.  It subsumes the functionality of pragma
+<cite>Unreserve_All_Interrupts</cite>.  Pragma <cite>Interrupt_State</cite> is not
+available on Windows or VMS.  On all other platforms than VxWorks,
+it applies to signals; on VxWorks, it applies to vectored hardware interrupts
+and may be used to mark interrupts required by the board support package
+as reserved.
+
+<p>Interrupts can be in one of three states:
+
+     <ul>
+<li>System
+
+     <p>The interrupt is reserved (no Ada handler can be installed), and the
+Ada run-time may not install a handler. As a result you are guaranteed
+standard system default action if this interrupt is raised.
+
+     <li>Runtime
+
+     <p>The interrupt is reserved (no Ada handler can be installed). The run time
+is allowed to install a handler for internal control purposes, but is
+not required to do so.
+
+     <li>User
+
+     <p>The interrupt is unreserved.  The user may install a handler to provide
+some other action. 
+</ul>
+
+<p>These states are the allowed values of the <cite>State</cite> parameter of the
+pragma.  The <cite>Name</cite> parameter is a value of the type
+<cite>Ada.Interrupts.Interrupt_ID</cite>.  Typically, it is a name declared in
+<cite>Ada.Interrupts.Names</cite>.
+
+<p>This is a configuration pragma, and the binder will check that there
+are no inconsistencies between different units in a partition in how a
+given interrupt is specified. It may appear anywhere a pragma is legal.
+
+<p>The effect is to move the interrupt to the specified state.
+
+<p>By declaring interrupts to be SYSTEM, you guarantee the standard system
+action, such as a core dump.
+
+<p>By declaring interrupts to be USER, you guarantee that you can install
+a handler.
+
+<p>Note that certain signals on many operating systems cannot be caught and
+handled by applications.  In such cases, the pragma is ignored.  See the
+operating system documentation, or the value of the array <cite>Reserved</cite>
+declared in the spec of package <cite>System.OS_Interface</cite>.
+
+<p>Overriding the default state of signals used by the Ada runtime may interfere
+with an application's runtime behavior in the cases of the synchronous signals,
+and in the case of the signal used to implement the <cite>abort</cite> statement.
+
+</body></html>
+

@@ -1,0 +1,125 @@
+<html lang="en">
+<head>
+<title>Binder Error Message Control - GNAT User's Guide for Native Platforms</title>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+<meta name="description" content="GNAT User's Guide for Native Platforms">
+<meta name="generator" content="makeinfo 4.13">
+<link title="Top" rel="start" href="index.html#Top">
+<link rel="up" href="Switches-for-gnatbind.html#Switches-for-gnatbind" title="Switches for gnatbind">
+<link rel="prev" href="Consistency_002dChecking-Modes.html#Consistency_002dChecking-Modes" title="Consistency-Checking Modes">
+<link rel="next" href="Elaboration-Control.html#Elaboration-Control" title="Elaboration Control">
+<link href="http://www.gnu.org/software/texinfo/" rel="generator-home" title="Texinfo Homepage">
+<!--
+
+     GNAT User's Guide for Native Platforms , March 24, 2015
+
+     AdaCore
+
+     Copyright (C) 2008-2015, Free Software Foundation
+-->
+<meta http-equiv="Content-Style-Type" content="text/css">
+<style type="text/css"><!--
+  pre.display { font-family:inherit }
+  pre.format  { font-family:inherit }
+  pre.smalldisplay { font-family:inherit; font-size:smaller }
+  pre.smallformat  { font-family:inherit; font-size:smaller }
+  pre.smallexample { font-size:smaller }
+  pre.smalllisp    { font-size:smaller }
+  span.sc    { font-variant:small-caps }
+  span.roman { font-family:serif; font-weight:normal; } 
+  span.sansserif { font-family:sans-serif; font-weight:normal; } 
+--></style>
+</head>
+<body>
+<div class="node">
+<a name="Binder-Error-Message-Control"></a>
+<p>
+Next:&nbsp;<a rel="next" accesskey="n" href="Elaboration-Control.html#Elaboration-Control">Elaboration Control</a>,
+Previous:&nbsp;<a rel="previous" accesskey="p" href="Consistency_002dChecking-Modes.html#Consistency_002dChecking-Modes">Consistency-Checking Modes</a>,
+Up:&nbsp;<a rel="up" accesskey="u" href="Switches-for-gnatbind.html#Switches-for-gnatbind">Switches for gnatbind</a>
+<hr>
+</div>
+
+<p><a name="gnat_005fugn_002fbuilding_005fexecutable_005fprograms_005fwith_005fgnat-id35"></a><a name="g_t128"></a><a name="gnat_005fugn_002fbuilding_005fexecutable_005fprograms_005fwith_005fgnat-binder_002derror_002dmessage_002dcontrol"></a><a name="g_t129"></a>
+
+<h5 class="subsubsection">4.4.2.2 Binder Error Message Control</h5>
+
+<p>The following switches provide control over the generation of error
+messages from the binder:
+
+<blockquote>
+
+<p><a name="index-g_t_002dv-_0028gnatbind_0029-709"></a></blockquote>
+
+     <dl>
+<dt><code>-v</code><dd>
+Verbose mode. In the normal mode, brief error messages are generated to
+<code>stderr</code>. If this switch is present, a header is written
+to <code>stdout</code> and any error messages are directed to <code>stdout</code>. 
+All that is written to <code>stderr</code> is a brief summary message.
+
+     <p><a name="index-g_t_002db-_0028gnatbind_0029-710"></a>
+<br><dt><code>-b</code><dd>
+Generate brief error messages to <code>stderr</code> even if verbose mode is
+specified. This is relevant only when used with the
+`-v' switch.
+
+     <p><a name="index-g_t_002dm-_0028gnatbind_0029-711"></a>
+<br><dt><code>-m`n'</code><dd>
+Limits the number of error messages to <cite>n</cite>, a decimal integer in the
+range 1-999. The binder terminates immediately if this limit is reached.
+
+     <p><a name="index-g_t_002dM-_0028gnatbind_0029-712"></a>
+<br><dt><code>-M`xxx'</code><dd>
+Renames the generated main program from <cite>main</cite> to <cite>xxx</cite>. 
+This is useful in the case of some cross-building environments, where
+the actual main program is separate from the one generated
+by <cite>gnatbind</cite>.
+
+     <p><a name="index-g_t_002dws-_0028gnatbind_0029-713"></a>
+<a name="index-Warnings-714"></a>
+<br><dt><code>-ws</code><dd>
+Suppress all warning messages.
+
+     <p><a name="index-g_t_002dwe-_0028gnatbind_0029-715"></a>
+<br><dt><code>-we</code><dd>
+Treat any warning messages as fatal errors.
+
+     <p><a name="index-g_t_002dt-_0028gnatbind_0029-716"></a>
+<a name="index-Time-stamp-checks-717"></a><a name="index-in-binder-718"></a>
+<a name="index-Binder-consistency-checks-719"></a>
+<a name="index-Consistency-checks-720"></a><a name="index-in-binder-721"></a>
+<br><dt><code>-t</code><dd>
+The binder performs a number of consistency checks including:
+
+          <ul>
+<li>Check that time stamps of a given source unit are consistent
+
+          <li>Check that checksums of a given source unit are consistent
+
+          <li>Check that consistent versions of <cite>GNAT</cite> were used for compilation
+
+          <li>Check consistency of configuration pragmas as required
+</ul>
+
+     <p>Normally failure of such checks, in accordance with the consistency
+requirements of the Ada Reference Manual, causes error messages to be
+generated which abort the binder and prevent the output of a binder
+file and subsequent link to obtain an executable.
+
+     <p>The `-t' switch converts these error messages
+into warnings, so that
+binding and linking can continue to completion even in the presence of such
+errors. The result may be a failed link (due to missing symbols), or a
+non-functional executable which has undefined semantics.
+
+     <p><table class="cartouche" summary="cartouche" border="1"><tr><td>
+<blockquote>
+<b>Note:</b> This means that `-t' should be used only in unusual situations,
+with extreme care. 
+</blockquote>
+     </td></tr></table>
+     </dl>
+
+</body></html>
+

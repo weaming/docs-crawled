@@ -1,0 +1,103 @@
+<html lang="en">
+<head>
+<title>Operating gnatchop in Compilation Mode - GNAT User's Guide for Native Platforms</title>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+<meta name="description" content="GNAT User's Guide for Native Platforms">
+<meta name="generator" content="makeinfo 4.13">
+<link title="Top" rel="start" href="index.html#Top">
+<link rel="up" href="Renaming-Files-with-gnatchop.html#Renaming-Files-with-gnatchop" title="Renaming Files with gnatchop">
+<link rel="prev" href="Handling-Files-with-Multiple-Units.html#Handling-Files-with-Multiple-Units" title="Handling Files with Multiple Units">
+<link rel="next" href="Command-Line-for-gnatchop.html#Command-Line-for-gnatchop" title="Command Line for gnatchop">
+<link href="http://www.gnu.org/software/texinfo/" rel="generator-home" title="Texinfo Homepage">
+<!--
+
+     GNAT User's Guide for Native Platforms , March 24, 2015
+
+     AdaCore
+
+     Copyright (C) 2008-2015, Free Software Foundation
+-->
+<meta http-equiv="Content-Style-Type" content="text/css">
+<style type="text/css"><!--
+  pre.display { font-family:inherit }
+  pre.format  { font-family:inherit }
+  pre.smalldisplay { font-family:inherit; font-size:smaller }
+  pre.smallformat  { font-family:inherit; font-size:smaller }
+  pre.smallexample { font-size:smaller }
+  pre.smalllisp    { font-size:smaller }
+  span.sc    { font-variant:small-caps }
+  span.roman { font-family:serif; font-weight:normal; } 
+  span.sansserif { font-family:sans-serif; font-weight:normal; } 
+--></style>
+</head>
+<body>
+<div class="node">
+<a name="Operating-gnatchop-in-Compilation-Mode"></a>
+<p>
+Next:&nbsp;<a rel="next" accesskey="n" href="Command-Line-for-gnatchop.html#Command-Line-for-gnatchop">Command Line for gnatchop</a>,
+Previous:&nbsp;<a rel="previous" accesskey="p" href="Handling-Files-with-Multiple-Units.html#Handling-Files-with-Multiple-Units">Handling Files with Multiple Units</a>,
+Up:&nbsp;<a rel="up" accesskey="u" href="Renaming-Files-with-gnatchop.html#Renaming-Files-with-gnatchop">Renaming Files with gnatchop</a>
+<hr>
+</div>
+
+<p><a name="gnat_005fugn_002fthe_005fgnat_005fcompilation_005fmodel-operating_002dgnatchop_002din_002dcompilation_002dmode"></a><a name="g_t71"></a><a name="gnat_005fugn_002fthe_005fgnat_005fcompilation_005fmodel-id24"></a><a name="g_t72"></a>
+
+<h5 class="subsubsection">3.3.6.2 Operating gnatchop in Compilation Mode</h5>
+
+<p>The basic function of <cite>gnatchop</cite> is to take a file with multiple units
+and split it into separate files. The boundary between files is reasonably
+clear, except for the issue of comments and pragmas. In default mode, the
+rule is that any pragmas between units belong to the previous unit, except
+that configuration pragmas always belong to the following unit. Any comments
+belong to the following unit. These rules
+almost always result in the right choice of
+the split point without needing to mark it explicitly and most users will
+find this default to be what they want. In this default mode it is incorrect to
+submit a file containing only configuration pragmas, or one that ends in
+configuration pragmas, to <cite>gnatchop</cite>.
+
+<p>However, using a special option to activate 'compilation mode',
+<cite>gnatchop</cite>
+can perform another function, which is to provide exactly the semantics
+required by the RM for handling of configuration pragmas in a compilation. 
+In the absence of configuration pragmas (at the main file level), this
+option has no effect, but it causes such configuration pragmas to be handled
+in a quite different manner.
+
+<p>First, in compilation mode, if <cite>gnatchop</cite> is given a file that consists of
+only configuration pragmas, then this file is appended to the
+<code>gnat.adc</code> file in the current directory. This behavior provides
+the required behavior described in the RM for the actions to be taken
+on submitting such a file to the compiler, namely that these pragmas
+should apply to all subsequent compilations in the same compilation
+environment. Using GNAT, the current directory, possibly containing a
+<code>gnat.adc</code> file is the representation
+of a compilation environment. For more information on the
+<code>gnat.adc</code> file, see <a href="58.html#g_t58">Handling of Configuration Pragmas</a>.
+
+<p>Second, in compilation mode, if <cite>gnatchop</cite>
+is given a file that starts with
+configuration pragmas, and contains one or more units, then these
+configuration pragmas are prepended to each of the chopped files. This
+behavior provides the required behavior described in the RM for the
+actions to be taken on compiling such a file, namely that the pragmas
+apply to all units in the compilation, but not to subsequently compiled
+units.
+
+<p>Finally, if configuration pragmas appear between units, they are appended
+to the previous unit. This results in the previous unit being illegal,
+since the compiler does not accept configuration pragmas that follow
+a unit. This provides the required RM behavior that forbids configuration
+pragmas other than those preceding the first compilation unit of a
+compilation.
+
+<p>For most purposes, <cite>gnatchop</cite> will be used in default mode. The
+compilation mode described above is used only if you need exactly
+accurate behavior with respect to compilations, and you have files
+that contain multiple units and configuration pragmas. In this
+circumstance the use of <cite>gnatchop</cite> with the compilation mode
+switch provides the required behavior, and is for example the mode
+in which GNAT processes the ACVC tests.
+
+</body></html>
+

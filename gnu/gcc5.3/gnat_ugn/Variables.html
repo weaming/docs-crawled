@@ -1,0 +1,114 @@
+<html lang="en">
+<head>
+<title>Variables - GNAT User's Guide for Native Platforms</title>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+<meta name="description" content="GNAT User's Guide for Native Platforms">
+<meta name="generator" content="makeinfo 4.13">
+<link title="Top" rel="start" href="index.html#Top">
+<link rel="up" href="Project-File-Reference.html#Project-File-Reference" title="Project File Reference">
+<link rel="prev" href="Typed-String-Declaration.html#Typed-String-Declaration" title="Typed String Declaration">
+<link rel="next" href="Case-Constructions.html#Case-Constructions" title="Case Constructions">
+<link href="http://www.gnu.org/software/texinfo/" rel="generator-home" title="Texinfo Homepage">
+<!--
+
+     GNAT User's Guide for Native Platforms , March 24, 2015
+
+     AdaCore
+
+     Copyright (C) 2008-2015, Free Software Foundation
+-->
+<meta http-equiv="Content-Style-Type" content="text/css">
+<style type="text/css"><!--
+  pre.display { font-family:inherit }
+  pre.format  { font-family:inherit }
+  pre.smalldisplay { font-family:inherit; font-size:smaller }
+  pre.smallformat  { font-family:inherit; font-size:smaller }
+  pre.smallexample { font-size:smaller }
+  pre.smalllisp    { font-size:smaller }
+  span.sc    { font-variant:small-caps }
+  span.roman { font-family:serif; font-weight:normal; } 
+  span.sansserif { font-family:sans-serif; font-weight:normal; } 
+--></style>
+</head>
+<body>
+<div class="node">
+<a name="Variables"></a>
+<p>
+Next:&nbsp;<a rel="next" accesskey="n" href="Case-Constructions.html#Case-Constructions">Case Constructions</a>,
+Previous:&nbsp;<a rel="previous" accesskey="p" href="Typed-String-Declaration.html#Typed-String-Declaration">Typed String Declaration</a>,
+Up:&nbsp;<a rel="up" accesskey="u" href="Project-File-Reference.html#Project-File-Reference">Project File Reference</a>
+<hr>
+</div>
+
+<p><a name="gnat_005fugn_002fgnat_005fproject_005fmanager-variables"></a><a name="g_t155"></a><a name="gnat_005fugn_002fgnat_005fproject_005fmanager-id45"></a><a name="g_t1a1"></a>
+
+<h4 class="subsection">5.9.8 Variables</h4>
+
+<p>`Variables' store values (strings or list of strings) and can appear
+as part of an expression. The declaration of a variable creates the
+variable and assigns the value of the expression to it. The name of the
+variable is available immediately after the assignment symbol, if you
+need to reuse its old value to compute the new value. Before the completion
+of its first declaration, the value of a variable defaults to the empty
+string ("").
+
+<p>A `typed' variable can be used as part of a `case' expression to
+compute the value, but it can only be declared once in the project file,
+so that all case constructions see the same value for the variable. This
+provides more consistency and makes the project easier to understand. 
+The syntax for its declaration is identical to the Ada syntax for an
+object declaration. In effect, a typed variable acts as a constant.
+
+<p>An `untyped' variable can be declared and overridden multiple times
+within the same project. It is declared implicitly through an Ada
+assignment. The first declaration establishes the kind of the variable
+(string or list of strings) and successive declarations must respect
+the initial kind. Assignments are executed in the order in which they
+appear, so the new value replaces the old one and any subsequent reference
+to the variable uses the new value.
+
+<p>A variable may be declared at the project file level, or within a package.
+
+<pre class="example">    typed_variable_declaration ::=
+      *&lt;typed_variable_&gt;*simple_name : *&lt;typed_string_&gt;*name := string_expression;
+    
+    variable_declaration ::= *&lt;variable_&gt;*simple_name := expression;
+</pre>
+<p>Here are some examples of variable declarations:
+
+<pre class="example">    This_OS : OS := external ("OS"); --  a typed variable declaration
+    That_OS := "GNU/Linux";          --  an untyped variable declaration
+    
+    Name      := "readme.txt";
+    Save_Name := Name &amp; ".saved";
+    
+    Empty_List := ();
+    List_With_One_Element := ("-gnaty");
+    List_With_Two_Elements := List_With_One_Element &amp; "-gnatg";
+    Long_List := ("main.ada", "pack1_.ada", "pack1.ada", "pack2_.ada");
+</pre>
+<p>A `variable reference' may take several forms:
+
+     <ul>
+<li>The simple variable name, for a variable in the current package (if any)
+or in the current project
+
+     <li>An expanded name, whose prefix is a context name. 
+</ul>
+
+<p>A `context' may be one of the following:
+
+     <ul>
+<li>The name of an existing package in the current project
+
+     <li>The name of an imported project of the current project
+
+     <li>The name of an ancestor project (i.e., a project extended by the current
+project, either directly or indirectly)
+
+     <li>An expanded name whose prefix is an imported/parent project name, and
+whose selector is a package name in that project. 
+</ul>
+
+</body></html>
+

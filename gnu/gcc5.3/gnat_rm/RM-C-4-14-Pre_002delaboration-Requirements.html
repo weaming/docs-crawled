@@ -1,0 +1,60 @@
+<html lang="en">
+<head>
+<title>RM C 4 14 Pre-elaboration Requirements - GNAT Reference Manual</title>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+<meta name="description" content="GNAT Reference Manual">
+<meta name="generator" content="makeinfo 4.13">
+<link title="Top" rel="start" href="index.html#Top">
+<link rel="up" href="Implementation-Advice.html#Implementation-Advice" title="Implementation Advice">
+<link rel="prev" href="RM-C-3-2-25-Package-Interrupts.html#RM-C-3-2-25-Package-Interrupts" title="RM C 3 2 25 Package Interrupts">
+<link rel="next" href="RM-C-5-8-Pragma-Discard_005fNames.html#RM-C-5-8-Pragma-Discard_005fNames" title="RM C 5 8 Pragma Discard_Names">
+<link href="http://www.gnu.org/software/texinfo/" rel="generator-home" title="Texinfo Homepage">
+<!--
+
+     GNAT Reference Manual , March 24, 2015
+
+     AdaCore
+
+     Copyright (C) 2008-2015, Free Software Foundation
+-->
+<meta http-equiv="Content-Style-Type" content="text/css">
+<style type="text/css"><!--
+  pre.display { font-family:inherit }
+  pre.format  { font-family:inherit }
+  pre.smalldisplay { font-family:inherit; font-size:smaller }
+  pre.smallformat  { font-family:inherit; font-size:smaller }
+  pre.smallexample { font-size:smaller }
+  pre.smalllisp    { font-size:smaller }
+  span.sc    { font-variant:small-caps }
+  span.roman { font-family:serif; font-weight:normal; } 
+  span.sansserif { font-family:sans-serif; font-weight:normal; } 
+--></style>
+</head>
+<body>
+<div class="node">
+<a name="RM-C-4-14-Pre-elaboration-Requirements"></a>
+<a name="RM-C-4-14-Pre_002delaboration-Requirements"></a>
+<p>
+Next:&nbsp;<a rel="next" accesskey="n" href="RM-C-5-8-Pragma-Discard_005fNames.html#RM-C-5-8-Pragma-Discard_005fNames">RM C 5 8 Pragma Discard_Names</a>,
+Previous:&nbsp;<a rel="previous" accesskey="p" href="RM-C-3-2-25-Package-Interrupts.html#RM-C-3-2-25-Package-Interrupts">RM C 3 2 25 Package Interrupts</a>,
+Up:&nbsp;<a rel="up" accesskey="u" href="Implementation-Advice.html#Implementation-Advice">Implementation Advice</a>
+<hr>
+</div>
+
+<p><a name="gnat_005frm_002fimplementation_005fadvice-rm_002dc_002d4_002d14_002dpre_002delaboration_002drequirements"></a><a name="g_t1ec"></a>
+
+<h3 class="section">6.48 RM C.4(14): Pre-elaboration Requirements</h3>
+
+<blockquote>
+
+<p>"It is recommended that pre-elaborated packages be implemented in such a
+way that there should be little or no code executed at run time for the
+elaboration of entities not already covered by the Implementation
+Requirements." 
+</blockquote>
+
+<p>Followed.  Executable code is generated in some cases, e.g., loops
+to initialize large arrays.
+
+</body></html>
+

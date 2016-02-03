@@ -1,0 +1,90 @@
+<html lang="en">
+<head>
+<title>Binding with gnatbind - GNAT User's Guide for Native Platforms</title>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+<meta name="description" content="GNAT User's Guide for Native Platforms">
+<meta name="generator" content="makeinfo 4.13">
+<link title="Top" rel="start" href="index.html#Top">
+<link rel="up" href="Building-Executable-Programs-with-GNAT.html#Building-Executable-Programs-with-GNAT" title="Building Executable Programs with GNAT">
+<link rel="prev" href="Compiler-Switches.html#Compiler-Switches" title="Compiler Switches">
+<link rel="next" href="Linking-with-gnatlink.html#Linking-with-gnatlink" title="Linking with gnatlink">
+<link href="http://www.gnu.org/software/texinfo/" rel="generator-home" title="Texinfo Homepage">
+<!--
+
+     GNAT User's Guide for Native Platforms , March 24, 2015
+
+     AdaCore
+
+     Copyright (C) 2008-2015, Free Software Foundation
+-->
+<meta http-equiv="Content-Style-Type" content="text/css">
+<style type="text/css"><!--
+  pre.display { font-family:inherit }
+  pre.format  { font-family:inherit }
+  pre.smalldisplay { font-family:inherit; font-size:smaller }
+  pre.smallformat  { font-family:inherit; font-size:smaller }
+  pre.smallexample { font-size:smaller }
+  pre.smalllisp    { font-size:smaller }
+  span.sc    { font-variant:small-caps }
+  span.roman { font-family:serif; font-weight:normal; } 
+  span.sansserif { font-family:sans-serif; font-weight:normal; } 
+--></style>
+</head>
+<body>
+<div class="node">
+<a name="Binding-with-gnatbind"></a>
+<p>
+Next:&nbsp;<a rel="next" accesskey="n" href="Linking-with-gnatlink.html#Linking-with-gnatlink">Linking with gnatlink</a>,
+Previous:&nbsp;<a rel="previous" accesskey="p" href="Compiler-Switches.html#Compiler-Switches">Compiler Switches</a>,
+Up:&nbsp;<a rel="up" accesskey="u" href="Building-Executable-Programs-with-GNAT.html#Building-Executable-Programs-with-GNAT">Building Executable Programs with GNAT</a>
+<hr>
+</div>
+
+<p><a name="gnat_005fugn_002fbuilding_005fexecutable_005fprograms_005fwith_005fgnat-binding_002dwith_002dgnatbind"></a><a name="g_t1f"></a><a name="gnat_005fugn_002fbuilding_005fexecutable_005fprograms_005fwith_005fgnat-id31"></a><a name="g_t11e"></a>
+
+<h3 class="section">4.4 Binding with <cite>gnatbind</cite></h3>
+
+<p><a name="index-gnatbind-655"></a>
+This chapter describes the GNAT binder, <cite>gnatbind</cite>, which is used
+to bind compiled GNAT objects.
+
+<p>Note: to invoke <cite>gnatbind</cite> with a project file, use the <cite>gnat</cite>
+driver (see <a href="11f.html#g_t11f">The GNAT Driver and Project Files</a>).
+
+<p>The <cite>gnatbind</cite> program performs four separate functions:
+
+     <ul>
+<li>Checks that a program is consistent, in accordance with the rules in
+Chapter 10 of the Ada Reference Manual. In particular, error
+messages are generated if a program uses inconsistent versions of a
+given unit.
+
+     <li>Checks that an acceptable order of elaboration exists for the program
+and issues an error message if it cannot find an order of elaboration
+that satisfies the rules in Chapter 10 of the Ada Language Manual.
+
+     <li>Generates a main program incorporating the given elaboration order. 
+This program is a small Ada package (body and spec) that
+must be subsequently compiled
+using the GNAT compiler. The necessary compilation step is usually
+performed automatically by `gnatlink'. The two most important
+functions of this program
+are to call the elaboration routines of units in an appropriate order
+and to call the main program.
+
+     <li>Determines the set of object files required by the given main program. 
+This information is output in the forms of comments in the generated program,
+to be read by the `gnatlink' utility used to link the Ada application. 
+</ul>
+
+<ul class="menu">
+<li><a accesskey="1" href="Running-gnatbind.html#Running-gnatbind">Running gnatbind</a>
+<li><a accesskey="2" href="Switches-for-gnatbind.html#Switches-for-gnatbind">Switches for gnatbind</a>
+<li><a accesskey="3" href="Command_002dLine-Access.html#Command_002dLine-Access">Command-Line Access</a>
+<li><a accesskey="4" href="Search-Paths-for-gnatbind.html#Search-Paths-for-gnatbind">Search Paths for gnatbind</a>
+<li><a accesskey="5" href="Examples-of-gnatbind-Usage.html#Examples-of-gnatbind-Usage">Examples of gnatbind Usage</a>
+
+</ul>
+
+</body></html>
+

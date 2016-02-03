@@ -1,0 +1,77 @@
+<html lang="en">
+<head>
+<title>Attribute Enum_Rep - GNAT Reference Manual</title>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+<meta name="description" content="GNAT Reference Manual">
+<meta name="generator" content="makeinfo 4.13">
+<link title="Top" rel="start" href="index.html#Top">
+<link rel="up" href="Implementation-Defined-Attributes.html#Implementation-Defined-Attributes" title="Implementation Defined Attributes">
+<link rel="prev" href="Attribute-Enabled.html#Attribute-Enabled" title="Attribute Enabled">
+<link rel="next" href="Attribute-Enum_005fVal.html#Attribute-Enum_005fVal" title="Attribute Enum_Val">
+<link href="http://www.gnu.org/software/texinfo/" rel="generator-home" title="Texinfo Homepage">
+<!--
+
+     GNAT Reference Manual , March 24, 2015
+
+     AdaCore
+
+     Copyright (C) 2008-2015, Free Software Foundation
+-->
+<meta http-equiv="Content-Style-Type" content="text/css">
+<style type="text/css"><!--
+  pre.display { font-family:inherit }
+  pre.format  { font-family:inherit }
+  pre.smalldisplay { font-family:inherit; font-size:smaller }
+  pre.smallformat  { font-family:inherit; font-size:smaller }
+  pre.smallexample { font-size:smaller }
+  pre.smalllisp    { font-size:smaller }
+  span.sc    { font-variant:small-caps }
+  span.roman { font-family:serif; font-weight:normal; } 
+  span.sansserif { font-family:sans-serif; font-weight:normal; } 
+--></style>
+</head>
+<body>
+<div class="node">
+<a name="Attribute-Enum_Rep"></a>
+<a name="Attribute-Enum_005fRep"></a>
+<p>
+Next:&nbsp;<a rel="next" accesskey="n" href="Attribute-Enum_005fVal.html#Attribute-Enum_005fVal">Attribute Enum_Val</a>,
+Previous:&nbsp;<a rel="previous" accesskey="p" href="Attribute-Enabled.html#Attribute-Enabled">Attribute Enabled</a>,
+Up:&nbsp;<a rel="up" accesskey="u" href="Implementation-Defined-Attributes.html#Implementation-Defined-Attributes">Implementation Defined Attributes</a>
+<hr>
+</div>
+
+<p><a name="gnat_005frm_002fimplementation_005fdefined_005fattributes-attribute_002denum_002drep"></a><a name="g_t12c"></a>
+
+<h3 class="section">4.21 Attribute Enum_Rep</h3>
+
+<p><a name="index-Representation-of-enums-188"></a>
+<a name="index-Enum_005fRep-189"></a>
+For every enumeration subtype <cite>S</cite>, <code>S'Enum_Rep</code> denotes a
+function with the following spec:
+
+<pre class="example">    function S'Enum_Rep (Arg : S'Base) return &lt;Universal_Integer&gt;;
+</pre>
+<p>It is also allowable to apply <cite>Enum_Rep</cite> directly to an object of an
+enumeration type or to a non-overloaded enumeration
+literal.  In this case <code>S'Enum_Rep</code> is equivalent to
+<code>typ'Enum_Rep(S)</code> where <cite>typ</cite> is the type of the
+enumeration literal or object.
+
+<p>The function returns the representation value for the given enumeration
+value.  This will be equal to value of the <cite>Pos</cite> attribute in the
+absence of an enumeration representation clause.  This is a static
+attribute (i.e.,:the result is static if the argument is static).
+
+<p><code>S'Enum_Rep</code> can also be used with integer types and objects,
+in which case it simply returns the integer value.  The reason for this
+is to allow it to be used for <cite>(&lt;&gt;)</cite> discrete formal arguments in
+a generic unit that can be instantiated with either enumeration types
+or integer types.  Note that if <cite>Enum_Rep</cite> is used on a modular
+type whose upper bound exceeds the upper bound of the largest signed
+integer type, and the argument is a variable, so that the universal
+integer calculation is done at run time, then the call to <cite>Enum_Rep</cite>
+may raise <cite>Constraint_Error</cite>.
+
+</body></html>
+

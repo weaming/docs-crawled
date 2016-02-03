@@ -1,0 +1,94 @@
+<html lang="en">
+<head>
+<title>Building all main programs from a single project tree - GNAT User's Guide for Native Platforms</title>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+<meta name="description" content="GNAT User's Guide for Native Platforms">
+<meta name="generator" content="makeinfo 4.13">
+<link title="Top" rel="start" href="index.html#Top">
+<link rel="up" href="Aggregate-Projects.html#Aggregate-Projects" title="Aggregate Projects">
+<link rel="next" href="Building-a-set-of-projects-with-a-single-command.html#Building-a-set-of-projects-with-a-single-command" title="Building a set of projects with a single command">
+<link href="http://www.gnu.org/software/texinfo/" rel="generator-home" title="Texinfo Homepage">
+<!--
+
+     GNAT User's Guide for Native Platforms , March 24, 2015
+
+     AdaCore
+
+     Copyright (C) 2008-2015, Free Software Foundation
+-->
+<meta http-equiv="Content-Style-Type" content="text/css">
+<style type="text/css"><!--
+  pre.display { font-family:inherit }
+  pre.format  { font-family:inherit }
+  pre.smalldisplay { font-family:inherit; font-size:smaller }
+  pre.smallformat  { font-family:inherit; font-size:smaller }
+  pre.smallexample { font-size:smaller }
+  pre.smalllisp    { font-size:smaller }
+  span.sc    { font-variant:small-caps }
+  span.roman { font-family:serif; font-weight:normal; } 
+  span.sansserif { font-family:sans-serif; font-weight:normal; } 
+--></style>
+</head>
+<body>
+<div class="node">
+<a name="Building-all-main-programs-from-a-single-project-tree"></a>
+<p>
+Next:&nbsp;<a rel="next" accesskey="n" href="Building-a-set-of-projects-with-a-single-command.html#Building-a-set-of-projects-with-a-single-command">Building a set of projects with a single command</a>,
+Up:&nbsp;<a rel="up" accesskey="u" href="Aggregate-Projects.html#Aggregate-Projects">Aggregate Projects</a>
+<hr>
+</div>
+
+<p><a name="gnat_005fugn_002fgnat_005fproject_005fmanager-id28"></a><a name="g_t182"></a><a name="gnat_005fugn_002fgnat_005fproject_005fmanager-building_002dall_002dmain_002dprograms_002dfrom_002da_002dsingle_002dproject_002dtree"></a><a name="g_t183"></a>
+
+<h4 class="subsection">5.7.1 Building all main programs from a single project tree</h4>
+
+<p>Most often, an application is organized into modules and submodules,
+which are very conveniently represented as a project tree or graph
+(the root project A `with's the projects for each modules (say B and C),
+which in turn `with' projects for submodules.
+
+<p>Very often, modules will build their own executables (for testing
+purposes for instance), or libraries (for easier reuse in various
+contexts).
+
+<p>However, if you build your project through `gnatmake' or
+`gprbuild', using a syntax similar to
+
+<pre class="example">    gprbuild -PA.gpr
+</pre>
+<p>this will only rebuild the main programs of project A, not those of the
+imported projects B and C. Therefore you have to spawn several
+`gnatmake' commands, one per project, to build all executables. 
+This is a little inconvenient, but more importantly is inefficient
+because `gnatmake' needs to do duplicate work to ensure that sources are
+up-to-date, and cannot easily compile things in parallel when using
+the -j switch.
+
+<p>Also libraries are always rebuilt when building a project.
+
+<p>You could therefore define an aggregate project Agg that groups A, B
+and C. Then, when you build with
+
+<pre class="example">    gprbuild -PAgg.gpr
+</pre>
+<p>this will build all mains from A, B and C.
+
+<pre class="example">    aggregate project Agg is
+       for Project_Files use ("a.gpr", "b.gpr", "c.gpr");
+    end Agg;
+</pre>
+<p>If B or C do not define any main program (through their Main
+attribute), all their sources are built. When you do not group them
+in the aggregate project, only those sources that are needed by A
+will be built.
+
+<p>If you add a main to a project P not already explicitly referenced in the
+aggregate project, you will need to add "p.gpr" in the list of project
+files for the aggregate project, or the main will not be built when
+building the aggregate project.
+
+<p>Aggregate projects are supported only with `gprbuild', not with
+`gnatmake'.
+
+</body></html>
+

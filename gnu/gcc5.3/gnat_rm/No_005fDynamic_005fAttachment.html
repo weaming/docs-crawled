@@ -1,0 +1,61 @@
+<html lang="en">
+<head>
+<title>No_Dynamic_Attachment - GNAT Reference Manual</title>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+<meta name="description" content="GNAT Reference Manual">
+<meta name="generator" content="makeinfo 4.13">
+<link title="Top" rel="start" href="index.html#Top">
+<link rel="up" href="Partition_002dWide-Restrictions.html#Partition_002dWide-Restrictions" title="Partition-Wide Restrictions">
+<link rel="prev" href="No_005fDispatching_005fCalls.html#No_005fDispatching_005fCalls" title="No_Dispatching_Calls">
+<link rel="next" href="No_005fDynamic_005fPriorities.html#No_005fDynamic_005fPriorities" title="No_Dynamic_Priorities">
+<link href="http://www.gnu.org/software/texinfo/" rel="generator-home" title="Texinfo Homepage">
+<!--
+
+     GNAT Reference Manual , March 24, 2015
+
+     AdaCore
+
+     Copyright (C) 2008-2015, Free Software Foundation
+-->
+<meta http-equiv="Content-Style-Type" content="text/css">
+<style type="text/css"><!--
+  pre.display { font-family:inherit }
+  pre.format  { font-family:inherit }
+  pre.smalldisplay { font-family:inherit; font-size:smaller }
+  pre.smallformat  { font-family:inherit; font-size:smaller }
+  pre.smallexample { font-size:smaller }
+  pre.smalllisp    { font-size:smaller }
+  span.sc    { font-variant:small-caps }
+  span.roman { font-family:serif; font-weight:normal; } 
+  span.sansserif { font-family:sans-serif; font-weight:normal; } 
+--></style>
+</head>
+<body>
+<div class="node">
+<a name="No_Dynamic_Attachment"></a>
+<a name="No_005fDynamic_005fAttachment"></a>
+<p>
+Next:&nbsp;<a rel="next" accesskey="n" href="No_005fDynamic_005fPriorities.html#No_005fDynamic_005fPriorities">No_Dynamic_Priorities</a>,
+Previous:&nbsp;<a rel="previous" accesskey="p" href="No_005fDispatching_005fCalls.html#No_005fDispatching_005fCalls">No_Dispatching_Calls</a>,
+Up:&nbsp;<a rel="up" accesskey="u" href="Partition_002dWide-Restrictions.html#Partition_002dWide-Restrictions">Partition-Wide Restrictions</a>
+<hr>
+</div>
+
+<p><a name="gnat_005frm_002fstandard_005fand_005fimplementation_005fdefined_005frestrictions-no_002ddynamic_002dattachment"></a><a name="g_t17c"></a>
+
+<h4 class="subsection">5.1.22 No_Dynamic_Attachment</h4>
+
+<p><a name="index-No_005fDynamic_005fAttachment-307"></a>
+[RM D.7] This restriction ensures that there is no call to any of the
+operations defined in package Ada.Interrupts
+(Is_Reserved, Is_Attached, Current_Handler, Attach_Handler, Exchange_Handler,
+Detach_Handler, and Reference).
+
+<p><a name="index-No_005fDynamic_005fInterrupts-308"></a>
+The restriction <cite>No_Dynamic_Interrupts</cite> is recognized as a
+synonym for <cite>No_Dynamic_Attachment</cite>. This is retained for historical
+compatibility purposes (and a warning will be generated for its use if
+warnings on obsolescent features are activated).
+
+</body></html>
+

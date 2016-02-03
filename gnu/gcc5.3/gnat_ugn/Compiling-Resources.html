@@ -1,0 +1,79 @@
+<html lang="en">
+<head>
+<title>Compiling Resources - GNAT User's Guide for Native Platforms</title>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+<meta name="description" content="GNAT User's Guide for Native Platforms">
+<meta name="generator" content="makeinfo 4.13">
+<link title="Top" rel="start" href="index.html#Top">
+<link rel="up" href="GNAT-and-Windows-Resources.html#GNAT-and-Windows-Resources" title="GNAT and Windows Resources">
+<link rel="prev" href="Building-Resources.html#Building-Resources" title="Building Resources">
+<link rel="next" href="Using-Resources.html#Using-Resources" title="Using Resources">
+<link href="http://www.gnu.org/software/texinfo/" rel="generator-home" title="Texinfo Homepage">
+<!--
+
+     GNAT User's Guide for Native Platforms , March 24, 2015
+
+     AdaCore
+
+     Copyright (C) 2008-2015, Free Software Foundation
+-->
+<meta http-equiv="Content-Style-Type" content="text/css">
+<style type="text/css"><!--
+  pre.display { font-family:inherit }
+  pre.format  { font-family:inherit }
+  pre.smalldisplay { font-family:inherit; font-size:smaller }
+  pre.smallformat  { font-family:inherit; font-size:smaller }
+  pre.smallexample { font-size:smaller }
+  pre.smalllisp    { font-size:smaller }
+  span.sc    { font-variant:small-caps }
+  span.roman { font-family:serif; font-weight:normal; } 
+  span.sansserif { font-family:sans-serif; font-weight:normal; } 
+--></style>
+</head>
+<body>
+<div class="node">
+<a name="Compiling-Resources"></a>
+<p>
+Next:&nbsp;<a rel="next" accesskey="n" href="Using-Resources.html#Using-Resources">Using Resources</a>,
+Previous:&nbsp;<a rel="previous" accesskey="p" href="Building-Resources.html#Building-Resources">Building Resources</a>,
+Up:&nbsp;<a rel="up" accesskey="u" href="GNAT-and-Windows-Resources.html#GNAT-and-Windows-Resources">GNAT and Windows Resources</a>
+<hr>
+</div>
+
+<p><a name="gnat_005fugn_002fplatform_005fspecific_005finformation-compiling_002dresources"></a><a name="g_t29e"></a><a name="gnat_005fugn_002fplatform_005fspecific_005finformation-id35"></a><a name="g_t29f"></a>
+
+<h5 class="subsubsection">9.3.5.22 Compiling Resources</h5>
+
+<p><a name="index-rc-1128"></a>
+<a name="index-windres-1129"></a>
+<a name="index-Resources-1130"></a><a name="index-compiling-1131"></a>
+This section describes how to build a GNAT-compatible (COFF) object file
+containing the resources. This is done using the Resource Compiler
+<cite>windres</cite> as follows:
+
+<blockquote>
+
+<pre class="example">    $ windres -i myres.rc -o myres.o
+</pre>
+</blockquote>
+
+<p>By default <cite>windres</cite> will run `gcc' to preprocess the <code>.rc</code>
+file. You can specify an alternate preprocessor (usually named
+<code>cpp.exe</code>) using the <cite>windres</cite> `&ndash;preprocessor'
+parameter. A list of all possible options may be obtained by entering
+the command <cite>windres</cite> `&ndash;help'.
+
+<p>It is also possible to use the Microsoft resource compiler <cite>rc.exe</cite>
+to produce a <code>.res</code> file (binary resource file). See the
+corresponding Microsoft documentation for further details. In this case
+you need to use <cite>windres</cite> to translate the <code>.res</code> file to a
+GNAT-compatible object file as follows:
+
+<blockquote>
+
+<pre class="example">    $ windres -i myres.res -o myres.o
+</pre>
+</blockquote>
+
+</body></html>
+

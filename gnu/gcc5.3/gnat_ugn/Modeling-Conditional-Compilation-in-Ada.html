@@ -1,0 +1,86 @@
+<html lang="en">
+<head>
+<title>Modeling Conditional Compilation in Ada - GNAT User's Guide for Native Platforms</title>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+<meta name="description" content="GNAT User's Guide for Native Platforms">
+<meta name="generator" content="makeinfo 4.13">
+<link title="Top" rel="start" href="index.html#Top">
+<link rel="up" href="Conditional-Compilation.html#Conditional-Compilation" title="Conditional Compilation">
+<link rel="next" href="Preprocessing-with-gnatprep.html#Preprocessing-with-gnatprep" title="Preprocessing with gnatprep">
+<link href="http://www.gnu.org/software/texinfo/" rel="generator-home" title="Texinfo Homepage">
+<!--
+
+     GNAT User's Guide for Native Platforms , March 24, 2015
+
+     AdaCore
+
+     Copyright (C) 2008-2015, Free Software Foundation
+-->
+<meta http-equiv="Content-Style-Type" content="text/css">
+<style type="text/css"><!--
+  pre.display { font-family:inherit }
+  pre.format  { font-family:inherit }
+  pre.smalldisplay { font-family:inherit; font-size:smaller }
+  pre.smallformat  { font-family:inherit; font-size:smaller }
+  pre.smallexample { font-size:smaller }
+  pre.smalllisp    { font-size:smaller }
+  span.sc    { font-variant:small-caps }
+  span.roman { font-family:serif; font-weight:normal; } 
+  span.sansserif { font-family:sans-serif; font-weight:normal; } 
+--></style>
+</head>
+<body>
+<div class="node">
+<a name="Modeling-Conditional-Compilation-in-Ada"></a>
+<p>
+Next:&nbsp;<a rel="next" accesskey="n" href="Preprocessing-with-gnatprep.html#Preprocessing-with-gnatprep">Preprocessing with gnatprep</a>,
+Up:&nbsp;<a rel="up" accesskey="u" href="Conditional-Compilation.html#Conditional-Compilation">Conditional Compilation</a>
+<hr>
+</div>
+
+<p><a name="gnat_005fugn_002fthe_005fgnat_005fcompilation_005fmodel-modeling_002dconditional_002dcompilation_002din_002dada"></a><a name="g_t9f"></a><a name="gnat_005fugn_002fthe_005fgnat_005fcompilation_005fmodel-id48"></a><a name="a0"></a>
+
+<h4 class="subsection">3.10.1 Modeling Conditional Compilation in Ada</h4>
+
+<p>It is often necessary to arrange for a single source program
+to serve multiple purposes, where it is compiled in different
+ways to achieve these different goals. Some examples of the
+need for this feature are
+
+     <ul>
+<li>Adapting a program to a different hardware environment
+
+     <li>Adapting a program to a different target architecture
+
+     <li>Turning debugging features on and off
+
+     <li>Arranging for a program to compile with different compilers
+</ul>
+
+<p>In C, or C++, the typical approach would be to use the preprocessor
+that is defined as part of the language. The Ada language does not
+contain such a feature. This is not an oversight, but rather a very
+deliberate design decision, based on the experience that overuse of
+the preprocessing features in C and C++ can result in programs that
+are extremely difficult to maintain. For example, if we have ten
+switches that can be on or off, this means that there are a thousand
+separate programs, any one of which might not even be syntactically
+correct, and even if syntactically correct, the resulting program
+might not work correctly. Testing all combinations can quickly become
+impossible.
+
+<p>Nevertheless, the need to tailor programs certainly exists, and in
+this section we will discuss how this can
+be achieved using Ada in general, and GNAT in particular.
+
+<ul class="menu">
+<li><a accesskey="1" href="Use-of-Boolean-Constants.html#Use-of-Boolean-Constants">Use of Boolean Constants</a>
+<li><a accesskey="2" href="Debugging-_002d-A-Special-Case.html#Debugging-_002d-A-Special-Case">Debugging - A Special Case</a>
+<li><a accesskey="3" href="Conditionalizing-Declarations.html#Conditionalizing-Declarations">Conditionalizing Declarations</a>
+<li><a accesskey="4" href="Use-of-Alternative-Implementations.html#Use-of-Alternative-Implementations">Use of Alternative Implementations</a>
+<li><a accesskey="5" href="Preprocessing.html#Preprocessing">Preprocessing</a>
+
+</ul>
+
+</body></html>
+

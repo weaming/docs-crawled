@@ -1,0 +1,75 @@
+<html lang="en">
+<head>
+<title>Biased Representation - GNAT Reference Manual</title>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+<meta name="description" content="GNAT Reference Manual">
+<meta name="generator" content="makeinfo 4.13">
+<link title="Top" rel="start" href="index.html#Top">
+<link rel="up" href="Representation-Clauses-and-Pragmas.html#Representation-Clauses-and-Pragmas" title="Representation Clauses and Pragmas">
+<link rel="prev" href="Size-of-Variant-Record-Objects.html#Size-of-Variant-Record-Objects" title="Size of Variant Record Objects">
+<link rel="next" href="Value_005fSize-and-Object_005fSize-Clauses.html#Value_005fSize-and-Object_005fSize-Clauses" title="Value_Size and Object_Size Clauses">
+<link href="http://www.gnu.org/software/texinfo/" rel="generator-home" title="Texinfo Homepage">
+<!--
+
+     GNAT Reference Manual , March 24, 2015
+
+     AdaCore
+
+     Copyright (C) 2008-2015, Free Software Foundation
+-->
+<meta http-equiv="Content-Style-Type" content="text/css">
+<style type="text/css"><!--
+  pre.display { font-family:inherit }
+  pre.format  { font-family:inherit }
+  pre.smalldisplay { font-family:inherit; font-size:smaller }
+  pre.smallformat  { font-family:inherit; font-size:smaller }
+  pre.smallexample { font-size:smaller }
+  pre.smalllisp    { font-size:smaller }
+  span.sc    { font-variant:small-caps }
+  span.roman { font-family:serif; font-weight:normal; } 
+  span.sansserif { font-family:sans-serif; font-weight:normal; } 
+--></style>
+</head>
+<body>
+<div class="node">
+<a name="Biased-Representation"></a>
+<p>
+Next:&nbsp;<a rel="next" accesskey="n" href="Value_005fSize-and-Object_005fSize-Clauses.html#Value_005fSize-and-Object_005fSize-Clauses">Value_Size and Object_Size Clauses</a>,
+Previous:&nbsp;<a rel="previous" accesskey="p" href="Size-of-Variant-Record-Objects.html#Size-of-Variant-Record-Objects">Size of Variant Record Objects</a>,
+Up:&nbsp;<a rel="up" accesskey="u" href="Representation-Clauses-and-Pragmas.html#Representation-Clauses-and-Pragmas">Representation Clauses and Pragmas</a>
+<hr>
+</div>
+
+<p><a name="gnat_005frm_002frepresentation_005fclauses_005fand_005fpragmas-id6"></a><a name="g_t222"></a><a name="gnat_005frm_002frepresentation_005fclauses_005fand_005fpragmas-biased_002drepresentation"></a><a name="g_t223"></a>
+
+<h3 class="section">9.5 Biased Representation</h3>
+
+<p><a name="index-Size-for-biased-representation-491"></a>
+<a name="index-Biased-representation-492"></a>
+In the case of scalars with a range starting at other than zero, it is
+possible in some cases to specify a size smaller than the default minimum
+value, and in such cases, GNAT uses an unsigned biased representation,
+in which zero is used to represent the lower bound, and successive values
+represent successive values of the type.
+
+<p>For example, suppose we have the declaration:
+
+<pre class="example">    type Small is range -7 .. -4;
+    for Small'Size use 2;
+</pre>
+<p>Although the default size of type <cite>Small</cite> is 4, the <cite>Size</cite>
+clause is accepted by GNAT and results in the following representation
+scheme:
+
+<pre class="example">    -7 is represented as 2#00#
+    -6 is represented as 2#01#
+    -5 is represented as 2#10#
+    -4 is represented as 2#11#
+</pre>
+<p>Biased representation is only used if the specified <cite>Size</cite> clause
+cannot be accepted in any other manner.  These reduced sizes that force
+biased representation can be used for all discrete types except for
+enumeration types for which a representation clause is given.
+
+</body></html>
+

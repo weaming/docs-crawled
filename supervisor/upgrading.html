@@ -1,0 +1,162 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+  "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+
+
+<html xmlns="http://www.w3.org/1999/xhtml">
+  <head>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+    
+    <title>Upgrading Supervisor 2 to 3 &mdash; Supervisor 4.0.0.dev0 documentation</title>
+    
+    <link rel="stylesheet" href="_static/repoze.css" type="text/css" />
+    <link rel="stylesheet" href="_static/pygments.css" type="text/css" />
+    
+    <script type="text/javascript">
+      var DOCUMENTATION_OPTIONS = {
+        URL_ROOT:    './',
+        VERSION:     '4.0.0.dev0',
+        COLLAPSE_INDEX: false,
+        FILE_SUFFIX: '.html',
+        HAS_SOURCE:  true
+      };
+    </script>
+    <script type="text/javascript" src="_static/jquery.js"></script>
+    <script type="text/javascript" src="_static/underscore.js"></script>
+    <script type="text/javascript" src="_static/doctools.js"></script>
+    <link rel="top" title="Supervisor 4.0.0.dev0 documentation" href="index.html" />
+    <link rel="next" title="Frequently Asked Questions" href="faq.html" />
+    <link rel="prev" title="Extending Supervisor’s XML-RPC API" href="xmlrpc.html" />
+   
+  
+  <meta name="viewport" content="width=device-width, initial-scale=0.9, maximum-scale=0.9" />
+
+  </head>
+  <body role="document">  
+
+    <div class="document">
+      <div class="documentwrapper">
+        <div class="bodywrapper">
+          <div class="body" role="main">
+            
+  <div class="section" id="upgrading-supervisor-2-to-3">
+<h1>Upgrading Supervisor 2 to 3<a class="headerlink" href="#upgrading-supervisor-2-to-3" title="Permalink to this headline">¶</a></h1>
+<p>The following is true when upgrading an installation from Supervisor
+2.X to Supervisor 3.X:</p>
+<ol class="arabic">
+<li><p class="first">In <code class="docutils literal"><span class="pre">[program:x]</span></code> sections, the keys <code class="docutils literal"><span class="pre">logfile</span></code>,
+<code class="docutils literal"><span class="pre">logfile_backups</span></code>, <code class="docutils literal"><span class="pre">logfile_maxbytes</span></code>, <code class="docutils literal"><span class="pre">log_stderr</span></code> and
+<code class="docutils literal"><span class="pre">log_stdout</span></code> are no longer valid.  Supervisor2 logged both
+stderr and stdout to a single log file.  Supervisor 3 logs stderr
+and stdout to separate log files.  You&#8217;ll need to rename
+<code class="docutils literal"><span class="pre">logfile</span></code> to <code class="docutils literal"><span class="pre">stdout_logfile</span></code>, <code class="docutils literal"><span class="pre">logfile_backups</span></code> to
+<code class="docutils literal"><span class="pre">stdout_logfile_backups</span></code>, and <code class="docutils literal"><span class="pre">logfile_maxbytes</span></code> to
+<code class="docutils literal"><span class="pre">stdout_logfile_maxbytes</span></code> at the very least to preserve your
+configuration.  If you created program sections where
+<code class="docutils literal"><span class="pre">log_stderr</span></code> was true, to preserve the behavior of sending
+stderr output to the stdout log, use the <code class="docutils literal"><span class="pre">redirect_stderr</span></code>
+boolean in the program section instead.</p>
+</li>
+<li><p class="first">The supervisor configuration file must include the following
+section verbatim for the XML-RPC interface (and thus the web
+interface and <strong class="program">supervisorctl</strong>) to work properly:</p>
+<div class="highlight-ini"><div class="highlight"><pre><span class="k">[rpcinterface:supervisor]</span>
+<span class="na">supervisor.rpcinterface_factory</span> <span class="o">=</span> <span class="s">supervisor.rpcinterface:make_main_rpcinterface</span>
+</pre></div>
+</div>
+</li>
+<li><p class="first">The semantics of the <code class="docutils literal"><span class="pre">autorestart</span></code> parameter within
+<code class="docutils literal"><span class="pre">[program:x]</span></code> sections has changed.  This parameter used to
+accept only <code class="docutils literal"><span class="pre">true</span></code> or <code class="docutils literal"><span class="pre">false</span></code>.  It now accepts an additional
+value, <code class="docutils literal"><span class="pre">unexpected</span></code>, which indicates that the process should
+restart from the <code class="docutils literal"><span class="pre">EXITED</span></code> state only if its exit code does not
+match any of those represented by the <code class="docutils literal"><span class="pre">exitcode</span></code> parameter in
+the process&#8217; configuration (implying a process crash).  In
+addition, the default for <code class="docutils literal"><span class="pre">autorestart</span></code> is now <code class="docutils literal"><span class="pre">unexpected</span></code>
+(it used to be <code class="docutils literal"><span class="pre">true</span></code>, which meant restart unconditionally).</p>
+</li>
+<li><p class="first">We now allow <strong class="program">supervisord</strong> to listen on both a UNIX
+domain socket and an inet socket instead of making listening on
+one mutually exclusive with listening on the other.  As a result,
+the options <code class="docutils literal"><span class="pre">http_port</span></code>, <code class="docutils literal"><span class="pre">http_username</span></code>, <code class="docutils literal"><span class="pre">http_password</span></code>,
+<code class="docutils literal"><span class="pre">sockchmod</span></code> and <code class="docutils literal"><span class="pre">sockchown</span></code> are no longer part of
+the <code class="docutils literal"><span class="pre">[supervisord]</span></code> section configuration. These have been
+supplanted by two other sections: <code class="docutils literal"><span class="pre">[unix_http_server]</span></code> and
+<code class="docutils literal"><span class="pre">[inet_http_server]</span></code>.  You&#8217;ll need to insert one or the other
+(depending on whether you want to listen on a UNIX domain socket
+or a TCP socket respectively) or both into your
+<code class="file docutils literal"><span class="pre">supervisord.conf</span></code> file.  These sections have their own
+options (where applicable) for <code class="docutils literal"><span class="pre">port</span></code>, <code class="docutils literal"><span class="pre">username</span></code>,
+<code class="docutils literal"><span class="pre">password</span></code>, <code class="docutils literal"><span class="pre">chmod</span></code>, and <code class="docutils literal"><span class="pre">chown</span></code>.</p>
+</li>
+<li><p class="first">All supervisord command-line options related to <code class="docutils literal"><span class="pre">http_port</span></code>,
+<code class="docutils literal"><span class="pre">http_username</span></code>, <code class="docutils literal"><span class="pre">http_password</span></code>, <code class="docutils literal"><span class="pre">sockchmod</span></code> and
+<code class="docutils literal"><span class="pre">sockchown</span></code> have been removed (see above point for rationale).</p>
+</li>
+<li><p class="first">The option that used to be <code class="docutils literal"><span class="pre">sockchown</span></code> within the
+<code class="docutils literal"><span class="pre">[supervisord]</span></code> section (and is now named <code class="docutils literal"><span class="pre">chown</span></code> within the
+<code class="docutils literal"><span class="pre">[unix_http_server]</span></code> section) used to accept a dot-separated
+(<code class="docutils literal"><span class="pre">user.group</span></code>) value.  The separator now must be a
+colon, e.g. <code class="docutils literal"><span class="pre">user:group</span></code>.  Unices allow for dots in
+usernames, so this change is a bugfix.</p>
+</li>
+</ol>
+</div>
+
+
+          </div>
+        </div>
+      </div>
+      <div class="sphinxsidebar" role="navigation" aria-label="main navigation">
+        <div class="sphinxsidebarwrapper">
+            <p class="logo"><a href="index.html">
+              <img class="logo" src="_static/logo_hi.gif" alt="Logo"/>
+            </a></p><div class="relations">
+<h3>Related Topics</h3>
+<ul>
+  <li><a href="index.html">Documentation overview</a><ul>
+      <li>Previous: <a href="xmlrpc.html" title="previous chapter">Extending Supervisor&#8217;s XML-RPC API</a></li>
+      <li>Next: <a href="faq.html" title="next chapter">Frequently Asked Questions</a></li>
+  </ul></li>
+</ul>
+</div>
+  <div role="note" aria-label="source link">
+    <h3>This Page</h3>
+    <ul class="this-page-menu">
+      <li><a href="_sources/upgrading.txt"
+            rel="nofollow">Show Source</a></li>
+    </ul>
+   </div>
+<div id="searchbox" style="display: none" role="search">
+  <h3>Quick search</h3>
+    <form class="search" action="search.html" method="get">
+      <input type="text" name="q" />
+      <input type="submit" value="Go" />
+      <input type="hidden" name="check_keywords" value="yes" />
+      <input type="hidden" name="area" value="default" />
+    </form>
+    <p class="searchtip" style="font-size: 90%">
+    Enter search terms or a module, class or function name.
+    </p>
+</div>
+<script type="text/javascript">$('#searchbox').show(0);</script>
+        </div>
+      </div>
+      <div class="clearer"></div>
+    </div>
+    <div class="footer">
+      &copy;2004-2016, Agendaless Consulting and Contributors.
+      
+      |
+      Powered by <a href="http://sphinx-doc.org/">Sphinx 1.3.3</a>
+      &amp; <a href="https://github.com/bitprophet/alabaster">Alabaster 0.7.7</a>
+      
+      |
+      <a href="_sources/upgrading.txt"
+          rel="nofollow">Page source</a>
+    </div>
+
+    
+
+    
+  </body>
+</html>

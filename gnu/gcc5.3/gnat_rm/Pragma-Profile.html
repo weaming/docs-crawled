@@ -1,0 +1,229 @@
+<html lang="en">
+<head>
+<title>Pragma Profile - GNAT Reference Manual</title>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+<meta name="description" content="GNAT Reference Manual">
+<meta name="generator" content="makeinfo 4.13">
+<link title="Top" rel="start" href="index.html#Top">
+<link rel="up" href="Implementation-Defined-Pragmas.html#Implementation-Defined-Pragmas" title="Implementation Defined Pragmas">
+<link rel="prev" href="Pragma-Priority_005fSpecific_005fDispatching.html#Pragma-Priority_005fSpecific_005fDispatching" title="Pragma Priority_Specific_Dispatching">
+<link rel="next" href="Pragma-Profile_005fWarnings.html#Pragma-Profile_005fWarnings" title="Pragma Profile_Warnings">
+<link href="http://www.gnu.org/software/texinfo/" rel="generator-home" title="Texinfo Homepage">
+<!--
+
+     GNAT Reference Manual , March 24, 2015
+
+     AdaCore
+
+     Copyright (C) 2008-2015, Free Software Foundation
+-->
+<meta http-equiv="Content-Style-Type" content="text/css">
+<style type="text/css"><!--
+  pre.display { font-family:inherit }
+  pre.format  { font-family:inherit }
+  pre.smalldisplay { font-family:inherit; font-size:smaller }
+  pre.smallformat  { font-family:inherit; font-size:smaller }
+  pre.smallexample { font-size:smaller }
+  pre.smalllisp    { font-size:smaller }
+  span.sc    { font-variant:small-caps }
+  span.roman { font-family:serif; font-weight:normal; } 
+  span.sansserif { font-family:sans-serif; font-weight:normal; } 
+--></style>
+</head>
+<body>
+<div class="node">
+<a name="Pragma-Profile"></a>
+<p>
+Next:&nbsp;<a rel="next" accesskey="n" href="Pragma-Profile_005fWarnings.html#Pragma-Profile_005fWarnings">Pragma Profile_Warnings</a>,
+Previous:&nbsp;<a rel="previous" accesskey="p" href="Pragma-Priority_005fSpecific_005fDispatching.html#Pragma-Priority_005fSpecific_005fDispatching">Pragma Priority_Specific_Dispatching</a>,
+Up:&nbsp;<a rel="up" accesskey="u" href="Implementation-Defined-Pragmas.html#Implementation-Defined-Pragmas">Implementation Defined Pragmas</a>
+<hr>
+</div>
+
+<p><a name="gnat_005frm_002fimplementation_005fdefined_005fpragmas-pragma_002dprofile"></a><a name="a1"></a>
+
+<h3 class="section">2.133 Pragma Profile</h3>
+
+<p>Syntax:
+
+<pre class="example">    pragma Profile (Ravenscar | Restricted | Rational);
+</pre>
+<p>This pragma is standard in Ada 2005, but is available in all earlier
+versions of Ada as an implementation-defined pragma. This is a
+configuration pragma that establishes a set of configuration pragmas
+that depend on the argument. <cite>Ravenscar</cite> is standard in Ada 2005. 
+The other two possibilities (<cite>Restricted</cite> or <cite>Rational</cite>)
+are implementation-defined. The set of configuration pragmas
+is defined in the following sections.
+
+     <ul>
+<li>Pragma Profile (Ravenscar)
+
+     <p>The <cite>Ravenscar</cite> profile is standard in Ada 2005,
+but is available in all earlier
+versions of Ada as an implementation-defined pragma. This profile
+establishes the following set of configuration pragmas:
+
+          <ul>
+<li><code>Task_Dispatching_Policy (FIFO_Within_Priorities)</code>
+
+          <p>[RM D.2.2] Tasks are dispatched following a preemptive
+priority-ordered scheduling policy.
+
+          <li><code>Locking_Policy (Ceiling_Locking)</code>
+
+          <p>[RM D.3] While tasks and interrupts execute a protected action, they inherit
+the ceiling priority of the corresponding protected object.
+
+          <li><code>Detect_Blocking</code>
+
+          <p>This pragma forces the detection of potentially blocking operations within a
+protected operation, and to raise Program_Error if that happens. 
+</ul>
+
+     <p>plus the following set of restrictions:
+
+          <ul>
+<li><code>Max_Entry_Queue_Length =&gt; 1</code>
+
+          <p>No task can be queued on a protected entry.
+
+          <li><code>Max_Protected_Entries =&gt; 1</code>
+
+          <li><code>Max_Task_Entries =&gt; 0</code>
+
+          <p>No rendezvous statements are allowed.
+
+          <li><code>No_Abort_Statements</code>
+
+          <li><code>No_Dynamic_Attachment</code>
+
+          <li><code>No_Dynamic_Priorities</code>
+
+          <li><code>No_Implicit_Heap_Allocations</code>
+
+          <li><code>No_Local_Protected_Objects</code>
+
+          <li><code>No_Local_Timing_Events</code>
+
+          <li><code>No_Protected_Type_Allocators</code>
+
+          <li><code>No_Relative_Delay</code>
+
+          <li><code>No_Requeue_Statements</code>
+
+          <li><code>No_Select_Statements</code>
+
+          <li><code>No_Specific_Termination_Handlers</code>
+
+          <li><code>No_Task_Allocators</code>
+
+          <li><code>No_Task_Hierarchy</code>
+
+          <li><code>No_Task_Termination</code>
+
+          <li><code>Simple_Barriers</code>
+</ul>
+
+     <p>The Ravenscar profile also includes the following restrictions that specify
+that there are no semantic dependences on the corresponding predefined
+packages:
+
+          <ul>
+<li><code>No_Dependence =&gt; Ada.Asynchronous_Task_Control</code>
+
+          <li><code>No_Dependence =&gt; Ada.Calendar</code>
+
+          <li><code>No_Dependence =&gt; Ada.Execution_Time.Group_Budget</code>
+
+          <li><code>No_Dependence =&gt; Ada.Execution_Time.Timers</code>
+
+          <li><code>No_Dependence =&gt; Ada.Task_Attributes</code>
+
+          <li><code>No_Dependence =&gt; System.Multiprocessors.Dispatching_Domains</code>
+</ul>
+
+     <p>This set of configuration pragmas and restrictions correspond to the
+definition of the 'Ravenscar Profile' for limited tasking, devised and
+published by the <cite>International Real-Time Ada Workshop, 1997</cite>. 
+A description is also available at
+&lt;<code>http://www-users.cs.york.ac.uk/~burns/ravenscar.ps</code>&gt;.
+
+     <p>The original definition of the profile was revised at subsequent IRTAW
+meetings. It has been included in the ISO
+<cite>Guide for the Use of the Ada Programming Language in High Integrity Systems</cite>,
+and was made part of the Ada 2005 standard. 
+The formal definition given by
+the Ada Rapporteur Group (ARG) can be found in two Ada Issues (AI-249 and
+AI-305) available at
+&lt;<code>http://www.ada-auth.org/cgi-bin/cvsweb.cgi/ais/ai-00249.txt</code>&gt; and
+&lt;<code>http://www.ada-auth.org/cgi-bin/cvsweb.cgi/ais/ai-00305.txt</code>&gt;.
+
+     <p>The above set is a superset of the restrictions provided by pragma
+<code>Profile (Restricted)</code>, it includes six additional restrictions
+(<code>Simple_Barriers</code>, <code>No_Select_Statements</code>,
+<code>No_Calendar</code>, <code>No_Implicit_Heap_Allocations</code>,
+<code>No_Relative_Delay</code> and <code>No_Task_Termination</code>).  This means
+that pragma <code>Profile (Ravenscar)</code>, like the pragma
+<code>Profile (Restricted)</code>,
+automatically causes the use of a simplified,
+more efficient version of the tasking run-time library.
+
+     <li>Pragma Profile (Restricted)
+
+     <p>This profile corresponds to the GNAT restricted run time. It
+establishes the following set of restrictions:
+
+          <ul>
+<li><code>No_Abort_Statements</code>
+
+          <li><code>No_Entry_Queue</code>
+
+          <li><code>No_Task_Hierarchy</code>
+
+          <li><code>No_Task_Allocators</code>
+
+          <li><code>No_Dynamic_Priorities</code>
+
+          <li><code>No_Terminate_Alternatives</code>
+
+          <li><code>No_Dynamic_Attachment</code>
+
+          <li><code>No_Protected_Type_Allocators</code>
+
+          <li><code>No_Local_Protected_Objects</code>
+
+          <li><code>No_Requeue_Statements</code>
+
+          <li><code>No_Task_Attributes_Package</code>
+
+          <li><code>Max_Asynchronous_Select_Nesting =  0</code>
+
+          <li><code>Max_Task_Entries =  0</code>
+
+          <li><code>Max_Protected_Entries = 1</code>
+
+          <li><code>Max_Select_Alternatives = 0</code>
+</ul>
+
+     <p>This set of restrictions causes the automatic selection of a simplified
+version of the run time that provides improved performance for the
+limited set of tasking functionality permitted by this set of restrictions.
+
+     <li>Pragma Profile (Rational)
+
+     <p>The Rational profile is intended to facilitate porting legacy code that
+compiles with the Rational APEX compiler, even when the code includes non-
+conforming Ada constructs.  The profile enables the following three pragmas:
+
+          <ul>
+<li><code>pragma Implicit_Packing</code>
+
+          <li><code>pragma Overriding_Renamings</code>
+
+          <li><code>pragma Use_VADS_Size</code>
+</ul>
+     </ul>
+
+</body></html>
+

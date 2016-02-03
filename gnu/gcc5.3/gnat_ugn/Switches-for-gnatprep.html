@@ -1,0 +1,131 @@
+<html lang="en">
+<head>
+<title>Switches for gnatprep - GNAT User's Guide for Native Platforms</title>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+<meta name="description" content="GNAT User's Guide for Native Platforms">
+<meta name="generator" content="makeinfo 4.13">
+<link title="Top" rel="start" href="index.html#Top">
+<link rel="up" href="Preprocessing-with-gnatprep.html#Preprocessing-with-gnatprep" title="Preprocessing with gnatprep">
+<link rel="prev" href="Using-gnatprep.html#Using-gnatprep" title="Using gnatprep">
+<link rel="next" href="Form-of-Definitions-File.html#Form-of-Definitions-File" title="Form of Definitions File">
+<link href="http://www.gnu.org/software/texinfo/" rel="generator-home" title="Texinfo Homepage">
+<!--
+
+     GNAT User's Guide for Native Platforms , March 24, 2015
+
+     AdaCore
+
+     Copyright (C) 2008-2015, Free Software Foundation
+-->
+<meta http-equiv="Content-Style-Type" content="text/css">
+<style type="text/css"><!--
+  pre.display { font-family:inherit }
+  pre.format  { font-family:inherit }
+  pre.smalldisplay { font-family:inherit; font-size:smaller }
+  pre.smallformat  { font-family:inherit; font-size:smaller }
+  pre.smallexample { font-size:smaller }
+  pre.smalllisp    { font-size:smaller }
+  span.sc    { font-variant:small-caps }
+  span.roman { font-family:serif; font-weight:normal; } 
+  span.sansserif { font-family:sans-serif; font-weight:normal; } 
+--></style>
+</head>
+<body>
+<div class="node">
+<a name="Switches-for-gnatprep"></a>
+<p>
+Next:&nbsp;<a rel="next" accesskey="n" href="Form-of-Definitions-File.html#Form-of-Definitions-File">Form of Definitions File</a>,
+Previous:&nbsp;<a rel="previous" accesskey="p" href="Using-gnatprep.html#Using-gnatprep">Using gnatprep</a>,
+Up:&nbsp;<a rel="up" accesskey="u" href="Preprocessing-with-gnatprep.html#Preprocessing-with-gnatprep">Preprocessing with gnatprep</a>
+<hr>
+</div>
+
+<p><a name="gnat_005fugn_002fthe_005fgnat_005fcompilation_005fmodel-switches_002dfor_002dgnatprep"></a><a name="b0"></a><a name="gnat_005fugn_002fthe_005fgnat_005fcompilation_005fmodel-id57"></a><a name="b1"></a>
+
+<h5 class="subsubsection">3.10.2.3 Switches for <cite>gnatprep</cite></h5>
+
+<p><a name="index-g_t_002db-_0028gnatprep_0029-107"></a>
+
+     <dl>
+<dt><code>-b</code><dd>
+Causes both preprocessor lines and the lines deleted by
+preprocessing to be replaced by blank lines in the output source file,
+preserving line numbers in the output file. 
+</dl>
+
+<p><a name="index-g_t_002dc-_0028gnatprep_0029-108"></a>
+
+     <dl>
+<dt><code>-c</code><dd>
+Causes both preprocessor lines and the lines deleted
+by preprocessing to be retained in the output source as comments marked
+with the special string <cite>"&ndash;! "</cite>. This option will result in line numbers
+being preserved in the output file. 
+</dl>
+
+<p><a name="index-g_t_002dC-_0028gnatprep_0029-109"></a>
+
+     <dl>
+<dt><code>-C</code><dd>
+Causes comments to be scanned. Normally comments are ignored by gnatprep. 
+If this option is specified, then comments are scanned and any $symbol
+substitutions performed as in program text. This is particularly useful
+when structured comments are used (e.g., when writing programs in the
+SPARK dialect of Ada). Note that this switch is not available when
+doing integrated preprocessing (it would be useless in this context
+since comments are ignored by the compiler in any case). 
+</dl>
+
+<p><a name="index-g_t_002dD-_0028gnatprep_0029-110"></a>
+
+     <dl>
+<dt><code>-D`symbol'=`value'</code><dd>
+Defines a new preprocessing symbol, associated with value. If no value is given
+on the command line, then symbol is considered to be <cite>True</cite>. This switch
+can be used in place of a definition file. 
+</dl>
+
+<p><a name="index-g_t_002dr-_0028gnatprep_0029-111"></a>
+
+     <dl>
+<dt><code>-r</code><dd>
+Causes a <cite>Source_Reference</cite> pragma to be generated that
+references the original input file, so that error messages will use
+the file name of this original file. The use of this switch implies
+that preprocessor lines are not to be removed from the file, so its
+use will force `-b' mode if `-c'
+has not been specified explicitly.
+
+     <p>Note that if the file to be preprocessed contains multiple units, then
+it will be necessary to <cite>gnatchop</cite> the output file from
+<cite>gnatprep</cite>. If a <cite>Source_Reference</cite> pragma is present
+in the preprocessed file, it will be respected by
+<cite>gnatchop -r</cite>
+so that the final chopped files will correctly refer to the original
+input source file for <cite>gnatprep</cite>. 
+</dl>
+
+<p><a name="index-g_t_002ds-_0028gnatprep_0029-112"></a>
+
+     <dl>
+<dt><code>-s</code><dd>
+Causes a sorted list of symbol names and values to be
+listed on the standard output file. 
+</dl>
+
+<p><a name="index-g_t_002du-_0028gnatprep_0029-113"></a>
+
+     <dl>
+<dt><code>-u</code><dd>
+Causes undefined symbols to be treated as having the value FALSE in the context
+of a preprocessor test. In the absence of this option, an undefined symbol in
+a <cite>#if</cite> or <cite>#elsif</cite> test will be treated as an error. 
+</dl>
+
+<p>Note: if neither `-b' nor `-c' is present,
+then preprocessor lines and
+deleted lines are completely removed from the output, unless -r is
+specified, in which case -b is assumed.
+
+</body></html>
+

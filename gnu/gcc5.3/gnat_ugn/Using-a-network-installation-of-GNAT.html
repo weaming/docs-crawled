@@ -1,0 +1,69 @@
+<html lang="en">
+<head>
+<title>Using a network installation of GNAT - GNAT User's Guide for Native Platforms</title>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+<meta name="description" content="GNAT User's Guide for Native Platforms">
+<meta name="generator" content="makeinfo 4.13">
+<link title="Top" rel="start" href="index.html#Top">
+<link rel="up" href="Microsoft-Windows-Topics.html#Microsoft-Windows-Topics" title="Microsoft Windows Topics">
+<link rel="prev" href="Using-GNAT-on-Windows.html#Using-GNAT-on-Windows" title="Using GNAT on Windows">
+<link rel="next" href="CONSOLE-and-WINDOWS-subsystems.html#CONSOLE-and-WINDOWS-subsystems" title="CONSOLE and WINDOWS subsystems">
+<link href="http://www.gnu.org/software/texinfo/" rel="generator-home" title="Texinfo Homepage">
+<!--
+
+     GNAT User's Guide for Native Platforms , March 24, 2015
+
+     AdaCore
+
+     Copyright (C) 2008-2015, Free Software Foundation
+-->
+<meta http-equiv="Content-Style-Type" content="text/css">
+<style type="text/css"><!--
+  pre.display { font-family:inherit }
+  pre.format  { font-family:inherit }
+  pre.smalldisplay { font-family:inherit; font-size:smaller }
+  pre.smallformat  { font-family:inherit; font-size:smaller }
+  pre.smallexample { font-size:smaller }
+  pre.smalllisp    { font-size:smaller }
+  span.sc    { font-variant:small-caps }
+  span.roman { font-family:serif; font-weight:normal; } 
+  span.sansserif { font-family:sans-serif; font-weight:normal; } 
+--></style>
+</head>
+<body>
+<div class="node">
+<a name="Using-a-network-installation-of-GNAT"></a>
+<p>
+Next:&nbsp;<a rel="next" accesskey="n" href="CONSOLE-and-WINDOWS-subsystems.html#CONSOLE-and-WINDOWS-subsystems">CONSOLE and WINDOWS subsystems</a>,
+Previous:&nbsp;<a rel="previous" accesskey="p" href="Using-GNAT-on-Windows.html#Using-GNAT-on-Windows">Using GNAT on Windows</a>,
+Up:&nbsp;<a rel="up" accesskey="u" href="Microsoft-Windows-Topics.html#Microsoft-Windows-Topics">Microsoft Windows Topics</a>
+<hr>
+</div>
+
+<p><a name="gnat_005fugn_002fplatform_005fspecific_005finformation-id11"></a><a name="g_t26a"></a><a name="gnat_005fugn_002fplatform_005fspecific_005finformation-using_002da_002dnetwork_002dinstallation_002dof_002dgnat"></a><a name="g_t26b"></a>
+
+<h4 class="subsection">9.3.2 Using a network installation of GNAT</h4>
+
+<p>Make sure the system on which GNAT is installed is accessible from the
+current machine, i.e., the install location is shared over the network. 
+Shared resources are accessed on Windows by means of UNC paths, which
+have the format <cite>\\server\sharename\path</cite>
+
+<p>In order to use such a network installation, simply add the UNC path of the
+<code>bin</code> directory of your GNAT installation in front of your PATH. For
+example, if GNAT is installed in <code>\GNAT</code> directory of a share location
+called <code>c-drive</code> on a machine <code>LOKI</code>, the following command will
+make it available:
+
+<blockquote>
+
+<pre class="example">    $ path \\loki\c-drive\gnat\bin;%path%`
+</pre>
+</blockquote>
+
+<p>Be aware that every compilation using the network installation results in the
+transfer of large amounts of data across the network and will likely cause
+serious performance penalty.
+
+</body></html>
+

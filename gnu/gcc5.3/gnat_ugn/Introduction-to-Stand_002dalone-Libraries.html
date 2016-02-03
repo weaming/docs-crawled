@@ -1,0 +1,77 @@
+<html lang="en">
+<head>
+<title>Introduction to Stand-alone Libraries - GNAT User's Guide for Native Platforms</title>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+<meta name="description" content="GNAT User's Guide for Native Platforms">
+<meta name="generator" content="makeinfo 4.13">
+<link title="Top" rel="start" href="index.html#Top">
+<link rel="up" href="Stand_002dalone-Ada-Libraries.html#Stand_002dalone-Ada-Libraries" title="Stand-alone Ada Libraries">
+<link rel="next" href="Building-a-Stand_002dalone-Library.html#Building-a-Stand_002dalone-Library" title="Building a Stand-alone Library">
+<link href="http://www.gnu.org/software/texinfo/" rel="generator-home" title="Texinfo Homepage">
+<!--
+
+     GNAT User's Guide for Native Platforms , March 24, 2015
+
+     AdaCore
+
+     Copyright (C) 2008-2015, Free Software Foundation
+-->
+<meta http-equiv="Content-Style-Type" content="text/css">
+<style type="text/css"><!--
+  pre.display { font-family:inherit }
+  pre.format  { font-family:inherit }
+  pre.smalldisplay { font-family:inherit; font-size:smaller }
+  pre.smallformat  { font-family:inherit; font-size:smaller }
+  pre.smallexample { font-size:smaller }
+  pre.smalllisp    { font-size:smaller }
+  span.sc    { font-variant:small-caps }
+  span.roman { font-family:serif; font-weight:normal; } 
+  span.sansserif { font-family:sans-serif; font-weight:normal; } 
+--></style>
+</head>
+<body>
+<div class="node">
+<a name="Introduction-to-Stand-alone-Libraries"></a>
+<a name="Introduction-to-Stand_002dalone-Libraries"></a>
+<p>
+Next:&nbsp;<a rel="next" accesskey="n" href="Building-a-Stand_002dalone-Library.html#Building-a-Stand_002dalone-Library">Building a Stand-alone Library</a>,
+Up:&nbsp;<a rel="up" accesskey="u" href="Stand_002dalone-Ada-Libraries.html#Stand_002dalone-Ada-Libraries">Stand-alone Ada Libraries</a>
+<hr>
+</div>
+
+<p><a name="gnat_005fugn_002fthe_005fgnat_005fcompilation_005fmodel-introduction_002dto_002dstand_002dalone_002dlibraries"></a><a name="g_t93"></a><a name="gnat_005fugn_002fthe_005fgnat_005fcompilation_005fmodel-id42"></a><a name="g_t94"></a>
+
+<h5 class="subsubsection">3.9.3.1 Introduction to Stand-alone Libraries</h5>
+
+<p>A Stand-alone Library (abbreviated 'SAL') is a library that contains the
+necessary code to
+elaborate the Ada units that are included in the library. In contrast with
+an ordinary library, which consists of all sources, objects and <code>ALI</code>
+files of the
+library, a SAL may specify a restricted subset of compilation units
+to serve as a library interface. In this case, the fully
+self-sufficient set of files will normally consist of an objects
+archive, the sources of interface units' specs, and the <code>ALI</code>
+files of interface units. 
+If an interface spec contains a generic unit or an inlined subprogram,
+the body's
+source must also be provided; if the units that must be provided in the source
+form depend on other units, the source and <code>ALI</code> files of those must
+also be provided.
+
+<p>The main purpose of a SAL is to minimize the recompilation overhead of client
+applications when a new version of the library is installed. Specifically,
+if the interface sources have not changed, client applications do not need to
+be recompiled. If, furthermore, a SAL is provided in the shared form and its
+version, controlled by <cite>Library_Version</cite> attribute, is not changed,
+then the clients do not need to be relinked.
+
+<p>SALs also allow the library providers to minimize the amount of library source
+text exposed to the clients.  Such 'information hiding' might be useful or
+necessary for various reasons.
+
+<p>Stand-alone libraries are also well suited to be used in an executable whose
+main routine is not written in Ada.
+
+</body></html>
+

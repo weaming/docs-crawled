@@ -1,0 +1,68 @@
+<html lang="en">
+<head>
+<title>Rebuilding the GNAT Run-Time Library - GNAT User's Guide for Native Platforms</title>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+<meta name="description" content="GNAT User's Guide for Native Platforms">
+<meta name="generator" content="makeinfo 4.13">
+<link title="Top" rel="start" href="index.html#Top">
+<link rel="up" href="GNAT-and-Libraries.html#GNAT-and-Libraries" title="GNAT and Libraries">
+<link rel="prev" href="Stand_002dalone-Ada-Libraries.html#Stand_002dalone-Ada-Libraries" title="Stand-alone Ada Libraries">
+<link href="http://www.gnu.org/software/texinfo/" rel="generator-home" title="Texinfo Homepage">
+<!--
+
+     GNAT User's Guide for Native Platforms , March 24, 2015
+
+     AdaCore
+
+     Copyright (C) 2008-2015, Free Software Foundation
+-->
+<meta http-equiv="Content-Style-Type" content="text/css">
+<style type="text/css"><!--
+  pre.display { font-family:inherit }
+  pre.format  { font-family:inherit }
+  pre.smalldisplay { font-family:inherit; font-size:smaller }
+  pre.smallformat  { font-family:inherit; font-size:smaller }
+  pre.smallexample { font-size:smaller }
+  pre.smalllisp    { font-size:smaller }
+  span.sc    { font-variant:small-caps }
+  span.roman { font-family:serif; font-weight:normal; } 
+  span.sansserif { font-family:sans-serif; font-weight:normal; } 
+--></style>
+</head>
+<body>
+<div class="node">
+<a name="Rebuilding-the-GNAT-Run-Time-Library"></a>
+<a name="Rebuilding-the-GNAT-Run_002dTime-Library"></a>
+<p>
+Previous:&nbsp;<a rel="previous" accesskey="p" href="Stand_002dalone-Ada-Libraries.html#Stand_002dalone-Ada-Libraries">Stand-alone Ada Libraries</a>,
+Up:&nbsp;<a rel="up" accesskey="u" href="GNAT-and-Libraries.html#GNAT-and-Libraries">GNAT and Libraries</a>
+<hr>
+</div>
+
+<p><a name="gnat_005fugn_002fthe_005fgnat_005fcompilation_005fmodel-id46"></a><a name="g_t9c"></a><a name="gnat_005fugn_002fthe_005fgnat_005fcompilation_005fmodel-rebuilding_002dthe_002dgnat_002drun_002dtime_002dlibrary"></a><a name="g_t9d"></a>
+
+<h4 class="subsection">3.9.4 Rebuilding the GNAT Run-Time Library</h4>
+
+<p><a name="index-GNAT-Run_002dTime-Library-88"></a><a name="index-rebuilding-89"></a>
+<a name="index-Building-the-GNAT-Run_002dTime-Library-90"></a>
+<a name="index-Rebuilding-the-GNAT-Run_002dTime-Library-91"></a>
+<a name="index-Run_002dTime-Library-92"></a><a name="index-rebuilding-93"></a>
+It may be useful to recompile the GNAT library in various contexts, the
+most important one being the use of partition-wide configuration pragmas
+such as <cite>Normalize_Scalars</cite>. A special Makefile called
+<cite>Makefile.adalib</cite> is provided to that effect and can be found in
+the directory containing the GNAT library. The location of this
+directory depends on the way the GNAT environment has been installed and can
+be determined by means of the command:
+
+<pre class="example">    $ gnatls -v
+</pre>
+<p>The last entry in the object search path usually contains the
+gnat library. This Makefile contains its own documentation and in
+particular the set of instructions needed to rebuild a new library and
+to use it.
+
+<p><a name="index-Conditional-compilation-94"></a>
+
+</body></html>
+

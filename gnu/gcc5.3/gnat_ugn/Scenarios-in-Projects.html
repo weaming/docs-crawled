@@ -1,0 +1,155 @@
+<html lang="en">
+<head>
+<title>Scenarios in Projects - GNAT User's Guide for Native Platforms</title>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+<meta name="description" content="GNAT User's Guide for Native Platforms">
+<meta name="generator" content="makeinfo 4.13">
+<link title="Top" rel="start" href="index.html#Top">
+<link rel="up" href="GNAT-Project-Manager.html#GNAT-Project-Manager" title="GNAT Project Manager">
+<link rel="prev" href="Organizing-Projects-into-Subsystems.html#Organizing-Projects-into-Subsystems" title="Organizing Projects into Subsystems">
+<link rel="next" href="Library-Projects.html#Library-Projects" title="Library Projects">
+<link href="http://www.gnu.org/software/texinfo/" rel="generator-home" title="Texinfo Homepage">
+<!--
+
+     GNAT User's Guide for Native Platforms , March 24, 2015
+
+     AdaCore
+
+     Copyright (C) 2008-2015, Free Software Foundation
+-->
+<meta http-equiv="Content-Style-Type" content="text/css">
+<style type="text/css"><!--
+  pre.display { font-family:inherit }
+  pre.format  { font-family:inherit }
+  pre.smalldisplay { font-family:inherit; font-size:smaller }
+  pre.smallformat  { font-family:inherit; font-size:smaller }
+  pre.smallexample { font-size:smaller }
+  pre.smalllisp    { font-size:smaller }
+  span.sc    { font-variant:small-caps }
+  span.roman { font-family:serif; font-weight:normal; } 
+  span.sansserif { font-family:sans-serif; font-weight:normal; } 
+--></style>
+</head>
+<body>
+<div class="node">
+<a name="Scenarios-in-Projects"></a>
+<p>
+Next:&nbsp;<a rel="next" accesskey="n" href="Library-Projects.html#Library-Projects">Library Projects</a>,
+Previous:&nbsp;<a rel="previous" accesskey="p" href="Organizing-Projects-into-Subsystems.html#Organizing-Projects-into-Subsystems">Organizing Projects into Subsystems</a>,
+Up:&nbsp;<a rel="up" accesskey="u" href="GNAT-Project-Manager.html#GNAT-Project-Manager">GNAT Project Manager</a>
+<hr>
+</div>
+
+<p><a name="gnat_005fugn_002fgnat_005fproject_005fmanager-id19"></a><a name="g_t176"></a><a name="gnat_005fugn_002fgnat_005fproject_005fmanager-scenarios_002din_002dprojects"></a><a name="g_t14c"></a>
+
+<h3 class="section">5.4 Scenarios in Projects</h3>
+
+<p>Various aspects of the projects can be modified based on `scenarios'. These
+are user-defined modes that change the behavior of a project. Typical
+examples are the setup of platform-specific compiler options, or the use of
+a debug and a release mode (the former would activate the generation of debug
+information, while the second will focus on improving code optimization).
+
+<p>Let's enhance our example to support debug and release modes. The issue is to
+let the user choose what kind of system he is building: use `-g' as
+compiler switches in debug mode and `-O2' in release mode. We will also
+set up the projects so that we do not share the same object directory in both
+modes; otherwise switching from one to the other might trigger more
+recompilations than needed or mix objects from the two modes.
+
+<p>One naive approach is to create two different project files, say
+<code>build_debug.gpr</code> and <code>build_release.gpr</code>, that set the appropriate
+attributes as explained in previous sections. This solution does not scale
+well, because in the presence of multiple projects depending on each other, you
+will also have to duplicate the complete hierarchy and adapt the project files
+to point to the right copies.
+
+<p><a name="index-scenarios-_0028GNAT-Project-Manager_0029-826"></a>
+Instead, project files support the notion of scenarios controlled
+by external values. Such values can come from several sources (in decreasing
+order of priority):
+
+<p><a name="index-g_t_002dX-_0028usage-with-GNAT-Project-Manager_0029-827"></a>
+
+     <dl>
+<dt>`Command line':<dd>
+When launching `gnatmake' or `gprbuild', the user can pass
+extra `-X' switches to define the external value. In
+our case, the command line might look like
+
+     <pre class="example">         gnatmake -Pbuild.gpr -Xmode=debug
+</pre>
+     <p>or
+
+     <pre class="example">         gnatmake -Pbuild.gpr -Xmode=release
+</pre>
+     <br><dt>`Environment variables':<dd>
+When the external value does not come from the command line, it can come from
+the value of environment variables of the appropriate name. 
+In our case, if an environment variable called "mode"
+exists, its value will be taken into account. 
+</dl>
+
+<p><a name="index-external-_0028GNAT-Project-Manager_0029-828"></a>
+`External function second parameter'.
+
+<p>We now need to get that value in the project. The general form is to use
+the predefined function `external' which returns the current value of
+the external. For instance, we could set up the object directory to point to
+either <code>obj/debug</code> or <code>obj/release</code> by changing our project to
+
+<pre class="example">    project Build is
+        for Object_Dir use "obj/" &amp; external ("mode", "debug");
+        ... --  as before
+    end Build;
+</pre>
+<p>The second parameter to <cite>external</cite> is optional, and is the default
+value to use if "mode" is not set from the command line or the environment.
+
+<p>In order to set the switches according to the different scenarios, other
+constructs have to be introduced such as typed variables and case constructions.
+
+<p><a name="index-typed-variable-_0028GNAT-Project-Manager_0029-829"></a>
+<a name="index-case-construction-_0028GNAT-Project-Manager_0029-830"></a>
+A `typed variable' is a variable that
+can take only a limited number of values, similar to an enumeration in Ada. 
+Such a variable can then be used in a `case construction' and create conditional
+sections in the project. The following example shows how this can be done:
+
+<pre class="example">    project Build is
+       type Mode_Type is ("debug", "release");  --  all possible values
+       Mode : Mode_Type := external ("mode", "debug"); -- a typed variable
+    
+       package Compiler is
+          case Mode is
+             when "debug" =&gt;
+                for Switches ("Ada")
+                    use ("-g");
+             when "release" =&gt;
+                for Switches ("Ada")
+                    use ("-O2");
+          end case;
+       end Compiler;
+    end Build;
+</pre>
+<p>The project has suddenly grown in size, but has become much more flexible. 
+<cite>Mode_Type</cite> defines the only valid values for the <cite>mode</cite> variable. If
+any other value is read from the environment, an error is reported and the
+project is considered as invalid.
+
+<p>The <cite>Mode</cite> variable is initialized with an external value
+defaulting to <cite>"debug"</cite>. This default could be omitted and that would
+force the user to define the value. Finally, we can use a case construction to set the
+switches depending on the scenario the user has chosen.
+
+<p>Most aspects of the projects can depend on scenarios. The notable exception
+are project dependencies (`with' clauses), which cannot depend on a scenario.
+
+<p>Scenarios work the same way with `project hierarchies': you can either
+duplicate a variable similar to <cite>Mode</cite> in each of the project (as long
+as the first argument to <cite>external</cite> is always the same and the type is
+the same), or simply set the variable in the <code>shared.gpr</code> project
+(see <a href="171.html#g_t171">Sharing Between Projects</a>).
+
+</body></html>
+

@@ -1,0 +1,59 @@
+<html lang="en">
+<head>
+<title>Other Optimization Switches - GNAT User's Guide for Native Platforms</title>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+<meta name="description" content="GNAT User's Guide for Native Platforms">
+<meta name="generator" content="makeinfo 4.13">
+<link title="Top" rel="start" href="index.html#Top">
+<link rel="up" href="Performance-Considerations.html#Performance-Considerations" title="Performance Considerations">
+<link rel="prev" href="Vectorization-of-loops.html#Vectorization-of-loops" title="Vectorization of loops">
+<link rel="next" href="Optimization-and-Strict-Aliasing.html#Optimization-and-Strict-Aliasing" title="Optimization and Strict Aliasing">
+<link href="http://www.gnu.org/software/texinfo/" rel="generator-home" title="Texinfo Homepage">
+<!--
+
+     GNAT User's Guide for Native Platforms , March 24, 2015
+
+     AdaCore
+
+     Copyright (C) 2008-2015, Free Software Foundation
+-->
+<meta http-equiv="Content-Style-Type" content="text/css">
+<style type="text/css"><!--
+  pre.display { font-family:inherit }
+  pre.format  { font-family:inherit }
+  pre.smalldisplay { font-family:inherit; font-size:smaller }
+  pre.smallformat  { font-family:inherit; font-size:smaller }
+  pre.smallexample { font-size:smaller }
+  pre.smalllisp    { font-size:smaller }
+  span.sc    { font-variant:small-caps }
+  span.roman { font-family:serif; font-weight:normal; } 
+  span.sansserif { font-family:sans-serif; font-weight:normal; } 
+--></style>
+</head>
+<body>
+<div class="node">
+<a name="Other-Optimization-Switches"></a>
+<p>
+Next:&nbsp;<a rel="next" accesskey="n" href="Optimization-and-Strict-Aliasing.html#Optimization-and-Strict-Aliasing">Optimization and Strict Aliasing</a>,
+Previous:&nbsp;<a rel="previous" accesskey="p" href="Vectorization-of-loops.html#Vectorization-of-loops">Vectorization of loops</a>,
+Up:&nbsp;<a rel="up" accesskey="u" href="Performance-Considerations.html#Performance-Considerations">Performance Considerations</a>
+<hr>
+</div>
+
+<p><a name="gnat_005fugn_002fgnat_005fand_005fprogram_005fexecution-id37"></a><a name="g_t235"></a><a name="gnat_005fugn_002fgnat_005fand_005fprogram_005fexecution-other_002doptimization_002dswitches"></a><a name="g_t236"></a>
+
+<h5 class="subsubsection">8.3.1.8 Other Optimization Switches</h5>
+
+<p><a name="index-Optimization-Switches-1012"></a>
+Since <cite>GNAT</cite> uses the `gcc' back end, all the specialized
+`gcc' optimization switches are potentially usable. These switches
+have not been extensively tested with GNAT but can generally be expected
+to work. Examples of switches in this category are `-funroll-loops'
+and the various target-specific `-m' options (in particular, it has
+been observed that `-march=xxx' can significantly improve performance
+on appropriate machines). For full details of these switches, see
+the <cite>Submodel Options</cite> section in the <cite>Hardware Models and Configurations</cite>
+chapter of <cite>Using the GNU Compiler Collection (GCC)</cite>.
+
+</body></html>
+

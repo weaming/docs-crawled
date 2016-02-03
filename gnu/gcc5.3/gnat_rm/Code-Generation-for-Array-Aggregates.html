@@ -1,0 +1,74 @@
+<html lang="en">
+<head>
+<title>Code Generation for Array Aggregates - GNAT Reference Manual</title>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+<meta name="description" content="GNAT Reference Manual">
+<meta name="generator" content="makeinfo 4.13">
+<link title="Top" rel="start" href="index.html#Top">
+<link rel="up" href="Implementation-of-Specific-Ada-Features.html#Implementation-of-Specific-Ada-Features" title="Implementation of Specific Ada Features">
+<link rel="prev" href="GNAT-Implementation-of-Shared-Passive-Packages.html#GNAT-Implementation-of-Shared-Passive-Packages" title="GNAT Implementation of Shared Passive Packages">
+<link rel="next" href="The-Size-of-Discriminated-Records-with-Default-Discriminants.html#The-Size-of-Discriminated-Records-with-Default-Discriminants" title="The Size of Discriminated Records with Default Discriminants">
+<link href="http://www.gnu.org/software/texinfo/" rel="generator-home" title="Texinfo Homepage">
+<!--
+
+     GNAT Reference Manual , March 24, 2015
+
+     AdaCore
+
+     Copyright (C) 2008-2015, Free Software Foundation
+-->
+<meta http-equiv="Content-Style-Type" content="text/css">
+<style type="text/css"><!--
+  pre.display { font-family:inherit }
+  pre.format  { font-family:inherit }
+  pre.smalldisplay { font-family:inherit; font-size:smaller }
+  pre.smallformat  { font-family:inherit; font-size:smaller }
+  pre.smallexample { font-size:smaller }
+  pre.smalllisp    { font-size:smaller }
+  span.sc    { font-variant:small-caps }
+  span.roman { font-family:serif; font-weight:normal; } 
+  span.sansserif { font-family:sans-serif; font-weight:normal; } 
+--></style>
+</head>
+<body>
+<div class="node">
+<a name="Code-Generation-for-Array-Aggregates"></a>
+<p>
+Next:&nbsp;<a rel="next" accesskey="n" href="The-Size-of-Discriminated-Records-with-Default-Discriminants.html#The-Size-of-Discriminated-Records-with-Default-Discriminants">The Size of Discriminated Records with Default Discriminants</a>,
+Previous:&nbsp;<a rel="previous" accesskey="p" href="GNAT-Implementation-of-Shared-Passive-Packages.html#GNAT-Implementation-of-Shared-Passive-Packages">GNAT Implementation of Shared Passive Packages</a>,
+Up:&nbsp;<a rel="up" accesskey="u" href="Implementation-of-Specific-Ada-Features.html#Implementation-of-Specific-Ada-Features">Implementation of Specific Ada Features</a>
+<hr>
+</div>
+
+<p><a name="gnat_005frm_002fimplementation_005fof_005fspecific_005fada_005ffeatures-code_002dgeneration_002dfor_002darray_002daggregates"></a><a name="g_t3b7"></a><a name="gnat_005frm_002fimplementation_005fof_005fspecific_005fada_005ffeatures-id7"></a><a name="g_t3b8"></a>
+
+<h3 class="section">15.4 Code Generation for Array Aggregates</h3>
+
+<p>Aggregates have a rich syntax and allow the user to specify the values of
+complex data structures by means of a single construct.  As a result, the
+code generated for aggregates can be quite complex and involve loops, case
+statements and multiple assignments.  In the simplest cases, however, the
+compiler will recognize aggregates whose components and constraints are
+fully static, and in those cases the compiler will generate little or no
+executable code.  The following is an outline of the code that GNAT generates
+for various aggregate constructs.  For further details, you will find it
+useful to examine the output produced by the -gnatG flag to see the expanded
+source that is input to the code generator.  You may also want to examine
+the assembly code generated at various levels of optimization.
+
+<p>The code generated for aggregates depends on the context, the component values,
+and the type.  In the context of an object declaration the code generated is
+generally simpler than in the case of an assignment.  As a general rule, static
+component values and static subtypes also lead to simpler code.
+
+<ul class="menu">
+<li><a accesskey="1" href="Static-constant-aggregates-with-static-bounds.html#Static-constant-aggregates-with-static-bounds">Static constant aggregates with static bounds</a>
+<li><a accesskey="2" href="Constant-aggregates-with-unconstrained-nominal-types.html#Constant-aggregates-with-unconstrained-nominal-types">Constant aggregates with unconstrained nominal types</a>
+<li><a accesskey="3" href="Aggregates-with-static-bounds.html#Aggregates-with-static-bounds">Aggregates with static bounds</a>
+<li><a accesskey="4" href="Aggregates-with-non_002dstatic-bounds.html#Aggregates-with-non_002dstatic-bounds">Aggregates with non-static bounds</a>
+<li><a accesskey="5" href="Aggregates-in-assignment-statements.html#Aggregates-in-assignment-statements">Aggregates in assignment statements</a>
+
+</ul>
+
+</body></html>
+

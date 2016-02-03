@@ -1,0 +1,7 @@
+<map id="__gnu_cxx::limit_condition" name="__gnu_cxx::limit_condition">
+<area shape="rect" id="node3" href="$a00056.html" title="__gnu_cxx::throw_allocator\l_base\&lt; _Tp, limit_condition \&gt;" alt="" coords="440,5,623,44"/>
+<area shape="rect" id="node5" href="$a00059.html" title="__gnu_cxx::throw_value\l_base\&lt; limit_condition \&gt;" alt="" coords="454,68,609,107"/>
+<area shape="rect" id="node2" href="$a00036.html" title="Base struct for condition policy. " alt="" coords="5,44,177,69"/>
+<area shape="rect" id="node4" href="$a00057.html" title="Allocator throwing via limit condition. " alt="" coords="671,5,843,44"/>
+<area shape="rect" id="node6" href="$a00060.html" title="Type throwing via limit condition. " alt="" coords="679,68,834,107"/>
+</map>

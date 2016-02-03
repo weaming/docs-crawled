@@ -1,0 +1,155 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
+<HTML>
+<HEAD> <TITLE>cURL - External Dependencies</TITLE>
+<meta content="text/html; charset=UTF-8" http-equiv="Content-Type">
+<link rel="stylesheet" type="text/css" href="http://curl.haxx.se/curl.css">
+<link rel="shortcut icon" href="http://curl.haxx.se/favicon.ico">
+</HEAD>
+<body bgcolor="#ffffff" text="#000000">
+<div class="main">
+<div class="menu">
+<a href="index.html" class="menuitem" title="Documentation main page">Docs Overview</a>
+<a href="bugs.html" class="menuitem" title="How to report a problem">Bug Report</a>
+<a href="http://curl.haxx.se/donation.html" class="menuitem" title="Donate to the cURL project">Donate</a>
+<a href="libs.html" class="itemselect">Dependencies</a>
+<a href="features.html" class="menuitem" title="All features summed up">Features</a>
+<a href="history.html" class="menuitem" title="A project history overview">History</a>
+<a href="install.html" class="menuitem" title="Installing curl from source">Install</a>
+<a href="knownbugs.html" class="menuitem" title="Already known problems ">Known Bugs</a>
+<a href="todo.html" class="menuitem" title="Things we might do in the future">TODO</a>
+<a href="http://curl.haxx.se/about.html" class="menuitem" title="Infrastructure details">Web Site Info</a>
+</div>
+<div class="contents">
+<div class="where"><a href="http://curl.haxx.se/">cURL</a> / <a href="index.html">Docs</a> / <a href="projdocs.html">Project Documentation</a> / <b>Dependencies</b></div>
+<h1> Dependencies </h1>
+<div class="relatedbox">
+<b>Related:</b>
+<br><a href="http://curl.haxx.se/libcurl/relatedlibs.html">Related Libs</a>
+<br><a href="http://curl.haxx.se/libcurl/competitors.html">libcurl competitors</a>
+</div>
+<p>
+ Curl depends on external libraries for some features
+ (and <a href="http://curl.haxx.se/libcurl/">libcurl</a> for all features). You can build curl
+ without them, but curl gets a lot better if you have a few of these
+ libraries:
+<p>
+<table cellpadding="4" cellspacing="0">
+<tr class="tabletop"><th>Library</th><th>Used for...</th></tr>
+<tr class="even">
+<td>
+  <a href="https://www.openssl.org">OpenSSL</a>
+</td>
+<td>
+  TLS (https) support
+</td>
+</tr>
+<tr class="odd">
+<td>
+  <a href="http://www.gzip.org/zlib/">zlib</a>
+</td>
+<td>
+  The automatic "deflate" decompression
+</td>
+</tr>
+<tr class="even">
+<td>
+  <a href="http://www.openldap.org">OpenLDAP</a>
+</td>
+<td>
+  LDAP support
+</td>
+</tr>
+<tr class="odd">
+<td>
+  <a href="https://tls.mbed.org">mbed TLS</a>
+</td>
+<td>
+   TLS (https) support
+</td>
+</tr>
+<tr class="even">
+<td>
+  <a href="https://www.h5l.org">heimdal</a>
+</td>
+<td>
+  Support for GSS-API can be provided by the heimdal package and is used to
+  for provide the Kerberos and SPNEGO authentication in libcurl.
+</td>
+</tr>
+<tr class="odd">
+<td>
+  <a href="http://web.mit.edu/kerberos/">MIT Kerberos</a>
+</td>
+<td>
+  The MIT Kerberos package is also a GSS-API library which can be used to
+  provide support for the Kerberos and SPNEGO authentication in libcurl.
+</td>
+</tr>
+<tr class="even">
+<td>
+  <a href="https://nghttp2.org/">nghttp2</a>
+</td>
+<td>
+  For http2 support.
+</td>
+</tr>
+<tr class="odd">
+<td>
+  <a href="http://daniel.haxx.se/projects/c-ares/">c-ares</a>
+</td>
+<td>
+  For asynchronous name resolves.
+</td>
+</tr>
+<tr class="even">
+<td>
+  <a href="https://www.gnu.org/software/libidn/">libidn</a>
+</td>
+<td>
+  For performing the proper IDNA encodings for international domain names to work.
+</td>
+</tr>
+<tr class="odd">
+<td>
+  <a href="http://www.gnutls.org">GnuTLS</a>
+</td>
+<td>
+  TLS (https) support.
+</td>
+</tr>
+<tr class="even">
+<td> <a
+href="https://developer.mozilla.org/en-US/docs/Mozilla/Projects/NSS">NSS</a> </td>
+<td>
+  TLS (https) support.
+</td>
+</tr>
+<tr class="odd">
+<td>
+  <a href="https://www.wolfssl.com/">wolfSSL</a>
+</td>
+<td>
+  TLS (https) support.
+</td>
+</tr>
+<tr class="even">
+<td>
+  <a href="http://www.libssh2.org/">libssh2</a>
+</td>
+<td>
+  For SCP and SFTP support.
+</td>
+</tr>
+<tr class="odd">
+<td>
+  <a href="https://launchpad.net/libmetalink">libmetalink</a>
+</td>
+<td>
+  For Metalink support.
+</td>
+</tr>
+</table>
+</div>
+</div>
+</BODY>
+</HTML>

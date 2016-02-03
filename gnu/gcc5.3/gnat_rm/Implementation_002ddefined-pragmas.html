@@ -1,0 +1,64 @@
+<html lang="en">
+<head>
+<title>Implementation-defined pragmas - GNAT Reference Manual</title>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+<meta name="description" content="GNAT Reference Manual">
+<meta name="generator" content="makeinfo 4.13">
+<link title="Top" rel="start" href="index.html#Top">
+<link rel="up" href="Implementation_002ddependent-characteristics.html#Implementation_002ddependent-characteristics" title="Implementation-dependent characteristics">
+<link rel="next" href="Implementation_002ddefined-attributes.html#Implementation_002ddefined-attributes" title="Implementation-defined attributes">
+<link href="http://www.gnu.org/software/texinfo/" rel="generator-home" title="Texinfo Homepage">
+<!--
+
+     GNAT Reference Manual , March 24, 2015
+
+     AdaCore
+
+     Copyright (C) 2008-2015, Free Software Foundation
+-->
+<meta http-equiv="Content-Style-Type" content="text/css">
+<style type="text/css"><!--
+  pre.display { font-family:inherit }
+  pre.format  { font-family:inherit }
+  pre.smalldisplay { font-family:inherit; font-size:smaller }
+  pre.smallformat  { font-family:inherit; font-size:smaller }
+  pre.smallexample { font-size:smaller }
+  pre.smalllisp    { font-size:smaller }
+  span.sc    { font-variant:small-caps }
+  span.roman { font-family:serif; font-weight:normal; } 
+  span.sansserif { font-family:sans-serif; font-weight:normal; } 
+--></style>
+</head>
+<body>
+<div class="node">
+<a name="Implementation-defined-pragmas"></a>
+<a name="Implementation_002ddefined-pragmas"></a>
+<p>
+Next:&nbsp;<a rel="next" accesskey="n" href="Implementation_002ddefined-attributes.html#Implementation_002ddefined-attributes">Implementation-defined attributes</a>,
+Up:&nbsp;<a rel="up" accesskey="u" href="Implementation_002ddependent-characteristics.html#Implementation_002ddependent-characteristics">Implementation-dependent characteristics</a>
+<hr>
+</div>
+
+<p><a name="gnat_005frm_002fcompatibility_005fand_005fporting_005fguide-implementation_002ddefined_002dpragmas"></a><a name="g_t3e7"></a><a name="gnat_005frm_002fcompatibility_005fand_005fporting_005fguide-id10"></a><a name="g_t3e8"></a>
+
+<h4 class="subsection">18.4.1 Implementation-defined pragmas</h4>
+
+<p>Ada compilers are allowed to supplement the language-defined pragmas, and
+these are a potential source of non-portability.  All GNAT-defined pragmas
+are described in the <cite>Implementation Defined Pragmas</cite> chapter of the
+<cite>GNAT Reference Manual</cite>, and these include several that are specifically
+intended to correspond to other vendors' Ada 83 pragmas. 
+For migrating from VADS, the pragma <cite>Use_VADS_Size</cite> may be useful. 
+For compatibility with HP Ada 83, GNAT supplies the pragmas
+<cite>Extend_System</cite>, <cite>Ident</cite>, <cite>Inline_Generic</cite>,
+<cite>Interface_Name</cite>, <cite>Passive</cite>, <cite>Suppress_All</cite>,
+and <cite>Volatile</cite>. 
+Other relevant pragmas include <cite>External</cite> and <cite>Link_With</cite>. 
+Some vendor-specific
+Ada 83 pragmas (<cite>Share_Generic</cite>, <cite>Subtitle</cite>, and <cite>Title</cite>) are
+recognized, thus
+avoiding compiler rejection of units that contain such pragmas; they are not
+relevant in a GNAT context and hence are not otherwise implemented.
+
+</body></html>
+

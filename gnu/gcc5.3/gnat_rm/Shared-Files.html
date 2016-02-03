@@ -1,0 +1,101 @@
+<html lang="en">
+<head>
+<title>Shared Files - GNAT Reference Manual</title>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+<meta name="description" content="GNAT Reference Manual">
+<meta name="generator" content="makeinfo 4.13">
+<link title="Top" rel="start" href="index.html#Top">
+<link rel="up" href="The-Implementation-of-Standard-I_002fO.html#The-Implementation-of-Standard-I_002fO" title="The Implementation of Standard I/O">
+<link rel="prev" href="Text-Translation.html#Text-Translation" title="Text Translation">
+<link rel="next" href="Filenames-encoding.html#Filenames-encoding" title="Filenames encoding">
+<link href="http://www.gnu.org/software/texinfo/" rel="generator-home" title="Texinfo Homepage">
+<!--
+
+     GNAT Reference Manual , March 24, 2015
+
+     AdaCore
+
+     Copyright (C) 2008-2015, Free Software Foundation
+-->
+<meta http-equiv="Content-Style-Type" content="text/css">
+<style type="text/css"><!--
+  pre.display { font-family:inherit }
+  pre.format  { font-family:inherit }
+  pre.smalldisplay { font-family:inherit; font-size:smaller }
+  pre.smallformat  { font-family:inherit; font-size:smaller }
+  pre.smallexample { font-size:smaller }
+  pre.smalllisp    { font-size:smaller }
+  span.sc    { font-variant:small-caps }
+  span.roman { font-family:serif; font-weight:normal; } 
+  span.sansserif { font-family:sans-serif; font-weight:normal; } 
+--></style>
+</head>
+<body>
+<div class="node">
+<a name="Shared-Files"></a>
+<p>
+Next:&nbsp;<a rel="next" accesskey="n" href="Filenames-encoding.html#Filenames-encoding">Filenames encoding</a>,
+Previous:&nbsp;<a rel="previous" accesskey="p" href="Text-Translation.html#Text-Translation">Text Translation</a>,
+Up:&nbsp;<a rel="up" accesskey="u" href="The-Implementation-of-Standard-I_002fO.html#The-Implementation-of-Standard-I_002fO">The Implementation of Standard I/O</a>
+<hr>
+</div>
+
+<p><a name="gnat_005frm_002fthe_005fimplementation_005fof_005fstandard_005fi_005fo-id21"></a><a name="g_t26a"></a><a name="gnat_005frm_002fthe_005fimplementation_005fof_005fstandard_005fi_005fo-shared_002dfiles"></a><a name="g_t26b"></a>
+
+<h3 class="section">11.10 Shared Files</h3>
+
+<p>Section A.14 of the Ada Reference Manual allows implementations to
+provide a wide variety of behavior if an attempt is made to access the
+same external file with two or more internal files.
+
+<p>To provide a full range of functionality, while at the same time
+minimizing the problems of portability caused by this implementation
+dependence, GNAT handles file sharing as follows:
+
+     <ul>
+<li>In the absence of a <code>shared=xxx</code> form parameter, an attempt
+to open two or more files with the same full name is considered an error
+and is not supported.  The exception <cite>Use_Error</cite> will be
+raised.  Note that a file that is not explicitly closed by the program
+remains open until the program terminates.
+
+     <li>If the form parameter <code>shared=no</code> appears in the form string, the
+file can be opened or created with its own separate stream identifier,
+regardless of whether other files sharing the same external file are
+opened.  The exact effect depends on how the C stream routines handle
+multiple accesses to the same external files using separate streams.
+
+     <li>If the form parameter <code>shared=yes</code> appears in the form string for
+each of two or more files opened using the same full name, the same
+stream is shared between these files, and the semantics are as described
+in Ada Reference Manual, Section A.14. 
+</ul>
+
+<p>When a program that opens multiple files with the same name is ported
+from another Ada compiler to GNAT, the effect will be that
+<cite>Use_Error</cite> is raised.
+
+<p>The documentation of the original compiler and the documentation of the
+program should then be examined to determine if file sharing was
+expected, and <code>shared=xxx</code> parameters added to <cite>Open</cite>
+and <cite>Create</cite> calls as required.
+
+<p>When a program is ported from GNAT to some other Ada compiler, no
+special attention is required unless the <code>shared=xxx</code> form
+parameter is used in the program.  In this case, you must examine the
+documentation of the new compiler to see if it supports the required
+file sharing semantics, and form strings modified appropriately.  Of
+course it may be the case that the program cannot be ported if the
+target compiler does not support the required functionality.  The best
+approach in writing portable code is to avoid file sharing (and hence
+the use of the <code>shared=xxx</code> parameter in the form string)
+completely.
+
+<p>One common use of file sharing in Ada 83 is the use of instantiations of
+Sequential_IO on the same file with different types, to achieve
+heterogeneous input-output.  Although this approach will work in GNAT if
+<code>shared=yes</code> is specified, it is preferable in Ada to use Stream_IO
+for this purpose (using the stream attributes)
+
+</body></html>
+

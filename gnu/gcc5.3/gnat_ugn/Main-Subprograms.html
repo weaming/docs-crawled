@@ -1,0 +1,86 @@
+<html lang="en">
+<head>
+<title>Main Subprograms - GNAT User's Guide for Native Platforms</title>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+<meta name="description" content="GNAT User's Guide for Native Platforms">
+<meta name="generator" content="makeinfo 4.13">
+<link title="Top" rel="start" href="index.html#Top">
+<link rel="up" href="Building-With-Projects.html#Building-With-Projects" title="Building With Projects">
+<link rel="prev" href="Object-and-Exec-Directory.html#Object-and-Exec-Directory" title="Object and Exec Directory">
+<link rel="next" href="Tools-Options-in-Project-Files.html#Tools-Options-in-Project-Files" title="Tools Options in Project Files">
+<link href="http://www.gnu.org/software/texinfo/" rel="generator-home" title="Texinfo Homepage">
+<!--
+
+     GNAT User's Guide for Native Platforms , March 24, 2015
+
+     AdaCore
+
+     Copyright (C) 2008-2015, Free Software Foundation
+-->
+<meta http-equiv="Content-Style-Type" content="text/css">
+<style type="text/css"><!--
+  pre.display { font-family:inherit }
+  pre.format  { font-family:inherit }
+  pre.smalldisplay { font-family:inherit; font-size:smaller }
+  pre.smallformat  { font-family:inherit; font-size:smaller }
+  pre.smallexample { font-size:smaller }
+  pre.smalllisp    { font-size:smaller }
+  span.sc    { font-variant:small-caps }
+  span.roman { font-family:serif; font-weight:normal; } 
+  span.sansserif { font-family:sans-serif; font-weight:normal; } 
+--></style>
+</head>
+<body>
+<div class="node">
+<a name="Main-Subprograms"></a>
+<p>
+Next:&nbsp;<a rel="next" accesskey="n" href="Tools-Options-in-Project-Files.html#Tools-Options-in-Project-Files">Tools Options in Project Files</a>,
+Previous:&nbsp;<a rel="previous" accesskey="p" href="Object-and-Exec-Directory.html#Object-and-Exec-Directory">Object and Exec Directory</a>,
+Up:&nbsp;<a rel="up" accesskey="u" href="Building-With-Projects.html#Building-With-Projects">Building With Projects</a>
+<hr>
+</div>
+
+<p><a name="gnat_005fugn_002fgnat_005fproject_005fmanager-id6"></a><a name="g_t15c"></a><a name="gnat_005fugn_002fgnat_005fproject_005fmanager-main_002dsubprograms"></a><a name="g_t15d"></a>
+
+<h4 class="subsection">5.2.4 Main Subprograms</h4>
+
+<p>In the previous section, executables were mentioned. The project manager needs
+to be taught what they are. In a project file, an executable is indicated by
+pointing to the source file of a main subprogram. In C this is the file that
+contains the <cite>main</cite> function, and in Ada the file that contains the main
+unit.
+
+<p>There can be any number of such main files within a given project, and thus
+several executables can be built in the context of a single project file. Of
+course, one given executable might not (and in fact will not) need all the
+source files referenced by the project. As opposed to other build environments
+such as `makefile', one does not need to specify the list of
+dependencies of each executable, the project-aware builder knows enough of the
+semantics of the languages to build and link only the necessary elements.
+
+<p><a name="index-Main-_0028GNAT-Project-Manager_0029-792"></a>
+The list of main files is specified via the `Main' attribute. It contains
+a list of file names (no directories). If a project defines this
+attribute, it is not necessary to identify  main files on the
+command line when invoking a builder, and editors like
+`GPS' will be able to create extra menus to spawn or debug the
+corresponding executables.
+
+<!-- code-block: ada-project -->
+<!-- project Build is -->
+<!-- for Source_Dirs use ("common"); -->
+<!-- for Object_Dir use "obj"; -->
+<!-- for Exec_Dir use "."; -->
+<!-- for Main use ("proc.adb");  -   <<<< -->
+<!-- end Build; -->
+<p>If this attribute is defined in the project, then spawning the builder
+with a command such as
+
+<pre class="example">    gprbuild -Pbuild
+</pre>
+<p>automatically builds all the executables corresponding to the files
+listed in the `Main' attribute. It is possible to specify one
+or more executables on the command line to build a subset of them.
+
+</body></html>
+

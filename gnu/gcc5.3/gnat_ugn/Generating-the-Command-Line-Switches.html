@@ -1,0 +1,67 @@
+<html lang="en">
+<head>
+<title>Generating the Command Line Switches - GNAT User's Guide for Native Platforms</title>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+<meta name="description" content="GNAT User's Guide for Native Platforms">
+<meta name="generator" content="makeinfo 4.13">
+<link title="Top" rel="start" href="index.html#Top">
+<link rel="up" href="Using-the-GNU-make-Utility.html#Using-the-GNU-make-Utility" title="Using the GNU make Utility">
+<link rel="prev" href="Automatically-Creating-a-List-of-Directories.html#Automatically-Creating-a-List-of-Directories" title="Automatically Creating a List of Directories">
+<link rel="next" href="Overcoming-Command-Line-Length-Limits.html#Overcoming-Command-Line-Length-Limits" title="Overcoming Command Line Length Limits">
+<link href="http://www.gnu.org/software/texinfo/" rel="generator-home" title="Texinfo Homepage">
+<!--
+
+     GNAT User's Guide for Native Platforms , March 24, 2015
+
+     AdaCore
+
+     Copyright (C) 2008-2015, Free Software Foundation
+-->
+<meta http-equiv="Content-Style-Type" content="text/css">
+<style type="text/css"><!--
+  pre.display { font-family:inherit }
+  pre.format  { font-family:inherit }
+  pre.smalldisplay { font-family:inherit; font-size:smaller }
+  pre.smallformat  { font-family:inherit; font-size:smaller }
+  pre.smallexample { font-size:smaller }
+  pre.smalllisp    { font-size:smaller }
+  span.sc    { font-variant:small-caps }
+  span.roman { font-family:serif; font-weight:normal; } 
+  span.sansserif { font-family:sans-serif; font-weight:normal; } 
+--></style>
+</head>
+<body>
+<div class="node">
+<a name="Generating-the-Command-Line-Switches"></a>
+<p>
+Next:&nbsp;<a rel="next" accesskey="n" href="Overcoming-Command-Line-Length-Limits.html#Overcoming-Command-Line-Length-Limits">Overcoming Command Line Length Limits</a>,
+Previous:&nbsp;<a rel="previous" accesskey="p" href="Automatically-Creating-a-List-of-Directories.html#Automatically-Creating-a-List-of-Directories">Automatically Creating a List of Directories</a>,
+Up:&nbsp;<a rel="up" accesskey="u" href="Using-the-GNU-make-Utility.html#Using-the-GNU-make-Utility">Using the GNU make Utility</a>
+<hr>
+</div>
+
+<p><a name="gnat_005fugn_002fbuilding_005fexecutable_005fprograms_005fwith_005fgnat-id50"></a><a name="g_t143"></a><a name="gnat_005fugn_002fbuilding_005fexecutable_005fprograms_005fwith_005fgnat-generating_002dthe_002dcommand_002dline_002dswitches"></a><a name="g_t144"></a>
+
+<h4 class="subsection">4.6.3 Generating the Command Line Switches</h4>
+
+<p>Once you have created the list of directories as explained in the
+previous section (<a href="141.html#g_t141">Automatically Creating a List of Directories</a>),
+you can easily generate the command line arguments to pass to gnatmake.
+
+<p>For the sake of completeness, this example assumes that the source path
+is not the same as the object path, and that you have two separate lists
+of directories.
+
+<pre class="example">    # see "Automatically creating a list of directories" to create
+    # these variables
+    SOURCE_DIRS=
+    OBJECT_DIRS=
+    
+    GNATMAKE_SWITCHES := ${patsubst %,-aI%,${SOURCE_DIRS}}
+    GNATMAKE_SWITCHES += ${patsubst %,-aO%,${OBJECT_DIRS}}
+    
+    all:
+            gnatmake ${GNATMAKE_SWITCHES} main_unit
+</pre>
+</body></html>
+
